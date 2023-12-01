@@ -4,9 +4,13 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/libs/zustand';
 import i18n from "@/libs/localize/localize";
+import { faFilePdf, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import MenuItem from '@/types/MenuItem';
+import MenuItems from '../MenuItems';
 
-const Menu = () => {
-
+const Menu = ({isSidebar = false}) => {
 
     const { t } = i18n;
 
@@ -28,7 +32,14 @@ const Menu = () => {
         return null;
     }
 
-    const scrollOrRedirect = (item: { id: string | null, page: string, name: string }) => {
+    const scrollOrRedirect = (item: MenuItem) => {
+
+        if (item.external) {
+            window.open(item.page, '_blank');
+            return;
+        }
+
+
         const { id, page } = item;
         if (!id) {
             router.push(page); // Use the 'page' field for navigation
@@ -57,29 +68,22 @@ const Menu = () => {
     }
 
 
-    const itemsWithScroll = [
-        { id: "home", page: '/', name: 'home' },
-        { id: "portfolio", page: '/', name: 'portfolio' },
-        { id: "timeline", page: '/', name: 'experience' },
-        { id: "contact", page: '/#contact', name: 'contact' },
-        { id: null, page: '/blog', name: 'blog' },
-        { id: "freelance", page: '/freelance', name: 'freelance' },
-    ];
-
     return (
         <>
-            {itemsWithScroll.map(item => (
-                <li key={item.id}>
-                    <button onClick={() => scrollOrRedirect(item)}>{t('navigation.' + item.name)}</button>
+            {MenuItems.map((item) => (
+                <li key={item.id}
+                    style={{ display: item.onlyAdmin && !isAdmin ? 'none' : 'block', 
+                        
+                    marginLeft: '1px', marginTop: '4px' }}
+                    onClick={() => scrollOrRedirect(item)}
+
+                    className={(item.textColour ? item.textColour : "text-base-content") + " " + (item.backgroundColour ? item.backgroundColour : " bg-base-100") + " rounded-md"}>
+                    <div className="flex items-center gap-2">
+                        {item.icon && <FontAwesomeIcon icon={item.icon as IconDefinition} className="w-4 h-4" />}
+                        <span className={(item.hideTextOnDesktop && !isSidebar ? 'hidden' : 'block')} >{t(item.name)}</span>
+                    </div>
                 </li>
             ))}
-            {isAdmin && (
-                <li>
-                    <Link href="/backend" className="flex items-center rounded-lg py-2 px-4 text-base-100 bg-primary hover:text-gray-800">
-                        <span>{t('navigation.backend')}</span>
-                    </Link>
-                </li>
-            )}
         </>
     );
 };

@@ -6,7 +6,8 @@ import en from "@/dictionaries/en.json";
 
 const compatibilityJSON = "v3";
 const fallbackLng = "en";
-const languages = ["en", "tr", "de", "th"];
+
+const languages = ["en", "tr"];
 
 const resources = {
   en: {

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Menu from '../Menu';
 import ThemeButton from './Partials/ThemeButton';
 import LangButton from './Partials/LangButton';
-import Secondary from '../Menu/Secondary';
 
 import dynamic from 'next/dynamic';
 
@@ -61,7 +60,7 @@ const Navbar = () => {
                     (isTopReached ? " rounded-full" : " rounded-none")
                 }
             >
-                <div className="flex-none lg:hidden">
+                <div className="flex-none xl:hidden">
                     <label htmlFor="my-drawer" aria-label="open sidebar" className="btn btn-circle btn-ghost" onClick={scrollTo100IfNot}>
                         <FontAwesomeIcon
                             icon={faBars}
@@ -79,12 +78,10 @@ const Navbar = () => {
                         <LangButton />
                     </div>
                 </div>
-                <div className="hidden flex-none lg:block">
+                <div className="hidden flex-none xl:block">
                     <ul className="menu menu-horizontal gap-1 hidden lg:flex">
                         {/* Navbar menu content here */}
                         <Menu />
-                        <div className="inline-block h-[36px] min-h-[1em] w-0.5 self-stretch bg-primary bg-opacity-50 mx-1" />
-                        <Secondary />
                     </ul>
                 </div>
                 <div className="">

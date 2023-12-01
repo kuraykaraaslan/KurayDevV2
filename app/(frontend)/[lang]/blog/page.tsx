@@ -15,6 +15,7 @@ import Feed from '@/components/frontend/Feed';
 const BlogPage = ({
     params = { lang: 'en' }
 }) => {
+
     params.lang = params.lang || 'en';
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
