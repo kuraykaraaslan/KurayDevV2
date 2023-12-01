@@ -110,6 +110,7 @@ node_modules/
 .env.production
 .env.local
 .env.development
+.env
 
 
 # prisma
