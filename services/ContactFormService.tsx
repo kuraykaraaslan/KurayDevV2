@@ -23,16 +23,7 @@ export default class ContactFormService {
             if (!name || !email || !message) {
                 throw new Error('All fields are required.');
             }
-    
-            // Validate input
-            const existingContactForm = await prisma.contactForm.findFirst({
-                where: { OR: [{ name }, { email }] },
-            });
-    
-            if (existingContactForm) {
-                throw new Error('Contact form with the same name or email already exists.');
-            }
-    
+        
             // Create the contact form
             const contactForm = await prisma.contactForm.create({
                 data: {
