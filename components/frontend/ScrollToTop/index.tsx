@@ -12,7 +12,7 @@ const ScrollToTop = () => {
         const main = document.getElementById("main");
 
         //make the button appear slowly  when the user scrolls down 20px from the top to 500ms
-        window.onscroll = () => {
+        window.addEventListener("scroll", () => {
             var totalWindowHeight = document.body.scrollHeight - window.innerHeight;
             var aligned = window.scrollY * 0.1 - 80;
             if (aligned > 20) {
@@ -39,7 +39,7 @@ const ScrollToTop = () => {
             } else {
                 scrollToTopBtn.style.bottom = "20px";
             }
-        };
+        });
     });
 
     return (

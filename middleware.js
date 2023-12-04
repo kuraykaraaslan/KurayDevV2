@@ -29,12 +29,12 @@ export function middleware(request) {
   // Redirect if there is no locale
   const locale = getLocale(request);
   request.nextUrl.pathname = `/${locale}${pathname}`;
-  
+
   return NextResponse.redirect(request.nextUrl);
 }
 
 export const config = {
   matcher: [
-    '/((?!_next|api|assets|backend|auth).*)',
+    '/((?!_next|api|assets|backend|auth|sitemap.xml).*)',
   ],
 };
