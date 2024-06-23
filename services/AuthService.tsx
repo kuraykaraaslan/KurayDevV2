@@ -1,10 +1,14 @@
-import {User, Session} from "@prisma/client";
+import { User, Session } from "@prisma/client";
 import prisma from "@/libs/prisma";
 import SessionWithUser from "@/types/SessionWithUser";
 import bcrypt from "bcrypt";
+import { headers } from 'next/headers'
+import { NextResponse } from "next/server";
+import NextRequest from "@/types/NextRequest";
+
 
 export default class AuthService {
-
+         
     static cuidRegex = /^[a-z0-9]{25}$/;
     static emailRegex = /\S+@\S+\.\S+/;
     // just 6 characters for testing
@@ -64,6 +68,8 @@ export default class AuthService {
                         email: true,
                         phone: true,
                         role: true,
+                        image: true,
+                        slug: true,
                     },
                 },
             },
@@ -124,12 +130,15 @@ export default class AuthService {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        const generatedUserSlugFromEmail = email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").replace(/\d+/g, "").toLowerCase();
+
         const user = await prisma.user.create({
             data: {
                 name,
                 email,
-                password : hashedPassword,
+                password: hashedPassword,
                 phone,
+                slug: generatedUserSlugFromEmail,
             },
         });
 
@@ -164,6 +173,7 @@ export default class AuthService {
                         email: true,
                         phone: true,
                         role: true,
+                        image: true,
                     },
                 },
             },
@@ -181,4 +191,131 @@ export default class AuthService {
 
     }
 
-}
+    static async authenticate(req: NextRequest, scope: string = "USER"): Promise<NextResponse> {
+
+        // Allowed scopes: "USER", "ADMIN"
+        console.log("AuthService.authenticate");
+
+        const authHeader = req.headers.get('Authorization');
+        const path = req.nextUrl.pathname;
+
+        const isApi = path.startsWith("/api");
+
+        if (!authHeader) {
+            console.log("AuthService.authenticate: No auth header");
+            return NextResponse.json({ error: "No auth header" }, { status: 401 });
+        }
+
+        const authHeaderNoBearer = authHeader.replace('Bearer ', '');
+
+        console.log("authHeaderNoBearer: ", authHeaderNoBearer);
+
+        return await prisma.session.findFirst({
+            where: {
+                sessionToken: authHeaderNoBearer,
+            },
+            select: {
+                sessionToken: true,
+                userId: true,
+                expires: true,
+                user: {
+                    select: {
+                        userId: true,
+                        name: true,
+                        email: true,
+                        phone: true,
+                        role: true,
+                        image: true,
+                    },
+                },
+            },
+        }).then((session) => {
+
+            if (!session) {
+                return NextResponse.json({ error: "Invalid session token" }, { status: 401 });
+            }
+
+            if (session.expires < new Date()) {
+                return NextResponse.json({ error: "Session expired" }, { status: 401 });
+            }
+
+            if (isApi && scope === "ADMIN" && session.user.role !== "ADMIN") {
+                return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+            }
+
+            req.session = session;
+
+            return NextResponse.next();
+
+        }
+        );
+
+
+    }
+
+    static authenticateSync(req: NextRequest, scope: string = "USER"): void {
+
+        // Allowed scopes: "USER", "ADMIN"
+        console.log("AuthService.authenticateSync");
+
+        const authHeader = req.headers.get('Authorization');
+        const path = req.nextUrl.pathname;
+
+        const isApi = path.startsWith("/api");
+
+        if (!authHeader) {
+            console.log("AuthService.authenticateSync: No auth header");
+            throw new Error("Not Authorized");
+        }
+
+        const authHeaderNoBearer = authHeader.replace('Bearer ', '');
+
+        console.log("authHeaderNoBearer: ", authHeaderNoBearer);
+
+        prisma.session.findFirst({
+            where: {
+                sessionToken: authHeaderNoBearer,
+            },
+            select: {
+                sessionToken: true,
+                userId: true,
+                expires: true,
+                user: {
+                    select: {
+                        userId: true,
+                        name: true,
+                        email: true,
+                        phone: true,
+                        role: true,
+                        image: true,
+                    },
+                },
+            },
+        }).then((session) => {
+
+            if (!session) {
+                throw new Error("Invalid session token");
+            }
+
+            if (session.expires < new Date()) {
+                throw new Error("Session expired");
+            }
+
+            if (isApi && scope === "ADMIN" && session.user.role !== "ADMIN") {
+                throw new Error("Unauthorized");
+            }
+
+            req.session = session;
+
+        }
+        )
+    };
+
+    static getUserFromRequest(req: NextRequest): Partial<User> {
+        if (!req.session) {
+            throw new Error("No session found in request");
+        }
+
+        return req.session.user;
+    }
+} 
