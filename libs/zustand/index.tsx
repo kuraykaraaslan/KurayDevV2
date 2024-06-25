@@ -22,6 +22,8 @@ export const useAuthStore = create<
             setSession: (session: SessionWithUser | undefined) => set({ session }),
             setToken: (token: string | undefined) => set({ token }),
             clearSession: () => set({ session: null }),
+            getToken: () => get().token,
+            getSession: () => get().session,
         }),
         {
             name: 'auth-storage',
