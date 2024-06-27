@@ -1,12 +1,14 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/libs/zustand';
 
 const Menu = () => {
 
     const router = useRouter();
+    const pathname = usePathname();
+
     const { session } = useAuthStore();
 
     const user = session?.user;
@@ -32,7 +34,18 @@ const Menu = () => {
         console.log(yPosition);
 
         if (yPosition === null) {
+            const currentPage = pathname;
+
             router.push(page); // Use the 'page' field for navigation
+            // wait for the page to load and try again maks 2 seconds
+            setTimeout(() => {
+                const yPosition = getYpositionOfElementById(id);
+                if (yPosition !== null) {
+                    window.scrollTo({ top: yPosition, behavior: 'smooth' });
+                }
+
+            }, 700);
+
             return;
         } 
            

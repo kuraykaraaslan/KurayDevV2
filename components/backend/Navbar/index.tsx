@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useSession } from "next-auth/react"
 import {createHash} from "crypto";
+import useAuthStore from "@/libs/zustand";
 
 import ThemeButton from "./Partials/ThemeButton";
 
 const Navbar = () => {
 
-    const { data: session } = useSession()
+    const { session } = useAuthStore();
 
     const user = session?.user;
     const email = user?.email;
