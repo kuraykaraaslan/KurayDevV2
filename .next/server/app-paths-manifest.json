@@ -1,8 +1,0 @@
-{
-  "/(api)/api/sections/github/route": "app/(api)/api/sections/github/route.js",
-  "/(api)/api/contact/mail/route": "app/(api)/api/contact/mail/route.js",
-  "/(frontend)/[lang]/freelance/page": "app/(frontend)/[lang]/freelance/page.js",
-  "/(frontend)/[lang]/portfolio/page": "app/(frontend)/[lang]/portfolio/page.js",
-  "/(frontend)/[lang]/projects/page": "app/(frontend)/[lang]/projects/page.js",
-  "/(frontend)/[lang]/page": "app/(frontend)/[lang]/page.js"
-}
