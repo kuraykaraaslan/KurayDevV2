@@ -1,0 +1,11 @@
+{
+  "NAVIGATION": {
+    "HOME": "บ้าน",
+    "ABOUT": "เกี่ยวกับ",
+    "PROJECTS": "โครงการ",
+    "CONTACT": "ติดต่อ",
+    "RESUME": "ประวัติย่อ",
+    "BLOG": "บล็อก",
+    "GITHUB": "GitHub"
+  }
+}

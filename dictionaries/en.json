@@ -1,0 +1,11 @@
+{
+  "NAVIGATION": {
+    "HOME": "Home",
+    "ABOUT": "About",
+    "PROJECTS": "Projects",
+    "CONTACT": "Contact",
+    "RESUME": "Resume",
+    "BLOG": "Blog",
+    "GITHUB": "GitHub"
+  }
+}

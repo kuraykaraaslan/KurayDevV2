@@ -1,0 +1,44 @@
+{
+  "name": "v2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3008",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@react-three/drei": "^9.114.3",
+    "@react-three/fiber": "^8.17.10",
+    "@tailwindcss/forms": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.15",
+    "axios": "^1.7.7",
+    "daisyui": "^4.12.13",
+    "dotenv": "^16.4.5",
+    "next": "14.2.15",
+    "react": "^18",
+    "react-circle-flags": "^0.0.20",
+    "react-dom": "^18",
+    "react-google-recaptcha": "^3.1.0",
+    "react-i18next": "^15.0.2",
+    "react-phone-number-input": "^3.4.8",
+    "react-player": "^2.16.0",
+    "react-svg-worldmap": "^2.0.0-alpha.16",
+    "zustand": "^5.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-google-recaptcha": "^2.1.9",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.15",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

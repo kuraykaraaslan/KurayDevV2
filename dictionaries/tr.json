@@ -1,0 +1,11 @@
+{
+  "NAVIGATION": {
+    "HOME": "Anasayfa",
+    "ABOUT": "Hakkımda",
+    "PROJECTS": "Projeler",
+    "CONTACT": "İletişim",
+    "RESUME": "Özgeçmiş",
+    "BLOG": "Blog",
+    "GITHUB": "GitHub"
+  }
+}
