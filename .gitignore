@@ -117,3 +117,5 @@ node_modules/
 /prisma/migration
 /prisma/migration/*
 /prisma/seeds
+
+.next
