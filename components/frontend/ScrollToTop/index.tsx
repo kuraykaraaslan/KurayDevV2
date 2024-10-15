@@ -44,7 +44,7 @@ const ScrollToTop = () => {
 
     return (
         <div
-          className="fixed transition duration-1000 ease-in-out bg-accent p-3 hover:bg-base-400 cursor-pointer p-2 shadow-lg rounded-full hover:rounded-box"
+          className="fixed transition duration-1000 ease-in-out bg-accent hover:bg-base-400 cursor-pointer p-4 shadow-lg rounded-full hover:rounded-box"
           style={{ zIndex: 100, right: "-80px", bottom: "20px" }}
           id="scrollToTop"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

@@ -6,7 +6,7 @@ const SingleSkill: React.FC<Skill> = ({ icon, bgColor, title, textColor }) => {
   return (
     <div className="w-28 h-20 group">
       <div
-        className={`relative card w-28 h-20 bg-base-300 relative select-none transition duration-500 transform group-hover:rotate-y-180 shadow-lg`}
+        className={`relative card w-28 h-20 bg-base-100 relative select-none transition duration-500 transform group-hover:rotate-y-180 shadow-lg`}
       >
         <div className="flex flex-row items-center justify-center group-hover:rotate-y-180 h-full relative fixed w-28 h-20 top-0 left-0 absolute rounded-box">
           <figure className={`w-20 h-20 group-hover:hidden`}>

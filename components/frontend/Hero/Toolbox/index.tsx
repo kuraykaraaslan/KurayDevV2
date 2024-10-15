@@ -129,7 +129,7 @@ const Toolbox = () => {
 
   return (
     <>
-      <section className="bg-base-200 py-8 px-4 md:px-20 px-4">
+      <section className="bg-base-300 py-8 px-4 md:px-20 px-4">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 ">
           <div className="col-span-2 md:col-span-1 md:col-start-3 overflow-hidden">
             <h1 className="text-4xl lg:text-3xl font-bold mt-6 text-center md:text-right">

@@ -13,44 +13,219 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faChrome, faFirefox } from "@fortawesome/free-brands-svg-icons";
 
-//i18n
-
 const Timeline = () => {
-
   const [showDetails, setShowDetails] = React.useState(false);
   const [isHovering, setIsHovering] = React.useState(false);
 
   return (
     <>
       <section
-        className=
-          "bg-base-200 justify-center items-center flex flex-col select-none border-t-2 border-b-2 border-base-100 px-10 transition-all duration-300"
+        className={
+          "bg-base-200 justify-center items-center flex flex-col select-none px-10 transition-all duration-300"
+        }
+        id="timeline"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+        onClick={() => setShowDetails(!showDetails)}
       >
         <div className="relative w-full h-full items-center justify-center flex flex-col">
-        
-        <ol className="relative border-s border-gray-200 dark:border-gray-700">                  
-    <li className="mb-10 ms-4">
-        <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-        <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">February 2022</time>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Application UI code in Tailwind CSS</h3>
-        <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.</p>
-        <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">Learn more <svg className="w-3 h-3 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-  </svg></a>
-    </li>
-    <li className="mb-10 ms-4">
-        <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-        <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March 2022</time>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Marketing UI design in Figma</h3>
-        <p className="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.</p>
-    </li>
-    <li className="ms-4">
-        <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-        <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">April 2022</time>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">E-Commerce UI code in Tailwind CSS</h3>
-        <p className="text-base font-normal text-gray-500 dark:text-gray-400">Get started with dozens of web components and interactive elements built on top of Tailwind CSS.</p>
-    </li>
-</ol>
+          {/* Apply blur effect only to this section */}
+          <div
+            className="absolute inset-0 bg-base-200 bg-opacity-50 backdrop-filter backdrop-blur-sm items-center justify-center flex flex-col"
+            style={{
+              zIndex: 5,
+              display: isHovering ? (showDetails ? "none" : "flex") : "none",
+            }}
+          >
+            <h3 className="text-3xl font-bold text-center">
+              Click on the timeline to see details
+            </h3>
+          </div>
+          {/* Content inside the blurred section */}
+
+          <ul
+            className={
+              "timeline bg-base-200 my-6" +
+              (showDetails
+                ? " timeline-vertical"
+                : " timeline-vertical lg:timeline-horizontal")
+            }
+          >
+            <li>
+              <div className="timeline-start timeline-box max-w-xs mx-2">
+                <p className="font-bold">Zero day</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i was born in 1996 in mersin, turkey. i was a very curious child and always wanted to learn new things.
+                </p>
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faBaby}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end mx-2">
+                1996
+              </div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-start mx-2">
+                2002
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faComputer}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end timeline-box max-w-xs mx-2">
+                <p className="font-bold">First Computer</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i started my education in mersin, turkey. i was a very curious child and always wanted to learn new things.
+                </p>
+              </div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-start timeline-box max-w-xs mx-2">
+                <p className="font-bold">Meet with the Internet</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i met the internet in 2005. i was amazed by the things i could do with it. i started learning how to use it and meet with linux.
+                </p>
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faGlobe}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end mx-2">
+                2005
+              </div>
+              <hr />
+            </li>
+            <li style={{ display: showDetails ? "grid" : "none" }}>
+              <hr />
+              <div className="timeline-start mx-2">
+                2008
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faCode}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end timeline-box max-w-xs mx-2">
+                <p className="font-bold">Started to Learn Programming</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i started coding in 2008. i learned html, css, and javascript. i built my first website and was hooked on coding
+                </p>
+              </div>
+              <hr />
+            </li>
+            <li style={{ display: showDetails ? "grid" : "none" }}>
+              <hr />
+              <div className="timeline-start timeline-box max-w-xs mx-2">
+                <p className="font-bold">First website</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i built my first website in 2010. it was a simple website for my school project. i was so proud of it.
+                </p>
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faFirefox}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end mx-2">
+                2010
+              </div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-start mx-2">
+                2015
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faBuildingColumns}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end timeline-box max-w-xs mx-2">
+                <p className="font-bold">University</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i started my university education in 2015. i studied civil engineering. i learned a lot of things about project management and teamwork.
+                </p>
+              </div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-start timeline-box max-w-xs mx-2">
+                <p className="font-bold">Changed my career</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i decided to change my career in 2023. i wanted to work in tech and build software. i started learning new technologies and building projects.
+                </p>
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faBriefcase}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end mx-2">
+                2023
+              </div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-start mx-2">
+                2024
+              </div>
+              <div className="timeline-middle my-1">
+                <div className="bg-white text-black rounded-full pt-1 px-1">
+                  <FontAwesomeIcon
+                    icon={faFaceSmile}
+                    style={{ width: "12px", height: "12px" }}
+                    className="m-1 mt-1"
+                  />
+                </div>
+              </div>
+              <div className="timeline-end timeline-box max-w-xs mx-2">
+                <p className="font-bold">First Job</p>
+                <p style={{ display: showDetails ? "block" : "none" }}>
+                  i got my first job as a full-stack developer in 2024. i worked on a lot of projects and learned a lot of things.
+                </p>
+              </div>
+            </li>              
+          </ul>
         </div>
       </section>
     </>

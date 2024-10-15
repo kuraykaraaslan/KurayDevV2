@@ -10,6 +10,7 @@ const WelcomePage = () => {
     <>
       <Welcome />
       <GitContributions />
+      <Timeline />
       <Toolbox />
       <Contact />
     </>

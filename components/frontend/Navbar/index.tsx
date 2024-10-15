@@ -24,7 +24,7 @@ const Navbar = () => {
                         <FontAwesomeIcon icon={faCode} className="w-6 h-6" />
                         <span className='text-lg'>kuray.dev</span>
                     </Link>
-                    <div className="hidden lg:flex items-center gap-2">
+                    <div className="items-center gap-2 ml-1">
                         <ThemeButton />
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 'use client';
-import React , { useEffect , createRef } from "react";
+import React, { useEffect, createRef } from "react";
 import ReactPlayer from 'react-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
@@ -19,6 +19,8 @@ const HireMeVideo: React.FC = () => {
 
         // @ts-ignore
         document.getElementById("my_modal")?.showModal();
+
+        setPlaying(true);
     }
 
     const handleCloseModal = () => {
@@ -42,14 +44,9 @@ const HireMeVideo: React.FC = () => {
                 <FontAwesomeIcon icon={faPlayCircle} className="mr-2 text-xl w-6 h-6" />
                 Watch Video
             </button>
-            <dialog id="my_modal" className="modal modal-bottom sm:modal-middle">
-                <div className="modal-box">
-                <ReactPlayer url="https://www.youtube.com/watch?v=uBBDMqZKagY" controls={true} width="100%" playing={playing} ref={player} />
-                    <div className="modal-action">
-                        <form method="dialog">
-                            <button className="btn">Close</button>
-                        </form>
-                    </div>
+            <dialog id="my_modal" className="modal modal-middle" onClick={handleCloseModal}>
+                <div className="modal-box p-0">
+                    <ReactPlayer url="https://www.youtube.com/watch?v=eJO5HU_7_1w?modestbranding=1&rel=0&showinfo=0&autoplay=1" controls={true} width="100%" playing={playing} ref={player} />                  
                 </div>
             </dialog>
         </>
