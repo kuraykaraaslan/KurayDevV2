@@ -19,7 +19,11 @@ const TypingEffect = dynamic(
 const Welcome = () => {
 
   return (
-    <div className="relative -mt-24 bg-base-200">
+    <div className="relative bg-base-200"
+    style={{
+      height: "100dvh",
+      marginTop: "-80px",
+    }}>
       <BackgroundStars />
       <div
         className="hero min-h-screen select-none"

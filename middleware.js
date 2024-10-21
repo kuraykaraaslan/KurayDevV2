@@ -25,7 +25,7 @@ export function middleware(request) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|assets|api).*)',
+    '/((?!_next|assets|api|auth|backend).*)',
     // Optional: only run on root (/) URL
     // '/'
   ],

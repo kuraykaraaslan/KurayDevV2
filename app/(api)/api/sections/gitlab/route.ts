@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import type { NextApiRequest, NextApiResponse } from 'next'
-import axiosInstance from '@/libs/http/axios'
+import axiosInstance from '@/libs/axios'
 import { GraphQLRes } from '@/types/GitTypes'
 
 type ResponseData = {

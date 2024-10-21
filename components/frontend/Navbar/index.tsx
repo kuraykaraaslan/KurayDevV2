@@ -6,6 +6,12 @@ import Menu from '../Menu';
 import ThemeButton from './Partials/ThemeButton';
 import Secondary from '../Menu/Secondary';
 
+import dynamic from 'next/dynamic';
+const AuthButton = dynamic(
+    () => import('./Partials/AuthButton'),
+    { ssr: false }
+);
+
 const Navbar = () => {
     return (
         <div className="fixed sticky top-0 md:px-6 md:pt-4"
@@ -34,6 +40,7 @@ const Navbar = () => {
                         <Menu />
                         <div className="inline-block h-[36px] min-h-[1em] w-0.5 self-stretch bg-primary bg-opacity-50 mx-1" />
                         <Secondary />
+                        <AuthButton />                            
                     </ul>
                 </div>
             </div>
