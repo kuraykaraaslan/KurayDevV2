@@ -10,18 +10,20 @@ const AuthButton = async () => {
 
     const session = await auth();
 
+    console.log(session);
+
     const isLoggedIn = session?.user ? true : false;
 
     console.log(session);
 
     return (
         <div className="w-10 h-10 bg-base-100 rounded-full flex items-center justify-center  border-2 border-primary">
-            {!isLoggedIn ?     
+            {isLoggedIn ? 
             <Link href="/auth/login" className="flex items-center justify-center w-8 h-8">
                 <FontAwesomeIcon icon={faUser} className="text-primary w-6 h-6" />
             </Link>
             :
-            <Link href="/auth/login" className="flex items-center justify-center w-8 h-8">
+            <Link href="/backend" className="flex items-center justify-center w-8 h-8">
                 {session?.user?.image ?
                 <img src={session?.user?.image} alt="User Image" className="w-8 h-8 rounded-full" />
                 :

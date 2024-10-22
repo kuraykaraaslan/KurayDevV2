@@ -1,26 +1,19 @@
-/* 
-    DefaultStacked.tsx
-    created: 07/10/2024
-    author: @kuraykaraaslan
-
-    Copyright © 2024 Kuray.dev 
-*/
-
+'use client'
 import Navbar from "@/components/backend/Navbar";
 import React from "react";
 import { Metadata } from "next";
 import { SessionProvider } from "next-auth/react"
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import auth from "@/libs/auth";
 
-export const metadata: Metadata = {
-    title: "kuray.dev Admin Panel",
-    description: "Admin panel for kuray.dev",
-};
 
-export default function AdminLayout({
+export default async function AdminLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+
 
     return (
         <html lang="en">
@@ -32,6 +25,7 @@ export default function AdminLayout({
                         {children}
                     </div>
                 </SessionProvider>
+                <ToastContainer />
             </body>
         </html>
     );

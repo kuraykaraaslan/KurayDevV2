@@ -16,10 +16,8 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
- 
+  sessions      Session[] 
+  role          String          @default("ADMIN")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -65,22 +63,6 @@ model VerificationToken {
   @@id([identifier, token])
 }
  
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  @@id([userId, credentialID])
-}
-
 model Post {
   postId          String   @id @default(cuid())
   title           String
@@ -92,9 +74,6 @@ model Post {
   authorId        String
   description     String?
   slug            String   @unique
-
-  metaTitle       String?  // SEO meta title
-  metaDescription String?  // SEO meta description
 
   keywords        String[] // List of SEO keywords
   imageUrl        String?  // URL of the image stored in AWS S3

@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSession } from "next-auth/react"
 
+import ThemeButton from "./Partials/ThemeButton";
+
 const Navbar = () => {
 
     const { data: session } = useSession()
@@ -36,11 +38,12 @@ const Navbar = () => {
         <>
         <div className="">
             <nav className="mx-auto flex items-stretch items-center justify-between lg:px-8 bg-base-300 text-primary" aria-label="Global">
-                <div className="py-4 pl-4 lg:pl-0">
+                <div className="py-4 pl-4 lg:pl-0 flex items-center gap-2">
                     <Link href="/backend" className="flex items-center">
                         <FontAwesomeIcon icon={faCode} className="w-8 h-8 mr-2" />
                         <span className="text-2xl font-bold">kuray.dev</span>
                     </Link>
+                    <ThemeButton />
                 </div>
                 <div className="flex lg:hidden">
                     <button type="button" className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 p-6 mr-2" aria-controls="mobile-menu" aria-expanded="false" onClick={toggleMobileMenu}>

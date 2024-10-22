@@ -1,32 +1,37 @@
 import { NextResponse } from "next/server";
- 
-let locales = ['en', 'tr', 'de']
- 
-// Get the preferred locale, similar to the above or using a library
-function getLocale(request) { return 'en' }
- 
+
+let locales = ['en', 'tr', 'de'];
+
+function getLocale(request) {
+  // Implement logic to determine user's preferred locale
+  // Example: return request.headers['Accept-Language'] or any other method
+  return 'en';
+}
+
 export function middleware(request) {
-  // Check if there is any supported locale in the pathname
-  const { pathname } = request.nextUrl
+  
+  const { pathname } = request.nextUrl;
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
- 
-  if (pathnameHasLocale) return
- 
-  // Redirect if there is no locale
-  const locale = getLocale(request)
-  request.nextUrl.pathname = `/${locale}${pathname}`
-  // e.g. incoming request is /products
-  // The new URL is now /en-US/products
-  return NextResponse.redirect(request.nextUrl)
+  );
+
+  if (pathnameHasLocale) return;
+
+  const locale = getLocale(request);
+  request.nextUrl.pathname = `/${locale}${pathname}`;
+  
+  // Example: Prevent redirection loop by checking if the locale is already present
+  if (!pathname.startsWith(`/${locale}/`)) {
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  // Handle other scenarios based on requirements
+  
 }
- 
+
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
     '/((?!_next|assets|api|auth|backend).*)',
-    // Optional: only run on root (/) URL
-    // '/'
+    // Add more patterns as needed for URL matching
   ],
-}
+};
