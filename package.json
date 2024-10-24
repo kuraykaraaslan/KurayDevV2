@@ -20,6 +20,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "@tinymce/tinymce-react": "^5.1.1",
     "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
     "daisyui": "^4.12.13",
     "dotenv": "^16.4.5",
     "fs-extra": "^11.2.0",
@@ -40,6 +41,7 @@
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.16.13",
     "@types/nodemailer": "^6.4.16",
     "@types/react": "^18",

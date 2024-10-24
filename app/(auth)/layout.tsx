@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCode, faSnowman } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
 
 
@@ -45,6 +46,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
          This application does not allow registration.
         </p>
       </div>
+      <ToastContainer />
     </>
   )
 }

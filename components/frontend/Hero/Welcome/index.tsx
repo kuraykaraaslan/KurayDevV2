@@ -22,7 +22,6 @@ const Welcome = () => {
     <div className="relative bg-base-200"
     style={{
       height: "100dvh",
-      marginTop: "-80px",
     }}>
       <BackgroundStars />
       <div

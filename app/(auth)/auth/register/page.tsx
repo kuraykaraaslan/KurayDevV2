@@ -1,26 +1,29 @@
 'use client';
+import React, { useState } from 'react';
 import ClientAuthService from '@/services/client/ClientAuthService';
-import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+
+const RegisterPage = () => {
 
 
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-const LoginPage = () => {
-
-    const [email, setEmail] = useState<string | null>(null);
-    const [password, setPassword] = useState<string | null>(null);
-    const [passwordError, setPasswordError] = useState<string | null>(null);
-
-
+    const router = useRouter();
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        
-        try {
-        const Session =  await ClientAuthService.login(email as string, password as string)
+        if (password !== confirmPassword) {
+            toast.error("Passwords do not match");
+            return;
+        }
 
-        console.log(Session)
+        try {
+            await ClientAuthService.register(email, password);
+            toast.success("User registered successfully");
+            router.push("/auth/login");
         } catch (error: any) {
             console.error(error);
             toast.error(error.response.data.message);
@@ -28,12 +31,13 @@ const LoginPage = () => {
 
     }
 
+
     return (
         <>
             <div className="space-y-6">
                 <div>
-                    <label htmlFor="email" className={"block text-sm font-medium leading-6"}  >
-                        Email address {NEXT_PUBLIC_API_URL  }
+                    <label htmlFor="email" className="block text-sm font-medium leading-6">
+                        Email address
                     </label>
                     <div className="mt-2">
                         <input
@@ -41,10 +45,10 @@ const LoginPage = () => {
                             name="email"
                             type="email"
                             required
-                            autoComplete="email"
-                            value={email as string}
                             onChange={(e) => setEmail(e.target.value)}
-                            className={"block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6"}
+                            value={email}
+                            autoComplete="email"
+                            className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-primary focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -55,9 +59,6 @@ const LoginPage = () => {
                             Password
                         </label>
                         <div className="text-sm">
-                            <a href="#" className="font-semibold">
-                                Forgot password?
-                            </a>
                         </div>
                     </div>
                     <div className="mt-2">
@@ -66,8 +67,26 @@ const LoginPage = () => {
                             name="password"
                             type="password"
                             required
-                            value={password as string}
+                            autoComplete="current-password"
                             onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <label htmlFor="password" className="block text-sm font-medium leading-6">
+                        Confirm Password
+                    </label>
+                    <div className="mt-2">
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            required
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            value={confirmPassword}
                             autoComplete="current-password"
                             className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                         />
@@ -76,11 +95,11 @@ const LoginPage = () => {
 
                 <div>
                     <button
-                        type="submit"
                         onClick={handleSubmit}
+                        type="submit"
                         className="block w-full py-2.5 bg-primary text-white font-semibold rounded-md shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     >
-                        Sign in
+                        Register
                     </button>
                 </div>
             </div>
@@ -88,6 +107,5 @@ const LoginPage = () => {
     );
 };
 
-LoginPage.layout = "auth";
 
-export default LoginPage;
+export default RegisterPage;

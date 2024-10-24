@@ -129,49 +129,51 @@ const Toolbox = () => {
 
   return (
     <>
-      <section className="bg-base-300 py-8 px-4 md:px-20 px-4">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4 ">
-          <div className="col-span-2 md:col-span-1 md:col-start-3 overflow-hidden">
-            <h1 className="text-4xl lg:text-3xl font-bold mt-6 text-center md:text-right">
-            Creativy needs a lot of tools
-            </h1>
-          </div>
-          <div className="col-span-1 md:col-start-4 invisible md:visible hidden md:block">
-            <p className="mt-6 pr-4">have a lot of tools in my toolbox, and i'm always learning new ones.</p>
-          </div>
-        </div>
-
-        <div className="grid grid-row-auto justify-items-center grid-row-1 md:grid-row-2 md:space-y-8 py-8 md:py-16">
-          <div className="flex flex-col lg:flex-row-reverse md:mx-12 mx-auto">
-            <div className="flex-1 pl-4 select-none hidden lg:block">
-              <h1 className="text-3xl font-bold  relative overflow-hidden animate-shake pb-4">
-                Frontend
+      <section className="hero bg-base-300 py-8 px-4 md:px-20 px-4 items-center justify-center align-middle min-h-screen">
+        <div className="">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 ">
+            <div className="col-span-2 md:col-span-1 md:col-start-3 overflow-hidden">
+              <h1 className="text-4xl lg:text-3xl font-bold mt-6 text-center md:text-right">
+                Creativy needs a lot of tools
               </h1>
             </div>
-            <div className="group flex-none grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              {frontendTools.map((tool, index) => (
-                <SingleTool key={index} {...tool} />
-              ))}
+            <div className="col-span-1 md:col-start-4 invisible md:visible hidden md:block">
+              <p className="mt-6 pr-4">have a lot of tools in my toolbox, and i'm always learning new ones.</p>
             </div>
           </div>
-          <div className="group flex flex-col lg:flex-row md:mx-12 mx-auto pt-4">
-            <div className="flex-0 lg:pl-0 select-none hidden lg:block pr-4">
-              <h1 className="text-3xl font-bold  relative overflow-hidden animate-shake pb-4">
-                Backend
-              </h1>
-            </div>
-            <div className="flex-none grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              {backendTools.map((tool, index) => (
-                <SingleTool key={index} {...tool} />
-              ))}
-            </div>
-          </div>
-          <div className="w-50 h-50 group border-gray-500 border-t w-40 mt-8"></div>
 
-          <div className="group flex-none grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-8 mt-4">
-            {skills.map((skill, index) => (
-              <SingleSkill key={index} {...skill} />
-            ))}
+          <div className="grid grid-row-auto justify-items-center grid-row-1 md:grid-row-2 md:space-y-8 py-8 md:py-16">
+            <div className="flex flex-col lg:flex-row-reverse md:mx-12 mx-auto">
+              <div className="flex-1 pl-4 select-none hidden lg:block">
+                <h1 className="text-3xl font-bold  relative overflow-hidden animate-shake pb-4">
+                  Frontend
+                </h1>
+              </div>
+              <div className="group flex-none grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                {frontendTools.map((tool, index) => (
+                  <SingleTool key={index} {...tool} />
+                ))}
+              </div>
+            </div>
+            <div className="group flex flex-col lg:flex-row md:mx-12 mx-auto pt-4">
+              <div className="flex-0 lg:pl-0 select-none hidden lg:block pr-4">
+                <h1 className="text-3xl font-bold  relative overflow-hidden animate-shake pb-4">
+                  Backend
+                </h1>
+              </div>
+              <div className="flex-none grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                {backendTools.map((tool, index) => (
+                  <SingleTool key={index} {...tool} />
+                ))}
+              </div>
+            </div>
+            <div className="w-50 h-50 group border-gray-500 border-t w-40 mt-8"></div>
+
+            <div className="group flex-none grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-8 mt-4">
+              {skills.map((skill, index) => (
+                <SingleSkill key={index} {...skill} />
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -14,7 +14,7 @@ const AuthButton = dynamic(
 
 const Navbar = () => {
     return (
-        <div className="fixed sticky top-0 md:px-6 md:pt-4"
+        <div className="fixed top-0 w-full md:px-6 md:pt-4"
             style={{ zIndex: 10 }}>
             <div className="navbar bg-base-300 w-full md:rounded-full md:shadow-lg">
                 <div className="flex-none lg:hidden">

@@ -18,7 +18,7 @@ export default function RootLayout({
     <>
       <div className="drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="relative drawer-content flex flex-col min-h-screen bg-base-100 h-full">
+        <div className="relative drawer-content flex flex-col min-h-screen bg-base-200 h-full">
           {/* Navbar */}
           <Navbar />
           {/* Page content here */}
