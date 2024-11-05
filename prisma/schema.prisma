@@ -27,6 +27,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   Post Post[]
+
+  Comment Comment[]
 }
  
 model Session {
@@ -61,6 +63,8 @@ model Post {
   
   categoryId      String
   Category Category @relation(fields: [categoryId], references: [categoryId])
+
+  Comment Comment[]
 }
 
 model Category {
@@ -76,3 +80,22 @@ model Category {
 
   Post Post[]
 }
+
+model Comment {
+  commentId       String   @id @default(cuid())
+  isAnonymous     Boolean  @default(false)
+
+  content         String
+  createdAt       DateTime @default(now())
+
+  postId          String
+  post            Post     @relation(fields: [postId], references: [postId])
+
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [userId])
+
+  parentId        String?
+  parent          Comment? @relation("CommentToComment", fields: [parentId], references: [commentId])
+
+  comment Comment[] @relation("CommentToComment")
+} 
