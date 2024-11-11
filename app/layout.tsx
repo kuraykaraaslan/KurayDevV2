@@ -17,7 +17,7 @@ export default function RootLayout({
   params: any;
 }>) {
   return (
-    <html data-theme="light">
+    <html data-theme="light" className="antialiased scroll-smooth focus:scroll-auto">
       <body className="min-h-screen">
         {children}
       </body>

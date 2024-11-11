@@ -1,23 +1,51 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Menu = () => {
 
-    const items = [
-        { id: 1, name: 'Home', link: '/' },
-        { id: 3, name: 'Experience', link: '/portfolio' },
-        { id: 4, name: 'Projects', link: '/projects' },
-        { id: 5, name: 'Blog', link: '/blog' },
-        { id: 6, name: 'Freelance', link: '/freelance' },
-        { id: 7, name: 'Contact', link: '/contact' },
-    ];
+    const router = useRouter();
 
+    const getYpositionOfElementById = (id : string) => {
+        const additionalOffset = 100;
+        const element = document.getElementById(id);
+        
+        if (element) {
+            return element.getBoundingClientRect().top + window.scrollY - additionalOffset;
+        }
+        return null;
+    }
+
+    const scrollOrRedirect = (item : { id: string, page: string, name: string }) => {
+        const { id, page } = item;
+        const yPosition = getYpositionOfElementById(id);
+        console.log(yPosition);
+
+        if (yPosition === null) {
+            router.push(page); // Use the 'page' field for navigation
+            return;
+        } 
+           
+        window.scrollTo({ top: yPosition, behavior: 'smooth' });
+        
+    }
+    
+
+    const itemsWithScroll = [
+        { id: "home", page: '/' , name: 'Home'},
+        { id: "portfolio", page: '/', name: 'Portfolio'},
+        { id: "timeline", page: '/', name: 'Experience'},
+        { id: "contact", page: '/#contact', name: 'Contact'},
+        { id: "blog", page: '/blog', name: 'Blog'},
+        { id: "freelance", page: '/freelance', name: 'Freelance'},
+    ];
 
     return (
             <>
-                {items.map(item => (
+                {itemsWithScroll.map(item => (
                     <li key={item.id}>
-                        <Link href={item.link}>{item.name}</Link>
+                       <button onClick={() => scrollOrRedirect(item)}>{item.name}</button>
                     </li>
                 ))}
             </>

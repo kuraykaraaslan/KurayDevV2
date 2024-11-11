@@ -1,38 +1,38 @@
-
-import { faRightFromBracket, faRightToBracket, faUser } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { faGear, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
 import Link from "next/link";
-import User from "@prisma/client";
-import { auth } from "@/libs/auth";
+import useAuthStore from "@/libs/zustand";
 
-const AuthButton = async () => {
+const AuthButton = () => {
+    const { session } = useAuthStore();
+    const user = session?.user;
+    
+    if (!user) {
+        return (
+            <Link href="/auth/login" className="bg-primary text-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
+                <div className="">
+                    <FontAwesomeIcon icon={faUser} className="" />
+                </div>
+            </Link>
+        );
+    }
 
-    const session = await auth();
-
-    console.log(session);
-
-    const isLoggedIn = session?.user ? true : false;
-
-    console.log(session);
+    if (user.role === "ADMIN") {
+        <Link href={`/backend`}>
+            <div className="bg-primary text-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
+                <FontAwesomeIcon icon={faGear} className="mr-2" />
+            </div>
+        </Link>
+    }
 
     return (
-        <div className="w-10 h-10 bg-base-100 rounded-full flex items-center justify-center  border-2 border-primary">
-            {isLoggedIn ? 
-            <Link href="/auth/login" className="flex items-center justify-center w-8 h-8">
-                <FontAwesomeIcon icon={faUser} className="text-primary w-6 h-6" />
-            </Link>
-            :
-            <Link href="/backend" className="flex items-center justify-center w-8 h-8">
-                {session?.user?.image ?
-                <img src={session?.user?.image} alt="User Image" className="w-8 h-8 rounded-full" />
-                :
-                <span className="text-primary">{session?.user?.name?.charAt(0).toUpperCase()}</span>
-                }
-            </Link>
-            }
-        </div>
+        <Link href="/auth/logout" className="bg-primary text-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
+            <div className="">
+                <FontAwesomeIcon icon={faRightFromBracket} className="" />
+            </div>
+        </Link>
     );
-}
+};
 
 export default AuthButton;

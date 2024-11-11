@@ -1,23 +1,24 @@
-import ServerAuthService from "@/services/server/ServerAuthService";
-import { NextRequest, NextResponse } from "next/server";
+// Original path: app/api/auth/register/route.ts
 
-export async function POST(req: NextRequest, res: NextResponse) {
+import { NextResponse  } from "next/server";
+import NextRequest from "@/types/NextRequest";
 
-    const { email, password } = await req.json();
+import AuthService from "@/services/AuthService";
 
-    if (!email || !password) {
-        return NextResponse.json({ message: "MISSING_FIELDS" }, { status: 400 });
-    }
-
+export async function POST(req: NextRequest) {
     try {
-        const status = await ServerAuthService.register(email, password);
-        return NextResponse.json({ message: "USER_REGISTERED" });
+        const { name, email, password, phone } = await req.json();
+        const user = await AuthService.register(name, email, password, phone);
+
+        if (!user) {
+            return NextResponse.json({ error: "Something went wrong." }, { status: 400 });
+        }
+
+        return NextResponse.json({ message: "User registered successfully." }, { status: 201 });
     }
 
     catch (error: any) {
         console.error(error);
-        return NextResponse.json({ message: error.message }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
 }
-

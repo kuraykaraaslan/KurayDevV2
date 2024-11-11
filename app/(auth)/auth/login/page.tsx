@@ -1,30 +1,82 @@
 'use client';
-import ClientAuthService from '@/services/client/ClientAuthService';
+import axiosInstance from '@/libs/axios';
+import { faInstagram, faTiktok, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-
-
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { useAuthStore } from '@/libs/zustand';
+import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
 
-    const [email, setEmail] = useState<string | null>(null);
-    const [password, setPassword] = useState<string | null>(null);
-    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const emailRegex = /\S+@\S+\.\S+/;
+    const passwordRegex = /^.{6,}$/;
 
+    const [email, setEmail] = useState<String | null>(null);
+    const [password, setPassword] = useState<String | null>(null);
+
+    const { setSession, setToken } = useAuthStore();
+
+    const router = useRouter();
 
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        
-        try {
-        const Session =  await ClientAuthService.login(email as string, password as string)
 
-        console.log(Session)
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error.response.data.message);
+        if (!email) {
+            return;
         }
+
+        if (!password) {
+            return;
+        }
+
+        if (typeof email !== "string") {
+            toast.error("Invalid email address.");
+            return;
+        }
+
+        if (typeof password !== "string") {
+            toast.error("Password must contain at least 6 characters.");
+            return;
+        }
+
+        if (!emailRegex.test(email)) {
+            toast.error("Invalid email address.");
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            toast.error("Password must contain at least 8 characters, one uppercase, one lowercase, one number.");
+            return;
+        }
+
+        const res = await axiosInstance.post(`/api/auth/login`, {
+            email: email,
+            password: password
+        }).then(async (res) => {
+            if (res.data.error) {
+                toast.error(res.data.error);
+            } else {
+                toast.success(res.data.message);
+                console.log(res.data);
+            }
+
+            setSession(res.data.session);
+            setToken(res.data.session.sessionToken);
+
+
+            console.log("Session: ", res.data.session);
+
+            router.push("/");
+        }
+        ).catch((err) => {
+            toast.error(err.response.data.error);
+        });
+
+
 
     }
 
@@ -32,9 +84,19 @@ const LoginPage = () => {
         <>
             <div className="space-y-6">
                 <div>
-                    <label htmlFor="email" className={"block text-sm font-medium leading-6"}  >
-                        Email address {NEXT_PUBLIC_API_URL  }
-                    </label>
+                    <Link href="/auth/register"
+                        type="button"
+                        className="block w-full py-2.5 bg-primary text-white font-semibold rounded-lg shadow-md"
+                    >
+                        <span className="flex items-center justify-center">
+                            Create an account
+                        </span>
+                    </Link>
+                </div>
+                <div className="flex items-center justify-center">
+                    <span className="text-sm text-gray-400 font-semibold">Or</span>
+                </div>
+                <div>
                     <div className="mt-2">
                         <input
                             id="email"
@@ -44,23 +106,20 @@ const LoginPage = () => {
                             autoComplete="email"
                             value={email as string}
                             onChange={(e) => setEmail(e.target.value)}
-                            className={"block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6"}
+                            pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+                            placeholder="Email address"
+                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12"}
                         />
                     </div>
                 </div>
 
                 <div>
                     <div className="flex items-center justify-between">
-                        <label htmlFor="password" className="block text-sm font-medium leading-6">
-                            Password
-                        </label>
-                        <div className="text-sm">
-                            <a href="#" className="font-semibold">
-                                Forgot password?
-                            </a>
-                        </div>
                     </div>
-                    <div className="mt-2">
+                    <div className="relative mt-2">
+                        <Link className="absolute inset-y-0 right-2 pl-3 flex items-center pointer-events-none" href="/auth/forgot-password">
+                            <FontAwesomeIcon icon={faQuestion} className="h-5 w-5 text-primary" aria-hidden="true" />
+                        </Link>
                         <input
                             id="password"
                             name="password"
@@ -69,20 +128,22 @@ const LoginPage = () => {
                             value={password as string}
                             onChange={(e) => setPassword(e.target.value)}
                             autoComplete="current-password"
-                            className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                            placeholder="Password"
+                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12"}
                         />
                     </div>
                 </div>
-
                 <div>
                     <button
                         type="submit"
                         onClick={handleSubmit}
-                        className="block w-full py-2.5 bg-primary text-white font-semibold rounded-md shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                        disabled={!email || !password}
+                        className="block w-full py-2.5 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     >
                         Sign in
                     </button>
                 </div>
+
             </div>
         </>
     );

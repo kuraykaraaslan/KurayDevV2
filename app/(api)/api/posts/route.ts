@@ -3,7 +3,6 @@
 import { NextResponse } from "next/server";
 import { Post } from "@prisma/client";
 import prisma from '@/libs/prisma';
-import { auth } from "@/libs/auth";
 import PostService from "@/services/PostService";
 
 
@@ -41,15 +40,6 @@ export async function GET(request: Request) {
  */
 export async function POST(request: Request) {
     try {
-        const session = await auth();
-
-        if (!session) {
-            console.error('Unauthorized');
-            return NextResponse.json(
-                { message: 'Unauthorized' },
-                { status: 401 }
-            );
-        }
 
         const {body} = await request.json();
         console.log(body);

@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faCode } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
@@ -12,13 +13,54 @@ const AuthButton = dynamic(
     { ssr: false }
 );
 
+
 const Navbar = () => {
+
+    const [isTopReached, setIsTopReached] = useState(true);
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 40) {
+                setIsTopReached(false);
+            } else {
+                setIsTopReached(true);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }
+        , []);
+
+
+    const path = typeof window !== "undefined" ? window.location.pathname : "";
+
+    const scrollTo100IfNot = () => {
+        if (window.scrollY < 60) {
+            window.scrollTo(0, 60);
+        }
+    }
+
+
     return (
-        <div className="fixed top-0 w-full md:px-6 md:pt-4"
-            style={{ zIndex: 10 }}>
-            <div className="navbar bg-base-300 w-full md:rounded-full md:shadow-lg">
+        <div
+            className={"fixed top-0 z-50 w-full transition-all duration-300 ease-in-out " +
+                (isTopReached ? " px-4 sm:px-6 lg:px-8 pt-3 pb-6" : " px-0 pt-0 pb-6")}
+
+            style={{ zIndex: 60, width: "100%" }}
+        >
+            <div
+                className={
+                    "navbar bg-base-100 rounded-full shadow-lg border border-base-200 self-center	" +
+                    (isTopReached ? " rounded-full" : " rounded-none")
+                }
+            >
                 <div className="flex-none lg:hidden">
-                    <label htmlFor="my-drawer" aria-label="open sidebar" className="btn btn-square btn-ghost">
+                    <label htmlFor="my-drawer" aria-label="open sidebar" className="btn btn-circle btn-ghost" onClick={scrollTo100IfNot}>
                         <FontAwesomeIcon
                             icon={faBars}
                             style={{ width: "24px", height: "24px" }}
@@ -40,11 +82,15 @@ const Navbar = () => {
                         <Menu />
                         <div className="inline-block h-[36px] min-h-[1em] w-0.5 self-stretch bg-primary bg-opacity-50 mx-1" />
                         <Secondary />
-                        <AuthButton />                            
+                    </ul>
+                </div>
+                <div className="">
+                    <ul className="menu menu-horizontal gap-1">
+                        <AuthButton />
                     </ul>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -20,13 +20,14 @@ const Welcome = () => {
 
   return (
     <div className="relative bg-base-200"
-    style={{
-      height: "100dvh",
-    }}>
+      style={{
+        height: "100dvh",
+      }}
+      id="home"
+      >
       <BackgroundStars />
       <div
         className="hero min-h-screen select-none"
-        id="#home"
         style={{
           zIndex: 2,
           display: "flex",
@@ -38,10 +39,14 @@ const Welcome = () => {
         <div className="hero-content">
           <div className="flex-1 max-w-2xl md:mr-4">
             <h1 className="font-bold relative overflow-hidden animate-shake text-4xl leading-normal h-24 md:h-16">
-                <TypingEffect /> 
+              <TypingEffect />
             </h1>
-            <h2 className="py-6 leading-10">
-              <span>I'm a self-taught full-stack developer with experience in React, Java and more. I'm open for new opportunities.</span>
+            <h2 className="py-3 pb-6 leading-7">
+              <p><span className="font-bold">Self-taught</span> and <span className="font-bold">self-motivated</span> software developer with <span className="font-bold">strong problem-solving skills</span>.
+                Formerly a structural engineer, I transitioned into software development. &nbsp;
+                <span className="font-bold">Proficient in React and Java</span>, I have honed my skills through hands-on practice and have a strong grasp
+                of industry standards. My engineering background equips me with <span className="font-bold">a unique perspective on software development</span>,
+                making me a valuable asset to any development team.</p>
             </h2>
 
             <Link href="/freelance" className="btn btn-primary">
@@ -67,7 +72,7 @@ const Welcome = () => {
 
           <MyImage />
         </div>
-      </div>      
+      </div>
     </div>
   );
 };

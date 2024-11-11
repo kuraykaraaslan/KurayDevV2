@@ -35,7 +35,7 @@ const TypingEffect = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (!pause) {
+
         if (letterIndex >= texts[textsIndex].length) {
           setIsDeleting(true);
         }
@@ -55,10 +55,20 @@ const TypingEffect = () => {
           setLetterIndex(texts[textsIndex].length);
         }
 
+        if (isDeleting && !pause) {
+          const count = -1;
+          setLetterIndex(letterIndex + count);
+        } else if (!pause) {
+          const count = 1;
+          setLetterIndex(letterIndex + count);
+        }
+
+        /*
         const count = isDeleting ? -1 : 1;
         setLetterIndex(letterIndex + count);
-      }
-    }, 100);
+        */
+    
+    }, 50);
 
     setRenderedText(texts[textsIndex].substring(0, letterIndex));
 
@@ -66,9 +76,9 @@ const TypingEffect = () => {
   }, [letterIndex, isDeleting, pause]);
 
   return (
-    <span className="text-3xl font-bold" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>
+    <span className="text-3xl font-bold">
       {prefix}
-      <span className="text-primary">{renderedText === "" ? " " : renderedText}</span>
+      <span className="text-primary" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>{renderedText === "" ? " " : renderedText}</span>
       {suffix}
     </span>
   )

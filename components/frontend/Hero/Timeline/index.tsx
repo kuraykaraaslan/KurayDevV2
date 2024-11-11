@@ -80,50 +80,6 @@ const Timeline = () => {
               <div className="timeline-middle my-1">
                 <div className="bg-white text-black rounded-full pt-1 px-1">
                   <FontAwesomeIcon
-                    icon={faComputer}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end timeline-box max-w-xs mx-2">
-                <p className="font-bold">First Computer</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i started my education in mersin, turkey. i was a very curious child and always wanted to learn new things.
-                </p>
-              </div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-start timeline-box max-w-xs mx-2">
-                <p className="font-bold">Meet with the Internet</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i met the internet in 2005. i was amazed by the things i could do with it. i started learning how to use it and meet with linux.
-                </p>
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
-                    icon={faGlobe}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end mx-2">
-                2005
-              </div>
-              <hr />
-            </li>
-            <li style={{ display: showDetails ? "grid" : "none" }}>
-              <hr />
-              <div className="timeline-start mx-2">
-                2008
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
                     icon={faCode}
                     style={{ width: "12px", height: "12px" }}
                     className="m-1 mt-1"
@@ -131,19 +87,19 @@ const Timeline = () => {
                 </div>
               </div>
               <div className="timeline-end timeline-box max-w-xs mx-2">
-                <p className="font-bold">Started to Learn Programming</p>
+                <p className="font-bold">First meet with computer</p>
                 <p style={{ display: showDetails ? "block" : "none" }}>
-                  i started coding in 2008. i learned html, css, and javascript. i built my first website and was hooked on coding
+                  i met with computer in 2002. i was just 6 years old. i was very curious about how it works. i started to learn how to use it.
                 </p>
               </div>
               <hr />
             </li>
-            <li style={{ display: showDetails ? "grid" : "none" }}>
+            <li>
               <hr />
               <div className="timeline-start timeline-box max-w-xs mx-2">
-                <p className="font-bold">First website</p>
+                <p className="font-bold">University</p>
                 <p style={{ display: showDetails ? "block" : "none" }}>
-                  i built my first website in 2010. it was a simple website for my school project. i was so proud of it.
+                  i started my university education in 2015. i studied structural engineering.
                 </p>
               </div>
               <div className="timeline-middle my-1">
@@ -156,14 +112,14 @@ const Timeline = () => {
                 </div>
               </div>
               <div className="timeline-end mx-2">
-                2010
+                2015
               </div>
               <hr />
             </li>
             <li>
               <hr />
               <div className="timeline-start mx-2">
-                2015
+                2021
               </div>
               <div className="timeline-middle my-1">
                 <div className="bg-white text-black rounded-full pt-1 px-1">
@@ -175,9 +131,9 @@ const Timeline = () => {
                 </div>
               </div>
               <div className="timeline-end timeline-box max-w-xs mx-2">
-                <p className="font-bold">University</p>
+                <p className="font-bold">Cadbim</p>
                 <p style={{ display: showDetails ? "block" : "none" }}>
-                  i started my university education in 2015. i studied civil engineering. i learned a lot of things about project management and teamwork.
+                  i started working at CADBIM in 2021. i worked as a structural engineer. i learned a lot about building information modeling and 3d modeling.
                 </p>
               </div>
               <hr />
@@ -185,9 +141,9 @@ const Timeline = () => {
             <li>
               <hr />
               <div className="timeline-start timeline-box max-w-xs mx-2">
-                <p className="font-bold">Changed my career</p>
+                <p className="font-bold">Kuray Construction</p>
                 <p style={{ display: showDetails ? "block" : "none" }}>
-                  i decided to change my career in 2023. i wanted to work in tech and build software. i started learning new technologies and building projects.
+                  i started working at kuray construction in 2022. i worked as a civil engineer. i learned a lot about project management and teamwork.
                 </p>
               </div>
               <div className="timeline-middle my-1">
@@ -200,7 +156,7 @@ const Timeline = () => {
                 </div>
               </div>
               <div className="timeline-end mx-2">
-                2023
+                2022
               </div>
               <hr />
             </li>
@@ -219,12 +175,12 @@ const Timeline = () => {
                 </div>
               </div>
               <div className="timeline-end timeline-box max-w-xs mx-2">
-                <p className="font-bold">First Job</p>
+                <p className="font-bold">Roltek Technologies</p>
                 <p style={{ display: showDetails ? "block" : "none" }}>
-                  i got my first job as a full-stack developer in 2024. i worked on a lot of projects and learned a lot of things.
+                  i started working at roltek technologies in 2024. i work as a software engineer. i build IoT solutions and web applications.
                 </p>
               </div>
-            </li>              
+            </li>
           </ul>
         </div>
       </section>

@@ -32,8 +32,11 @@ const BlogPage = () => {
 
 
     return (
-        <div className="flex flex-col min-h-screen">
-            <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col items-center justify-center">
+        <>
+        <div className="min-h-screen"
+            id="blog"
+        >
+            <div className="hero min-h-screen bg-base-100">
 
                 {feeds.length > 0 && <h2 className="text-3xl font-bold text-left mt-4 mb-4">blog</h2>}
 
@@ -80,11 +83,11 @@ const BlogPage = () => {
 
                         </>
                         : <div className="text-center mt-12">
-                            <p className="font-semibold text-5xl ">404</p>
-                            <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">No Blog Found</h1>
+                            <p className="font-semibold text-5xl ">203</p>
+                            <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">No Blog Found Yet</h1>
                             <p className="mt-6 text-base leading-7">Kuray is still writing articles for you.</p>
                             <div className="mt-10 flex items-center justify-center gap-x-6">
-                                <Link href="/blog"
+                                <Link href="/"
                                     className="rounded-md py-2 px-4 text-white font-semibold bg-primary"
                                 >
                                     Go back home
@@ -97,9 +100,10 @@ const BlogPage = () => {
 
 
             </div>
-            <Newsletter />
-
         </div>
+                    <Newsletter />
+
+        </>
     );
 };
 

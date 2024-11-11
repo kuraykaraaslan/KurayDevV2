@@ -263,7 +263,7 @@ const PortfolioHero = () => {
 
   return (
     <>
-      <section className="bg-base-200 pt-16" id="projects">
+      <section className="bg-base-200 pt-16" id="portfolio">
         <div
           className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000"
           style={{ height: "560px", overflow: "clip" }}
@@ -320,7 +320,7 @@ const PortfolioHero = () => {
         <div
           className="flex carousel-indicators gap-2 bg-transparent select-none"
           style={{
-            zIndex: 50,
+            zIndex: 8,
             position: "relative",
             left: "0",
             right: "0",
@@ -335,7 +335,7 @@ const PortfolioHero = () => {
           <div
             className="flex carousel-indicators gap-2 bg-gradient-to-b from-base-200/20 to-base-300"
             style={{
-              zIndex: 50,
+              zIndex: 8,
               position: "relative",
               left: "0",
               right: "0",

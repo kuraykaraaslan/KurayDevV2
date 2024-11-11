@@ -1,7 +1,9 @@
+'use client';
 import React from 'react';
 import styles from './Sidebar.module.css';
 import Menu from '../Menu';
 import Secondary from '../Menu/Secondary';
+
 
 const Sidebar = () => {
   return (

@@ -10,37 +10,68 @@ generator client {
 }
  
 model User {
-
-  userId            String          @id @default(cuid())
+  userId        String          @id @default(cuid())
   name          String?
 
   email         String          @unique
   emailVerified DateTime?
 
+  image         String?
+  sessions      Session[]
+
+  phone         String?
+  phoneVerified DateTime?
+
   password      String?
+  passwordResetToken String?
 
-  sessions      Session[] 
 
+  phoneVerificationToken String?
+  emailVerificationToken String?
+
+  //Adress
+  adressLine1   String?
+  adressLine2   String?
+  adressCity    String?
+  adressState   String?
+  adressZip     String?
+  adressCountry String?
+
+  //Role
   role          String          @default("USER")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+
   Post Post[]
 
   Comment Comment[]
 }
- 
+
+
 model Session {
+
   sessionToken String   @unique
+
   userId       String
-  expiresAt      DateTime
+  expires      DateTime
+
   user         User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
 }
- 
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
  
 model Post {
   postId          String   @id @default(cuid())
