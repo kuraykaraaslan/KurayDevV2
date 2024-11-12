@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
-import { User } from '@prisma/client';
+import { Category, User } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,25 +17,46 @@ const CreatePost = () => {
     const [content, setContent] = useState('<p>Default Content</p>');
     const [description, setDescription] = useState('Default Description');
     const [slug, setSlug] = useState('default-slug');
-    const [keywordsString, setKeywordsString] = useState('default,keywords');
-    const [imageUrl, setImageUrl] = useState<String | null>(null);
+    const [keywords, setKeywords] = useState<string[]>([]);
+    const [image, setImage] = useState('');
     const [authorId, setAuthorId] = useState<String | null>(null);
+    const [categoryId, setCategoryId] = useState<String | null>(null);
 
     const [users, setUsers] = useState<Partial<User>[]>([]);
+    const [categories, setCategories] = useState<Partial<Category>[]>([]);
 
     const [aiContent, setAiContent] = useState('');
-
+    
+    const [imageUrl, setImageUrl] = useState<String | null>(null);
+    //image upLoad
+    const [imageFile, setImageFile] = useState<File | null>(null);
 
     const router = useRouter();
 
-
     useEffect(() => {
-        axiosInstance.get('/api/users')
+        axiosInstance.get('/api/users?pageSize=100')
             .then((response) => {
                 setUsers(response.data.users);
 
                 if (authorId === '' && users.length > 0) {
-                    setAuthorId(users[0].id as string || 'Unknown');
+                    setAuthorId(users[0].userId as string || 'Unknown');
+                }
+
+            })
+            .catch((error) => {
+                toast.error(error.message);
+            });
+
+        //if authorId is not set, set it to the first user
+    }, []);
+
+    useEffect(() => {
+        axiosInstance.get('/api/categories?pageSize=100')
+            .then((response) => {
+                setCategories(response.data.categories);
+
+                if (categoryId === '' && categories.length > 0) {
+                    setCategoryId(categories[0].categoryId as string || 'Unknown');
                 }
 
             })
@@ -51,23 +72,20 @@ const CreatePost = () => {
     }, [title]);
 
 
-    useEffect(() => {
-
-    }
-        , [imageUrl]);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const neededFields = [title, content, description, slug, keywordsString, authorId];
+        const neededFields = [title, content, description, slug, keywords, authorId, categoryId, image];
 
         const blogPost = {
             title,
             content,
             description,
             slug,
-            keywords: keywordsString.split(','),
+            keywords: keywords,
             authorId,
+            categoryId,
+            image
         };
 
         console.log(blogPost);
@@ -76,6 +94,8 @@ const CreatePost = () => {
             toast.error('Title is required');
             return;
         }
+
+
 
         if (content === '') {
             toast.error('Content is required');
@@ -92,7 +112,7 @@ const CreatePost = () => {
             return;
         }
 
-        if (keywordsString === '') {
+        if (keywords.length === 0) {
             toast.error('Keywords are required');
             return;
         }
@@ -100,7 +120,7 @@ const CreatePost = () => {
         if (authorId === '' && users.length > 0) {
             const firstUser = users[0];
             if (firstUser) {
-                setAuthorId(firstUser.id as string);
+                setAuthorId(firstUser.userId as string);
             }
         } else if (authorId === '') {
             toast.error('Author is required');
@@ -116,9 +136,9 @@ const CreatePost = () => {
                 content,
                 description,
                 slug,
-                keywords: keywordsString.split(','),
-                imageUrl,
-                authorId : authorId ? authorId : users[0].id,
+                keywords: keywords,
+                image,
+                authorId : authorId ? authorId : users[0].userId,
             },
         }).then(() => {
             toast.success('Post created successfully');
@@ -142,6 +162,54 @@ const CreatePost = () => {
         }
 
     }
+
+
+    const uploadImage = async () => {
+        if (!imageFile) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', imageFile);
+        formData.append('folder', 'categories');
+
+        await axiosInstance.post('/api/aws', formData).then((res) => {
+            console.log(res.data);
+            setImageUrl(res.data.url);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+    const uploadFromUrl = async (url: string) => {
+        await axiosInstance.post('/api/aws/from-url', {
+            url,
+            folder : 'categories'
+        }).then((res) => {
+            console.log(res.data);
+            setImageUrl(res.data.url);
+            toast.success('Image uploaded successfully');
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+    const generateImage = async () => {
+        const response = await axiosInstance.post('/api/ai/dall-e', {
+            prompt: 'create a category image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(','),
+        }).then((res) => {
+            toast.success('Image generated successfully,');
+            setImageUrl(res.data.url);
+            return res;
+        }).then((res) => {
+            toast.success('Now uploading image to S3');
+            uploadFromUrl(res.data.url);
+        }).
+        catch((error) => {
+            console.error(error);
+        });
+    }
+
 
     return (
         <>
@@ -186,6 +254,24 @@ const CreatePost = () => {
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
+
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Category</span>
+                        </label>
+                        <select
+                            className="select select-bordered"
+                            value={categoryId as string}
+                            onChange={(e) => setCategoryId(e.target.value)}
+                        >
+                            {categories.map((category, index) => (
+                                <option key={category.categoryId} value={category.categoryId} selected={categoryId ? categoryId === category.categoryId : index === 0}>
+                                    {category.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Content</span>
@@ -241,8 +327,8 @@ const CreatePost = () => {
                             type="text"
                             placeholder="Keywords"
                             className="input input-bordered"
-                            value={keywordsString}
-                            onChange={(e) => setKeywordsString(e.target.value)}
+                            value={keywords.join(',')}
+                            onChange={(e) => setKeywords(e.target.value.split(','))}
                         />
                     </div>
                     <div className="form-control">
@@ -255,7 +341,7 @@ const CreatePost = () => {
                             onChange={(e) => setAuthorId(e.target.value)}
                         >
                             {users.map((user, index) => (
-                                <option key={user.id} value={user.id} selected={authorId ? authorId === user.id : index === 0}>
+                                <option key={user.userId} value={user.userId} selected={authorId ? authorId === user.userId : index === 0}>
                                     {user.name}
                                 </option>
                             ))}
@@ -266,14 +352,33 @@ const CreatePost = () => {
                             <span className="label-text">Image</span>
                         </label>
                         <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
-                        alt="Image" className="h-64 w-96 object-cover rounded-lg" />
-                        <input
-                            type="text"
-                            placeholder="Image URL"
-                            className="input input-bordered mt-2"
-                            value={imageUrl as string}
-                            onChange={(e) => setImageUrl(e.target.value)}
-                        />
+                            alt="Image" className="h-64 w-96 object-cover rounded-lg" />
+                        <div className="relative flex justify-between items-center">
+                            <input
+                                type="file"
+                                placeholder="Image URL"
+                                className="input input-bordered mt-2 p-4 flex-1 h-16"
+                                //only images
+                                accept="image/*"
+
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        setImageFile(file);
+                                        //setImageUrl(URL.createObjectURL(file));
+                                        console.log(file);
+                                    }
+                                }}
+                            />
+                            <div className="absolute right-2 top-2 text-black p-2 rounded-lg">
+                                <button type="button" className="h-12 text-black p-2 rounded-lg bg-primary mr-2" onClick={uploadImage}>
+                                    Upload Image
+                                </button>
+                                <button type="button" className="h-12 text-black p-2 rounded-lg bg-secondary" onClick={generateImage}>
+                                    Generate Image
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" className="btn btn-primary block w-full mt-4">Create Post</button>
                 </form>

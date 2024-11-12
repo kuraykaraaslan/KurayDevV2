@@ -2,10 +2,15 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/libs/zustand';
 
 const Menu = () => {
 
     const router = useRouter();
+    const { session } = useAuthStore();
+
+    const user = session?.user;
+    const isAdmin = user?.role === "ADMIN";
 
     const getYpositionOfElementById = (id : string) => {
         const additionalOffset = 100;
@@ -48,6 +53,13 @@ const Menu = () => {
                        <button onClick={() => scrollOrRedirect(item)}>{item.name}</button>
                     </li>
                 ))}
+                {isAdmin && (
+                    <li>
+                        <Link href="/backend" className="flex items-center rounded-lg py-2 px-4 text-base-100 bg-primary hover:text-gray-800">
+                            Backend
+                        </Link>
+                    </li>
+                )}
             </>
     );
 };

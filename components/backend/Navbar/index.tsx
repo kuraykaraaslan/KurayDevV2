@@ -5,12 +5,19 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSession } from "next-auth/react"
+import {createHash} from "crypto";
 
 import ThemeButton from "./Partials/ThemeButton";
 
 const Navbar = () => {
 
     const { data: session } = useSession()
+
+    const user = session?.user;
+    const email = user?.email;
+    const hash = createHash('sha256').digest('hex');
+    const gravitarUrl = `https://www.gravatar.com/avatar/${hash}?d=identicon`;
+
 
     const [isFeaturesMenuOpen, setIsFeaturesMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -29,8 +36,20 @@ const Navbar = () => {
             href: "/",
         },
         {
+            name: "Categories",
+            href: "/backend/categories",
+        },
+        {
             name: "Posts",
             href: "/backend/posts",
+        },
+        {
+            name: "Users",
+            href: "/backend/users",
+        },
+        {
+            name: "Settings",
+            href: "/backend/settings",
         }
     ];
 
@@ -64,9 +83,7 @@ const Navbar = () => {
                 </div>
                 <div className="hidden lg:flex lg:justify-end justify-center items-center">
                     <Link href="#" className="flex items-center justify-center border-2 border-primary rounded-full">
-                        <img src={session?.user?.image ? session?.user?.image : "/images/default-user-image.png"
-
-                        } alt="User Image" className="w-12 h-12 rounded-full" />
+                        <img src={session?.user?.image ? session?.user?.image : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
                     </Link>
                 </div>
             </nav>

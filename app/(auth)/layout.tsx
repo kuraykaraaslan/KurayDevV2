@@ -55,9 +55,9 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
           </div>
           <div className="col-span-1 flex flex-col items-center justify-center w-full p-8 pt-0">
             <div className="flex items-center justify-center mb-3">
-              <Link href="/" className="btn btn-ghost md:rounded-full">
-                <FontAwesomeIcon icon={faCode} className="w-6 h-6" />
-                <span className='text-lg'>kuray.dev</span>
+              <Link href="/" className="flex items-center justify-center space-x-2 font-bold text-4xl">
+                <FontAwesomeIcon icon={faCode} className="w-8 h-8" />
+                <span className='text-xl'>kuray.dev</span>
               </Link>
             </div>
             <h1 className="text-3xl font-bold text-center mb-4">{titles.filter(t => t.path === pathname)[0].title}</h1>

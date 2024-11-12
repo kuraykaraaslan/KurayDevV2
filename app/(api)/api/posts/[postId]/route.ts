@@ -10,11 +10,11 @@ import PostService from "@/services/PostService";
  */
 export async function GET(
   request: Request,
-  { params }: { params: { postSlug: string } }
+  { params }: { params: { postId: string } }
 ) {
   try {
-    const { postSlug } = params;
-    const post = await PostService.getPostBySlug(postSlug);
+    const { postId } = params;
+    const post = await PostService.getPostById(postId);
 
     if (!post) {
       return NextResponse.json(
@@ -42,11 +42,11 @@ export async function GET(
  */
 export async function DELETE(
   request: Request,
-  { params }: { params: { postSlug: string } }
+  { params }: { params: { postId: string } }
 ) {
   try {
-    const { postSlug } = params;
-    const post = await PostService.getPostBySlug(postSlug);
+    const { postId } = params;
+    const post = await PostService.getPostById(postId);
 
     if (!post) {
       return NextResponse.json(
@@ -77,11 +77,11 @@ export async function DELETE(
  */
 export async function PUT(
   request: Request,
-  { params }: { params: { postSlug: string } }
+  { params }: { params: { postId: string } }
 ) {
   try {
-    const { postSlug } = params;
-    const post = await PostService.getPostBySlug(postSlug);
+    const { postId } = params;
+    const post = await PostService.getPostById(postId);
 
     if (!post) {
       return NextResponse.json(

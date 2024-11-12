@@ -103,8 +103,10 @@ model Category {
   title           String
 
   description     String?
-
   slug            String   @unique
+
+  keywords        String[] // List of SEO keywords
+  image        String?  // URL of the image stored in AWS S3
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

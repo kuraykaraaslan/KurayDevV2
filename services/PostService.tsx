@@ -17,17 +17,18 @@ export default class PostService {
         description: string;
         slug: string;
         keywords: string[];
-        imageUrl: string;
+        image: string;
         authorId: string;
+        categoryId: string;
 
     }): Promise<any> {
 
         console.log(data);
 
-        var { title, content, description, slug, keywords, imageUrl, authorId } = data;
+        var { title, content, description, slug, keywords, image, authorId, categoryId } = data;
 
         // Validate input
-        if (!title || !content || !description || !slug || !keywords || !authorId) {
+        if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
             throw new Error('All fields are required.');
         }
 
@@ -53,8 +54,9 @@ export default class PostService {
                 description,
                 slug,
                 keywords,
-                imageUrl,
+                image,
                 authorId,
+                categoryId,
             },
         });
 
@@ -151,5 +153,52 @@ export default class PostService {
 
         return post;
     }
+
+    /**
+     * Updates a post by its ID.
+     * @param postId - The ID of the post
+     * @param data - The updated post data
+     * @returns The updated post
+     */
+    static async updatePost(postId: string, data: {
+        title: string;
+        content: string;
+        description: string;
+        slug: string;
+        keywords: string[];
+        image: string;
+        authorId: string;
+        categoryId: string;
+    }): Promise<Post> {
+            
+            const { title, content, description, slug, keywords, image, authorId, categoryId } = data;
+    
+            // Validate input
+            if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
+                throw new Error('All fields are required.');
+            }
+    
+            if (keywords && typeof keywords === 'string') {
+                data.keywords = (keywords as string).split(',');
+            }
+    
+            // Update the post
+            const post = await prisma.post.update({
+                where: { postId },
+                data,
+            });
+    
+            return post;
+        }
+    
+        /**
+         * Deletes a post by its ID.
+         * @param postId - The ID of the post
+         */
+        static async deletePost(postId: string): Promise<void> {
+            await prisma.post.delete({
+                where: { postId },
+            });
+        }
 
 }
