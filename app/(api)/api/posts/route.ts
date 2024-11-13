@@ -18,9 +18,11 @@ export async function GET(request: Request) {
         // Extract query parameters
         const page = parseInt(searchParams.get('page') || '1', 10);
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+        const onlyPublished = searchParams.get('onlyPublished') === 'true';
+        const categoryId = searchParams.get('categoryId') || undefined;
         const search = searchParams.get('search') || undefined;
 
-        const result = await PostService.getAllPosts(page, pageSize, search);
+        const result = await PostService.getAllPosts(page, pageSize, search, onlyPublished, categoryId);
 
         return NextResponse.json({ posts: result.posts, total: result.total , page, pageSize });
 

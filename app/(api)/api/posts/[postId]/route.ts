@@ -90,8 +90,8 @@ export async function PUT(
       );
     }
 
-    const data = await request.json();
-    const updatedPost = await PostService.updatePost(post.postId, data);
+    const {body} = await request.json();
+    const updatedPost = await PostService.updatePost(post.postId, body);
 
     return NextResponse.json({ post: updatedPost });
   }

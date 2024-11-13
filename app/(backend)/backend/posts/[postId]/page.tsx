@@ -11,18 +11,15 @@ import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
 
-const CreatePost = () => {
+const CreatePost =({ params }: { params: { postId: string } }) => {
 
     const [title, setTitle] = useState('Default Title');
     const [content, setContent] = useState('<p>Default Content</p>');
     const [description, setDescription] = useState('Default Description');
     const [slug, setSlug] = useState('default-slug');
     const [keywords, setKeywords] = useState<string[]>([]);
-    const [image, setImage] = useState('');
     const [authorId, setAuthorId] = useState<String | null>(null);
     const [categoryId, setCategoryId] = useState<String | null>(null);
-    const [status, setStatus] = useState('DRAFT');
-    const [createdAt, setCreatedAt] = useState<Date>(new Date());
 
     const [users, setUsers] = useState<Partial<User>[]>([]);
     const [categories, setCategories] = useState<Partial<Category>[]>([]);
@@ -33,6 +30,9 @@ const CreatePost = () => {
     //image upLoad
     const [imageFile, setImageFile] = useState<File | null>(null);
     const router = useRouter();
+
+    const [status, setStatus] = useState('DRAFT');
+    const [createdAt, setCreatedAt] = useState(new Date());
 
     useEffect(() => {
         axiosInstance.get('/api/users?pageSize=100')
@@ -77,7 +77,7 @@ const CreatePost = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const neededFields = [title, content, description, slug, keywords, authorId, categoryId, image];
+        const neededFields = [title, content, description, slug, keywords, authorId, categoryId];
 
         const blogPost = {
             title,
@@ -87,7 +87,7 @@ const CreatePost = () => {
             keywords: keywords,
             authorId,
             categoryId,
-            image,
+            image: imageUrl,
             status,
             createdAt,
         };
@@ -141,7 +141,7 @@ const CreatePost = () => {
         }
 
 
-        await axiosInstance.post('/api/posts', {
+        await axiosInstance.put('/api/posts/' + params.postId, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: {
@@ -150,9 +150,11 @@ const CreatePost = () => {
                 description,
                 slug,
                 keywords: keywords,
-                image,
+                image: imageUrl,
                 authorId: authorId ? authorId : users[0].userId,
                 categoryId: categoryId ? categoryId : categories[0].categoryId,
+                status,
+                createdAt,
             },
 
         }).then(() => {
@@ -235,8 +237,7 @@ const CreatePost = () => {
         title: xxx,
         description: xxx,
         keywords: xxx, 
-        content: xxx, //wysiwyg content
-        createdAt: xxx, //a date recommended for the post if that post published on related date
+        content: xxx //wysiwyg content
     }
 
     `;
@@ -255,8 +256,6 @@ const CreatePost = () => {
                 setTitle(text.title);
                 setContent(text.content);
                 setDescription(text.description);
-                setSlug(text.slug);
-                setCreatedAt(text.createdAt);
 
                 if (text.keywords) {
                     //check if it is a string or an array
@@ -275,6 +274,27 @@ const CreatePost = () => {
             console.error(error);
         });
     }
+
+    useEffect(() => {
+
+        if (params.postId) {
+            axiosInstance.get(`/api/posts/${params.postId}`).then((res) => {
+                const { post } = res.data;
+                console.log(post);
+                setTitle(post.title);
+                setContent(post.content);
+                setDescription(post.description);
+                setSlug(post.slug);
+                setKeywords(post.keywords);
+                setImageUrl(post.image);
+                setAuthorId(post.authorId);
+                setCategoryId(post.categoryId);
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    }
+        , []);
 
     return (
         <>
@@ -374,14 +394,14 @@ const CreatePost = () => {
                                 height: 500,
                                 menubar: false,
                                 plugins: [
-                                    'advlist autolink lists link image charmap print preview anchor image',
+                                    'advlist autolink lists link image charmap print preview anchor',
                                     'searchreplace visualblocks code fullscreen',
                                     'insertdatetime media table paste code help wordcount'
                                 ],
                                 toolbar:
-                                    'undo redo | image | formatselect | bold italic backcolor | \
+                                    'undo redo | formatselect | bold italic backcolor | \
                                 alignleft aligncenter alignright alignjustify | \
-                                bullist numlist outdent indent | removeformat | help',
+                                bullist numlist outdent indent | removeformat | help'
                             }}
                             apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
                             value={content}

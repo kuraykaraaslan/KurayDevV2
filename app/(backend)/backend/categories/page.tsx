@@ -65,7 +65,7 @@ const Page = () => {
                             <th>Image</th>
                             <th>Title</th>
                             <th>Slug</th>
-                            <th>Status</th>
+                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                     </thead>

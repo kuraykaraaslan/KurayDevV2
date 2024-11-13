@@ -63,9 +63,9 @@ const Page = () => {
                     {/* head */}
                     <thead className="bg-base-300 h-12">
                         <tr>
-                            <th>ID</th>
+                            <th>Image</th>
                             <th>Title</th>
-                            <th>Catgeory</th>
+                            <th>Category</th>
                             <th>Slug</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -73,15 +73,20 @@ const Page = () => {
                     </thead>
                     <tbody>
                         {posts.map((post, index) => (
-                            <tr key={index} className="releative h-12 border-b hover:bg-primary hover:bg-opacity-10">
-
-                                <td>{post.postId}</td>
+                            <tr key={index} className="h-12 border-b hover:bg-primary hover:bg-opacity-10">
+                                <td>
+                                    {post.image ?
+                                        <img src={post.image} className="h-8 w-8 rounded-full" />
+                                        :
+                                        <div className="h-8 w-8 bg-base-300 rounded-full"></div>
+                                    }
+                                </td>
                                 <td>{post.title}</td>
-                                <td>{post.category?.title}</td>
+                                <td>{post.Category?.title}</td>
                                 <td>{post.slug}</td>
-                                <td>{post.published ? "Published" : "Draft"}</td>
-                                <td className="flex gap-2 absolute right-4">
-                                    <Link href={`/backend/posts/${post.postId}/edit`} className="btn btn-sm btn-primary">Edit</Link>
+                                <td>{post.status}</td>
+                                <td className="flex gap-2">
+                                    <Link href={`/backend/posts/${post.postId}`} className="btn btn-sm btn-primary">Edit</Link>
                                     <Link href={`/blog/${post.slug}`} className="btn btn-sm btn-secondary hidden md:flex">View</Link>
                                     <button onClick={() => deletePost(post.postId as string)} className="btn btn-sm btn-warning hidden md:flex">Delete</button>
                                 </td>
