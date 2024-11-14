@@ -22,8 +22,12 @@ const Menu = () => {
         return null;
     }
 
-    const scrollOrRedirect = (item : { id: string, page: string, name: string }) => {
+    const scrollOrRedirect = (item : { id: string | null, page: string, name: string }) => {
         const { id, page } = item;
+        if (!id) {
+            router.push(page); // Use the 'page' field for navigation
+            return;
+        }
         const yPosition = getYpositionOfElementById(id);
         console.log(yPosition);
 
@@ -42,7 +46,7 @@ const Menu = () => {
         { id: "portfolio", page: '/', name: 'Portfolio'},
         { id: "timeline", page: '/', name: 'Experience'},
         { id: "contact", page: '/#contact', name: 'Contact'},
-        { id: "blog", page: '/blog', name: 'Blog'},
+        { id: null , page: '/blog', name: 'Blog'},
         { id: "freelance", page: '/freelance', name: 'Freelance'},
     ];
 
