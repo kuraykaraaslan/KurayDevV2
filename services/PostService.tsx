@@ -1,5 +1,6 @@
 import { Post, User } from '@prisma/client';
 import prisma from '@/libs/prisma';
+import PostWithCategory from '@/types/PostWithCategory';
 
 export default class PostService {
 
@@ -17,15 +18,17 @@ export default class PostService {
         description: string;
         slug: string;
         keywords: string[];
-        image: string;
+        image?: string;
         authorId: string;
         categoryId: string;
+        status: string;
+        createdAt: Date;
 
     }): Promise<any> {
 
         console.log(data);
 
-        var { title, content, description, slug, keywords, image, authorId, categoryId } = data;
+        var { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
 
         // Validate input
         if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
@@ -57,6 +60,8 @@ export default class PostService {
                 image,
                 authorId,
                 categoryId,
+                status,
+                createdAt
             },
         });
 
@@ -86,8 +91,10 @@ export default class PostService {
     static async getAllPosts(
         page = 1,
         perPage = 10,
-        search?: string
-    ): Promise<{ posts: Post[], total: number }> {
+        search?: string,
+        onlyPublished?: boolean,
+        categoryId?: string
+    ): Promise<{ posts: Omit<Post, 'content'>[], total: number }> {
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
@@ -108,7 +115,30 @@ export default class PostService {
                             { description: { contains: search } },
                             { slug: { contains: search } },
                             { keywords: { hasSome: search.split(',') } },
+                            { categoryId: categoryId ? categoryId : undefined },
                         ],
+                        status: onlyPublished ? 'published' : undefined,
+                    },
+                    select: {
+                        postId: true,
+                        title: true,
+                        description: true,
+                        slug: true,
+                        keywords: true,
+                        image: true,
+                        authorId: true,
+                        categoryId: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        status: true,
+                        Category: {
+                            select: {
+                                categoryId: true,
+                                title: true,
+                                slug: true,
+                                image: true,
+                            },
+                        },
                     },
                 }),
                 prisma.post.count({
@@ -116,15 +146,15 @@ export default class PostService {
                         OR: [
                             { title: { contains: search } },
                             { content: { contains: search } },
-                            { description: { contains: search } },
                             { slug: { contains: search } },
                             { keywords: { hasSome: search.split(',') } },
                         ],
-                    },
+                    }
                 }),
+                
             ]);
   
-            return { posts: query[0], total: query[1] };
+            return { posts: query[0] as PostWithCategory[], total: query[1] };
         }
 
         // Get all posts
@@ -132,11 +162,33 @@ export default class PostService {
             prisma.post.findMany({
                 skip: (page - 1) * perPage,
                 take: perPage,
+                orderBy: { createdAt: 'asc' },
+                select: {
+                    postId: true,
+                    title: true,
+                    description: true,
+                    slug: true,
+                    keywords: true,
+                    image: true,
+                    authorId: true,
+                    categoryId: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    status: true,
+                    Category: {
+                        select: {
+                            categoryId: true,
+                            title: true,
+                            slug: true,
+                            image: true,
+                        },
+                    },
+                },
             }),
             prisma.post.count(),
         ]);
 
-        return { posts: query[0], total: query[1] };
+        return { posts: query[0] as PostWithCategory[], total: query[1] };
     }
 
 
@@ -146,12 +198,34 @@ export default class PostService {
      * @returns The requested post or null if not found
      */
 
-    static async getPostBySlug(slug: string): Promise<Post | null> {
+    static async getPostBySlug(slug: string): Promise<PostWithCategory | null> {
         const post = await prisma.post.findFirst({
             where: { slug },
+            select: {
+                postId: true,
+                title: true,
+                description: true,
+                slug: true,
+                keywords: true,
+                image: true,
+                authorId: true,
+                categoryId: true,
+                createdAt: true,
+                updatedAt: true,
+                content: true,
+                status: true,
+                Category: {
+                    select: {
+                        categoryId: true,
+                        title: true,
+                        slug: true,
+                        image: true,
+                    },
+                },
+            },
         });
 
-        return post;
+        return post as PostWithCategory;
     }
 
     /**
@@ -166,12 +240,14 @@ export default class PostService {
         description: string;
         slug: string;
         keywords: string[];
-        image: string;
+        image?: string;
         authorId: string;
         categoryId: string;
+        status: string;
+        createdAt: Date;
     }): Promise<Post> {
             
-            const { title, content, description, slug, keywords, image, authorId, categoryId } = data;
+            const { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
     
             // Validate input
             if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
@@ -201,4 +277,42 @@ export default class PostService {
             });
         }
 
+
+    /*
+    * Get posts by category
+    * @param categoryId - The ID of
+    * @returns The requested post or null if not found
+    * */
+    static async getPostsByCategory(categoryId: string, page = 1, perPage = 10, onlyPublished?: boolean): Promise<PostWithCategory[]> {
+        const posts = await prisma.post.findMany({
+            where: { categoryId ,
+                status: onlyPublished ? 'published' : undefined,
+            },
+            select: {
+                postId: true,
+                title: true,
+                description: true,
+                slug: true,
+                keywords: true,
+                image: true,
+                authorId: true,
+                categoryId: true,
+                createdAt: true,
+                updatedAt: true,
+                status: true,
+                Category: {
+                    select: {
+                        categoryId: true,
+                        title: true,
+                        slug: true,
+                        image: true,
+                    },
+                },
+            },
+            skip: (page - 1) * perPage,
+            take: perPage,
+        });
+
+        return posts as PostWithCategory[];
+    }
 }

@@ -25,4 +25,43 @@ export default class OpenAIService {
         return null;
     }
 
+    static async generateText(prompt: string) : Promise<string | JSON | null> {
+        try {
+            const response = await openai.chat.completions.create({
+                model: 'gpt-4o',
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'You are a Content Managment System API.',
+                    },
+                    {
+                        role: 'user',
+                        content: prompt,
+                    },
+                ],
+                max_tokens: 1000,
+            });
+
+            var text = response.choices[0].message.content;
+
+            if (!text) {
+                return null;
+            }
+
+            //try to parse the text if it is a json
+            try {
+                text = JSON.parse(text);
+            } catch (error) {
+                //do nothing
+            }
+
+            return text || null;
+
+        } catch (error) {
+            console.error('Error generating text:', error);
+        }
+
+        return null;
+    }
+
 }

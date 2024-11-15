@@ -78,9 +78,7 @@ model Post {
   title           String
   content         String
 
-  published       Boolean  @default(false)
   author          User     @relation(fields: [authorId], references: [userId])
-
   authorId        String
   description     String?
   slug            String   @unique
@@ -90,8 +88,10 @@ model Post {
   
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  publishedAt     DateTime @default(now())
 
-  
+  status          String   @default("PUBLISHED") // DRAFT, PUBLISHED, ARCHIVED
+
   categoryId      String
   Category Category @relation(fields: [categoryId], references: [categoryId])
 
