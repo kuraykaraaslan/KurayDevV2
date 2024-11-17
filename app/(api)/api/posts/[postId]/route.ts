@@ -1,6 +1,8 @@
 "use server";
 import { NextResponse } from "next/server";
+import NextRequest from "@/types/NextRequest";
 import PostService from "@/services/PostService";
+import AuthService from "@/services/AuthService";
 
 /**
  * GET handler for retrieving a post by its ID.
@@ -9,7 +11,7 @@ import PostService from "@/services/PostService";
  * @returns A NextResponse containing the post data or an error message
  */
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { postId: string } }
 ) {
   try {
@@ -41,10 +43,13 @@ export async function GET(
  * @returns A NextResponse containing a success message or an error message
  */
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { postId: string } }
 ) {
   try {
+
+    AuthService.authenticateSync(request, "ADMIN");
+
     const { postId } = params;
     const post = await PostService.getPostById(postId);
 
@@ -76,10 +81,13 @@ export async function DELETE(
  * @returns A NextResponse containing the updated post data or an error message
  */
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { postId: string } }
 ) {
   try {
+
+    AuthService.authenticateSync(request, "ADMIN");
+    
     const { postId } = params;
     const post = await PostService.getPostById(postId);
 

@@ -1,6 +1,8 @@
 "use server";
 import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
+import AuthService from "@/services/AuthService";
+import NextRequest from "@/types/NextRequest";
 
 /**
  * GET handler for retrieving a category by its Id.
@@ -9,7 +11,7 @@ import CategoryService from "@/services/CategoryService";
  * @returns A NextResponse containing the post data or an error message
  */
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { categoryId: string } }
 ) {
   try {
@@ -41,10 +43,13 @@ export async function GET(
  * @returns A NextResponse containing a success message or an error message
  */
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { categoryId: string } }
 ) {
   try {
+
+    AuthService.authenticateSync(request, "ADMIN");
+    
     const { categoryId } = params;
     const category = await CategoryService.getCategoryById(categoryId);
 
@@ -76,10 +81,13 @@ export async function DELETE(
  * @returns A NextResponse containing the updated post data or an error message
  */
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { categoryId: string } }
 ) {
   try {
+
+    AuthService.authenticateSync(request, "ADMIN");
+
     const { categoryId } = params;
     const post = await CategoryService.getCategoryById(categoryId);
 

@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { Post } from "@prisma/client";
 import prisma from '@/libs/prisma';
 import CategoryService from "@/services/CategoryService";
+import AuthService from "@/services/AuthService";
+import NextRequest from "@/types/NextRequest";
 
 
 /**
@@ -38,9 +40,10 @@ export async function GET(request: Request) {
  * @param request - The incoming request object
  * @returns A NextResponse containing the new post data or an error message
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
 
+        AuthService.authenticateSync(request, "ADMIN");
 
         const body = await request.json();
 

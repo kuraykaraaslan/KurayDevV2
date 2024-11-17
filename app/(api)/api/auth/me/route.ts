@@ -3,10 +3,14 @@ import { NextResponse  } from "next/server";
 import NextRequest from "@/types/NextRequest";
 import AuthService from "@/services/AuthService";
 
+
+
 export async function GET(req: NextRequest) {
 
-    const user = req.session?.user;
+    //await AuthService.authenticate(req);
 
-    return NextResponse.json({ user });
+    AuthService.authenticate(req);
+
+    return NextResponse.json({ user: req.session });
 
 }

@@ -70,7 +70,8 @@ const CreatePost = () => {
     }, []);
 
     useEffect(() => {
-        setSlug(title.toLowerCase().replace(/ /g, '-'));
+        // special characters like spaces, slashes, and dots are removed
+        setSlug(title.toLowerCase().replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, '').substring(0, 50));
     }, [title]);
 
 

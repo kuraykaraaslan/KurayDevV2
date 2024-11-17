@@ -1,19 +1,32 @@
 'use client'
 import Navbar from "@/components/backend/Navbar";
-import React from "react";
+import React, { useEffect } from "react";
 import { Metadata } from "next";
 import { SessionProvider } from "next-auth/react"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import auth from "@/libs/auth";
+import useAuthStore from "@/libs/zustand";
+import { useRouter } from "next/navigation";
 
-
-export default async function AdminLayout({
+const Layout = ({
     children,
-}: Readonly<{
+}: {
     children: React.ReactNode;
-}>) {
+}) => {
+    
+    const { session } = useAuthStore();
+    const router = useRouter();
 
+    useEffect(() => {
+        if (session === undefined) {
+           return;
+        }
+
+        if (session === null) {
+            router.push("/auth/login");
+        }
+
+    } , [session]);
 
     return (
         <html lang="en">
@@ -30,3 +43,5 @@ export default async function AdminLayout({
         </html>
     );
 }
+
+export default Layout;

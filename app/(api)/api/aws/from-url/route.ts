@@ -1,7 +1,9 @@
 'use server'
 
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+import NextRequest from '@/types/NextRequest'
 import AWSService from '@/services/AWSService'
+import AuthService from '@/services/AuthService'
 
 /**
  * POST handler for uploading a file to an S3 bucket.
@@ -10,6 +12,8 @@ import AWSService from '@/services/AWSService'
  */
 export async function POST(request: NextRequest) {
     try {
+
+        AuthService.authenticateSync(request, 'ADMIN');
 
         const { url, folder } = await request.json();
 

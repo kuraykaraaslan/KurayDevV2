@@ -11,7 +11,7 @@ import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
 
-const UpdatePost =({ params }: { params: { postId: string } }) => {
+const UpdateUser =({ params }: { params: { userId: string } }) => {
 
     const [title, setTitle] = useState('Default Title');
     const [content, setContent] = useState('<p>Default Content</p>');
@@ -52,22 +52,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         //if authorId is not set, set it to the first user
     }, []);
 
-    useEffect(() => {
-        axiosInstance.get('/api/categories?pageSize=100')
-            .then((response) => {
-                setCategories(response.data.categories);
-
-                if (categoryId === null && categories.length > 0) {
-                    setCategoryId(categories[0].categoryId as string || 'Unknown');
-                }
-
-            })
-            .catch((error) => {
-                toast.error(error.message);
-            });
-
-        //if authorId is not set, set it to the first user
-    }, []);
 
     useEffect(() => {
         const invalidChars = /[^\w\s-]/g;
@@ -82,7 +66,7 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
 
         const neededFields = [title, content, description, slug, keywords, authorId, categoryId];
 
-        const blogPost = {
+        const blogUser = {
             title,
             content,
             description,
@@ -95,7 +79,7 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
             createdAt,
         };
 
-        console.log(blogPost);
+        console.log(blogUser);
 
         if (title === '') {
             toast.error('Title is required');
@@ -144,7 +128,7 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         }
 
 
-        await axiosInstance.put('/api/posts/' + params.postId, {
+        await axiosInstance.put('/api/users/' + params.userId, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: {
@@ -161,8 +145,8 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
             },
 
         }).then(() => {
-            toast.success('Post created successfully');
-            // router.push('/backend/posts');
+            toast.success('User created successfully');
+            // router.push('/backend/users');
         }).catch((error) => {
             toast.error(error.response.data.message);
         });
@@ -191,7 +175,7 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
 
         const formData = new FormData();
         formData.append('file', imageFile);
-        formData.append('folder', 'categories');
+        formData.append('folder', 'users');
 
         await axiosInstance.post('/api/aws', formData).then((res) => {
             console.log(res.data);
@@ -204,7 +188,7 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
     const uploadFromUrl = async (url: string) => {
         await axiosInstance.post('/api/aws/from-url', {
             url,
-            folder: 'categories'
+            folder: 'users',
         }).then((res) => {
             console.log(res.data);
             setImageUrl(res.data.url);
@@ -216,7 +200,7 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
 
     const generateImage = async () => {
         const response = await axiosInstance.post('/api/ai/dall-e', {
-            prompt: 'create a post image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(',') + ' and content ' + content,
+            prompt: 'create a user image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(',') + ' and content ' + content,
         }).then((res) => {
             toast.success('Image generated successfully,');
             setImageUrl(res.data.url);
@@ -231,8 +215,8 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
     }
 
     //multi line string
-    const generatePostString = `
-    create a post for this prompt: \n
+    const generateUserString = `
+    create a user for this prompt: \n
 
     ${aiContent}
 
@@ -245,11 +229,11 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
 
     `;
 
-    console.log(generatePostString);
+    console.log(generateUserString);
 
-    const generatePost = async () => {
+    const generateUser = async () => {
         const response = await axiosInstance.post('/api/ai/gpt-4o', {
-            prompt: generatePostString,
+            prompt: generateUserString,
         }).then((res) => {
             console.log(res.data);
             try {
@@ -280,18 +264,18 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
 
     useEffect(() => {
 
-        if (params.postId) {
-            axiosInstance.get(`/api/posts/${params.postId}`).then((res) => {
-                const { post } = res.data;
-                console.log(post);
-                setTitle(post.title);
-                setContent(post.content);
-                setDescription(post.description);
-                setSlug(post.slug);
-                setKeywords(post.keywords);
-                setImageUrl(post.image);
-                setAuthorId(post.authorId);
-                setCategoryId(post.categoryId);
+        if (params.userId) {
+            axiosInstance.get(`/api/users/${params.userId}`).then((res) => {
+                const { user } = res.data;
+                console.log(user);
+                setTitle(user.title);
+                setContent(user.content);
+                setDescription(user.description);
+                setSlug(user.slug);
+                setKeywords(user.keywords);
+                setImageUrl(user.image);
+                setAuthorId(user.authorId);
+                setCategoryId(user.categoryId);
             }).catch((error) => {
                 console.error(error);
             });
@@ -303,10 +287,10 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         <>
             <dialog id="my_modal_4" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
-                    <h3 className="font-bold text-lg">OpenAI GPT-4 Post Generator</h3>
+                    <h3 className="font-bold text-lg">OpenAI GPT-4 User Generator</h3>
                     <div className="modal-body w-full">
                         <textarea className="textarea h-64 w-full mt-4" value={aiContent} onChange={(e) => setAiContent(e.target.value)}></textarea>
-                        <button className="btn btn-primary mt-2" onClick={generatePost}>Generate Post</button>
+                        <button className="btn btn-primary mt-2" onClick={generateUser}>Generate User</button>
                     </div>
                     <div className="modal-action">
                         <form method="dialog">
@@ -318,13 +302,13 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
             </dialog>
             <div className="container mx-auto">
                 <div className="flex justify-between items-center flex-row">
-                    <h1 className="text-3xl font-bold h-16 items-center">Create Post</h1>
+                    <h1 className="text-3xl font-bold h-16 items-center">Create User</h1>
                     <div className="flex gap-2 h-16">
                         <button className="btn btn-warning btn-sm h-12" onClick={showModal}>
                             <FontAwesomeIcon icon={faRobot} className="mr-2 w-6 h-6" /> OpenAI GPT-4
                         </button>
-                        <Link className="btn btn-primary btn-sm h-12" href="/backend/posts">
-                            Back to Posts
+                        <Link className="btn btn-primary btn-sm h-12" href="/backend/users">
+                            Back to Users
                         </Link>
                     </div>
                 </div>
@@ -496,11 +480,11 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                             </div>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary block w-full mt-4">Update Post</button>
+                    <button type="submit" className="btn btn-primary block w-full mt-4">Update User</button>
                 </form>
             </div>
         </>
     );
 }
 
-export default UpdatePost;
+export default UpdateUser;

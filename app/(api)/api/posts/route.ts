@@ -1,9 +1,11 @@
 "use server";
 
 import { NextResponse } from "next/server";
+import NextRequest from "@/types/NextRequest";
 import { Post } from "@prisma/client";
 import prisma from '@/libs/prisma';
 import PostService from "@/services/PostService";
+import AuthService from "@/services/AuthService";
 
 
 /**
@@ -11,7 +13,7 @@ import PostService from "@/services/PostService";
  * @param request - The incoming request object
  * @returns A NextResponse containing the posts data or an error message
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
 
@@ -40,8 +42,10 @@ export async function GET(request: Request) {
  * @param request - The incoming request object
  * @returns A NextResponse containing the new post data or an error message
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
+
+        AuthService.authenticateSync(request, "ADMIN");
 
         const {body} = await request.json();
         console.log(body);
