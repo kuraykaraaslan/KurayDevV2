@@ -1,4 +1,4 @@
-const localizedIgnoreRoutes = ['/_next', '/assets', '/api', '/auth', '/backend', '/_error', '/_app', '/_document', '/_error' ];
+const localizedIgnoreRoutes = ['/_next', '/assets', '/api', '/auth', '/backend', '/_error', '/_app', '/_document', '/_error' , '/terminal'];
 const allowedLanguages = ['en', 'tr', 'th', 'de'];
 
 export default function routeLocalization(pathname: string) {

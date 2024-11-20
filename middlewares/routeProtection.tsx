@@ -8,11 +8,6 @@ export default async function routeProtection(request: NextRequest, response: Ne
 
     const path = request.nextUrl.pathname;
 
-    console.log("routeProtection");
-    console.log(path);
-
-    console.log("routeProtection protected");
-
     const authHeader = request.headers.get('Authorization');
 
     if (authHeader) {
