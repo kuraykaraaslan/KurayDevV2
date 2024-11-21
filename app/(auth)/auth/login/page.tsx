@@ -61,14 +61,11 @@ const LoginPage = () => {
                 toast.error(res.data.error);
             } else {
                 toast.success(res.data.message);
-                console.log(res.data);
             }
 
             setSession(res.data.session);
             setToken(res.data.session.sessionToken);
 
-
-            console.log("Session: ", res.data.session);
 
             router.push("/");
         }

@@ -38,7 +38,6 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
         axiosInstance.get('/api/users?pageSize=100')
             .then((response) => {
                 setUsers(response.data.users);
-                console.log(response.data.users);
 
                 if (authorId === null && users.length > 0) {
                     setAuthorId(users[0].userId as string || 'Unknown');
@@ -78,8 +77,6 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
             status,
             createdAt,
         };
-
-        console.log(blogUser);
 
         if (title === '') {
             toast.error('Title is required');
@@ -178,7 +175,6 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
         formData.append('folder', 'users');
 
         await axiosInstance.post('/api/aws', formData).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -190,7 +186,6 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
             url,
             folder: 'users',
         }).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
             toast.success('Image uploaded successfully');
         }).catch((error) => {
@@ -229,17 +224,12 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
 
     `;
 
-    console.log(generateUserString);
-
     const generateUser = async () => {
         const response = await axiosInstance.post('/api/ai/gpt-4o', {
             prompt: generateUserString,
         }).then((res) => {
-            console.log(res.data);
             try {
                 const text = res.data.text;
-
-                console.log(text);
                 setTitle(text.title);
                 setContent(text.content);
                 setDescription(text.description);
@@ -267,7 +257,6 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
         if (params.userId) {
             axiosInstance.get(`/api/users/${params.userId}`).then((res) => {
                 const { user } = res.data;
-                console.log(user);
                 setTitle(user.title);
                 setContent(user.content);
                 setDescription(user.description);
@@ -421,18 +410,6 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
                     </div>
                     <div className="form-control">
                         <label className="label">
-                            <span className="label-text">Keywords</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Keywords"
-                            className="input input-bordered"
-                            value={keywords.join(',')}
-                            onChange={(e) => setKeywords(e.target.value.split(','))}
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
                             <span className="label-text">Author</span>
                         </label>
                         <select
@@ -466,7 +443,6 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
                                     if (file) {
                                         setImageFile(file);
                                         //setImageUrl(URL.createObjectURL(file));
-                                        console.log(file);
                                     }
                                 }}
                             />

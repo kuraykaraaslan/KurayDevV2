@@ -31,7 +31,6 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
         formData.append('folder', 'categories');
 
         await axiosInstance.post('/api/aws', formData).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -43,7 +42,6 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
             url,
             folder : 'categories'
         }).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
             toast.success('Image uploaded successfully');
         }).catch((error) => {
@@ -71,7 +69,6 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
         const fetchCategory = async () => {
             await axiosInstance.get(`/api/categories/${params.categoryId}`).then((res) => {
                 const { category } = res.data;
-                console.log(category);
                 setTitle(category.title);
                 setDescription(category.description);
                 setSlug(category.slug);
@@ -107,8 +104,6 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
             keywords: keywords,
             image: imageUrl,
         };
-
-        console.log(blogCategory);
 
         if (title === '') {
             toast.error('Title is required');
@@ -229,7 +224,6 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
                                     if (file) {
                                         setImageFile(file);
                                         //setImageUrl(URL.createObjectURL(file));
-                                        console.log(file);
                                     }
                                 }}
                             />

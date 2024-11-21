@@ -55,8 +55,6 @@ const BlogPage = ({
 
 
                 setIsMoreAvailable(response.data.total > page * limit);
-
-                console.log(incomingFeeds);
             });
 
     }, [page]); // Make sure to include all dependencies that affect the API call

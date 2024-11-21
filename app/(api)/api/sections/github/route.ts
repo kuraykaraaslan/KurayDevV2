@@ -67,11 +67,9 @@ export async function GET(req: NextRequest, res: NextResponse<ResponseData>) {
             week.contributionDays.map((day, j) => {
                 if (day.date.startsWith("2023-05")) {
                     day.contributionCount = 10;
-                    console.log(day.date);
                 }
                 if (day.date.startsWith("2023-06")) {
                     day.contributionCount = 5;
-                    console.log(day.date);
                 }
             }
             )

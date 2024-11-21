@@ -18,7 +18,6 @@ const Page = () => {
 
         axiosInstance.get(`/api/categories?page=${page + 1}&pageSize=${pageSize}&search=${search}`)
             .then((response) => {
-                console.log(response.data);
                 setCategories(response.data.categories);
                 setTotal(response.data.total);
             })

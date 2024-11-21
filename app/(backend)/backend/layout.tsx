@@ -2,7 +2,6 @@
 import Navbar from "@/components/backend/Navbar";
 import React, { useEffect } from "react";
 import { Metadata } from "next";
-import { SessionProvider } from "next-auth/react"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useAuthStore from "@/libs/zustand";
@@ -13,32 +12,41 @@ const Layout = ({
 }: {
     children: React.ReactNode;
 }) => {
-    
+
     const { session } = useAuthStore();
     const router = useRouter();
 
     useEffect(() => {
-        if (session === undefined) {
-           return;
+        if (typeof session !== 'object') {
+            return;
         }
 
-        if (session === null) {
-            router.push("/auth/login");
+        //if already loaded and session is null, redirect to login
+        if (window && !session) {
+            router.push('/auth/login');
         }
+        
+    }, [session]);
 
-    } , [session]);
+
 
     return (
         <html lang="en">
             <body style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-                <SessionProvider>
-                    <Navbar />
-                    <div style={{ flex: 1 }} className="container mx-auto px-4 pt-4 md:pt-12 lg:px-8 max-w-8xl mb-8 mt- flex flex-col md:flex-row gap-4">
-                        {/* [children] */}
-                        {children}
+                {window ?
+                    <>
+                            <Navbar />
+                            <div style={{ flex: 1 }} className="container mx-auto px-4 pt-4 md:pt-12 lg:px-8 max-w-8xl mb-8 mt- flex flex-col md:flex-row gap-4">
+                                {/* [children] */}
+                                {children}
+                            </div>
+                        <ToastContainer />
+                    </>
+                    :
+                    <div className="flex items-center justify-center h-screen bg-base-200">
+                            <p className="">Loading...</p>
                     </div>
-                </SessionProvider>
-                <ToastContainer />
+                }
             </body>
         </html>
     );

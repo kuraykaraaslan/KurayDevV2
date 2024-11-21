@@ -38,7 +38,6 @@ const CreatePost = () => {
         axiosInstance.get('/api/users?pageSize=100')
             .then((response) => {
                 setUsers(response.data.users);
-                console.log(response.data.users);
 
                 if (authorId === null && users.length > 0) {
                     setAuthorId(users[0].userId as string || 'Unknown');
@@ -92,8 +91,6 @@ const CreatePost = () => {
             status,
             createdAt,
         };
-
-        console.log(blogPost);
 
         if (title === '') {
             toast.error('Title is required');
@@ -190,7 +187,6 @@ const CreatePost = () => {
         formData.append('folder', 'categories');
 
         await axiosInstance.post('/api/aws', formData).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -202,7 +198,6 @@ const CreatePost = () => {
             url,
             folder: 'categories'
         }).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
             toast.success('Image uploaded successfully');
         }).catch((error) => {
@@ -242,17 +237,12 @@ const CreatePost = () => {
 
     `;
 
-    console.log(generatePostString);
-
     const generatePost = async () => {
         const response = await axiosInstance.post('/api/ai/gpt-4o', {
             prompt: generatePostString,
         }).then((res) => {
-            console.log(res.data);
             try {
                 const text = res.data.text;
-
-                console.log(text);
                 setTitle(text.title);
                 setContent(text.content);
                 setDescription(text.description);
@@ -460,7 +450,6 @@ const CreatePost = () => {
                                     if (file) {
                                         setImageFile(file);
                                         //setImageUrl(URL.createObjectURL(file));
-                                        console.log(file);
                                     }
                                 }}
                             />

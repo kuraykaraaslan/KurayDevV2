@@ -38,7 +38,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         axiosInstance.get('/api/users?pageSize=100')
             .then((response) => {
                 setUsers(response.data.users);
-                console.log(response.data.users);
 
                 if (authorId === null && users.length > 0) {
                     setAuthorId(users[0].userId as string || 'Unknown');
@@ -94,8 +93,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
             status,
             createdAt,
         };
-
-        console.log(blogPost);
 
         if (title === '') {
             toast.error('Title is required');
@@ -194,7 +191,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         formData.append('folder', 'categories');
 
         await axiosInstance.post('/api/aws', formData).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -206,7 +202,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
             url,
             folder: 'categories'
         }).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
             toast.success('Image uploaded successfully');
         }).catch((error) => {
@@ -245,17 +240,13 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
 
     `;
 
-    console.log(generatePostString);
 
     const generatePost = async () => {
         const response = await axiosInstance.post('/api/ai/gpt-4o', {
             prompt: generatePostString,
         }).then((res) => {
-            console.log(res.data);
             try {
                 const text = res.data.text;
-
-                console.log(text);
                 setTitle(text.title);
                 setContent(text.content);
                 setDescription(text.description);
@@ -283,7 +274,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         if (params.postId) {
             axiosInstance.get(`/api/posts/${params.postId}`).then((res) => {
                 const { post } = res.data;
-                console.log(post);
                 setTitle(post.title);
                 setContent(post.content);
                 setDescription(post.description);
@@ -482,7 +472,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                                     if (file) {
                                         setImageFile(file);
                                         //setImageUrl(URL.createObjectURL(file));
-                                        console.log(file);
                                     }
                                 }}
                             />

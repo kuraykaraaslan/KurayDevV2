@@ -69,13 +69,11 @@ const RegisterPage = () => {
         }).then((res) => {
             if (res.data.error) {
                 toast.error(res.data.error);
-                console.log(res.data.error);
             } else {
                 toast.success(res.data.message);
             }
         }
         ).catch((err) => {
-            console.log(err.response.data.error);
             toast.error(err.response.data.error);
         });
 

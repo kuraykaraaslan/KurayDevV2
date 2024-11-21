@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 import DiscordService from '@/services/DiscordService';
+import ContactFormService from '@/services/ContactFormService';
 
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
@@ -18,24 +19,15 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
         return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });
     }
 
-    const date = new Date();
-
     const data = {
         name: name,
         email: email,
         phone: phone,
-        message: message,
-        date: date,
+        message: message
     };
-
-    var dm = `**${data.name}** sent a message from the website:\n\n
-        **Email:** ${data.email}\n
-        **Phone:** ${data.phone}\n
-        **Message:** ${data.message}\n
-        **Date:** ${data.date}\n
-        `;
+    
     try {
-        await DiscordService.sendWebhookMessage(dm);
+        const contactForm = await ContactFormService.createContactForm(data);
         return NextResponse.json({ message: "message sent successfully" });
     }
 

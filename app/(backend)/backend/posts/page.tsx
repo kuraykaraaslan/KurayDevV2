@@ -19,7 +19,6 @@ const Page = () => {
 
         axiosInstance.get(`/api/posts?page=${page + 1}&pageSize=${pageSize}&search=${search}`)
             .then((response) => {
-                console.log(response.data);
                 setPosts(response.data.posts);
                 setTotal(response.data.total);
             })

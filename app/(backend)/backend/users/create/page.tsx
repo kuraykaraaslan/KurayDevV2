@@ -44,8 +44,6 @@ const CreateUser = () => {
             bio, 
         };
 
-        console.log(user);
-
         if (name === '') {
             toast.error('Name is required');
             return;
@@ -113,7 +111,6 @@ const CreateUser = () => {
         formData.append('folder', 'categories');
 
         await axiosInstance.post('/api/aws', formData).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -271,7 +268,6 @@ const CreateUser = () => {
                                     if (file) {
                                         setImageFile(file);
                                         //setImageUrl(URL.createObjectURL(file));
-                                        console.log(file);
                                     }
                                 }}
                             />

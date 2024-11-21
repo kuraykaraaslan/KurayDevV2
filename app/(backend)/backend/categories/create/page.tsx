@@ -30,7 +30,6 @@ const CreateCategory = () => {
         formData.append('folder', 'categories');
 
         await axiosInstance.post('/api/aws', formData).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -42,7 +41,6 @@ const CreateCategory = () => {
             url,
             folder : 'categories'
         }).then((res) => {
-            console.log(res.data);
             setImageUrl(res.data.url);
             toast.success('Image uploaded successfully');
         }).catch((error) => {
@@ -88,8 +86,6 @@ const CreateCategory = () => {
             slug,
             keywords
         };
-
-        console.log(blogCategory);
 
         if (title === '') {
             toast.error('Title is required');
@@ -214,7 +210,6 @@ const CreateCategory = () => {
                                     if (file) {
                                         setImageFile(file);
                                         //setImageUrl(URL.createObjectURL(file));
-                                        console.log(file);
                                     }
                                 }}
                             />
