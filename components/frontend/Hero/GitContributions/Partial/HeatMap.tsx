@@ -11,7 +11,6 @@ const HeatMap = () => {
     useEffect(() => {
         axiosInstance.get("/api/sections/github").then((response) => {
             const data: GraphQLRes = response.data;
-            console.log(data);
             setWeeks(data.user.contributionsCollection.contributionCalendar.weeks);
         }).catch((error) => {
             console.error(error);

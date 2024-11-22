@@ -3,9 +3,12 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/libs/zustand';
+import { useTranslation, initReactI18next } from "react-i18next";
 
 const Menu = () => {
+    
 
+    const { t } = useTranslation();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -31,7 +34,6 @@ const Menu = () => {
             return;
         }
         const yPosition = getYpositionOfElementById(id);
-        console.log(yPosition);
 
         if (yPosition === null) {
             const currentPage = pathname;
@@ -55,7 +57,7 @@ const Menu = () => {
     
 
     const itemsWithScroll = [
-        { id: "home", page: '/' , name: 'Home'},
+        { id: "home", page: '/' , name: 'HOME'},
         { id: "portfolio", page: '/', name: 'Portfolio'},
         { id: "timeline", page: '/', name: 'Experience'},
         { id: "contact", page: '/#contact', name: 'Contact'},
@@ -67,7 +69,7 @@ const Menu = () => {
             <>
                 {itemsWithScroll.map(item => (
                     <li key={item.id}>
-                       <button onClick={() => scrollOrRedirect(item)}>{item.name}</button>
+                       <button onClick={() => scrollOrRedirect(item)}>{t('NAVIGATION.' + item.name)}</button>
                     </li>
                 ))}
                 {isAdmin && (

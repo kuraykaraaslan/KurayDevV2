@@ -13,8 +13,6 @@ export interface FeedCardProps extends PostWithCategory {
 
 const FeedCardImage = (props: FeedCardProps) => {
 
-    console.log("FeedCardI", props);
-
     const [dateText, setDateText] = useState("");
     const [image, setImage] = useState("");
 

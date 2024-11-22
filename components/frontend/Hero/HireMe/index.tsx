@@ -51,8 +51,8 @@ const HireMe = () => {
 
   return (
     <>
-      <div className="relative -mt-24 bg-base-200 min-h-screen">
-        <video muted loop autoPlay className="absolute inset-0 z-0 object-cover w-full h-screen opacity-50">
+      <div className="relative bg-base-200 min-h-screen">
+        <video muted loop autoPlay className="absolute inset-0 z-0 object-cover w-full h-screen opacity-25">
           <source src="/assets/videos/freelance-welcome.mp4" type="video/mp4" />
         </video>
         <div

@@ -5,9 +5,11 @@ import { faBars, faCode } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import Menu from '../Menu';
 import ThemeButton from './Partials/ThemeButton';
+import LangButton from './Partials/LangButton';
 import Secondary from '../Menu/Secondary';
 
 import dynamic from 'next/dynamic';
+
 const AuthButton = dynamic(
     () => import('./Partials/AuthButton'),
     { ssr: false }
@@ -74,10 +76,11 @@ const Navbar = () => {
                     </Link>
                     <div className="items-center gap-2 ml-1">
                         <ThemeButton />
+                        <LangButton />
                     </div>
                 </div>
                 <div className="hidden flex-none lg:block">
-                    <ul className="menu menu-horizontal gap-1">
+                    <ul className="menu menu-horizontal gap-1 hidden lg:flex">
                         {/* Navbar menu content here */}
                         <Menu />
                         <div className="inline-block h-[36px] min-h-[1em] w-0.5 self-stretch bg-primary bg-opacity-50 mx-1" />

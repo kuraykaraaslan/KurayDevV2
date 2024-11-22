@@ -16,7 +16,7 @@ const Secondary = () => {
     return (
             <>
                 {items.map(item => (
-                    <li key={item.id}>
+                    <li key={item.id} className="hidden xl:flex">
                         <Link href={item.link} target="_blank" className="flex items-center rounded-lg py-2 px-4 text-gray-600 hover:bg-gray-100 hover:text-gray-800">
                         <FontAwesomeIcon icon={item.icon} className="w-5 h-5" />
                         <span className="ml-2 md:hidden">{item.name}</span>

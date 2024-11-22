@@ -24,10 +24,6 @@ import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 const recaptchaSiteKey = process.env.RECAPTCHA_CLIENT_KEY || "";
 
-console.log("recaptchaSiteKey", recaptchaSiteKey
-);
-
-
 const Form = dynamic(
   () => import("./Partials/Form"),
   { ssr: false },
@@ -60,7 +56,6 @@ const Contact = (props: ContactProps) => {
   useEffect(() => {
     const token = recaptchaRef.current?.getValue();
     setToken(token as string);
-    console.log("token", token);
   }
     , []);
 
@@ -81,7 +76,7 @@ const Contact = (props: ContactProps) => {
     }
 
     if (phoneNumbers.length === 0) {
-      axios.get("/api/contact/phone").then((response) => {
+      axios.get("/api/contact/info/phone").then((response) => {
         setPhoneNumbers(response.data.phones);
       });
     }
@@ -98,7 +93,7 @@ const Contact = (props: ContactProps) => {
     }
 
     if (mails.length === 0) {
-      axios.get("/api/contact/mail").then((response) => {
+      axios.get("/api/contact/info/mail").then((response) => {
         setMails(response.data.mails);
       });
     }

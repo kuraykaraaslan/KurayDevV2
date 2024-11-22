@@ -50,7 +50,6 @@ const ContactForm = (props: { className?: string; token: string }) => {
       setDefaultCountry(data.country);
 
     }).catch((error) => {
-      console.log(error);
     });
   }
 
@@ -59,7 +58,6 @@ const ContactForm = (props: { className?: string; token: string }) => {
       return;
     }
     getCountry();
-    console.log("geoInfo", geoInfo);
   }, []);
 
 
@@ -126,12 +124,10 @@ const ContactForm = (props: { className?: string; token: string }) => {
         "Content-Type": "application/json"
       }
     }).then((response) => {
-      console.log(response.data);
       setIsSending(false);
       alert("Message sent successfully.");
 
     }).catch((error) => {
-      console.log(error);
       setIsSending(false);
       alert("An error occurred while sending the message.");
     });
@@ -142,7 +138,6 @@ const ContactForm = (props: { className?: string; token: string }) => {
   useEffect(() => {
     const token = props.token;
     setToken(token as string);
-    console.log("token", token);
   }
     , []);
 
