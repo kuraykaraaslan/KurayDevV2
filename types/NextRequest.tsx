@@ -10,6 +10,5 @@ export default class NextRequest extends Org {
   }
 
   customMethod() {
-    console.log("This is a custom method");
   }
 }

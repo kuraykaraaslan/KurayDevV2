@@ -18,8 +18,6 @@ export default class CategoryService {
         image: string;
     }): Promise<any> {
 
-        console.log(data);
-
         var { title, description, slug, image } = data;
 
         // Validate input

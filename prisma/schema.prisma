@@ -135,3 +135,12 @@ model Comment {
 
   comment Comment[] @relation("CommentToComment")
 } 
+
+model ContactForm {
+  contactId       String   @id @default(cuid())
+  name            String
+  email           String
+  phone           String
+  message         String
+  createdAt       DateTime @default(now())
+}

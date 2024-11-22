@@ -24,9 +24,6 @@ export default class AuthService {
 
     static async login(email: string, password: string): Promise<{ session: SessionWithUser }> {
 
-        console.log("AuthService.login");
-        console.log("email: ", email);
-
         if (!this.emailRegex.test(email)) {
             throw new Error("Invalid email format");
         }
@@ -193,22 +190,16 @@ export default class AuthService {
 
     static async authenticate(req: NextRequest, scope: string = "USER"): Promise<NextResponse> {
 
-        // Allowed scopes: "USER", "ADMIN"
-        console.log("AuthService.authenticate");
-
         const authHeader = req.headers.get('Authorization');
         const path = req.nextUrl.pathname;
 
         const isApi = path.startsWith("/api");
 
         if (!authHeader) {
-            console.log("AuthService.authenticate: No auth header");
             return NextResponse.json({ error: "No auth header" }, { status: 401 });
         }
 
         const authHeaderNoBearer = authHeader.replace('Bearer ', '');
-
-        console.log("authHeaderNoBearer: ", authHeaderNoBearer);
 
         return await prisma.session.findFirst({
             where: {
@@ -255,8 +246,6 @@ export default class AuthService {
 
     static authenticateSync(req: NextRequest, scope: string = "USER"): void {
 
-        // Allowed scopes: "USER", "ADMIN"
-        console.log("AuthService.authenticateSync");
 
         const authHeader = req.headers.get('Authorization');
         const path = req.nextUrl.pathname;
@@ -264,13 +253,10 @@ export default class AuthService {
         const isApi = path.startsWith("/api");
 
         if (!authHeader) {
-            console.log("AuthService.authenticateSync: No auth header");
             throw new Error("Not Authorized");
         }
 
         const authHeaderNoBearer = authHeader.replace('Bearer ', '');
-
-        console.log("authHeaderNoBearer: ", authHeaderNoBearer);
 
         prisma.session.findFirst({
             where: {

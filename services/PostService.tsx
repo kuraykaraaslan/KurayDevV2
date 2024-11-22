@@ -26,8 +26,6 @@ export default class PostService {
 
     }): Promise<any> {
 
-        console.log(data);
-
         var { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
 
         // Validate input

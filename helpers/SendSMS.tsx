@@ -132,7 +132,6 @@ export default class SendSMS {
       await axios
         .post("https://api.netgsm.com.tr/sms/send/get", formData)
         .then((response) => {
-          console.log(response.data);
         })
         .catch((err) => {
           console.error(err);

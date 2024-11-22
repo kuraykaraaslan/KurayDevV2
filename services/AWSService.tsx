@@ -29,13 +29,11 @@ export default class AWSService {
                 Key:  fileKey,
                 Body: new Uint8Array(fileBuffer),
             });
-            console.log("Uploading file:", command);
 
             const response = await s3.send(command);
 
             const publicUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`;
 
-            console.log("File uploaded successfully:", response);
             return publicUrl;
         } catch (error) {
             console.error("Error uploading file:", error);
@@ -66,13 +64,11 @@ export default class AWSService {
                 Key:  fileKey,
                 Body: new Uint8Array(fileBuffer),
             });
-            console.log("Uploading file:", command);
             
             const uploadResponse = await s3.send(command);
 
             const publicUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`;
 
-            console.log("File uploaded successfully:", uploadResponse);
             return publicUrl;
         } catch (error) {
             console.error("Error uploading file:", error);

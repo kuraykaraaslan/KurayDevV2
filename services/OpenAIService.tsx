@@ -14,7 +14,6 @@ export default class OpenAIService {
             });
 
             const imageUrl = response.data[0].url;
-            console.log('Generated Image URL:', imageUrl);
 
             return imageUrl || null;
 
