@@ -21,23 +21,23 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
 
   const titles = [
     {
-      path: '/auth/login',
+      path: '/auth/login/',
       title: 'Welcome back!'
     },
     {
-      path: '/auth/register',
+      path: '/auth/register/',
       title: 'Create an account'
     },
     {
-      path: '/auth/forgot-password',
+      path: '/auth/forgot-password/',
       title: 'Forgot Password'
     },
     {
-      path: '/auth/reset-password',
+      path: '/auth/reset-password/',
       title: 'Reset Password'
     },
     {
-      path: '/auth/logout',
+      path: '/auth/logout/',
       title: 'Logging out...'
     }
   ]
@@ -60,7 +60,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
                 <span className='text-xl'>kuray.dev</span>
               </Link>
             </div>
-            <h1 className="text-3xl font-bold text-center mb-4">{titles.filter(t => t.path === pathname)[0].title}</h1>
+            <h1 className="text-3xl font-bold text-center mb-4">{titles?.filter(t => t.path === pathname)[0]?.title || "title"}</h1>
             <div className="w-full">
               {children}
             </div>

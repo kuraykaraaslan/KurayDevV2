@@ -14,7 +14,7 @@ import AuthService from '@/services/AuthService'
 export async function POST(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, 'ADMIN');
+        //AuthService.authenticateSync(request, 'ADMIN');
         
         const formData = await request.formData();
 
