@@ -20,51 +20,65 @@ const FeedCardImage = (props: FeedCardProps) => {
         if (!props.createdAt) {
             return;
         }
-        const today = new Date();
-        const diff = today.getTime() - new Date(props.createdAt).getTime();
-        const seconds = Math.floor(diff / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
 
-        if (days > 7) {
-            setDateText(props.createdAt.toDateString());
-            return;
-        } else if (days > 1) {
-            setDateText(`${days} days ago`);
-            return;
-        } else if (days === 1) {
-            setDateText("Yesterday");
-            return;
-        } else if (hours > 1) {
-            setDateText(`${hours} hours ago`);
-            return;
-        } else if (hours === 1) {
-            setDateText("An hour ago");
-            return;
-        } else if (minutes > 1) {
-            setDateText(`${minutes} minutes ago`);
-            return;
-        } else if (minutes === 1) {
-            setDateText("A minute ago");
-            return;
+        try {
+
+            const today = new Date();
+            console.log(props.createdAt);
+
+            if (props.createdAt.toDateString() === today.toDateString()) {
+                setDateText("Today");
+                return;
+            }
+            const diff = today.getTime() - new Date(props.createdAt).getTime();
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (days > 7) {
+                setDateText(props.createdAt.toDateString());
+                return;
+            } else if (days > 1) {
+                setDateText(`${days} days ago`);
+                return;
+            } else if (days === 1) {
+                setDateText("Yesterday");
+                return;
+            } else if (hours > 1) {
+                setDateText(`${hours} hours ago`);
+                return;
+            } else if (hours === 1) {
+                setDateText("An hour ago");
+                return;
+            } else if (minutes > 1) {
+                setDateText(`${minutes} minutes ago`);
+                return;
+            } else if (minutes === 1) {
+                setDateText("A minute ago");
+                return;
+            }
+            setDateText("Just now");
+        } catch (error) {
+            console.error(error);
+            setDateText("Just now");
         }
-        setDateText("Just now");
     }
+
         , [props.createdAt]);
 
-   
+
     useEffect(() => {
         setImage(props.image! || props.Category.image! || "");
-    } , [props.image]);
+    }, [props.image]);
 
 
     return (
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200"
             + (props.className || "")}>
             <div className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none">
-                {image ? <img src={image} 
-                alt="feed image" className="w-full h-60 object-cover rounded-t-lg" /> :
+                {image ? <img src={image}
+                    alt="feed image" className="w-full h-60 object-cover rounded-t-lg" /> :
                     <div className="relative w-full h-60 bg-primary rounded-t-lg flex justify-center items-center bg-opacity-10">
                         {/*<img src="/assets/img/blog-empty.png" alt="feed image" className="absolute h-full left-8 top-0 object-cover rounded-t-lg" />*/}
                     </div>}
