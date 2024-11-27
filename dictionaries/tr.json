@@ -1,6 +1,6 @@
 {
-  "NAVIGATION": {
-    "HOME": "Anasayfa",
+  "navigation": {
+    "home": "Anasayfa",
     "ABOUT": "Hakkımda",
     "PROJECTS": "Projeler",
     "CONTACT": "İletişim",

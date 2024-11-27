@@ -1,11 +1,13 @@
 {
-  "NAVIGATION": {
-    "HOME": "Home",
-    "ABOUT": "About",
-    "PROJECTS": "Projects",
-    "CONTACT": "Contact",
-    "RESUME": "Resume",
-    "BLOG": "Blog",
-    "GITHUB": "GitHub"
+  "navigation": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "experience": "Experience",
+    "contact": "Contact",
+    "blog": "Blog",
+    "freelance": "Freelance",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "resume": "Resume"
   }
 }
