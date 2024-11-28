@@ -1,12 +1,8 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import tr from "@/locales/tr.json";
-import en from "@/locales/en.json";
-import de from "@/locales/de.json";
-import th from "@/locales/th.json";
-
-import store from "@/libs/redux/store";
+import tr from "@/dictionaries/tr.json";
+import en from "@/dictionaries/en.json";
 
 const compatibilityJSON = "v3";
 const fallbackLng = "en";
@@ -18,13 +14,7 @@ const resources = {
   },
   tr: {
     translation: tr,
-  },
-  de: {
-    translation: de,
-  },
-  th: {
-    translation: th,
-  },
+  }
 };
 
 const interpolation = {
@@ -47,13 +37,11 @@ i18n
   .init({
     compatibilityJSON,
     fallbackLng,
-    debug: process.env.NODE_ENV === "development",
+   // debug: process.env.NODE_ENV === "development",
+   debug: false,
     resources,
     interpolation,
   });
 
-if (store.getState().global.language) {
-  i18n.changeLanguage(store.getState().global.language);
-}
 
 export default i18n;

@@ -1,48 +1,53 @@
-import { NextResponse, NextRequest } from 'next/server';
+// Import necessary modules from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 
-import routeLocalization from '@/middlewares/routeLocalization';
-import routeProtection from '@/middlewares/routeProtection';
+// Define an array of supported locales
+let locales = ['en', 'tr', 'gr']
 
-
-const localizedIgnoreRoutes = ['/_next', '/assets', '/api', '/auth', '/backend', '/_error', '/_app', '/_document', '/_error' , '/terminal'];
-const allowedLanguages = ['en', 'tr', 'th', 'de'];
-
-export async function middleware(request: NextRequest, response: NextResponse) {
-
-  const { pathname } = request.nextUrl;
-
-  if (localizedIgnoreRoutes.some(route => pathname.startsWith(route))) {
-    return pathname;
-  }
-
-  const isLocalized = allowedLanguages.some(lang => pathname.startsWith(`/${lang}`));
-
-  if (isLocalized) {
-    return pathname;
-  }
-
-  return `/en${pathname}`;
+// Function to determine the preferred locale based on Accept-Language header
+function getLocale(request: NextRequest) {
+  const acceptLanguage = request.headers.get('Accept-Language')
+  const locale = acceptLanguage?.split(',').find((l) => locales.includes(l))
+  console.log("selected locale: ", locale)
+  return locale || 'en'
 }
- 
+
+
+// Middleware function to handle locale redirection
+export function middleware(request: NextRequest) {
+  // Extract the pathname from the request URL
+  const { pathname } = request.nextUrl
+  // Check if the pathname contains a supported locale
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  )
+
+  // If the pathname already contains a supported locale, return the request
+  if (pathnameHasLocale) {
+    return request
+  }
+
+
+  // Get the locale based on request headers
+  const locale = getLocale(request)
+  // Update the pathname with the selected locale
+  request.nextUrl.pathname = `/${locale}${pathname}`
+  // Redirect to the new URL with the chosen locale
+  return NextResponse.redirect(request.nextUrl)
+}
+
+// Configuration object for middleware
 export const config = {
+  // Define paths to skip processing for the middleware
   matcher: [
-    // Skip all internal paths (_next)
     '/_next',
-    // Skip all API routes
     '/api',
-    // Skip all backend routes
     '/backend',
-    // Skip all auth routes
     '/auth',
-    // Skip all error routes
     '/_error',
-    // Skip all app routes
     '/_app',
-    // Skip all document routes
     '/_document',
-    // Skip all terminal routes
     '/terminal',
-    // Optional: only run on root (/) URL
-    // '/'
+    '/backend',
   ],
 }
