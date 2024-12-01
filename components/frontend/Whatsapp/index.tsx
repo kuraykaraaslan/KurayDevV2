@@ -71,7 +71,7 @@ const Whatsapp = () => {
         setSayac(setTimeout(() => {
             // 10 to 100 seconds
             setCount(prev => prev + 1);
-            new Audio("/assets/wav/beep-07a.wav").play();
+            //new Audio("/assets/wav/beep-07a.wav").play();
 
             //Clear the Timeout
             setSayac(null);
