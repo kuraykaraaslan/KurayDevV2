@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useAuthStore } from '@/libs/zustand';
+import { useGlobalStore } from '@/libs/zustand';
 import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
@@ -17,7 +17,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState<String | null>(null);
     const [password, setPassword] = useState<String | null>(null);
 
-    const { setSession, setToken } = useAuthStore();
+    const { setSession, setToken } = useGlobalStore();
 
     const router = useRouter();
 

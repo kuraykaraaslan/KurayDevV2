@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useAuthStore from "@/libs/zustand";
+import useGlobalStore from "@/libs/zustand";
 import { useRouter } from "next/navigation";
 
 const Layout = ({
@@ -13,7 +13,7 @@ const Layout = ({
     children: React.ReactNode;
 }) => {
 
-    const { session } = useAuthStore();
+    const { session } = useGlobalStore();
     const router = useRouter();
 
     useEffect(() => {

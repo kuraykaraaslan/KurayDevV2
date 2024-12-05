@@ -7,70 +7,87 @@ import {
   faMoon,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { useGlobalStore } from "@/libs/zustand";
+import { stat } from "fs";
 
 const ThemeButton = () => {
-  const [currentTheme, setCurrentTheme] = useState("dark");
+  const { theme, setTheme, availableThemes } = useGlobalStore();
 
-  const themesWithIcons = {
-    dark: faMoon,
-    light: faLightbulb,
-    black: faSkull,
-  } as { [key: string]: IconDefinition };
+  const themeIcons = {
+    "dark": faMoon,
+    "light": faLightbulb,
+    "black": faSkull,
+  };
+
+  const nextTheme = () => {
+    const currentIndex = availableThemes.indexOf(theme);
+
+    var nextTheme: string;
+
+    switch (currentIndex) {
+      case -1:
+        nextTheme = availableThemes[0];
+        break;
+      case availableThemes.length - 1:
+        nextTheme = availableThemes[0];
+        break;
+      default:
+        nextTheme = availableThemes[currentIndex + 1];
+        break;
+    }
+    setTheme(nextTheme);
+  }
+
+  useGlobalStore.subscribe((state) => {
+    if (state.theme === "dark") {
+      document.querySelector("html")?.setAttribute("data-theme", "dark");
+    }
+    else {
+      document.querySelector("html")?.setAttribute("data-theme", "light");
+    }
+
+    switch (state.theme) {
+      case "dark":
+        document.querySelector("html")?.setAttribute("data-theme", "dark");
+        break;
+      case "light":
+        document.querySelector("html")?.setAttribute("data-theme", "light");
+        break;
+      case "black":
+        document.querySelector("html")?.setAttribute("data-theme", "black");
+        break;
+      default:
+        document.querySelector("html")?.setAttribute("data-theme", "light");
+        break;
+    }
+
+  } );
 
   useEffect(() => {
-    // Check for theme in local storage
-    const localTheme = localStorage.getItem("theme");
-
-    if (localTheme) {
-      setCurrentTheme(localTheme);
-      const html = document.querySelector("html");
-      if (html) {
-        html.setAttribute("data-theme", localTheme);
-      }
-      return;
-    } else {
-      // Default theme
-      setCurrentTheme("dark");
-      localStorage.setItem("theme", "dark");
+    switch (theme) {
+      case "dark":
+        document.querySelector("html")?.setAttribute("data-theme", "dark");
+        break;
+      case "light":
+        document.querySelector("html")?.setAttribute("data-theme", "light");
+        break;
+      case "black":
+        document.querySelector("html")?.setAttribute("data-theme", "black");
+        break;
+      default:
+        document.querySelector("html")?.setAttribute("data-theme", "light");
+        break;
     }
   }, []);
-
-  const changeTheme = (direction: number) => {
-    const themes = Object.keys(themesWithIcons);
-    const currentIndex = themes.indexOf(currentTheme);
-    const nextIndex =
-      (currentIndex + direction + themes.length) % themes.length;
-    const nextTheme = themes[nextIndex];
-
-    localStorage.setItem("theme", nextTheme);
-
-    setCurrentTheme(nextTheme);
-
-    const html = document.querySelector("html");
-    if (html) {
-      html.setAttribute("data-theme", nextTheme);
-    }
-  };
-
-  const changeThemeEachOther = (event: any) => {
-    event.preventDefault();
-    //if left click
-    if (event.button === 0) {
-      changeTheme(1);
-    } else {
-      changeTheme(-1);
-    }
-  };
 
   return (
     <button
       className="btn btn-square btn-ghost rounded-full items-center justify-center grayscale duration-300 hover:grayscale-0"
-      onClick={changeThemeEachOther}
-      onContextMenu={changeThemeEachOther}
+      onClick={nextTheme}
+
     >
       <FontAwesomeIcon
-        icon={themesWithIcons[currentTheme] as IconDefinition}
+        icon={themeIcons[theme as keyof typeof themeIcons] ? themeIcons[theme as keyof typeof themeIcons] : faMoon}
         style={{ width: "24px", height: "24px" }}
       />
     </button>

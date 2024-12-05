@@ -15,21 +15,29 @@ const CreateCategory = () => {
 
     const [imageUrl, setImageUrl] = useState<String | null>(null);
 
-    //image upload
-    const [imageFile, setImageFile] = useState<File | null>(null);
-
     const router = useRouter();
 
     const uploadImage = async () => {
-        if (!imageFile) {
+        const input = document.getElementById('file') as HTMLInputElement;
+        const files = input.files;
+
+        if (!files) {
             return;
         }
+
+        const imageFile = files[0];
 
         const formData = new FormData();
         formData.append('file', imageFile);
         formData.append('folder', 'categories');
 
-        await axiosInstance.post('/api/aws', formData).then((res) => {
+        await axiosInstance.post('/api/aws', formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        ).then((res) => {
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -200,18 +208,11 @@ const CreateCategory = () => {
                         <div className="relative flex justify-between items-center">
                             <input
                                 type="file"
+                                id="file"
                                 placeholder="Image URL"
                                 className="input input-bordered mt-2 p-4 flex-1 h-16"
                                 //only images
                                 accept="image/*"
-
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        setImageFile(file);
-                                        //setImageUrl(URL.createObjectURL(file));
-                                    }
-                                }}
                             />
                             <div className="absolute right-2 top-2 text-black p-2 rounded-lg">
                                 <button type="button" className="h-12 text-black p-2 rounded-lg bg-primary mr-2" onClick={uploadImage}>

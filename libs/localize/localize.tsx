@@ -4,10 +4,11 @@ import { initReactI18next } from "react-i18next";
 import tr from "@/dictionaries/tr.json";
 import en from "@/dictionaries/en.json";
 
+//zustand
+import { useGlobalStore } from "../zustand";
+
 const compatibilityJSON = "v3";
 const fallbackLng = "en";
-
-export const languages = ["en", "tr", "de", "gr", "th"];
 
 const resources = {
   en: {
@@ -38,11 +39,16 @@ i18n
   .init({
     compatibilityJSON,
     fallbackLng,
-   // debug: process.env.NODE_ENV === "development",
-   debug: false,
+    debug: process.env.NODE_ENV === "development",
+    //debug: false,
     resources,
     interpolation,
   });
+
+useGlobalStore.subscribe((state) => {
+  if (i18n.language !== state.language)
+  { i18n.changeLanguage(state.language); }
+});
 
 
 export default i18n;

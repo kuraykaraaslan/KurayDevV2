@@ -51,7 +51,7 @@ const ScrollToTop = () => {
         >
           <FontAwesomeIcon
             icon={faArrowUp}
-            className="text-l font-black w-8 h-8 md:w-6 md:h-6"
+            className="text-l text-white w-8 h-8 md:w-6 md:h-6"
           />
         </div>
         

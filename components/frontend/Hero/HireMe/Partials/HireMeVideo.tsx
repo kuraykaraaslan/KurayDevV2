@@ -19,8 +19,11 @@ const HireMeVideo: React.FC = () => {
 
         // @ts-ignore
         document.getElementById("my_modal")?.showModal();
-
-        setPlaying(true);
+        // wait for the modal to open
+        setTimeout(() => {
+            player.current?.seekTo(0);
+            setPlaying(true);
+        }, 1000);
     }
 
     const handleCloseModal = () => {
@@ -46,7 +49,7 @@ const HireMeVideo: React.FC = () => {
             </button>
             <dialog id="my_modal" className="modal modal-middle" onClick={handleCloseModal}>
                 <div className="modal-box p-0">
-                    <ReactPlayer url="https://www.youtube.com/watch?v=eJO5HU_7_1w?modestbranding=1&rel=0&showinfo=0&autoplay=1" controls={true} width="100%" playing={playing} ref={player} />                  
+                    <ReactPlayer url="https://www.youtube.com/watch?v=eJO5HU_7_1w?modestbranding=1&rel=0&showinfo=0&autoplay=1" controls={true} width="100%" playing={playing} ref={player} />
                 </div>
             </dialog>
         </>

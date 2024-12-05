@@ -30,7 +30,13 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
         formData.append('file', imageFile);
         formData.append('folder', 'categories');
 
-        await axiosInstance.post('/api/aws', formData).then((res) => {
+        await axiosInstance.post('/api/aws', formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        ).then((res) => {
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);
@@ -40,8 +46,9 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
     const uploadFromUrl = async (url: string) => {
         await axiosInstance.post('/api/aws/from-url', {
             url,
-            folder : 'categories'
-        }).then((res) => {
+            folder: 'categories'
+        }
+        ).then((res) => {
             setImageUrl(res.data.url);
             toast.success('Image uploaded successfully');
         }).catch((error) => {
@@ -60,9 +67,9 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
             toast.success('Now uploading image to S3');
             uploadFromUrl(res.data.url);
         }).
-        catch((error) => {
-            console.error(error);
-        });
+            catch((error) => {
+                console.error(error);
+            });
     }
 
     useEffect(() => {

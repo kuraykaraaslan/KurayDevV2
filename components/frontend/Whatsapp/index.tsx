@@ -83,15 +83,15 @@ const Whatsapp = () => {
             
     return (
         <div
-            className="fixed transition duration-1000 ease-in-out bg-[#25D366] hover:bg-base-400 cursor-pointer shadow-lg rounded-full"
+            className="fixed transition duration-1000 ease-in-out bg-[#25D366] text-white cursor-pointer shadow-lg rounded-full"
             style={{ zIndex: 103, right: "-80px", bottom: "100px" }}
             id="whatsapp"
             onClick={() => window.open("https://wa.me/905459223554")}
         >
-            <div className="relative transition duration-1000 ease-in-out bg-[#25D366] hover:bg-base-400 cursor-pointer p-4 rounded-full group">
+            <div className="relative transition duration-1000 ease-in-out bg-[#25D366] cursor-pointer p-4 rounded-full group">
                 <FontAwesomeIcon
                     icon={faWhatsapp}
-                    className="text-l font-black w-8 h-8 md:w-6 md:h-6"
+                    className="text-l text-white w-8 h-8 md:w-6 md:h-6"
                 />
                 {count > 0 && 
                 <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-1 text-sm">{count}</span>

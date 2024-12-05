@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faLink } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import MyImage from "./Partials/MyImage";
+import MyImage from "./Partials/MyImageVideo";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const BackgroundStars = dynamic(

@@ -6,16 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useAuthStore } from '@/libs/zustand';
+import { useGlobalStore } from '@/libs/zustand';
 import { useRouter } from 'next/navigation';
 
 
 const LogoutPage = () => {
 
-    const { setSession, setToken } = useAuthStore();
+    const { setSession, setToken } = useGlobalStore();
 
     const router = useRouter();
-    const { session } = useAuthStore();
+    const { session } = useGlobalStore();
 
     const handleLogout = async () => {
         const res = await axiosInstance.post(`/api/auth/logout`, {},

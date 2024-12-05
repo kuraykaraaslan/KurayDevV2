@@ -2,10 +2,10 @@ import React from "react";
 import { faGear, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import useAuthStore from "@/libs/zustand";
+import useGlobalStore from "@/libs/zustand";
 
 const AuthButton = () => {
-    const { session } = useAuthStore();
+    const { session } = useGlobalStore();
     const user = session?.user;
     
     if (!user) {

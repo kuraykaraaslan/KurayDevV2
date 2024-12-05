@@ -5,13 +5,13 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { createHash } from "crypto";
-import useAuthStore from "@/libs/zustand";
+import useGlobalStore from "@/libs/zustand";
 
 import ThemeButton from "./Partials/ThemeButton";
 
 const Navbar = () => {
 
-    const { session } = useAuthStore();
+    const { session } = useGlobalStore();
 
     const user = session?.user;
     const email = user?.email;

@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useAuthStore } from '@/libs/zustand';
+import { useGlobalStore } from '@/libs/zustand';
 import i18n from "@/libs/localize/localize";
 import { faFilePdf, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -17,7 +17,7 @@ const Menu = ({isSidebar = false}) => {
     const router = useRouter();
     const pathname = usePathname();
 
-    const { session } = useAuthStore();
+    const { session } = useGlobalStore();
 
     const user = session?.user;
     const isAdmin = user?.role === "ADMIN";
@@ -80,7 +80,7 @@ const Menu = ({isSidebar = false}) => {
                     className={(item.textColour ? item.textColour : "text-base-content") + " " + (item.backgroundColour ? item.backgroundColour : " bg-base-100") + " rounded-md"}>
                     <div className="flex items-center gap-2">
                         {item.icon && <FontAwesomeIcon icon={item.icon as IconDefinition} className="w-4 h-4" />}
-                        <span className={(item.hideTextOnDesktop && !isSidebar ? 'hidden' : 'block')} >{t(item.name)}</span>
+                        <span className={(item.hideTextOnDesktop && !isSidebar ? 'hidden' : 'block')} >{t("navigation." + item.name)}</span>
                     </div>
                 </li>
             ))}
