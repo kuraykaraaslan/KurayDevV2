@@ -1,70 +1,47 @@
-// Auth, Blog, and Profile schemas
+generator client {
+  provider   = "prisma-client-js"
+  accelerate = "true"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
- 
-generator client {
-  provider = "prisma-client-js"
-  accelerate = true
-}
- 
+
 model User {
-  userId        String          @id @default(cuid())
-
-  slug      String?          @unique
-  name          String?
-
-  email         String          @unique
-  emailVerified DateTime?
-
-  image         String?
-  sessions      Session[]
-
-  phone         String?
-  phoneVerified DateTime?
-
-  password      String?
-  passwordResetToken String?
-
-
-  phoneVerificationToken String?
+  userId                 String    @id @default(cuid())
+  name                   String?
+  email                  String    @unique
+  emailVerified          DateTime?
+  password               String?
+  role                   String    @default("USER")
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  adressCity             String?
+  adressCountry          String?
+  adressLine1            String?
+  adressLine2            String?
+  adressState            String?
+  adressZip              String?
   emailVerificationToken String?
-
-  //Adress
-  adressLine1   String?
-  adressLine2   String?
-  adressCity    String?
-  adressState   String?
-  adressZip     String?
-  adressCountry String?
-
-  //Role
-  role          String          @default("USER")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-
-  Post Post[]
-
-  Comment Comment[]
+  image                  String?
+  passwordResetToken     String?
+  phone                  String?
+  phoneVerificationToken String?
+  phoneVerified          DateTime?
+  slug                   String?   @unique
+  Comment                Comment[]
+  Post                   Post[]
+  sessions               Session[]
 }
-
 
 model Session {
-
   sessionToken String   @unique
-
   userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   expires      DateTime
-
   user         User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
 }
 
 model VerificationToken {
@@ -75,72 +52,56 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
- 
 model Post {
-  postId          String   @id @default(cuid())
-  title           String
-  content         String
-
-  author          User     @relation(fields: [authorId], references: [userId])
-  authorId        String
-  description     String?
-  slug            String   @unique
-
-  keywords        String[] // List of SEO keywords
-  image        String?  // URL of the image stored in AWS S3
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  publishedAt     DateTime @default(now())
-
-  status          String   @default("PUBLISHED") // DRAFT, PUBLISHED, ARCHIVED
-
-  categoryId      String
-  Category Category @relation(fields: [categoryId], references: [categoryId])
-
-  Comment Comment[]
+  postId      String    @id @default(cuid())
+  title       String
+  content     String
+  authorId    String
+  description String?
+  slug        String    @unique
+  keywords    String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  categoryId  String
+  image       String?
+  publishedAt DateTime  @default(now())
+  status      String    @default("PUBLISHED")
+  Comment     Comment[]
+  author      User      @relation(fields: [authorId], references: [userId])
+  Category    Category  @relation(fields: [categoryId], references: [categoryId])
 }
 
 model Category {
-  categoryId      String   @id @default(cuid())
-  title           String
-
-  description     String?
-  slug            String   @unique
-
-  keywords        String[] // List of SEO keywords
-  image        String?  // URL of the image stored in AWS S3
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  Post Post[]
+  categoryId  String   @id @default(cuid())
+  title       String
+  description String?
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  image       String?
+  keywords    String[]
+  Post        Post[]
 }
 
 model Comment {
-  commentId       String   @id @default(cuid())
-  isAnonymous     Boolean  @default(false)
-
-  content         String
-  createdAt       DateTime @default(now())
-
-  postId          String
-  post            Post     @relation(fields: [postId], references: [postId])
-
-  userId          String?
-  user            User?    @relation(fields: [userId], references: [userId])
-
-  parentId        String?
-  parent          Comment? @relation("CommentToComment", fields: [parentId], references: [commentId])
-
-  comment Comment[] @relation("CommentToComment")
-} 
+  commentId   String    @id @default(cuid())
+  isAnonymous Boolean   @default(false)
+  content     String
+  createdAt   DateTime  @default(now())
+  postId      String
+  userId      String?
+  parentId    String?
+  parent      Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
+  comment     Comment[] @relation("CommentToComment")
+  post        Post      @relation(fields: [postId], references: [postId])
+  user        User?     @relation(fields: [userId], references: [userId])
+}
 
 model ContactForm {
-  contactId       String   @id @default(cuid())
-  name            String
-  email           String
-  phone           String
-  message         String
-  createdAt       DateTime @default(now())
+  contactId String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  message   String
+  createdAt DateTime @default(now())
 }

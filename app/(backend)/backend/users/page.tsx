@@ -30,9 +30,9 @@ const Page = () => {
 
     const deleteUser = async (userId: string) => {
         //confirm
-        const confirm = window.confirm("Are you sure you want to delete this user?");
-        if (!confirm) return;
-
+        if (!confirm('Are you sure you want to delete this user?')) {
+            return;
+        }
         //delete
         try {
             await axiosInstance.delete(`/api/users/${userId}`);

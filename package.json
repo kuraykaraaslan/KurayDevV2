@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "migrate": "npx prisma migrate dev -n \"init\"",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",

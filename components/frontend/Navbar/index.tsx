@@ -22,27 +22,27 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 40) {
+            if (window?.scrollY > 40) {
                 setIsTopReached(false);
             } else {
                 setIsTopReached(true);
             }
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window?.addEventListener("scroll", handleScroll);
 
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            window?.removeEventListener("scroll", handleScroll);
         };
     }
         , []);
 
 
-    const path = typeof window !== "undefined" ? window.location.pathname : "";
+    const path = typeof window !== "undefined" ? window?.location.pathname : "";
 
     const scrollTo100IfNot = () => {
-        if (window.scrollY < 60) {
-            window.scrollTo(0, 60);
+        if (window?.scrollY < 60) {
+            window?.scrollTo(0, 60);
         }
     }
 

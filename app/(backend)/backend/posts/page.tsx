@@ -31,8 +31,9 @@ const Page = () => {
 
     const deletePost = async (postId: string) => {
         //confirm
-        const confirm = window.confirm("Are you sure you want to delete this post?");
-        if (!confirm) return;
+        if (!confirm('Are you sure you want to delete this post?')) {
+            return;
+        }
 
         //delete
         try {

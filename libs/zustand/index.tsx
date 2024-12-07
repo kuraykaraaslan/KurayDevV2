@@ -1,3 +1,4 @@
+'use client';
 import { create } from 'zustand'
 import SessionWithUser from '@/types/SessionWithUser'
 import { persist, createJSONStorage } from 'zustand/middleware'

@@ -1,13 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import { PhoneInput } from 'react-international-phone';
-import '@/styles/PhoneInput.style.css';
 
 const ForgotPasswordPage = () => {
 
     const [email, setEmail] = useState('');
-
-    const [phone, setPhone] = useState('');
 
     const [verificationCode, setVerificationCode] = useState('');
 
@@ -42,19 +38,7 @@ const ForgotPasswordPage = () => {
                                     />
                                 </div>
                             </div>
-                        ) : (
-                            <div>
-                                <label htmlFor="phone" className="block text-sm font-medium leading-6">
-                                    Phone Number
-                                </label>
-                                <div className="mt-2">
-                                    <PhoneInput
-                                        value={phone}
-                                        onChange={setPhone}
-                                    />
-                                </div>
-                            </div>
-                        )}
+                        ) : null }
 
                         <div>
                             <button

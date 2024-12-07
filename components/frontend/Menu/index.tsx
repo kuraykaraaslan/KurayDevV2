@@ -27,7 +27,7 @@ const Menu = ({isSidebar = false}) => {
         const element = document.getElementById(id);
 
         if (element) {
-            return element.getBoundingClientRect().top + window.scrollY - additionalOffset;
+            return element.getBoundingClientRect().top + window?.scrollY - additionalOffset;
         }
         return null;
     }
@@ -35,7 +35,7 @@ const Menu = ({isSidebar = false}) => {
     const scrollOrRedirect = (item: MenuItem) => {
 
         if (item.external) {
-            window.open(item.page, '_blank');
+            window?.open(item.page, '_blank');
             return;
         }
 
@@ -55,7 +55,7 @@ const Menu = ({isSidebar = false}) => {
             setTimeout(() => {
                 const yPosition = getYpositionOfElementById(id);
                 if (yPosition !== null) {
-                    window.scrollTo({ top: yPosition, behavior: 'smooth' });
+                    window?.scrollTo({ top: yPosition, behavior: 'smooth' });
                 }
 
             }, 700);
@@ -63,7 +63,7 @@ const Menu = ({isSidebar = false}) => {
             return;
         }
 
-        window.scrollTo({ top: yPosition, behavior: 'smooth' });
+        window?.scrollTo({ top: yPosition, behavior: 'smooth' });
 
     }
 

@@ -2,7 +2,6 @@
 import { faBars, faCaretDown, faTicket, faUser, faCode } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { createHash } from "crypto";
 import useGlobalStore from "@/libs/zustand";

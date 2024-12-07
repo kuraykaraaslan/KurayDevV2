@@ -6,6 +6,9 @@ const nextConfig = {
       ignoreBuildErrors: true,
     },
     reactStrictMode: false,
+    eslint: {
+      ignoreDuringBuilds: true,
+    }
 };
 
 

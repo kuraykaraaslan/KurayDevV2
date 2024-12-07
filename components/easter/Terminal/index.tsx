@@ -260,7 +260,7 @@ const Terminal: React.FC = () => {
             }
 
             // scroll to the bottom of the terminal
-            window.scrollTo(0, document.body.scrollHeight);
+            window?.scrollTo(0, document.body.scrollHeight);
         }
     }, []);
 

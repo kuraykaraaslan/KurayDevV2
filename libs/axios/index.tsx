@@ -1,5 +1,5 @@
-//axios instance
 
+'use client';
 import axios from 'axios';
 import useGlobalStore from '../zustand';
 

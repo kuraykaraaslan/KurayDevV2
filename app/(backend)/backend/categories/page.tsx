@@ -30,8 +30,9 @@ const Page = () => {
 
     const deleteCategory = async (categoryId: string) => {
         //confirm
-        const confirm = window.confirm("Are you sure you want to delete this category and all its posts?");
-        if (!confirm) return;
+        if (!confirm('Are you sure you want to delete this category?')) {
+            return;
+        }
 
         //delete
         try {
