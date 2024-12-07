@@ -75,7 +75,7 @@ const Navbar = () => {
                     </Link>
                     <div className="items-center gap-2 ml-1">
                         <ThemeButton />
-                        <LangButton />
+                        
                     </div>
                 </div>
                 <div className="hidden flex-none xl:block">
