@@ -1,8 +1,6 @@
 ## Introduction
 
-![kuray.dev](/static/kuraymain.gif)
-
-Welcome to the **kuray.dev** GitHub repository! Tihs project is the code of [kuray.dev](https://kuray.dev) website. This repository contains the source code for a personal portfolio webpage template.
+This is the source code for my personal webpage. The webpage is designed to showcase my projects, skills, and life events. The webpage is built using React and Tailwind CSS. The webpage is designed to be responsive and can be viewed on any device. The webpage has a dark mode feature that can be toggled on and off. The webpage has a contact form that can be used to send messages to me. The webpage has a projects section that showcases my projects. The webpage has a skills section that shows my skills. The webpage has a timeline section that shows my life events. The webpage has a 3JS background that can be used to showcase my projects.
 
 ## Screenshot of the webpage
 
