@@ -1,25 +1,38 @@
-import { Twilio } from "twilio";
+import twillo from "twilio";
 
 
-export class TwilloService {
-  static twilio: Twilio;
+export default class TwilloService {
+  static client: twillo.Twilio;
 
   constructor() {
-    TwilloService.twilio = new Twilio(
-      process.env.TWILIO_ACCOUNT_SID,
-      process.env.TWILIO_AUTH_TOKEN
+    console.log("TwilloService initialized.");
+    console.log("Account SID: ", process.env.TWILLO_ACCOUNT_SID);
+    console.log("Auth Token: ", process.env.TWILLO_AUTH_TOKEN);
+
+    TwilloService.client = twillo(
+      process.env.TWILLO_ACCOUNT_SID as string,
+      process.env.TWILLO_AUTH_TOKEN as string
     );
+
   }
 
   static async sendShortMessage(to: string, body: string) {
     try {
-      await this.twilio.messages.create({
-        to,
-        body,
-        from: process.env.TWILIO_PHONE_NUMBER,
+      console.log("Sending message via Twillo.");
+      console.log("To: ", to);
+      console.log("Body: ", body);
+      console.log("From: ", process.env.TWILLO_PHONE_NUMBER);
+      console.log("Account SID: ", process.env.TWILLO_ACCOUNT_SID);
+      console.log("Auth Token: ", process.env.TWILLO_AUTH_TOKEN);
+      const message = await TwilloService.client.messages.create({
+        body: body,
+        from: process.env.TWILLO_PHONE_NUMBER as string,
+        to: to
       });
+
+      console.log(message);
     } catch (error) {
-      console.error(error);
+      console.error("An error occurred while sending the message via Twillo.");
     }
   }
 }

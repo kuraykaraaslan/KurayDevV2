@@ -83,7 +83,7 @@ const Navbar = () => {
                     <div className="hidden lg:flex lg:justify-end justify-center items-center">
                         <span className="text-sm font-semibold leading-6 text-primary px-4 py-2">{user?.name ? user?.name : email?.split('@')[0]}</span>
                         <Link href="#" className="flex items-center justify-center border-2 border-primary rounded-full">
-                            <img src={session?.user?.image ? session?.user?.image : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
+                            <Image src={session?.user?.image ? session?.user?.image : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
                         </Link>
                     </div>
                 </nav>

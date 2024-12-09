@@ -8,7 +8,10 @@ const nextConfig = {
     reactStrictMode: false,
     eslint: {
       ignoreDuringBuilds: true,
-    }
+    },
+    images: {
+      domains: ['raw.githubusercontent.com', 'avatars.githubusercontent.com', 'github.com'],
+    },
 };
 
 

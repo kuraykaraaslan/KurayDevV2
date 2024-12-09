@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { Category, Post } from "@prisma/client";
 import axiosInstance from "@/libs/axios";
+import Image from 'next/image';
 
 const Page = () => {
 
@@ -75,7 +76,7 @@ const Page = () => {
 
                                 <td>
                                     {category.image ?
-                                        <img src={category.image} className="h-8 w-8 rounded-full" />
+                                        <Image src={category.image} className="h-8 w-8 rounded-full" alt='category image' />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }

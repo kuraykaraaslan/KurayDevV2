@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { extend } from '@react-three/fiber';
 import PostWithCategory from '@/types/PostWithCategory';
 // Path: components/Feed/FeedCard.tsx
+import Image from 'next/image';
 
 export interface FeedCardProps extends PostWithCategory {
     className?: string;
@@ -77,10 +78,10 @@ const FeedCardImage = (props: FeedCardProps) => {
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200"
             + (props.className || "")}>
             <div className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none">
-                {image ? <img src={image}
+                {image ? <Image src={image}
                     alt="feed image" className="w-full h-60 object-cover rounded-t-lg" /> :
                     <div className="relative w-full h-60 bg-primary rounded-t-lg flex justify-center items-center bg-opacity-10">
-                        {/*<img src="/assets/img/blog-empty.png" alt="feed image" className="absolute h-full left-8 top-0 object-cover rounded-t-lg" />*/}
+                        {/*<Image src="/assets/img/blog-empty.png" alt="feed image" className="absolute h-full left-8 top-0 object-cover rounded-t-lg" />*/}
                     </div>}
             </div>
             <div className="col-span-12 justify-center px-4">

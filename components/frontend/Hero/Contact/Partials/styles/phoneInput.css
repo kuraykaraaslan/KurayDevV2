@@ -44,13 +44,13 @@
 }
 
 .PhoneInputCountryIcon--border {
-	/* Removed `background-color` because when an `<img/>` was still loading
+	/* Removed `background-color` because when an `<Image/>` was still loading
 	   it would show a dark gray rectangle. */
-	/* For some reason the `<img/>` is not stretched to 100% width and height
+	/* For some reason the `<Image/>` is not stretched to 100% width and height
 	   and sometime there can be seen white pixels of the background at top and bottom. */
 	background-color: var(--PhoneInputCountryFlag-backgroundColor--loading);
 	/* Border is added via `box-shadow` because `border` interferes with `width`/`height`. */
-	/* For some reason the `<img/>` is not stretched to 100% width and height
+	/* For some reason the `<Image/>` is not stretched to 100% width and height
 	   and sometime there can be seen white pixels of the background at top and bottom,
 	   so an additional "inset" border is added. */
 	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor),

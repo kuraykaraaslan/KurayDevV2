@@ -8,6 +8,7 @@ import Link from "next/link";
 import Portfolio from "@/types/Portfolio";
 import Tag from "@/types/Tag";
 import Url from "@/types/Url";
+import Image from 'next/image';
 
 
 const SinglePortfolio: React.FC<{ portfolio: Portfolio }> = ({ portfolio }) => {
@@ -22,7 +23,10 @@ const SinglePortfolio: React.FC<{ portfolio: Portfolio }> = ({ portfolio }) => {
             className="w-full h-48 object-cover object-center rounded-t-lg"
           />
         ) : portfolio.image ? (
-        <img
+        <Image
+          width="0"
+          height="0"
+          unoptimized={true}
           src={portfolio.image}
           alt={portfolio.title}
           className="w-full h-48 object-cover object-center rounded-t-lg"

@@ -1,10 +1,15 @@
+import Image from 'next/image';
+
 const MyImage = () => {
 
   return (
     <div className="relative flex-none hidden sm:block group">
       <div className="shadow-2xl max-w-24 sm:max-w-48 md:max-w-64 transition duration-500 transform group-hover:rotate-y-180 bg-primary">
-        <img
+        <Image
+          width="0"
+          height="0"
           src="/assets/img/kuraykaraaslan.jpg"
+
           alt="kuray karaaslan"
           className="transition duration-500 transform"
         />
@@ -15,7 +20,7 @@ const MyImage = () => {
             <span className="text-2xl font-bold text-black ml-[0.4rem]">
               A
             </span>
-            <img
+            <Image
               src="/assets/svg/spades.svg"
               alt="kuray karaaslan"
               className="h-8 w-8 transition"
@@ -25,14 +30,14 @@ const MyImage = () => {
             <span className="text-2xl font-bold text-black ml-[0.4rem]">
               A
             </span>
-            <img
+            <Image
               src="/assets/svg/spades.svg"
               className="h-8 w-8 transition"
             />
           </div>
 
           <div className="relative flex flex-col items-center justify-center w-full h-full">
-            <img
+            <Image
               src="/assets/svg/spades.svg"
               className="h-16 w-16 transition"
             />

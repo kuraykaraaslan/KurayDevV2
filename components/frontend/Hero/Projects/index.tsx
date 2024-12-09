@@ -27,6 +27,7 @@ import {
   faWind,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from 'next/image';
 
 //i18n
 import { withTranslation } from "react-i18next";
@@ -39,7 +40,7 @@ const ProjectsHero = () => {
   const otherProjectsImageHTML =
     `<div class="w-full h-48 bg-base-100 rounded-t-lg flex items-center justify-center select-none">
   <a href="https://github.com/kuraykaraaslan" class="flex items-center gap-2 p-4">
-    <img src="/assets/svg/github.svg" alt="GitHub" class="w-12 h-12 object-cover object-center rounded-lg" />
+    <Image src="/assets/svg/github.svg" alt="GitHub" class="w-12 h-12 object-cover object-center rounded-lg" />
     <span class="text-xl font-bold">/kuraykaraaslan</span>
   </a>
   </div>`;

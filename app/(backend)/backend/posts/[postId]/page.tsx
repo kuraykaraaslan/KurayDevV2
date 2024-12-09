@@ -7,6 +7,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Category, User } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
 
 import { toast } from 'react-toastify';
 
@@ -457,7 +458,7 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                         <label className="label">
                             <span className="label-text">Image</span>
                         </label>
-                        <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        <Image src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
+import Image from 'next/image';
 
 export type Url = {
   type?: "GitHub" | "Demo" | "Other";
@@ -44,7 +45,7 @@ const SingleProject: React.FC<SingleProjectProps> = ({ service }) => {
     <article id="services"
       className={`rounded-lg select-none border shadow-md min-h-80 ${service.bgColor ? service.bgColor : "bg-base-200"} ${service.borderColor ? service.borderColor : "border-base-200"} ${service.textColor ? service.textColor : "text-base-900"}`}
     >
-      <img src={service.image} alt={service.title} className="w-full h-48 object-cover rounded-t-lg" />
+      <Image src={service.image} alt={service.title} className="w-full h-48 object-cover rounded-t-lg" />
       <div className="flex flex-col mt-5 p-6">
         <div className="mb-2 flex items-center text-black">
           {service.tags.map((tag) => (

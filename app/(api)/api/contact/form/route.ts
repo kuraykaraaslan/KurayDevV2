@@ -6,6 +6,12 @@ import ContactFormService from '@/services/ContactFormService';
 import MailService from '@/services/MailService';
 import SMSService from '@/services/SMSService';
 
+import AdminContactUsMailTemplate from '@/helpers/MailTemplates/Admin/AdminContactUsMailTemplate';
+import CustomerContactUsMailTemplate from '@/helpers/MailTemplates/Customer/CustomerContactUsMailTemplate';
+
+import AdminContactUsSMSTemplate from '@/helpers/SMSTemplates/Admin/AdminContactUsSMSTemplate';
+import CustomerContactUsSMSTemplate from '@/helpers/SMSTemplates/Customer/CustomerContactUsSMSTemplate';
+
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
 type ResponseData = {
@@ -26,81 +32,50 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
     const INFORM_MAIL = process.env.INFORM_MAIL as string;
     const INFORM_PHONE = process.env.INFORM_PHONE as string;
 
-    const signature = `
-    <br>
-    <br>
-    <p>Best Regards,</p>
-    <p>${INFORM_NAME}</p>
-    <p>${INFORM_TITLE}</p>
-    <p>${INFORM_MAIL}</p>
-    <p>${INFORM_PHONE}</p>
-    `;
-
-    const data = {
-        name: name,
-        email: email,
-        phone: phone,
-        message: message
-    };
-
-    const informMailBody = `
-    <h1>New Contact Form Submission</h1>
-    <p><strong>Name:</strong> ${name}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Phone:</strong> ${phone}</p>
-    <p><strong>Message:</strong> ${message}</p>
-    `;
-
-    const informSMSBody = `
-    New Contact Form Submission Check your email for more details.
-    `;
-    
-    const customerMailBody = `
-    <h1>Thank you for contacting us!</h1>
-    <p>We will get back to you as soon as possible.</p>
-    ${signature}
-    `;
-
-    const customerSMSBody = `
-    Thank you for contacting us! We will get back to you as soon as possible. ${INFORM_NAME}
-    `;
-
-    
+    //find recent contact form entries
+    const recentEntries = await ContactFormService.getRecentContactFormEntriesByPhoneOrEmail(phone, email);
 
     try {
-        // Saving the contact form to the database
-        const contactForm = await ContactFormService.createContactForm(data);
+        const data = {
+            name: name,
+            email: email,
+            phone: phone,
+            message: message
+        };
 
-        // Sending an email to the admin
-        await MailService.sendMail(
-            process.env.INFORM_MAIL as string,
-            "New Contact Form Submission",
-            informMailBody
-        );
+        console.log("Creating contact form entry.");
+        console.log(data);
+        await ContactFormService.createContactForm(data);
+    } catch (error) { console.error(error); }
 
-        // Sending an email to the customer
-        await MailService.sendMail(
-            email,
-            "Thank you for contacting us!",
-            customerMailBody
-        );
+    try {
+        const adminMailBody = AdminContactUsMailTemplate({ name, email, message, phone });
+        await MailService.sendMail(INFORM_MAIL, "Contact Form Message", adminMailBody, true);
+    } catch (error) { console.error(error); }
 
-        // Sending admin notification to Discord
-        await DiscordService.sendWebhookMessage(informMailBody);
+    try {
+        const customerMailBody = CustomerContactUsMailTemplate({ name, email, message, phone });
+        await MailService.sendMail(email, "Contact Form Message", customerMailBody, true);
+    } catch (error) { console.error(error); }
 
-        // Sending an SMS to the admin
-        await SMSService.sendShortMessage(process.env.INFORM_PHONE as string, informMailBody);
 
-        return NextResponse.json({ message: "message sent successfully" });
-    }
+    try {
+        const discordMessage = `A new message has been received from the contact form.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
+        await DiscordService.sendWebhookMessage(discordMessage);
+    } catch (error) { console.error(error); }
 
-    catch (error) {
-        console.error(error);
-        return NextResponse.json({ message: "An error occurred while sending the message." }, { status: 500 });
-    }
+    try {
+        const customerSMSBody = CustomerContactUsSMSTemplate({ name });
+        await SMSService.sendShortMessage(phone, customerSMSBody);
+    } catch (error) { console.error(error); }
 
+    try {
+        const adminSMSBody = AdminContactUsSMSTemplate({ name });
+        await SMSService.sendShortMessage(process.env.INFORM_PHONE as string, adminSMSBody);
+        
+    } catch (error) { console.error(error); }
+
+    return NextResponse.json({ message: "Your message has been sent successfully." });
 }
-
-
 
 

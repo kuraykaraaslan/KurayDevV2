@@ -49,6 +49,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
           <div className="col-span-1 hidden md:block rounded-l-lg">
             <div className="flex flex-col items-center justify-center  rounded-l-lg" style={{
               backgroundImage: 'url(/assets/img/kuraykaraaslan.jpg)',
+      
               backgroundSize: 'cover', backgroundPosition: 'center', height: '100%'
             }}>
             </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Post } from "@prisma/client";
 import axiosInstance from "@/libs/axios";
 import PostWithCategory from '@/types/PostWithCategory';
+import Image from 'next/image';
 
 const Page = () => {
 
@@ -76,7 +77,7 @@ const Page = () => {
                             <tr key={index} className="h-12 border-b hover:bg-primary hover:bg-opacity-10">
                                 <td>
                                     {post.image ?
-                                        <img src={post.image} className="h-8 w-8 rounded-full" />
+                                        <Image src={post.image} className="h-8 w-8 rounded-full" />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }

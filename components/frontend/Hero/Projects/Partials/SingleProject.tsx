@@ -5,6 +5,7 @@ import { IconDefinition, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import Project from "@/types/Project";
+import Image from 'next/image';
 
 
 type SingleProjectProps = {
@@ -24,7 +25,10 @@ const SingleProject: React.FC<SingleProjectProps> = ({ project }) => {
             className="w-full h-48 object-cover object-center rounded-t-lg"
           />
         ) : project.image ? (
-        <img
+        <Image
+          width="0"
+          height="0"
+          unoptimized={true}
           src={project.image}
           alt={project.title}
           className="w-full h-48 object-cover object-center rounded-t-lg"

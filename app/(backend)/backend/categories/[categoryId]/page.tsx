@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 
 const EditCategory = ({ params }: { params: { categoryId: string } }) => {
@@ -216,7 +217,7 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
                         <label className="label">
                             <span className="label-text">Image</span>
                         </label>
-                        <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        <Image src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

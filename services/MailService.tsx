@@ -10,6 +10,7 @@ export default class MailService {
     static transporter = nodemailer.createTransport({
         host: MAIL_HOST as string,
         port: MAIL_PORT as number,
+        
         secure: false,
         auth: {
             user: MAIL_USER,
@@ -18,16 +19,18 @@ export default class MailService {
     });
 
 
-    static async sendMail(to: string, subject: string, text: string) {
+    static async sendMail(to: string, subject: string, text: string, isHtml = false) {
 
         const info = await this.transporter.sendMail({
             from: MAIL_USER,
             to,
             subject,
-            html: text,
-        });
+            html: isHtml ? text : undefined,
+            text: isHtml ? undefined : text,
+        }).catch((error) => {
+            console.error(error);
+        })
 
-        console.log(`Message sent: ${info.messageId}`);
     }
 
 }
