@@ -57,7 +57,7 @@ export default function Feed(props: { category?: Category | null }) {
                     <h2 className="mb-4 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
                         {category ? category.title : "Blog"}
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
                         {feeds.map((feed, index) => {
                             if (index < 2) {
                                 return <FeedCardImage key={index} {...feed} />

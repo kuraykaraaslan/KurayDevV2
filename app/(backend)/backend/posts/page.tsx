@@ -77,7 +77,7 @@ const Page = () => {
                             <tr key={index} className="h-12 border-b hover:bg-primary hover:bg-opacity-10">
                                 <td>
                                     {post.image ?
-                                        <Image src={post.image} className="h-8 w-8 rounded-full" />
+                                        <Image width={32} height={32} src={post.image} className="h-8 w-8 rounded-full" alt={post.title} />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }

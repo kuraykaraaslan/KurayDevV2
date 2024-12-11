@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 
 const UpdateUser =({ params }: { params: { userId: string } }) => {
@@ -429,6 +430,8 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
                             <span className="label-text">Image</span>
                         </label>
                         <Image src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        
+                        width={384} height={256}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

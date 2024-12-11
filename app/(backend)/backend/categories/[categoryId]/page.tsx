@@ -217,7 +217,9 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
                         <label className="label">
                             <span className="label-text">Image</span>
                         </label>
-                        <Image src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        
+                        width={384} height={256}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

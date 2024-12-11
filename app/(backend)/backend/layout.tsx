@@ -24,12 +24,13 @@ const Layout = ({
             return;
         }
 
-        //wait for 400ms to check if the session is loaded
+        //check if the user is not logged in and role is not admin
         setTimeout(() => {
-            if (!session?.user) {
-                router.push('/login');
+            if (!session?.user || session?.user?.role !== 'ADMIN') {
+                //check if the user is not logged in and role is not admin
+                router.push('/auth/login');
             }
-        }, 400);
+        }, 500);
 
     }, [session]);
 
@@ -38,18 +39,14 @@ const Layout = ({
     return (
         <html lang="en">
             <body style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-                    <>
-                        <Navbar />
-                        <div style={{ flex: 1 }} className="container mx-auto px-4 pt-4 md:pt-12 lg:px-8 max-w-8xl mb-8 mt- flex flex-col md:flex-row gap-4">
-                            {/* [children] */}
-                            {children}
-                        </div>
-                        <ToastContainer />
-                    </>
-                    :
-                    <div className="flex items-center justify-center h-screen bg-base-200">
-                        <p className="">Loading...</p>
+                <>
+                    <Navbar />
+                    <div style={{ flex: 1 }} className="container mx-auto px-4 pt-4 md:pt-12 lg:px-8 max-w-8xl mb-8 mt- flex flex-col md:flex-row gap-4">
+                        {/* [children] */}
+                        {children}
                     </div>
+                    <ToastContainer />
+                </>
             </body>
         </html>
     );

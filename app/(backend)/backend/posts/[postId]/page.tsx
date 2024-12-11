@@ -35,6 +35,8 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
     const [status, setStatus] = useState('DRAFT');
     const [createdAt, setCreatedAt] = useState(new Date());
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         axiosInstance.get('/api/users?pageSize=100')
             .then((response) => {
@@ -70,6 +72,15 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
     }, []);
 
     useEffect(() => {
+
+        if (!title) {
+            return;
+        }
+
+        if (loading) {
+            return;
+        }
+
         const invalidChars = /[^\w\s-]/g;
         const slugifiedTitle = title.toLowerCase().replace(invalidChars, '').replace(/\s+/g, '-');
         setSlug(slugifiedTitle);
@@ -458,7 +469,9 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                         <label className="label">
                             <span className="label-text">Image</span>
                         </label>
-                        <Image src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        
+                        width={384} height={256}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

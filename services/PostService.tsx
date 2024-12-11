@@ -105,7 +105,7 @@ export default class PostService {
                 prisma.post.findMany({
                     skip: (page - 1) * perPage,
                     take: perPage,
-                    orderBy: { createdAt: 'asc' },
+                    orderBy: { createdAt: 'desc' },
                     where: {
                         OR: [
                             { title: { contains: search } },
@@ -138,6 +138,7 @@ export default class PostService {
                             },
                         },
                     },
+
                 }),
                 prisma.post.count({
                     where: {
@@ -160,6 +161,7 @@ export default class PostService {
             prisma.post.findMany({
                 skip: (page - 1) * perPage,
                 take: perPage,
+                where: { categoryId: categoryId ? categoryId : undefined, status: onlyPublished ? 'published' : undefined },
                 orderBy: { createdAt: 'asc' },
                 select: {
                     postId: true,

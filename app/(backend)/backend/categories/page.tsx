@@ -76,7 +76,7 @@ const Page = () => {
 
                                 <td>
                                     {category.image ?
-                                        <Image src={category.image} className="h-8 w-8 rounded-full" alt='category image' />
+                                        <Image width={32} height={32} src={category.image} className="h-8 w-8 rounded-full" alt={category.title} />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }

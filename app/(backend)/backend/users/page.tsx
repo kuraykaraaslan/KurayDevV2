@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { User } from "@prisma/client";
 import axiosInstance from "@/libs/axios";
+import Image from 'next/image';
 
 const Page = () => {
 
@@ -74,7 +75,7 @@ const Page = () => {
                             <tr key={index} className="h-12 border-b hover:bg-primary hover:bg-opacity-10">
                                 <td>
                                     {user.image ?
-                                        <Image src={user.image} className="h-8 w-8 rounded-full" />
+                                        <Image width={32} height={32} src={user.image} className="h-8 w-8 rounded-full" alt={user.name} /> 
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }

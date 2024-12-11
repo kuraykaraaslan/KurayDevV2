@@ -5,6 +5,7 @@ import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 
 const CreateUser = () => {
@@ -250,6 +251,8 @@ const CreateUser = () => {
                             <span className="label-text">Image</span>
                         </label>
                         <Image src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+                        
+                        width={384} height={256}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input
