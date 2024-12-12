@@ -202,7 +202,11 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         formData.append('file', imageFile);
         formData.append('folder', 'categories');
 
-        await axiosInstance.post('/api/aws', formData).then((res) => {
+        await axiosInstance.post('/api/aws', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((res) => {
             setImageUrl(res.data.url);
         }).catch((error) => {
             console.error(error);

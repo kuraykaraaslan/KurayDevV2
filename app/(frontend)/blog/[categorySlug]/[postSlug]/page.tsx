@@ -27,7 +27,7 @@ export default async function ({ params }: { params: { postSlug: string } }) {
                 <title>{post.title + " - kuray.dev"}</title>
                 <meta name="description" content={post.content} />
                 <meta property="og:title" content={post.title + " - kuray.dev"} />
-                <meta property="og:description" content={post.content} />
+                <meta property="og:description" content={post.description ? post.description : post.content.substring(0, 160)} />
                 <meta property="og:image" content={post.image ? post.image : "https://kuray.dev/assets/img/og.png"} />
                 <div className="max-w-none justify-center text-left mx-auto px-4 lg:px-8 prose mb-8">
                     <div className="text-3xl font-bold text-left mt-4 mb-4">{post.title}</div>

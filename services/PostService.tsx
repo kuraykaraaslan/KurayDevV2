@@ -162,7 +162,7 @@ export default class PostService {
                 skip: (page - 1) * perPage,
                 take: perPage,
                 where: { categoryId: categoryId ? categoryId : undefined, status: onlyPublished ? 'published' : undefined },
-                orderBy: { createdAt: 'asc' },
+                orderBy: { createdAt: 'desc' },
                 select: {
                     postId: true,
                     title: true,

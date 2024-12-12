@@ -54,7 +54,7 @@ export default function Feed(props: { category?: Category | null }) {
                 className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000"
             >
                 <div className="mx-auto text-center lg:mb-8 -mt-8 lg:mt-0 ">
-                    <h2 className="mb-4 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
+                    <h2 className="mb-8 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
                         {category ? category.title : "Blog"}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">

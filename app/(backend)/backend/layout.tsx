@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,22 +17,35 @@ const Layout = ({
 }) => {
 
     const { session } = useGlobalStore();
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
-        if (typeof session !== 'object') {
-            return;
+        if (session?.sessionToken === undefined) {
+    
+            setLoading(true); // Wait for Zustand to load
+        } else {
+            //wait for 1 second
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
         }
-
-        //check if the user is not logged in and role is not admin
-        setTimeout(() => {
-            if (!session?.user || session?.user?.role !== 'ADMIN') {
-                //check if the user is not logged in and role is not admin
-                router.push('/auth/login');
-            }
-        }, 500);
-
     }, [session]);
+
+    useEffect(() => {
+        if (!loading) {
+            if (!session || !session.user) {
+                router.push('/auth/login');
+                return;
+            }
+
+            if (!session.user.role || session.user.role !== 'ADMIN') {
+                router.push('/auth/login');
+                return;
+            }
+        }
+        
+    }, [session, router, loading]);
 
 
 

@@ -66,12 +66,21 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
 
     try {
         const customerSMSBody = CustomerContactUsSMSTemplate({ name });
-        await SMSService.sendShortMessage(phone, customerSMSBody);
+
+        if (recentEntries.length === 0) {
+            // Send SMS to customer if user not contacted recently 
+            await SMSService.sendShortMessage(phone, customerSMSBody);
+        } 
+
     } catch (error) { console.error(error); }
 
     try {
         const adminSMSBody = AdminContactUsSMSTemplate({ name });
-        await SMSService.sendShortMessage(process.env.INFORM_PHONE as string, adminSMSBody);
+        if (recentEntries.length === 0) {
+            // Send SMS to admin if user not contacted recently
+            await SMSService.sendShortMessage(INFORM_PHONE, adminSMSBody);
+        }
+        
         
     } catch (error) { console.error(error); }
 

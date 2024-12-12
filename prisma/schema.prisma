@@ -105,3 +105,9 @@ model ContactForm {
   message   String
   createdAt DateTime @default(now())
 }
+
+model Subscription {
+  email          String  @id @unique
+  createdAt      DateTime @default(now())
+  deletedAt      DateTime?
+}

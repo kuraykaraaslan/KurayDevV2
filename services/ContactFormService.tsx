@@ -80,6 +80,27 @@ export default class ContactFormService {
         });
     }
 
+    static getRecentContactFormEntriesByPhoneOrEmail(phone: string, email: string): any {
+
+        // Find recent contact form entries in 24 hours
+      
+        const recentEntries = prisma.contactForm.findMany({
+
+            where: {
+                OR: [
+                    { phone: phone },
+                    { email: email }
+                ],
+                createdAt: {
+                    gte: new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
+                }
+            }
+        });
+
+        return recentEntries;
+
+    }
+
 }
 
 

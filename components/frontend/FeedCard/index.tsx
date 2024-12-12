@@ -77,12 +77,12 @@ const FeedCardImage = (props: FeedCardProps) => {
     return (
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200"
             + (props.className || "")}>
-            <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none"
+            <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
                 href={"/blog/" + props.Category.slug + "/" + props.slug}>
                 {image ? <Image src={image}
                     width={1920} height={1080}
                     
-                    alt="feed image" className="w-full h-60 object-cover rounded-t-lg" /> :
+                    alt="feed image" className="w-full object-cover rounded-t-lg" /> :
                     <div className="relative w-full h-60 bg-primary rounded-t-lg flex justify-center items-center bg-opacity-10">
                         {/*<Image src="/assets/img/blog-empty.png" alt="feed image" className="absolute h-full left-8 top-0 object-cover rounded-t-lg" />*/}
                     </div>}
