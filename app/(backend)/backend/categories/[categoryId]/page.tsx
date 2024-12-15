@@ -14,6 +14,7 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
     const [slug, setSlug] = useState('');
     const [keywords, setKeywords] = useState<string[]>([]);
 
+    const [loading, setLoading] = useState(true);
 
     const [imageUrl, setImageUrl] = useState<String | null>(null);
 
@@ -82,6 +83,7 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
                 setSlug(category.slug);
                 setKeywords(category.keywords);
                 setImageUrl(category.image);
+                setLoading(false);
             }).catch((error) => {
                 console.error(error);
             });
@@ -91,7 +93,21 @@ const EditCategory = ({ params }: { params: { categoryId: string } }) => {
     }, []);
 
     useEffect(() => {
-        setSlug(title.toLowerCase().replace(/ /g, '-'));
+
+        return;
+
+        if (!title) {
+            return;
+        }
+
+        if (loading) {
+            return;
+        }
+
+
+        const invalidChars = /[^\w\s-]/g;
+        const slugifiedTitle = title.toLowerCase().replace(invalidChars, '').replace(/\s+/g, '-');
+        setSlug(slugifiedTitle);    
     }, [title]);
 
 

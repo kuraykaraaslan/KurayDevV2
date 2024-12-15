@@ -86,7 +86,7 @@ const RegisterPage = () => {
                 <div>
                     <Link href="/auth/login"
                         type="button"
-                        className="block w-full py-2.5 bg-primary text-white font-semibold rounded-lg shadow-md"
+                        className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
                     >
                         <span className="flex items-center justify-center">
                            Login
@@ -94,7 +94,7 @@ const RegisterPage = () => {
                     </Link>
                 </div>
                 <div className="flex items-center justify-center">
-                    <span className="text-sm text-gray-400 font-semibold">Or</span>
+                    <span className="text-sm font-semibold">Or</span>
                 </div>
                 <div>
                     <div className="">
@@ -155,7 +155,7 @@ const RegisterPage = () => {
                     <button
                         type="submit"
                         onClick={handleSubmit}
-                        className="block w-full py-2.5 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                        className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
                     >
                         Create Account
                     </button>

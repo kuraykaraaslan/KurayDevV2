@@ -298,6 +298,9 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                 setImageUrl(post.image);
                 setAuthorId(post.authorId);
                 setCategoryId(post.categoryId);
+                setStatus(post.status);
+                setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date());
+                setLoading(false);
             }).catch((error) => {
                 console.error(error);
             });

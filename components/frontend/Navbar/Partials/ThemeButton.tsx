@@ -38,31 +38,6 @@ const ThemeButton = () => {
     setTheme(nextTheme);
   }
 
-  useGlobalStore.subscribe((state) => {
-    if (state.theme === "dark") {
-      document.querySelector("html")?.setAttribute("data-theme", "dark");
-    }
-    else {
-      document.querySelector("html")?.setAttribute("data-theme", "light");
-    }
-
-    switch (state.theme) {
-      case "dark":
-        document.querySelector("html")?.setAttribute("data-theme", "dark");
-        break;
-      case "light":
-        document.querySelector("html")?.setAttribute("data-theme", "light");
-        break;
-      case "black":
-        document.querySelector("html")?.setAttribute("data-theme", "black");
-        break;
-      default:
-        document.querySelector("html")?.setAttribute("data-theme", "light");
-        break;
-    }
-
-  } );
-
   useEffect(() => {
     switch (theme) {
       case "dark":
@@ -75,10 +50,10 @@ const ThemeButton = () => {
         document.querySelector("html")?.setAttribute("data-theme", "black");
         break;
       default:
-        document.querySelector("html")?.setAttribute("data-theme", "light");
+        //document.querySelector("html")?.setAttribute("data-theme", "dark");
         break;
     }
-  }, []);
+  }, [theme]);
 
   return (
     <button

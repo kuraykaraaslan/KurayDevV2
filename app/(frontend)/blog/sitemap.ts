@@ -7,7 +7,7 @@ const APP_URL = process.env.APP_URL
 
 export default async function sitemap(request : NextRequest) : Promise<MetadataRoute.Sitemap> {
 
-  const { posts } = await PostService.getAllPosts(1,1000000);
+  const { posts } = await PostService.getAllPosts({ page: 1, pageSize: 1000, onlyPublished: true, hideFuturePosts: true });
 
   return posts.map(post => {
     return {

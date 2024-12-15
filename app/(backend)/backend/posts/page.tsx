@@ -74,10 +74,10 @@ const Page = () => {
                     </thead>
                     <tbody>
                         {posts.map((post, index) => (
-                            <tr key={index} className="h-12 border-b hover:bg-primary hover:bg-opacity-10">
+                            <tr key={index} className="h-12 hover:bg-primary hover:bg-opacity-10">
                                 <td>
                                     {post.image ?
-                                        <Image width={32} height={32} src={post.image} className="h-8 w-8 rounded-full" alt={post.title} />
+                                        <Image width={32} height={32} src={post.image} className="h-8 w-8 rounded-full" alt={post.title as string} />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }
@@ -88,7 +88,7 @@ const Page = () => {
                                 <td>{post.status}</td>
                                 <td className="flex gap-2">
                                     <Link href={`/backend/posts/${post.postId}`} className="btn btn-sm btn-primary">Edit</Link>
-                                    <Link href={`/blog/${post.slug}`} className="btn btn-sm btn-secondary hidden md:flex">View</Link>
+                                    <Link href={`/blog/${post.Category?.slug}/${post.slug}`} className="btn btn-sm btn-secondary">View</Link>
                                     <button onClick={() => deletePost(post.postId as string)} className="btn btn-sm btn-warning hidden md:flex">Delete</button>
                                 </td>
                             </tr>

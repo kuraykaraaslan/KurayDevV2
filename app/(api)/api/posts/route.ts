@@ -23,13 +23,25 @@ export async function GET(request: NextRequest) {
         const onlyPublished = searchParams.get('onlyPublished') === 'true';
         const categoryId = searchParams.get('categoryId') || undefined;
         const search = searchParams.get('search') || undefined;
+        const hideFuturePosts = searchParams.get('hideFuturePosts') === 'true' || false;
 
-        const result = await PostService.getAllPosts(page, pageSize, search, onlyPublished, categoryId);
+        const data = {
+            page,
+            pageSize,
+            onlyPublished,
+            categoryId,
+            search,
+            hideFuturePosts
+        }
 
+        console.log('data', data);
+
+        const result = await PostService.getAllPosts(data);
         return NextResponse.json({ posts: result.posts, total: result.total , page, pageSize });
 
     }
     catch (error: any) {
+        console.error(error.message);
         return NextResponse.json(
             { message: error.message },
             { status: 500 }

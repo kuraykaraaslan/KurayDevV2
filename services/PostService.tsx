@@ -86,83 +86,51 @@ export default class PostService {
      * @param search - The search query
      * @returns An array of posts
      */
-    static async getAllPosts(
-        page = 1,
-        perPage = 10,
-        search?: string,
-        onlyPublished?: boolean,
-        categoryId?: string
-    ): Promise<{ posts: Omit<Post, 'content'>[], total: number }> {
+    static async getAllPosts(data: {
+        page: number;
+        pageSize: number;
+        search?: string;
+        categoryId?: string;
+        onlyPublished?: boolean;
+        hideFuturePosts?: boolean;
+    }): Promise<{ posts: PostWithCategory[], total: number }> {
+
+        let { page, pageSize, search, categoryId, onlyPublished, hideFuturePosts } = data;
+
+        //default values
+        page = page || 1;
+        pageSize = pageSize || 10;
+        onlyPublished = onlyPublished || false;
+        hideFuturePosts = hideFuturePosts || false;
+
+        console.log('page', page);
+        console.log('pageSize', pageSize);
+        console.log('search', search);
+        console.log('categoryId', categoryId);
+        console.log('onlyPublished', onlyPublished);
+
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
             throw new Error('Invalid search query.');
         }
+        // Get posts by search query
 
-        if (search && search !== '') {
-            // Get posts by search query
-            const query = await prisma.$transaction([
-                prisma.post.findMany({
-                    skip: (page - 1) * perPage,
-                    take: perPage,
-                    orderBy: { createdAt: 'desc' },
-                    where: {
-                        OR: [
-                            { title: { contains: search } },
-                            { content: { contains: search } },
-                            { description: { contains: search } },
-                            { slug: { contains: search } },
-                            { keywords: { hasSome: search.split(',') } },
-                            { categoryId: categoryId ? categoryId : undefined },
-                        ],
-                        status: onlyPublished ? 'published' : undefined,
-                    },
-                    select: {
-                        postId: true,
-                        title: true,
-                        description: true,
-                        slug: true,
-                        keywords: true,
-                        image: true,
-                        authorId: true,
-                        categoryId: true,
-                        createdAt: true,
-                        updatedAt: true,
-                        status: true,
-                        Category: {
-                            select: {
-                                categoryId: true,
-                                title: true,
-                                slug: true,
-                                image: true,
-                            },
-                        },
-                    },
-
-                }),
-                prisma.post.count({
-                    where: {
-                        OR: [
-                            { title: { contains: search } },
-                            { content: { contains: search } },
-                            { slug: { contains: search } },
-                            { keywords: { hasSome: search.split(',') } },
-                        ],
-                    }
-                }),
-                
-            ]);
-  
-            return { posts: query[0] as PostWithCategory[], total: query[1] };
-        }
-
-        // Get all posts
         const query = await prisma.$transaction([
             prisma.post.findMany({
-                skip: (page - 1) * perPage,
-                take: perPage,
-                where: { categoryId: categoryId ? categoryId : undefined, status: onlyPublished ? 'published' : undefined },
+                skip: (page - 1) * pageSize,
+                take: pageSize,
                 orderBy: { createdAt: 'desc' },
+                where: {
+                    OR: [
+                        { title: { contains: search ? search : '' } },
+                        { description: { contains: search ? search : '' } },
+                        { content: { contains: search ? search : '' } },
+                        { keywords: { hasSome: search ? [search] : [] } },
+                    ],
+                    status: onlyPublished ? 'PUBLISHED' : undefined,
+                    publishedAt: hideFuturePosts ? { lte: new Date() } : undefined,
+                },
                 select: {
                     postId: true,
                     title: true,
@@ -175,6 +143,7 @@ export default class PostService {
                     createdAt: true,
                     updatedAt: true,
                     status: true,
+                    views: true,
                     Category: {
                         select: {
                             categoryId: true,
@@ -184,11 +153,26 @@ export default class PostService {
                         },
                     },
                 },
+
             }),
-            prisma.post.count(),
+            prisma.post.count({
+                where: {
+                    OR: [
+                        { title: { contains: search ? search : '' } },
+                        { description: { contains: search ? search : '' } },
+                        { content: { contains: search ? search : '' } },
+                        { keywords: { hasSome: search ? [search] : [] } },
+                    ],
+                    status: onlyPublished ? 'PUBLISHED' : undefined,
+                    publishedAt: hideFuturePosts ? { lte: new Date() } : undefined,
+                },
+            }),
+
         ]);
 
         return { posts: query[0] as PostWithCategory[], total: query[1] };
+
+
     }
 
 
@@ -214,6 +198,7 @@ export default class PostService {
                 updatedAt: true,
                 content: true,
                 status: true,
+                views: true,
                 Category: {
                     select: {
                         categoryId: true,
@@ -246,36 +231,36 @@ export default class PostService {
         status: string;
         createdAt: Date;
     }): Promise<Post> {
-            
-            const { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
-    
-            // Validate input
-            if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
-                throw new Error('All fields are required.');
-            }
-    
-            if (keywords && typeof keywords === 'string') {
-                data.keywords = (keywords as string).split(',');
-            }
-    
-            // Update the post
-            const post = await prisma.post.update({
-                where: { postId },
-                data,
-            });
-    
-            return post;
+
+        const { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
+
+        // Validate input
+        if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
+            throw new Error('All fields are required.');
         }
-    
-        /**
-         * Deletes a post by its ID.
-         * @param postId - The ID of the post
-         */
-        static async deletePost(postId: string): Promise<void> {
-            await prisma.post.delete({
-                where: { postId },
-            });
+
+        if (keywords && typeof keywords === 'string') {
+            data.keywords = (keywords as string).split(',');
         }
+
+        // Update the post
+        const post = await prisma.post.update({
+            where: { postId },
+            data,
+        });
+
+        return post;
+    }
+
+    /**
+     * Deletes a post by its ID.
+     * @param postId - The ID of the post
+     */
+    static async deletePost(postId: string): Promise<void> {
+        await prisma.post.delete({
+            where: { postId },
+        });
+    }
 
 
     /*
@@ -285,7 +270,8 @@ export default class PostService {
     * */
     static async getPostsByCategory(categoryId: string, page = 1, perPage = 10, onlyPublished?: boolean): Promise<PostWithCategory[]> {
         const posts = await prisma.post.findMany({
-            where: { categoryId ,
+            where: {
+                categoryId,
                 status: onlyPublished ? 'published' : undefined,
             },
             select: {
@@ -314,5 +300,65 @@ export default class PostService {
         });
 
         return posts as PostWithCategory[];
+    }
+
+
+    /**
+     * Get posts by author
+     * @param authorId - The ID of the author
+     * @returns The requested post or null if not found
+     */
+    static async getPostsByAuthor(authorId: string, page = 1, perPage = 10, onlyPublished?: boolean): Promise<PostWithCategory[]> {
+        const posts = await prisma.post.findMany({
+            where: {
+                authorId,
+                status: onlyPublished ? 'published' : undefined,
+            },
+            select: {
+                postId: true,
+                title: true,
+                description: true,
+                slug: true,
+                keywords: true,
+                image: true,
+                authorId: true,
+                categoryId: true,
+                createdAt: true,
+                updatedAt: true,
+                status: true,
+                views: true,
+                Category: {
+                    select: {
+                        categoryId: true,
+                        title: true,
+                        slug: true,
+                        image: true,
+                    },
+                },
+            },
+            skip: (page - 1) * perPage,
+            take: perPage,
+        });
+
+        return posts as PostWithCategory[];
+
+    }
+
+    /**
+     * Save one view to the post
+     * @param postId - The ID of the post
+     * @returns The updated post
+     * */
+    static async incrementViewCount(postId: string): Promise<Post> {
+        const post = await prisma.post.update({
+            where: { postId },
+            data: {
+                views: {
+                    increment: 1,
+                },
+            },
+        });
+
+        return post;
     }
 }

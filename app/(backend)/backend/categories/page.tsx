@@ -72,7 +72,7 @@ const Page = () => {
                     </thead>
                     <tbody>
                         {categories.map((category, index) => (
-                            <tr key={index} className="releative h-12 border-b hover:bg-primary hover:bg-opacity-10">
+                            <tr key={index} className="releative h-12 hover:bg-primary hover:bg-opacity-10">
 
                                 <td>
                                     {category.image ?

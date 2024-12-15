@@ -99,18 +99,9 @@ export async function PUT(
     AuthService.authenticateSync(request, "ADMIN");
     
     const { userId } = params;
-    const user = await UserService.getUserById(userId);
-
-    if (!user) {
-      return NextResponse.json(
-        { message: "User not found." },
-        { status: 404 }
-      );
-    }
-
-    const {body} = await request.json();
-    const updatedUser = await UserService.updateUser(user.userId, body);
-
+    const user = await request.session?.user;
+    const data = await request.json();
+    const updatedUser = await UserService.updateUser(userId, data);
     return NextResponse.json({ user: updatedUser });
   }
   catch (error : any) {

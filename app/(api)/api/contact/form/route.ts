@@ -43,8 +43,6 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
             message: message
         };
 
-        console.log("Creating contact form entry.");
-        console.log(data);
         await ContactFormService.createContactForm(data);
     } catch (error) { console.error(error); }
 

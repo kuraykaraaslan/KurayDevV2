@@ -1,0 +1,67 @@
+/*
+ model Setting {
+  key   String @id @unique
+  value String
+  type  String @default("string")
+  group String @default("general") // general, seo, social, mail, analytics
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+*/
+[
+    {
+        "key": "site_title",
+        "value": "My Site",
+        "type": "string",
+        "group": "general"
+    },
+    {
+        "key": "site_description",
+        "value": "My Site Description",
+        "type": "string",
+        "group": "general"
+    },
+    {
+        "key": "site_keywords",
+        "value": "My Site Keywords",
+        "type": "string",
+        "group": "general"
+    },
+    {
+        "key": "site_author",
+        "value": "My Site Author",
+        "type": "string",
+        "group": "general"
+    },
+    {
+        "key": "site_image",
+        "value": "https://example.com/image.jpg",
+        "type": "string",
+        "group": "general"
+    },
+    {
+        "key": "site_twitter",
+        "value": "https://twitter.com/username",
+        "type": "string",
+        "group": "contact"
+    },
+    {
+        "key": "site_facebook",
+        "value": "https://facebook.com/username",
+        "type": "string",
+        "group": "contact"
+    },
+    {
+        "key": "site_instagram",
+        "value": "https://instagram.com/username",
+        "type": "string",
+        "group": "contact"
+    },
+    {
+        "key": "site_email",
+        "value": "kuraykaraaslan@gmail.com",
+        "type": "string",
+        "group": "contact"
+    }
+]

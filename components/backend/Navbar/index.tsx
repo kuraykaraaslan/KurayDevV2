@@ -33,7 +33,7 @@ const Navbar = () => {
     const menu = [
         {
             name: "Home",
-            href: "/",
+            href: "/backend",
         },
         {
             name: "Categories",
@@ -58,7 +58,7 @@ const Navbar = () => {
             <div className="">
                 <nav className="mx-auto flex items-stretch items-center justify-between lg:px-8 bg-base-300 text-primary" aria-label="Global">
                     <div className="py-4 pl-4 lg:pl-0 flex items-center gap-2">
-                        <Link href="/backend" className="flex items-center">
+                        <Link href="/" className="flex items-center">
                             <FontAwesomeIcon icon={faCode} className="w-8 h-8 mr-2" />
                             <span className="text-2xl font-bold">kuray.dev</span>
                         </Link>
@@ -106,7 +106,7 @@ const Navbar = () => {
                             </div>
                             <nav className="mt-5 px-2 space-y-1">
                                 {menu.map((item, index) => (
-                                    <Link key={index} href={item.href} className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                                    <Link key={index} href={item.href} className="block px-3 py-2 rounded-md text-base font-medium">
                                         {item.name}
                                     </Link>
                                 ))}

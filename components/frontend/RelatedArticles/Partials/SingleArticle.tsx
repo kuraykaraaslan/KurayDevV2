@@ -3,16 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import { extend } from '@react-three/fiber';
 import PostWithCategory from '@/types/PostWithCategory';
-// Path: components/Feed/FeedCard.tsx
 import Image from 'next/image';
 
-export interface FeedCardProps extends PostWithCategory {
-    className?: string;
-}
 
-const FeedCardImage = (props: FeedCardProps) => {
+const SingleArticle = (props: PostWithCategory) => {
 
     const [dateText, setDateText] = useState("");
     const [image, setImage] = useState("");
@@ -25,8 +20,6 @@ const FeedCardImage = (props: FeedCardProps) => {
         try {
 
             const today = new Date();
-            console.log(props.createdAt);
-
             if (props.createdAt.toDateString() === today.toDateString()) {
                 setDateText("Today");
                 return;
@@ -75,8 +68,7 @@ const FeedCardImage = (props: FeedCardProps) => {
 
 
     return (
-        <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200"
-            + (props.className || "")}>
+        <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200 max-w-sm"}>
             <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
                 href={"/blog/" + props.Category.slug + "/" + props.slug}>
                 {image ? <Image src={image}
@@ -95,9 +87,9 @@ const FeedCardImage = (props: FeedCardProps) => {
             </div>
             <div className="col-span-12 justify-between flex  px-4 pb-4">
                 <div className="flex items-center">
-                    <FontAwesomeIcon icon={faCalendar} className="text-gray-500 w-4"
+                    <FontAwesomeIcon icon={faCalendar} className="w-4"
                     />
-                    <p className="text-gray-500 text-sm ml-2">{props.createdAt ? new Date(props.createdAt).toDateString() : dateText}</p>
+                    <p className="text-sm ml-2">{props.createdAt ? new Date(props.createdAt).toDateString() : dateText}</p>
                 </div>
                 <div className="flex items-center gap-1">
                     <Link href={"/blog/" + props.Category.slug + "/" + props.slug}
@@ -110,4 +102,4 @@ const FeedCardImage = (props: FeedCardProps) => {
     );
 };
 
-export default FeedCardImage;
+export default SingleArticle;

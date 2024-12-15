@@ -1,28 +1,9 @@
 import { Twilio } from "twilio";
 import axios from "axios";
 
-import ContactUsSMSTemplate from "./SMSTemplates/ContactUsSMSTemplate";
 
 export default class SendSMS {
 
-
-  /*
-    This function is responsible for Contact Us SMS sending.
-    It uses the ContactUsSMSTemplate to generate the message body.
-    */
-
-  public static async sendContactUsSMS(
-    name: string,
-    phone: string,
-    language?: string,
-  ): Promise<void> {
-    if (!phone) {
-      return;
-    }
-
-    const message = ContactUsSMSTemplate({ name, language });
-    await this.MultiVendorSelector(phone, message);
-  }
 
 
   /* 
@@ -78,7 +59,9 @@ export default class SendSMS {
         from: process.env.TWILIO_PHONE_NUMBER,
         to: phone,
       })
-      .then((message) => console.log(message.sid))
+      .then((message) => {
+
+      }) 
       .catch((err) => {
         console.error(err);
         throw new Error("ERROR_SENDING_SMS");

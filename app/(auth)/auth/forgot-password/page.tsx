@@ -43,8 +43,8 @@ const ForgotPasswordPage = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="block w-full py-2.5 bg-primary text-white font-semibold rounded-md shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                            >
+                                className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
+                                >
                                 Send Verification Code
                             </button>
                         </div>
@@ -79,7 +79,7 @@ const ForgotPasswordPage = () => {
                                 type="password"
                                 required
                                 autoComplete="new-password"
-                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -95,7 +95,7 @@ const ForgotPasswordPage = () => {
                                 type="password"
                                 required
                                 autoComplete="current-password"
-                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -103,8 +103,8 @@ const ForgotPasswordPage = () => {
                     <div>
                         <button
                             type="submit"
-                            className="block w-full py-2.5 bg-primary text-white font-semibold rounded-md shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                        >
+                            className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
+                            >
                             Reset Password
                         </button>
                     </div>

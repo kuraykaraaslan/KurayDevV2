@@ -27,7 +27,7 @@ export default class NetGSMService {
                 00 5Fxxxxxx-2xxx-4xxE-8xxx-8A5xxxxxxxxxxxx	Gönderdiğiniz SMS'inizin başarıyla sistemimize ulaştığını gösterir. Bu görev(bulkid) sorgulanabilir, Raporlama servisinde bulkID bilgisi olarak 5Fxxxxxx-2xxx-4xxE-8xxx-8A5xxxxxxxxxxxx verilebilir. Bu outputu almanızın sebebi, 5 dakika boyunca ard arda gönderdiğiniz SMS'lerin sistemimiz tarafında çoklanarak (biriktirilerek) 1 dakika içerisinde gönderileceği anlamına gelir.
                 */
                 if (data.status === "00") {
-                    console.log("Message sent successfully.");
+                    
                 } else {
                     throw new Error("An error occurred while sending the message.");
                     console.error("An error occurred while sending the message.");

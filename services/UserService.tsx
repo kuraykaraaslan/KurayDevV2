@@ -2,9 +2,6 @@ import { User } from '@prisma/client';
 import prisma from '@/libs/prisma';
 
 export default class UserService {
-    static updateUser(userId: string, body: any) {
-      throw new Error("Method not implemented.");
-    }
 
     // Regular expressions for validation
     private static titleRegex = /^.{1,100}$/; // Title must be between 1 and 100 characters
@@ -139,6 +136,23 @@ export default class UserService {
                 image: true,
                 slug: true,
             },
+        });
+
+        return user;
+    }
+
+    /**
+     * Update a user by its ID
+     * @param userId - The user's ID
+     * @param data - The updated user data
+     * @returns The updated user
+     */
+    static async updateUser(userId: string, data: Partial<User>): Promise<User> {
+        const user = await prisma.user.update({
+            where: {
+                userId,
+            },
+            data,
         });
 
         return user;

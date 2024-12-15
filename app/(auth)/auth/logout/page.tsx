@@ -25,7 +25,7 @@ const LogoutPage = () => {
                 }
             }
         ).catch(err => {
-            console.log(err);
+            toast.error(err.response.data.message);
         }).finally(() => {
             setSession(undefined);
             setToken(undefined  );

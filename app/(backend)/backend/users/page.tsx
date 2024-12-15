@@ -72,10 +72,10 @@ const Page = () => {
                     </thead>
                     <tbody>
                         {users.map((user, index) => (
-                            <tr key={index} className="h-12 border-b hover:bg-primary hover:bg-opacity-10">
+                            <tr key={index} className="h-12 hover:bg-primary hover:bg-opacity-10">
                                 <td>
                                     {user.image ?
-                                        <Image width={32} height={32} src={user.image} className="h-8 w-8 rounded-full" alt={user.name} /> 
+                                        <Image width={32} height={32} src={user.image} className="h-8 w-8 rounded-full" alt={user.name as string} />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }

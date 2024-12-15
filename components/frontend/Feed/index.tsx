@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
-import FeedCardImage, { FeedCardProps } from "../FeedCard";
+
+import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
 
 export default function Feed(props: { category?: Category | null }) {
 
@@ -10,40 +11,28 @@ export default function Feed(props: { category?: Category | null }) {
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
+    const [pageSize, setPageSize] = useState(5);
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {
-        axiosInstance.get("/api/posts?page=" + page + "&limit=" + limit + (category ? "&categoryId=" + category.categoryId : ""))
+        axiosInstance.get("/api/posts?page=" + page + "&pageSize=" + pageSize + (category ? "&categoryId=" + category.categoryId : ""))
             .then(response => {
+
                 const incomingFeeds = response.data.posts.map((post: any) => {
-                    // check if the post in the feed already exists
-                    const existingFeed = feeds.find((post) => post.postId === post.postId);
-
-                    // if it exists, don't add it
-                    if (existingFeed) {
-                        return null;
-                    }
-
                     return {
-                        postId: post.postId,
-                        slug: post.slug,
+                        ...post,
+                        category: post.category,
                         title: post.title,
                         description: post.description,
-                        image: post.image,
-                        createdAt: post.createdAt,
-                        updatedAt: post.updatedAt,
-                        Category: {
-                            title: post.Category.title,
-                            slug: post.Category.slug
-                        },
+                        createdAt: new Date(post.createdAt),
+                        imageUrl: post.imageUrl
                     };
-                }).filter((post: any) => post !== null);
+                });
 
                 setFeeds(prev => [...prev, ...incomingFeeds]);
 
 
-                setIsMoreAvailable(response.data.total > page * limit);
+                setIsMoreAvailable(response.data.total > page * pageSize);
             });
 
     }, [page]); // Make sure to include all dependencies that affect the API call
@@ -79,7 +68,7 @@ export default function Feed(props: { category?: Category | null }) {
                 </div>
 
                 {isMoreAvailable ? (
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mb-3">
                         <button
                             className="btn btn-primary"
                             onClick={() => setPage(page + 1)}
@@ -88,7 +77,7 @@ export default function Feed(props: { category?: Category | null }) {
                         </button>
                     </div>
                 ) : (
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mb-3">
                         <button
                             className="btn btn-primary"
                             disabled

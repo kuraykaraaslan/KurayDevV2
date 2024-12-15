@@ -9,7 +9,7 @@ const NotFoundPage: React.FC = () => {
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <a
             href="#"
-            className="rounded-md py-2 px-4 text-white font-semibold bg-primary"
+            className="rounded-md py-2 px-4 font-semibold bg-primary"
           >
             Go back home
           </a>
