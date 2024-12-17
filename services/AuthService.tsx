@@ -8,7 +8,7 @@ import NextRequest from "@/types/NextRequest";
 
 
 export default class AuthService {
-         
+
     static cuidRegex = /^[a-z0-9]{25}$/;
     static emailRegex = /\S+@\S+\.\S+/;
     // just 6 characters for testing
@@ -188,96 +188,36 @@ export default class AuthService {
 
     }
 
-    static async authenticate(req: NextRequest, scope: string = "USER"): Promise<NextResponse> {
+    static async authenticate(request: NextRequest, scope: string = "USER"): Promise<SessionWithUser> {
+        try {
+            const authHeader = request.headers.get("Authorization");
+            const path = request.nextUrl.pathname;
+            const isApi = path.startsWith("/api");
 
-        const authHeader = req.headers.get('Authorization');
-        const path = req.nextUrl.pathname;
+            if (!authHeader || !authHeader.startsWith("Bearer ")) {
+                throw new Error("Authorization header is missing or invalid");
+            }
 
-        const isApi = path.startsWith("/api");
+            const token = authHeader.replace("Bearer ", "").trim();
 
-        if (!authHeader) {
-            return NextResponse.json({ error: "No auth header" }, { status: 401 });
-        }
-
-        const authHeaderNoBearer = authHeader.replace('Bearer ', '');
-
-        return await prisma.session.findFirst({
-            where: {
-                sessionToken: authHeaderNoBearer,
-            },
-            select: {
-                sessionToken: true,
-                userId: true,
-                expires: true,
-                user: {
-                    select: {
-                        userId: true,
-                        name: true,
-                        email: true,
-                        phone: true,
-                        role: true,
-                        image: true,
+            const session = await prisma.session.findFirst({
+                where: { sessionToken: token },
+                select: {
+                    sessionToken: true,
+                    userId: true,
+                    expires: true,
+                    user: {
+                        select: {
+                            userId: true,
+                            name: true,
+                            email: true,
+                            phone: true,
+                            role: true,
+                            image: true,
+                        },
                     },
                 },
-            },
-        }).then((session) => {
-
-            if (!session) {
-                return NextResponse.json({ error: "Invalid session token" }, { status: 401 });
-            }
-
-            if (session.expires < new Date()) {
-                return NextResponse.json({ error: "Session expired" }, { status: 401 });
-            }
-
-            if (isApi && scope === "ADMIN" && session.user.role !== "ADMIN") {
-                return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-            }
-
-            req.session = session;
-
-            return NextResponse.next();
-
-        }
-        );
-
-
-    }
-
-    static authenticateSync(req: NextRequest, scope: string = "USER"): void {
-
-
-        const authHeader = req.headers.get('Authorization');
-        const path = req.nextUrl.pathname;
-
-        const isApi = path.startsWith("/api");
-
-        if (!authHeader) {
-            throw new Error("Not Authorized");
-        }
-
-        const authHeaderNoBearer = authHeader.replace('Bearer ', '');
-
-        prisma.session.findFirst({
-            where: {
-                sessionToken: authHeaderNoBearer,
-            },
-            select: {
-                sessionToken: true,
-                userId: true,
-                expires: true,
-                user: {
-                    select: {
-                        userId: true,
-                        name: true,
-                        email: true,
-                        phone: true,
-                        role: true,
-                        image: true,
-                    },
-                },
-            },
-        }).then((session) => {
+            });
 
             if (!session) {
                 throw new Error("Invalid session token");
@@ -288,20 +228,85 @@ export default class AuthService {
             }
 
             if (isApi && scope === "ADMIN" && session.user.role !== "ADMIN") {
-                throw new Error("Unauthorized");
+                throw new Error("Unauthorized access");
             }
 
-            req.session = session;
+            //set session in request
+            request.session = session;
+
+            return {
+                sessionToken: session.sessionToken,
+                userId: session.userId,
+                expires: session.expires,
+                user: session.user,
+            };
+
+        } catch (error: any) {
+            throw new Error(`Authentication failed: ${error.message}`);
+        }
+    }
+
+    static authenticateSync(req: NextRequest, scope: string = "USER"): SessionWithUser {
+
+        try {
+
+            const authHeader = req.headers.get('Authorization');
+            const path = req.nextUrl.pathname;
+
+            const isApi = path.startsWith("/api");
+
+            if (!authHeader) {
+                throw new Error("Not Authorized");
+            }
+
+            const authHeaderNoBearer = authHeader.replace('Bearer ', '');
+
+            prisma.session.findFirst({
+                where: {
+                    sessionToken: authHeaderNoBearer,
+                },
+                select: {
+                    sessionToken: true,
+                    userId: true,
+                    expires: true,
+                    user: {
+                        select: {
+                            userId: true,
+                            name: true,
+                            email: true,
+                            phone: true,
+                            role: true,
+                            image: true,
+                        },
+                    },
+                },
+            }).then((session) => {
+
+                if (!session) {
+                    throw new Error("Invalid session token");
+                }
+
+                if (session.expires < new Date()) {
+                    throw new Error("Session expired");
+                }
+
+                if (isApi && scope === "ADMIN" && session.user.role !== "ADMIN") {
+                    throw new Error("Unauthorized");
+                }
+
+                req.session = session;
+
+                console.log('req.session', req.session);
+
+                return req.session;
+
+            });
 
         }
-        )
+        catch (error: any) {
+            throw new Error(error.message);
+        }
+
     };
 
-    static getUserFromRequest(req: NextRequest): Partial<User> {
-        if (!req.session) {
-            throw new Error("No session found in request");
-        }
-
-        return req.session.user;
-    }
 } 

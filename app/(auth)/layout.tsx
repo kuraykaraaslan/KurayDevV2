@@ -8,7 +8,8 @@ import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { usePathname } from 'next/navigation';
+import { usePathname , useSelectedLayoutSegments} from 'next/navigation';
+
 import path from 'path';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 

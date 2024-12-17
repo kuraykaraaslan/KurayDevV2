@@ -5,14 +5,15 @@ import Toolbox from '@/components/frontend/Hero/Toolbox';
 import GitContributions from '@/components/frontend/Hero/GitContributions';
 import Contact from '@/components/frontend/Hero/Contact';
 import PortfolioHero from '@/components/frontend/Hero/Portfolio';
+import TimelineV2 from '@/components/frontend/Hero/TimelineV2';
 
 const WelcomePage = () => {
   return (
     <>
       <Welcome />
+      <TimelineV2 />
       <Toolbox />
       <PortfolioHero />
-      <Timeline />
       <Contact />
     </>
   );

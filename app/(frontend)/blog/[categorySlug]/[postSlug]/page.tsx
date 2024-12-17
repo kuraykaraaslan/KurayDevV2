@@ -64,6 +64,7 @@ export default async function ({ params }: { params: { postSlug: string } }) {
                             <span>by <Link href="/" className="text-primary">Kuray Karaaslan</Link></span>
                         </div>
                     </div>
+                    
                     <Article {...post} />
                     <OtherPosts currentPostId={post.postId} categoryId={post.categoryId} />
                     <Comments postId={post.postId} />

@@ -21,9 +21,9 @@ export async function GET(request: NextRequest) {
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const search = searchParams.get('search') || undefined;
 
-        const users = await UserService.getAllUsers(page, pageSize, search);
+        const {users, total} = await UserService.getAllUsers({ page, pageSize, search });
 
-        return NextResponse.json({ users });
+        return NextResponse.json({ users, total, page, pageSize });
 
     }
     catch (error: any) {

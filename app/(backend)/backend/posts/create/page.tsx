@@ -14,12 +14,11 @@ import { toast } from 'react-toastify';
 
 const CreatePost = () => {
 
-    const [title, setTitle] = useState('Default Title');
-    const [content, setContent] = useState('<p>Default Content</p>');
-    const [description, setDescription] = useState('Default Description');
-    const [slug, setSlug] = useState('default-slug');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [description, setDescription] = useState('');
+    const [slug, setSlug] = useState('');
     const [keywords, setKeywords] = useState<string[]>([]);
-    const [image, setImage] = useState('');
     const [authorId, setAuthorId] = useState<String | null>(null);
     const [categoryId, setCategoryId] = useState<String | null>(null);
     const [status, setStatus] = useState('DRAFT');
@@ -70,28 +69,18 @@ const CreatePost = () => {
     }, []);
 
     useEffect(() => {
-        // special characters like spaces, slashes, and dots are removed
-        setSlug(title.toLowerCase().replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, '').substring(0, 50));
-    }, [title]);
+        if (title === '') {
+            return;
+        }
 
+        const month = createdAt.getMonth() + 1;
+        const day = createdAt.getDate();
+        const year = createdAt.getFullYear();
+        setSlug(title.toLowerCase().replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, '').substring(0, 50) + '-' + day + month + year);
+    }, [title, createdAt]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const neededFields = [title, content, description, slug, keywords, authorId, categoryId, image];
-
-        const blogPost = {
-            title,
-            content,
-            description,
-            slug,
-            keywords: keywords,
-            authorId,
-            categoryId,
-            image,
-            status,
-            createdAt,
-        };
 
         if (title === '') {
             toast.error('Title is required');
@@ -139,26 +128,29 @@ const CreatePost = () => {
             return;
         }
 
+        const body = {
+            title,
+            content,
+            description,
+            slug,
+            keywords: keywords,
+            authorId: authorId ? authorId : users[0].userId,
+            categoryId: categoryId ? categoryId : categories[0].categoryId,
+            image : imageUrl,
+            status,
+            createdAt,
+        };
 
         await axiosInstance.post('/api/posts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: {
-                title,
-                content,
-                description,
-                slug,
-                keywords: keywords,
-                image,
-                authorId: authorId ? authorId : users[0].userId,
-                categoryId: categoryId ? categoryId : categories[0].categoryId,
-            },
-
-        }).then(() => {
+            body: body,
+        }).then((response) => {
+            const post = response.data.post;
             toast.success('Post created successfully');
-            // router.push('/backend/posts');
+            router.push('/backend/posts/' + post.postId);
         }).catch((error) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message || 'Failed to create post');
         });
 
     };

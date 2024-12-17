@@ -51,13 +51,13 @@ const Welcome = () => {
               </p>
             </h2>
 
-            <Link href="/freelance" className="btn btn-primary">
+            <Link href="#contact" className="btn btn-primary">
               <FontAwesomeIcon
                 icon={faArrowRight}
                 className="mt-1"
                 style={{ width: "1rem" }}
               />
-              Hire Me Now
+              Contact Me
             </Link>
 
             <Link href="https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view?usp=drive_link" target="_blank">

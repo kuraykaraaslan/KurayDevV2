@@ -19,42 +19,81 @@ export default class UserService {
      * @returns An array of users
      */
     static async getAllUsers(
-        page = 1,
-        perPage = 10,
-        search?: string
-    ): Promise<User[]> {
+    data: {
+        page: number;
+        pageSize: number;
+        search?: string;
+    }): Promise<{ users: User[]; total: number }> {
        
+        const { page, pageSize, search } = data;
+
         // Validate search query
         if (search && !this.searchQueryRegex.test(search)) {
             throw new Error('Invalid search query.');
         }
 
-        if (search && search !== '') {
-            // Get users by search query
-            const users = await prisma.user.findMany({
-                skip: (page - 1) * perPage,
-                take: perPage,
+        const query = {
+                skip: (page - 1) * pageSize,
+                take: pageSize,           
                 where: {
                     OR: [
-                        { name: { contains: search } },
-                        { email: { contains: search } },
+                        {
+                            email: {
+                                contains: search || '',
+                                mode: 'insensitive',
+                            },
+                        },
+                        {
+                            phone: {
+                                contains: search || '',
+                                mode: 'insensitive',
+                            },
+                        },
+                        {
+                            slug: {
+                                contains: search || '',
+                                mode: 'insensitive',
+                            },
+                        },
                     ],
-                },
-            });
+                },        
+    
+            };
 
-            return users;
-        }
-
-        // Get all users
-        const users = await prisma.user.findMany({
-            skip: 0,
-            take: perPage,
-        });
-
-        return users;
+        const transaction = await prisma.$transaction([
+            prisma.user.findMany(query as any),
+            prisma.user.count(query as any),
+        ]);
+    
+        return {
+            users: transaction[0],
+            total: transaction[1],
+        };
     }
 
     static async deleteUser(userId: string): Promise<void> {
+
+        const user = await prisma.user.findUnique({
+            where: {
+                userId,
+            },
+        });
+
+        if (!user) {
+            throw new Error('User not found.');
+        }
+
+        // check if any admin is present
+        const admins = await prisma.user.findMany({
+            where: {
+                role: 'ADMIN',
+            },
+        });
+
+        if (admins.length === 1 && admins[0].userId === user.userId) {
+            throw new Error('Cannot delete the last admin user.');
+        }
+   
         await prisma.user.delete({
             where: {
                 userId,
@@ -148,14 +187,42 @@ export default class UserService {
      * @returns The updated user
      */
     static async updateUser(userId: string, data: Partial<User>): Promise<User> {
-        const user = await prisma.user.update({
+
+        console.log('data', data);
+        const user = await prisma.user.findUnique({
+            where: {
+                userId,
+            },
+        });
+
+        if (!user) {
+            throw new Error('User not found.');
+        }
+
+        // If the role isnot same, check if any admin is present
+        if (data.role && data.role !== user.role) {
+            const admins = await prisma.user.findMany({
+                where: {
+                    role: 'ADMIN',
+                },
+            });
+
+            if (admins.length === 1 && admins[0].userId === user.userId) {
+                throw new Error('Cannot change the role of the last admin user.');
+            }
+        }
+
+        // Update the user
+        const updatedUser = await prisma.user.update({
             where: {
                 userId,
             },
             data,
         });
 
-        return user;
+        return updatedUser;
     }
 }
 
+    
+        

@@ -48,29 +48,17 @@ export async function DELETE(
 ) {
   try {
 
-    AuthService.authenticateSync(request, "ADMIN");
-
-    const { userId } = params;
-    const user = await UserService.getUserById(userId);
-
-    if (!user) {
-      return NextResponse.json(
-        { message: "User not found." },
-        { status: 404 }
-      );
-    }
-
-    const requestUser = AuthService.getUserFromRequest(request);
+    await AuthService.authenticate(request, "ADMIN");
 
     // Check if the user is trying to delete themselves
-    if (requestUser.userId === user.userId) {
+    if (request.session?.user.userId === params.userId) {
       return NextResponse.json(
         { message: "You cannot delete yourself." },
         { status: 403 }
       );
     }
 
-    await UserService.deleteUser(user.userId);
+    await UserService.deleteUser(params.userId);
 
     return NextResponse.json(
       { message: "User deleted successfully." }
@@ -96,13 +84,13 @@ export async function PUT(
 ) {
   try {
 
-    AuthService.authenticateSync(request, "ADMIN");
-    
-    const { userId } = params;
-    const user = await request.session?.user;
+    await AuthService.authenticate(request, "ADMIN");
+
     const data = await request.json();
-    const updatedUser = await UserService.updateUser(userId, data);
-    return NextResponse.json({ user: updatedUser });
+    const user = await UserService.updateUser(params.userId, data);
+
+    return NextResponse.json({ user });
+
   }
   catch (error : any) {
     return NextResponse.json(

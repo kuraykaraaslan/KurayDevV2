@@ -23,7 +23,6 @@ export async function GET(request: NextRequest) {
         const onlyPublished = searchParams.get('onlyPublished') === 'true';
         const categoryId = searchParams.get('categoryId') || undefined;
         const search = searchParams.get('search') || undefined;
-        const hideFuturePosts = searchParams.get('hideFuturePosts') === 'true' || false;
 
         const data = {
             page,
@@ -31,7 +30,6 @@ export async function GET(request: NextRequest) {
             onlyPublished,
             categoryId,
             search,
-            hideFuturePosts
         }
 
         console.log('data', data);

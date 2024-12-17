@@ -1,6 +1,7 @@
 import { Post, User } from '@prisma/client';
 import prisma from '@/libs/prisma';
 import PostWithCategory from '@/types/PostWithCategory';
+import { skip } from 'node:test';
 
 export default class PostService {
 
@@ -86,91 +87,95 @@ export default class PostService {
      * @param search - The search query
      * @returns An array of posts
      */
-    static async getAllPosts(data: {
-        page: number;
-        pageSize: number;
-        search?: string;
-        categoryId?: string;
-        onlyPublished?: boolean;
-        hideFuturePosts?: boolean;
-    }): Promise<{ posts: PostWithCategory[], total: number }> {
+    static async getAllPosts(
+        data: {
+            page: number;
+            pageSize: number;
+            search?: string;
+            categoryId?: string;
+            withDeleted?: boolean;
+            onlyPublished?: boolean;
+        }): Promise<{ posts: PostWithCategory[], total: number }> {
 
-        let { page, pageSize, search, categoryId, onlyPublished, hideFuturePosts } = data;
 
-        //default values
-        page = page || 1;
-        pageSize = pageSize || 10;
-        onlyPublished = onlyPublished || false;
-        hideFuturePosts = hideFuturePosts || false;
+        const { page, pageSize, search, categoryId, withDeleted, onlyPublished } = data;
+            
 
         console.log('page', page);
         console.log('pageSize', pageSize);
         console.log('search', search);
         console.log('categoryId', categoryId);
-        console.log('onlyPublished', onlyPublished);
-
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
             throw new Error('Invalid search query.');
         }
         // Get posts by search query
-
-        const query = await prisma.$transaction([
-            prisma.post.findMany({
-                skip: (page - 1) * pageSize,
-                take: pageSize,
-                orderBy: { createdAt: 'desc' },
-                where: {
-                    OR: [
-                        { title: { contains: search ? search : '' } },
-                        { description: { contains: search ? search : '' } },
-                        { content: { contains: search ? search : '' } },
-                        { keywords: { hasSome: search ? [search] : [] } },
-                    ],
-                    status: onlyPublished ? 'PUBLISHED' : undefined,
-                    publishedAt: hideFuturePosts ? { lte: new Date() } : undefined,
-                },
-                select: {
-                    postId: true,
-                    title: true,
-                    description: true,
-                    slug: true,
-                    keywords: true,
-                    image: true,
-                    authorId: true,
-                    categoryId: true,
-                    createdAt: true,
-                    updatedAt: true,
-                    status: true,
-                    views: true,
-                    Category: {
-                        select: {
-                            categoryId: true,
-                            title: true,
-                            slug: true,
-                            image: true,
-                        },
+        const query = {
+            skip: (page - 1) * pageSize,
+            take: pageSize,
+            select: {
+                postId: true,
+                title: true,
+                description: true,
+                slug: true,
+                keywords: true,
+                image: true,
+                authorId: true,
+                categoryId: true,
+                createdAt: true,
+                updatedAt: true,
+                status: true,
+                views: true,
+                Category: {
+                    select: {
+                        categoryId: true,
+                        title: true,
+                        slug: true,
+                        image: true,
                     },
                 },
+            },
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search || '',
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        description: {
+                            contains: search || '',
+                            mode: 'insensitive',
+                        },
+                    }
+                ],
+                categoryId: categoryId ? categoryId : undefined,
+                deletedAt: withDeleted ? undefined : null,
+                status: !onlyPublished ? undefined : 'PUBLISHED',
+            },
+        };
 
-            }),
-            prisma.post.count({
-                where: {
-                    OR: [
-                        { title: { contains: search ? search : '' } },
-                        { description: { contains: search ? search : '' } },
-                        { content: { contains: search ? search : '' } },
-                        { keywords: { hasSome: search ? [search] : [] } },
-                    ],
-                    status: onlyPublished ? 'PUBLISHED' : undefined,
-                    publishedAt: hideFuturePosts ? { lte: new Date() } : undefined,
-                },
-            }),
+        console.log('query', query);
 
+        const countQuery = {
+            skip: query.skip,
+            take: query.take,
+            where: query.where,
+        };
+
+
+
+        const transaction = await prisma.$transaction([
+            prisma.post.findMany(query as any),
+            prisma.post.count(countQuery as any),
         ]);
 
-        return { posts: query[0] as PostWithCategory[], total: query[1] };
+        
+        console.log('transaction', transaction);
+
+        return { posts: transaction[0] as PostWithCategory[], total: transaction[1] };
 
 
     }

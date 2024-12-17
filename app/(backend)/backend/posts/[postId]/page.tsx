@@ -14,10 +14,10 @@ import { toast } from 'react-toastify';
 
 const UpdatePost =({ params }: { params: { postId: string } }) => {
 
-    const [title, setTitle] = useState('Default Title');
-    const [content, setContent] = useState('<p>Default Content</p>');
-    const [description, setDescription] = useState('Default Description');
-    const [slug, setSlug] = useState('default-slug');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [description, setDescription] = useState('');
+    const [slug, setSlug] = useState('');
     const [keywords, setKeywords] = useState<string[]>([]);
     const [authorId, setAuthorId] = useState<String | null>(null);
     const [categoryId, setCategoryId] = useState<String | null>(null);
@@ -91,21 +91,6 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const neededFields = [title, content, description, slug, keywords, authorId, categoryId];
-
-        const blogPost = {
-            title,
-            content,
-            description,
-            slug,
-            keywords: keywords,
-            authorId,
-            categoryId,
-            image: imageUrl,
-            status,
-            createdAt,
-        };
-
         if (title === '') {
             toast.error('Title is required');
             return;
@@ -153,22 +138,24 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
         }
 
 
+        const body = {
+            title,
+            content,
+            description,
+            slug,
+            keywords: keywords,
+            authorId: authorId ? authorId : users[0].userId,
+            categoryId: categoryId ? categoryId : categories[0].categoryId,
+            image : imageUrl,
+            status,
+            createdAt,
+        };
+
+
         await axiosInstance.put('/api/posts/' + params.postId, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: {
-                title,
-                content,
-                description,
-                slug,
-                keywords: keywords,
-                image: imageUrl,
-                authorId: authorId ? authorId : users[0].userId,
-                categoryId: categoryId ? categoryId : categories[0].categoryId,
-                status,
-                createdAt,
-            },
-
+            body: body,
         }).then(() => {
             toast.success('Post created successfully');
             // router.push('/backend/posts');
