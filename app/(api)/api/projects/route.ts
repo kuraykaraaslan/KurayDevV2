@@ -2,17 +2,16 @@
 
 import { NextResponse } from "next/server";
 import NextRequest from "@/types/NextRequest";
-import { Post } from "@prisma/client";
+import { Project } from "@prisma/client";
 import prisma from '@/libs/prisma';
-import PostService from "@/services/PostService";
+import ProjectService from "@/services/ProjectService";
 import AuthService from "@/services/AuthService";
 
-
 /**
- * GET handler for retrieving all posts with optional pagination and search.
+ * GET handler for retrieving all projects with optional pagination and search.
  * @param request - The incoming request object
- * @returns A NextResponse containing the posts data or an error message
- */
+ * @returns A NextResponse containing the projects data or an error message
+ * */
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
@@ -20,22 +19,16 @@ export async function GET(request: NextRequest) {
         // Extract query parameters
         const page = parseInt(searchParams.get('page') || '1', 10);
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
-        const onlyPublished = searchParams.get('onlyPublished') === 'true';
-        const categoryId = searchParams.get('categoryId') || undefined;
         const search = searchParams.get('search') || undefined;
 
         const data = {
             page,
             pageSize,
-            onlyPublished,
-            categoryId,
             search,
         }
 
-        console.log('data', data);
-
-        const result = await PostService.getAllPosts(data);
-        return NextResponse.json({ posts: result.posts, total: result.total , page, pageSize });
+        const result = await ProjectService.getAllProjects(data);
+        return NextResponse.json({ projects: result.projects, total: result.total , page, pageSize });
 
     }
     catch (error: any) {
@@ -48,20 +41,19 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * POST handler for creating a new post.
+ * POST handler for creating a new project.
  * @param request - The incoming request object
- * @returns A NextResponse containing the new post data or an error message
- */
+ * @returns A NextResponse containing the newly created project or an error message
+ * */
 export async function POST(request: NextRequest) {
     try {
 
         AuthService.authenticateSync(request, "ADMIN");
 
-        const { body } = await request.json();
-
-        const post = await PostService.createPost(body);
+        const data = await request.json() as Omit<Project, 'projectId'>;
+        const project = await ProjectService.createProject(data) as Project;
         
-        return NextResponse.json({ post });
+        return NextResponse.json({ project });
 
     }
     catch (error: any) {
@@ -71,4 +63,5 @@ export async function POST(request: NextRequest) {
             { status: 500 }
         );
     }
+
 }
