@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 
 
-const Newsletter: React.FC = () => {
+const Newsletter = ({ backgroundColor }: { backgroundColor?: string }) => {
 
     const emailRegex = /\S+@\S+\.\S+/;
 
@@ -32,7 +32,7 @@ const Newsletter: React.FC = () => {
     }
 
     return (
-        <div className="bg-base-200 py-16 px-6">
+        <div className={"py-16 px-6" + (backgroundColor ? " " + backgroundColor : " bg-base-200")}>
             <div className="max-w-5xl mx-auto text-center">
                 <h2 className="text-5xl font-bold mb-6">Subscribe to my newsletter</h2>
                 <p className="text-base">Stay up to date! Get all the latest & greatest posts delivered straight to your inbox</p>

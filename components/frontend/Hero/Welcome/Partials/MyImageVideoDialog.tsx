@@ -6,6 +6,8 @@ import ReactPlayer from "react-player";
 
 const MyImage = () => {
 
+  const [comingSoon, setComingSoon] = React.useState(true);
+
   const [playing, setPlaying] = React.useState(false);
   const player = createRef<ReactPlayer>();
 
@@ -47,9 +49,17 @@ const MyImage = () => {
       <div className="relative w-full h-full flex flex-col" onClick={handleOpenModal}>
         <FontAwesomeIcon icon={faPlayCircle} className="text-white w-16 h-16 m-auto" />
       </div>
-      <dialog id="my_modal" className="modal modal-middle" onClick={handleCloseModal}>
+      <dialog id="my_modal" className="fixed modal modal-middle" onClick={handleCloseModal}>
         <div className="modal-box p-0">
+          {!comingSoon ?
           <ReactPlayer url="https://www.youtube.com/watch?v=eJO5HU_7_1w?modestbranding=1&rel=0&showinfo=0&autoplay=1" controls={true} width="100%" playing={playing} ref={player} />
+          : 
+          <div className="w-full h-[200px] flex flex-col">
+            <div className="m-auto">
+              A video is coming soon! Stay tuned!
+            </div>
+          </div>
+          }
         </div>
       </dialog>
     </>
