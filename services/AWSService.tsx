@@ -4,7 +4,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 export default class AWSService {
 
-    static allowedFolders = ['general', 'categories', 'users', 'posts', 'comments', 'images', 'videos', 'audios', 'files'];
+    static allowedFolders = ['general', 'categories', 'users', 'posts', 'comments', 'images', 'videos', 'audios', 'files', 'content'];
 
     static uploadFile = async (file: File, folder?: string) : Promise<string | undefined> => {
         try {
