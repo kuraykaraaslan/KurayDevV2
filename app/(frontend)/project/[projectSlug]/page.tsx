@@ -1,19 +1,16 @@
 import React from 'react';
-import axiosInstance from '@/libs/axios';
-import PostService from '@/services/PostService';
-
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import Comments from '@/components/frontend/Comments';
-import RelatedArticles from '@/components/frontend/RelatedArticles';
-import OtherPosts from '@/components/frontend/OtherPosts';
-import PostCard from '@/components/frontend/OtherPosts/Partials/PostCard';
 import Newsletter from '@/components/frontend/Newsletter';
 import ProjectService from '@/services/ProjectService';
 import Image from 'next/image';
 import SingleProject from '@/components/frontend/SingleProject';
+import ProjectLink from '@/types/ProjectLink';
 
+import { faDownload, faExternalLinkAlt, faFile, faGlobe, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faYoutube, faLinkedin, faTwitter, faInstagram, faFacebook, faDiscord, faGitlab
+ } from '@fortawesome/free-brands-svg-icons';
 const SinglePin = ({bgColor, textColor, text} : {bgColor: string, textColor: string, text: string}) => {
     return (
         <div className={`bg-${bgColor} text-${textColor} rounded-lg p-1`}>
@@ -49,6 +46,24 @@ export default async function ({ params }: { params: { projectSlug: string } }) 
 
     const readTime = Math.ceil(project.content.split(' ').length / 200);
 
+
+    const allowedIconOptions = [
+        { value: 'github', label: 'GitHub' , icon: faGithub},
+        { value: 'demo', label: 'Demo' , icon: faExternalLinkAlt},
+        { value: 'gitlab', label: 'GitLab' , icon: faGitlab},
+        { value: 'download', label: 'Download' , icon: faDownload},
+        { value: 'link', label: 'Link' , icon: faExternalLinkAlt},
+        { value: 'file', label: 'File', icon: faFile },
+        { value: 'external-link', label: 'External Link' , icon: faExternalLinkAlt},
+        { value: 'youtube', label: 'YouTube' , icon: faYoutube},
+        { value: 'linkedin', label: 'LinkedIn' , icon: faLinkedin},
+        { value: 'twitter', label: 'Twitter' , icon: faTwitter},
+        { value: 'instagram', label: 'Instagram' , icon: faInstagram},
+        { value: 'facebook', label: 'Facebook' , icon: faFacebook},
+        { value: 'discord', label: 'Discord' , icon: faDiscord},
+    ];
+
+
     return (
         <>
             <section className="min-h-screen pt-32 pb-8 bg-base-100" id="project">
@@ -62,7 +77,25 @@ export default async function ({ params }: { params: { projectSlug: string } }) 
                                     <h1 className="text-xl font-bold">{project.title}</h1>
                                     <h2 className="text-sm"><span className="font-bold">Description:</span> {project.description}</h2>
                                     <h2 className="text-sm"><span className="font-bold">Technologies:</span> {project.technologies.join(', ')}</h2>
-                                    <h3 className="text-sm"><span className="font-bold">Categories:</span> {project.platforms.join(', ')}</h3>
+                                    <h3 className="text-sm"><span className="font-bold mb-2">Categories:</span> {project.platforms.join(', ')}</h3>
+                                    <div className="flex flex-col space-y-2 mt-4">
+                                        {/*@ts-ignore*/}
+                                        {project.projectLinks?.map((link: ProjectLink, index: number) => {
+                                            if (link?.url && link?.title && link?.icon) {
+
+                                                const Icon = allowedIconOptions.find((option) => option.value === link.icon)?.icon;
+
+                                                
+
+                                                return (
+                                                    <a key={index} href={link.url} className="btn btn-sm btn-primary text-left">
+                                                        <FontAwesomeIcon icon={Icon ? Icon : faGlobe} className="mr-2" />
+                                                        {link.title}
+                                                    </a>
+                                                );
+                                            }
+                                        })}
+                                    </div>
                                 </div>
                             </div>
 

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
-import { Category, ProjectLink, User } from '@prisma/client';
+import { Category, User } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
@@ -13,7 +13,9 @@ import { toast } from 'react-toastify';
 import { response } from 'express';
 import ImageLoad from '@/components/common/ImageLoad';
 import TinyMCEEditor from '@/components/backend/Editor';
+
 import ProjectLinkTable from '@/components/backend/Tables/ProjectLinkTable';
+import ProjectLink from '@/types/ProjectLink';
 
 
 const SingleProject = ({ params }: { params: { projectId: string } }) => {
@@ -36,9 +38,12 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
     const [technologies, setTechnologies] = useState<string[]>([]);
     const [status, setStatus] = useState('PUBLISHED');
 
-    const [links, setLinks] = useState<ProjectLink[]>([]);
+    const [projectLinks, setProjectLinks] = useState<ProjectLink[]>([]);
 
 
+    useEffect(() => {
+        console.log(projectLinks);
+    }, [projectLinks]);
 
     // Temporary fields
     const [imageFile, setImageFile] = useState<File>();
@@ -156,7 +161,8 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
             platforms,
             technologies,
             status,
-            image
+            image,
+            projectLinks
         };
 
         console.log(body);
@@ -197,6 +203,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                 setTechnologies(project.technologies);
                 setStatus(project.status);
                 setImage(project.image);
+                setProjectLinks(project?.projectLinks || []);
             }
             ).catch((error) => {
                 console.error(error);
@@ -304,7 +311,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                                             }
                                         }}
                                     />
-                                    <span className='text-black mt-2'>{platform}</span>
+                                    <span className='mt-2'>{platform}</span>
                                 </div>
                             ))}
 
@@ -330,7 +337,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                                             }
                                         }}
                                     />
-                                    <span className='text-black mt-2'>{technology}</span>
+                                    <span className='mt-2'>{technology}</span>
                                 </div>
                             ))}
                         </div>
@@ -339,8 +346,11 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                     <div className="form-control mb-4 mt-4">
                         <label className="label">
                             <span className="label-text">Links</span>
+                            <button className="btn btn-sm btn-primary" onClick={() => setProjectLinks([...projectLinks, { icon: 'github', title: '', url: '' }])}>
+                                Add Link
+                            </button>
                         </label>
-                        <ProjectLinkTable projectId={params.projectId} />
+                        <ProjectLinkTable projectLinks={projectLinks} setProjectLinks={setProjectLinks} />
                     </div>
 
                     <div className="form-control mb-4 mt-4">
