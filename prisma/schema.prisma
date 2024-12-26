@@ -30,9 +30,7 @@ model User {
   phoneVerificationToken String?
   phoneVerified          DateTime?
   slug                   String?   @unique
-
   coverImage             String?
-
   Post                   Post[]
   sessions               Session[]
 }
@@ -62,22 +60,17 @@ model Post {
   description String?
   slug        String    @unique
   keywords    String[]
-
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
-
-  
   categoryId  String
   image       String?
   publishedAt DateTime  @default(now())
   status      String    @default("PUBLISHED")
+  views       Int       @default(0)
+  deletedAt   DateTime?
   Comment     Comment[]
   author      User      @relation(fields: [authorId], references: [userId])
   Category    Category  @relation(fields: [categoryId], references: [categoryId])
-
-  //analytics
-  views       Int       @default(0)
 }
 
 model Category {
@@ -93,16 +86,16 @@ model Category {
 }
 
 model Comment {
-  commentId   String    @id @default(cuid())
-  content     String
-  createdAt   DateTime  @default(now())
-  postId      String
-  name        String?
-  email       String?
-  parentId    String?
-  parent      Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
-  children     Comment[] @relation("CommentToComment")
-  post        Post      @relation(fields: [postId], references: [postId])
+  commentId String    @id @default(cuid())
+  content   String
+  createdAt DateTime  @default(now())
+  postId    String
+  parentId  String?
+  email     String?
+  name      String?
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
+  children  Comment[] @relation("CommentToComment")
+  post      Post      @relation(fields: [postId], references: [postId])
 }
 
 model ContactForm {
@@ -121,45 +114,25 @@ model Subscription {
 }
 
 model Setting {
-  key   String @id @unique
-  value String
-  type  String @default("string")
-  group String @default("general") // general, seo, social, mail, analytics
-
+  key       String   @id @unique
+  value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model ProjectLink {
-  linkId    String   @id @default(cuid())
-  projectId String 
-  title     String
-  url       String
-  icon      String
-  order     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  Project   Project @relation(fields: [projectId], references: [projectId])
+  group     String   @default("general")
+  type      String   @default("string")
 }
 
 model Project {
-  projectId    String      @id @default(cuid())
-
+  projectId    String   @id @default(cuid())
   title        String
   description  String?
-  content      String
-
-  slug         String      @unique
-
+  slug         String   @unique
   image        String?
-
-  status       String      @default("PUBLISHED")
-
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt @default(now())
-  
-  platforms   String[]    @default([]) // WEB, MOBILE, DESKTOP, IOT, AI, BLOCKCHAIN
-  technologies String[]   @default([]) // REACT, ANGULAR, VUE, FLUTTER, SWIFT, KOTLIN, JAVA, NODEJS, PYTHON, DJANGO, RUBY, RAILS, PHP, LARAVEL, ASP.NET, C#, GO, RUST, C++, C, R, SCALA, HASKELL, ERLANG, ELIXIR, RUBY, RAILS, CRYSTAL, SQL, NOSQL, MONGODB, POSTGRESQL, MYSQL, SQLITE, REDIS, ELASTICSEARCH, KAFKA, RABBITMQ, DOCKER, KUBERNETES, AWS, GCP, AZURE, HEROKU, DIGITALOCEAN, VULTR, LINODE, NETLIFY, VERCCEL, GITHUB, GITLAB, BITBUCKET, JENKINS, CIRCLECI, TRAVIS, SEMAPHORE, CODESHIP, SONARCLOUD, SONARQUBE, JIRA, TRELLO, ASANA, SLACK, ZOOM, GOOGLE MEET, MICROSOFT TEAMS, DISCORD, TWILIO, SENDGRID, MAILGUN, POSTMARK, TWILIO, STRIPE, PAYPAL, RAZORPAY, PAYTM, GOOGLE PAY, PHONEPE, APPLE PAY, ANDROID PAY, UPI, PAYMENT GATEWAY, SMS GATEWAY, OTP, AUTHENTICATION, AUTHORIZATION, JWT, OAUTH, OPENID, SAML, SSO, MFA, 2FA, FIREBASE, FIRESTORE, REALTIME DATABASE, STORAGE, AUTHENTICATION, ANALYTICS, CRASHLYTICS, PERFORMANCE, TEST LAB, REMOTE CONFIG, IN APP MESSAGING, CLOUD MESSAGING, NOTIFICATIONS, ADWORDS, ADMOB, GOOGLE ANALYTICS, PLAY STORE, APP STORE, PWA, PROGRESSIVE WEB APP, AMP, ACCELERATED MOBILE PAGES, SEO, SEARCH ENGINE OPTIMIZATION, SEM, SEARCH ENGINE MARKETING, SMM, SOCIAL MEDIA MARKETING, SMO, SOCIAL MEDIA OPTIMIZATION, EMAIL
-  links        ProjectLink[]
+  status       String   @default("PUBLISHED")
+  platforms    String[] @default([])
+  technologies String[] @default([])
+  content      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  projectLinks Json[]
 }
