@@ -15,7 +15,8 @@ import Newsletter from '@/components/frontend/Newsletter';
 
 export default async function ({ params }: { params: { postSlug: string } }) {
 
-    let post = await PostService.getPostBySlug(params.postSlug);
+    let { posts } = await PostService.getAllPosts({ page: 1, pageSize: 1, slug: params.postSlug, onlyPublished: true });
+    let post = posts[0];
 
     if (!post) {
         notFound();

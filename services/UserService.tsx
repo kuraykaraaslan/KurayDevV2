@@ -188,7 +188,6 @@ export default class UserService {
      */
     static async updateUser(userId: string, data: Partial<User>): Promise<User> {
 
-        console.log('data', data);
         const user = await prisma.user.findUnique({
             where: {
                 userId,

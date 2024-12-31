@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
-import { Category, User } from '@prisma/client';
+import { Category, Project, User } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
@@ -15,14 +15,11 @@ import ImageLoad from '@/components/common/ImageLoad';
 import TinyMCEEditor from '@/components/backend/Editor';
 
 import ProjectLinkTable from '@/components/backend/Tables/ProjectLinkTable';
-import ProjectLink from '@/types/ProjectLink';
 
 
 const SingleProject = ({ params }: { params: { projectId: string } }) => {
 
     const mandatoryFields = ['title', 'content', 'description', 'slug', 'platforms'];
-
-
     const router = useRouter();
     const [mode, setMode] = useState(params.projectId === 'create' ? 'create' : 'edit');
     const [loading, setLoading] = useState(true);
@@ -37,19 +34,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
     const [platforms, setPlatforms] = useState<string[]>([]);
     const [technologies, setTechnologies] = useState<string[]>([]);
     const [status, setStatus] = useState('PUBLISHED');
-
-    const [projectLinks, setProjectLinks] = useState<ProjectLink[]>([]);
-
-
-    useEffect(() => {
-        console.log(projectLinks);
-    }, [projectLinks]);
-
-    // Temporary fields
-    const [imageFile, setImageFile] = useState<File>();
-
-    //tinyMCE
-    const tinyMCE = createRef<Editor>();
+    const [projectLinks, setProjectLinks] = useState<string[]>([]);
 
     // Platform fields
     const allowedPlatforms = [
@@ -59,12 +44,9 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
         'desktop',
         'embedded',
         'other',
-        'cloud',
         'iot',
         'gaming',
-        'ecommerce',
         'machine learning',
-        'data analytics'
     ];
 
     // Technologies fields
@@ -108,13 +90,6 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
         }
     }, [title]);
 
-
-    //load tinymce
-    useEffect(() => {
-
-    }, [tinyMCE]);
-
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -124,7 +99,6 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
             // integer or string
             const fieldValue = eval(fieldName);
             const fieldType = typeof fieldValue;
-            console.log(fieldName, fieldValue, fieldType);
 
             switch (fieldType) {
                 case 'string':
@@ -165,7 +139,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
             projectLinks
         };
 
-        console.log(body);
+        return;
 
         if (mode === 'create') {
             await axiosInstance.post('/api/projects', body).then((response) => {
@@ -203,9 +177,8 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                 setTechnologies(project.technologies);
                 setStatus(project.status);
                 setImage(project.image);
-                setProjectLinks(project?.projectLinks || []);
-            }
-            ).catch((error) => {
+                setProjectLinks(project.projectLinks);
+            }).catch((error) => {
                 console.error(error);
             });
 
@@ -218,7 +191,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
         <>
             <div className="container mx-auto">
                 <div className="flex justify-between items-center flex-row">
-                    <h1 className="text-3xl font-bold h-16 items-center">Create Project</h1>
+                    <h1 className="text-3xl font-bold h-16 items-center">{mode === 'create' ? 'Create Project' : title}</h1>
                     <div className="flex gap-2 h-16">
                         <Link className="btn btn-primary btn-sm h-12" href="/backend/projects">
                             Back to Projects
@@ -346,7 +319,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                     <div className="form-control mb-4 mt-4">
                         <label className="label">
                             <span className="label-text">Links</span>
-                            <button className="btn btn-sm btn-primary" onClick={() => setProjectLinks([...projectLinks, { icon: 'github', title: '', url: '' }])}>
+                            <button className="btn btn-sm btn-primary" onClick={() => setProjectLinks([...projectLinks, ''])}>
                                 Add Link
                             </button>
                         </label>
@@ -365,8 +338,8 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                         />
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary block w-full mt-4" onClick={handleSubmit}>
-                    {mode === 'create' ? 'Create Project' : 'Update Project'}
+                <button type="submit" className="btn btn-primary block w-full mt-4" onClick={handleSubmit} disabled={loading}>
+                    { loading ? 'Loading...' : mode === 'create' ? 'Create Project' : 'Update Project'}
                 </button>
             </div>
         </>

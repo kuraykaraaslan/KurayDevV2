@@ -20,11 +20,15 @@ export async function GET(request: NextRequest) {
         const page = parseInt(searchParams.get('page') || '1', 10);
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const search = searchParams.get('search') || undefined;
+        const projectId = searchParams.get('projectId') || undefined;
+
+        
 
         const data = {
             page,
             pageSize,
             search,
+            projectId
         }
 
         const result = await ProjectService.getAllProjects(data);
@@ -52,6 +56,33 @@ export async function POST(request: NextRequest) {
 
         const data = await request.json() as Omit<Project, 'projectId'>;
         const project = await ProjectService.createProject(data) as Project;
+        
+        return NextResponse.json({ project });
+
+    }
+    catch (error: any) {
+        console.error(error.message);
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
+
+}
+
+
+/**
+ * PUT handler for updating an existing project.
+ * @param request - The incoming request object
+ * @returns A NextResponse containing the updated project data or an error message
+ * */
+export async function PUT(request: NextRequest) {
+    try {
+
+        AuthService.authenticateSync(request, "ADMIN");
+
+        const data = await request.json() as Project;
+        const project = await ProjectService.updateProject(data);
         
         return NextResponse.json({ project });
 

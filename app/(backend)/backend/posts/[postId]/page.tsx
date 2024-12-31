@@ -1,331 +1,186 @@
 'use client';
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
-import { Category, User } from '@prisma/client';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRobot } from '@fortawesome/free-solid-svg-icons';
-import Image from 'next/image';
-
 import { toast } from 'react-toastify';
+import CategorySelect from '@/components/backend/Selects/CategorySelect';
+import UserSelect from '@/components/backend/Selects/UserSelect';
+import ImageLoad from '@/components/common/ImageLoad';
+import AIPrompt from '@/components/backend/AIPrompt';
 
 
-const UpdatePost =({ params }: { params: { postId: string } }) => {
+const SinglePost = ({ params }: { params: { postId: string } }) => {
 
-    const [title, setTitle] = useState('');
+    const mandatoryFields = ['title', 'content', 'description', 'slug', 'authorId', 'categoryId'];
+    const router = useRouter();
+    const [mode, setMode] = useState(params.postId === 'create' ? 'create' : 'edit');
+    const [loading, setLoading] = useState(true);
+
+    // Model fields
+    const [title, setTitle] = useState('');    
+    const [image, setImage] = useState('');
     const [content, setContent] = useState('');
     const [description, setDescription] = useState('');
     const [slug, setSlug] = useState('');
     const [keywords, setKeywords] = useState<string[]>([]);
-    const [authorId, setAuthorId] = useState<String | null>(null);
-    const [categoryId, setCategoryId] = useState<String | null>(null);
-
-    const [users, setUsers] = useState<Partial<User>[]>([]);
-    const [categories, setCategories] = useState<Partial<Category>[]>([]);
-
-    const [aiContent, setAiContent] = useState('');
-
-    const [imageUrl, setImageUrl] = useState<String | null>(null);
-    //image upLoad
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const router = useRouter();
-
+    const [authorId, setAuthorId] = useState<string>('');
+    const [categoryId, setCategoryId] = useState<string>("");
     const [status, setStatus] = useState('DRAFT');
     const [createdAt, setCreatedAt] = useState(new Date());
-
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        axiosInstance.get('/api/users?pageSize=100')
-            .then((response) => {
-                setUsers(response.data.users);
-
-                if (authorId === null && users.length > 0) {
-                    setAuthorId(users[0].userId as string || 'Unknown');
-                }
-
-            })
-            .catch((error) => {
-                toast.error(error.message);
-            });
-
-        //if authorId is not set, set it to the first user
-    }, []);
+    const [updatedAt, setUpdatedAt] = useState(new Date());
+    const [views, setViews] = useState(0);
 
     useEffect(() => {
-        axiosInstance.get('/api/categories?pageSize=100')
-            .then((response) => {
-                setCategories(response.data.categories);
-
-                if (categoryId === null && categories.length > 0) {
-                    setCategoryId(categories[0].categoryId as string || 'Unknown');
-                }
-
-            })
-            .catch((error) => {
-                toast.error(error.message);
-            });
-
-        //if authorId is not set, set it to the first user
-    }, []);
-
-    useEffect(() => {
-
-        if (!title) {
+        //if we are in edit mode and never update slug again
+        if (mode === 'edit' || loading) {
             return;
         }
 
-        if (loading) {
-            return;
-        }
+        if (title) {
+            // Remove all non-english characters
+            const invalidChars = /[^\w\s-]/g;
+            // Remove all non-english characters
+            let slugifiedTitle = title.replace(invalidChars, '');
+            // Replace all spaces with hyphens
+            slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-');
+            // Remove all double hyphens
+            slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
+            // Convert to lowercase
+            slugifiedTitle = slugifiedTitle.toLowerCase();
 
-        const invalidChars = /[^\w\s-]/g;
-        const slugifiedTitle = title.toLowerCase().replace(invalidChars, '').replace(/\s+/g, '-');
-        setSlug(slugifiedTitle);
+            setSlug(slugifiedTitle);
+        }
     }, [title]);
-
-
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (title === '') {
-            toast.error('Title is required');
-            return;
-        }
+        var errors: string[] = [];
 
+        mandatoryFields.forEach((fieldName) => {
+            // integer or string
+            const fieldValue = eval(fieldName);
+            const fieldType = typeof fieldValue;
 
-        if (content === '') {
-            toast.error('Content is required');
-            return;
-        }
-
-        if (description === '') {
-            toast.error('Description is required');
-            return;
-        }
-
-        if (slug === '') {
-            toast.error('Slug is required');
-            return;
-        }
-
-        if (keywords.length === 0) {
-            toast.error('Keywords are required');
-            return;
-        }
-
-        if (authorId === null && users.length > 0) {
-            const firstUser = users[0];
-            if (firstUser) {
-                setAuthorId(firstUser.userId as string);
+            switch (fieldType) {
+                case 'string':
+                    if (!fieldValue || fieldValue === '') {
+                        toast.error(`${fieldName} is required`);
+                        return;
+                    }
+                    break;
+                case 'object':
+                    if (!fieldValue.length || fieldValue.length === 0) {
+                        toast.error(`${fieldName} is required`);
+                        return;
+                    }
+                    break;
+                default:
+                    break;
             }
-        } else if (authorId === null) {
-            toast.error('Author is required');
-            return;
-        }
+        });
 
-        if (categoryId === null && categories.length > 0) {
-            const firstCategory = categories[0];
-            if (firstCategory) {
-                setCategoryId(firstCategory.categoryId as string);
-            }
-        } else if (categoryId === null) {
-            toast.error('Category is required');
+        if (errors.length > 0) {
+            errors.forEach((error) => {
+                toast.error(error);
+            });
             return;
         }
 
 
         const body = {
+            postId: params.postId ? params.postId : null,
             title,
             content,
             description,
             slug,
             keywords: keywords,
-            authorId: authorId ? authorId : users[0].userId,
-            categoryId: categoryId ? categoryId : categories[0].categoryId,
-            image : imageUrl,
+            authorId: authorId,
+            categoryId: categoryId,
             status,
             createdAt,
+            updatedAt,
+            views,
         };
 
-
-        await axiosInstance.put('/api/posts/' + params.postId, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: body,
-        }).then(() => {
-            toast.success('Post created successfully');
-            // router.push('/backend/posts');
-        }).catch((error) => {
-            toast.error(error.response.data.message);
-        });
-
+        if (mode === 'create') {
+            await axiosInstance.post('/api/posts', body).then(() => {
+                toast.success('Post created successfully');
+                router.push('/backend/posts');
+            }).catch((error) => {
+                toast.error(error.response.data.message);
+            });
+        } else {
+            await axiosInstance.put('/api/posts/', body).then(() => {
+                toast.success('Post updated successfully');
+                router.push('/backend/posts');
+            }).catch((error) => {
+                toast.error(error.response.data.message);
+            });
+        }
     };
 
-    const showModal = () => {
-        if (!document) {
-            return;
-        }
+    useEffect(() => {   
+        if (params.postId) {
+            axiosInstance.get(`/api/posts`).then((res) => {
 
-        const modal = document.getElementById('my_modal_4');
+                const { posts } = res.data;
+                const post = posts.find((post: any) => post.postId === params.postId);
 
-        if (modal) {
-            //@ts-ignore
-            modal?.showModal();
-        }
-
-    }
-
-
-    const uploadImage = async () => {
-        if (!imageFile) {
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', imageFile);
-        formData.append('folder', 'categories');
-
-        await axiosInstance.post('/api/aws', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then((res) => {
-            setImageUrl(res.data.url);
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-
-    const uploadFromUrl = async (url: string) => {
-        await axiosInstance.post('/api/aws/from-url', {
-            url,
-            folder: 'categories'
-        }).then((res) => {
-            setImageUrl(res.data.url);
-            toast.success('Image uploaded successfully');
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-
-    const generateImage = async () => {
-        const response = await axiosInstance.post('/api/ai/dall-e', {
-            prompt: 'create a post image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(',') + ' and content ' + content,
-        }).then((res) => {
-            toast.success('Image generated successfully,');
-            setImageUrl(res.data.url);
-            return res;
-        }).then((res) => {
-            toast.success('Now uploading image to S3');
-            uploadFromUrl(res.data.url);
-        }).
-            catch((error) => {
-                console.error(error);
-            });
-    }
-
-    //multi line string
-    const generatePostString = `
-    create a post for this prompt: \n
-
-    ${aiContent}
-
-    format: {
-        title: xxx,
-        description: xxx,
-        keywords: xxx, 
-        content: xxx //wysiwyg content
-    }
-
-    `;
-
-
-    const generatePost = async () => {
-        const response = await axiosInstance.post('/api/ai/gpt-4o', {
-            prompt: generatePostString,
-        }).then((res) => {
-            try {
-                const text = res.data.text;
-                setTitle(text.title);
-                setContent(text.content);
-                setDescription(text.description);
-
-                if (text.keywords) {
-                    //check if it is a string or an array
-                    if (typeof text.keywords === 'string') {
-                        setKeywords(text.keywords.split(','));
-                    } else {
-                        setKeywords(text.keywords);
-                    }
+                if (!post) {
+                    toast.error('Post not found');
+                    setLoading(false);
+                    return;
                 }
 
-      
-            } catch (error) {
-                console.error(error);
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-
-    useEffect(() => {
-
-        if (params.postId) {
-            axiosInstance.get(`/api/posts/${params.postId}`).then((res) => {
-                const { post } = res.data;
                 setTitle(post.title);
+                setImage(post.image);
                 setContent(post.content);
                 setDescription(post.description);
                 setSlug(post.slug);
                 setKeywords(post.keywords);
-                setImageUrl(post.image);
                 setAuthorId(post.authorId);
                 setCategoryId(post.categoryId);
                 setStatus(post.status);
                 setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date());
                 setLoading(false);
+                setUpdatedAt(post.updatedAt ? new Date(post.updatedAt) : new Date());
+                setViews(post.views);
             }).catch((error) => {
                 console.error(error);
             });
-        }
-    }
-        , []);
 
+            setLoading(false);
+        }
+
+    }, [params.postId]);
+
+
+    
     return (
         <>
-            <dialog id="my_modal_4" className="modal">
-                <div className="modal-box w-11/12 max-w-5xl">
-                    <h3 className="font-bold text-lg">OpenAI GPT-4 Post Generator</h3>
-                    <div className="modal-body w-full">
-                        <textarea className="textarea h-64 w-full mt-4" value={aiContent} onChange={(e) => setAiContent(e.target.value)}></textarea>
-                        <button className="btn btn-primary mt-2" onClick={generatePost}>Generate Post</button>
-                    </div>
-                    <div className="modal-action">
-                        <form method="dialog">
-                            {/* if there is a button, it will close the modal */}
-                            <button className="btn">Close</button>
-                        </form>
-                    </div>
-                </div>
-            </dialog>
             <div className="container mx-auto">
                 <div className="flex justify-between items-center flex-row">
                     <h1 className="text-3xl font-bold h-16 items-center">Create Post</h1>
                     <div className="flex gap-2 h-16">
-                        <button className="btn btn-warning btn-sm h-12" onClick={showModal}>
-                            <FontAwesomeIcon icon={faRobot} className="mr-2 w-6 h-6" /> OpenAI GPT-4
-                        </button>
+                        <AIPrompt 
+                            setTitle={setTitle}
+                            setContent={setContent}
+                            setDescription={setDescription}
+                            setKeywords={setKeywords}
+                            setSlug={setSlug}
+                            setCreatedAt={setCreatedAt}
+                            toast={toast}
+                        />
                         <Link className="btn btn-primary btn-sm h-12" href="/backend/posts">
                             Back to Posts
                         </Link>
                     </div>
                 </div>
 
-                <form className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+                <div className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Title</span>
@@ -358,17 +213,11 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                         <label className="label">
                             <span className="label-text">Category</span>
                         </label>
-                        <select
-                            className="select select-bordered"
-                            value={categoryId as string}
-                            onChange={(e) => setCategoryId(e.target.value)}
-                        >
-                            {categories.map((category, index) => (
-                                <option key={category.categoryId} value={category.categoryId} selected={categoryId ? categoryId === category.categoryId : index === 0}>
-                                    {category.title}
-                                </option>
-                            ))}
-                        </select>
+                        <CategorySelect
+                        setSelectedCategoryId={setCategoryId}
+                        selectedCategoryId={categoryId as string}
+                           
+                        />
                     </div>
 
                     <div className="form-control">
@@ -383,6 +232,32 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                             onChange={(e) => setCreatedAt(new Date(e.target.value))}
                         />
                     </div>
+
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Updated At</span>
+                        </label>
+                        <input
+                            type="date"
+                            placeholder="Updated At"
+                            className="input input-bordered"
+                            value={updatedAt.toISOString().split('T')[0]}
+                            onChange={(e) => setUpdatedAt(new Date(e.target.value))}
+                        />
+                    </div>
+
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Views</span>
+                        </label>
+                        <input
+                            type="number"
+                            placeholder="Views"
+                            className="input input-bordered"
+                            value={views}
+                            onChange={(e) => setViews(parseInt(e.target.value))}
+                        />
+                    </div>  
 
                     <div className="form-control">
                         <label className="label">
@@ -447,57 +322,29 @@ const UpdatePost =({ params }: { params: { postId: string } }) => {
                         <label className="label">
                             <span className="label-text">Author</span>
                         </label>
-                        <select
-                            className="select select-bordered"
-                            value={authorId as string}
-                            onChange={(e) => setAuthorId(e.target.value)}
-                        >
-                            {users.map((user, index) => (
-                                <option key={user.userId} value={user.userId} selected={authorId ? authorId === user.userId : index === 0}>
-                                    {user.name ? user.name : 'Unknown'}
-                                </option>
-                            ))}
-                        </select>
+                        <UserSelect
+                            setSelectedUserId={setAuthorId}
+                            selectedUserId={authorId as string}
+                        />                        
                     </div>
                     <div className="form-control mb-4 mt-4">
                         <label className="label">
                             <span className="label-text">Image</span>
                         </label>
-                        <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
-                        
-                        width={384} height={256}
-                            alt="Image" className="h-64 w-96 object-cover rounded-lg" />
-                        <div className="relative flex justify-between items-center">
-                            <input
-                                type="file"
-                                placeholder="Image URL"
-                                className="input input-bordered mt-2 p-4 flex-1 h-16"
-                                //only images
-                                accept="image/*"
-
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        setImageFile(file);
-                                        //setImageUrl(URL.createObjectURL(file));
-                                    }
-                                }}
-                            />
-                            <div className="absolute right-2 top-2 text-black p-2 rounded-lg">
-                                <button type="button" className="h-12 text-black p-2 rounded-lg bg-primary mr-2" onClick={uploadImage}>
-                                    Upload Image
-                                </button>
-                                <button type="button" className="h-12 text-black p-2 rounded-lg bg-secondary" onClick={generateImage}>
-                                    Generate Image
-                                </button>
-                            </div>
-                        </div>
+                        <ImageLoad
+                            image={image}
+                            setImage={setImage}
+                            uploadFolder='projects'
+                            toast={toast}
+                        />
                     </div>
-                    <button type="submit" className="btn btn-primary block w-full mt-4">Update Post</button>
-                </form>
+                    <button type="submit" className="btn btn-primary block w-full mt-4" onClick={handleSubmit} disabled={loading}>
+                    {loading ? 'Loading...' : mode === 'create' ? 'Create Post' : 'Update Post'}
+                    </button>
+                </div>
             </div>
         </>
     );
 }
 
-export default UpdatePost;
+export default SinglePost;

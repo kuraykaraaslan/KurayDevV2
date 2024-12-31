@@ -13,19 +13,7 @@ export default class PostService {
      * @param data - Post data
      * @returns The created post
      */
-    static async createPost(data: {
-        title: string;
-        content: string;
-        description: string;
-        slug: string;
-        keywords: string[];
-        image?: string;
-        authorId: string;
-        categoryId: string;
-        status: string;
-        createdAt: Date;
-
-    }): Promise<any> {
+    static async createPost(data: Omit<Post, 'postId'>): Promise<Post> {
 
         var { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
 
@@ -38,7 +26,6 @@ export default class PostService {
             keywords = (keywords as string).split(',');
         }
 
-
         // Validate input
         const existingPost = await prisma.post.findFirst({
             where: { OR: [{ title }, { slug }] },
@@ -48,36 +35,7 @@ export default class PostService {
             throw new Error('Post with the same title or slug already exists.');
         }
 
-        // Create the post
-        const post = await prisma.post.create({
-            data: {
-                title,
-                content,
-                description,
-                slug,
-                keywords,
-                image,
-                authorId,
-                categoryId,
-                status,
-                createdAt
-            },
-        });
-
-        return post;
-    }
-
-    /**
-     * Retrieves a post by its ID.
-     * @param postId - The ID of the post
-     * @returns The requested post or null if not found
-     */
-    static async getPostById(postId: string): Promise<Post | null> {
-        const post = await prisma.post.findUnique({
-            where: { postId },
-        });
-
-        return post;
+        return await prisma.post.create({ data });
     }
 
     /**
@@ -93,18 +51,15 @@ export default class PostService {
             pageSize: number;
             search?: string;
             categoryId?: string;
+            userId?: string;
             withDeleted?: boolean;
             onlyPublished?: boolean;
+            postId?: string;
+            slug?: string;
         }): Promise<{ posts: PostWithCategory[], total: number }> {
 
 
-        const { page, pageSize, search, categoryId, withDeleted, onlyPublished } = data;
-            
-
-        console.log('page', page);
-        console.log('pageSize', pageSize);
-        console.log('search', search);
-        console.log('categoryId', categoryId);
+        const { page, pageSize, search, categoryId, withDeleted, onlyPublished , userId , postId, slug } = data;
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
@@ -127,6 +82,7 @@ export default class PostService {
                 updatedAt: true,
                 status: true,
                 views: true,
+                content: slug ? true : false,
                 Category: {
                     select: {
                         categoryId: true,
@@ -151,13 +107,14 @@ export default class PostService {
                         },
                     }
                 ],
+                userId: userId ? userId : undefined,
+                postId: postId ? postId : undefined,
                 categoryId: categoryId ? categoryId : undefined,
                 deletedAt: withDeleted ? undefined : null,
                 status: !onlyPublished ? undefined : 'PUBLISHED',
+                slug: slug ? slug : undefined,
             },
         };
-
-        console.log('query', query);
 
         const countQuery = {
             skip: query.skip,
@@ -173,49 +130,9 @@ export default class PostService {
         ]);
 
         
-        console.log('transaction', transaction);
-
         return { posts: transaction[0] as PostWithCategory[], total: transaction[1] };
 
 
-    }
-
-
-    /**
-     * Get posts by slug    
-     * @param slug - The slug of the post
-     * @returns The requested post or null if not found
-     */
-
-    static async getPostBySlug(slug: string): Promise<PostWithCategory | null> {
-        const post = await prisma.post.findFirst({
-            where: { slug },
-            select: {
-                postId: true,
-                title: true,
-                description: true,
-                slug: true,
-                keywords: true,
-                image: true,
-                authorId: true,
-                categoryId: true,
-                createdAt: true,
-                updatedAt: true,
-                content: true,
-                status: true,
-                views: true,
-                Category: {
-                    select: {
-                        categoryId: true,
-                        title: true,
-                        slug: true,
-                        image: true,
-                    },
-                },
-            },
-        });
-
-        return post as PostWithCategory;
     }
 
     /**
@@ -224,20 +141,9 @@ export default class PostService {
      * @param data - The updated post data
      * @returns The updated post
      */
-    static async updatePost(postId: string, data: {
-        title: string;
-        content: string;
-        description: string;
-        slug: string;
-        keywords: string[];
-        image?: string;
-        authorId: string;
-        categoryId: string;
-        status: string;
-        createdAt: Date;
-    }): Promise<Post> {
-
-        const { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
+    static async updatePost(data: Post): Promise<Post> {
+         
+        const { postId, title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
 
         // Validate input
         if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
@@ -265,88 +171,6 @@ export default class PostService {
         await prisma.post.delete({
             where: { postId },
         });
-    }
-
-
-    /*
-    * Get posts by category
-    * @param categoryId - The ID of
-    * @returns The requested post or null if not found
-    * */
-    static async getPostsByCategory(categoryId: string, page = 1, perPage = 10, onlyPublished?: boolean): Promise<PostWithCategory[]> {
-        const posts = await prisma.post.findMany({
-            where: {
-                categoryId,
-                status: onlyPublished ? 'published' : undefined,
-            },
-            select: {
-                postId: true,
-                title: true,
-                description: true,
-                slug: true,
-                keywords: true,
-                image: true,
-                authorId: true,
-                categoryId: true,
-                createdAt: true,
-                updatedAt: true,
-                status: true,
-                Category: {
-                    select: {
-                        categoryId: true,
-                        title: true,
-                        slug: true,
-                        image: true,
-                    },
-                },
-            },
-            skip: (page - 1) * perPage,
-            take: perPage,
-        });
-
-        return posts as PostWithCategory[];
-    }
-
-
-    /**
-     * Get posts by author
-     * @param authorId - The ID of the author
-     * @returns The requested post or null if not found
-     */
-    static async getPostsByAuthor(authorId: string, page = 1, perPage = 10, onlyPublished?: boolean): Promise<PostWithCategory[]> {
-        const posts = await prisma.post.findMany({
-            where: {
-                authorId,
-                status: onlyPublished ? 'published' : undefined,
-            },
-            select: {
-                postId: true,
-                title: true,
-                description: true,
-                slug: true,
-                keywords: true,
-                image: true,
-                authorId: true,
-                categoryId: true,
-                createdAt: true,
-                updatedAt: true,
-                status: true,
-                views: true,
-                Category: {
-                    select: {
-                        categoryId: true,
-                        title: true,
-                        slug: true,
-                        image: true,
-                    },
-                },
-            },
-            skip: (page - 1) * perPage,
-            take: perPage,
-        });
-
-        return posts as PostWithCategory[];
-
     }
 
     /**

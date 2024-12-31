@@ -25,7 +25,6 @@ const Welcome = () => {
       }}
       id="home"
     >
-      <BackgroundStars />
       <div
         className="hero min-h-screen select-none"
         style={{

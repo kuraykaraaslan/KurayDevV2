@@ -9,8 +9,6 @@ const NEXT_PUBLIC_TINYMCE_API_KEY = process.env.NEXT_PUBLIC_TINYMCE_API_KEY;
 
 const TinyMCEEditor = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => {
     function onInit(evt: any, editor: TinyMCEEditorType) {
-
-        console.log('editor', editor);
     }
 
 

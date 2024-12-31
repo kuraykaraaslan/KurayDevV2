@@ -18,9 +18,7 @@ const StatsSection = () => {
   async function getStats() {
     await axiosInstance.get(`/api/stats`).then((res) => {
       setValues(res.data.values);
-      console.log(res.data.stats);
     }).catch((err) => {
-      console.log(err);
     });
   }
 

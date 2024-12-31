@@ -10,18 +10,14 @@ export default class ProjectService {
         data: {
             page: number;
             pageSize: number;
+            projectId?: string;
+            slug?: string;
             search?: string;
             onlyPublished?: boolean;
         }): Promise<{ projects: Project[], total: number }> {
 
 
-        const { page, pageSize, search, onlyPublished } = data;
-
-
-        console.log('page', page);
-        console.log('pageSize', pageSize);
-        console.log('search', search);
-        console.log('onlyPublished', onlyPublished);
+        const { page, pageSize, search, onlyPublished , projectId, slug } = data;
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
@@ -40,6 +36,8 @@ export default class ProjectService {
                 image: true,
                 platforms: true,
                 technologies: true,
+                projectLinks: true,
+                content: slug ? true : false,
             },
             where: {
                 OR: [
@@ -55,10 +53,10 @@ export default class ProjectService {
                     }
                 ],
                 status: !onlyPublished ? undefined : 'PUBLISHED',
+                projectId: projectId ? projectId : undefined,
+                slug: slug ? slug : undefined,
             },
         };
-
-        console.log('query', query);
 
         const countQuery = {
             skip: query.skip,
@@ -66,15 +64,12 @@ export default class ProjectService {
             where: query.where,
         };
 
-
         const transaction = await prisma.$transaction([
             prisma.project.findMany(query),
             prisma.project.count(countQuery),
         ]);
 
-
         return { projects: transaction[0] as Project[], total: transaction[1] };
-
     }
 
     static async getProjectById(projectId: string): Promise<Project | null> {
@@ -86,15 +81,31 @@ export default class ProjectService {
     }
 
     static async createProject(data: Omit<Project, 'projectId'>): Promise<Project> {
+        
+        // Validate Fields
+        const { title, description, slug, image, platforms, technologies, projectLinks } = data;
+
+        if (!title || !description || !slug || !image || !platforms || !technologies || !projectLinks) {
+            throw new Error('Missing required fields.');
+        }
+
         return prisma.project.create({
             data,
         });
     }
 
-    static async updateProject(projectId: string, data: Partial<Project>): Promise<Project> {
+    static async updateProject(data: Project): Promise<Project> {
+
+        // Validate Fields
+        const { title, description, slug, image, platforms, technologies, projectLinks } = data;
+        
+        if (!title || !description || !slug || !image || !platforms || !technologies || !projectLinks) {
+            throw new Error('Missing required fields.');
+        }
+
         return prisma.project.update({
             where: {
-                projectId,
+                projectId: data.projectId,
             },
             data,
         });
@@ -104,14 +115,6 @@ export default class ProjectService {
         return prisma.project.delete({
             where: {
                 projectId,
-            },
-        });
-    }
-
-    static async getProjectBySlug(slug: string): Promise<Project | null> {
-        return prisma.project.findFirst({
-            where: {
-                slug,
             },
         });
     }

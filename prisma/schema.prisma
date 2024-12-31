@@ -134,5 +134,5 @@ model Project {
   content      String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now()) @updatedAt
-  projectLinks Json[]
+  projectLinks String[]
 }

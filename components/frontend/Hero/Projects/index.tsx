@@ -1,4 +1,5 @@
-import React from "react";
+'use client';
+import React, { useEffect, useState } from 'react';
 import {
   faReact,
   faBootstrap,
@@ -24,123 +25,215 @@ import {
   faGlobe,
   faMobileScreenButton,
   faTv,
+  faU,
   faWind,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from 'next/image';
 
 //i18n
 import { withTranslation } from "react-i18next";
-import SingleProject from "./Partials/SingleProject";
 import Link from "next/link";
-import Project from "@/types/Project";
+
+
+import SingleProject from './Partials/SingleProject'
+import Portfolio from '@/types/Portfolio';
+import { useRouter } from 'next/navigation'
+import { Project } from '@prisma/client';
+import axiosInstance from '@/libs/axios';
 
 const ProjectsHero = () => {
 
-  const otherProjectsImageHTML =
-    `<div class="w-full h-48 bg-base-100 rounded-t-lg flex items-center justify-center select-none">
-  <a href="https://github.com/kuraykaraaslan" class="flex items-center gap-2 p-4">
-    <Image src="/assets/svg/github.svg" alt="GitHub" class="w-12 h-12 object-cover object-center rounded-lg" />
-    <span class="text-xl font-bold">/kuraykaraaslan</span>
-  </a>
-  </div>`;
-
-  const projects: Project[] = [
-    {
-      id: "1",
-      image: "/assets/img/projects/pegasus.png",
-      title: "Pegasus UI Kit",
-      description:
-        "Pegasus is a React UI Kit that is built using Tailwind CSS. It offers a responsive and user-friendly interface for an optimal experience.",
-      urls: [
-        { type: "GitHub", url: "https://github.com/kuraykaraaslan/pegasus" },
-        { type: "Demo", url: "https://pegasus.kuray.dev" },
-      ],
-      tags: [
-        { name: "React", color: "bg-blue-300", icon: faReact },
-        { name: "Tailwind", color: "bg-blue-500", icon: faWind },
-      ],
-    },
-    {
-      id: "2",
-      image: "https://github.com/kuraykaraaslan/expo-react-redux-boilerplate/raw/main/static/logo.png",
-      title: "Expo React Redux Boilerplate",
-      description:
-        "It provides a solid foundation for creating cross-platform mobile apps with a predictable state container for managing application data flow.",
-      urls: [
-        {
-          type: "GitHub",
-          url: "https://github.com/kuraykaraaslan/expo-react-redux-boilerplate",
-        },
-      ],
-      tags: [{ name: "React Native", color: "bg-blue-300", icon: faReact }],
-    },
-    {
-      id: "9",
-      image: "https://raw.githubusercontent.com/kuraykaraaslan/control-view-cube/main/static/donut.gif",
-      title: "3D View Cube",
-      description:
-        "3D View Cube is a 3D cube that is built using React and WebGL. It is a simple application that allows users to rotate the cube in 3D space.",
-      urls: [
-        {
-          type: "GitHub",
-          url: "https://github.com/kuraykaraaslan/control-view-cube",
-        },
-        {
-          type: "Other",
-          title: "npm",
-          url: "https://www.npmjs.com/package/control-view-cube",
-        },
-      ],
-      tags: [
-        { name: "React", color: "bg-blue-300", icon: faReact },
-        { name: "WebGL", color: "bg-yellow-300", icon: faGlobe },
-      ],
-    },
-    {
-      id: "10",
-      title: "Other Projects",
-      description:
-        "For other projects, check my GitHub profile. You can find various projects that I have worked on.",
-      urls: [
-        {
-          type: "Other",
-          title: "GitHub",
-          url: "https://github.com/kuraykaraaslan/",
-        },
-      ],
-      tags: [
-        { name: "Desktop", color: "bg-yellow-300", icon: faTv },
-        { name: "Mobile", color: "bg-green-300", icon: faMobileScreenButton },
-        { name: "Web", color: "bg-blue-300", icon: faGlobe },
-      ],
-      bgColor: "bg-base-300",
-      imageHtml: otherProjectsImageHTML,
-    },
+  const allowedFilters = [
+    'ui/ux',
+    'web',
+    'mobile',
+    'desktop',
+    'embedded',
+    'other',
+    'iot',
+    'gaming',
+    'machine learning'
   ];
+
+  const [filter, setFilter] = useState("");
+
+  const [expanded, setExpanded] = React.useState(false);
+  const container = React.useRef(null);
+
+  const [search, setSearch] = React.useState('');
+  const [projects, setProjects] = React.useState<Project[]>([]);
+  const [page, setPage] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(100);
+  const [total, setTotal] = React.useState(0);
+
+  const router = useRouter();
+
+  React.useEffect(() => {
+
+    axiosInstance.get("/api/projects" + `?page=${page + 1}&pageSize=${pageSize}&search=${search}&sort=desc&onlyPublished=true`)
+      .then((response) => {
+        setProjects(response.data.projects);
+        setTotal(response.data.total);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+    , [page, pageSize, search]);
+
+
+  const continueOnGitHub: Project = {
+    projectId: '',
+    title: 'Other Projects',
+    description: 'For other projects, check my GitHub profile. You can find various projects that I have worked on.',
+    slug: 'not-slug',
+    image: "/assets/img/projects/github-wallpaper-scaled.webp",
+    status: '',
+    platforms: [],
+    technologies: [],
+    content: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    projectLinks: [
+      'https://github.com/kuraykaraaslan/'
+    ]
+  }
+
+  const filteredProjects = projects.filter((project) => {
+    if (filter === "") {
+      return true;
+    }
+    return project.platforms.includes(filter);
+  });
+
+
+  const handleClick = () => {
+    // get container current height
+    const panel = container?.current as unknown as HTMLElement;
+
+    if (panel === null) return;
+
+    //make height is auto
+    panel.style.height = expanded ? "560px" : `${panel.scrollHeight + 80}px`;
+
+    //toggle the state
+    setExpanded(!expanded);
+  };
+
 
   return (
     <>
-      <section className="min-h-screen pt-24" id="#projects">
+      <section className="bg-base-200 pt-16" id="portfolio">
         <div
-          className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000"        >
-          <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8 -mt-8 lg-mt-0">
+          className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000"
+          style={{ height: "560px", overflow: "clip" }}
+          ref={container}
+        >
+          <div className="mx-auto max-w-screen-sm text-center lg:mb-8 -mt-8 lg:mt-0 ">
             <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-              Projects
+              Portfolio
             </h2>
             <p className="font-light sm:text-xl">
-              Here are some of the projects that I developed as hobby or for learning purposes.
+              My professional portfolios that I have worked on.
             </p>
           </div>
-          <div className="grid gap-8 lg:grid-cols-2">
-            {projects.map((project: Project) => (
-              <SingleProject key={project.id} project={project} />
+
+          <div className="flex flex-wrap justify-center gap-4 mb-8 mt-3">
+            <button
+              className={`btn btn-primary ${filter === "" ? "btn-active" : ""}`}
+              onClick={() => setFilter("")}
+            >
+              all
+            </button>
+            {allowedFilters.map((tag, index) => (
+              <button
+                key={index}
+                className={`btn btn-primary ${filter === tag ? "btn-active" : ""}`}
+                onClick={() => setFilter(tag)}
+              >
+                {tag}
+              </button>
             ))}
           </div>
+
+          <div className="grid gap-8 lg:grid-cols-3 mt-8">
+            {filteredProjects.map((project: Project, index: number) => (
+              <SingleProject key={index}
+                project={project} />
+            ))}
+            <SingleProject key={filteredProjects.length}
+              project={continueOnGitHub} />
+          </div>
+
         </div>
+
+        <div
+          className="flex carousel-indicators gap-2 bg-transparent select-none"
+          style={{
+            zIndex: 8,
+            position: "relative",
+            left: "0",
+            right: "0",
+            margin: "auto",
+            height: "0px",
+            width: "100%",
+            bottom: "20",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            className="flex carousel-indicators gap-2 bg-gradient-to-b from-base-200/20 to-base-300"
+            style={{
+              zIndex: 8,
+              position: "relative",
+              left: "0",
+              right: "0",
+              margin: "auto",
+              height: "80px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              transform: "translateY(-80px)",
+            }}
+          >
+            {!expanded ? (
+              <button
+                className="flex flex-col items-center gap-2 animate-bounce"
+                style={{ height: "80px", width: "130px" }}
+                onClick={handleClick}
+              >
+                <FontAwesomeIcon
+                  icon={faAnglesDown}
+                  style={{
+                    width: "2.0rem",
+                    height: "2.0rem",
+                  }}
+                />{" "}
+                <span>{expanded ? "Show Less" : "Show More"}</span>
+              </button>
+            ) : (
+              <button
+                className="flex flex-col items-center gap-2"
+                style={{ height: "80px", width: "130px" }}
+                onClick={handleClick}
+              >
+                <FontAwesomeIcon
+                  icon={faAnglesUp}
+                  style={{ width: "2.0rem", height: "2.0rem" }}
+                />{" "}
+                <span>{expanded ? "Show Less" : "Show More"}</span>
+              </button>
+            )}
+          </div>
+        </div>
+        
       </section>
     </>
   );
 };
+
 
 export default ProjectsHero;

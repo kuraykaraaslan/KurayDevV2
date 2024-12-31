@@ -296,8 +296,6 @@ export default class AuthService {
 
                 req.session = session;
 
-                console.log('req.session', req.session);
-
                 return req.session;
 
             });

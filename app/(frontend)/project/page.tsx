@@ -11,24 +11,11 @@ import { notFound } from 'next/navigation';
 export default async function ({ params }: { params: { categorySlug: string } }) {
 
 
-    var category: Category | null = null;
-
-    if (params.categorySlug) {
-        category = await CategoryService.getCategoryBySlug(params.categorySlug) as Category;
-
-        if (!category) {
-            return notFound();
-        }
-
-    }
-
-
+    // Disable this page for now
+    return notFound();
 
     return (
         <>
-            <Feed category={category} />
-            <Newsletter />
-            <ToastContainer />
         </>
     );
 };
