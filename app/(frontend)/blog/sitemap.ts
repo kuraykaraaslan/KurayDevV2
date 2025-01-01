@@ -1,4 +1,3 @@
-'use cache';
 // @ts-ignore
 import PostService from "@/services/PostService";
 import { MetadataRoute } from 'next'

@@ -1,4 +1,3 @@
-'use cache';
 // @ts-ignore
 import ProjectService from '@/services/ProjectService';
 import { MetadataRoute } from 'next'
