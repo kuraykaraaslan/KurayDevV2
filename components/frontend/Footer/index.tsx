@@ -19,18 +19,7 @@ const Footer = (props: any) => {
           </p>
         </div>
         <div className="col-span-1 flex flex-row flex-wrap justify-start">
-          <Link className="link link-hover" href="/privacy">
-            Privacy
-          </Link>
-          <Link className="link link-hover" href="/terms">
-            Terms
-          </Link>
-          <Link className="link link-hover" href="/projects">
-            Projects
-          </Link>
-          <Link className="link link-hover" href="/contact">
-            Contact
-          </Link>
+
         </div>
         <div className="col-span-1 flex flex-row flex-wrap justify-end">
           <Link

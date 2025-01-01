@@ -18,8 +18,8 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url);
 
         // Extract query parameters
-        const page = parseInt(searchParams.get('page') || '1', 10);
-        const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+        const page = searchParams.get('page') ? parseInt(searchParams.get('page') || '1', 10) : 1;
+        const pageSize = searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize') || '10', 10) : 10;
         const search = searchParams.get('search') || undefined;
 
         const result = await CategoryService.getAllCategories(page, pageSize, search);

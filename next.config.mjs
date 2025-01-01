@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-    trailingSlash: true, // Add trailing slash to all paths
+    trailingSlash: false, // Add trailing slash to all paths
     typescript: {
       ignoreBuildErrors: true,
     },

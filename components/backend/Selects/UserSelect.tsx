@@ -7,7 +7,7 @@ const UserSelect = ({ selectedUserId, setSelectedUserId }: { selectedUserId: str
     const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
-        axiosInstance.get('/api/users').then((response) => {
+        axiosInstance.get('/api/users?pageSize=100').then((response) => {
             const { users } = response.data;
             setUsers(users);
         });

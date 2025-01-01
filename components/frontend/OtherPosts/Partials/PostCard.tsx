@@ -19,41 +19,47 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
     useEffect(() => {
         if (!createdAt) {
             return;
+        
+        }
+
+        if (isNaN(new Date(createdAt).getTime())) {
+            setDateText("N/a");
+            return;
         }
 
         try {
-            const today = new Date();
 
-            if (createdAt.toDateString() === today.toDateString()) {
-                setDateText("Today");
-                return;
-            }
-            const diff = today.getTime() - new Date(createdAt).getTime();
-            const seconds = Math.floor(diff / 1000);
-            const minutes = Math.floor(seconds / 60);
-            const hours = Math.floor(minutes / 60);
-            const days = Math.floor(hours / 24);
+            const now = new Date();
+            const diff = now.getTime() - new Date(createdAt).getTime();
 
-            if (days > 7) {
+            console.log(diff);
+
+            const diffSeconds = diff / 1000;
+            const diffMinutes = diffSeconds / 60;
+            const diffHours = diffMinutes / 60;
+            const diffDays = diffHours / 24;
+
+            if (diffDays > 7) {
                 setDateText(createdAt.toDateString());
-            } else if (days > 1) {
-                setDateText(`${days} days ago`);
-            } else if (days === 1) {
+            } else if (diffDays > 1) {
+                setDateText(`${Math.floor(diffDays)} days ago`);
+            } else if (diffDays === 1) {
                 setDateText("Yesterday");
-            } else if (hours > 1) {
-                setDateText(`${hours} hours ago`);
-            } else if (hours === 1) {
+            } else if (diffHours > 1) {
+                setDateText(`${Math.floor(diffHours)} hours ago`);
+            } else if (diffHours === 1) {
                 setDateText("An hour ago");
-            } else if (minutes > 1) {
-                setDateText(`${minutes} minutes ago`);
-            } else if (minutes === 1) {
+            } else if (diffMinutes > 1) {
+                setDateText(`${Math.floor(diffMinutes)} minutes ago`);
+            } else if (diffMinutes === 1) {
                 setDateText("A minute ago");
             } else {
                 setDateText("Just now");
             }
+       
         } catch (error) {
             console.error(error);
-            setDateText("Just now");
+            setDateText("N/A");
         }
     }, [createdAt]);
 

@@ -19,7 +19,7 @@ const ProjectTable = () => {
 
     React.useEffect(() => {
 
-        axiosInstance.get("/api/projects" + `?page=${page + 1}&pageSize=${pageSize}&search=${search}&sort=desc&onlyPublished=false`)
+        axiosInstance.get("/api/projects" + `?page=${page + 1}&pageSize=${pageSize}&search=${search}&sort=desc`)
             .then((response) => {
                 setProjects(response.data.projects);
                 setTotal(response.data.total);

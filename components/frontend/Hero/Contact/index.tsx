@@ -95,6 +95,7 @@ const Contact = (props: ContactProps) => {
     if (mails.length === 0) {
       axios.get("/api/contact/info/mail").then((response) => {
         setMails(response.data.mails);
+        console.log(response.data);
       });
     }
 
@@ -123,7 +124,7 @@ const Contact = (props: ContactProps) => {
 
                   {token !== "" ?
                     <>
-                      {mails.length === 0 &&
+                      {mails?.length === 0 &&
                         <button className="flex items-center transform transition-transform duration-500 hover:scale-105" onClick={getMails}>
                           <FontAwesomeIcon
                             icon={faEnvelope}
@@ -133,7 +134,7 @@ const Contact = (props: ContactProps) => {
                         </button>
                       }
 
-                      {mails.map((mail, index) => (
+                      {mails?.map((mail, index) => (
                         <p key={index} className="flex items-center">
                           <FontAwesomeIcon
                             icon={faEnvelope}

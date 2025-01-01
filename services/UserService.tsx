@@ -56,6 +56,15 @@ export default class UserService {
                             },
                         },
                     ],
+                },
+                select: {
+                    userId: true,
+                    email: true,
+                    name: true,
+                    phone: true,
+                    role: true,
+                    image: true,
+                    slug: true,
                 },        
     
             };

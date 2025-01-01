@@ -19,6 +19,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
     const [loading, setLoading] = useState(true);
 
     // Model fields
+    const [postId, setPostId] = useState<string>(params.postId);
     const [title, setTitle] = useState('');    
     const [image, setImage] = useState('');
     const [content, setContent] = useState('');
@@ -91,7 +92,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
 
 
         const body = {
-            postId: params.postId ? params.postId : null,
+            postId: params.postId !== 'create' ? postId : undefined,
             title,
             content,
             description,
@@ -103,9 +104,11 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
             createdAt,
             updatedAt,
             views,
+            image,
         };
 
         if (mode === 'create') {
+
             await axiosInstance.post('/api/posts', body).then(() => {
                 toast.success('Post created successfully');
                 router.push('/backend/posts');
@@ -114,6 +117,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
             });
         } else {
             await axiosInstance.put('/api/posts/', body).then(() => {
+    
                 toast.success('Post updated successfully');
                 router.push('/backend/posts');
             }).catch((error) => {
@@ -123,11 +127,21 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
     };
 
     useEffect(() => {   
+        console.log('params.postId', params.postId);
         if (params.postId) {
+            if (params.postId === 'create') {
+                setLoading(false);
+                return;
+            } else if (params.postId === 'create/') {
+                setMode('create');
+            }
+
+            console.log('params.postId');
+            console.log(params.postId);
             axiosInstance.get('/api/posts', { params: { postId: params.postId } }).then((res) => {
 
                 const { posts } = res.data;
-                const post = posts.find((post: any) => post.postId === params.postId);
+                const post = posts.find((post: any) => post.postId === postId);
 
                 if (!post) {
                     toast.error('Post not found');
@@ -135,6 +149,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
                     return;
                 }
 
+                setPostId(post.postId);
                 setTitle(post.title);
                 setImage(post.image);
                 setContent(post.content);
@@ -152,6 +167,8 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
                 console.error(error);
             });
 
+            setLoading(false);
+        } else {
             setLoading(false);
         }
 

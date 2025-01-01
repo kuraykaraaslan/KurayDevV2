@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
         AuthService.authenticateSync(request, "ADMIN");
 
-        const { body } = await request.json();
+        const body = await request.json();
 
         const post = await PostService.createPost(body);
         

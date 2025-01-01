@@ -10,12 +10,12 @@ export default function Feed(props: { category?: Category | null }) {
     const { category } = props;
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {
-        axiosInstance.get("/api/posts?page=" + page + "&pageSize=" + pageSize + (category ? "&categoryId=" + category.categoryId : ""))
+        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&sort=desc`)
             .then(response => {
 
                 const incomingFeeds = response.data.posts.map((post: any) => {

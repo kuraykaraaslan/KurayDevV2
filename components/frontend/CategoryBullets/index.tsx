@@ -7,15 +7,12 @@ import Link from 'next/link';
 export default function CategoryBullets() {
 
     const [categories, setCategories] = useState<Category[]>([]);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(100);
 
     useEffect(() => {
-        axiosInstance.get("/api/categories?page=" + page + "&pageSize=" + pageSize)
+        axiosInstance.get(`/api/categories?page=${page + 1}`)
             .then(response => {
-                const names = response.data.categories.map((category: any) => {
-                    return category.title;
-                });
                 setCategories(response.data.categories);
             });
 
