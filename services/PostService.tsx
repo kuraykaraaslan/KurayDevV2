@@ -111,7 +111,7 @@ export default class PostService {
                 userId: userId ? userId : undefined,
                 postId: postId ? postId : undefined,
                 categoryId: categoryId ? categoryId : undefined,
-                deletedAt: withDeleted ? undefined : null,
+                deletedAt: !withDeleted ? { not: null } : undefined, 
                 status: !onlyPublished ? undefined : 'PUBLISHED',
                 slug: slug ? slug : undefined,
             },
