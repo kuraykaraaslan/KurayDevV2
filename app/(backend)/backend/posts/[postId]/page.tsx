@@ -124,7 +124,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
 
     useEffect(() => {   
         if (params.postId) {
-            axiosInstance.get(`/api/posts`).then((res) => {
+            axiosInstance.get('/api/posts', { params: { postId: params.postId } }).then((res) => {
 
                 const { posts } = res.data;
                 const post = posts.find((post: any) => post.postId === params.postId);

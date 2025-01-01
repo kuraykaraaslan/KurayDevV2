@@ -70,6 +70,9 @@ export default class PostService {
         const query = {
             skip: (page - 1) * pageSize,
             take: pageSize,
+            orderBy: {
+                createdAt: 'desc',
+            },
             select: {
                 postId: true,
                 title: true,
@@ -83,7 +86,7 @@ export default class PostService {
                 updatedAt: true,
                 status: true,
                 views: true,
-                content: slug ? true : false,
+                content: postId ? true : slug ? true : false,
                 Category: {
                     select: {
                         categoryId: true,
