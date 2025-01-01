@@ -11,7 +11,6 @@ const WelcomePage = () => {
       <Welcome />
       <TimelineV2 />
       <Toolbox />
-      <ProjectsHero />
       <Contact />
     </>
   );

@@ -52,7 +52,7 @@ export default async function ({ params }: { params: { postSlug: string } }) {
             <section className="min-h-screen bg-base-100 pt-32 " id="blog">
                 <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col">
                     <div className="max-w-none justify-center text-left mx-auto px-4 lg:px-8 prose mb-8">
-                        <div className="text-3xl font-bold text-left mt-4 mb-4">{post.title}</div>
+                        <h1 className="text-3xl font-bold text-left mt-4 mb-4">{post.title}</h1>
                         <div className="text-sm flex items-center space-x-2">
                             <span>{post.createdAt ? new Date(post.createdAt).toLocaleDateString() : "No Date"}</span>
                             <Link href={"/blog/" + post.Category.slug} className="text-primary">{post.Category.title}</Link>
