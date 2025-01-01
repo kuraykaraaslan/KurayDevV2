@@ -1,6 +1,7 @@
 import prisma from "@/libs/prisma";
 import { Project } from "@prisma/client";
 import { platform } from "node:os";
+import { MetadataRoute } from 'next';
 
 export default class ProjectService {
 
@@ -119,4 +120,23 @@ export default class ProjectService {
         });
     }
 
+    static async generateSiteMap(): Promise<MetadataRoute.Sitemap> {
+        const projects = await prisma.project.findMany({
+            select: {
+                slug: true,
+                updatedAt: true,
+            },
+        });
+
+        return projects.map(project => {
+            return {
+                url: `/project/${project.slug}`,
+                lastModified: project.updatedAt.toISOString(),
+                changeFrequency: 'daily',
+                priority: 0.7,
+            };
+        }
+        );
+    }
 }
+

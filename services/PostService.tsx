@@ -2,6 +2,7 @@ import { Post, User } from '@prisma/client';
 import prisma from '@/libs/prisma';
 import PostWithCategory from '@/types/PostWithCategory';
 import { skip } from 'node:test';
+import { MetadataRoute } from 'next';
 
 export default class PostService {
 
@@ -59,7 +60,7 @@ export default class PostService {
         }): Promise<{ posts: PostWithCategory[], total: number }> {
 
 
-        const { page, pageSize, search, categoryId, withDeleted, onlyPublished , userId , postId, slug } = data;
+        const { page, pageSize, search, categoryId, withDeleted, onlyPublished, userId, postId, slug } = data;
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
@@ -129,7 +130,7 @@ export default class PostService {
             prisma.post.count(countQuery as any),
         ]);
 
-        
+
         return { posts: transaction[0] as PostWithCategory[], total: transaction[1] };
 
 
@@ -142,7 +143,7 @@ export default class PostService {
      * @returns The updated post
      */
     static async updatePost(data: Post): Promise<Post> {
-         
+
         const { postId, title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
 
         // Validate input
@@ -189,5 +190,20 @@ export default class PostService {
         });
 
         return post;
+    }
+
+
+    //generate site map how do i do use: 
+    static async generateSiteMap(): Promise<MetadataRoute.Sitemap> {
+        const { posts } = await this.getAllPosts({ page: 1, pageSize: 1000, onlyPublished: true });
+        return posts.map(post => {
+            return {
+                url: `/blog/${post.slug}`,
+                lastModified: post.updatedAt.toISOString(),
+                changeFrequency: 'daily',
+                priority: 0.7,
+            };
+        }
+        );
     }
 }

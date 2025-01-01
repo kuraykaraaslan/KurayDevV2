@@ -1,35 +1,14 @@
-import type { MetadataRoute } from 'next'
+'use cache';
+// @ts-ignore
+import ProjectService from '@/services/ProjectService';
+import { MetadataRoute } from 'next'
+import { NextRequest } from 'next/server'
 
-const APP_URL = process.env.APP_URL
+export default async function sitemap(request : NextRequest) : Promise<MetadataRoute.Sitemap> {
 
-export default async function sitemap() : Promise<MetadataRoute.Sitemap> {
+  const sitemap = await ProjectService.generateSiteMap();
 
-  return [
-     {
-      url: `${APP_URL}/`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    },
-    {
-      url: `${APP_URL}/freelance`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'daily',
-      priority: 0.7
-    },
-    {
-      url: `${APP_URL}/blog`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'daily',
-      priority: 0.7
-    },
-    {
-      url: `${APP_URL}/blog/sitemap.xml`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'daily',
-      priority: 0.7
-    }
-  ]
+  console.log(sitemap);
+
+  return sitemap;
 }
-
-
