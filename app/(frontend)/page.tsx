@@ -27,7 +27,6 @@ export default function Home() {
   return (
     <>
       <Welcome />
-      <TimelineV2 />
       <Toolbox />
       <Contact />
     </>
