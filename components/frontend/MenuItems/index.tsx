@@ -12,7 +12,7 @@ const MenuItems = [
         { id: "backend", page: '/backend', name: 'backend' , onlyAdmin: true , hideTextOnDesktop: true , icon: faShield , textColour: 'text-primary' },
         { id: "github", page: 'https://github.com/kuraykaraaslan', name: 'github', external: true , icon: faGithub , hideTextOnDesktop: true },
         { id: "linkedin", page: 'https://www.linkedin.com/in/kuraykaraaslan/', name: 'linkedin', external: true , icon: faLinkedin , hideTextOnDesktop: true , textColour: 'text-[#0a66c2]' },
-        { id: "resume", page: 'https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view', name: 'resume', external: true , icon: faFilePdf , hideTextOnDesktop: true , textColour: 'text-[#b24020]' },
+       // { id: "resume", page: 'https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view', name: 'resume', external: true , icon: faFilePdf , hideTextOnDesktop: true , textColour: 'text-[#b24020]' },
     ] as MenuItem[];
 
 export default MenuItems;
