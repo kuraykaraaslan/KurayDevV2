@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faLink, faPlay, faPlayCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import MyImage from "./Partials/MyImageVideo";
@@ -50,7 +50,7 @@ const Welcome = () => {
               </p>
             </h2>
 
-            <Link href="#contact" className="btn btn-primary">
+            <Link href="#contact" className="btn btn-primary hidden lg:inline-flex">
               <FontAwesomeIcon
                 icon={faArrowRight}
                 className="mt-1"

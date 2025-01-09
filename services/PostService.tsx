@@ -120,8 +120,8 @@ export default class PostService {
         };
 
         const countQuery = {
-            skip: query.skip,
-            take: query.take,
+            //skip: query.skip,
+            //take: query.take,
             where: query.where,
         };
 
@@ -131,6 +131,8 @@ export default class PostService {
             prisma.post.findMany(query as any),
             prisma.post.count(countQuery as any),
         ]);
+
+        console.log(transaction[1]); // Log the total count of posts
 
 
         return { posts: transaction[0] as PostWithCategory[], total: transaction[1] };

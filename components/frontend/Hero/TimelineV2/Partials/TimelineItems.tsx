@@ -4,7 +4,7 @@ import React from 'react';
 
 const TimelineItems: React.FC = () => {
     return (
-        <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+        <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical pt-2">
             <li>
                 <div className="timeline-middle bg-base-300 p-2 rounded-full">
                     <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
@@ -28,7 +28,7 @@ const TimelineItems: React.FC = () => {
                 </div>
                 <div className="timeline-end mb-10 ml-3">
                     <time className="font-mono italic">2021 Dec - 2023 Sep</time>
-                    <div className="text-lg font-black">Strucutral Engineer <span className="text-sm italic font-normal">at</span> Kuray Yapı Construction</div>
+                    <div className="text-lg font-black">Structural Engineer <span className="text-sm italic font-normal">at</span> Kuray Yapı Construction</div>
                     <span className="text-sm">
                         • Developing turnkey construction projects. <br />
                         • Building Information Modeling (BIM) projects. <br />

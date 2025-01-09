@@ -8,8 +8,11 @@ import useGlobalStore from "@/libs/zustand";
 
 import ThemeButton from "./Partials/ThemeButton";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+
+    const router = useRouter();
 
     const { session } = useGlobalStore();
 
@@ -89,7 +92,7 @@ const Navbar = () => {
                         <span className="text-sm font-semibold leading-6 text-primary px-4 py-2">{user?.name ? user?.name : email?.split('@')[0]}</span>
                         <Link href="#" className="flex items-center justify-center border-2 border-primary rounded-full">
                             <Image width={48} height={48}
-                             src={session?.user?.image ? session?.user?.image : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
+                                src={session?.user?.image ? session?.user?.image : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
                         </Link>
                     </div>
                 </nav>
@@ -98,9 +101,9 @@ const Navbar = () => {
             <div className={`${isMobileMenuOpen ? "block" : "hidden"} lg:hidden`} id="mobile-menu" style={{ position: "fixed", zIndex: 100 }}>
                 <div className="fixed inset-0 z-40 flex">
                     <div className="fixed inset-0" onClick={toggleMobileMenu}>
-                        <div className="absolute inset-0 bg-gray-600 opacity-75"></div>
+                        <div className="absolute inset-0 bg-base-200 opacity-75"></div>
                     </div>
-                    <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white">
+                    <div className="relative flex-1 flex flex-col max-w-xs w-full bg-base-100">
                         <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                             <div className="flex items-center justify-center">
                                 <Link href="/backend" className="flex items-center">
@@ -110,9 +113,13 @@ const Navbar = () => {
                             </div>
                             <nav className="mt-5 px-2 space-y-1">
                                 {menu.map((item, index) => (
-                                    <Link key={index} href={item.href} className="block px-3 py-2 rounded-md text-base font-medium">
+                                    <button key={index} className="block px-3 py-2 rounded-md text-base font-medium"
+                                        onClick={() => {
+                                            router.push(item.href);
+                                            toggleMobileMenu();
+                                        }}>
                                         {item.name}
-                                    </Link>
+                                    </button>
                                 ))}
                             </nav>
                         </div>

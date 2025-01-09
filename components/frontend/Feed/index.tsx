@@ -18,6 +18,8 @@ export default function Feed(props: { category?: Category | null }) {
         axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&sort=desc`)
             .then(response => {
 
+                console.log(response.data);
+
                 const incomingFeeds = response.data.posts.map((post: any) => {
                     return {
                         ...post,
@@ -30,6 +32,7 @@ export default function Feed(props: { category?: Category | null }) {
                 });
 
                 setFeeds(prev => [...prev, ...incomingFeeds]);
+            
 
 
                 setIsMoreAvailable(response.data.total > page * pageSize);
