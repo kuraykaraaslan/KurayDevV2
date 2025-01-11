@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
             flexDirection: 'row',
             padding: '20px',
             position: 'absolute',
-            top: index * 30 + 40,
+            top: index * 30,
         }}>
             &#8226; {post.title.length > 100 ? post.title.substring(0, 100) + '...' : post.title}
         </div>
@@ -40,8 +40,6 @@ export async function GET(request: NextRequest) {
         </div>
     );
 
-    listItems.unshift(header);
-
     return new ImageResponse(
         (
             <div
@@ -61,7 +59,7 @@ export async function GET(request: NextRequest) {
         ),
         {
             width: 900,
-            height: 400,
+            height: 350,
         }
     );
 }
