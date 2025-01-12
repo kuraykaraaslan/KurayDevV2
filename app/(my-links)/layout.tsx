@@ -1,7 +1,5 @@
 'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSnowman } from '@fortawesome/free-solid-svg-icons'
-
 //create a context to store the user's authentication status
 import { createContext, useState } from 'react'
 import Link from 'next/link';
@@ -14,7 +12,7 @@ import path from 'path';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function AuthLayout({ children, title }: { children: React.ReactNode, title: string }) {
+export default function LinksLayout({ children, title }: { children: React.ReactNode, title: string }) {
 
   //Create a context to store the user's authentication status
 
@@ -22,24 +20,8 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
 
   const titles = [
     {
-      path: '/auth/login',
-      title: 'Welcome back!'
-    },
-    {
-      path: '/auth/register',
-      title: 'Create an account'
-    },
-    {
-      path: '/auth/forgot-password',
-      title: 'Forgot Password'
-    },
-    {
-      path: '/auth/reset-password',
-      title: 'Reset Password'
-    },
-    {
-      path: '/auth/logout',
-      title: 'Logging out...'
+      path: '/my-links',
+      title: 'My Links'
     }
   ]
 
@@ -55,7 +37,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
             }}>
             </div>
           </div>
-          <div className="col-span-1 flex flex-col items-center justify-center w-full p-8 pt-0">
+          <div className="col-span-1 flex flex-col items-center justify-center w-full p-8">
             <div className="flex items-center justify-center mb-3">
               <Link href="/" className="flex items-center justify-center space-x-2 font-bold text-4xl">
                 <FontAwesomeIcon icon={faCode} className="w-8 h-8" />
