@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Comment" ADD COLUMN     "status" TEXT NOT NULL DEFAULT 'NOT_PUBLISHED';

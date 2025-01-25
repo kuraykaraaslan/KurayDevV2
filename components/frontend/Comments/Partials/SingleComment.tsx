@@ -34,7 +34,7 @@ const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: 
                             className="mr-2 w-6 h-6 rounded-full"
                             src={gravatarUrl} alt={name || 'Anonymous'} />{name || 'Anonymous'}</p>
                         <p className="text-sm">
-                            {createdAt.toLocaleDateString()} {createdAt.toLocaleTimeString()}
+                            {new Date(createdAt).toLocaleDateString()} {new Date(createdAt).toLocaleTimeString()}
                         </p>
                     </div>
                     {isAdmin &&
@@ -47,7 +47,7 @@ const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: 
                     </details>
                     }
                 </footer>
-                <p className="">
+                <p className="pt-4 pb-4">
                     {content}
                 </p>
 

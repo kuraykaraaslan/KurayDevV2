@@ -210,4 +210,18 @@ export default class PostService {
         }
         );
     }
+
+
+    /**
+     * Retrieves a post by its ID.
+     * @param postId - The ID of the post
+     * @returns The post
+     */
+    static async getPostById(postId: string): Promise<Post | null> {
+        return await prisma.post.findUnique({
+            where: { postId },
+        });
+
+    }
+
 }

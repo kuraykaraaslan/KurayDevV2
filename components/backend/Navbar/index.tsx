@@ -51,6 +51,10 @@ const Navbar = () => {
             href: "/backend/posts",
         },
         {
+            name: "Comments",
+            href: "/backend/comments",
+        },
+        {
             name: "Users",
             href: "/backend/users",
         },

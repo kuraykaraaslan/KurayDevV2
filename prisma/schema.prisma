@@ -96,6 +96,8 @@ model Comment {
   parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
   children  Comment[] @relation("CommentToComment")
   post      Post      @relation(fields: [postId], references: [postId])
+
+  status String @default("NOT_PUBLISHED") // NOT_PUBLISHED, PUBLISHED, SPAM
 }
 
 model ContactForm {

@@ -128,6 +128,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
 
 
         const body = {
+            projectId: params.projectId === 'create' ? undefined : params.projectId,
             title,
             content,
             description,
@@ -139,8 +140,6 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
             projectLinks
         };
 
-        return;
-
         if (mode === 'create') {
             await axiosInstance.post('/api/projects', body).then((response) => {
                 const { project } = response.data;
@@ -150,7 +149,7 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
                 toast.error(error.response.data.message);
             });
         } else {
-            await axiosInstance.put('/api/projects/' + params.projectId, body).then(() => {
+            await axiosInstance.put('/api/projects/', body).then(() => {
                 toast.success('Project updated successfully');
                 router.push('/backend/projects');
             }).catch((error) => {
@@ -164,11 +163,17 @@ const SingleProject = ({ params }: { params: { projectId: string } }) => {
     useEffect(() => {
         if (params.projectId === 'create') {
             setMode('create');
+            setLoading(false);
         } else {
             setMode('edit');
 
-            axiosInstance.get(`/api/projects/${params.projectId}`).then((res) => {
-                const { project } = res.data;
+            axiosInstance.get(`/api/projects`, {
+                params: {
+                    projectId: params.projectId
+                }
+            }).then((res) => {
+                const { projects } = res.data;
+                const project = projects[0];
                 setTitle(project.title);
                 setContent(project.content);
                 setDescription(project.description);

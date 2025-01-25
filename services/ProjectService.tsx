@@ -38,7 +38,7 @@ export default class ProjectService {
                 platforms: true,
                 technologies: true,
                 projectLinks: true,
-                content: slug ? true : false,
+                content: (slug || projectId) ? true : false,
             },
             where: {
                 OR: [

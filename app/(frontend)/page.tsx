@@ -4,7 +4,6 @@ import Toolbox from '@/components/frontend/Hero/Toolbox';
 import Contact from '@/components/frontend/Hero/Contact';
 import TimelineV2 from '@/components/frontend/Hero/TimelineV2';
 import ProjectsHero from '@/components/frontend/Hero/Projects';
-
 import type { Metadata } from 'next';
 
 
@@ -28,6 +27,7 @@ export default function Home() {
     <>
       <Welcome />
       <Toolbox />
+      <ProjectsHero />
       <Contact />
     </>
   );
