@@ -5,10 +5,12 @@ import Sidebar from "@/components/frontend/Sidebar";
 import Whatsapp from "@/components/frontend/Whatsapp";
 import type { Metadata } from "next";
 
+/*
 export const metadata: Metadata = {
   title: "Kuray Karaaslan | Software Engineer",
   description: "Welcome to my tech blog! I’m Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel. Stay updated, solve problems, and grow your tech expertise with me!",
 };
+*/
 
 export default function RootLayout({
   children,
