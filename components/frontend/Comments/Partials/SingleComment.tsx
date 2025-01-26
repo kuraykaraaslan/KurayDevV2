@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Comment } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faMessage } from '@fortawesome/free-solid-svg-icons';
@@ -10,19 +10,31 @@ import axiosInstance from '@/libs/axios';
 const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: string}) => {
 
     const { session } = useGlobalStore();
+
+    const user = session?.user;
+    const isAdmin = user?.role === "ADMIN";
+
     const { content, createdAt, parentId, name, email } = comment;
 
-    const isAdmin = session?.user?.role === 'ADMIN';
 
     const handleReply = () => {
     }
 
     const handleDelete = async () => {
-        await axiosInstance.delete(`/api/comments/${comment.commentId}`).then((res) => {
+        await axiosInstance.delete(`/api/comments`, {
+            data: {
+                commentId: comment.commentId
+            }
+        }).then((response) => {
         }).catch((error) => {
             console.error(error);
         });
     }
+
+    useEffect(() => {
+        //role
+        console.log(session?.user?.role);
+    } , [session]);
 
 
     return (
@@ -37,9 +49,9 @@ const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: 
                             {new Date(createdAt).toLocaleDateString()} {new Date(createdAt).toLocaleTimeString()}
                         </p>
                     </div>
-                    {isAdmin &&
+                    {true &&
                     <details className="dropdown dropdown-end">
-                        <summary className="btn m-1"><FontAwesomeIcon icon={faEllipsis} className='w-4 h-4' /></summary>
+                        <summary className="btn btn-primary m-1"><FontAwesomeIcon icon={faEllipsis} className='w-4 h-4' /></summary>
                         <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                             <li><button onClick={handleReply}>Reply</button></li>
                             <li><button onClick={handleDelete}>Delete</button></li>

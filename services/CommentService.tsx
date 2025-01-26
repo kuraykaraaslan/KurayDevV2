@@ -7,6 +7,8 @@ export default class CommentService {
     private static sqlInjectionRegex = /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i; // SQL injection prevention
     private static emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     private static commentRegex = /^[a-zA-Z0-9\s.,!?()]+$/;
+    private static noHTMLRegex = /<[^>]*>?/gm;
+    private static noJS = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
 
     /**
      * Creates a new comment with regex validation.
@@ -38,6 +40,12 @@ export default class CommentService {
         if (!this.commentRegex.test(content)) {
             throw new Error('Invalid comment content.');
         }
+
+        // Sanitize input
+        content = content.replace(this.noHTMLRegex, '');
+        content = content.replace(this.noJS, '');
+
+        
 
         // Validate input
         const existingComment = await prisma.comment.findFirst({
@@ -82,7 +90,7 @@ export default class CommentService {
                 content: {
                     contains: search,
                 },
-                status: pending ? 'PENDING' : 'APPROVED',
+                status: pending ? undefined : 'APPROVED',
             },
             orderBy: {
                 createdAt: 'desc',

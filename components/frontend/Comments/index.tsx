@@ -11,12 +11,12 @@ const Comments = ({ postId }: { postId: string }) => {
     
 
     const [comments, setComments] = useState<Comment[]>([]);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(10);
 
     const fetchComments = async () => {
         // Fetch comments for the post
-        await axiosInstance.get(`/api/comments?postId=${postId}&page=${page}&pageSize=${pageSize}`).then((response) => {
+        await axiosInstance.get(`/api/comments?postId=${postId}&page=${page +1}&pageSize=${pageSize}`).then((response) => {
             setComments(prevComments => [...prevComments, ...response.data.comments]);
             console.log(response.data.comments); 
         }).catch((error) => {
