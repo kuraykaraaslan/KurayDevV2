@@ -21,9 +21,11 @@ export default class AWSService {
             }
 
 
+            const raandomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            const extension = file.name.split('.').pop();
             const timestamp = new Date().getTime();
             const fileBuffer = await file.arrayBuffer();
-            const fileKey = `${folder}/${timestamp}-${file.name.replace(/ /g, "_")}`;
+            const fileKey = `${folder}/${timestamp}-${raandomString}.${extension}`;
             const command = new PutObjectCommand({
                 Bucket: process.env.AWS_BUCKET_NAME,
                 Key:  fileKey,

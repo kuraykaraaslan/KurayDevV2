@@ -50,6 +50,7 @@
     "react-toastify": "^10.0.6",
     "tinymce": "^7.6.0",
     "twilio": "^5.3.4",
+    "webp-converter": "^2.3.3",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
