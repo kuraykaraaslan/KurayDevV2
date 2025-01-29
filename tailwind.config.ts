@@ -59,10 +59,29 @@ const config: Config = {
       },
       animation: {
         typing: "typing 0.5s steps(20) infinite alternate, blink .7s infinite"
-      }
+      },
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
+      },
     },
   },
-  plugins: [require("daisyui"), require("@tailwindcss/typography"), rotateY, require('@tailwindcss/forms')],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      )
+    }),
+    require("daisyui"), 
+    require("@tailwindcss/typography"), 
+    rotateY, 
+    require('@tailwindcss/forms')],
   daisyui: {
     themes: [
       'light',

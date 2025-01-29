@@ -90,10 +90,10 @@ export default async function ProjectPage({ params }: { params: { projectSlug: s
 
 function generateMetadata(project: any): Metadata {
     return {
-        title: `${project.title} | kuray.dev`,
+        title: `${project.title} | Kuray Karaaslan`,
         description: project.description || project.content.substring(0, 160),
         openGraph: {
-            title: `${project.title} | kuray.dev`,
+            title: `${project.title} | Kuray Karaaslan`,
             description: project.description || project.content.substring(0, 160),
             type: 'article',
             url: `https://kuray.dev/project/${project.slug}/`,

@@ -76,9 +76,9 @@ const TypingEffect = () => {
   }, [letterIndex, isDeleting, pause]);
 
   return (
-    <span className="text-3xl font-bold">
+    <span className="text-3xl font-bold text-shadow-sm">
       {prefix}
-      <span className="text-primary" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>{renderedText === "" ? " " : renderedText}</span>
+      <span className="text-primary text-shadow-sm" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>{renderedText === "" ? " " : renderedText}</span>
       {suffix}
     </span>
   )

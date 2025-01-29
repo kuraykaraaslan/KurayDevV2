@@ -55,10 +55,10 @@ export default async function BlogPost({ params }: { params: { postSlug: string 
 
 function generateMetadata(post: PostWithCategory): Metadata {
     return {
-        title: `${post.title} | kuray.dev`,
+        title: `${post.title} | Kuray Karaaslan`,
         description: post.description || post.content.substring(0, 160),
         openGraph: {
-            title: `${post.title} | kuray.dev`,
+            title: `${post.title} | Kuray Karaaslan`,
             description: post.description || post.content.substring(0, 160),
             type: 'article',
             url: `https://kuray.dev/blog/${post.Category.slug}/${post.slug}`,

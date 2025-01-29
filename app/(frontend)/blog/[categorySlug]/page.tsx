@@ -43,10 +43,10 @@ export default async function CategoryPage({ params }: { params: { categorySlug:
 
 function generateMetadata(category: Category): Metadata {
     return {
-        title: `${category.title} | kuray.dev`,
+        title: `${category.title} | Kuray Karaaslan`,
         description: category.description || `Discover posts in the ${category.title} category.`,
         openGraph: {
-            title: `${category.title} | kuray.dev`,
+            title: `${category.title} | Kuray Karaaslan`,
             description: category.description || `Explore all articles in the ${category.title} category.`,
             type: 'website',
             url: `https://kuray.dev/category/${category.slug}`,

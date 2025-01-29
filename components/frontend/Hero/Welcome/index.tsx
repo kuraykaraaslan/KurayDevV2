@@ -15,6 +15,10 @@ const TypingEffect = dynamic(
   () => import("./Partials/TypingEffect"),
   { ssr: false },
 );
+const BackgroundImage = dynamic(
+  () => import("./Partials/BackgroundImage"),
+  { ssr: false },
+);
 
 const Welcome = () => {
 
@@ -25,8 +29,9 @@ const Welcome = () => {
       }}
       id="home"
     >
+      <BackgroundImage />
       <div
-        className="hero min-h-screen select-none"
+        className="hero min-h-screen select-none group"
         style={{
           zIndex: 2,
           display: "flex",
@@ -40,7 +45,7 @@ const Welcome = () => {
             <h1 className="font-bold relative overflow-hidden animate-shake text-4xl leading-normal h-24 md:h-16">
               <TypingEffect />
             </h1>
-            <h2 className="py-3 pb-6 leading-7">
+            <h2 className="py-3 pb-6 leading-7 text-shadow-sm">
               <p>
                 <span className="font-bold">Self-taught</span> and <span className="font-bold">self-motivated</span> software developer with <span className="font-bold">2+ years of experience</span>.
                 Formerly a structural engineer, I transitioned into software development. &nbsp;
