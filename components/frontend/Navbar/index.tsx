@@ -56,8 +56,8 @@ const Navbar = () => {
         >
             <div
                 className={
-                    "navbar bg-base-100 rounded-full shadow-lg border border-base-200 self-center	" +
-                    (isTopReached ? " rounded-full" : " rounded-none")
+                    "navbar rounded-full shadow-lg border border-base-200 self-center	" +
+                    (isTopReached ? " rounded-full bg-transparent backdrop-blur-lg" : " rounded-none bg-base-100")
                 }
             >
                 <div className="flex-none xl:hidden">

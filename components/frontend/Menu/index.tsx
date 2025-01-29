@@ -77,7 +77,7 @@ const Menu = ({isSidebar = false}) => {
                     marginLeft: '1px', marginTop: '4px' }}
                     onClick={() => scrollOrRedirect(item)}
 
-                    className={(item.textColour ? item.textColour : "text-base-content") + " " + (item.backgroundColour ? item.backgroundColour : " bg-base-100") + " rounded-md"}>
+                    className={(item.textColour ? item.textColour : "text-base-content") + " " + (item.backgroundColour ? item.backgroundColour : " ") + " rounded-md"}>
                     <div className="flex items-center gap-2">
                         {item.icon && <FontAwesomeIcon icon={item.icon as IconDefinition} className="w-4 h-4" />}
                         <span className={(item.hideTextOnDesktop && !isSidebar ? 'hidden' : 'block')} >{t("navigation." + item.name)}</span>
