@@ -15,6 +15,9 @@ export async function GET(
   { params }: { params: { userId: string } }
 ) {
   try {
+
+    await AuthService.authenticate(request, "USER");
+
     const { userId } = params;
     const user = await UserService.getUserById(userId);
 

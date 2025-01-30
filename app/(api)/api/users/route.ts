@@ -14,6 +14,12 @@ export async function GET(request: NextRequest) {
 
     try {
 
+        try {
+            AuthService.authenticateSync(request, "ADMIN");
+        } catch (error) {
+        
+        }
+
         const { searchParams } = new URL(request.url);
 
         // Extract query parameters
@@ -22,6 +28,17 @@ export async function GET(request: NextRequest) {
         const search = searchParams.get('search') || undefined;
 
         const {users, total} = await UserService.getAllUsers({ page, pageSize, search });
+
+        if (!request.session) {
+            //omit user data only id and name
+            users.forEach((user: any) => {
+                delete user.email;
+                delete user.password;
+                delete user.role;
+                delete user.image;
+                delete user.phone;
+            });
+        }
 
         return NextResponse.json({ users, total, page, pageSize });
 

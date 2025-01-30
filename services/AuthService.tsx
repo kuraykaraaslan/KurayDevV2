@@ -246,7 +246,8 @@ export default class AuthService {
         }
     }
 
-    static authenticateSync(req: NextRequest, scope: string = "USER"): SessionWithUser {
+    //@ts-ignore
+    static authenticateSync(req: NextRequest, scope: string = "USER", force = true): SessionWithUser {
 
         try {
 
@@ -256,7 +257,7 @@ export default class AuthService {
             const isApi = path.startsWith("/api");
 
             if (!authHeader) {
-                throw new Error("Not Authorized");
+                    throw new Error("Authorization header is missing");
             }
 
             const authHeaderNoBearer = authHeader.replace('Bearer ', '');
@@ -282,7 +283,7 @@ export default class AuthService {
                 },
             }).then((session) => {
 
-                if (!session) {
+                if (!session || session.expires < new Date()) {
                     throw new Error("Invalid session token");
                 }
 
