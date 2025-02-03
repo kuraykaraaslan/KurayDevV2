@@ -31,7 +31,6 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
     const [categoryId, setCategoryId] = useState<string>("");
     const [status, setStatus] = useState('DRAFT');
     const [createdAt, setCreatedAt] = useState(new Date());
-    const [updatedAt, setUpdatedAt] = useState(new Date());
     const [views, setViews] = useState(0);
 
     useEffect(() => {
@@ -103,7 +102,6 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
             categoryId: categoryId,
             status,
             createdAt,
-            updatedAt,
             views,
             image,
         };
@@ -159,7 +157,6 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
                 setStatus(post.status);
                 setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date());
                 setLoading(false);
-                setUpdatedAt(post.updatedAt ? new Date(post.updatedAt) : new Date());
                 setViews(post.views);
             }).catch((error) => {
                 console.error(error);
@@ -245,19 +242,6 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
                             className="input input-bordered"
                             value={createdAt.toISOString().split('T')[0]}
                             onChange={(e) => setCreatedAt(new Date(e.target.value))}
-                        />
-                    </div>
-
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Updated At</span>
-                        </label>
-                        <input
-                            type="date"
-                            placeholder="Updated At"
-                            className="input input-bordered"
-                            value={updatedAt.toISOString().split('T')[0]}
-                            onChange={(e) => setUpdatedAt(new Date(e.target.value))}
                         />
                     </div>
 
