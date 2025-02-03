@@ -71,7 +71,8 @@ export default class UserService {
 
         const transaction = await prisma.$transaction([
             prisma.user.findMany(query as any),
-            prisma.user.count(query as any),
+            // @ts-ignore
+            prisma.user.count({ where: query.where }),
         ]);
     
         return {
