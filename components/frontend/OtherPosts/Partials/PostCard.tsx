@@ -10,6 +10,8 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
 
     const { title, slug, createdAt, Category, image } = post;
 
+    console.log(post.createdAt);
+
     if (!image && !Category.image) {
         return null;
     }
@@ -31,8 +33,6 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
 
             const now = new Date();
             const diff = now.getTime() - new Date(createdAt).getTime();
-
-            console.log(diff);
 
             const diffSeconds = diff / 1000;
             const diffMinutes = diffSeconds / 60;

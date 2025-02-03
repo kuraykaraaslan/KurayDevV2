@@ -33,7 +33,6 @@ const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: 
 
     useEffect(() => {
         //role
-        console.log(session?.user?.role);
     } , [session]);
 
 

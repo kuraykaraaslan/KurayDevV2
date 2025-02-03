@@ -53,19 +53,21 @@ export default class PostService {
             search?: string;
             categoryId?: string;
             userId?: string;
-            withDeleted?: boolean;
-            onlyPublished?: boolean;
+            status?: string; //ALL, PUBLISHED, DRAFT
             postId?: string;
             slug?: string;
         }): Promise<{ posts: PostWithCategory[], total: number }> {
 
 
-        const { page, pageSize, search, categoryId, withDeleted, onlyPublished, userId, postId, slug } = data;
-
+        const { page, pageSize, search, categoryId, status, userId, postId, slug } = data;
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
             throw new Error('Invalid search query.');
         }
+
+        //ALL, PUBLISHED, DRAFT
+
+        const now = new Date();
         // Get posts by search query
         const query = {
             skip: (page - 1) * pageSize,
@@ -83,10 +85,10 @@ export default class PostService {
                 authorId: true,
                 categoryId: true,
                 createdAt: true,
-                updatedAt: true,
                 status: true,
                 views: true,
                 content: postId ? true : slug ? true : false,
+                deletedAt: true,
                 Category: {
                     select: {
                         categoryId: true,
@@ -114,7 +116,13 @@ export default class PostService {
                 userId: userId ? userId : undefined,
                 postId: postId ? postId : undefined,
                 categoryId: categoryId ? categoryId : undefined,
-                status: !onlyPublished ? undefined : 'PUBLISHED',
+                status: status ? status === "ALL" ? undefined : status : "PUBLISHED",
+                createdAt: {
+                    lte: status === "ALL" ? undefined : now,
+                },
+                deletedAt: {
+                    equals: status === "ALL" ? undefined : null,
+                },
                 slug: slug ? slug : undefined,
             },
         };
@@ -173,8 +181,12 @@ export default class PostService {
      * @param postId - The ID of the post
      */
     static async deletePost(postId: string): Promise<void> {
-        await prisma.post.delete({
+        await prisma.post.update({
             where: { postId },
+            data: {
+                status: 'ARCHIVED',
+                deletedAt: new Date(),
+            },
         });
     }
 
@@ -199,11 +211,11 @@ export default class PostService {
 
     //generate site map how do i do use: 
     static async generateSiteMap(): Promise<MetadataRoute.Sitemap> {
-        const { posts } = await this.getAllPosts({ page: 1, pageSize: 1000, onlyPublished: true });
+        const { posts } = await this.getAllPosts({ page: 1, pageSize: 1000, search: '', categoryId: '', status: 'PUBLISHED' });
         return posts.map(post => {
             return {
                 url: `/blog/${post.slug}`,
-                lastModified: post.updatedAt.toISOString(),
+                lastModified: post.createdAt.toISOString(),
                 changeFrequency: 'daily',
                 priority: 0.7,
             };

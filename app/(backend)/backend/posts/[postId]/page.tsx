@@ -9,6 +9,7 @@ import CategorySelect from '@/components/backend/Selects/CategorySelect';
 import UserSelect from '@/components/backend/Selects/UserSelect';
 import ImageLoad from '@/components/common/ImageLoad';
 import AIPrompt from '@/components/backend/AIPrompt';
+import { only } from 'node:test';
 
 
 const SinglePost = ({ params }: { params: { postId: string } }) => {
@@ -127,7 +128,6 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
     };
 
     useEffect(() => {   
-        console.log('params.postId', params.postId);
         if (params.postId) {
             if (params.postId === 'create') {
                 setLoading(false);
@@ -136,9 +136,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
                 setMode('create');
             }
 
-            console.log('params.postId');
-            console.log(params.postId);
-            axiosInstance.get('/api/posts', { params: { postId: params.postId } }).then((res) => {
+            axiosInstance.get('/api/posts', { params: { postId: params.postId , status: "ALL" } }).then((res) => {
 
                 const { posts } = res.data;
                 const post = posts.find((post: any) => post.postId === postId);

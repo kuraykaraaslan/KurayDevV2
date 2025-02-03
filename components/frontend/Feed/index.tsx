@@ -15,10 +15,9 @@ export default function Feed(props: { category?: Category | null }) {
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {
-        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&sort=desc`)
+        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : ''))
             .then(response => {
 
-                console.log(response.data);
 
                 const incomingFeeds = response.data.posts.map((post: any) => {
                     return {

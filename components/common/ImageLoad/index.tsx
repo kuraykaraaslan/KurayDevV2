@@ -39,7 +39,6 @@ const ImageLoad = ({ image, setImage, uploadFolder = 'default', toast }: ImageLo
         }).then((res) => {
 
             setImage(res.data.url);
-            console.log(res.data.url);
             if (toast) { toast.success('Image uploaded successfully'); }
 
         }).catch((error) => {

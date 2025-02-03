@@ -17,7 +17,6 @@ export default async function BlogPost({ params }: { params: { postSlug: string 
             page: 1,
             pageSize: 1,
             slug: params.postSlug,
-            onlyPublished: true,
         });
 
         const { posts } = response;
@@ -69,7 +68,6 @@ function generateMetadata(post: PostWithCategory): Metadata {
 
 function generateMetadataElement(meta: Metadata) {
 
-    console.log('meta', meta);
     return (
         <>
             <title>{String(meta?.title)}</title>

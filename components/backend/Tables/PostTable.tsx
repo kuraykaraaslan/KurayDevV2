@@ -19,7 +19,7 @@ const PostTable = ({ category }: { category?: Category }) => {
 
     React.useEffect(() => {
 
-        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&search=${search}&sort=desc`)
+        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&search=${search}&sort=desc&status=ALL` + (category ? `&categoryId=${category.categoryId}` : ''))
             .then((response) => {
                 setPosts(response.data.posts);
                 setTotal(response.data.total);

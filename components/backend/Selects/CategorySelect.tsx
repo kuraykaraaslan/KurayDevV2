@@ -8,7 +8,6 @@ const CategorySelect = ({ selectedCategoryId, setSelectedCategoryId }: { selecte
 
     useEffect(() => {
         axiosInstance.get('/api/categories?pageSize=100').then((response) => {
-            console.log(response.data);
             const { categories } = response.data;
             setCategories(categories);
         });

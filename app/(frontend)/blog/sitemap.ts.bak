@@ -8,7 +8,5 @@ export default async function sitemap(request : NextRequest) : Promise<MetadataR
 
   const sitemap = await PostService.generateSiteMap();
 
-  console.log(sitemap);
-
   return sitemap;
 }

@@ -15,6 +15,7 @@ import AuthService from "@/services/AuthService";
  */
 export async function GET(request: NextRequest) {
     try {
+
         const { searchParams } = new URL(request.url);
 
         // Extract query parameters
@@ -22,18 +23,20 @@ export async function GET(request: NextRequest) {
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const postId = searchParams.get('postId') || undefined;
         const authorId = searchParams.get('authorId') || undefined;
-        const onlyPublished = searchParams.get('onlyPublished') === 'true';
+        const status = searchParams.get('status') || 'PUBLISHED';
         const categoryId = searchParams.get('categoryId') || undefined;
+        const categorySlug = searchParams.get('categorySlug') || undefined;
         const search = searchParams.get('search') || undefined;
 
         const data = {
             page,
             pageSize,
-            onlyPublished,
+            status,
             categoryId,
             search,
             postId,
-            authorId
+            authorId,
+            categorySlug
         }
 
         const result = await PostService.getAllPosts(data);

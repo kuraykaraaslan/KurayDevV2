@@ -13,8 +13,8 @@ const PostHeader  = (post: PostWithCategory) => {
             <div className="text-sm flex items-center space-x-2">
                 <span>{post.createdAt ? new Date(post.createdAt).toLocaleDateString() : "No Date"}</span>
                 <Link href={"/blog/" + post.Category.slug} className="text-primary">{post.Category.title}</Link>
-                <span className="text-primary">•</span>
-                <span>{post.views} views</span>
+                <span className="text-primary hidden md:inline">•</span>
+                <span className="hidden md:inline">{post.views} views</span>
                 <span className="text-primary">•</span>
                 <span>{readTime} min read</span>
                 <span className="text-primary hidden md:inline">•</span>
