@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
         const authorId = searchParams.get('authorId') || undefined;
         const status = searchParams.get('status') || 'PUBLISHED';
         const categoryId = searchParams.get('categoryId') || undefined;
-        const categorySlug = searchParams.get('categorySlug') || undefined;
         const search = searchParams.get('search') || undefined;
 
         const data = {
@@ -36,7 +35,6 @@ export async function GET(request: NextRequest) {
             search,
             postId,
             authorId,
-            categorySlug
         }
 
         const result = await PostService.getAllPosts(data);

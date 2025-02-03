@@ -95,7 +95,6 @@ const Contact = (props: ContactProps) => {
     if (mails.length === 0) {
       axios.get("/api/contact/info/mail").then((response) => {
         setMails(response.data.mails);
-        console.log(response.data);
       });
     }
 
