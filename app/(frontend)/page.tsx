@@ -10,7 +10,7 @@ import MetadataHelper from '@/helpers/MetadataHelper';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-export default function Home() {
+const HomePage = () => {
 
   const metadata: Metadata = {
     title: "Software Developer | Kuray Karaaslan",
@@ -36,3 +36,5 @@ export default function Home() {
     </>
   );
 };
+
+export default HomePage;
