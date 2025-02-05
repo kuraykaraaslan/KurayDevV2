@@ -5,6 +5,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 export default class AWSService {
 
     static allowedFolders = ['general', 'categories', 'users', 'posts', 'comments', 'images', 'videos', 'audios', 'files', 'content'];
+    static allowedExtensions = ['jpeg', 'jpg', 'png' ];
 
     static uploadFile = async (file: File, folder?: string) : Promise<string | undefined> => {
         try {
@@ -22,9 +23,14 @@ export default class AWSService {
 
 
             const raandomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            const extension = file.name.split('.').pop();
+            const extension = file.name.split('.').pop() as string;
             const timestamp = new Date().getTime();
             const fileBuffer = await file.arrayBuffer();
+
+            if (!AWSService.allowedExtensions.includes(extension)) {
+                throw new Error("Invalid file extension");
+            }
+
             const fileKey = `${folder}/${timestamp}-${raandomString}.${extension}`;
             const command = new PutObjectCommand({
                 Bucket: process.env.AWS_BUCKET_NAME,

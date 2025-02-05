@@ -8,6 +8,9 @@ import { Category } from '@prisma/client';
 import CategoryService from '@/services/CategoryService';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import MetadataHelper from '@/helpers/MetadataHelper';
+
+const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 export default async function CategoryPage({ params }: { params: { categorySlug: string } }) {
     try {
@@ -21,11 +24,23 @@ export default async function CategoryPage({ params }: { params: { categorySlug:
             notFound();
         }
 
-        const meta = generateMetadata(category);
+    
+
+        const metadata: Metadata = { 
+            title: `${category.title} | Kuray Karaaslan`,
+            description: category.description || `Discover posts in the ${category.title} category.`,
+            openGraph: {
+                title: `${category.title} | Kuray Karaaslan`,
+                description: category.description || `Explore all articles in the ${category.title} category.`,
+                type: 'website',
+                url: `${APPLICATION_HOST}/blog/${category.slug}`,
+                images: [category.image || `${APPLICATION_HOST}/assets/img/og.png`],
+            },
+        };
 
         return (
             <>
-                {generateMetadataElement(meta)}
+                {MetadataHelper.generateElements(metadata)}
                 <Feed category={category} />
                 <Newsletter />
                 <ToastContainer />
@@ -39,38 +54,4 @@ export default async function CategoryPage({ params }: { params: { categorySlug:
             </div>
         );
     }
-}
-
-function generateMetadata(category: Category): Metadata {
-    return {
-        title: `${category.title} | Kuray Karaaslan`,
-        description: category.description || `Discover posts in the ${category.title} category.`,
-        openGraph: {
-            title: `${category.title} | Kuray Karaaslan`,
-            description: category.description || `Explore all articles in the ${category.title} category.`,
-            type: 'website',
-            url: `https://kuray.dev/category/${category.slug}`,
-            images: [category.image || 'https://kuray.dev/images/logo.png'],
-        },
-    };
-}
-
-function generateMetadataElement(meta: Metadata) {
-    return (
-        <>
-            <title>{String(meta?.title)}</title>
-            <meta name="description" content={String(meta?.description)} />
-            <meta property="og:title" content={String(meta?.openGraph?.title)} />
-            <meta property="og:description" content={String(meta?.openGraph?.description)} />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content={String(meta?.openGraph?.url)} />
-            <meta property="og:image" content={Array.isArray(meta?.openGraph?.images) ? String(meta?.openGraph?.images?.[0]) : String(meta?.openGraph?.images)} />
-            <meta property="og:site_name" content="kuray.dev" />
-            <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:title" content={String(meta?.openGraph?.title)} />
-            <meta property="twitter:description" content={String(meta?.openGraph?.description)} />
-            <meta property="twitter:image" content={Array.isArray(meta?.openGraph?.images) ? String(meta?.openGraph?.images?.[0]) : String(meta?.openGraph?.images)} />
-            <link rel="canonical" href={String(meta?.openGraph?.url)} />
-        </>
-    );
 }

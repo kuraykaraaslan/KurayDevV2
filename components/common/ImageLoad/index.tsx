@@ -57,8 +57,8 @@ const ImageLoad = ({ image, setImage, uploadFolder = 'default', toast }: ImageLo
                     type="file"
                     placeholder="Image URL"
                     className="input input-bordered mt-2 p-4 flex-1 h-16"
-                    //only images
-                    accept="image/*"
+                    //only jpg, jpeg, png
+                    accept="image/jpeg, image/png"
 
                     onChange={(e) => {
                         const file = e.target.files?.[0];

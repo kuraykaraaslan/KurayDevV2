@@ -11,6 +11,11 @@ import Newsletter from '@/components/frontend/Newsletter';
 import PostHeader from '@/components/frontend/PostHeader';
 import PostWithCategory from '@/types/PostWithCategory';
 
+
+import MetadataHelper from '@/helpers/MetadataHelper';
+
+const APPLICATION_HOST = process.env.APPLICATION_HOST;
+
 export default async function BlogPost({ params }: { params: { postSlug: string } }) {
     try {
         const response = await PostService.getAllPosts({
@@ -30,11 +35,21 @@ export default async function BlogPost({ params }: { params: { postSlug: string 
         await PostService.incrementViewCount(post.postId);
         post.views++;
 
-        const meta = generateMetadata(post);
+        const metadata : Metadata = {
+            title: `${post.title} | Kuray Karaaslan`,
+            description: post.description || post.content.substring(0, 150),
+            openGraph: {
+                title: `${post.title} | Kuray Karaaslan`,
+                description: post.description || post.content.substring(0, 150),
+                type: 'article',
+                url: `${APPLICATION_HOST}/blog/${post.Category.slug}/${post.slug}`,
+                images: [post.image || `${APPLICATION_HOST}/assets/img/og.png`],
+            },
+        }
 
         return (
             <>
-                {generateMetadataElement(meta)}
+                {MetadataHelper.generateElements(metadata)}
                 <section className="min-h-screen bg-base-100 pt-32" id="blog">
                     <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col">
                         <PostHeader {...post} />
@@ -50,33 +65,4 @@ export default async function BlogPost({ params }: { params: { postSlug: string 
         console.error('Error fetching post:', error);
         notFound();
     }
-}
-
-function generateMetadata(post: PostWithCategory): Metadata {
-    return {
-        title: `${post.title} | Kuray Karaaslan`,
-        description: post.description || post.content.substring(0, 160),
-        openGraph: {
-            title: `${post.title} | Kuray Karaaslan`,
-            description: post.description || post.content.substring(0, 160),
-            type: 'article',
-            url: `https://kuray.dev/blog/${post.Category.slug}/${post.slug}`,
-            images: [post.image || post.Category.image || 'https://kuray.dev/images/logo.png'],
-        },
-    };
-}
-
-function generateMetadataElement(meta: Metadata) {
-
-    return (
-        <>
-            <title>{String(meta?.title)}</title>
-            <meta name="description" content={String(meta?.description)} />
-            <meta property="og:title" content={String(meta?.openGraph?.title)} />
-            <meta property="og:description" content={String(meta?.openGraph?.description)} />
-            <meta property="og:type" content="article" />
-            <meta property="og:url" content={String(meta?.openGraph?.url)} />
-            <meta property="og:image" content={Array.isArray(meta?.openGraph?.images) ? String(meta?.openGraph?.images?.[0]) : String(meta?.openGraph?.images)} />
-        </>
-    );
 }
