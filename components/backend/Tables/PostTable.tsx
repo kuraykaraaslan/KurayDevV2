@@ -86,12 +86,12 @@ const PostTable = ({ category }: { category?: Category }) => {
                                     }
                                 </td>
                                 <td>{post.title}</td>
-                                <td>{post.Category?.title}</td>
+                                <td>{post.category?.title}</td>
                                 <td>{post.slug}</td>
                                 <td>{post.status}</td>
                                 <td className="flex gap-2">
                                     <Link href={`/backend/posts/${post.postId}`} className="btn btn-sm btn-primary">Edit</Link>
-                                    <Link href={`/blog/${post.Category?.slug}/${post.slug}`} className="btn btn-sm btn-secondary">View</Link>
+                                    <Link href={`/blog/${post.category?.slug}/${post.slug}`} className="btn btn-sm btn-secondary">View</Link>
                                     <button onClick={() => deletePost(post.postId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">Delete</button>
                                 </td>
                             </tr>

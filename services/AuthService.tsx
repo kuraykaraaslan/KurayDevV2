@@ -314,4 +314,33 @@ export default class AuthService {
 
     };
 
+    static async createSession(user: User): Promise<{ session: SessionWithUser }> {
+
+        const session = await prisma.session.create({
+            data: {
+                sessionToken: AuthService.generateSessionToken(),
+                userId: user.userId,
+                expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+            },
+            select: {
+                userId: true,
+                sessionToken: true,
+                expires: true,
+                user: {
+                    select: {
+                        userId: true,
+                        name: true,
+                        email: true,
+                        phone: true,
+                        role: true,
+                        image: true,
+                    },
+                },
+            },
+        });
+
+        return { session };
+    }
+
+
 } 

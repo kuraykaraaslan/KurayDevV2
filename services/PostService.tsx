@@ -89,7 +89,7 @@ export default class PostService {
                 views: true,
                 content: postId ? true : slug ? true : false,
                 deletedAt: true,
-                Category: {
+                category: {
                     select: {
                         categoryId: true,
                         title: true,
@@ -139,8 +139,6 @@ export default class PostService {
             prisma.post.findMany(query as any),
             prisma.post.count(countQuery as any),
         ]);
-
-        console.log(transaction[1]); // Log the total count of posts
 
 
         return { posts: transaction[0] as PostWithCategory[], total: transaction[1] };

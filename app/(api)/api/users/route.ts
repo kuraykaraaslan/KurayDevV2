@@ -28,9 +28,7 @@ export async function GET(request: NextRequest) {
         const search = searchParams.get('search') || undefined;
 
         const {users, total} = await UserService.getAllUsers({ page, pageSize, search });
-
-        console.log(users);
-
+        
         if (!request.session) {
             //omit user data only id and name
             users.forEach((user: any) => {

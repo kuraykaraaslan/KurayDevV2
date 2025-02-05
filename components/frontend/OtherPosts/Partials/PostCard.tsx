@@ -8,11 +8,9 @@ import Image from 'next/image';
 
 const PostCard = ({post}: { post: PostWithCategory }) => {
 
-    const { title, slug, createdAt, Category, image } = post;
+    const { title, slug, createdAt, category, image } = post;
 
-    console.log(post.createdAt);
-
-    if (!image && !Category.image) {
+    if (!image && !category.image) {
         return null;
     }
 
@@ -67,11 +65,11 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
     return (
         <div className={"bg-base-300 shadow-md rounded-lg min-w-[296px]"}>
             <Link
-                href={"/blog/" + Category.slug + "/" + slug}
+                href={"/blog/" + category.slug + "/" + slug}
                 className="block h-32 border-b-2 border-base-300 overflow-hidden rounded-t-lg"
             >
             <Image
-                        src={image || Category.image || ""}
+                        src={image || category.image || ""}
                         width={1920}
                         height={1080}
                         alt="feed image"
@@ -80,7 +78,7 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
 
             </Link>
             <div className="p-4">
-                <Link href={"/blog/" + Category.slug + "/" + slug}>
+                <Link href={"/blog/" + category.slug + "/" + slug}>
                     <h3 className="text-lg font-semibold text-primary hover:underline">
                         {title || "Title"}
                     </h3>

@@ -1,7 +1,7 @@
 import { Post, Category } from "@prisma/client";
 
 export interface PostWithCategory extends Post {
-    Category: Pick<Category, "categoryId" | "title" | "slug" | "image" | "keywords" | "description" | "createdAt" | "updatedAt">;
+    category: Pick<Category, "categoryId" | "title" | "slug" | "image" | "keywords" | "description" | "createdAt" | "updatedAt">;
 }
 
 export default PostWithCategory;

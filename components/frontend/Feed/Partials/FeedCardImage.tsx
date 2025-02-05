@@ -66,7 +66,7 @@ const FeedCardImage = (props: FeedCardProps) => {
 
 
     useEffect(() => {
-        setImage(props.image! || props.Category.image! || "");
+        setImage(props.image! || props.category.image! || "");
     }, [props.image]);
 
 
@@ -74,7 +74,7 @@ const FeedCardImage = (props: FeedCardProps) => {
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200 border-t-2 border-primary border-opacity-50 drop-shadow-lg "
             + (props.className || "")}>
             <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
-                href={"/blog/" + props.Category.slug + "/" + props.slug}>
+                href={"/blog/" + props.category.slug + "/" + props.slug}>
                 {image ? <Image src={image}
                     width={1920} height={1080}
                     
@@ -84,7 +84,7 @@ const FeedCardImage = (props: FeedCardProps) => {
                     </div>}
             </Link>
             <div className="col-span-12 justify-center px-4">
-                <Link className="text-primary" href={"/blog/" + props.Category.slug + "/" + props.slug}>
+                <Link className="text-primary" href={"/blog/" + props.category.slug + "/" + props.slug}>
                     <h3 className="text-xl font-bold">{props.title || "Title"}</h3>
                 </Link>
                 <p className="text-base mt-2">{props.description?.substring(0, 200) || "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}</p>
@@ -98,7 +98,7 @@ const FeedCardImage = (props: FeedCardProps) => {
                     <span className="text-primary ml-2 hidden xl:flex">{props.views} views</span>
                 </div>
                 <div className="flex items-center gap-1">
-                    <Link href={"/blog/" + props.Category.slug + "/" + props.slug}
+                    <Link href={"/blog/" + props.category.slug + "/" + props.slug}
                         className="text-primary">Read More
                     <FontAwesomeIcon icon={faCaretRight} className="text-primary mt-1" style={{ height: '1rem', width: '1rem' }} />
                     </Link>

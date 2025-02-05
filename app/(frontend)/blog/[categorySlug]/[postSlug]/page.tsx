@@ -42,7 +42,7 @@ export default async function BlogPost({ params }: { params: { postSlug: string 
                 title: `${post.title} | Kuray Karaaslan`,
                 description: post.description || post.content.substring(0, 150),
                 type: 'article',
-                url: `${APPLICATION_HOST}/blog/${post.Category.slug}/${post.slug}`,
+                url: `${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`,
                 images: [post.image || `${APPLICATION_HOST}/assets/img/og.png`],
             },
         }

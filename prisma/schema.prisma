@@ -31,8 +31,34 @@ model User {
   phoneVerified          DateTime?
   slug                   String?   @unique
   coverImage             String?
-  Post                   Post[]
+
+
+  // Relations
+  posts                   Post[]
   sessions               Session[]
+  socialAccounts          SocialAccount[]
+}
+
+
+model SocialAccount {
+  
+  socialAccountId String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  provider       String  // google, facebook, etc
+  providerId     String   @unique
+  accessToken    String?
+  refreshToken   String?
+  tokenExpiry    DateTime?
+  profilePicture String?
+  profileUrl     String?
+  scopes         String?  // Store granted scopes as a comma-separated list if needed
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([provider, providerId])
 }
 
 model Session {
@@ -66,9 +92,10 @@ model Post {
   status      String    @default("PUBLISHED")
   views       Int       @default(0)
   deletedAt   DateTime?
-  Comment     Comment[]
+
+  comment     Comment[]
   author      User      @relation(fields: [authorId], references: [userId])
-  Category    Category  @relation(fields: [categoryId], references: [categoryId])
+  category    Category  @relation(fields: [categoryId], references: [categoryId])
 }
 
 model Category {
@@ -80,7 +107,9 @@ model Category {
   updatedAt   DateTime @updatedAt
   image       String?
   keywords    String[]
-  Post        Post[]
+
+
+  posts        Post[]
 }
 
 model Comment {
@@ -91,6 +120,8 @@ model Comment {
   parentId  String?
   email     String?
   name      String?
+
+
   parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
   children  Comment[] @relation("CommentToComment")
   post      Post      @relation(fields: [postId], references: [postId])

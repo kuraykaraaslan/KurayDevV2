@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { Suspense } from 'react';
 
 
 export default function AuthLayout({ children, title }: { children: React.ReactNode, title: string }) {
@@ -37,7 +38,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
   ]
 
   return (
-    <>
+    <Suspense>
       <div className="flex flex-col items-center justify-center min-h-screen bg-base-200">
         <div className="rounded-lg shadow-md w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 min-h-screen md:min-h-[600px] rounded-lg shadow-md bg-base-100 border border-base-300">
           <div className="col-span-1 hidden md:block rounded-l-lg">
@@ -63,6 +64,6 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
         </div>
       </div>
       <ToastContainer />
-    </>
+    </Suspense>
   )
 }
