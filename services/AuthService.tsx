@@ -1,10 +1,9 @@
-import { User, Session } from "@prisma/client";
+import { User } from "@prisma/client";
 import prisma from "@/libs/prisma";
 import SessionWithUser from "@/types/SessionWithUser";
 import bcrypt from "bcrypt";
-import { headers } from 'next/headers'
-import { NextResponse } from "next/server";
 import NextRequest from "@/types/NextRequest";
+import SettingService from "./SettingService";
 
 
 export default class AuthService {
@@ -105,6 +104,13 @@ export default class AuthService {
 
         if (phone && !this.phoneRegex.test(phone)) {
             throw new Error("Invalid phone format");
+        }
+
+        //Check if registration is enabled
+        const registrationEnabled = await SettingService.getSettingByKey("ALLOW_REGISTRATION");
+
+        if (!registrationEnabled) {
+            throw new Error("Registration is disabled");
         }
 
         // check if user already exists with the same email and phone

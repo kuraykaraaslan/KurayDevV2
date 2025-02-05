@@ -51,5 +51,25 @@ export default class SettingService {
         });
     }
 
+    static async updateSettings(settings: Setting[]): Promise<Setting[]> {
+        const updatedSettings: Setting[] = [];
+        for (const setting of settings) {
+            const updatedSetting = await prisma.setting.upsert({
+                where: {
+                    key: setting.key
+                },
+                update: {
+                    value: setting.value
+                },
+                create: {
+                    key: setting.key,
+                    value: setting.value
+                }
+            });
+            updatedSettings.push(updatedSetting);
+        }
+
+        return updatedSettings;
+    }
 
 }

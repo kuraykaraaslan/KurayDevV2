@@ -10,115 +10,91 @@ import { Setting } from '@prisma/client';
 
 const Page = () => {
 
-    const [settings, setSettings] = useState<Setting[]>([]);
+    const [defaultSettings, setDefaultSettings] = useState<Pick<Setting, 'key' | 'value'>[]>([
+        {
+            key: 'ALLOW_REGISTRATION',
+            value: 'true'
+        }
+    ]);
+
+    const [settings, setSettings] = useState<Pick<Setting, 'key' | 'value'>[]>([]);
 
     useEffect(() => {
         fetchSettings();
     }, []);
 
     const fetchSettings = async () => {
-        try {
-            const response = await axiosInstance.get('/api/settings');
-            setSettings(response.data);
-        } catch (error) {
+        await axiosInstance.get('/api/settings').then((res) => {
+
+            const incomingSettings = res.data.settings as Pick<Setting, 'key' | 'value'>[];
+
+            //merge default settings with incoming settings
+            const mergedSettings = defaultSettings.map(ds => {
+                const existingSetting = incomingSettings.find(s => s.key === ds.key);
+                return existingSetting ? existingSetting : ds;
+            });
+
+
+            //set settings
+            setSettings(mergedSettings);
+
+        }).catch((error) => {
             console.error(error);
-        }
-    }
-
-
-    const saveSettings = async () => {
-        //implement save settings
+        });
     }
 
 
 
-    
+    const updateSettings = async () => {
+        await axiosInstance.post('/api/settings', { settings }).then((res) => {
+            setSettings(res.data.settings);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+
+
+
+
 
     return (
         <div className="container mx-auto">
             <div className="flex justify-between md:items-center flex-col md:flex-row">
                 <h1 className="text-3xl font-bold h-16 md:items-center">Settings</h1>
                 <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <button className="btn btn-primary btn-sm h-12" onClick={() => saveSettings()}>
-                        Save Settings
+                    <button className="btn btn-primary btn-sm h-12" onClick={() => updateSettings()}>
+                        Update Settings
                     </button>
                 </div>
             </div>
 
+            {settings.length === 0 ? (
+                <div className="flex justify-center items-center h-[400px]">
+                    <p>Loading...</p>
+                </div>
+            ) :
+                <div className="overflow-x-auto w-full bg-base-200 mt-4 rounded-lg min-h-[400px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4">
+                    <div className="card bordered bg-base-100">
+                        <div className="card-body">
+                            <h2 className="card-title">General Settings</h2>
+                            <div className="form-control flex flex-row items-center">
+                                <label className="label">
+                                    <span className="label-text">Allow Registration</span>
+                                </label>
+                                <input type="checkbox" className="toggle toggle-primary"
+                                    onChange={(e) => {
+                                        const value = e.target.checked ? 'true' : 'false';
+                                        setSettings(settings.map(s => s.key === 'ALLOW_REGISTRATION' ? { ...s, value } : s));
+                                    }}
+                                    checked={settings.find(s => s.key === 'ALLOW_REGISTRATION')?.value === 'true'} />
+                            </div>
 
-            <div className="overflow-x-auto w-full bg-base-200 mt-4 rounded-lg min-h-[400px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="card bordered">
-                    <div className="card-body">
-                        <h2 className="card-title">General Settings</h2>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Site Name</span>
-                            </label>
-                            <input type="text" placeholder="Site Name" className="input input-bordered" />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Site Description</span>
-                            </label>
-                            <input type="text" placeholder="Site Description" className="input input-bordered" />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Site Keywords</span>
-                            </label>
-                            <input type="text" placeholder="Site Keywords" className="input input-bordered" />
                         </div>
                     </div>
-                </div>
-                <div className="card bordered">
-                    <div className="card-body">
-                        <h2 className="card-title">SEO Settings</h2>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Meta Title</span>
-                            </label>
-                            <input type="text" placeholder="Meta Title" className="input input-bordered" />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Meta Description</span>
-                            </label>
-                            <input type="text" placeholder="Meta Description" className="input input-bordered" />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Meta Keywords</span>
-                            </label>
-                            <input type="text" placeholder="Meta Keywords" className="input input-bordered" />
-                        </div>
-                    </div>
-                </div>
 
-                <div className="card bordered">
-                    <div className="card-body">
-                        <h2 className="card-title">Social Media Settings</h2>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Facebook</span>
-                            </label>
-                            <input type="text" placeholder="Facebook" className="input input-bordered" />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Twitter</span>
-                            </label>
-                            <input type="text" placeholder="Twitter" className="input input-bordered" />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Instagram</span>
-                            </label>
-                            <input type="text" placeholder="Instagram" className="input input-bordered" />
-                        </div>
-                    </div>
                 </div>
-       
-            </div>
+            }
 
         </div>
     );

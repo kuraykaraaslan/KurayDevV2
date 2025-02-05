@@ -1,16 +1,9 @@
 'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSnowman } from '@fortawesome/free-solid-svg-icons'
-
-//create a context to store the user's authentication status
-import { createContext, useState } from 'react'
 import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import { usePathname , useSelectedLayoutSegments} from 'next/navigation';
-
-import path from 'path';
+import { usePathname } from 'next/navigation';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 
