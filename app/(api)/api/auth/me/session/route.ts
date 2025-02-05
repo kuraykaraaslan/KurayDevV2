@@ -5,10 +5,15 @@ import AuthService from "@/services/AuthService";
 
 export async function GET(req: NextRequest) {
 
-    await AuthService.authenticate(req, 'USER');
+    try {
+        await AuthService.authenticate(req, 'USER');
+        const session = req.session;
 
-    const session = req.session;
+        return NextResponse.json({ session });
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: error.status });
+    }
 
-    return NextResponse.json({ session });
+
 
 }
