@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { Suspense } from 'react';
+import SSOLogin from '@/components/auth/SSOLogin';
 
 
 export default function AuthLayout({ children, title }: { children: React.ReactNode, title: string }) {
@@ -44,7 +45,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
           <div className="col-span-1 hidden md:block rounded-l-lg">
             <div className="flex flex-col items-center justify-center  rounded-l-lg" style={{
               backgroundImage: 'url(/assets/img/kuraykaraaslan.jpg)',
-      
+
               backgroundSize: 'cover', backgroundPosition: 'center', height: '100%'
             }}>
             </div>
@@ -59,6 +60,10 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
             <h1 className="text-3xl font-bold text-center mb-4">{titles?.filter(t => t.path === pathname)[0]?.title || "title"}</h1>
             <div className="w-full">
               {children}
+              <div className="flex items-center justify-center mt-4 mb-4">
+                <span className="text-sm font-semibold">Or</span>
+              </div>
+              <SSOLogin />
             </div>
           </div>
         </div>

@@ -65,7 +65,6 @@ export default function CallbackPage() {
     return (
         <div>
             <h1>we are logging you in...</h1>
-            <p>email: {session?.user?.email}</p>
         </div>
     );
 }

@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const nextConfig = {
     trailingSlash: false, // Add trailing slash to all paths
@@ -11,6 +12,21 @@ const nextConfig = {
     },
     images: {
       domains: ['raw.githubusercontent.com', 'avatars.githubusercontent.com', 'github.com', 'kuray-dev.s3.amazonaws.com', 'www.gravatar.com', '*.core.windows.net', 'via.placeholder.com'],
+    },
+    webpack: (config, { isServer }) => {
+      if (isServer) {
+        config.plugins.push(
+          new CopyWebpackPlugin({
+            patterns: [
+              {
+                from: 'views',
+                to: 'views',
+              },
+            ],
+          })
+        );
+      }
+      return config;
     },
 };
 
