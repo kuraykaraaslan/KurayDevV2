@@ -22,18 +22,15 @@ export default function Feed(props: { category?: Category | null }) {
 
 
                 const incomingFeeds = response.data.posts.map((post: any) => {
-                    console.log(post);
                     return {
                         ...post,
                         category: post.category,
                         title: post.title,
                         description: post.description,
                         createdAt: new Date(post.createdAt),
-                        image: `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`
+                        image: post.image ? post.image : `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`,
                     };
                 });
-
-                console.log(incomingFeeds);
 
                 setFeeds(prev => [...prev, ...incomingFeeds]);
             

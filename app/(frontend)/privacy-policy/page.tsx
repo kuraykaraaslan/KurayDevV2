@@ -102,7 +102,6 @@ function generateMetadata(): Metadata {
 
 function generateMetadataElement(meta: Metadata) {
 
-  console.log('meta', meta);
   return (
     <>
       <title>{String(meta?.title)}</title>

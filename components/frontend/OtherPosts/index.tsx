@@ -6,6 +6,8 @@ import PostCard from './Partials/PostCard';
 import axiosInstance from '@/libs/axios';
 import PostWithCategory from '@/types/PostWithCategory';
 
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+
 const OtherPosts = ({ currentPostId, categoryId }: { currentPostId?: String, categoryId?: String }) => {
 
     const [children, setChildren] = useState<ReactNode[]>([]);
@@ -18,6 +20,9 @@ const OtherPosts = ({ currentPostId, categoryId }: { currentPostId?: String, cat
         await axiosInstance.get(`/api/posts?categoryId=${categoryId}&pageSize=10`).then((res) => {
             const posts = res.data.posts;
             var postCards = posts.map((post: any) => {
+
+              post.image = post.image || `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
+
                 return <PostCard key={post.postId} post={post} />;
             });
 

@@ -12,8 +12,6 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
 
     const { title, slug, createdAt, category, image } = post;
 
-    post.image =  `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
-
     const [dateText, setDateText] = useState("");
 
     useEffect(() => {
@@ -69,7 +67,7 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
                 className="block h-32 border-b-2 border-base-300 overflow-hidden rounded-t-lg"
             >
             <img
-                        src={image || category.image || ""}
+                        src={image!}
                         width={1920}
                         height={1080}
                         alt="feed image"

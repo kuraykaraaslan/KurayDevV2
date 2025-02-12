@@ -9,7 +9,7 @@ const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 export default function Article(post: Partial<Post>) {
 
-    const image = post.image ? `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg` : undefined;
+    const image = post.image ? post.image : null;
     
     return (
         <div className="max-w-none justify-center text-left mx-auto prose mb-8">

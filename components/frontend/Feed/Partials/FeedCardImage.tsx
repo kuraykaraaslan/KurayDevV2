@@ -12,12 +12,7 @@ export interface FeedCardProps extends PostWithCategory {
 
 const FeedCardImage = (props: FeedCardProps) => {
 
-    const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
-
     const [dateText, setDateText] = useState("");
-    const  image = `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${props!.postId}/cover.jpeg`;
-
-    console.log(image);
 
     useEffect(() => {
         if (!props.createdAt) {
@@ -74,7 +69,7 @@ const FeedCardImage = (props: FeedCardProps) => {
             + (props.className || "")}>
             <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
                 href={"/blog/" + props.category.slug + "/" + props.slug}>
-                <img src={image} alt={props.title}
+                <img src={props.image!} alt={props.title}
                 className="w-full object-cover rounded-t-lg" />
             </Link>
             <div className="col-span-12 justify-center px-4">
