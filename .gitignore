@@ -116,8 +116,4 @@ node_modules/
 
 # prisma
 prisma/.env
-prisma/migration
-prisma/migration/*
-prisma/seeds
-
 .next
