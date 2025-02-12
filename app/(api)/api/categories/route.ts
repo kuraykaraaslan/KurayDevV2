@@ -47,46 +47,20 @@ export async function POST(request: NextRequest) {
 
         const body = await request.json();
 
-        //check if the body is [] or {},
-        if (Object.keys(body).length === 0) {
+        const { title, description, slug, image } = body;
 
-            const { title, description, slug, image } = body;
+        const data = {
+            title,
+            description,
+            slug,
+            image,
+        };
 
-            const data = {
-                title,
-                description,
-                slug,
-                image,
-            };
+        const category = await CategoryService.createCategory(data);
 
-            const category = await CategoryService.createCategory(data);
+        return NextResponse.json({ category });
 
-            return NextResponse.json({ category });
-        } else {
-            //if the body is an array then loop through the array and create the categories
-            const categories = [];
-
-            for (const category of body) {
-
-                const { title, description, slug, image } = category;
-
-                const data = {
-                    title,
-                    description,
-                    slug,
-                    image,
-                };
-
-                const newCategory = await CategoryService.createCategory(data);
-                categories.push(newCategory);
-            }
-
-            return NextResponse.json({ categories });
-        }
-
-    }
-    catch (error: any) {
-        console.error(error.message);
+    } catch (error: any) {
         return NextResponse.json(
             { message: error.message },
             { status: 500 }
@@ -101,18 +75,18 @@ export async function POST(request: NextRequest) {
  * */
 
 export async function DELETE(request: Request) {
-    try {
-        await CategoryService.deleteAllCategories();
+        try {
+            await CategoryService.deleteAllCategories();
 
-        return NextResponse.json(
-            { message: "All categories deleted successfully." }
-        );
-    }
-    catch (error: any) {
-        return NextResponse.json(
-            { message: error.message },
-            { status: 500 }
-        );
-    }
+            return NextResponse.json(
+                { message: "All categories deleted successfully." }
+            );
+        }
+        catch (error: any) {
+            return NextResponse.json(
+                { message: error.message },
+                { status: 500 }
+            );
+        }
 
-}
+    }

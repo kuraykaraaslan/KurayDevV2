@@ -12,8 +12,12 @@ export interface FeedCardProps extends PostWithCategory {
 
 const FeedCardImage = (props: FeedCardProps) => {
 
+    const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+
     const [dateText, setDateText] = useState("");
-    const [image, setImage] = useState("");
+    const  image = `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${props!.postId}/cover.jpeg`;
+
+    console.log(image);
 
     useEffect(() => {
         if (!props.createdAt) {
@@ -65,23 +69,13 @@ const FeedCardImage = (props: FeedCardProps) => {
         , [props.createdAt]);
 
 
-    useEffect(() => {
-        setImage(props.image! || props.category.image! || "");
-    }, [props.image]);
-
-
     return (
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200 border-t-2 border-primary border-opacity-50 drop-shadow-lg "
             + (props.className || "")}>
             <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
                 href={"/blog/" + props.category.slug + "/" + props.slug}>
-                {image ? <Image src={image}
-                    width={1920} height={1080}
-                    
-                    alt="feed image" className="w-full object-cover rounded-t-lg" /> :
-                    <div className="relative w-full h-60 bg-primary rounded-t-lg flex justify-center items-center bg-opacity-10">
-                        {/*<Image src="/assets/img/blog-empty.png" alt="feed image" className="absolute h-full left-8 top-0 object-cover rounded-t-lg" />*/}
-                    </div>}
+                <img src={image} alt={props.title}
+                className="w-full object-cover rounded-t-lg" />
             </Link>
             <div className="col-span-12 justify-center px-4">
                 <Link className="text-primary" href={"/blog/" + props.category.slug + "/" + props.slug}>

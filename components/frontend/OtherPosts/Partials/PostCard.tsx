@@ -6,13 +6,13 @@ import Link from 'next/link';
 import PostWithCategory from '@/types/PostWithCategory';
 import Image from 'next/image';
 
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+
 const PostCard = ({post}: { post: PostWithCategory }) => {
 
     const { title, slug, createdAt, category, image } = post;
 
-    if (!image && !category.image) {
-        return null;
-    }
+    post.image =  `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
 
     const [dateText, setDateText] = useState("");
 
@@ -68,7 +68,7 @@ const PostCard = ({post}: { post: PostWithCategory }) => {
                 href={"/blog/" + category.slug + "/" + slug}
                 className="block h-32 border-b-2 border-base-300 overflow-hidden rounded-t-lg"
             >
-            <Image
+            <img
                         src={image || category.image || ""}
                         width={1920}
                         height={1080}

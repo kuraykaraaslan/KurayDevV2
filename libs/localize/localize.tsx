@@ -39,8 +39,8 @@ i18n
   .init({
     compatibilityJSON,
     fallbackLng,
-    debug: process.env.NODE_ENV === "development",
-    //debug: false,
+    //debug: process.env.NODE_ENV === "development",
+    debug: false,
     resources,
     interpolation,
   });

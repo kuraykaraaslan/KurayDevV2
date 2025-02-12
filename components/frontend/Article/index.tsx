@@ -4,16 +4,16 @@ import React from "react";
 import { Post } from "@prisma/client";
 import Image from "next/image";
 
+
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+
 export default function Article(post: Partial<Post>) {
 
-    const image = post.image || "/default-article.jpg";
-
+    const image = post.image ? `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg` : undefined;
+    
     return (
-        <div className="max-w-none justify-center text-left mx-auto px-4 lg:px-8 prose mb-8">
-            <Image src={image}
-                    width={1920} height={1080}
-                    
-                    alt="feed image" className="w-full h-60 object-cover rounded-t-lg" />
+        <div className="max-w-none justify-center text-left mx-auto prose mb-8">
+            {image && <img src={`${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`} alt={post.title} className="w-full h-60 object-cover rounded-lg" />}
             <div dangerouslySetInnerHTML={{ __html: post.content as string }}></div>
         </div>
     );

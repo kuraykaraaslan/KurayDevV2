@@ -11,7 +11,17 @@ const nextConfig = {
       ignoreDuringBuilds: true,
     },
     images: {
-      domains: ['raw.githubusercontent.com', 'avatars.githubusercontent.com', 'github.com', 'kuray-dev.s3.amazonaws.com', 'www.gravatar.com', '*.core.windows.net', 'via.placeholder.com'],
+      domains: [
+        'raw.githubusercontent.com', 
+        'avatars.githubusercontent.com', 
+        'github.com', 
+        'kuray-dev.s3.amazonaws.com', 
+        'www.gravatar.com', 
+        '*.core.windows.net', 
+        'via.placeholder.com',
+        'localhost',
+        'localhost.com'
+      ],
     },
     webpack: (config, { isServer }) => {
       if (isServer) {
