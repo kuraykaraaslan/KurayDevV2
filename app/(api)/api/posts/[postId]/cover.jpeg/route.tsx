@@ -57,7 +57,7 @@ export async function GET(request: NextRequest,
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'row',
-                    padding: '20px',
+                    padding: '30px',
                     position: 'relative',
                     backgroundColor: '#c3c8d7',
                 }}
