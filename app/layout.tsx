@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 */
 
-const NEXT_PUBLIC_GOOGLE_TAG = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+const NEXT_PUBLIC_GOOGLE_TAG = process.env.NEXT_PUBLIC_GOOGLE_TAG;
 
 export default function RootLayout({
   children,
