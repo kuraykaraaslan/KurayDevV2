@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
+import { GoogleTagManager } from '@next/third-parties/google'
 
 /*
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 */
 
-
+const NEXT_PUBLIC_GOOGLE_TAG = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 export default function RootLayout({
   children,
@@ -21,6 +21,8 @@ export default function RootLayout({
   return (
     <html data-theme="dark" className="antialiased scroll-smooth focus:scroll-auto">
       <head>
+        <GoogleTagManager gtmId={NEXT_PUBLIC_GOOGLE_TAG as string} />
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>

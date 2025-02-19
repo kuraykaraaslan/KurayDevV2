@@ -17,6 +17,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@next/third-parties": "^15.1.7",
     "@prisma/client": "^6.0.1",
     "@react-three/drei": "^9.114.3",
     "@react-three/fiber": "^8.17.10",
