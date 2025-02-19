@@ -6,6 +6,7 @@ import TimelineV2 from '@/components/frontend/Hero/TimelineV2';
 import ProjectsHero from '@/components/frontend/Hero/Projects';
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
+import TimelineV3 from '@/components/frontend/Hero/TimelineV3';
 
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
@@ -31,6 +32,7 @@ const HomePage = () => {
       {MetadataHelper.generateElements(metadata)}
       <Welcome />
       <Toolbox />
+      <TimelineV3 />
       <ProjectsHero />
       <Contact />
     </>

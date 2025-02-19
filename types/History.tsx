@@ -1,13 +1,13 @@
 import Tag from './Tag';
 import Url from './Url';
 
-export default interface Portfolio {
+export default interface History {
     id: string;
     image?: string;
     imageHtml?: string;
     title: string;
     description: string;
-    urls?: Url[];
+    urls: Url[];
     tags: Tag[];
     bgColor?: string;
     borderColor?: string;
