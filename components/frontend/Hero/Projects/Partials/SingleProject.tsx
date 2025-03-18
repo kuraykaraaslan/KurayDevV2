@@ -13,12 +13,13 @@ import SingleTag from "./SingleTag";
 const SingleProject = ({ key , project }: { key: number, project: Project }) => {
   return (
     <article
+    key={key}
       className={`rounded-lg border shadow-md bg-base-300 border-base-200 text-base-900`}
     >
       <div className="shadow-md rounded-t-lg">
         <Image
-          width="0"
-          height="0"
+          width="1000"
+          height="1000"
           unoptimized={true}
           src={project.image ? project.image : ""}
           alt={project.title}

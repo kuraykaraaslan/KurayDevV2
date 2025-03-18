@@ -20,7 +20,7 @@ export async function GET(request: NextRequest,
 
         //if there is a image, return the image
         if (post.image) {
-            return new ImageResponse(<img src={post.image} />, {
+            return new ImageResponse(<img src={post.image} width={1200} height={630} />, {
                 width: 1200,
                 height: 630,
             });

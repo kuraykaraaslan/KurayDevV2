@@ -38,7 +38,6 @@ import Link from "next/link";
 
 
 import SingleProject from './Partials/SingleProject'
-import Portfolio from '@/types/Portfolio';
 import { useRouter } from 'next/navigation'
 import { Project } from '@prisma/client';
 import axiosInstance from '@/libs/axios';

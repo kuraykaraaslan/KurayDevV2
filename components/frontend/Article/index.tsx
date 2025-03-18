@@ -13,7 +13,8 @@ export default function Article(post: Partial<Post>) {
     
     return (
         <div className="max-w-none justify-center text-left mx-auto prose mb-8">
-            {image && <img src={`${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`} alt={post.title} className="w-full h-60 object-cover rounded-lg" />}
+            {image && <img src={image ? image : `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`}
+            alt={post.title} className="w-full h-60 object-cover rounded-lg" />}
             <div dangerouslySetInnerHTML={{ __html: post.content as string }}></div>
         </div>
     );
