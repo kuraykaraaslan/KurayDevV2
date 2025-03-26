@@ -23,7 +23,7 @@ const SingleProject = ({ key , project }: { key: number, project: Project }) => 
           unoptimized={true}
           src={project.image ? project.image : ""}
           alt={project.title}
-          className="w-full h-48 object-cover object-center rounded-t-lg"
+          className="w-full h-48 object-cover object-top rounded-t-lg"
         /> 
       </div>
       <div className="pt-6 px-6 flex items-center mb-5 text-black">

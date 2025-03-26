@@ -2,6 +2,7 @@ import prisma from "@/libs/prisma";
 import { Project } from "@prisma/client";
 import { platform } from "node:os";
 import { MetadataRoute } from 'next';
+import { create } from "node:domain";
 
 export default class ProjectService {
 
@@ -56,6 +57,9 @@ export default class ProjectService {
                 status: !onlyPublished ? undefined : 'PUBLISHED',
                 projectId: projectId ? projectId : undefined,
                 slug: slug ? slug : undefined,
+            },
+            orderBy: {
+                createdAt: 'desc',
             },
         };
 
