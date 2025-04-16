@@ -9,7 +9,7 @@ const filesystem: TerminalFolder = {
             files: [
                 {
                     name: 'cv.txt',
-                    content: `KURAY KARAASLAN\n\nFull Stack Developer | React, Node.js, Java\n\nExperience:\n- Avant Leap (2023-Present)\n- Roltek Teknoloji (2024-Present)\n- 3 Years Civil Engineering experience before transitioning to software`,
+                    content: `KURAY KARAASLAN\n\nFull Stack Developer | React, Node.js, Java`,
                     type: 'file'
                 },
                 {
@@ -55,34 +55,6 @@ const filesystem: TerminalFolder = {
                     type: 'file'
                 }
             ]
-        },
-        {
-            name: 'experience',
-            folders: [
-                {
-                    name: 'avant-leap',
-                    folders: [],
-                    files: [
-                        {
-                            name: 'role.txt',
-                            content: 'Frontend Developer (2024-Present)',
-                            type: 'file'
-                        }
-                    ]
-                },
-                {
-                    name: 'roltek-teknoloji',
-                    folders: [],
-                    files: [
-                        {
-                            name: 'role.txt',
-                            content: 'Software Engineer (2024-Present)\n- IoT platform\n- MQTT/SNMP integrations',
-                            type: 'file'
-                        }
-                    ]
-                }
-            ],
-            files: []
         },
         {
             name: 'hobbies',
