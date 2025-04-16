@@ -10,11 +10,10 @@ import SingleLink from "./SingleLink";
 import SingleTag from "./SingleTag";
 
 
-const SingleProject = ({ key , project }: { key: number, project: Project }) => {
+const SingleProject = ({ project }: { project: Project }) => {
   return (
     <article
-    key={key}
-      className={`rounded-lg border shadow-md bg-base-300 border-base-200 text-base-900`}
+      className={`rounded-lg border from-base-100 to-base-300 bg-gradient-to-b shadow-lg border-base-200 text-base-900`}
     >
       <div className="shadow-md rounded-t-lg">
         <Image

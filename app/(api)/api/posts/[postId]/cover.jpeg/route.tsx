@@ -9,8 +9,10 @@ import { notFound } from 'next/navigation';
 export async function GET(request: NextRequest,
     { params }: { params: { postId: string } }) {
 
+    const { postId } = await params;
+
     try {
-        const post = await PostService.getPostById(params.postId);
+        const post = await PostService.getPostById(postId);
 
         //if there is no post, return 404
 

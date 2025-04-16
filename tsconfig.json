@@ -25,15 +25,17 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "build/types/**/*.ts"
-, "prisma/seed.js"  ],
+    "build/types/**/*.ts",
+    "prisma/seed.js"
+  ],
   "exclude": [
     "node_modules"
   ]

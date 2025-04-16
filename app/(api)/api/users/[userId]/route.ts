@@ -14,11 +14,14 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { userId: string } }
 ) {
+
+
   try {
+
+    const { userId } = await params
 
     await AuthService.authenticate(request, "USER");
 
-    const { userId } = params;
     const user = await UserService.getUserById(userId);
 
     if (!user) {
@@ -31,7 +34,7 @@ export async function GET(
     return NextResponse.json({ user });
 
   }
-  catch (error : any) {
+  catch (error: any) {
     return NextResponse.json(
       { message: error.message },
       { status: 500 }
@@ -67,7 +70,7 @@ export async function DELETE(
       { message: "User deleted successfully." }
     );
   }
-  catch (error : any) {
+  catch (error: any) {
     return NextResponse.json(
       { message: error.message },
       { status: 500 }
@@ -95,7 +98,7 @@ export async function PUT(
     return NextResponse.json({ user });
 
   }
-  catch (error : any) {
+  catch (error: any) {
     return NextResponse.json(
       { message: error.message },
       { status: 500 }

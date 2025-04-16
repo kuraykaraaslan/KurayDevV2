@@ -24,7 +24,7 @@ export const useGlobalStore = create<
             session: null as SessionWithUser | null,
             token: '',
             availableLanguages: ['en', 'tr', 'de', 'gr'],
-            availableThemes: ['light', 'dark', 'black'],
+            availableThemes: ['light', 'dark'],
             language: 'en',
             theme: 'dark',
             setSession: (session: SessionWithUser | undefined) => set({ session }),

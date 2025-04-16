@@ -67,7 +67,7 @@ const Navbar = () => {
     return (
         <>
             <div className="">
-                <nav className="mx-auto flex items-stretch items-center justify-between lg:px-8 bg-base-300 text-primary" aria-label="Global">
+                <nav className="mx-auto h-16 flex items-stretch items-center justify-between lg:px-8 from-base-100 to-base-300 bg-gradient-to-b shadow-lg text-primary" aria-label="Global">
                     <div className="py-4 pl-4 lg:pl-0 flex items-center gap-2">
                         <Link href="/" className="flex items-center">
                             <FontAwesomeIcon icon={faCode} className="w-8 h-8 mr-2" />

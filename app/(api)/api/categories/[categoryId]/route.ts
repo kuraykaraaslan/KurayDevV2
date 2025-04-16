@@ -12,10 +12,11 @@ import NextRequest from "@/types/NextRequest";
  */
 export async function GET(
   request: NextRequest,
+
   { params }: { params: { categoryId: string } }
 ) {
   try {
-    const { categoryId } = params;
+    const { categoryId } = await params
     const category = await CategoryService.getCategoryById(categoryId);
 
     if (!category) {

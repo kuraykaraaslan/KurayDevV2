@@ -1,187 +1,146 @@
-"use client";
-import { createRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
+'use client';
+import React, { useState } from 'react';
 import {
-  faBaby,
-  faBriefcase,
-  faBuildingColumns,
-  faCode,
-  faComputer,
-  faFaceSmile,
+  faReact,
+  faBootstrap,
+  faHtml5,
+  faPython,
+  faPhp,
+  faJava,
+  faJs,
+  faAmazon,
+  faAndroid,
+  faChrome,
+  faOpera,
+  faApple,
+  faGithub,
+  faGit,
+} from "@fortawesome/free-brands-svg-icons";
+import {
+  faAnchor,
+  faAnglesDown,
+  faAnglesUp,
+  faFire,
+  faGear,
   faGlobe,
+  faMobileScreenButton,
+  faTv,
+  faU,
+  faWind,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
-import { faChrome, faFirefox } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from 'next/image';
+
+//i18n
+import { withTranslation } from "react-i18next";
+import Link from "next/link";
+import TimelineItems from './Partials/TimelineItems';
+import BackgroundImage from './Partials/BackgroundImage';
+
 
 const Timeline = () => {
-  const [showDetails, setShowDetails] = React.useState(false);
-  const [isHovering, setIsHovering] = React.useState(false);
+
+  const [expanded, setExpanded] = React.useState(false);
+  const container = React.useRef(null);
+
+
+
+  const handleClick = () => {
+    // get container current height
+    const panel = container?.current as unknown as HTMLElement;
+
+    if (panel === null) return;
+
+    //make height is auto
+    panel.style.height = expanded ? "560px" : `${panel.scrollHeight + 80}px`;
+
+    //toggle the state
+    setExpanded(!expanded);
+  };
 
   return (
     <>
-      <section
-        className={
-          "bg-base-200 justify-center items-center flex flex-col select-none px-10 transition-all duration-300"
-        }
-        id="timeline"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-        onClick={() => setShowDetails(!showDetails)}
-      >
-        <div className="relative w-full h-full items-center justify-center flex flex-col">
-          {/* Apply blur effect only to this section */}
+      <section className="relative bg-base-100 pt-16" id="timeline">
+        <BackgroundImage />
+        <div
+          className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000"
+          style={{ height: "560px", overflow: "clip" }}
+          ref={container}
+        >
+          <div className="mx-auto max-w-screen-sm text-center lg:mb-8 -mt-8 lg:mt-0 ">
+            <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
+              My Journey
+            </h2>
+            <p className="font-light sm:text-xl">
+              My transition from a Structural Engineer to a Software Developer has been a journey of learning, growth, and transformation. Here's a snapshot of my professional journey so far.
+            </p>
+          </div>
+          <div className="grid gap-8 lg:grid-cols-1">
+            <TimelineItems />
+
+          </div>
+
+        </div>
+        <div
+          className="flex carousel-indicators gap-2 bg-transparent select-none"
+          style={{
+            zIndex: 8,
+            position: "relative",
+            left: "0",
+            right: "0",
+            margin: "auto",
+            height: "0px",
+            width: "100%",
+            bottom: "20",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <div
-            className="absolute inset-0 bg-base-200 bg-opacity-50 backdrop-filter backdrop-blur-sm items-center justify-center flex flex-col"
+            className="flex carousel-indicators gap-2 bg-gradient-to-b from-base-200/20 to-base-300"
             style={{
-              zIndex: 5,
-              display: isHovering ? (showDetails ? "none" : "flex") : "none",
+              zIndex: 8,
+              position: "relative",
+              left: "0",
+              right: "0",
+              margin: "auto",
+              height: "80px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              transform: "translateY(-80px)",
             }}
           >
-            <h3 className="text-3xl font-bold text-center">
-              Click on the timeline to see details
-            </h3>
+            {!expanded ? (
+              <button
+                className="flex flex-col items-center gap-2 animate-bounce"
+                style={{ height: "80px", width: "130px" }}
+                onClick={handleClick}
+              >
+                <FontAwesomeIcon
+                  icon={faAnglesDown}
+                  style={{
+                    width: "2.0rem",
+                    height: "2.0rem",
+                  }}
+                />{" "}
+                <span>{expanded ? "Show Less" : "Show More"}</span>
+              </button>
+            ) : (
+              <button
+                className="flex flex-col items-center gap-2"
+                style={{ height: "80px", width: "130px" }}
+                onClick={handleClick}
+              >
+                <FontAwesomeIcon
+                  icon={faAnglesUp}
+                  style={{ width: "2.0rem", height: "2.0rem" }}
+                />{" "}
+                <span>{expanded ? "Show Less" : "Show More"}</span>
+              </button>
+            )}
           </div>
-          {/* Content inside the blurred section */}
-
-          <ul
-            className={
-              "timeline bg-base-200 my-6" +
-              (showDetails
-                ? " timeline-vertical"
-                : " timeline-vertical lg:timeline-horizontal")
-            }
-          >
-            <li>
-              <div className="timeline-start timeline-box max-w-xs mx-2">
-                <p className="font-bold">Zero day</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i was born in 1996 in mersin, turkey. i was a very curious child and always wanted to learn new things.
-                </p>
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
-                    icon={faBaby}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end mx-2">
-                1996
-              </div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-start mx-2">
-                2002
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
-                    icon={faCode}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end timeline-box max-w-xs mx-2">
-                <p className="font-bold">First meet with computer</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i met with computer in 2002. i was just 6 years old. i was very curious about how it works. i started to learn how to use it.
-                </p>
-              </div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-start timeline-box max-w-xs mx-2">
-                <p className="font-bold">University</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i started my university education in 2015. i studied structural engineering.
-                </p>
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
-                    icon={faFirefox}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end mx-2">
-                2015
-              </div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-start mx-2">
-                2021
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
-                    icon={faBuildingColumns}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end timeline-box max-w-xs mx-2">
-                <p className="font-bold">Cadbim</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i started working at CADBIM in 2021. i worked as a structural engineer. i learned a lot about building information modeling and 3d modeling.
-                </p>
-              </div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-start timeline-box max-w-xs mx-2">
-                <p className="font-bold">Kuray Construction</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i started working at kuray construction in 2022. i worked as a civil engineer. i learned a lot about project management and teamwork.
-                </p>
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
-                    icon={faBriefcase}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end mx-2">
-                2022
-              </div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-start mx-2">
-                2024
-              </div>
-              <div className="timeline-middle my-1">
-                <div className="bg-white text-black rounded-full pt-1 px-1">
-                  <FontAwesomeIcon
-                    icon={faFaceSmile}
-                    style={{ width: "12px", height: "12px" }}
-                    className="m-1 mt-1"
-                  />
-                </div>
-              </div>
-              <div className="timeline-end timeline-box max-w-xs mx-2">
-                <p className="font-bold">Roltek Technologies</p>
-                <p style={{ display: showDetails ? "block" : "none" }}>
-                  i started working at roltek technologies in 2024. i work as a software engineer. i build IoT solutions and web applications.
-                </p>
-              </div>
-            </li>
-          </ul>
         </div>
       </section>
     </>

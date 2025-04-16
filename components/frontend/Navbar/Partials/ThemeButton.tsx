@@ -16,7 +16,6 @@ const ThemeButton = () => {
   const themeIcons = {
     "dark": faMoon,
     "light": faLightbulb,
-    "black": faSkull,
   };
 
   const nextTheme = () => {
@@ -45,9 +44,6 @@ const ThemeButton = () => {
         break;
       case "light":
         document.querySelector("html")?.setAttribute("data-theme", "light");
-        break;
-      case "black":
-        document.querySelector("html")?.setAttribute("data-theme", "black");
         break;
       default:
         //document.querySelector("html")?.setAttribute("data-theme", "dark");

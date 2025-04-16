@@ -2,6 +2,7 @@ import Footer from "@/components/frontend/Footer";
 import Navbar from "@/components/frontend/Navbar";
 import ScrollToTop from "@/components/frontend/ScrollToTop";
 import Sidebar from "@/components/frontend/Sidebar";
+import TerminalButton from "@/components/frontend/TerminalButton";
 import Whatsapp from "@/components/frontend/Whatsapp";
 import type { Metadata } from "next";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       </div>
       <ScrollToTop />
       <Whatsapp />
+      <TerminalButton />
     </>
   );
 }
