@@ -1,7 +1,7 @@
 // Terminal.tsx
 
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback , useRef } from 'react';
 import { useTerminal } from './Hooks/useTerminal';
 import { CommandOutput , TerminalFolder } from './Partials/models';
 import { commandMap } from './Partials/commands';
@@ -11,6 +11,10 @@ const hostName = 'kuray-dev';
 const prompt = `${userName}@${hostName}:~$`;
 
 const Terminal: React.FC = () => {
+
+    const mainRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const { history, processCommand, currentPath, fileSystem, setHistory } = useTerminal();
     const [input, setInput] = useState('');
     
@@ -37,6 +41,7 @@ const Terminal: React.FC = () => {
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        console.log('handleKeyDown', e.key);
         const target = e.currentTarget as HTMLInputElement;
         const cursorPos = target.selectionStart || 0;
         const value = target.value;
@@ -138,8 +143,27 @@ const Terminal: React.FC = () => {
         }
     };
 
+    //relay keystrokes to input
+    useEffect(() => {
+        if (!mainRef.current) {
+            return;
+        }
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                inputRef.current?.focus();
+            }
+        };
+        const mainElement = mainRef.current;
+        mainElement.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            mainElement.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [history]);
+
     return (
-        <div className="bg-black text-white p-4 min-h-screen font-mono">
+        <div className="bg-black text-white p-4 min-h-screen font-mono w-full overflow-y-auto min-w-[600px]" ref={mainRef}>
             <div className="">
                 {history.map((item, i) => {
                     const renderedOutput = renderOutput(item.output);

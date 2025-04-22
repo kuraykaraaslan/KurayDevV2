@@ -14,11 +14,15 @@ const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 export default async function CategoryPage({ params }: { params: { categorySlug: string } }) {
     try {
-        if (!params.categorySlug) {
+
+        const { categorySlug } = await params;
+
+        if (!categorySlug) {
             notFound();
         }
 
-        const category = await CategoryService.getCategoryBySlug(params.categorySlug) as Category | null;
+
+        const category = await CategoryService.getCategoryBySlug(categorySlug) as Category | null;
 
         if (!category) {
             notFound();
@@ -46,6 +50,7 @@ export default async function CategoryPage({ params }: { params: { categorySlug:
                 <ToastContainer />
             </>
         );
+        
     } catch (error) {
         console.error('Error fetching category:', error);
         return (

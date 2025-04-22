@@ -68,7 +68,7 @@ const SingleArticle = (props: PostWithCategory) => {
 
 
     return (
-        <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200 max-w-sm"}>
+        <div className={"from-base-100 to-base-300 bg-gradient-to-b grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200 max-w-sm"}>
             <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
                 href={"/blog/" + props.category.slug + "/" + props.slug}>
                 {image ? <Image src={image}

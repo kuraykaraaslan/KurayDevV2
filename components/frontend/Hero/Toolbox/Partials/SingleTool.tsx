@@ -1,16 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import Tool from "@/types/Tool";
 
-export type SingleToolProps = {
-  icon: IconProp;
-  title: string;
-  description: string;
-  hoverBgColor?: string;
-  hoverTextColor?: string;
-};
 
-const SingleTool: React.FC<SingleToolProps> = ({
+const SingleTool: React.FC<Tool> = ({
   icon,
   title,
   description,

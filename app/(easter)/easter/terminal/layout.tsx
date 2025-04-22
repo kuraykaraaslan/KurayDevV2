@@ -1,4 +1,6 @@
 import React from 'react';
+import Terminal from '@/components/easter/Terminal';
+
 const Layout = ({
     children,
 }: {
@@ -9,9 +11,7 @@ const Layout = ({
     
     
     return (
-        <div className="min-h-screen bg-black h-full">
-        {children}
-        </div>
+        <Terminal/>
     );
 };
 

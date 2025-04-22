@@ -65,7 +65,7 @@ const FeedCardImage = (props: FeedCardProps) => {
 
 
     return (
-        <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200 border-t-2 border-primary border-opacity-50 drop-shadow-lg "
+        <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  from-base-100 to-base-300 bg-gradient-to-b border-t-2 border-primary border-opacity-50 drop-shadow-lg "
             + (props.className || "")}>
             <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
                 href={"/blog/" + props.category.slug + "/" + props.slug}>

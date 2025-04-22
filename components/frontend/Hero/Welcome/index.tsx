@@ -6,10 +6,6 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import MyImage from "./Partials/MyImageVideo";
 
-const BackgroundStars = dynamic(
-  () => import("./Partials/BackgroundStars"),
-  { ssr: false },
-);
 
 const TypingEffect = dynamic(
   () => import("./Partials/TypingEffect"),

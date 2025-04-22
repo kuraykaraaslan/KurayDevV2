@@ -4,7 +4,7 @@ import axiosInstance from '@/libs/axios';
 import PostService from '@/services/PostService';
 
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Comments from '@/components/frontend/Comments';
 import OtherPosts from '@/components/frontend/OtherPosts';
 import Newsletter from '@/components/frontend/Newsletter';
@@ -18,10 +18,17 @@ const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 export default async function BlogPost({ params }: { params: { postSlug: string } }) {
     try {
+
+        const { postSlug } = await params;
+
+        if (!postSlug) {
+            notFound();
+        }
+
         const response = await PostService.getAllPosts({
             page: 1,
             pageSize: 1,
-            slug: params.postSlug,
+            slug: postSlug,
         });
 
         const { posts } = response;

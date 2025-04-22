@@ -8,13 +8,18 @@ import {
   faLinux,
   faFigma,
   faCss3,
+  faNodeJs,
+  faJsSquare,
+  faSquareJs,
 } from "@fortawesome/free-brands-svg-icons";
 import {
+  faArchway,
   faCode,
   faCodeBranch,
   faDatabase,
   faFire,
   faLightbulb,
+  faTshirt,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
@@ -59,7 +64,7 @@ const Toolbox = () => {
 
   const frontendTools = [
     {
-      icon: faJs,
+      icon: faSquareJs,
       hoverBgColor: "bg-yellow-500",
       title: "Javascript",
       description: "react & native & express & next",
@@ -90,6 +95,12 @@ const Toolbox = () => {
 
   const skills = [
     {
+      icon: faArchway,
+      bgColor: "bg-green-500",
+      textColor: "text-white",
+      title: "Agile",
+    },
+    {
       icon: faDatabase,
       bgColor: "bg-rose-500",
       textColor: "text-white",
@@ -100,12 +111,6 @@ const Toolbox = () => {
       bgColor: "bg-blue-500",
       textColor: "text-white",
       title: "Clean Code",
-    },
-    {
-      icon: faFire,
-      bgColor: "bg-green-500",
-      textColor: "text-white",
-      title: "Firebase",
     },
     {
       icon: faCodeBranch,
@@ -125,6 +130,7 @@ const Toolbox = () => {
       textColor: "text-white",
       title: "Problem Solving",
     },
+    
   ] as Skill[];
 
   return (

@@ -2,6 +2,9 @@
 
 import { TerminalFolder, CommandOutput } from "./models";
 import { useTerminal } from "../Hooks/useTerminal";
+import { rm } from "fs";
+import { clear } from "console";
+import { arch } from "os";
 
 type CommandHandler = (
     currentPath: string[],
@@ -109,6 +112,12 @@ export const commandMap: Record<string, CommandHandler> = {
     mkdir: (currentPath, fileSystem, args) => {
         if (args.length === 0) return { output: { type: 'error', message: 'mkdir: missing operand' } };
         const dirName = args[0];
+
+        const invalidChars = /[<>:"/\\|?*]/;
+        if (invalidChars.test(dirName)) {
+            return { output: { type: 'error', message: `mkdir: invalid directory name '${dirName}'` } };
+        }
+
         const currentDir = getFolderByPath(fileSystem, currentPath);
         if (!currentDir) return { output: { type: 'error', message: 'Current directory not found' } };
         if (currentDir.folders.some(f => f.name === dirName)) {
@@ -155,7 +164,7 @@ export const commandMap: Record<string, CommandHandler> = {
     neofetch: () => ({
         output: {
             type: 'text',
-            content: 
+            content:
                 '\n' +
                 '    ██╗  ██╗██╗   ██╗██████╗  █████╗ ██╗   ██╗\n' +
                 '    ██║ ██╔╝██║   ██║██╔══██╗██╔══██╗╚██╗ ██╔╝\n' +
@@ -173,20 +182,231 @@ export const commandMap: Record<string, CommandHandler> = {
                 'Terminal: WebTerminal 3.1.4\n'
         }
     }),
+    tree: (currentPath, fileSystem) => {
+        const targetDir = getFolderByPath(fileSystem, currentPath);
+        if (!targetDir) {
+            return {
+                output: {
+                    type: 'error',
+                    message: `tree: cannot access '${currentPath.join('/')}': No such file or directory`
+                }
+            };
+        }
+        const formatTree = (dir: TerminalFolder, prefix: string): string => {
+            let result = `${prefix}${dir.name}/\n`;
+            const items = [...dir.folders, ...dir.files].sort((a, b) => a.name.localeCompare(b.name));
+            items.forEach((item, index) => {
+                const isLast = index === items.length - 1;
+                const newPrefix = `${prefix}${isLast ? '    ' : '│   '}`;
+                if ('folders' in item) { // Check if the item is a folder
+                    result += formatTree(item, newPrefix);
+                } else {
+                    result += `${newPrefix}${item.name}\n`;
+                }
+            }
+            );
+            return result;
+        };
+        const treeString = formatTree(targetDir, '');
+        return {
+            output: {
+                type: 'text',
+                content: treeString
+            }
+        };
+    },
+    mv: (currentPath, fileSystem, args) => {
+        if (args.length < 2) {
+            return { output: { type: 'error', message: 'mv: missing operand' } };
+        }
+        const currentDir = getFolderByPath(fileSystem, currentPath);
+        if (!currentDir) return { output: { type: 'error', message: 'Directory not found' } };
+        const oldName = args[0];
+        const newName = args[1];
+        const targetFile = currentDir.files.find(f => f.name === oldName);
+        const targetFolder = currentDir.folders.find(f => f.name === oldName);
+        if (!targetFile && !targetFolder) {
+            return {
+                output: {
+                    type: 'error',
+                    message: `mv: ${oldName}: No such file or directory`
+                }
+            };
+        }
+        if (targetFile) {
+            if (currentDir.files.some(f => f.name === newName)) {
+                return { output: { type: 'error', message: `mv: ${newName}: File exists` } };
+            }
+            const newFileSystem = updateFolderInTree(fileSystem, currentPath, folder => ({
+                ...folder,
+                files: folder.files.map(f => f.name === oldName ? { ...f, name: newName } : f)
+            }));
+            return { output: { type: 'text', content: '' }, newFileSystem };
+        }
+        if (targetFolder) {
+            if (currentDir.folders.some(f => f.name === newName)) {
+                return { output: { type: 'error', message: `mv: ${newName}: Directory exists` } };
+            }
+            const newFileSystem = updateFolderInTree(fileSystem, currentPath, folder => ({
+                ...folder,
+                folders: folder.folders.map(f => f.name === oldName ? { ...f, name: newName } : f)
+            }));
+            return { output: { type: 'text', content: '' }, newFileSystem };
+        }
+        return {
+            output: {
+                type: 'error',
+                message: `mv: ${oldName}: No such file or directory`
+            }
+        };
+    },
+    cp: (currentPath, fileSystem, args) => {
+        if (args.length < 2) {
+            return { output: { type: 'error', message: 'cp: missing operand' } };
+        }
+        const currentDir = getFolderByPath(fileSystem, currentPath);
+        if (!currentDir) return { output: { type: 'error', message: 'Directory not found' } };
+        const sourceName = args[0];
+        const targetName = args[1];
+        const sourceFile = currentDir.files.find(f => f.name === sourceName);
+        const sourceFolder = currentDir.folders.find(f => f.name === sourceName);
+        if (!sourceFile && !sourceFolder) {
+            return {
+                output: {
+                    type: 'error',
+                    message: `cp: ${sourceName}: No such file or directory`
+                }
+            };
+        }
+        if (sourceFile) {
+            if (currentDir.files.some(f => f.name === targetName)) {
+                return { output: { type: 'error', message: `cp: ${targetName}: File exists` } };
+            }
+            const newFileSystem = updateFolderInTree(fileSystem, currentPath, folder => ({
+                ...folder,
+                files: [...folder.files, { ...sourceFile, name: targetName }]
+            }));
+            return { output: { type: 'text', content: '' }, newFileSystem };
+        }
+        if (sourceFolder) {
+            if (currentDir.folders.some(f => f.name === targetName)) {
+                return { output: { type: 'error', message: `cp: ${targetName}: Directory exists` } };
+            }
+            const newFileSystem = updateFolderInTree(fileSystem, currentPath, folder => ({
+                ...folder,
+                folders: [...folder.folders, { ...sourceFolder, name: targetName }]
+            }));
+            return { output: { type: 'text', content: '' }, newFileSystem };
+        }
+        return {
+            output: {
+                type: 'error',
+                message: `cp: ${sourceName}: No such file or directory`
+            }
+        };
+    },
     help: () => ({
         output: {
             type: "text",
             content: `Available commands:
-              ls    - List directory contents
-              cd    - Change directory
-              cat   - Show file content
-              mkdir - Create a new directory
-              neofetch - Show system information
-              pwd   - Show current directory
-              clear - Clear terminal
-              help  - Show this help message`
+            ls    - List directory contents
+            cd    - Change directory
+            cat   - Show file content
+            mkdir - Create a new directory
+            neofetch - Show system information
+            pwd   - Show current directory
+            clear - Clear terminal
+            help  - Show this help message
+            touch - Create a new file
+            rm    - Remove a file
+            echo  - Print text to the terminal
+            whoami - Show current user
+            date  - Show current date and time
+            exit  - Exit the terminal
+            mv    - Move or rename files/directories
+            cp    - Copy files/directories
+            tree  - Show directory structure
+            uptime - Show system uptime
+              `
         }
     }),
+    rm: (currentPath, fileSystem, args) => {
+        if (args.length === 0) {
+            return { output: { type: 'error', message: 'rm: missing operand' } };
+        }
+        const currentDir = getFolderByPath(fileSystem, currentPath);
+        if (!currentDir) return { output: { type: 'error', message: 'Directory not found' } };
+        const fileName = args[0];
+        const targetFile = currentDir.files.find(f => f.name === fileName);
+        if (!targetFile) {
+            return {
+                output: {
+                    type: 'error',
+                    message: `rm: ${fileName}: No such file or directory`
+                }
+            };
+        }
+        const newFileSystem = updateFolderInTree(fileSystem, currentPath, folder => ({
+            ...folder,
+            files: folder.files.filter(f => f.name !== fileName)
+        }));
+        return { output: { type: 'text', content: '' }, newFileSystem };
+    },
+    pwd: (currentPath) => ({
+        output: {
+            type: 'text',
+            content: '/' + currentPath.join('/')
+        }
+    }),
+    touch: (currentPath, fileSystem, args) => {
+        if (args.length === 0) return { output: { type: 'error', message: 'touch: missing file name' } };
+        const fileName = args[0];
+        const currentDir = getFolderByPath(fileSystem, currentPath);
+        if (!currentDir) return { output: { type: 'error', message: 'Directory not found' } };
+        if (currentDir.files.some(f => f.name === fileName)) {
+            return { output: { type: 'error', message: `touch: ${fileName}: File exists` } };
+        }
+        const newFileSystem = updateFolderInTree(fileSystem, currentPath, folder => ({
+            ...folder,
+            files: [...folder.files, { name: fileName, content: '', type: 'file' }]
+        }));
+        return { output: { type: 'text', content: '' }, newFileSystem };
+    },
+    echo: (currentPath, fileSystem, args) => {
+        const textToEcho = args.join(' ');
+        return {
+            output: {
+                type: 'text',
+                content: textToEcho
+            }
+        };
+    },
+    whoami: (() => ({
+        output: {
+            type: 'text',
+            content: 'kuraykaraaslan'
+        }
+    })),
+    date: () => ({
+        output: {
+            type: 'text',
+            content: new Date().toLocaleString()
+        }
+    }),
+    //since 2023-agust-26
+    uptime: () => {
+        const uptime = process.uptime();
+        const days = Math.floor(uptime / (24 * 60 * 60));
+        const hours = Math.floor((uptime % (24 * 60 * 60)) / (60 * 60));
+        const minutes = Math.floor((uptime % (60 * 60)) / 60);
+        const seconds = Math.floor(uptime % 60);
+        return {
+            output: {
+                type: 'text',
+                content: `${days}d ${hours}h ${minutes}m ${seconds}s`
+            }
+        };
+    }
 };
 // Add more command handlers as needed
 
