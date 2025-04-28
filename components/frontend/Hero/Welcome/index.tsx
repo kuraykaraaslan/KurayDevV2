@@ -43,11 +43,7 @@ const Welcome = () => {
             </h1>
             <h2 className="py-3 pb-6 leading-7 text-shadow-sm">
               <p>
-                <span className="font-bold">Self-taught</span> and <span className="font-bold">self-motivated</span> software developer with <span className="font-bold">2+ years of experience</span>.
-                Formerly a structural engineer, I transitioned into software development. &nbsp;
-                <span className="font-bold">Proficient in React and Java</span>, I have honed my skills through hands-on practice and have a strong grasp
-                of industry standards. My engineering background equips me with <span className="font-bold">a unique perspective on software development</span>,
-                making me a valuable asset to any development team.
+                <span className="font-bold">Product-focused Full-Stack Developer</span> with <span className="font-bold">2+ years of experience</span> delivering robust, scalable software solutions across <span className="font-bold">frontend, backend, mobile in BIM and IoT domains.</span> Specialized in <span className="font-bold">Java Spring Boot, React, Next.js, Node.js, and PostgreSQL</span>. Adept at architecting <span className="font-bold">multi-tenant SaaS platforms, real-time systems, and payment integrations.</span> Combines strong engineering fundamentals with <span className="font-bold">creative problem-solving</span> and a <span className="font-bold">clean, systematic coding approach.</span>
               </p>
             </h2>
 

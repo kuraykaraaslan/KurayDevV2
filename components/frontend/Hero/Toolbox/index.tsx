@@ -140,7 +140,7 @@ const Toolbox = () => {
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4 ">
             <div className="col-span-2 md:col-span-1 md:col-start-3 overflow-hidden">
               <h1 className="text-4xl lg:text-3xl font-bold mt-6 text-center md:text-right">
-                Creativy needs a lot of tools
+              Creativity needs a lot of tools
               </h1>
             </div>
             <div className="col-span-1 md:col-start-4 invisible md:visible hidden md:block">

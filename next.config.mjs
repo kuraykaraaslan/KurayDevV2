@@ -10,6 +10,11 @@ const nextConfig = {
     eslint: {
       ignoreDuringBuilds: true,
     },
+    i18n: {
+      // English, German, Estonian, Greek, Turkish 
+      locales: ["en", "de", "et", "el", "tr"],
+      defaultLocale: "en",
+    },
     images: {
       domains: [
         'raw.githubusercontent.com', 
