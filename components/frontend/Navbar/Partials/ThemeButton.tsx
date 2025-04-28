@@ -1,15 +1,11 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faLightbulb,
-  faSkull,
   faMoon,
-  IconDefinition,
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalStore } from "@/libs/zustand";
-import { stat } from "fs";
 
 const ThemeButton = () => {
   const { theme, setTheme, availableThemes } = useGlobalStore();
