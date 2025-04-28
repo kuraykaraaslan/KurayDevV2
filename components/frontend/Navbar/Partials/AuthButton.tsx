@@ -10,7 +10,7 @@ const AuthButton = () => {
     
     if (!user) {
         return (
-            <Link href="/auth/login" className="bg-primary text-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
+            <Link href="/auth/login" className="bg-primary text-white rounded-full p-2 w-10 h-10 flex items-center justify-center hidden md:flex">
                 <div className="">
                     <FontAwesomeIcon icon={faUser} className="" />
                 </div>
