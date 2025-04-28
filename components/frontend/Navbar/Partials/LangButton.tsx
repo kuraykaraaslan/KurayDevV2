@@ -19,7 +19,9 @@ const LangButton = () => {
     th: "th",
   };
 
-  const nextLanguage = () => {
+  const nextLanguage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     const currentIndex = availableLanguages.indexOf(language);
 
     const nextLang =

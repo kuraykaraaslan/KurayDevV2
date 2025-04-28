@@ -22,7 +22,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     if (language !== "en") {
       toast.info(t("alert.this_blog_is_available_in_only_english"));
       setLanguageNotifiedOnce(true);
-      setLanguage("en");
+      //setLanguage("en");
     }
   }, [language]);
 
