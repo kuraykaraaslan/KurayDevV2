@@ -21,9 +21,8 @@ export default function RootLayout({
     <html data-theme="dark" className="antialiased scroll-smooth focus:scroll-auto">
       <head>
         <GoogleTagManager gtmId={NEXT_PUBLIC_GOOGLE_TAG as string} />
-
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
       <body className="min-h-screen">
         {children}

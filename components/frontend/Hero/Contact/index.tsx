@@ -132,7 +132,7 @@ const Contact = (props: ContactProps) => {
                   {token !== "" ?
                     <>
                       {mails?.length === 0 &&
-                        <button className="flex items-center transform transition-transform duration-500 hover:scale-105" onClick={getMails}>
+                        <button className="flex transform transition-transform duration-500 hover:scale-105" onClick={getMails}>
                           <FontAwesomeIcon
                             icon={faEnvelope}
                             className="w-5 h-5 mr-2 sm:mr-6"
@@ -142,7 +142,7 @@ const Contact = (props: ContactProps) => {
                       }
 
                       {mails?.map((mail, index) => (
-                        <p key={index} className="flex items-center">
+                        <p key={index} className="flex">
                           <FontAwesomeIcon
                             icon={faEnvelope}
                             className="w-5 h-5 mr-2 sm:mr-6"
@@ -158,7 +158,7 @@ const Contact = (props: ContactProps) => {
                       ))}
 
                       {phoneNumbers.length === 0 &&
-                        <button className="flex items-center  transform transition-transform duration-500 hover:scale-105" onClick={getPhoneNumbers}>
+                        <button className="flex transform transition-transform duration-500 hover:scale-105" onClick={getPhoneNumbers}>
                           <FontAwesomeIcon
                             icon={faPhone}
                             className="w-5 h-5 mr-2 sm:mr-6"
@@ -168,7 +168,7 @@ const Contact = (props: ContactProps) => {
                       }
 
                       {phoneNumbers.map((phone, index) => (
-                        <p key={index} className="flex items-center">
+                        <p key={index} className="flex">
                           <CircleFlag
                             countryCode={phone.CountryCode}
                             className="rounded-full w-5 h-5 mr-2 sm:mr-6"

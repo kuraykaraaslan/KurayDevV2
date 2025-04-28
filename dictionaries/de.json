@@ -63,8 +63,8 @@
         "phone_and_mail": "Telefon und E-Mail",
         "social_media": "Soziale Medien",
         "send_a_message": "Nachricht senden",
-        "reveal_mail": "Klicken, um die E-Mail anzuzeigen",
-        "reveal_phone": "Klicken, um die Telefonnummer anzuzeigen",
+        "reveal_mail": "E-Mail anzeigen",
+        "reveal_phone": "Telefonnummer anzeigen",
         "can_not_verify_that_you_are_not_a_robot": "Wir können nicht bestätigen, dass Sie kein Roboter sind. Bitte versuchen Sie es später erneut.",
         "form": {
             "name": "Name",
