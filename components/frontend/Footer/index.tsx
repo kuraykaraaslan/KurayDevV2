@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,15 +8,18 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const Footer = (props: any) => {
+
+  const { t } = useTranslation();
 
   return (
     <>
       <footer className="footer grid grid-cols-1 lg:grid-cols-2 gap-4 bg-base-300 p-4 min-w-full shadow-lg">
         <div className="col-span-1 flex flex-row flex-wrap justify-start">
           <p>
-              © {new Date().getFullYear()} Kuray Karaaslan. All rights reserved.
+              © {new Date().getFullYear()} Kuray Karaaslan. {t("footer.all_rights_reserved")}
           </p>
         </div>
         <div className="col-span-1 flex flex-row flex-wrap justify-start">

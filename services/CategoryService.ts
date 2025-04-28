@@ -1,4 +1,4 @@
-import { Category, Post, User } from '@prisma/client';
+import { Category } from '@prisma/client';
 import prisma from '@/libs/prisma';
 
 export default class CategoryService {

@@ -1,30 +1,18 @@
 'use client';
+import i18n from "@/libs/localize/localize";
 import React, { useState, useEffect } from "react";
 
 const TypingEffect = () => {
 
-  const prefix = "I'm ready to ";
-  const suffix = "";
+  const { t } = i18n;
 
   const texts = [
-    "learn new things",
-    "make a difference",
-    "build the future",
-    "create something amazing",
-    "work together",
-    "solve problems",
-    "push boundaries",
-    "innovate",
-    "think outside the box",
-    "be challenged",
-    "stay humble",
-    "embrace change",
-    "be a team player",
-    "stay focused",
-    "take risks",
-    "keep it simple",
-    "aim high",
-    "freelance",
+    t("welcome.typingEffect.text1"),
+    t("welcome.typingEffect.text2"),
+    t("welcome.typingEffect.text3"),
+    t("welcome.typingEffect.text4"),
+    t("welcome.typingEffect.text5"),
+    t("welcome.typingEffect.text6")
   ];
 
   const [textsIndex, setTextsIndex] = useState(0);
@@ -32,6 +20,7 @@ const TypingEffect = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [renderedText, setRenderedText] = useState("");
   const [pause, setPause] = useState(false);
+
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -77,9 +66,10 @@ const TypingEffect = () => {
 
   return (
     <span className="text-3xl font-bold text-shadow-sm">
-      {prefix}
+      {t("welcome.typingEffect.prefix")}&nbsp;
       <span className="text-primary text-shadow-sm" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>{renderedText === "" ? " " : renderedText}</span>
-      {suffix}
+      &nbsp;
+      {t("welcome.typingEffect.suffix")}
     </span>
   )
 };

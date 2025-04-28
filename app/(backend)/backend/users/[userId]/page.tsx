@@ -3,10 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
-import { Editor } from '@tinymce/tinymce-react';
-import { User } from '@prisma/client';
 import { toast } from 'react-toastify';
-import Image from 'next/image';
 
 
 const UpdateUser =({ params }: { params: { userId: string } }) => {

@@ -1,6 +1,5 @@
 "use server";
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
 import SubscriptionService from '@/services/SubscriptionService';
 
 type ResponseData = {

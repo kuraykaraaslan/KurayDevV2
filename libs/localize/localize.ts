@@ -1,22 +1,41 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import tr from "@/dictionaries/tr.json";
+//de, en, et, gr, mt, th, tr
+import de from "@/dictionaries/de.json";
 import en from "@/dictionaries/en.json";
+import et from "@/dictionaries/et.json";
+import gr from "@/dictionaries/gr.json";
+import mt from "@/dictionaries/mt.json";
+import th from "@/dictionaries/th.json";
+import tr from "@/dictionaries/tr.json";
 
-//zustand
-import { useGlobalStore } from "../zustand";
 
 const compatibilityJSON = "v3";
 const fallbackLng = "en";
 
 const resources = {
+  de: {
+    translation: de,
+  },
   en: {
     translation: en,
   },
+  et: {
+    translation: et,
+  },
+  gr: {
+    translation: gr,
+  },
+  mt: {
+    translation: mt,
+  },
+  th: {
+    translation: th,
+  },
   tr: {
     translation: tr,
-  }
+  },
 };
 
 const interpolation = {
@@ -44,11 +63,6 @@ i18n
     resources,
     interpolation,
   });
-
-useGlobalStore.subscribe((state) => {
-  if (i18n.language !== state.language)
-  { i18n.changeLanguage(state.language); }
-});
 
 
 export default i18n;

@@ -10,5 +10,82 @@
     "linkedin": "LinkedIn",
     "resume": "Resume",
     "backend": "Backend"
+  },
+  "error": {
+    "404": {
+      "title": "Something went wrong",
+      "description": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+      "button": "Go back home"
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "description": "An error occurred on the server.",
+      "button": "Go back home"
+    }
+  },
+  "alert": {
+    "this_blog_is_available_in_only_english": "This blog is only available in English",
+    "error": "An error occurred",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "welcome": {
+    "description": "<bold>Product-focused Full-Stack Developer</bold> with <bold>2+ years of experience</bold> delivering robust, scalable software solutions across <bold>frontend, backend, mobile in BIM and IoT domains.</bold> Specialized in <bold>Java Spring Boot, React, Next.js, Node.js, and PostgreSQL</bold>. Adept at architecting <bold>multi-tenant SaaS platforms, real-time systems, and payment integrations.</bold> Combines strong engineering fundamentals with <bold>creative problem-solving</bold> and a <bold>clean, systematic coding approach.</bold>",
+    "typingEffect": {
+      "prefix": "I'm ready to",
+      "suffix": "",
+      "text1": "solve problems",
+      "text2": "build products",
+      "text3": "create solutions",
+      "text4": "make a difference",
+      "text5": "be challenged",
+      "text6": "freelance"
+    },
+    "contact_me": "Contact me",
+    "resume": "Resume"
+  },
+  "toolbox": {
+    "title": "Creativity needs a lot of tools",
+    "description": "Have a lot of tools in my toolbox, and i'm always learning new ones."
+  },
+  "timeline": {
+    "title": "My Journey",
+    "description": "My transition from a Structural Engineer to a Software Developer has been a journey of learning, growth, and transformation. Here's a snapshot of my professional journey so far."
+  },
+  "projects": {
+    "title": "Portfolio",
+    "description": "My professional portfolios that I have worked on."
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Good things happen when we talk.",
+    "phone_and_mail": "Phone and Email",
+    "social_media": "Social Media",
+    "send_a_message": "Send a message",
+    "reveal_mail": "Click to reveal email",
+    "reveal_phone": "Click to reveal phone",
+    "can_not_verify_that_you_are_not_a_robot": "Can not verify that you are not a robot. Please try again later.",
+    "form": {
+      "name": "Name",
+      "enter_your_name": "Enter your name",
+      "email": "Email",
+      "enter_your_email": "Enter your email",
+      "phone": "Phone",
+      "enter_your_phone": "Enter your phone",
+      "message": "Message",
+      "enter_your_message": "Enter your message, you can describe your project, your needs, or any other information you want to share.",
+      "send": "Send",
+      "success": "Your message has been sent successfully. I will get back to you as soon as possible.",
+      "error": "An error occurred while sending your message. Please try again later.",
+      "please_fill_in_all_fields": "Please fill in all fields.",
+      "loading": "Sending your message..."
+    }
+  },
+  "footer": {
+    "all_rights_reserved": "All rights reserved."
+  },
+  "whatsapp": {
+    "message": "Hello! I am Kuray Karaaslan, how can I help you?"
   }
 }

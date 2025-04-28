@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faPhone} from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import {
   faXTwitter,
   faLinkedin,
@@ -22,6 +22,8 @@ import axios from "axios";
 
 //reCAPTCHA
 import ReCAPTCHA from "react-google-recaptcha";
+import { useTranslation } from "react-i18next";
+
 const recaptchaSiteKey = process.env.RECAPTCHA_CLIENT_KEY || "";
 
 const Form = dynamic(
@@ -47,6 +49,8 @@ interface ContactProps {
 
 const Contact = (props: ContactProps) => {
 
+  const { t, i18n } = useTranslation()
+
   const [phoneNumbers, setPhoneNumbers] = useState<Phone[]>([]);
   const [mails, setMails] = useState<Mail[]>([]);
   const [token, setToken] = useState<string>("x");
@@ -71,7 +75,7 @@ const Contact = (props: ContactProps) => {
   const getPhoneNumbers = async () => {
 
     if (token === "") {
-      alert("Can not verify that you are not a robot.");
+      alert(t("alert.can_not_verify_that_you_are_not_a_robot"));
       return;
     }
 
@@ -88,7 +92,7 @@ const Contact = (props: ContactProps) => {
   function getMails() {
 
     if (token === "") {
-      alert("Can not verify that you are not a robot.");
+      alert(t("alert.can_not_verify_that_you_are_not_a_robot"));
       return;
     }
 
@@ -107,18 +111,22 @@ const Contact = (props: ContactProps) => {
     <>
       {/* <section className="md:bg-base-100 bg-base-200 px-4 py-8  md:px-20" id="contact"> */}
       <section className={"min-h-screen md:pt-24 " + (props.bsckgroundColor ? props.bsckgroundColor : "bg-base-100")}
-      id="contact">
+        id="contact">
         {/* <div className="container px-2 py-8 mx-auto mx-4 md:px-24 md:bg-base-200 mt-0 md:-mt-24 rounded-box shadow-2xl border-full border-2 border-black contactHero"> */}
         <div className="container  mx-auto mx-4 mt-0 md:rounded-box md:shadow-2xl border-full md:border-2 md:border-black contactHero">
           <div className="mx-4 md:mx-8 pt-2 rounded-box md:mb-4">
             <div className="grid max-w-6xl grid-cols-1 px-6 mx-auto lg:px-8 md:grid-cols-2 md:divide-x pt-12 pb-12 mb-2">
               <div className="py-6 md:py-0 md:px-6">
-                <h1 className="text-4xl font-bold">Contact</h1>
+                <h1 className="text-4xl font-bold">
+                  {t("contact.title")}
+                </h1>
 
-                <p className="pt-2 pb-4">Good things happen when we talk.</p>
+                <p className="pt-2 pb-4">
+                  {t("contact.description")}
+                </p>
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold">
-                    Phone and mail
+                    {t("contact.phone_and_mail")}
                   </h3>
 
                   {token !== "" ?
@@ -129,7 +137,7 @@ const Contact = (props: ContactProps) => {
                             icon={faEnvelope}
                             className="w-5 h-5 mr-2 sm:mr-6"
                           />
-                          <span>click to reveal mail addresses</span>
+                          <span>{t("contact.reveal_mail")}</span>
                         </button>
                       }
 
@@ -155,7 +163,7 @@ const Contact = (props: ContactProps) => {
                             icon={faPhone}
                             className="w-5 h-5 mr-2 sm:mr-6"
                           />
-                          <span>click to reveal phone numbers</span>
+                          <span>{t("contact.reveal_phone")}</span>
                         </button>
                       }
 
@@ -174,20 +182,20 @@ const Contact = (props: ContactProps) => {
                           </Link>
                           <span className="ml-2">
                             {phone.hasWhatsapp &&
-                            <Link href={"https://wa.me/" + phone.noSpacePhoneNumber}>
-                              <FontAwesomeIcon
-                                icon={faWhatsapp}
-                                className="w-5 h-5 mr-2 sm:mr-3"
-                              />
-                            </Link>
+                              <Link href={"https://wa.me/" + phone.noSpacePhoneNumber}>
+                                <FontAwesomeIcon
+                                  icon={faWhatsapp}
+                                  className="w-5 h-5 mr-2 sm:mr-3"
+                                />
+                              </Link>
                             }
                             {phone.hasTelegram &&
-                            <Link href={"https://t.me/" + phone.noSpacePhoneNumber}>
-                              <FontAwesomeIcon
-                                icon={faTelegram}
-                                className="w-5 h-5 mr-2 sm:mr-3"
-                              />
-                            </Link>
+                              <Link href={"https://t.me/" + phone.noSpacePhoneNumber}>
+                                <FontAwesomeIcon
+                                  icon={faTelegram}
+                                  className="w-5 h-5 mr-2 sm:mr-3"
+                                />
+                              </Link>
                             }
                           </span>
                         </p>
@@ -210,7 +218,7 @@ const Contact = (props: ContactProps) => {
 
                 <div className="space-y-4 mt-4">
                   <h3 className="text-xl font-bold">
-                    Social Media
+                    {t("contact.social_media")}
                   </h3>
 
                   <p className="flex items-center text-green-500 animate-pulse">
@@ -298,7 +306,7 @@ const Contact = (props: ContactProps) => {
               </div>
               <div className="flex flex-col py-6 space-y-6 md:py-0 md:px-6">
                 <h1 className="text-4xl font-bold">
-                  Send a message
+                  {t("contact.send_a_message")}
                 </h1>
                 <Form token={token} />
               </div>

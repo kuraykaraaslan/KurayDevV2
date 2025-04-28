@@ -4,12 +4,9 @@ import {
   faPython,
   faPhp,
   faJava,
-  faJs,
   faLinux,
   faFigma,
   faCss3,
-  faNodeJs,
-  faJsSquare,
   faSquareJs,
 } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -17,19 +14,20 @@ import {
   faCode,
   faCodeBranch,
   faDatabase,
-  faFire,
   faLightbulb,
-  faTshirt,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 
 import SingleTool from "./Partials/SingleTool";
 import SingleSkill from "./Partials/SingleSkill";
-import Tool from "@/types/Tool";
+import Tool from "@/types/Tool"; 
 import Skill from "@/types/Skill";
+import { useTranslation } from "react-i18next";
 
 const Toolbox = () => {
+
+  const { t } = useTranslation();
 
   const backendTools = [
     {
@@ -140,11 +138,13 @@ const Toolbox = () => {
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4 ">
             <div className="col-span-2 md:col-span-1 md:col-start-3 overflow-hidden">
               <h1 className="text-4xl lg:text-3xl font-bold mt-6 text-center md:text-right">
-              Creativity needs a lot of tools
+                {t("toolbox.title")}
               </h1>
             </div>
             <div className="col-span-1 md:col-start-4 invisible md:visible hidden md:block">
-              <p className="mt-6 pr-4">have a lot of tools in my toolbox, and i'm always learning new ones.</p>
+              <p className="mt-6 pr-4">
+                {t("toolbox.description")}
+              </p>
             </div>
           </div>
 

@@ -3,7 +3,6 @@
 import { NextResponse } from "next/server";
 import NextRequest from "@/types/NextRequest";
 import { Project } from "@prisma/client";
-import prisma from '@/libs/prisma';
 import ProjectService from "@/services/ProjectService";
 import AuthService from "@/services/AuthService";
 

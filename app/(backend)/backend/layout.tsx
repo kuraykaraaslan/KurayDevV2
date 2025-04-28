@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useGlobalStore from "@/libs/zustand";

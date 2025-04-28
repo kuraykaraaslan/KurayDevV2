@@ -2,8 +2,6 @@ import React from 'react';
 import { ImageResponse } from 'next/og';
 import PostService from '@/services/PostService';
 import { NextRequest } from 'next/server';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { notFound } from 'next/navigation';
 
 export async function GET(request: NextRequest,

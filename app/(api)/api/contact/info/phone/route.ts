@@ -23,13 +23,6 @@ export async function GET(req: NextRequest, res: NextResponse<ResponseData>) {
             "hasTelegram": false
         },
         {
-            "CountryCode": "us",
-            "PhoneNumber": "+1 251 564 0856",
-            "noSpacePhoneNumber": "+1 251 564 0856",
-            "hasWhatsapp": false,
-            "hasTelegram": false
-        },
-        {
             "CountryCode": "tr",
             "PhoneNumber": "+90 545 922 3554",
             "noSpacePhoneNumber": "+905459223554",

@@ -1,4 +1,4 @@
-import { faGithub, faGithubAlt, faInstagram, faLinkedin, faTiktok, faTwitch, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faInstagram, faLinkedin, faTiktok, faTwitch, faXTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faSnowman } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -10,8 +10,7 @@ const links = [
   { href: 'https://linkedin.com/in/kuraykaraaslan', title: 'Linkedin', icon: faLinkedin, color: 'bg-[#0077b5]', textColor: 'text-white'},
   { href: 'https://www.youtube.com/channel/UC-EzbpSWTrO97CejgrUyQXQ', title: 'Youtube', icon: faYoutube, color: 'bg-[#FF0000]', textColor: 'text-white'},
   { href: 'https://www.instagram.com/kuraykaraaslan/', title: 'Instagram', icon: faInstagram, color: 'bg-[#E1306C]', textColor: 'text-white'},
-  //https://twitter.com/kuraykaraaslan
-  { href: 'https://twitter.com/kuraykaraaslan', title: 'Twitter', icon: faTwitter, color: 'bg-[#1DA1F2]', textColor: 'text-white'},
+  { href: 'https://x.com/kuraykaraaslan', title: 'X', icon: faXTwitter, color: 'bg-black', textColor: 'text-white'},
   { href: 'https://www.twitch.tv/kuraykaraaslan', title: 'Twitch', icon: faTwitch, color: 'bg-[#6441A4]', textColor: 'text-white'},
   { href: 'https://www.tiktok.com/@kuraykaraaslan', title: 'Tiktok', icon: faTiktok, color: 'bg-[#000000]', textColor: 'text-white'},
 

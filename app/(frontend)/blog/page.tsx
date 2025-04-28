@@ -1,12 +1,8 @@
 import Newsletter from '@/components/frontend/Newsletter';
 import Feed from '@/components/frontend/Feed';
 import CategoryBullets from '@/components/frontend/CategoryBullets';
-
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
-
-
-
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 

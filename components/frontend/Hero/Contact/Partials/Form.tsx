@@ -7,6 +7,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 //Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHourglass, faMessage } from "@fortawesome/free-solid-svg-icons";
+import i18n from "@/libs/localize/localize";
 
 
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
@@ -22,6 +23,7 @@ interface CountryCode extends String {
 // @ts-ignore
 const ContactForm = (props: { className?: string; token: string }) => {
 
+  const { t } = i18n;
   //React states
   const [token, setToken] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -91,17 +93,17 @@ const ContactForm = (props: { className?: string; token: string }) => {
   async function formSubmit() {
 
     if (token === "") {
-      alert("Can not verify that you are not a robot.");
+      alert(t("contact.can_not_verify_that_you_are_not_a_robot"));
       return;
     }
 
     if (!isEmailValid || !isPhoneValid || !isNameValid || !isMessageValid) {
-      alert("Please fill in the required fields correctly.");
+      alert(t("contact.form.please_fill_in_all_fields"));
       return;
     }
 
     if (email === "" || phone === "" || name === "" || message === "") {
-      alert("Please fill in the required fields.");
+      alert(t("contact.form.please_fill_in_all_fields"));
       return;
     }
 
@@ -125,11 +127,11 @@ const ContactForm = (props: { className?: string; token: string }) => {
       }
     }).then((response) => {
       setIsSending(false);
-      alert("Message sent successfully.");
+      alert(t("contact.form.success"));
 
     }).catch((error) => {
       setIsSending(false);
-      alert("An error occurred while sending the message.");
+      alert(t("contact.form.error"));
     });
 
   }
@@ -146,74 +148,74 @@ const ContactForm = (props: { className?: string; token: string }) => {
     <div className={claases}>
       <div className="mt-2">
         <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-          Name
+          {t("contact.form.name")}
         </label>
         <input
           type="text"
           id="name"
           className={"block p-3 w-full text-sm rounded-lg border border-1 border-gray-500 bg-gray-200 text-black " + (isNameValid ? "" : "text-red-500")}
-          placeholder="Enter your name"
+          placeholder={t("contact.form.enter_your_name")}
           required
           onChange={onNameChange}
         />
       </div>
       <div className="mt-2">
         <label htmlFor="email" className="block mb-2 text-sm font-medium">
-          Email
+          {t("contact.form.email")}
         </label>
         <input
           type="email"
           id="email"
           className={"block p-3 w-full text-sm rounded-lg border border-1 bg-gray-200 text-black " + (isEmailValid ? "" : "text-red-500")}
-          placeholder="Enter your email"
+          placeholder={t("contact.form.enter_your_email")}
           required
           onChange={onEmailChange}
         />
       </div>
       <div className="mt-2">
         <label htmlFor="phone" className="block mb-2 text-sm font-medium">
-          Phone
+          {t("contact.form.phone")}
         </label>
-          <PhoneInput
-            international
-            className={"block pl-3 w-full text-sm rounded-lg border border-1 border-gray-500 bg-gray-200 text-black " + (isPhoneValid ? "" : "text-red-500")}
-            placeholder="Enter your phone number"
-            required
-            // @ts-ignore
-            defaultCountry={defaultCountry ? defaultCountry as string : "TR"}
-            onChange={onPhoneChange}
-          />
+        <PhoneInput
+          international
+          className={"block pl-3 w-full text-sm rounded-lg border border-1 border-gray-500 bg-gray-200 text-black " + (isPhoneValid ? "" : "text-red-500")}
+          placeholder={t("contact.form.enter_your_phone")}
+          required
+          // @ts-ignore
+          defaultCountry={defaultCountry ? defaultCountry as string : "TR"}
+          onChange={onPhoneChange}
+        />
       </div>
       <div className="mt-2">
         <label htmlFor="message" className="block mb-2 text-sm font-medium">
-          Message
+          {t("contact.form.message")}
         </label>
         {/* @ts-ignore */}
         <textarea
           id="message"
           className={"block p-2.5 w-full text-sm rounded-lg border border-1 border-gray-500 min-h-[150px] bg-gray-200 resize-none text-black " + (isMessageValid ? "" : "text-red-500")}
-          placeholder="Enter your message, describe your project"
+          placeholder={t("contact.form.enter_your_message")}
           required
           onChange={onMessageChange}
         ></textarea>
       </div>
-      {isSending ? 
-      <button
-        type="submit"
-        disabled
-        className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus:outline-none focus:bg-primary-600 border border-1 border-gray-500 light:placeholder-black"
-      >
-        <FontAwesomeIcon icon={faHourglass} spin className="w-3 h-3 mr-2" />
-        Sending...
-      </button>
-      : <button
-        type="submit"
-        className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus:outline-none focus:bg-primary-600 border border-1 border-gray-500 light:placeholder-black"
-        onClick={formSubmit}
-      >
-        <FontAwesomeIcon icon={faMessage} className="w-3 h-3 mr-2" />
-        Send
-      </button>
+      {isSending ?
+        <button
+          type="submit"
+          disabled
+          className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus:outline-none focus:bg-primary-600 border border-1 border-gray-500 light:placeholder-black"
+        >
+          <FontAwesomeIcon icon={faHourglass} spin className="w-3 h-3 mr-2" />
+          {t("contact.form.loading")}
+        </button>
+        : <button
+          type="submit"
+          className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus:outline-none focus:bg-primary-600 border border-1 border-gray-500 light:placeholder-black"
+          onClick={formSubmit}
+        >
+          <FontAwesomeIcon icon={faMessage} className="w-3 h-3 mr-2" />
+          {t("contact.form.send")}
+        </button>
       }
     </div>
   );

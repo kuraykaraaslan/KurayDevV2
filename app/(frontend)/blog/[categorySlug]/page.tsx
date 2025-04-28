@@ -1,7 +1,5 @@
-import axiosInstance from '@/libs/axios';
 import Newsletter from '@/components/frontend/Newsletter';
-import Link from 'next/link';
-import { toast, ToastContainer } from 'react-toastify';
+import {  ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Feed from '@/components/frontend/Feed';
 import { Category } from '@prisma/client';

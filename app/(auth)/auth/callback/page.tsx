@@ -1,7 +1,6 @@
 'use client';
 import axiosInstance from '@/libs/axios';
-import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
 import { useRouter } from 'next/navigation';

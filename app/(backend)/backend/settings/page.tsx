@@ -1,10 +1,6 @@
 'use client'
 import React, { useState, useEffect, useCallback } from 'react';
-import Link from "next/link";
-import { Post } from "@prisma/client";
 import axiosInstance from "@/libs/axios";
-import PostWithCategory from '@/types/PostWithCategory';
-import Image from 'next/image';
 import { Setting } from '@prisma/client';
 
 

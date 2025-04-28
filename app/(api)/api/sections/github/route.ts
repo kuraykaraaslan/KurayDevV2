@@ -2,8 +2,7 @@
 
 import { NextResponse, NextRequest } from "next/server";
 import axios from 'axios';
-
-import { ContributionDay, Week, Weeks, GraphQLRes } from "@/types/GitTypes";
+import { ContributionDay, Week, GraphQLRes } from "@/types/GitTypes";
 
 type ResponseData = {
     message: string

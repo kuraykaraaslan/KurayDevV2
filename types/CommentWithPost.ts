@@ -1,4 +1,4 @@
-import { Comment , Post } from '@prisma/client';
+import { Comment } from '@prisma/client';
 
 export type CommentWithPost = Comment & {
     post: {

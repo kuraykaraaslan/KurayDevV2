@@ -2,8 +2,6 @@ import React from 'react';
 import { ImageResponse } from 'next/og';
 import PostService from '@/services/PostService';
 import { NextRequest } from 'next/server';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 export async function GET(request: NextRequest) {
     const { posts } = await PostService.getAllPosts({ page: 1, pageSize: 10, search: undefined });

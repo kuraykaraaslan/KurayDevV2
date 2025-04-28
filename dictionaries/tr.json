@@ -1,11 +1,92 @@
 {
   "navigation": {
     "home": "Anasayfa",
-    "ABOUT": "Hakkımda",
-    "PROJECTS": "Projeler",
-    "CONTACT": "İletişim",
-    "RESUME": "Özgeçmiş",
-    "BLOG": "Blog",
-    "GITHUB": "GitHub"
+    "portfolio": "Portföy",
+    "experience": "Deneyim",
+    "contact": "İletişim",
+    "blog": "Blog",
+    "freelance": "Freelance",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "resume": "Özgeçmiş",
+    "backend": "Backend"
+  },
+  "error": {
+    "404": {
+      "title": "Bir şeyler ters gitti",
+      "description": "Üzgünüz, bu sayfayı bulamıyoruz. Anasayfada keşfedilecek çok şey var.",
+      "button": "Anasayfaya dön"
+    },
+    "500": {
+      "title": "Sunucu Hatası",
+      "description": "Sunucuda bir hata oluştu.",
+      "button": "Anasayfaya dön"
+    }
+  },
+  "alert": {
+    "this_blog_is_available_in_only_english": "Bu blog yalnızca İngilizce olarak mevcuttur",
+    "error": "Bir hata oluştu",
+    "success": "Başarılı",
+    "warning": "Uyarı",
+    "info": "Bilgi"
+  },
+  "welcome": {
+    "description": "<bold>Ürün odaklı bir Full-Stack Geliştirici</bold> olarak, <bold>2+ yıllık deneyimimle</bold> BIM ve IoT alanlarında <bold>ön yüz, arka yüz ve mobil platformlar</bold> için sağlam ve ölçeklenebilir yazılım çözümleri geliştiriyorum. <bold>Java Spring Boot, React, Next.js, Node.js ve PostgreSQL</bold> teknolojilerinde uzmanım. <bold>SaaS platformları</bold>, <bold>gerçek zamanlı sistemler</bold> ve <bold>ödeme entegrasyonları</bold> mimarileri üzerinde deneyim sahibiyim. <bold>Güçlü mühendislik temelleri</bold> ile <bold>yaratıcı problem çözme becerisini</bold> ve <bold>temiz, sistematik bir kod yaklaşımını</bold> bir araya getiriyorum.",
+    "typingEffect": {
+      "prefix": "Ben",
+      "suffix": "hazırım.",
+      "text1": "sorunları çözmeye",
+      "text2": "ürünler geliştirmeye",
+      "text3": "çözümler üretmeye",
+      "text4": "fark yaratmaya",
+      "text5": "imkansızı başarmaya",
+      "text6": "freelance çalışmaya"
+    },
+    "contact_me": "Benimle iletişime geç",
+    "resume": "Özgeçmiş"
+  },
+  "toolbox": {
+    "title": "Yaratıcılık çok fazla araç ister",
+    "description": "Araç kutumda birçok araç var ve her zaman yenilerini öğreniyorum."
+  },
+  "timeline": {
+    "title": "Kariyer Yolculuğum",
+    "description": "Bir Yapı Mühendisinden Yazılım Geliştiriciye geçiş sürecim, öğrenme, gelişim ve dönüşüm yolculuğu oldu. İşte profesyonel yolculuğumun bir özeti."
+  },
+  "projects": {
+    "title": "Portföy",
+    "description": "Üzerinde çalıştığım profesyonel portföy projelerim."
+  },
+  "contact": {
+    "title": "İletişim",
+    "description": "Güzel şeyler konuşunca başlar.",
+    "phone_and_mail": "Telefon ve E-posta",
+    "social_media": "Sosyal Medya",
+    "send_a_message": "Mesaj gönder",
+    "reveal_mail": "E-postayı görmek için tıklayın",
+    "reveal_phone": "Telefonu görmek için tıklayın",
+    "can_not_verify_that_you_are_not_a_robot": "Robot olmadığınızı doğrulayamıyoruz. Lütfen daha sonra tekrar deneyin.",
+    "form": {
+      "name": "İsim",
+      "enter_your_name": "İsminizi girin",
+      "email": "E-posta",
+      "enter_your_email": "E-posta adresinizi girin",
+      "phone": "Telefon",
+      "enter_your_phone": "Telefon numaranızı girin",
+      "message": "Mesaj",
+      "enter_your_message": "Projenizi, ihtiyaçlarınızı veya paylaşmak istediğiniz diğer bilgileri yazabilirsiniz.",
+      "send": "Gönder",
+      "success": "Mesajınız başarıyla gönderildi. En kısa sürede size geri döneceğim.",
+      "error": "Mesaj gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+      "please_fill_in_all_fields": "Lütfen tüm alanları doldurun.",
+      "loading": "Mesajınız gönderiliyor..."
+    }
+  },
+  "footer": {
+    "all_rights_reserved": "Tüm hakları saklıdır."
+  },
+  "whatsapp": {
+    "title": "WhatsApp ile iletişime geçin",
+    "message": "Hızlı bir yanıt için WhatsApp üzerinden benimle iletişime geçin."
   }
 }

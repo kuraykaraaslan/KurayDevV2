@@ -1,17 +1,19 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { useTranslation } from "react-i18next";
 
 const Whatsapp = () => {
+
+    const { t } = useTranslation();
 
     const [ count, setCount ] = useState(0);
     const [ sayac, setSayac ] = useState<NodeJS.Timeout | null>(null);
 
     const [resetted, setResetted] = useState(false);
 
-    const [message, setMessage] = useState("Hello! I am Kuray Karaaslan, how can I help you?");
+    const [message, setMessage] = useState(t("whatsapp.message"));
 
     useEffect(() => {
         const scrollToTopBtn = document.getElementById(
@@ -102,7 +104,7 @@ const Whatsapp = () => {
                 onMouseEnter={() => setResetted(true)}
                 onClick={() => setResetted(true)}
                 >
-                    <p>{message}</p>
+                    <p>{t("whatsapp.message")}</p>
                 </div>
                 }
 

@@ -5,13 +5,8 @@ import Newsletter from '@/components/frontend/Newsletter';
 import ProjectService from '@/services/ProjectService';
 import Image from 'next/image';
 import SingleProject from '@/components/frontend/SingleProject';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faDownload, faExternalLinkAlt, faFile, faGlobe, faPlay
-} from '@fortawesome/free-solid-svg-icons';
-import {
-    faGithub, faYoutube, faLinkedin, faTwitter, faInstagram, faFacebook, faDiscord, faGitlab
-} from '@fortawesome/free-brands-svg-icons';
+import { faDownload, faExternalLinkAlt, faFile } from '@fortawesome/free-solid-svg-icons';
+import { faGithub, faYoutube, faLinkedin, faTwitter, faInstagram, faFacebook, faDiscord, faGitlab } from '@fortawesome/free-brands-svg-icons';
 
 const SinglePin = ({ bgColor, textColor, text }: { bgColor: string, textColor: string, text: string }) => (
     <div className={`bg-${bgColor} text-${textColor} rounded-lg p-1`}>

@@ -86,7 +86,6 @@ const config: Config = {
     themes: [
       'light',
       'dark',
-      'black',
     ]
   },
 };

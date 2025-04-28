@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 import path from 'path';
-import { User, Session } from '@prisma/client';
+import { User } from '@prisma/client';
 
 const { MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PASS } = process.env;
 

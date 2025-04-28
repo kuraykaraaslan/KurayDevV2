@@ -1,41 +1,13 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  faReact,
-  faBootstrap,
-  faHtml5,
-  faPython,
-  faPhp,
-  faJava,
-  faJs,
-  faAmazon,
-  faAndroid,
-  faChrome,
-  faOpera,
-  faApple,
-  faGithub,
-  faGit,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faAnchor,
   faAnglesDown,
   faAnglesUp,
-  faFire,
-  faGear,
-  faGlobe,
-  faMobileScreenButton,
-  faTv,
-  faU,
-  faWind,
-  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from 'next/image';
 
 //i18n
-import { withTranslation } from "react-i18next";
-import Link from "next/link";
-
+import { useTranslation } from "react-i18next";
 
 import SingleProject from './Partials/SingleProject'
 import { useRouter } from 'next/navigation'
@@ -56,6 +28,7 @@ const ProjectsHero = () => {
     'machine learning'
   ];
 
+  const { t } = useTranslation()
   const [filter, setFilter] = useState("");
 
   const [expanded, setExpanded] = React.useState(false);
@@ -132,10 +105,10 @@ const ProjectsHero = () => {
         >
           <div className="mx-auto max-w-screen-sm text-center lg:mb-8 -mt-8 lg:mt-0 ">
             <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-              Portfolio
+              {t("projects.title")}
             </h2>
             <p className="font-light sm:text-xl">
-              My professional portfolios that I have worked on.
+              {t("projects.description")}
             </p>
           </div>
 

@@ -1,9 +1,7 @@
 // Original path: app/api/auth/callback/route.ts
 
 import NextRequest  from "@/types/NextRequest";
-import SessionWithUser from "@/types/SessionWithUser";
 import { NextResponse } from "next/server";
-import AuthService from "@/services/AuthService";
 import SSOService from "@/services/SSOService";
 
 export async function GET(req: NextRequest,

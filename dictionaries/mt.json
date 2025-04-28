@@ -1,0 +1,91 @@
+{
+  "navigation": {
+    "home": "Dar",
+    "portfolio": "Portafoll",
+    "experience": "Esperjenza",
+    "contact": "Kuntatt",
+    "blog": "Blog",
+    "freelance": "Freelance",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "resume": "Curriculum Vitae",
+    "backend": "Backend"
+  },
+  "error": {
+    "404": {
+      "title": "Xi ħaġa marret ħażin",
+      "description": "Jiddispjaċina, ma nistgħux insibu dik il-paġna. Tista' ssib ħafna affarijiet interessanti fuq il-paġna ewlenija.",
+      "button": "Mur lura għall-paġna ewlenija"
+    },
+    "500": {
+      "title": "Żball Intern fis-Server",
+      "description": "Seħħ żball fis-server.",
+      "button": "Mur lura għall-paġna ewlenija"
+    }
+  },
+  "alert": {
+    "this_blog_is_available_in_only_english": "Dan il-blog huwa disponibbli biss bl-Ingliż",
+    "error": "Seħħ żball",
+    "success": "Suċċess",
+    "warning": "Twissija",
+    "info": "Informazzjoni"
+  },
+  "welcome": {
+    "description": "<bold>Full-Stack Developer iffukat fuq il-prodott</bold> b’<bold>aktar minn 2 snin esperjenza</bold> fil-ħolqien ta’ soluzzjonijiet ta’ softwer robusti u skalabbli fil-<bold>frontend, backend u mobile fid-dominji BIM u IoT.</bold> Speċjalizzat f’<bold>Java Spring Boot, React, Next.js, Node.js u PostgreSQL</bold>. Abli fil-bini ta’ <bold>pjattaformi SaaS multi-tenant, sistemi real-time, u integrazzjonijiet tal-pagamenti.</bold> Jgħaqqad <bold>bażi soda ta' inġinerija</bold> ma’ <bold>ħila kreattiva fit-tiftix ta' soluzzjonijiet</bold> u <bold>approċċ nadif u sistematiku għall-kodifikazzjoni.</bold>",
+    "typingEffect": {
+      "prefix": "Jien lest biex",
+      "suffix": "",
+      "text1": "insolvi problemi",
+      "text2": "nibni prodotti",
+      "text3": "noħloq soluzzjonijiet",
+      "text4": "nagħmel differenza",
+      "text5": "naċċetta sfidi",
+      "text6": "naħdem bħala freelance"
+    },
+    "contact_me": "Ikkuntattjani",
+    "resume": "Curriculum Vitae"
+  },
+  "toolbox": {
+    "title": "Il-kreattività teħtieġ ħafna għodod",
+    "description": "Għandi ħafna għodod fil-kaxxa tal-għodod tiegħi, u dejjem qiegħed nitgħallem oħrajn ġodda."
+  },
+  "timeline": {
+    "title": "Il-Vjaġġ Tiegħi",
+    "description": "It-trasformazzjoni tiegħi minn Inġinier Strutturali għal Żviluppatur tas-Softwer kienet vjaġġ ta’ tagħlim, tkabbir u trasformazzjoni. Hawn snapshot tal-vjaġġ professjonali tiegħi s'issa."
+  },
+  "projects": {
+    "title": "Portafoll",
+    "description": "Il-proġetti professjonali li ħdimt fuqhom."
+  },
+  "contact": {
+    "title": "Kuntatt",
+    "description": "Affarijiet tajbin jiġru meta nitkellmu.",
+    "phone_and_mail": "Telefon u Email",
+    "social_media": "Midja Soċjali",
+    "send_a_message": "Ibgħat messaġġ",
+    "reveal_mail": "Ikklikkja biex tara l-email",
+    "reveal_phone": "Ikklikkja biex tara n-numru tat-telefon",
+    "can_not_verify_that_you_are_not_a_robot": "Ma nistgħux nikkonfermaw li m'intix robot. Jekk jogħġbok erġa' pprova aktar tard.",
+    "form": {
+      "name": "Isem",
+      "enter_your_name": "Daħħal ismek",
+      "email": "Email",
+      "enter_your_email": "Daħħal l-email tiegħek",
+      "phone": "Telefon",
+      "enter_your_phone": "Daħħal in-numru tat-telefon tiegħek",
+      "message": "Messaġġ",
+      "enter_your_message": "Daħħal il-messaġġ tiegħek, tista' tiddeskrivi l-proġett tiegħek, il-bżonnijiet tiegħek, jew kwalunkwe informazzjoni oħra li tixtieq taqsam.",
+      "send": "Ibgħat",
+      "success": "Il-messaġġ tiegħek intbagħat b’suċċess. Se nikkuntattjak kemm jista’ jkun malajr.",
+      "error": "Seħħ żball waqt it-tentattiv biex tibgħat il-messaġġ. Jekk jogħġbok erġa' pprova aktar tard.",
+      "please_fill_in_all_fields": "Jekk jogħġbok imla l-oqsma kollha.",
+      "loading": "Qed nibgħat il-messaġġ tiegħek..."
+    }
+  },
+  "footer": {
+    "all_rights_reserved": "Id-drittijiet kollha riservati."
+  },
+  "whatsapp": {
+    "message": "Bongu! Jien Kuray Karaaslan, kif nista' ngħinek?"
+  }
+}

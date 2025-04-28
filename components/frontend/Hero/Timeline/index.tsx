@@ -1,49 +1,21 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  faReact,
-  faBootstrap,
-  faHtml5,
-  faPython,
-  faPhp,
-  faJava,
-  faJs,
-  faAmazon,
-  faAndroid,
-  faChrome,
-  faOpera,
-  faApple,
-  faGithub,
-  faGit,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faAnchor,
   faAnglesDown,
   faAnglesUp,
-  faFire,
-  faGear,
-  faGlobe,
-  faMobileScreenButton,
-  faTv,
-  faU,
-  faWind,
-  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from 'next/image';
 
-//i18n
-import { withTranslation } from "react-i18next";
-import Link from "next/link";
 import TimelineItems from './Partials/TimelineItems';
 import BackgroundImage from './Partials/BackgroundImage';
-
+import { useTranslation } from 'react-i18next';
 
 const Timeline = () => {
 
   const [expanded, setExpanded] = React.useState(false);
   const container = React.useRef(null);
 
+  const { t } = useTranslation();
 
 
   const handleClick = () => {
@@ -70,10 +42,10 @@ const Timeline = () => {
         >
           <div className="mx-auto max-w-screen-sm text-center lg:mb-8 -mt-8 lg:mt-0 ">
             <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-              My Journey
+              {t("timeline.title")}
             </h2>
             <p className="font-light sm:text-xl">
-              My transition from a Structural Engineer to a Software Developer has been a journey of learning, growth, and transformation. Here's a snapshot of my professional journey so far.
+              {t("timeline.description")}
             </p>
           </div>
           <div className="grid gap-8 lg:grid-cols-1">

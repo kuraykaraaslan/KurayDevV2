@@ -3,8 +3,7 @@
 import { NextResponse } from 'next/server'
 import NextRequest from '@/types/NextRequest'
 import AWSService from '@/services/AWSService'
-import AuthService from '@/services/AuthService'
-
+import AuthService from '@/services/AuthService';
 
 /**
  * POST handler for uploading a file to an S3 bucket.
@@ -14,7 +13,7 @@ import AuthService from '@/services/AuthService'
 export async function POST(request: NextRequest) {
     try {
 
-        //AuthService.authenticateSync(request, 'ADMIN');
+        AuthService.authenticateSync(request, 'ADMIN');
         
         const formData = await request.formData();
 

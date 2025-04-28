@@ -1,10 +1,12 @@
 'use client'
 import React, { Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faLink} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faLink } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import MyImage from "./Partials/MyImageVideo";
+import { Trans } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 
 const TypingEffect = dynamic(
@@ -17,6 +19,8 @@ const BackgroundImage = dynamic(
 );
 
 const Welcome = () => {
+
+  const { t, i18n } = useTranslation(); // <- burada i18n de geliyor, t de geliyor
 
   return (
     <div className="relative bg-base-200"
@@ -43,7 +47,13 @@ const Welcome = () => {
             </h1>
             <h2 className="py-3 pb-6 leading-7 text-shadow-sm">
               <p>
-                <span className="font-bold">Product-focused Full-Stack Developer</span> with <span className="font-bold">2+ years of experience</span> delivering robust, scalable software solutions across <span className="font-bold">frontend, backend, mobile in BIM and IoT domains.</span> Specialized in <span className="font-bold">Java Spring Boot, React, Next.js, Node.js, and PostgreSQL</span>. Adept at architecting <span className="font-bold">multi-tenant SaaS platforms, real-time systems, and payment integrations.</span> Combines strong engineering fundamentals with <span className="font-bold">creative problem-solving</span> and a <span className="font-bold">clean, systematic coding approach.</span>
+                <Trans
+                  i18nKey="welcome.description"
+                  lang={i18n.language}
+                  components={{
+                    bold: <span className="font-bold" />
+                  }}
+                />
               </p>
             </h2>
 
@@ -53,7 +63,7 @@ const Welcome = () => {
                 className="mt-1"
                 style={{ width: "1rem" }}
               />
-              Contact Me
+              {t("welcome.contact_me")}
             </Link>
 
             <Link href="https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view?usp=drive_link" target="_blank">
@@ -63,7 +73,7 @@ const Welcome = () => {
                   className="mt-1"
                   style={{ width: "1rem" }}
                 />
-                Resume
+                {t("welcome.resume")}
               </p>
             </Link>
           </div>

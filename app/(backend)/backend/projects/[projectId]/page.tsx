@@ -1,16 +1,9 @@
 'use client';
-import React, { useState, useEffect, use, createRef } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
-import { Editor } from '@tinymce/tinymce-react';
-import { Category, Project, User } from '@prisma/client';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRobot } from '@fortawesome/free-solid-svg-icons';
-import Image from 'next/image';
-
 import { toast } from 'react-toastify';
-import { response } from 'express';
 import ImageLoad from '@/components/common/ImageLoad';
 import TinyMCEEditor from '@/components/backend/Editor';
 

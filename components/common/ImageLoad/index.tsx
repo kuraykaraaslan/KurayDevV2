@@ -1,17 +1,6 @@
 'use client';
 import React, { useState, useEffect, use } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
-import { Editor } from '@tinymce/tinymce-react';
-import { Category, User } from '@prisma/client';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRobot } from '@fortawesome/free-solid-svg-icons';
-import Image from 'next/image';
-
-import { toast } from 'react-toastify';
-import { response } from 'express';
-
 interface ImageLoadProps {
     image: string;
     setImage: (value: string) => void;

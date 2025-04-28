@@ -1,6 +1,5 @@
 "use server";
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
 import DiscordService from '@/services/SocialMedia/DiscordService';
 import ContactFormService from '@/services/ContactFormService';
 import MailService from '@/services/MailService';
@@ -11,8 +10,6 @@ import CustomerContactUsMailTemplate from '@/helpers/MailTemplates/Customer/Cust
 
 import AdminContactUsSMSTemplate from '@/helpers/SMSTemplates/Admin/AdminContactUsSMSTemplate';
 import CustomerContactUsSMSTemplate from '@/helpers/SMSTemplates/Customer/CustomerContactUsSMSTemplate';
-
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
 type ResponseData = {
     message: string;
@@ -48,12 +45,12 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
 
     try {
         const adminMailBody = AdminContactUsMailTemplate({ name, email, message, phone });
-        await MailService.sendMail(INFORM_MAIL, "Contact Form Message", adminMailBody, true);
+        await MailService.sendMail(INFORM_MAIL, "Contact Form Message", adminMailBody);
     } catch (error) { console.error(error); }
 
     try {
         const customerMailBody = CustomerContactUsMailTemplate({ name, email, message, phone });
-        await MailService.sendMail(email, "Contact Form Message", customerMailBody, true);
+        await MailService.sendMail(email, "Contact Form Message", customerMailBody);
     } catch (error) { console.error(error); }
 
 

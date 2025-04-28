@@ -9,8 +9,6 @@ import CategorySelect from '@/components/backend/Selects/CategorySelect';
 import UserSelect from '@/components/backend/Selects/UserSelect';
 import ImageLoad from '@/components/common/ImageLoad';
 import AIPrompt from '@/components/backend/AIPrompt';
-import { only } from 'node:test';
-
 
 const SinglePost = ({ params }: { params: { postId: string } }) => {
 

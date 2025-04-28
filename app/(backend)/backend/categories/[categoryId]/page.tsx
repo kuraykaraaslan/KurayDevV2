@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
-import Image from 'next/image';
-
 
 const EditCategory = ({ params }: { params: { categoryId: string } }) => {
 

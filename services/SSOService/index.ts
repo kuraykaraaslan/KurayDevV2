@@ -1,6 +1,4 @@
 import prisma from '../../libs/prisma';
-import AuthService from '../AuthService';
-import UserService from '../UserService';
 import GoogleService from './GoogleService';
 import AppleService from './AppleService';
 import FacebookService from './FacebookService';

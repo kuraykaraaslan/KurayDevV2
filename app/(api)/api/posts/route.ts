@@ -2,8 +2,6 @@
 
 import { NextResponse } from "next/server";
 import NextRequest from "@/types/NextRequest";
-import { Post } from "@prisma/client";
-import prisma from '@/libs/prisma';
 import PostService from "@/services/PostService";
 import AuthService from "@/services/AuthService";
 

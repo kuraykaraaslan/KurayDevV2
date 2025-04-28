@@ -1,7 +1,6 @@
-import { Post, User } from '@prisma/client';
+import { Post } from '@prisma/client';
 import prisma from '@/libs/prisma';
 import PostWithCategory from '@/types/PostWithCategory';
-import { skip } from 'node:test';
 import { MetadataRoute } from 'next';
 
 export default class PostService {

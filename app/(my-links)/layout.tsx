@@ -1,14 +1,9 @@
 'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//create a context to store the user's authentication status
-import { createContext, useState } from 'react'
 import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import { usePathname , useSelectedLayoutSegments} from 'next/navigation';
-
-import path from 'path';
+import { usePathname } from 'next/navigation';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -44,7 +39,7 @@ export default function LinksLayout({ children, title }: { children: React.React
                 <span className='text-xl'>kuray.dev</span>
               </Link>
             </div>
-            <h1 className="text-3xl font-bold text-center mb-4">{titles?.filter(t => t.path === pathname)[0]?.title || "title"}</h1>
+            <h1 className="text-3xl font-bold text-center mb-4">Links</h1>
             <div className="w-full">
               {children}
             </div>

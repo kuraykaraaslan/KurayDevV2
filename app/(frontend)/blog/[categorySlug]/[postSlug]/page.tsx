@@ -1,15 +1,13 @@
 import React from 'react';
 import Article from '@/components/frontend/Article';
-import axiosInstance from '@/libs/axios';
 import PostService from '@/services/PostService';
 
 import { Metadata } from 'next';
-import { notFound, useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Comments from '@/components/frontend/Comments';
 import OtherPosts from '@/components/frontend/OtherPosts';
 import Newsletter from '@/components/frontend/Newsletter';
 import PostHeader from '@/components/frontend/PostHeader';
-import PostWithCategory from '@/types/PostWithCategory';
 
 
 import MetadataHelper from '@/helpers/MetadataHelper';

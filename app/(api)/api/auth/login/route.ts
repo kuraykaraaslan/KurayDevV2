@@ -4,7 +4,6 @@ import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import AuthService from "@/services/AuthService";
 
-
 export async function POST(req: NextRequest) {
     try {
 
