@@ -6,6 +6,7 @@ import {
   faSkull,
   faMoon,
   IconDefinition,
+  faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalStore } from "@/libs/zustand";
 import { stat } from "fs";
@@ -15,7 +16,7 @@ const ThemeButton = () => {
 
   const themeIcons = {
     "dark": faMoon,
-    "light": faLightbulb,
+    "light": faSun,
   };
 
   const nextTheme = () => {
