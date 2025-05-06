@@ -13,10 +13,10 @@ const LoginPage = () => {
     const emailRegex = /\S+@\S+\.\S+/;
     const passwordRegex = /^.{6,}$/;
 
-    const [email, setEmail] = useState<String | null>(null);
-    const [password, setPassword] = useState<String | null>(null);
+    const [email, setEmail] = useState<String>("");
+    const [password, setPassword] = useState<String>("");
 
-    const { setSession, setToken } = useGlobalStore();
+    const { setUser } = useGlobalStore();
 
     const router = useRouter();
 
@@ -52,7 +52,7 @@ const LoginPage = () => {
             return;
         }
 
-        const res = await axiosInstance.post(`/api/auth/login`, {
+        await axiosInstance.post(`/api/auth/login`, {
             email: email,
             password: password
         }).then(async (res) => {
@@ -62,13 +62,13 @@ const LoginPage = () => {
                 toast.success(res.data.message);
             }
 
-            setSession(res.data.session);
-            setToken(res.data.session.sessionToken);
-
+            const { user } = res.data;
+            setUser(user);
 
             router.push("/");
         }
         ).catch((err) => {
+            console.error(err);
             toast.error(err.response.data.error);
         });
 

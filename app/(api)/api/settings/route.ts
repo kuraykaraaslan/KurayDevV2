@@ -1,10 +1,9 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import NextRequest from "@/types/NextRequest";
+   
 import SettingService from "@/services/SettingService";
-import AuthService from "@/services/AuthService";
-
+import UserSessionService from "@/services/AuthService/UserSessionService";
 /**
  * GET handler for retrieving all settings.
  * @param request - The incoming request object
@@ -13,11 +12,9 @@ import AuthService from "@/services/AuthService";
 export async function GET(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
-        
-        const result = await SettingService.getSettings();
+        const settings = await SettingService.getSettings();
 
-        return NextResponse.json({ settings: result });
+        return NextResponse.json({ settings });
 
     }
     catch (error: any) {
@@ -37,8 +34,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
-        
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");        
         const { settings } = await request.json();
         const result = await SettingService.updateSettings(settings);
 

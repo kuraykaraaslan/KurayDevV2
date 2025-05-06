@@ -1,9 +1,10 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import NextRequest from "@/types/NextRequest";
+   
 import PostService from "@/services/PostService";
 import AuthService from "@/services/AuthService";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 
 /**
@@ -20,22 +21,21 @@ export async function GET(request: NextRequest) {
         const page = parseInt(searchParams.get('page') || '1', 10);
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const postId = searchParams.get('postId') || undefined;
-        const authorId = searchParams.get('authorId') || undefined;
+        const userId = searchParams.get('userId') || undefined;
         const status = searchParams.get('status') || 'PUBLISHED';
         const categoryId = searchParams.get('categoryId') || undefined;
         const search = searchParams.get('search') || undefined;
 
-        const data = {
+        const result = await PostService.getAllPosts({
             page,
             pageSize,
             status,
             categoryId,
             search,
             postId,
-            authorId,
-        }
+            userId
+        });
 
-        const result = await PostService.getAllPosts(data);
         return NextResponse.json({ posts: result.posts, total: result.total , page, pageSize });
 
     }
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
+        UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
         const body = await request.json();
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
         const data = await request.json();
  

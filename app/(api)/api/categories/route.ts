@@ -2,8 +2,7 @@
 
 import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
-import AuthService from "@/services/AuthService";
-import NextRequest from "@/types/NextRequest";
+import UserSessionService from "@/services/AuthService/UserSessionService";   
 
 
 /**
@@ -41,7 +40,7 @@ export async function GET(request: Request) {
 export async function POST(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest(request);
 
         const body = await request.json();
 

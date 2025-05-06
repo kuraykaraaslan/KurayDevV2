@@ -1,8 +1,7 @@
 "use server";
 import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
-import AuthService from "@/services/AuthService";
-import NextRequest from "@/types/NextRequest";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 /**
  * GET handler for retrieving a category by its Id.
@@ -29,7 +28,7 @@ export async function GET(
     return NextResponse.json({ category });
 
   }
-  catch (error : any) {
+  catch (error: any) {
     return NextResponse.json(
       { message: error.message },
       { status: 500 }
@@ -49,8 +48,10 @@ export async function DELETE(
 ) {
   try {
 
-    AuthService.authenticateSync(request, "ADMIN");
-    
+    await UserSessionService.authenticateUserByRequest(request);
+
+
+
     const { categoryId } = params;
     const category = await CategoryService.getCategoryById(categoryId);
 
@@ -67,7 +68,7 @@ export async function DELETE(
       { message: "Category deleted successfully." }
     );
   }
-  catch (error : any) {
+  catch (error: any) {
     return NextResponse.json(
       { message: error.message },
       { status: 500 }
@@ -87,7 +88,7 @@ export async function PUT(
 ) {
   try {
 
-    AuthService.authenticateSync(request, "ADMIN");
+    await UserSessionService.authenticateUserByRequest(request);
 
     const { categoryId } = params;
     const post = await CategoryService.getCategoryById(categoryId);
@@ -100,12 +101,12 @@ export async function PUT(
     }
 
     const data = await request.json();
-    
+
     const updatedCategory = await CategoryService.updateCategory(post.categoryId, data);
 
     return NextResponse.json({ category: updatedCategory });
   }
-  catch (error : any) {
+  catch (error: any) {
     return NextResponse.json(
       { message: error.message },
       { status: 500 }

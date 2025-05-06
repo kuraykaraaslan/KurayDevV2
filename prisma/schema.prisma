@@ -8,67 +8,117 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OTPMethod {
+  EMAIL
+  SMS
+  TOTP_APP // (e.g. Authenticator apps)
+  PUSH_APP // (e.g. Your own mobile app with push notification)
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
+
+
 model User {
-  userId                 String    @id @default(cuid())
-  name                   String?
-  email                  String    @unique
-  emailVerified          DateTime?
-  password               String?
-  role                   String    @default("USER")
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
-  adressCity             String?
-  adressCountry          String?
-  adressLine1            String?
-  adressLine2            String?
-  adressState            String?
-  adressZip              String?
-  emailVerificationToken String?
-  image                  String?
-  passwordResetToken     String?
-  phone                  String?
-  phoneVerificationToken String?
-  phoneVerified          DateTime?
-  slug                   String?   @unique
-  coverImage             String?
+  userId   String  @id @default(cuid())
+  email    String  @unique
+  phone    String? @unique
+  password String
+
+  name     String?
+  lastName String?
+
+  userRole   UserRole   @default(USER)
+  userStatus UserStatus @default(ACTIVE)
+
+  //Timestamps
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  //Profile
+  profilePicture String?
+
+  //OTP verification
+  otpMethods OTPMethod[] @default([])
+  otpSecret  String?
+
+  userSessions       UserSession[]
+  userSocialAccounts UserSocialAccount[]
+
+  //User Nationalty
+  userNationalityId      String?
+  userNationalityCountry String?
+
+  //index
+  @@index([email])
+  @@index([phone])
 
 
   // Relations
   posts                   Post[]
-  sessions               Session[]
-  socialAccounts          SocialAccount[]
 }
 
+model UserSession {
+  userSessionId String @id @default(cuid())
 
-model SocialAccount {
-  
-  socialAccountId String   @id @default(cuid())
-  userId         String
-  user           User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId    String
+  user      User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  provider       String  // google, facebook, etc
-  providerId     String   @unique
+  accessToken  String @unique
+  refreshToken String @unique
+
+  sessionExpiry DateTime
+
+  //OTP Needed
+  otpVerifyNeeded Boolean @default(false)
+  otpVerifiedAt DateTime?
+
+  // User Agent
+  ip      String?
+  os      String?
+  device  String?
+  browser String?
+  city    String?
+  state   String?
+  country String?
+
+  deviceFingerprint String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model UserSocialAccount {
+  userSocialAccountId String @id @default(cuid())
+  userId              String
+  user                User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  provider       String // google, facebook, etc
+  providerId     String    @unique
   accessToken    String?
   refreshToken   String?
   tokenExpiry    DateTime?
   profilePicture String?
   profileUrl     String?
-  scopes         String?  // Store granted scopes as a comma-separated list if needed
+  scopes         String? // Store granted scopes as a comma-separated list if needed
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([provider, providerId])
 }
 
-model Session {
-  sessionToken String   @unique
-  userId       String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
-}
 
 model VerificationToken {
   identifier String

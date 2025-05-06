@@ -38,5 +38,9 @@
 , "app/not-found.js"  ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "next-env.d.ts",
+    "global.d.ts"
   ]
 }

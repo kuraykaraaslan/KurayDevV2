@@ -5,7 +5,7 @@ import { Post } from "@prisma/client";
 import Image from "next/image";
 
 
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 export default function Article(post: Partial<Post>) {
 

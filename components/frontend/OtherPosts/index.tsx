@@ -6,7 +6,7 @@ import PostCard from './Partials/PostCard';
 import axiosInstance from '@/libs/axios';
 import PostWithCategory from '@/types/PostWithCategory';
 
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 const OtherPosts = ({ currentPostId, categoryId }: { currentPostId?: String, categoryId?: String }) => {
 

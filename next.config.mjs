@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { env } from 'process';
 
 const nextConfig = {
     trailingSlash: false, // Add trailing slash to all paths
@@ -8,7 +9,10 @@ const nextConfig = {
     },
     reactStrictMode: false,
     eslint: {
-      ignoreDuringBuilds: true,
+      ignoreDuringBuilds: false,
+    },
+    env: {
+      "APPLICATION_HOST" : env.APPLICATION_HOST || "http://localhost:3000"
     },
     trailingSlash: true,
     images: {

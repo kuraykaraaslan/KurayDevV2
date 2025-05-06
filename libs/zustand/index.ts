@@ -1,17 +1,17 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage, PersistOptions } from 'zustand/middleware';
-import SessionWithUser from '@/types/SessionWithUser';
+import SafeUser from '@/types/SafeUser';
 
 type GlobalState = {
-  session: SessionWithUser | null;
-  token: string;
+  user: SafeUser | null;
   availableLanguages: string[];
   language: string;
   availableThemes: string[];
   theme: string;
-  setSession: (session: SessionWithUser | undefined) => void;
-  setToken: (token: string | undefined) => void;
-  clearSession: () => void;
+
+  setUser: (user: SafeUser | null) => void;
+  clearUser: () => void;
+
   setLanguage: (language: string) => void;
   setTheme: (theme: string) => void;
 };
@@ -22,15 +22,13 @@ type GlobalStatePersist = PersistOptions<GlobalState>;
 export const useGlobalStore = create<GlobalState>()(
   persist(
     (set, get) => ({
-      session: null,
-      token: '',
+      user: null,
       availableLanguages: ['en', 'tr', 'de', 'gr', 'et', 'mt', 'th'],
       availableThemes: ['light', 'dark'],
       language: 'en',
       theme: 'dark',
-      setSession: (session) => set({ session: session ?? null }),
-      setToken: (token) => set({ token: token ?? '' }),
-      clearSession: () => set({ session: null }),
+      setUser: (user) => set({ user }),
+      clearUser: () => set({ user: null }),
       setLanguage: (language) => set({ language }),
       setTheme: (theme) => set({ theme }),
     }),

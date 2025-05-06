@@ -2,8 +2,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import DiscordService from '@/services/SocialMedia/DiscordService';
 import ContactFormService from '@/services/ContactFormService';
-import MailService from '@/services/MailService';
-import SMSService from '@/services/SMSService';
+import MailService from '@/services/NotificationService/MailService';
+import SMSService from '@/services/NotificationService/SMSService';
 
 import AdminContactUsMailTemplate from '@/helpers/MailTemplates/Admin/AdminContactUsMailTemplate';
 import CustomerContactUsMailTemplate from '@/helpers/MailTemplates/Customer/CustomerContactUsMailTemplate';
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
 
         if (recentEntries.length === 0) {
             // Send SMS to customer if user not contacted recently 
-            await SMSService.sendShortMessage(phone, customerSMSBody);
+            await SMSService.sendShortMessage({ to: phone, body: customerSMSBody });
         } 
 
     } catch (error) { console.error(error); }
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
         const adminSMSBody = AdminContactUsSMSTemplate({ name });
         if (recentEntries.length === 0) {
             // Send SMS to admin if user not contacted recently
-            await SMSService.sendShortMessage(INFORM_PHONE, adminSMSBody);
+            await SMSService.sendShortMessage({ to: INFORM_PHONE, body: adminSMSBody });
         }
         
         

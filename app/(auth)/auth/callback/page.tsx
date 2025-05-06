@@ -5,60 +5,39 @@ import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import SessionWithUser from '@/types/SessionWithUser';
 
 
 export default function CallbackPage() {
     const searchParams = useSearchParams();
-    const token = searchParams.get('token');
+
+    const accessToken = searchParams.get('accessToken');
+    const refreshToken = searchParams.get('refreshToken');
 
     const router = useRouter();
-
-    const { setSession, setToken, session } = useGlobalStore();
+    const { setUser } = useGlobalStore();
 
     useEffect(() => {
-        if (!window) {
-            return;
-        }
-
-        if (!token) {
-            return;
-        }
-
+        
         const fetchSession = async () => {
-            try {
-                const response = await axiosInstance.get('/api/auth/me/session',
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }).then((response) => {
 
-                        const session = response.data.session as SessionWithUser;
-
-                        setSession(session);
-                        setToken(token);
-
-                        toast.success('Logged in successfully!');
-
-                        router.push('/');
-
-                    }
-                    );
-
-
-
-
-
-            } catch (error: any) {
-                toast.error(error.message);
+            await axiosInstance.get('/api/auth/session').then(res => {
+                if (res.status === 200) {
+                    setUser(res.data.user);
+                    toast.success('Logged in successfully.');
+                } else {
+                    toast.error(res.data.error);
+                }
+            }).catch(err => {
+                toast.error(err.response.data.error);
             }
+            ).finally(() => {
+                router.push('/');
+            });
         }
 
         fetchSession();
 
-    }
-        , [token]);
+    }, [accessToken, refreshToken]);
 
 
     return (

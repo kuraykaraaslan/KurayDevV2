@@ -1,13 +1,19 @@
 // Original path: app/api/auth/register/route.ts
 
 import { NextResponse  } from "next/server";
-import NextRequest from "@/types/NextRequest";
+   
 import AuthService from "@/services/AuthService";
 
 export async function POST(req: NextRequest) {
     try {
         const { name, email, password, phone } = await req.json();
-        const user = await AuthService.register(name, email, password, phone);
+
+        const user = await AuthService.register({
+            name,
+            email,
+            password,
+            phone,
+        });
 
         if (!user) {
             return NextResponse.json({ error: "Something went wrong." }, { status: 400 });

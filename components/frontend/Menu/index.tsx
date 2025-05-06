@@ -1,11 +1,9 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useGlobalStore } from '@/libs/zustand';
 import i18n from "@/libs/localize/localize";
-import { faFilePdf, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import {  IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MenuItem from '@/types/MenuItem';
 import MenuItems from '../MenuItems';
@@ -17,10 +15,8 @@ const Menu = ({isSidebar = false}) => {
     const router = useRouter();
     const pathname = usePathname();
 
-    const { session } = useGlobalStore();
-
-    const user = session?.user;
-    const isAdmin = user?.role === "ADMIN";
+    const { user } = useGlobalStore();
+    const isAdmin = user?.userRole === 'ADMIN' || user?.userRole === 'SUPER_ADMIN';
 
     const getYpositionOfElementById = (id: string) => {
         const additionalOffset = 100;

@@ -1,9 +1,9 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import NextRequest from "@/types/NextRequest";
+   
 import UserService from "@/services/UserService";
-import AuthService from "@/services/AuthService";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 /**
  * GET handler for retrieving all users.
@@ -14,11 +14,8 @@ export async function GET(request: NextRequest) {
 
     try {
 
-        try {
-            AuthService.authenticateSync(request, "ADMIN");
-        } catch (error) {
-        
-        }
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+
 
         const { searchParams } = new URL(request.url);
 
@@ -27,9 +24,14 @@ export async function GET(request: NextRequest) {
         const pageSize = searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize') || '10', 10) : 10;
         const search = searchParams.get('search') || undefined;
 
-        const {users, total} = await UserService.getAllUsers({ page, pageSize, search });
+
+        const {users, total} = await UserService.getAll({
+            page,
+            pageSize,
+            search
+        });
         
-        if (!request.session) {
+        if (request.user.userRole !== "ADMIN") {
             //omit user data only id and name
             users.forEach((user: any) => {
                 delete user.email;
@@ -59,13 +61,17 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
-        const body = await request.json();
+        const { email, password, name , phone, userRole } = await request.json();
 
-        const { email, password, role, userSlug , image, name } = body;
-
-        const user = await UserService.createUser(email, password, role, userSlug, image, name);
+        const user = await UserService.create({
+            email,
+            password,
+            name,
+            phone,
+            userRole
+        });
 
         return NextResponse.json({ user });
 

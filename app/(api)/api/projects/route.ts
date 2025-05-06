@@ -1,10 +1,9 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import NextRequest from "@/types/NextRequest";
 import { Project } from "@prisma/client";
 import ProjectService from "@/services/ProjectService";
-import AuthService from "@/services/AuthService";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 /**
  * GET handler for retrieving all projects with optional pagination and search.
@@ -21,16 +20,13 @@ export async function GET(request: NextRequest) {
         const search = searchParams.get('search') || undefined;
         const projectId = searchParams.get('projectId') || undefined;
 
-        
-
-        const data = {
+        const result = await ProjectService.getAllProjects({
             page,
             pageSize,
             search,
             projectId
-        }
-
-        const result = await ProjectService.getAllProjects(data);
+        });
+        
         return NextResponse.json({ projects: result.projects, total: result.total , page, pageSize });
 
     }
@@ -51,7 +47,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
         const data = await request.json() as Omit<Project, 'projectId'>;
         const project = await ProjectService.createProject(data) as Project;
@@ -78,7 +74,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
         const data = await request.json() as Project;
         const project = await ProjectService.updateProject(data);

@@ -1,30 +1,23 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import NextRequest from "@/types/NextRequest";
 import OpenAIService from "@/services/OpenAIService";
-import AuthService from "@/services/AuthService";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 /**
  * POST handler for creating a new post.
  * @param request - The incoming request object
  * @returns A NextResponse containing the new post data or an error message
  */
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
-
-        AuthService.authenticateSync(req, "ADMIN");
-        
-        const { prompt } = await req.json();
-       
-
+        await UserSessionService.authenticateUserByRequest(request);
+        const { prompt } = await request.json();
         const text = await OpenAIService.generateText(prompt);
-
         return NextResponse.json({ text });
-    }
-    catch (error: any) {
+    } catch (error: any) {
         return NextResponse.json(
-            { error: error.message },
+            { message: error.message },
             { status: 500 }
         );
     }

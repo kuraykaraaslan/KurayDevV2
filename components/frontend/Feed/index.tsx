@@ -5,7 +5,7 @@ import { Category } from '@prisma/client';
 
 import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
 
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 export default function Feed(props: { category?: Category | null }) {
 

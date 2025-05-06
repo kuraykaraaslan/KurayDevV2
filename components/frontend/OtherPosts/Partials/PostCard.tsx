@@ -6,7 +6,7 @@ import Link from 'next/link';
 import PostWithCategory from '@/types/PostWithCategory';
 import Image from 'next/image';
 
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 const PostCard = ({post}: { post: PostWithCategory }) => {
 

@@ -1,13 +1,15 @@
-import React from "react";
+'use client'
+import React, { useEffect } from "react";
 import { faGear, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import useGlobalStore from "@/libs/zustand";
+import { UserRole } from "@prisma/client";
 
 const AuthButton = () => {
-    const { session } = useGlobalStore();
-    const user = session?.user;
-    
+    const { user } = useGlobalStore();
+
+
     if (!user) {
         return (
             <Link href="/auth/login" className="bg-primary text-white rounded-full p-2 w-10 h-10 flex items-center justify-center hidden md:flex">
@@ -16,14 +18,6 @@ const AuthButton = () => {
                 </div>
             </Link>
         );
-    }
-
-    if (user.role === "ADMIN") {
-        <Link href={`/backend`}>
-            <div className="bg-primary text-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
-                <FontAwesomeIcon icon={faGear} className="mr-2" />
-            </div>
-        </Link>
     }
 
     return (

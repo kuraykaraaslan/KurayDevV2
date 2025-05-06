@@ -57,7 +57,6 @@ export default class PostService {
             slug?: string;
         }): Promise<{ posts: PostWithCategory[], total: number }> {
 
-
         const { page, pageSize, search, categoryId, status, userId, postId, slug } = data;
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {

@@ -1,8 +1,8 @@
 "use server";
 import { NextResponse } from "next/server";
-import NextRequest from "@/types/NextRequest";
+   
 import UserService from "@/services/UserService";
-import AuthService from "@/services/AuthService";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 /**
  * GET handler for retrieving a user by its ID.
@@ -20,13 +20,13 @@ export async function GET(
 
     const { userId } = await params
 
-    await AuthService.authenticate(request, "USER");
+    await UserSessionService.authenticateUserByRequest(request, "USER");
 
-    const user = await UserService.getUserById(userId);
+    const user = await UserService.getById(userId);
 
     if (!user) {
       return NextResponse.json(
-        { message: "User not found." },
+        { message: "USER_NOT_FOUND" },
         { status: 404 }
       );
     }
@@ -54,20 +54,23 @@ export async function DELETE(
 ) {
   try {
 
-    await AuthService.authenticate(request, "ADMIN");
+    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
-    // Check if the user is trying to delete themselves
-    if (request.session?.user.userId === params.userId) {
+    const { userId } = await params
+
+    const user = await UserService.getById(userId);
+
+    if (!user) {
       return NextResponse.json(
-        { message: "You cannot delete yourself." },
-        { status: 403 }
+        { message: "USER_NOT_FOUND" },
+        { status: 404 }
       );
     }
 
-    await UserService.deleteUser(params.userId);
+    await UserService.delete(userId);
 
     return NextResponse.json(
-      { message: "User deleted successfully." }
+      { message: "USER_DELETED" },
     );
   }
   catch (error: any) {
@@ -90,11 +93,19 @@ export async function PUT(
 ) {
   try {
 
-    await AuthService.authenticate(request, "ADMIN");
+    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+    const { userId } = await params
+    const user = await UserService.getById(userId);
 
-    const data = await request.json();
-    const user = await UserService.updateUser(params.userId, data);
+    if (!user) {
+      return NextResponse.json(
+        { message: "USER_NOT_FOUND" },
+        { status: 404 }
+      );
+    } 
 
+    // TODO: add update user logic
+    
     return NextResponse.json({ user });
 
   }

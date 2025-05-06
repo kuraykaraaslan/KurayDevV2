@@ -1,9 +1,8 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import NextRequest from "@/types/NextRequest";
 import StatService from "@/services/StatService";
-import AuthService from "@/services/AuthService";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 /**
  * GET handler for retrieving all users.
@@ -14,7 +13,7 @@ export async function GET(request: NextRequest) {
 
     try {
 
-        AuthService.authenticateSync(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest(request);
 
         const { searchParams } = new URL(request.url);
 
