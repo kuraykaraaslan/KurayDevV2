@@ -1,12 +1,16 @@
 // Original path: app/api/auth/register/route.ts
 
-import { NextResponse  } from "next/server";
-   
+import { NextResponse } from "next/server";
+import RateLimiter from "@/libs/rateLimit";
+
 import AuthService from "@/services/AuthService";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
-        const { name, email, password, phone } = await req.json();
+
+        await RateLimiter.useRateLimit(request);
+
+        const { name, email, password, phone } = await request.json();
 
         const user = await AuthService.register({
             name,

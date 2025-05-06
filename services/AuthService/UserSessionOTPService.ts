@@ -56,30 +56,71 @@ export default class UserSessionOTPService {
     await redis.set(key, hashed, "EX", this.OTP_EXPIRY_SECONDS);
   }
 
-  static async sendOTP({ user, userSession, method }: { user: SafeUser; userSession: SafeUserSession; method: OTPMethod }) {
-    if (!userSession.otpVerifyNeeded ) throw new Error(AuthMessages.OTP_NOT_NEEDED);
-    if (userSession.sessionExpiry < new Date()) throw new Error(AuthMessages.SESSION_NOT_FOUND);
-
+  static async sendOTP({
+    user,
+    userSession,
+    method
+  }: {
+    user: SafeUser;
+    userSession: SafeUserSession;
+    method: OTPMethod;
+  }) {
+    if (!userSession.otpVerifyNeeded)
+      throw new Error(AuthMessages.OTP_NOT_NEEDED);
+    if (userSession.sessionExpiry < new Date())
+      throw new Error(AuthMessages.SESSION_NOT_FOUND);
+  
     if (method === OTPMethod.TOTP_APP) {
-      throw new Error(AuthMessages.INVALID_OTP_METHOD); // çünkü TOTP kendiliğinden üretilecek
+      throw new Error(AuthMessages.INVALID_OTP_METHOD); // TOTP is not sent
     }
-
-    await this.rateLimitGuard(userSession.userSessionId, method);
+  
+    const sessionId = userSession.userSessionId;
+    const otpKey = `otp:code:${sessionId}:${method}`;
+    const rateKey = `otp:rate:${sessionId}:${method}`;
+  
+    const rateCount = await redis.get(rateKey);
+    if (rateCount) {
+      const count = parseInt(rateCount);
+      if (count >= 5) {
+        throw new Error(AuthMessages.RATE_LIMIT_EXCEEDED);
+      } else {
+        await redis.set(rateKey, (count + 1).toString(), "EX", this.OTP_RATE_LIMIT_SECONDS);
+      }
+    } else {
+      await redis.set(rateKey, "1", "EX", this.OTP_RATE_LIMIT_SECONDS);
+    }
+  
+    // Delete any previous OTP
+    await redis.del(otpKey);
+  
+    // Generate and store new OTP
     const token = this.generateToken();
-    await this.storeOTP(userSession.userSessionId, method, token);
-
+    await this.storeOTP(sessionId, method, token);
+  
+    // Send OTP
     switch (method) {
       case OTPMethod.EMAIL:
-        await MailService.sendOTPEmail({ email: user.email, name: user.name, otpToken: token });
+        await MailService.sendOTPEmail({
+          email: user.email,
+          name: user.name,
+          otpToken: token,
+        });
         break;
+  
       case OTPMethod.SMS:
-        if (!user.phone) throw new Error(AuthMessages.INVALID_OTP_METHOD);
-        await SMSService.sendShortMessage({ to: user.phone, body: `Your OTP code is ${token}. Valid for ${this.OTP_EXPIRY_SECONDS / 60} minutes.` });
+        if (!user.phone)
+          throw new Error(AuthMessages.INVALID_OTP_METHOD);
+        await SMSService.sendShortMessage({
+          to: user.phone,
+          body: `Your OTP code is ${token}. Valid for ${this.OTP_EXPIRY_SECONDS / 60} minutes.`,
+        });
         break;
+  
       default:
         throw new Error(AuthMessages.INVALID_OTP_METHOD);
     }
   }
+  
 
   static async validateOTP({ user, userSession, otpToken, method }: { user: SafeUser; userSession: SafeUserSession; otpToken: string; method: OTPMethod }) {
     if (!userSession.otpVerifyNeeded) throw new Error(AuthMessages.OTP_NOT_NEEDED);

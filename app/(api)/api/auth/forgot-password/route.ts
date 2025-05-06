@@ -6,33 +6,26 @@ import AuthService from "@/services/AuthService";
 import AuthMessages from "@/messages/AuthMessages";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import RateLimiter from "@/libs/rateLimit";
+import PasswordService from "@/services/AuthService/PasswordService";
 
 export async function POST(request: NextRequest) {
     try {
 
         await RateLimiter.useRateLimit(request);
 
-        const { email, password } = await request.json();
+        const { email } = await request.json();
 
-        const user = await AuthService.login({ email, password });
-        if (!user) {
-            throw new Error(AuthMessages.INVALID_CREDENTIALS);
-        }
-
-        const { userSession, rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession(user, request);
+        await PasswordService.forgotPassword({ email });
 
         return NextResponse.json({
-            user,
-            accessToken: rawAccessToken,
-            refreshToken: rawRefreshToken,
-            otpVerifyNeeded,
+            message: AuthMessages.FORGOT_PASSWORD_SUCCESSFUL,
         }, {
             status: 200,
             headers: {
                 "Set-Cookie": [
-                    `accessToken=${rawAccessToken}; Path=/; HttpOnly; SameSite=Strict; Secure`,
-                    `refreshToken=${rawRefreshToken}; Path=/; HttpOnly; SameSite=Strict; Secure`,
-                ].join(", ")    
+                    `accessToken=; Path=/; HttpOnly; SameSite=Strict; Secure; Max-Age=0`,
+                    `refreshToken=; Path=/; HttpOnly; SameSite=Strict; Secure; Max-Age=0`,
+                ].join(", ")
             }
         });
 

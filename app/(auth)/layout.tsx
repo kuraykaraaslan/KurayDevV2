@@ -57,7 +57,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
                 <span className='text-xl'>kuray.dev</span>
               </Link>
             </div>
-            <h1 className="text-3xl font-bold text-center mb-4">{titles?.find((item) => pathname?.startsWith(item.path))?.title}</h1>
+            <h1 className="text-2xl font-bold text-center mb-4">{titles?.find((item) => pathname?.startsWith(item.path))?.title}</h1>
             <div className="w-full">
               {children}
               <div className="flex items-center justify-center mt-4 mb-4">

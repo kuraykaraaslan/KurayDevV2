@@ -1,10 +1,11 @@
 // path: app/api/auth/me/route.ts
 import { NextResponse } from "next/server";
-import AuthService from "@/services/AuthService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import RateLimiter from "@/libs/rateLimit";
 
 export async function GET(request: NextRequest) {
     try {
+        await RateLimiter.useRateLimit(request);
         await UserSessionService.authenticateUserByRequest(request, "USER");
         return NextResponse.json({ user: request.user }, { status: 200 });
     } catch (error: any) {

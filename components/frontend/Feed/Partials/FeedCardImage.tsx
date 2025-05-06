@@ -78,7 +78,7 @@ const FeedCardImage = (props: FeedCardProps) => {
                 </Link>
                 <p className="text-base mt-2">{props.description?.substring(0, 200) || "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}</p>
             </div>
-            <div className="col-span-12 justify-between flex  px-4 pb-4">
+            <div className="col-span-12 justify-between flex  px-4 pb-4 select-none">
                 <div className="flex items-center">
                     <FontAwesomeIcon icon={faCalendar} className="w-4"
                     />

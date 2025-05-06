@@ -113,8 +113,13 @@ const LoginPage = () => {
                     <div className="flex items-center justify-between">
                     </div>
                     <div className="relative mt-2">
-                        <Link className="absolute inset-y-0 right-2 pl-3 flex items-center pointer-events-none" href="/auth/forgot-password">
-                            <FontAwesomeIcon icon={faQuestion} className="h-5 w-5 text-primary" aria-hidden="true" />
+                        <Link className="absolute inset-y-0 right-2 pl-3 flex items-center" href="/auth/forgot-password">
+                            <button
+                                type="button"
+                                className="text-primary hover:text-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-md text-sm font-medium"
+                            >
+                                <FontAwesomeIcon icon={faQuestion} />
+                            </button>
                         </Link>
                         <input
                             id="password"

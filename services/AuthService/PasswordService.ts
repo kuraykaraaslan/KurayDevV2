@@ -5,8 +5,6 @@ import prisma from "@/libs/prisma";
 import AuthMessages from "@/messages/AuthMessages";
 import MailService from "../NotificationService/MailService";
 import SMSService from "../NotificationService/SMSService";
-import ForgotPasswordRequest from "@/dtos/requests/auth/ForgotPasswordRequest";
-import ResetPasswordRequest from "@/dtos/requests/auth/ResetPasswordRequest";
 
 export default class PasswordService {
   static RESET_TOKEN_EXPIRY_SECONDS = parseInt(process.env.RESET_TOKEN_EXPIRY_SECONDS || "3600"); // 1 saat
@@ -30,35 +28,48 @@ export default class PasswordService {
     return `reset-password-rate:${email.toLowerCase()}`;
   }
 
-  static async forgotPassword(data: ForgotPasswordRequest): Promise<void> {
-    const user = await prisma.user.findUnique({ where: { email: data.email } });
+  static async forgotPassword({ email }: { email: string }): Promise<void> {
+    const user = await prisma.user.findUnique({ where: { email: email } });
     if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
-
+  
     const emailKey = user.email.toLowerCase();
-
-    const emailToken = this.generateResetToken();
-    const hashedEmailToken = await this.hashToken(emailToken);
     const emailTokenKey = this.getRedisKey(emailKey);
     const emailRateKey = this.getRateKey(emailKey);
-
+  
     const alreadyEmailSent = await redis.get(emailRateKey);
-    if (!alreadyEmailSent) {
-      await redis.set(emailTokenKey, hashedEmailToken, "EX", this.RESET_TOKEN_EXPIRY_SECONDS);
+    if (alreadyEmailSent) {
+      const emailRate = parseInt(alreadyEmailSent);
+      if (emailRate >= 5) {
+        throw new Error(AuthMessages.RATE_LIMIT_EXCEEDED);
+      } else {
+        await redis.set(emailRateKey, (emailRate + 1).toString(), "EX", 60);
+      }
+    } else {
       await redis.set(emailRateKey, "1", "EX", 60);
-      await MailService.sendForgotPasswordEmail(user.email, user.name || undefined, emailToken);
     }
-
+  
+    // Invalidate old token
+    await redis.del(emailTokenKey);
+  
+    // Generate and store new token
+    const emailToken = this.generateResetToken();
+    const hashedEmailToken = await this.hashToken(emailToken);
+    await redis.set(emailTokenKey, hashedEmailToken, "EX", this.RESET_TOKEN_EXPIRY_SECONDS);
+  
+    // Send email
+    await MailService.sendForgotPasswordEmail(user.email, user.name || undefined, emailToken);
   }
+  
 
-  static async resetPassword(data: ResetPasswordRequest): Promise<void> {
-    const user = await prisma.user.findFirst({ where: { email: data.email } });
+  static async resetPassword({ email, resetToken, password }: { email: string; resetToken: string; password: string }): Promise<void> {
+    const user = await prisma.user.findFirst({ where: { email: email } });
     if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
 
     const key = this.getRedisKey(user.email);
     const storedHashed = await redis.get(key);
     if (!storedHashed) throw new Error(AuthMessages.INVALID_TOKEN);
 
-    const hashedInput = await this.hashToken(data.resetToken);
+    const hashedInput = await this.hashToken(resetToken);
     if (hashedInput !== storedHashed) {
       throw new Error(AuthMessages.INVALID_TOKEN);
     }
@@ -66,7 +77,7 @@ export default class PasswordService {
     await prisma.user.update({
       where: { userId: user.userId },
       data: {
-        password: await bcrypt.hash(data.password, 10),
+        password: await bcrypt.hash(password, 10),
       },
     });
 

@@ -167,7 +167,7 @@ export default class MailService {
             user: { name: name || email },
             appName: MailService.APPLICATION_NAME,
             resetToken: resetToken,
-            resetLink: MailService.FRONTEND_URL + MailService.FRONTEND_FORGOT_PASSWORD_PATH + "?token=" + resetToken,
+            resetLink: MailService.FRONTEND_URL + MailService.FRONTEND_FORGOT_PASSWORD_PATH + "?resetToken=" + resetToken + "&email=" + email,
             expiryTime: 1, // Expiry time in hours
             termsLink: MailService.FRONTEND_TERMS_LINK,
             privacyLink: MailService.FRONTEND_PRIVACY_LINK,

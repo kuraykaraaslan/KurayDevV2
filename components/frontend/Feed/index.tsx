@@ -22,6 +22,12 @@ export default function Feed(props: { category?: Category | null }) {
 
 
                 const incomingFeeds = response.data.posts.map((post: any) => {
+
+                    //dont allow duplicate posts
+                    if (feeds.find(feed => feed.postId === post.postId)) {
+                        return null;
+                    }
+                    
                     return {
                         ...post,
                         category: post.category,
@@ -35,8 +41,7 @@ export default function Feed(props: { category?: Category | null }) {
                 setFeeds(prev => [...prev, ...incomingFeeds]);
             
 
-
-                setIsMoreAvailable(response.data.total > page * pageSize);
+                setIsMoreAvailable((response.data.total > (page + 1) * pageSize) && incomingFeeds.length === pageSize);
             });
 
     }, [page]); // Make sure to include all dependencies that affect the API call
@@ -82,12 +87,9 @@ export default function Feed(props: { category?: Category | null }) {
                     </div>
                 ) : (
                     <div className="flex justify-center mb-3">
-                        <button
-                            className="btn btn-primary"
-                            disabled
-                        >
-                            No More Posts
-                        </button>
+                        <span className="text-base opacity-50 select-none">
+                            No more posts available
+                        </span>
                     </div>
                 )}
             </div>
