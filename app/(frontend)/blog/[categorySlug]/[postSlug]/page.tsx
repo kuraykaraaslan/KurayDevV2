@@ -11,13 +11,15 @@ import PostHeader from '@/components/frontend/PostHeader';
 
 
 import MetadataHelper from '@/helpers/MetadataHelper';
+import UserSessionService from '@/services/AuthService/UserSessionService';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-export default async function BlogPost({ params }: { params: { postSlug: string } }) {
+export default async function BlogPost({ request, params }: { request: NextRequest, params: { categorySlug: string, postSlug: string } }) {
     try {
 
         const { postSlug } = await params;
+
 
         if (!postSlug) {
             notFound();
@@ -27,6 +29,7 @@ export default async function BlogPost({ params }: { params: { postSlug: string 
             page: 1,
             pageSize: 1,
             slug: postSlug,
+            status: 'ALL',
         });
 
         const { posts } = response;
@@ -36,6 +39,15 @@ export default async function BlogPost({ params }: { params: { postSlug: string 
         }
 
         const post = posts[0];
+
+        if (!post) {
+            notFound();
+        }
+
+        if (post.status !== 'PUBLISHED') {
+            // Check if the user is authenticated and has the required role
+            await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+        }
 
         await PostService.incrementViewCount(post.postId);
         post.views++;
