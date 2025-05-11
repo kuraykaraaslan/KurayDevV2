@@ -52,7 +52,12 @@ const SinglePost =  ({ params }: { params: { postId: string } }) => {
             slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
             // Convert to lowercase
             slugifiedTitle = slugifiedTitle.toLowerCase();
-
+            //add MMYYYY to of createdAt
+            const month = createdAt.getMonth() + 1;
+            const year = createdAt.getFullYear();
+            const day = createdAt.getDate();
+            const monthString = month < 10 ? `0${month}` : month;
+            slugifiedTitle = `${slugifiedTitle}-${monthString}${year}`;
             setSlug(slugifiedTitle);
         }
     }, [title]);
