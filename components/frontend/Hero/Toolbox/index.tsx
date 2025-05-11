@@ -173,7 +173,7 @@ const Toolbox = () => {
     },
     {
       icon: faCogs,
-      title: "API Design (REST/GraphQL)",
+      title: "REST API Design",
       ...skillGroupColors.backend,
     },
     {
