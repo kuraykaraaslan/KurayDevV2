@@ -1,12 +1,15 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
 
 
-const UpdateUser =({ params }: { params: { userId: string } }) => {
+const UpdateUser = () => {
+
+    const params = useParams();
+
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -164,8 +167,8 @@ const UpdateUser =({ params }: { params: { userId: string } }) => {
                             <span className="label-text">Image</span>
                         </label>
                         <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
-                        
-                        width={400} height={400}
+
+                            width={400} height={400}
                             alt="Image" className="h-96 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

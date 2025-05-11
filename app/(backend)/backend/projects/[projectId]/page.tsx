@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
@@ -10,7 +10,10 @@ import TinyMCEEditor from '@/components/backend/Editor';
 import ProjectLinkTable from '@/components/backend/Tables/ProjectLinkTable';
 
 
-const SingleProject = ({ params }: { params: { projectId: string } }) => {
+const SingleProject = () => {
+
+    const params = useParams();
+    
 
     const mandatoryFields = ['title', 'content', 'description', 'slug', 'platforms'];
     const router = useRouter();

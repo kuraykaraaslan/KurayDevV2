@@ -8,6 +8,7 @@ import ThemeButton from './Partials/ThemeButton';
 import LangButton from './Partials/LangButton';
 
 import dynamic from 'next/dynamic';
+import { usePathname,useRouter } from 'next/navigation';
 
 const AuthButton = dynamic(
     () => import('./Partials/AuthButton'),
@@ -16,6 +17,10 @@ const AuthButton = dynamic(
 
 
 const Navbar = () => {
+
+
+    const path = usePathname();
+    const router = useRouter();
 
     const [isTopReached, setIsTopReached] = useState(true);
 
@@ -38,7 +43,6 @@ const Navbar = () => {
         , []);
 
 
-    const path = typeof window !== "undefined" ? window?.location.pathname : "";
 
     const scrollTo100IfNot = () => {
         if (window?.scrollY < 60) {

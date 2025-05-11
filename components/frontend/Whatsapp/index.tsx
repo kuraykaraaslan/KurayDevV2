@@ -56,9 +56,6 @@ const Whatsapp = () => {
 
 
     useEffect(() => {
-        if (typeof window == "undefined") {
-            return;
-        }
 
         if (sayac) {
             return;

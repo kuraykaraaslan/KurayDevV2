@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
@@ -10,15 +10,19 @@ import UserSelect from '@/components/backend/Selects/UserSelect';
 import ImageLoad from '@/components/common/ImageLoad';
 import AIPrompt from '@/components/backend/AIPrompt';
 
-const SinglePost = ({ params }: { params: { postId: string } }) => {
+const SinglePost =  ({ params }: { params: { postId: string } }) => {
+
+    let { postId } = useParams();
+    const setPostId = (postId: string) => {
+        postId = postId;
+    };
 
     const mandatoryFields = ['title', 'content', 'description', 'slug', 'authorId', 'categoryId'];
     const router = useRouter();
-    const [mode, setMode] = useState(params.postId === 'create' ? 'create' : 'edit');
+    const [mode, setMode] = useState(postId === 'create' ? 'create' : 'edit');
     const [loading, setLoading] = useState(true);
 
     // Model fields
-    const [postId, setPostId] = useState<string>(params.postId);
     const [title, setTitle] = useState('');    
     const [image, setImage] = useState('');
     const [content, setContent] = useState('');
@@ -90,7 +94,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
 
 
         const body = {
-            postId: params.postId !== 'create' ? postId : undefined,
+            postId: postId !== 'create' ? postId : undefined,
             title,
             content,
             description,
@@ -124,15 +128,15 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
     };
 
     useEffect(() => {   
-        if (params.postId) {
-            if (params.postId === 'create') {
+        if (postId) {
+            if (postId === 'create') {
                 setLoading(false);
                 return;
-            } else if (params.postId === 'create/') {
+            } else if (postId === 'create/') {
                 setMode('create');
             }
 
-            axiosInstance.get('/api/posts', { params: { postId: params.postId , status: "ALL" } }).then((res) => {
+            axiosInstance.get('/api/posts', { params: { postId: postId , status: "ALL" } }).then((res) => {
 
                 const { posts } = res.data;
                 const post = posts.find((post: any) => post.postId === postId);
@@ -165,7 +169,7 @@ const SinglePost = ({ params }: { params: { postId: string } }) => {
             setLoading(false);
         }
 
-    }, [params.postId]);
+    }, [postId]);
 
 
     

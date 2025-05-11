@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
     try {
 
-        await UserSessionService.authenticateUserByRequest(request, "USER");
+       await UserSessionService.authenticateUserByRequest(request, "USER");
 
 
         const { searchParams } = new URL(request.url);
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
         
 
         
-        if (request.user.userRole !== "ADMIN") {
+        if (request?.user?.userRole !== "ADMIN") {
             //omit user data only id and name
             users.forEach((user: any) => {
                 delete user.email;

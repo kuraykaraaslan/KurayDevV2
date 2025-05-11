@@ -1,11 +1,13 @@
 'use client';
 import React, { useState, useEffect, use } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
 
-const EditCategory = ({ params }: { params: { categoryId: string } }) => {
+const EditCategory = () => {
+
+    const params = useParams();
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
