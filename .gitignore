@@ -116,3 +116,8 @@ node_modules/
 # prisma
 prisma/.env
 .next
+
+# ideas
+.idea
+.vscode
+# local env files
