@@ -4,7 +4,7 @@ This is the source code for my personal webpage. The webpage is designed to show
 
 ## Screenshot of the webpage
 
-![kuray.dev](/static/kuraydev.gif)
+![kuray.dev](/public/kuraydev.gif)
 
 This screenshot taken from the webpage at 30.03.2024. The webpage may have been updated since then.
 
