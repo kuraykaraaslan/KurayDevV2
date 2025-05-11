@@ -3,6 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Skill from "@/types/Skill";
 
 const SingleSkill: React.FC<Skill> = ({ icon, bgColor, title, textColor }) => {
+
+  const isTextLong = title.length > 10;
+  const textSize = isTextLong ? "text-sm" : "text-lg";
+
+  console.log("textSize", textSize);
+  console.log("isTextLong", isTextLong);
   return (
     <div className="w-28 h-20 group">
       <div
@@ -16,8 +22,11 @@ const SingleSkill: React.FC<Skill> = ({ icon, bgColor, title, textColor }) => {
             />
           </figure>
           <div className={"flex flex-col items-center justify-center hidden text-black group-hover:flex rotate-y-180 group-hover:rotate-y-0 w-28 h-20 top-0 left-0 absolute rounded-box " + (bgColor ? bgColor : "") + " " + (textColor ? textColor : "")}>
-            <div className={"card-body items-center text-center duration-1000 ease-in-out "}>
-              <h2 className="card-title">{title}</h2>
+            <div className={"card-body items-center text-center duration-1000 ease-in-out transform "}>
+              <h2 className={"card-title " + textSize + " " + (textColor ? textColor : "")}>
+
+                {title}
+              </h2>
             </div>
           </div>
         </div>
