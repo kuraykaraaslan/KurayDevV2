@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import CategoryService from '@/services/CategoryService';
 import PostTable from '@/components/backend/Tables/PostTable';
@@ -7,7 +8,7 @@ import { useParams } from 'next/navigation';
 const Page = async () => {
 
     const params = useParams();
-    
+
     const categoryId = params.categoryId;
     const category = await CategoryService.getCategoryById(categoryId as string);
 

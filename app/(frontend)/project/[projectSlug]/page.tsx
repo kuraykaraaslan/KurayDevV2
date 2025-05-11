@@ -7,7 +7,6 @@ import Image from 'next/image';
 import SingleProject from '@/components/frontend/SingleProject';
 import { faDownload, faExternalLinkAlt, faFile } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faYoutube, faLinkedin, faTwitter, faInstagram, faFacebook, faDiscord, faGitlab } from '@fortawesome/free-brands-svg-icons';
-import { useParams } from 'next/navigation';
 
 const SinglePin = ({ bgColor, textColor, text }: { bgColor: string, textColor: string, text: string }) => (
     <div className={`bg-${bgColor} text-${textColor} rounded-lg p-1`}>
@@ -15,7 +14,7 @@ const SinglePin = ({ bgColor, textColor, text }: { bgColor: string, textColor: s
     </div>
 );
 
-export default async function ProjectPage() {
+export default async function ProjectPage({ params }: { params: { projectSlug: string } }) {
 
     // disabled
     return notFound();
