@@ -30,6 +30,10 @@ export async function GET(request: NextRequest) {
             pageSize,
             search
         });
+
+        console.log(request.user)
+        
+
         
         if (request.user.userRole !== "ADMIN") {
             //omit user data only id and name

@@ -424,13 +424,15 @@ export default class UserSessionService {
     const refreshToken = request.cookies.get("refreshToken")?.value;
 
     if (!accessToken || !refreshToken) {
-      return null;
+      throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE);
     }
+  
 
 
     const { user, userSession } = await UserSessionService.getSession(accessToken, request);
 
     if (!user) {
+      console.log("user no")
       throw new Error(AuthMessages.USER_NOT_FOUND);
     }
 
@@ -451,6 +453,8 @@ export default class UserSessionService {
     if (requiredUserRoleKeyIndex > userRoleKeyIndex) {
       throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
     }
+
+    console.log(request.user)
 
     request.user = user;
 
