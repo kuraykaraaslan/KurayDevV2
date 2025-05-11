@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
     try {
 
-        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest(request, "USER");
 
 
         const { searchParams } = new URL(request.url);
