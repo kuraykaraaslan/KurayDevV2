@@ -211,6 +211,16 @@ const Toolbox = () => {
       title: "Cloud Infrastructure (AWS)",
       ...skillGroupColors.advanced,
     },
+    {
+      icon: faStream,
+      title: "Event-Driven Architecture",
+      ...skillGroupColors.advanced,
+    },
+    {
+      icon: faArchway,
+      title: "Domain-Driven Design",
+      ...skillGroupColors.advanced,
+    }
   ];
 
 
