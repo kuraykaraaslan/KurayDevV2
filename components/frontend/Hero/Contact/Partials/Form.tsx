@@ -71,9 +71,11 @@ const ContactForm = (props: { className?: string; token: string }) => {
     setIsEmailValid(regex.test(e.target.value));
   }
 
-  const onPhoneChange = (e: any) => {
-    setPhone(e);
-  }
+  const onPhoneChange = (value: any) => {
+    setPhone(value);
+    setIsPhoneValid(isValidPhoneNumber(value || ""));
+  };
+
 
   const onNameChange = (e: any) => {
     setName(e.target.value);
@@ -91,50 +93,54 @@ const ContactForm = (props: { className?: string; token: string }) => {
   }
 
   async function formSubmit() {
+    const date = new Date();
 
-    if (token === "") {
+    // Boşluk kontrolü
+    const isNameOk = /^[a-zA-Z\sçÇğĞıİöÖşŞüÜ]{3,50}$/.test(name);
+    const isEmailOk = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    const isPhoneOk = isValidPhoneNumber(phone || "");
+    const isMessageOk = /^[a-zA-Z0-9\s\WçÇğĞıİöÖşŞüÜ]{10,500}$/.test(message);
+
+    setIsNameValid(isNameOk);
+    setIsEmailValid(isEmailOk);
+    setIsPhoneValid(isPhoneOk);
+    setIsMessageValid(isMessageOk);
+
+    if (!token) {
       alert(t("contact.can_not_verify_that_you_are_not_a_robot"));
       return;
     }
 
-    if (!isEmailValid || !isPhoneValid || !isNameValid || !isMessageValid) {
+    if (!isNameOk || !isEmailOk || !isPhoneOk || !isMessageOk) {
       alert(t("contact.form.please_fill_in_all_fields"));
       return;
     }
 
-    if (email === "" || phone === "" || name === "" || message === "") {
-      alert(t("contact.form.please_fill_in_all_fields"));
-      return;
-    }
-
-    const date = new Date();
-
-    const data = {
-      name: name,
-      email: email,
-      phone: phone,
-      message: message,
-      date: date,
-    };
-
-    //set timer
     setIsSending(true);
 
+    const data = {
+      name,
+      email,
+      phone,
+      message,
+      date,
+    };
 
-    axios.post("/api/contact/form", data, {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then((response) => {
+    try {
+      await axios.post("/api/contact/form", data, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
       setIsSending(false);
       alert(t("contact.form.success"));
-
-    }).catch((error) => {
+    } catch (error) {
       setIsSending(false);
       alert(t("contact.form.error"));
-    });
-
+    }
   }
+
 
 
   useEffect(() => {
