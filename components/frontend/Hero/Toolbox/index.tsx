@@ -8,6 +8,8 @@ import {
   faFigma,
   faCss3,
   faSquareJs,
+  faNodeJs,
+  faReact,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faArchway,
@@ -82,10 +84,10 @@ const Toolbox = () => {
       hoverTextColor: "text-black"
     },
     {
-      icon: faPython,
+      icon: faNodeJs,
       hoverBgColor: "bg-green-500",
-      title: "Python",
-      description: "django",
+      title: "Node.js",
+      description: "express & next",
       hoverTextColor: "text-black",
     },
     {
@@ -106,17 +108,17 @@ const Toolbox = () => {
 
   const frontendTools = [
     {
-      icon: customTSIcon,
-      hoverBgColor: "bg-yellow-500",
-      title: "Javascript",
-      description: "react & native & express & next",
+      icon: faReact,
+      hoverBgColor: "bg-cyan-500",
+      title: "React",
+      description: "react & native & next",
       hoverTextColor: "text-black",
     },
     {
       icon: faCss3,
       hoverBgColor: "bg-blue-500",
       title: "CSS",
-      description: "tailwind & bootstrap & scss",
+      description: "tailwind & scss",
       hoverTextColor: "text-black",
     },
     {
