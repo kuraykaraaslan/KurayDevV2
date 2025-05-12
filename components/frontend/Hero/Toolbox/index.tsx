@@ -157,18 +157,8 @@ const Toolbox = () => {
       ...skillGroupColors.fundamentals,
     },
     {
-      icon: faLightbulb,
-      title: "Problem Solving",
-      ...skillGroupColors.fundamentals,
-    },
-    {
       icon: faKey,
       title: "Authentication & Security",
-      ...skillGroupColors.fundamentals,
-    },
-    {
-      icon: faCodeBranch,
-      title: "Version Control (Git)",
       ...skillGroupColors.fundamentals,
     },
     {
