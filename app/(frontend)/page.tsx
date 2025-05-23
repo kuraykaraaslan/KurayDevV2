@@ -31,7 +31,6 @@ const HomePage = () => {
       {MetadataHelper.generateElements(metadata)}
       <Welcome />
       <Toolbox />
-      <Timeline />
       <ProjectsHero />
       <Contact />
     </>
