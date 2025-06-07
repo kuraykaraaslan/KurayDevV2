@@ -6,6 +6,9 @@ import ProjectsHero from '@/components/frontend/Hero/Projects';
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
 import Timeline from '@/components/frontend/Hero/Timeline';
+import AppointmentCalendar from '@/components/frontend/AppointmentCalendar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
@@ -32,7 +35,9 @@ const HomePage = () => {
       <Welcome />
       <Toolbox />
       <ProjectsHero />
+      <AppointmentCalendar />
       <Contact />
+      <ToastContainer />
     </>
   );
 };

@@ -9,6 +9,7 @@ import LangButton from './Partials/LangButton';
 
 import dynamic from 'next/dynamic';
 import { usePathname,useRouter } from 'next/navigation';
+import Logo from '@/components/common/Logo';
 
 const AuthButton = dynamic(
     () => import('./Partials/AuthButton'),
@@ -73,10 +74,8 @@ const Navbar = () => {
                     </label>
                 </div>
                 <div className="mx-2 flex-1 px-2 text-lg font-semibold">
-                    <Link href="/" className="btn btn-ghost md:rounded-full">
-                        <FontAwesomeIcon icon={faCode} className="w-6 h-6" />
-                        <span className='text-lg'>kuray.dev</span>
-                    </Link>
+                    <Logo/>
+ 
                     <div className="items-center gap-2 ml-1">
                         <ThemeButton />
                         <LangButton />

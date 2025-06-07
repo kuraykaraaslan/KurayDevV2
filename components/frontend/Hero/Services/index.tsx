@@ -52,7 +52,7 @@ const Services = () => {
     },
     {
       id: "3",
-      image: "/assets/img/services/backend.jpg",
+      image: "/assets/img/services/admin.jpg",
       title: "Backend Development",
       description:
         "Have a project that requires a backend? I can help you build a scalable and secure backend using Node.js, Express, and Postgresql.",
