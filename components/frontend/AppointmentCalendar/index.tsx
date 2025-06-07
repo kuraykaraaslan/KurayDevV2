@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
-import 'react-calendar/dist/Calendar.css'
+import './style.css'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import useGlobalStore from '@/libs/zustand'
@@ -15,81 +15,51 @@ import {
   faUser
 } from '@fortawesome/free-solid-svg-icons'
 
-interface AppointmentSlot {
-  date: string
-  time: string
-  status: 'available' | 'booked' | 'unavailable'
-  length?: number // Optional, for future use if needed
-}
+import AppointmentSlot from '@/types/AppointmentSlot'
+import DailyAvailability from '@/types/DailyAvailability'
 
-interface DailyAvailability {
-  date: string
-  slots: AppointmentSlot[]
-}
-
-const exampleAvailability: DailyAvailability[] = [
-  {
-    date: '2025-06-10',
-    slots: [
-      { date: '2025-06-10', time: '10:00', status: 'available' },
-      { date: '2025-06-10', time: '11:00', status: 'available' },
-      { date: '2025-06-10', time: '14:00', status: 'available' }
-    ]
-  },
-  {
-    date: '2025-06-11',
-    slots: [
-      { date: '2025-06-11', time: '09:00', status: 'available' },
-      { date: '2025-06-11', time: '10:30', status: 'available' },
-      { date: '2025-06-11', time: '13:00', status: 'available' }
-    ]
-  },
-  {
-    date: '2025-06-12',
-    slots: [
-      { date: '2025-06-12', time: '11:00', status: 'available' },
-      { date: '2025-06-12', time: '12:30', status: 'available' },
-      { date: '2025-06-12', time: '15:00', status: 'available' }
-    ]
-  }
-]
+import axiosInstance from '@/libs/axios'
 
 export default function AppointmentCalendar () {
-  // === State ===
-  const [availabilities, setAvailabilities] =
-    useState<DailyAvailability[]>(exampleAvailability)
-  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [availabilities, setAvailabilities] = useState<DailyAvailability[]>([])
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [selectedSlot, setSelectedSlot] = useState<AppointmentSlot | null>(null)
   const today = new Date()
 
   const { t } = useTranslation()
   const { user } = useGlobalStore()
 
-  // === Yardımcı Fonksiyonlar ===
   const formatDate = (date: Date) => date.toLocaleDateString('sv-SE')
 
   const getTileClassName = (date: Date): string => {
     const dateStr = formatDate(date)
-    return availabilities.some(a => a.date === dateStr)
-      ? 'available'
-      : 'unavailable'
+    const isToday = date.toDateString() === today.toDateString()
+    const hasSlot = availabilities.some(a => a.date === dateStr)
+    const isPast = date < new Date(today.toDateString())
+    const isSelected = selectedDate.toDateString() === date.toDateString()
+
+    const classes = []
+    if (isSelected) classes.push('selected')
+    if (isToday) classes.push('now')
+    if (hasSlot) classes.push('available')
+    else classes.push('unavailable')
+    if (isPast) classes.push('disabled')
+
+    return classes.join(' ')
   }
 
-  const getSlotsForDate = (date: string) => {
-    return availabilities.find(a => a.date === date)?.slots || []
+  const getSlotsForDate = (date: Date) => {
+    const dateStr = formatDate(date)
+    return availabilities.find(a => a.date === dateStr)?.slots || []
   }
 
-  const handleDateSelect = (date: Date) => {
-    // Dont allow past dates
-    if (date < today) {
-      toast.info(t('calendar.pastDateError'))
-      return
-    }
-    setSelectedDate(formatDate(date))
+  const handleDateSelect = (value: Date) => {
+    setSelectedDate(value)
     setSelectedSlot(null)
   }
 
   const handleTimeSelect = (slot: AppointmentSlot) => {
+    setSelectedDate(new Date(slot.date))
     setSelectedSlot(slot)
   }
 
@@ -110,6 +80,46 @@ export default function AppointmentCalendar () {
     alert('Randevu oluşturuldu!')
   }
 
+  const isDatePast = (date: Date): boolean => {
+    const today = new Date()
+    return date < new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  }
+
+  const fetchAvailabilities = async () => {
+    await axiosInstance
+      .get<DailyAvailability[]>('/api/appointments/slots')
+      .then(response => {
+        const data = response.data
+        setAvailabilities(data)
+        if (data.length > 0) {
+          const todayStr = formatDate(new Date())
+          const todayAvailability = data.find(a => a.date === todayStr)
+          if (todayAvailability && todayAvailability.slots.length > 0) {
+            setSelectedDate(new Date(todayAvailability.date))
+            setSelectedSlot(todayAvailability.slots[0])
+          } else {
+            const firstAvailable = data.find(a => a.slots.length > 0)
+            if (firstAvailable) {
+              setSelectedDate(new Date(firstAvailable.date))
+              setSelectedSlot(firstAvailable.slots[0])
+            }
+          }
+        } else {
+          setSelectedDate(new Date())
+          setSelectedSlot(null)
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching availabilities:', error)
+        toast.error(t('calendar.fetchError'))
+        setAvailabilities([])
+      })
+  }
+
+  useEffect(() => {
+    fetchAvailabilities()
+  }, [])
+
   return (
     <section className='bg-base-200 pt-16' id='portfolio'>
       <div className='px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000'>
@@ -124,13 +134,19 @@ export default function AppointmentCalendar () {
           <div className='w-full sm:w-1/2 md:w-1/3'>
             <Calendar
               onChange={handleDateSelect}
-              value={selectedDate ? new Date(selectedDate) : new Date()}
+              value={selectedDate}
               tileClassName={({ date }) => getTileClassName(date)}
+              minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+              maxDate={new Date(new Date().setDate(new Date().getDate() + 14))}
             />
           </div>
 
           <div className='w-full sm:w-1/2 md:w-1/3'>
-            {selectedDate && (
+            {selectedDate && isDatePast(selectedDate) ? (
+              <div className='text-lg font-semibold mb-2'>
+                {t('calendar.pastDateWarning')}
+              </div>
+            ) : (
               <div className=''>
                 <h3 className='text-lg font-semibold mb-2'>
                   {t('calendar.availableSlots')}
@@ -166,7 +182,7 @@ export default function AppointmentCalendar () {
                     <p className='text-sm'>
                       <span className='font-semibold mr-2'>
                         <FontAwesomeIcon icon={faCalendar} className='mr-2' />
-                        {selectedDate}
+                        {formatDate(selectedDate)}
                       </span>
                       <span className='font-semibold mr-2'>
                         <FontAwesomeIcon icon={faClock} className='mr-2' />
