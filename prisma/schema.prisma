@@ -217,3 +217,27 @@ model Project {
   updatedAt    DateTime @default(now()) @updatedAt
   projectLinks String[]
 }
+
+
+// Appointment Scheduling
+
+model WorkDay {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @unique
+  slots  Slot[]
+}
+
+model Slot {
+  id          Int      @id @default(autoincrement())
+  time        String   // örn: '14:00'
+  length      Int      // dakikada
+  status      SlotStatus
+  workDayId   Int
+  workDay     WorkDay  @relation(fields: [workDayId], references: [id])
+}
+
+enum SlotStatus {
+  available
+  booked
+  unavailable
+}

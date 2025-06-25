@@ -20,11 +20,13 @@ export async function GET(request: NextRequest) {
         // Extract query parameters
         const stats = await StatService.getAllStats();
 
+        console.log("Stats:", stats);
+
         const values = {
             totalPosts: stats[0],
             totalCategories: stats[1],
             totalUsers: stats[2],
-            totalViews: stats[3]._sum.views,
+            totalViews: stats[3],
             totalComments: stats[4]
         };
 
@@ -33,6 +35,7 @@ export async function GET(request: NextRequest) {
 
     }
     catch (error: any) {
+        console.error("Error in GET /api/stats:", error);
         return NextResponse.json(
             { message: error.message },
             { status: 500 }

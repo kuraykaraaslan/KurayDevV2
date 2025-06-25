@@ -61,7 +61,7 @@ export default class SSOService {
             });
 
             // Create a social account
-            await prisma.socialAccount.create({
+            await prisma.userSocialAccount.create({
                 data: {
                     provider: provider,
                     providerId: profile.sub || profile.id,
@@ -81,16 +81,16 @@ export default class SSOService {
             });
 
             // Update the social account
-            const socialAccount = await prisma.socialAccount.findFirst({
+            const userSocialAccount = await prisma.userSocialAccount.findFirst({
                 where: {
                     provider: provider,
                     userId: user.userId,
                 },
             });
 
-            if (socialAccount) {
-                await prisma.socialAccount.update({
-                    where: { socialAccountId: socialAccount.socialAccountId },
+            if (userSocialAccount) {
+                await prisma.userSocialAccount.update({
+                    where: { userSocialAccountId: userSocialAccount.userSocialAccountId },
                     data: {
                         providerId: profile.sub || profile.id,
                         accessToken,
@@ -98,7 +98,7 @@ export default class SSOService {
                     },
                 });
             } else {
-                await prisma.socialAccount.create({
+                await prisma.userSocialAccount.create({
                     data: {
                         provider: provider,
                         providerId: profile.sub || profile.id,

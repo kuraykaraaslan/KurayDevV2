@@ -6,9 +6,7 @@ const SingleSkill: React.FC<Skill> = ({ icon, bgColor, title, textColor }) => {
 
   const isTextLong = title.length > 10;
   const textSize = isTextLong ? "text-sm" : "text-lg";
-
-  console.log("textSize", textSize);
-  console.log("isTextLong", isTextLong);
+  
   return (
     <div className="w-28 h-20 group">
       <div

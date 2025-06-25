@@ -55,6 +55,7 @@
     "tinymce": "^7.6.0",
     "twilio": "^5.3.4",
     "winston": "^3.17.0",
+    "zod": "^3.25.67",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
