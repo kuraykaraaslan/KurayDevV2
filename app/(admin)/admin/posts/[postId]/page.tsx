@@ -10,7 +10,7 @@ import UserSelect from '@/components/admin/Selects/UserSelect';
 import ImageLoad from '@/components/common/ImageLoad';
 import AIPrompt from '@/components/admin/AIPrompt';
 
-const SinglePost =  ({ params }: { params: { postId: string } }) => {
+const SinglePost =  () => {
 
     let { postId } = useParams();
     const setPostId = (postId: string) => {

@@ -1,5 +1,5 @@
 import prisma from '@/libs/prisma'
-import { AppointmentSlot } from '@/types/AppointmentSlot'
+import { AppointmentSlot } from '@/types/CalendarTypes'
 
 export default class AppointmentService {
   static async getAvailability(date?: string) {

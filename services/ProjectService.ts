@@ -1,5 +1,5 @@
 import prisma from "@/libs/prisma";
-import { Project } from "@prisma/client";
+import { Project } from "@/types/ProjectTypes";
 import { MetadataRoute } from 'next';
 
 export default class ProjectService {
@@ -133,12 +133,11 @@ export default class ProjectService {
         return projects.map(project => {
             return {
                 url: `/project/${project.slug}`,
-                lastModified: project.updatedAt.toISOString(),
+                lastModified: project.updatedAt ? new Date(project.updatedAt) : new Date(),
                 changeFrequency: 'daily',
                 priority: 0.7,
             };
-        }
-        );
+        });
     }
 }
 

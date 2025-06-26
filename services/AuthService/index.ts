@@ -7,8 +7,8 @@ import SMSService from "../NotificationService/SMSService";
 import MailService from "../NotificationService/MailService";
 
 // Utils
-import SafeUser from "@/types/SafeUser";
-import AuthMessages from "@/messages/AuthMessages";
+import { SafeUser } from "@/types/UserTypes";
+import  AuthMessages from "@/messages/AuthMessages";
 
 export default class AuthService {
 
@@ -100,7 +100,7 @@ export default class AuthService {
      * @param password - The user's password.
      * @returns The registered user.
      */
-    static async register({ email, password, name, phone }: { email: string, password: string, name: string, phone: string }): Promise<SafeUser> {
+    static async register({ email, password, name, phone }: { email: string, password: string, name?: string, phone?: string }): Promise<SafeUser> {
 
         // TODO: Validate the input data
 

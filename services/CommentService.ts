@@ -1,6 +1,5 @@
-import { Comment } from "@prisma/client";
+import { Comment, CommentWithPost } from "@/types/BlogTypes";
 import prisma from "@/libs/prisma";
-import { CommentWithPost } from "@/types/CommentWithPost";
 
 export default class CommentService {
 

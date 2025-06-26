@@ -1,6 +1,6 @@
 //SubscriptionService
 
-import { Subscription } from "@prisma/client";
+import { Subscription } from "@/types/SubscriptionTypes";
 import prisma from "@/libs/prisma";
 
 export default class SubscriptionService {

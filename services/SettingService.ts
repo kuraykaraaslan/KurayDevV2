@@ -1,6 +1,6 @@
 //SettingService.tsx
 
-import { Setting } from "@prisma/client";
+import { Setting } from "@/types/SettingTypes";
 import prisma from "@/libs/prisma";
 
 export default class SettingService {

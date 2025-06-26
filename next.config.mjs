@@ -5,7 +5,7 @@ import { env } from 'process';
 const nextConfig = {
     trailingSlash: false, // Add trailing slash to all paths
     typescript: {
-      ignoreBuildErrors: true,
+      ignoreBuildErrors: false,
     },
     reactStrictMode: false,
     eslint: {

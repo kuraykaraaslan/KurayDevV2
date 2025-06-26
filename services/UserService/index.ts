@@ -1,15 +1,11 @@
 import prisma from "@/libs/prisma";
-import { User, UserRole } from "@prisma/client";
+import { User, UserRole , SafeUser } from "@/types/UserTypes";
 
 // Libraries
 import bcrypt from "bcrypt";
 
 // Utils
 import FieldValidater from "@/utils/FieldValidater";
-
-
-// Omit
-import SafeUser from "@/types/SafeUser";
 
 export default class UserService {
 
@@ -90,7 +86,7 @@ export default class UserService {
                 password: hashedPassword, // Store the hashed password
                 name,
                 phone,
-                userRole: userRole ? userRole as UserRole : UserRole.USER // Default to 'USER' if not provided
+                userRole: userRole ? userRole as UserRole : "USER", // Default to 'USER' role if not provided
             }
         });
 

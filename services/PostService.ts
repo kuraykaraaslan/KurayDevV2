@@ -1,6 +1,5 @@
-import { Post } from '@prisma/client';
+import { Post , PostWithCategory } from '@/types/BlogTypes';
 import prisma from '@/libs/prisma';
-import PostWithCategory from '@/types/PostWithCategory';
 import { MetadataRoute } from 'next';
 
 export default class PostService {

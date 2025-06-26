@@ -1,6 +1,6 @@
 import { faFilePdf, faShield } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import MenuItem from '@/types/MenuItem';
+import MenuItem from '@/types/UITypes';
 
 const MenuItems = [
         { id: "home", page: '/', name: 'home' },

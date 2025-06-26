@@ -1,19 +1,25 @@
 // Original path: app/api/auth/login/route.ts
 
- 
 import { NextResponse } from "next/server";
-import AuthService from "@/services/AuthService";
 import AuthMessages from "@/messages/AuthMessages";
-import UserSessionService from "@/services/AuthService/UserSessionService";
 import RateLimiter from "@/libs/rateLimit";
 import PasswordService from "@/services/AuthService/PasswordService";
+import { ForgotPasswordRequest } from "@/dtos/AuthDTO";
 
 export async function POST(request: NextRequest) {
     try {
 
         await RateLimiter.useRateLimit(request);
 
-        const { email } = await request.json();
+        const parsedData = ForgotPasswordRequest.safeParse(await request.json());
+
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
+
+        const { email } = parsedData.data;
 
         await PasswordService.forgotPassword({ email });
 

@@ -5,7 +5,7 @@ import { useGlobalStore } from '@/libs/zustand';
 import i18n from "@/libs/localize/localize";
 import {  IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import MenuItem from '@/types/MenuItem';
+import MenuItem from '@/types/UITypes';
 import MenuItems from '../MenuItems';
 
 const Menu = ({isSidebar = false}) => {

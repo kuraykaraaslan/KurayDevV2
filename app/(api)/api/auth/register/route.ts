@@ -4,14 +4,24 @@ import { NextResponse } from "next/server";
 import RateLimiter from "@/libs/rateLimit";
 
 import AuthService from "@/services/AuthService";
+import { RegisterRequest } from "@/dtos/AuthDTO";
 
 export async function POST(request: NextRequest) {
     try {
 
         await RateLimiter.useRateLimit(request);
 
-        const { name, email, password, phone } = await request.json();
 
+        const parsedData = RegisterRequest.safeParse(await request.json());
+
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
+
+        const { name, email, password, phone } = parsedData.data;
+        
         const user = await AuthService.register({
             name,
             email,
