@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import GitlabService from "@/services/GitlabService";
+import GitlabService from "@/services/IntegrationService/GitlabService";
 
 export async function GET() {
   try {

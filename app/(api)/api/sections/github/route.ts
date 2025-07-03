@@ -1,7 +1,7 @@
 "use server";
 
 import { NextRequest, NextResponse } from "next/server";
-import GithubService from "@/services/GithubService";
+import GithubService from "@/services/IntegrationService/GithubService";
 
 export async function GET(req: NextRequest) {
   try {
