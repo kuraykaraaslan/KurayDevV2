@@ -39,6 +39,8 @@ export default class StatService {
       totalComments
     };
 
+    console.log("Stats:", stats);
+
     // Redis’e yaz
     await redis.set(this.REDIS_KEY, JSON.stringify(stats), "EX", this.CACHE_TTL_SECONDS);
 

@@ -1,7 +1,7 @@
 'use server'
 
 import { NextResponse } from 'next/server'
-import AWSService from '@/services/AWSService'
+import AWSService from '@/services/StorageService/AWSService'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 
 /**
