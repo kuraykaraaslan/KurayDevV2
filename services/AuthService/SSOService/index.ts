@@ -1,323 +1,217 @@
-import prisma from '@/libs/prisma'
-import GoogleService from './GoogleService'
-import AppleService from './AppleService'
-import FacebookService from './FacebookService'
-import GithubService from './GithubService'
-import LinkedInService from './LinkedInService'
-import MicrosoftService from './MicrosoftService'
-import TwitterService from './TwitterService'
-import AutodeskService from './AutodeskService'
+import prisma from '../../../libs/prisma';
+import GoogleService from './GoogleService';
+import AppleService from './AppleService';
+import FacebookService from './FacebookService';
+import GithubService from './GithubService';
+import LinkedInService from './LinkedInService';
+import MicrosoftService from './MicrosoftService';
+import TwitterService from './TwitterService';
 
-import bcrypt from 'bcrypt'
-import SettingService from '../../SettingService'
-import { User } from '@prisma/client'
+import bcrypt from 'bcrypt';
+import SettingService from '../../SettingService';
+import { SSOProfileResponse } from '@/types/SSOTypes';
+import AutodeskService from './AutodeskService';
 
-import Encryptor from '@/utils/Encryptor'
+import { SSOMessages } from '@/messages/SSOMessages';
+import { AuthMessages } from '@/messages/AuthMessages';
+
+
+interface SSOProviderService {
+    generateAuthUrl: () => string;
+    getTokens: (code: string) => Promise<{ access_token: string; refresh_token?: string }>;
+    getUserInfo: (accessToken: string) => Promise<SSOProfileResponse>;
+}
 
 export default class SSOService {
-  // Error Messages
-  private static INVALID_PROVIDER = 'Invalid provider'
-  private static AUTHENTICATION_FAILED = 'Authentication failed'
 
-  /**
-   * Hashes the password.
-   * @param password - The password to hash.
-   * @returns The hashed password.
-   */
-  static async hashPassword (password: string): Promise<string> {
-    return bcrypt.hash(password, 10)
-  }
+    private static ALLOWED_PROVIDERS = process.env.SSO_ALLOWED_PROVIDERS?.split(',') || [];
 
-  /**
-   * Create or Update User
-   * @param profile - The user profile.
-   * @param accessToken - The access token.
-   * @param refreshToken - The refresh token.
-   * @returns AuthResponse
-   */
-  static async loginOrCreateUser (
-    profile: any,
-    accessToken: string,
-    refreshToken: string,
-    provider: string
-  ): Promise<User> {
-    if (!profile.email) {
-      throw new Error('Email is required')
+    private static getAllowedProviders(): string[] {
+        return this.ALLOWED_PROVIDERS;
     }
 
-    const email = profile.email
-    const providerId = profile.sub || profile.id
-    const name = profile.name || profile.displayName || ''
+    private static PROVIDER_SERVICES: Record<string, SSOProviderService> = {
+        "autodesk": AutodeskService,
+        "google": GoogleService,
+        "apple": AppleService,
+        "facebook": FacebookService,
+        "github": GithubService,
+        "linkedin": LinkedInService,
+        "microsoft": MicrosoftService,
+        "twitter": TwitterService,
+    };
 
-    let user = await prisma.user.findUnique({ where: { email } })
-
-    if (!user) {
-      const registrationEnabled = await SettingService.getSettingByKey(
-        'ALLOW_REGISTRATION'
-      )
-      if (!registrationEnabled) {
-        throw new Error('Registration is disabled')
-      }
-
-      user = await prisma.user.create({
-        data: {
-          email,
-          name,
-          password: await this.hashPassword(`${providerId}-${Date.now()}`),
-          userSocialAccounts: {
-            create: {
-              provider,
-              providerId,
-              accessToken: accessToken,
-              refreshToken: refreshToken,
-              tokenExpiry: new Date(Date.now() + 3600 * 1000)
-            }
-          }
+    private static getProviderService(provider: string): SSOProviderService {
+        if (!provider || !this.getAllowedProviders().includes(provider)) {
+            throw new Error(SSOMessages.INVALID_PROVIDER);
         }
-      })
 
-      return user
-    }
+        const service = this.PROVIDER_SERVICES[provider];
 
-    await prisma.user.update({
-      where: { userId: user.userId },
-      data: { name }
-    })
-
-    const social = await prisma.userSocialAccount.findFirst({
-      where: { userId: user.userId, provider }
-    })
-
-    if (social) {
-      await prisma.userSocialAccount.update({
-        where: { userSocialAccountId: social.userSocialAccountId },
-        data: {
-          providerId,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          tokenExpiry: new Date(Date.now() + 3600 * 1000)
+        if (!service) {
+            throw new Error(SSOMessages.INVALID_PROVIDER);
         }
-      })
-    } else {
-      await prisma.userSocialAccount.create({
-        data: {
-          provider,
-          providerId,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          tokenExpiry: new Date(Date.now() + 3600 * 1000),
-          userId: user.userId
+
+        return service;
+    }
+
+    /**
+     * Hashes the password.
+     * @param password - The password to hash.
+     * @returns The hashed password.
+     */
+    static async hashPassword(password: string): Promise<string> {
+        return bcrypt.hash(password, 10);
+    }
+
+    /**
+     * Create or Update User
+     * @param ssoProfile - The SSO profile.
+     * @returns AuthResponse
+     */
+    static async loginOrCreateUser(
+        profile: SSOProfileResponse,
+        accessToken: string,
+        refreshToken?: string
+    ): Promise<any> {
+        if (!profile.email) {
+            throw new Error(SSOMessages.EMAIL_NOT_FOUND);
         }
-      })
+
+        const existingUser = await prisma.user.findUnique({
+            where: { email: profile.email },
+        });
+
+        if (!existingUser) {
+            return this.createUserFromSSOProfile(profile, accessToken, refreshToken);
+        }
+
+        return this.updateUserFromSSOProfile(existingUser.userId, profile, accessToken, refreshToken);
     }
 
-    return user
-  }
+    private static async createUserFromSSOProfile(
+        profile: SSOProfileResponse,
+        accessToken: string,
+        refreshToken?: string
+    ) {
+        const registrationEnabled = await SettingService.getSettingByKey("ALLOW_REGISTRATION");
 
-  /*
-   * Generate SSO Link
-   * @param provider - The provider name.
-   * @returns The SSO link.
-   */
-  static generateAuthUrl (provider: string): string {
-    switch (provider) {
-      case 'google':
-        return GoogleService.generateAuthUrl()
-      case 'apple':
-        return AppleService.generateAuthUrl()
-      case 'facebook':
-        return FacebookService.generateAuthUrl()
-      case 'github':
-        return GithubService.generateAuthUrl()
-      case 'linkedin':
-        return LinkedInService.generateAuthUrl()
-      case 'microsoft':
-        return MicrosoftService.generateAuthUrl()
-      case 'twitter':
-        return TwitterService.generateAuthUrl()
-      case 'autodesk':
-        return AutodeskService.generateAuthUrl()
-      default:
-        throw new Error(this.INVALID_PROVIDER)
-    }
-  }
+        if (!registrationEnabled) {
+            throw new Error(AuthMessages.REGISTRATION_DISABLED);
+        }
 
-  /*
-   * Auth Callback
-   * @param provider - The provider name.
-   * @param code - The code.
-   * @param state - The state.
-   * @param scope - The scope.
-   */
-  static async authCallback (
-    provider: string,
-    code: string,
-    state?: string,
-    scope?: string
-  ) {
-    if (!provider || !code) {
-      throw new Error('Missing required parametkers')
+        const user = await prisma.user.create({
+            data: {
+                email: profile.email,
+                name: profile.name,
+                password: await this.hashPassword(profile.sub + new Date().toISOString()),
+            },
+        });
+
+        await prisma.userSocialAccount.create({
+            data: {
+                provider: profile.provider,
+                providerId: profile.sub,
+                accessToken,
+                refreshToken,
+                userId: user.userId,
+            },
+        });
+
+        return user;
     }
 
-    switch (provider) {
-      case 'google':
-        return this.handleGoogleCallback(code)
-      case 'apple':
-        return this.handleAppleCallback(code)
-      case 'facebook':
-        return this.handleFacebookCallback(code)
-      case 'github':
-        return this.handleGithubCallback(code)
-      case 'linkedin':
-        return this.handleLinkedInCallback(code)
-      case 'microsoft':
-        return this.handleMicrosoftCallback(code)
-      case 'twitter':
-        return this.handleTwitterCallback(code)
-      case 'autodesk':
-        return this.handleAutodeskCallback(code)
-      default:
-        throw new Error(this.INVALID_PROVIDER)
+    private static async updateUserFromSSOProfile(
+        userId: string,
+        profile: SSOProfileResponse,
+        accessToken: string,
+        refreshToken?: string
+    ) {
+        await prisma.user.update({
+            where: { userId },
+            data: {
+                name: profile.name,
+            },
+        });
+
+        const socialAccount = await prisma.userSocialAccount.findFirst({
+            where: {
+                provider: profile.provider,
+                userId,
+            },
+        });
+
+        if (socialAccount) {
+            await prisma.userSocialAccount.update({
+                where: { userSocialAccountId: socialAccount.userSocialAccountId },
+                data: {
+                    providerId: profile.sub,
+                    accessToken,
+                    refreshToken,
+                },
+            });
+        } else {
+            await prisma.userSocialAccount.create({
+                data: {
+                    provider: profile.provider,
+                    providerId: profile.sub,
+                    accessToken,
+                    refreshToken,
+                    userId,
+                },
+            });
+        }
+
+        return prisma.user.findUnique({ where: { userId } });
     }
-  }
 
-  /*
-   * Handle Google Callback
-   * @param code - The code.
-   */
-  static async handleGoogleCallback (code: string) {
-    try {
-      const { access_token, refresh_token } = await GoogleService.getTokens(
-        code
-      )
+    /*
+     * Generate SSO Link
+     * @param provider - The provider name.
+     * @returns The SSO link.
+     */
+    static generateAuthUrl(provider: string): string {
 
-      const profile = await GoogleService.getUserInfo(access_token)
+        const providerService = this.getProviderService(provider);
 
-      return this.loginOrCreateUser(
-        profile,
-        access_token,
-        refresh_token,
-        'google'
-      )
-    } catch (error) {
-      console.error('Google authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
+        try {
+            return providerService.generateAuthUrl();
+        } catch (error) {
+            throw new Error(SSOMessages.OAUTH_ERROR);
+        }
     }
-  }
 
-  /*
-   * Handle Apple Callback
-   * @param code - The code.
-   */
-  static async handleAppleCallback (code: string) {
-    try {
-      const { access_token, refresh_token } = await AppleService.getTokens(code)
-      const profile = await AppleService.getUserInfo(access_token)
-      return this.loginOrCreateUser(
-        profile,
-        access_token,
-        refresh_token,
-        'apple'
-      )
-    } catch (error) {
-      console.error('Apple authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
-    }
-  }
 
-  /*
-   * Handle Facebook Callback
-   * @param code - The code.
-   */
-  static async handleFacebookCallback (code: string) {
-    try {
-      const { access_token } = await FacebookService.getTokens(code)
-      const profile = await FacebookService.getUserInfo(access_token)
-      return this.loginOrCreateUser(profile, access_token, '', 'facebook')
-    } catch (error) {
-      console.error('Facebook authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
-    }
-  }
+    /*
+     * Auth Callback
+     * @param provider - The provider name.
+     * @param code - The code.
+     * @param state - The state.
+     * @param scope - The scope.
+     */
+    static async authCallback(
+        provider: string,
+        code: string
+    ) {
+        if (!code) {
+            throw new Error(SSOMessages.CODE_NOT_FOUND);
+        }
 
-  /*
-   * Handle GitHub Callback
-   * @param code - The code.
-   */
-  static async handleGithubCallback (code: string) {
-    try {
-      const { access_token } = await GithubService.getTokens(code)
-      const profile = await GithubService.getUserInfo(access_token)
-      return this.loginOrCreateUser(profile, access_token, '', 'github')
-    } catch (error) {
-      console.error('GitHub authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
-    }
-  }
+        const providerService = this.getProviderService(provider);
 
-  /*
-   * Handle LinkedIn Callback
-   * @param code - The code.
-   */
-  static async handleLinkedInCallback (code: string) {
-    try {
-      const { access_token } = await LinkedInService.getTokens(code)
-      const profile = await LinkedInService.getUserInfo(access_token)
-      return this.loginOrCreateUser(profile, access_token, '', 'linkedin')
-    } catch (error) {
-      console.error('LinkedIn authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
-    }
-  }
+        const { access_token, refresh_token } = await providerService.getTokens(code);
 
-  /*
-   * Handle Microsoft Callback
-   * @param code - The code.
-   */
-  static async handleMicrosoftCallback (code: string) {
-    try {
-      const { access_token, refresh_token } = await MicrosoftService.getTokens(
-        code
-      )
-      const profile = await MicrosoftService.getUserInfo(access_token)
-      return this.loginOrCreateUser(
-        profile,
-        access_token,
-        refresh_token,
-        'microsoft'
-      )
-    } catch (error) {
-      console.error('Microsoft authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
-    }
-  }
+        if (!access_token) {
+            throw new Error(SSOMessages.OAUTH_ERROR);
+        }
 
-  /*
-   * Handle Twitter Callback
-   * @param code - The code.
-   */
-  static async handleTwitterCallback (code: string) {
-    try {
-     // TODO: Implement Twitter authentication
-    } catch (error) {
-      console.error('Twitter authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
+        try {
+            const profile = await providerService.getUserInfo(access_token);
+            return this.loginOrCreateUser(profile, access_token, refresh_token);
+        } catch (error) {
+            throw new Error(SSOMessages.OAUTH_ERROR);
+        }
     }
-  }
 
-  /*
-   * Handle Autodesk Callback
-   * @param code - The code.
-   */
-  static async handleAutodeskCallback (code: string) {
-    try {
-      const { access_token } = await AutodeskService.getTokens(code)
-      const profile = await AutodeskService.getUserInfo(access_token)
-      console.log('Autodesk Profile:', profile)
-      return this.loginOrCreateUser(profile, access_token, '', 'autodesk')
-    } catch (error) {
-      console.error('Autodesk authentication failed:', error)
-      throw new Error(this.AUTHENTICATION_FAILED)
-    }
-  }
+
 }

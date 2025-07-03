@@ -2,14 +2,14 @@
 
 import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
-import SSOService from "@/services/SSOService";
+import SSOService from "@/services/AuthService/SSOService";
 import MailService from "@/services/NotificationService/MailService";
 
 export async function GET(request: NextRequest,
     { params }: { params: { provider: string } }) {
 
     try {
-        const { provider } = params;
+        const { provider } = await params;
 
         const searchParams = request.nextUrl.searchParams;
 
@@ -21,10 +21,11 @@ export async function GET(request: NextRequest,
             NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
         }
 
-        const user = await SSOService.authCallback(provider, code as string, state as string);
+        const user = await SSOService.authCallback(provider, code as string);
 
         if (!user) {
             //redirect to frontend
+            return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=Failed to authenticate user`);
 
         }
 
@@ -37,8 +38,20 @@ export async function GET(request: NextRequest,
             return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=Failed to create session`);
         }
 
-        //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/callback?rawAccessToken=${rawAccessToken}&rawRefreshToken=${rawRefreshToken}`);
+        const response = NextResponse.redirect(
+            `${process.env.APPLICATION_HOST}/auth/callback?rawAccessToken=${rawAccessToken}&rawRefreshToken=${rawRefreshToken}`
+        )
+
+        response.headers.set(
+            'Set-Cookie',
+            [
+                `accessToken=${rawAccessToken}; Path=/; HttpOnly; SameSite=Strict; Secure`,
+                `refreshToken=${rawRefreshToken}; Path=/; HttpOnly; SameSite=Strict; Secure`
+            ].join(', ')
+        )
+
+        return response;
+
 
     } catch (error: any) {
 
@@ -64,7 +77,7 @@ export async function POST(request: NextRequest,
             NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
         }
 
-        const user = await SSOService.authCallback(provider, code as string, state as string);
+        const user = await SSOService.authCallback(provider, code as string);
 
         if (!user) {
             //redirect to frontend

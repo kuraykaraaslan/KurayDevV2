@@ -1,4 +1,5 @@
-import axiosInstance from '../../../../libs/axios';
+import axios from 'axios';
+import { SSOProfileResponse } from '@/types/SSOTypes';
 
 export default class GithubService {
 
@@ -35,7 +36,7 @@ export default class GithubService {
      * @throws Error if the request fails.
      */
     static async getTokens(code: string): Promise<{ access_token: string }> {
-        const tokenResponse = await axiosInstance.post(
+        const tokenResponse = await axios.post(
             this.GITHUB_TOKEN_URL,
             new URLSearchParams({
                 client_id: this.GITHUB_CLIENT_ID,
@@ -61,19 +62,22 @@ export default class GithubService {
      * @returns The user info.
      * @throws Error if the request fails.
      */
-    static async getUserInfo(accessToken: string): Promise<{
-        id: number; // GitHub's unique ID for the user
-        login: string; // GitHub username
-        name: string;
-        email: string;
-        avatar_url: string;
-    }> {
-        const userInfoResponse = await axiosInstance.get(this.GITHUB_USER_INFO_URL, {
+    static async getUserInfo(accessToken: string): Promise<SSOProfileResponse> {
+        const userInfoResponse = await axios.get(this.GITHUB_USER_INFO_URL, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        return userInfoResponse.data;
+        const data = userInfoResponse.data;
+
+        return {
+            sub: data.id.toString(), // GitHub's unique ID for the user
+            email: data.email || '', // Email may not be available
+            name: data.name || '',
+            picture: data.avatar_url || '', // User's avatar URL
+            provider: 'github', // Provider name
+        };
+
     }
 }

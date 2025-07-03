@@ -1,4 +1,5 @@
-import axiosInstance from '@/libs/axios';
+import axios from 'axios';
+import { SSOProfileResponse } from '@/types/SSOTypes';
 
 export default class LinkedInService {
 
@@ -35,7 +36,7 @@ export default class LinkedInService {
      * @throws Error if the request fails.
      */
     static async getTokens(code: string): Promise<{ access_token: string }> {
-        const tokenResponse = await axiosInstance.post(
+        const tokenResponse = await axios.post(
             this.LINKEDIN_TOKEN_URL,
             new URLSearchParams({
                 client_id: this.LINKEDIN_CLIENT_ID,
@@ -62,18 +63,21 @@ export default class LinkedInService {
      * @returns The user info.
      * @throws Error if the request fails.
      */
-    static async getUserInfo(accessToken: string): Promise<{
-        sub: string; // LinkedIn's unique ID for the user
-        name: string;
-        email: string;
-        picture: string;
-    }> {
-        const userInfoResponse = await axiosInstance.get(this.LINKEDIN_USER_INFO_URL, {
+    static async getUserInfo(accessToken: string): Promise<SSOProfileResponse> {
+        const userInfoResponse = await axios.get(this.LINKEDIN_USER_INFO_URL, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        return userInfoResponse.data;
+        const data = userInfoResponse.data;
+
+        return {
+            email: data.email, // LinkedIn's email field
+            sub: data.sub, // LinkedIn's unique ID for the user
+            name: data.name, // Full name
+            picture: data.picture, // Profile picture URL
+            provider: 'linkedin', // Add provider field
+        };
     }
 }

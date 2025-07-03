@@ -8,6 +8,7 @@ const UserAgentData = z.object({
     country: z.string().nullable(),
     ip: z.string().nullable(),
     browser: z.string().nullable(),
+    deviceFingerprint: z.string().nullable(),
 });
 
 const SafeUserSession = z.object({

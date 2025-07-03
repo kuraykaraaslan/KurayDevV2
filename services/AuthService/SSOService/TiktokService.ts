@@ -1,4 +1,5 @@
-import axiosInstance from '@/libs/axios';
+import axios from 'axios';
+import { SSOProfileResponse } from '@/types/SSOTypes';
 
 export default class TikTokService {
 
@@ -35,7 +36,7 @@ export default class TikTokService {
      * @throws Error if the request fails.
      */
     static async getTokens(code: string): Promise<{ access_token: string; refresh_token: string }> {
-        const tokenResponse = await axiosInstance.post(
+        const tokenResponse = await axios.post(
             this.TIKTOK_TOKEN_URL,
             new URLSearchParams({
                 client_key: this.TIKTOK_CLIENT_KEY,
@@ -64,18 +65,21 @@ export default class TikTokService {
      * @returns The user info.
      * @throws Error if the request fails.
      */
-    static async getUserInfo(accessToken: string): Promise<{
-        open_id: string; // TikTok's unique ID for the user
-        union_id?: string; // Optional: Union ID for cross-platform identification
-        avatar_url: string;
-        display_name: string;
-    }> {
-        const userInfoResponse = await axiosInstance.get(this.TIKTOK_USER_INFO_URL, {
+    static async getUserInfo(accessToken: string): Promise<SSOProfileResponse> {
+        const userInfoResponse = await axios.get(this.TIKTOK_USER_INFO_URL, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        return userInfoResponse.data;
+        const data = userInfoResponse.data.data;
+
+        return {
+            email: data.email || '', // TikTok may not provide email, handle accordingly
+            sub: data.open_id, // TikTok's unique ID for the user
+            name: data.nickname || '', // User's nickname
+            picture: data.avatar || '', // Profile picture URL
+            provider: 'tiktok', // Add provider field
+        };
     }
 }

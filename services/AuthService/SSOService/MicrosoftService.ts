@@ -1,4 +1,5 @@
-import axiosInstance from '@/libs/axios';
+import axios from 'axios';
+import { SSOProfileResponse } from '@/types/SSOTypes';
 
 export default class MicrosoftService {
 
@@ -36,7 +37,7 @@ export default class MicrosoftService {
      * @throws Error if the request fails.
      */
     static async getTokens(code: string): Promise<{ access_token: string; refresh_token: string }> {
-        const tokenResponse = await axiosInstance.post(
+        const tokenResponse = await axios.post(
             this.MICROSOFT_TOKEN_URL,
             new URLSearchParams({
                 client_id: this.MICROSOFT_CLIENT_ID,
@@ -64,18 +65,21 @@ export default class MicrosoftService {
      * @returns The user info.
      * @throws Error if the request fails.
      */
-    static async getUserInfo(accessToken: string): Promise<{
-        id: string; // Microsoft's unique ID for the user
-        displayName: string;
-        mail: string; // User's email
-        userPrincipalName: string; // User's principal name (e.g., username@domain.com)
-    }> {
-        const userInfoResponse = await axiosInstance.get(this.MICROSOFT_USER_INFO_URL, {
+    static async getUserInfo(accessToken: string): Promise<SSOProfileResponse> {
+        const userInfoResponse = await axios.get(this.MICROSOFT_USER_INFO_URL, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        return userInfoResponse.data;
+        const data = userInfoResponse.data;
+
+        return {
+            email: data.mail || data.userPrincipalName, // Use mail if available, otherwise userPrincipalName
+            sub: data.id, // Microsoft's unique ID for the user
+            name: data.displayName, // Full name
+            picture: data.photo ? `https://graph.microsoft.com/v1.0/users/${data.id}/photo/$value` : undefined, // Profile picture URL
+            provider: 'microsoft', // Add provider field
+        };
     }
 }

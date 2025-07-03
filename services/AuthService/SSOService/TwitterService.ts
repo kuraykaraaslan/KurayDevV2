@@ -1,4 +1,5 @@
-import axiosInstance from '@/libs/axios';
+import axios from 'axios';
+import { SSOProfileResponse } from '@/types/SSOTypes';
 
 export default class TwitterService {
 
@@ -37,7 +38,7 @@ export default class TwitterService {
      * @throws Error if the request fails.
      */
     static async getTokens(code: string): Promise<{ access_token: string }> {
-        const tokenResponse = await axiosInstance.post(
+        const tokenResponse = await axios.post(
             this.TWITTER_TOKEN_URL,
             new URLSearchParams({
                 client_id: this.TWITTER_CLIENT_ID,
@@ -65,18 +66,21 @@ export default class TwitterService {
      * @returns The user info.
      * @throws Error if the request fails.
      */
-    static async getUserInfo(accessToken: string): Promise<{
-        id: string; // Twitter's unique ID for the user
-        name: string;
-        username: string; // Twitter handle (e.g., @username)
-        profile_image_url: string; // Profile picture URL
-    }> {
-        const userInfoResponse = await axiosInstance.get(this.TWITTER_USER_INFO_URL, {
+    static async getUserInfo(accessToken: string):  Promise<SSOProfileResponse> {
+        const userInfoResponse = await axios.get(this.TWITTER_USER_INFO_URL, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        return userInfoResponse.data.data;
+        const data = userInfoResponse.data;
+
+        return {
+            email: data.email || '', // Twitter may not provide email, handle accordingly
+            sub: data.id, // Twitter's unique ID for the user
+            name: data.name || '', // User's name
+            picture: data.profile_image_url || '', // Profile picture URL
+            provider: 'twitter', // Add provider field
+        };
     }
 }

@@ -1,4 +1,5 @@
-import axiosInstance from '../../../../libs/axios';
+import axios from 'axios';
+import { SSOProfileResponse } from '@/types/SSOTypes';
 
 export default class GoogleService {
 
@@ -7,7 +8,7 @@ export default class GoogleService {
 
 
     // Google OAuth
-    static GOOGLE_CALLBACK_PATH = "/api/v1/sso/callback/google";
+    static GOOGLE_CALLBACK_PATH = "/api/auth/callback/google";
     static GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
     static GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
     static GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
@@ -42,7 +43,7 @@ export default class GoogleService {
     */
     static async getTokens(code: string): Promise<{ access_token: string; refresh_token: string }> {
 
-        const tokenResponse = await axiosInstance.post(
+        const tokenResponse = await axios.post(
             this.GOOGLE_TOKEN_URL,
             new URLSearchParams({
                 client_id: process.env.GOOGLE_CLIENT_ID!,
@@ -70,19 +71,23 @@ export default class GoogleService {
     * @param accessToken - The access token.
     * @returns The user info.
     */
-    static async getUserInfo(accessToken: string): Promise<{
-        sub: string; // Google's unique ID for the user
-        email: string;
-        name: string;
-        picture: string;
-    }> {
-        const userInfoResponse = await axiosInstance.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+    static async getUserInfo(accessToken: string): Promise<SSOProfileResponse> {
+        const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        return userInfoResponse.data;
+        const data = userInfoResponse.data;
+
+        return {
+            email: data.email,
+            sub: data.sub, // Google's unique ID for the user
+            name: data.name,
+            picture: data.picture, // Profile picture URL
+            provider: 'google', // Add provider field
+        };
+
     }
 
 }
