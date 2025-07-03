@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import PostWithCategory from '@/types/PostWithCategory';
+import PostWithData from '@/types/PostWithData';
 import Image from 'next/image';
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-const PostCard = ({post}: { post: PostWithCategory }) => {
+const PostCard = ({post}: { post: PostWithData }) => {
 
     const { title, slug, createdAt, category, image } = post;
 

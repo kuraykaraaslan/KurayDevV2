@@ -2,7 +2,7 @@
 import React from 'react';
 
 import SingleArticle from './Partials/SingleArticle';
-import PostWithCategory from '@/types/PostWithCategory';
+import PostWithData from '@/types/PostWithData';
 
 import { useParams } from 'next/navigation';
 
@@ -14,7 +14,7 @@ const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
 
     const params = useParams();
 
-    const articles: PostWithCategory[] = [
+    const articles: PostWithData[] = [
         {
             postId: "1",
             title: "Article 1",

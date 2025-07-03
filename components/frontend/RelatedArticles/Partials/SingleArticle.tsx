@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import PostWithCategory from '@/types/PostWithCategory';
+import PostWithData from '@/types/PostWithData';
 import Image from 'next/image';
 
 
-const SingleArticle = (props: PostWithCategory) => {
+const SingleArticle = (props: PostWithData) => {
 
     const [dateText, setDateText] = useState("");
     const [image, setImage] = useState("");

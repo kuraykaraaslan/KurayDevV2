@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import PostWithCategory from '@/types/PostWithCategory';
+import PostWithData from '@/types/PostWithData';
 import Image from 'next/image';
 
-export interface FeedCardProps extends PostWithCategory {
+export interface FeedCardProps extends PostWithData {
     className?: string;
 }
 

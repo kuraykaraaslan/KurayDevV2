@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, ReactNode, useRef, useEffect, useCallback } from 'react';
 import PostCard from './Partials/PostCard';
 import axiosInstance from '@/libs/axios';
-import PostWithCategory from '@/types/PostWithCategory';
+import PostWithData from '@/types/PostWithData';
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
