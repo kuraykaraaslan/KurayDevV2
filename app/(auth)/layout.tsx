@@ -63,7 +63,7 @@ export default function AuthLayout({ children, title }: { children: React.ReactN
               <div className="flex items-center justify-center mt-4 mb-4">
                 <span className="text-sm font-semibold">Or</span>
               </div>
-              <SSOLogin />
+              <SSOLogin mode="pins" />
             </div>
           </div>
         </div>

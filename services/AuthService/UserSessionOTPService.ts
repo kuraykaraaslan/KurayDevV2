@@ -6,8 +6,8 @@ import SMSService from "../NotificationService/SMSService";
 import prisma from "@/libs/prisma";
 import AuthMessages from "@/messages/AuthMessages";
 import { authenticator } from "otplib";
-import SafeUser from "@/types/SafeUser";
-import SafeUserSession from "@/types/SafeUserSession";
+import {  SafeUserSession } from "@/types/UserSessionTypes";
+import { SafeUser } from "@/types/UserTypes";
 
 export default class UserSessionOTPService {
   static OTP_EXPIRY_SECONDS = parseInt(process.env.OTP_EXPIRY_SECONDS || "600"); // 10 dk

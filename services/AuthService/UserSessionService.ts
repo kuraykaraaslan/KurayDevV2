@@ -4,8 +4,8 @@ import prisma from "@/libs/prisma";
 // Other Services
 import UserService from "../UserService";
 // Utils
-import SafeUserSession from "@/types/SafeUserSession";
-import SafeUser from "@/types/SafeUser";
+import { SafeUserSession } from "@/types/UserSessionTypes";
+import { SafeUser } from "@/types/UserTypes";
 import jwt from 'jsonwebtoken';
 import crypto from "crypto";
 import AuthMessages from "@/messages/AuthMessages";
@@ -238,7 +238,7 @@ export default class UserSessionService {
    * @param accessToken - The session token.
    * @returns The user session.
    */
-  static async getSessionDangerously(accessToken: string , request: NextRequest): Promise<{ user: SafeUser, userSession: SafeUserSession }> {
+  static async getSessionDangerously(accessToken: string, request: NextRequest): Promise<{ user: SafeUser, userSession: SafeUserSession }> {
 
     // Verify the access token
     const deviceFingerprint = await UserSessionService.generateDeviceFingerprint(request);
@@ -293,7 +293,7 @@ export default class UserSessionService {
    * @param session - The user session.
    * @returns The user session without sensitive fields.
    */
-  static async getSession(accessToken: string , request: NextRequest): Promise<{ user: SafeUser, userSession: SafeUserSession }> {
+  static async getSession(accessToken: string, request: NextRequest): Promise<{ user: SafeUser, userSession: SafeUserSession }> {
     // Get the session using the provided access token
     const { user, userSession } = await UserSessionService.getSessionDangerously(accessToken, request);
 
@@ -416,51 +416,52 @@ export default class UserSessionService {
    */
   static async authenticateUserByRequest(request: NextRequest, requiredUserRole = "ADMIN"): Promise<SafeUser | null> {
 
-    if (requiredUserRole === "GUEST") {
-      return null;
+    try {
+
+      const accessToken = request.cookies.get("accessToken")?.value;
+      const refreshToken = request.cookies.get("refreshToken")?.value;
+
+      if (!accessToken || !refreshToken) {
+        throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE);
+      }
+
+      const { user, userSession } = await UserSessionService.getSession(accessToken, request);
+
+      if (!user) {
+        throw new Error(AuthMessages.USER_NOT_FOUND);
+      }
+
+      if (userSession.otpVerifyNeeded) {
+        throw new Error(AuthMessages.OTP_NEEDED);
+      }
+
+      // Check if the session is expired
+      if (userSession.sessionExpiry < new Date()) {
+        throw new Error(AuthMessages.SESSION_NOT_FOUND);
+      }
+
+      const userRoleKeys = Object.keys(UserRole);
+
+      const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole);
+      const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole);
+
+      if (requiredUserRoleKeyIndex > userRoleKeyIndex) {
+        throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
+      }
+
+      request.user = user;
+
+      return user;
+    } catch (error: any) {
+      if (requiredUserRole !== "GUEST") {
+        throw new Error(error.message || AuthMessages.USER_NOT_AUTHENTICATED);
+      } 
+      request.user = null; // GUEST role is allowed to not be authenticated
+      return null; // GUEST role is allowed to not be authenticated
     }
-
-    const accessToken = request.cookies.get("accessToken")?.value;
-    const refreshToken = request.cookies.get("refreshToken")?.value;
-
-    if (!accessToken || !refreshToken) {
-      throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE);
-    }
-  
-
-
-    const { user, userSession } = await UserSessionService.getSession(accessToken, request);
-
-    if (!user) {
-      console.log("user no")
-      throw new Error(AuthMessages.USER_NOT_FOUND);
-    }
-
-    if (userSession.otpVerifyNeeded) {
-      throw new Error(AuthMessages.OTP_NEEDED);
-    }
-
-    // Check if the session is expired
-    if (userSession.sessionExpiry < new Date()) {
-      throw new Error(AuthMessages.SESSION_NOT_FOUND);
-    }
-
-    const userRoleKeys = Object.keys(UserRole);
-
-    const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole);
-    const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole);
-
-    if (requiredUserRoleKeyIndex > userRoleKeyIndex) {
-      throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
-    }
-
-    console.log(request.user)
-
-    request.user = user;
-
-    return user;
   }
 }
+
 
 
 
