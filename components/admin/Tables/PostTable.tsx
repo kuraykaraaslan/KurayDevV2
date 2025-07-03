@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import PostWithCategory from '@/types/PostWithCategory';
+import PostWithData from '@/types/PostWithData';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 const PostTable = ({ category }: { category?: Category }) => {
 
     const [search, setSearch] = React.useState('');
-    const [posts, setPosts] = React.useState<Partial<PostWithCategory>[]>([]);
+    const [posts, setPosts] = React.useState<Partial<PostWithData>[]>([]);
     const [page, setPage] = React.useState(0);
     const [pageSize, setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);

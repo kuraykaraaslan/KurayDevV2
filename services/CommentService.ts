@@ -1,4 +1,4 @@
-import { Comment, CommentWithPost } from "@/types/BlogTypes";
+import { Comment, CommentWithData } from "@/types/BlogTypes";
 import prisma from "@/libs/prisma";
 
 export default class CommentService {
@@ -74,7 +74,7 @@ export default class CommentService {
             search?: string;
             postId?: string;
             pending?: boolean;
-        }): Promise<{ comments: CommentWithPost[], total: number }> {
+        }): Promise<{ comments: CommentWithData[], total: number }> {
 
         const { page, pageSize, search, postId , pending } = data;
 

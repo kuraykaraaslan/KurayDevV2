@@ -1,5 +1,5 @@
 import prisma from '@/libs/prisma';
-import UserAgentUtil from '@/utils/UserAgentUtil';
+import UserAgentService from '@/services/UserAgentService';
 
 export default class PostLikeService {
 
@@ -15,7 +15,7 @@ export default class PostLikeService {
   }) {
     const { postId, userId } = params;
 
-    const parsedUserAgent = await UserAgentUtil.parseRequest(params.request);
+    const parsedUserAgent = await UserAgentService.parseRequest(params.request);
     const ipAddress = parsedUserAgent.ip;
     const deviceFingerprint = parsedUserAgent.deviceFingerprint;
 
@@ -59,7 +59,7 @@ export default class PostLikeService {
   }) {
     const { postId, userId } = params;
 
-    const parsedUserAgent = await UserAgentUtil.parseRequest(params.request);
+    const parsedUserAgent = await UserAgentService.parseRequest(params.request);
     const ipAddress = parsedUserAgent.ip;
     const deviceFingerprint = parsedUserAgent.deviceFingerprint;
 
@@ -98,7 +98,7 @@ export default class PostLikeService {
   }): Promise<boolean> {
     const { postId, userId } = params;
 
-    const parsedUserAgent = await UserAgentUtil.parseRequest(params.request);
+    const parsedUserAgent = await UserAgentService.parseRequest(params.request);
     const ipAddress = parsedUserAgent.ip;
     const deviceFingerprint = parsedUserAgent.deviceFingerprint;
 

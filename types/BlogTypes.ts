@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const CommentStatus = z.enum(["NOT_PUBLISHED", "PUBLISHED", "SPAM"]).default("NOT_PUBLISHED");
+const PostStatus = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED");
 
 
 const Comment = z.object({
@@ -11,10 +12,9 @@ const Comment = z.object({
     parentId: z.string().nullable(),
     email: z.string().email().nullable(),
     name: z.string().nullable(),
-    status: z.string().default("NOT_PUBLISHED"),
+    status: z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED") 
 });
 
-const PostStatus = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED");
 
 const Post = z.object({
     postId: z.string(),
@@ -43,7 +43,7 @@ const Category = z.object({
     keywords: z.array(z.string()).optional(),
 });
 
-const PostWithCategory = Post.extend({
+const PostWithData = Post.extend({
     category: Category.pick({
         categoryId: true,
         title: true,
@@ -57,7 +57,7 @@ const PostWithCategory = Post.extend({
 });
 
 
-const CommentWithPost = Comment.extend({
+const CommentWithData = Comment.extend({
     post: Post.pick({
         postId: true,
         title: true,
@@ -65,9 +65,19 @@ const CommentWithPost = Comment.extend({
     }),
 });
 
+const PostLike = z.object({
+  postLikeId: z.string(),
+  postId: z.string(),
+  userId: z.string().nullable().optional(),
+  ipAddress: z.string().nullable().optional(),
+  deviceFingerprint: z.string().nullable().optional(),
+  createdAt: z.date(),
+});
+
 export type Comment = z.infer<typeof Comment>;
 export type Post = z.infer<typeof Post>;
 export type Category = z.infer<typeof Category>;
-export type PostWithCategory = z.infer<typeof PostWithCategory>;
-export type CommentWithPost = z.infer<typeof CommentWithPost>;
-export { Comment, Post, Category, PostWithCategory, CommentWithPost };
+export type PostWithData = z.infer<typeof PostWithData>;
+export type CommentWithData = z.infer<typeof CommentWithData>;
+export type PostLike = z.infer<typeof PostLike>;
+export { Comment, Post, Category, PostWithData, CommentWithData , PostLike, CommentStatus, PostStatus };

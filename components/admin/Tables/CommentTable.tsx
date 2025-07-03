@@ -1,17 +1,17 @@
 'use client'
 import React from 'react';
-import PostWithCategory from '@/types/PostWithCategory';
+import PostWithData from '@/types/PostWithData';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { CommentWithPost } from '@/types/CommentWithPost';
+import { CommentWithData } from '@/types/CommentWithData';
 
-const CommentTable = ({ post }: { post?: PostWithCategory }) => {
+const CommentTable = ({ post }: { post?: PostWithData }) => {
 
     const [search, setSearch] = React.useState('');
-    const [comments, setComments] = React.useState<Partial<CommentWithPost>[]>([]);
+    const [comments, setComments] = React.useState<Partial<CommentWithData>[]>([]);
     const [page, setPage] = React.useState(0);
     const [pageSize, setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);
