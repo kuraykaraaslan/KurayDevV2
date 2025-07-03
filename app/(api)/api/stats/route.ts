@@ -20,17 +20,14 @@ export async function GET(request: NextRequest) {
         // Extract query parameters
         const stats = await StatService.getAllStats();
 
-        console.log("Stats:", stats);
-
         const values = {
-            totalPosts: stats[0],
-            totalCategories: stats[1],
-            totalUsers: stats[2],
-            totalViews: stats[3],
-            totalComments: stats[4]
+            totalPosts: stats.totalPosts || 0,
+            totalCategories: stats.totalCategories || 0,
+            totalUsers: stats.totalUsers || 0,
+            totalViews: stats.totalViews || 0,
+            totalComments: stats.totalComments || 0,
         };
-
-
+        
         return NextResponse.json({ values });
 
     }

@@ -29,12 +29,8 @@ export async function GET(request: NextRequest) {
             page,
             pageSize,
             search
-        });
+        });      
 
-        console.log(request.user)
-        
-
-        
         if (request?.user?.userRole !== "ADMIN") {
             //omit user data only id and name
             users.forEach((user: any) => {

@@ -12,7 +12,8 @@ const nextConfig = {
       ignoreDuringBuilds: true,
     },
     env: {
-      "APPLICATION_HOST" : env.APPLICATION_HOST || "http://localhost:3000"
+      "APPLICATION_HOST" : env.APPLICATION_HOST || "http://localhost:3000",
+      "SSO_ALLOWED_PROVIDERS": env.SSO_ALLOWED_PROVIDERS || "google,apple",
     },
     trailingSlash: true,
     images: {

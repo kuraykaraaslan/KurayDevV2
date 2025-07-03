@@ -1,6 +1,6 @@
 "use server";
 import { NextRequest, NextResponse } from 'next/server';
-import DiscordService from '@/services/SocialMedia/DiscordService';
+import DiscordService from '@/services/SocialMediaService/DiscordService';
 import ContactFormService from '@/services/ContactFormService';
 import MailService from '@/services/NotificationService/MailService';
 import SMSService from '@/services/NotificationService/SMSService';
