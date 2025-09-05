@@ -87,5 +87,23 @@
   },
   "whatsapp": {
     "message": "Tere! Olen Kuray Karaaslan, kuidas saan teid aidata?"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "name_placeholder": "Sisesta oma nimi",
+    "email_placeholder": "Sisesta oma e-post",
+    "phone_placeholder": "Sisesta oma telefon",
+    "note_placeholder": "Sisesta oma märkus",
+    "booked": "Broneeritud",
+    "cancelled": "Tühistatud",
+    "available": "Saadaval",
+    "no_available_slots": "Vabu aegu pole saadaval",
+    "name": "Sinu nimi",
+    "email": "Sinu e-post",
+    "phone": "Sinu telefon",
+    "description": "Broneeri aeg minuga.",
+    "available_slots": "Saadaolevad ajad",
+    "book_appointment": "Broneeri aeg",
+    "select_slot": "Palun vali aeg, et broneerida kohtumine."
   }
 }

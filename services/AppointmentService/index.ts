@@ -41,7 +41,7 @@ export default class AppointmentService {
     })
 
     const matchingSlot = workDay?.slots.find(
-      s => s.time === slot.time && s.status === 'available'
+      s => s.time === slot.time && s.status === 'AVAILABLE'
     )
 
     if (!matchingSlot) {
@@ -50,7 +50,7 @@ export default class AppointmentService {
 
     await prisma.slot.update({
       where: { id: matchingSlot.id },
-      data: { status: 'booked' },
+      data: { status: 'BOOKED' },
     })
 
     // Not: Burada randevu kayıtları için ekstra `Appointment` modeli eklenebilir

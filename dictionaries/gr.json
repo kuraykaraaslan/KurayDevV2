@@ -87,5 +87,23 @@
   },
   "whatsapp": {
     "message": "Γεια σου! Είμαι ο Kuray Karaaslan, πώς μπορώ να σε βοηθήσω;"
+  },
+  "calendar": {
+    "title": "Ημερολόγιο",
+    "name_placeholder": "Εισάγετε το όνομά σας",
+    "email_placeholder": "Εισάγετε το email σας",
+    "phone_placeholder": "Εισάγετε το τηλέφωνό σας",
+    "note_placeholder": "Εισάγετε τη σημείωσή σας",
+    "booked": "Κλεισμένο",
+    "cancelled": "Ακυρώθηκε",
+    "available": "Διαθέσιμο",
+    "no_available_slots": "Δεν υπάρχουν διαθέσιμα ραντεβού",
+    "name": "Το όνομά σας",
+    "email": "Το email σας",
+    "phone": "Το τηλέφωνό σας",
+    "description": "Κλείστε ένα ραντεβού μαζί μου.",
+    "available_slots": "Διαθέσιμα ραντεβού",
+    "book_appointment": "Κλείσε ραντεβού",
+    "select_slot": "Παρακαλώ επιλέξτε ώρα για να κλείσετε ραντεβού."
   }
 }

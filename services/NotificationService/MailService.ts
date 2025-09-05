@@ -5,7 +5,7 @@ import path from 'path';
 import { User } from '@prisma/client';
 
 // Types
-import SafeUser from '@/types/SafeUser';
+import {SafeUser} from '@/types/UserTypes';
 import SafeUserSession from '@/types/SafeUserSession';
 
 // Libs

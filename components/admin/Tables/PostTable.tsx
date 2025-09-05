@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import PostWithData from '@/types/PostWithData';
+import { PostWithData } from '@/types/BlogTypes';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';

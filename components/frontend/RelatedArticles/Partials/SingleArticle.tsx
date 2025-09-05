@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import PostWithData from '@/types/PostWithData';
+import { PostWithData } from '@/types/BlogTypes';
 import Image from 'next/image';
 
 

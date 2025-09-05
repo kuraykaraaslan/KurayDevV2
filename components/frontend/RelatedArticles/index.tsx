@@ -2,7 +2,7 @@
 import React from 'react';
 
 import SingleArticle from './Partials/SingleArticle';
-import PostWithData from '@/types/PostWithData';
+import { PostWithData } from '@/types/BlogTypes';
 
 import { useParams } from 'next/navigation';
 
@@ -19,15 +19,14 @@ const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
             postId: "1",
             title: "Article 1",
             createdAt: new Date(),
-            Category: {
+            category: {
                 categoryId: "1",
                 slug: "category-1",
                 title: "Category 1",
                 description: null,
                 keywords: [],
                 image: null,
-                createdAt: new Date(),
-                updatedAt: new Date()
+                createdAt: new Date()
             },
             content: '',
             authorId: '',
@@ -36,9 +35,13 @@ const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
             keywords: [],
             categoryId: '',
             image: null,
-            updatedAt: new Date(),
-            publishedAt: new Date(),
-            status: ''
+            status: '',
+            views: 0,
+            author: {
+                userId: "1",
+                name: "Author 1",
+                profilePicture: null
+            },
         }
     ];
 

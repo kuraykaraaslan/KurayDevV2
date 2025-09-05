@@ -88,5 +88,23 @@
   "whatsapp": {
     "title": "WhatsApp ile iletişime geçin",
     "message": "Hızlı bir yanıt için WhatsApp üzerinden benimle iletişime geçin."
+  },
+  "calendar": {
+    "title": "Takvim",
+    "name_placeholder": "Adınızı girin",
+    "email_placeholder": "E-posta adresinizi girin",
+    "phone_placeholder": "Telefon numaranızı girin",
+    "note_placeholder": "Notunuzu girin",
+    "booked": "Rezerve Edildi",
+    "cancelled": "İptal Edildi",
+    "available": "Uygun",
+    "no_available_slots": "Uygun zaman yok",
+    "name": "Adınız",
+    "email": "E-posta Adresiniz",
+    "phone": "Telefon Numaranız",
+    "description": "Benimle bir randevu ayarlayın.",
+    "available_slots": "Uygun Zamanlar",
+    "book_appointment": "Randevu Al",
+    "select_slot": "Lütfen randevu almak için bir zaman seçin."
   }
 }

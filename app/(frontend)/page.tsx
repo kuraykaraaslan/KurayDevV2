@@ -35,7 +35,6 @@ const HomePage = () => {
       <Welcome />
       <Toolbox />
       <ProjectsHero />
-      <AppointmentCalendar />
       <Contact />
       <ToastContainer />
     </>

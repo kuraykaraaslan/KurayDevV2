@@ -1,49 +1,10 @@
 import axios from "axios";
 import crypto from "crypto";
-import { NextRequest } from "next/server"; // bunu eklemeyi unutma
+import { NextRequest } from "next/server"; 
 import { UserAgentData } from "@/types/UserSessionTypes";
-import redis from "@/libs/redis"; // Redis eklendi
+import redis from "@/libs/redis"; 
+import { GeoLocation, OSPattern, OSName, DeviceType, BrowserName } from "@/types/UserAgent";
 
-
-// Enums
-export enum OSName {
-  Windows = "Windows",
-  macOS = "macOS",
-  Android = "Android",
-  iOS = "iOS",
-  ChromeOS = "Chrome OS",
-  Linux = "Linux",
-  Unix = "Unix",
-  Unknown = "Unknown"
-}
-
-export enum DeviceType {
-  Mobile = "Mobile",
-  Tablet = "Tablet",
-  Desktop = "Desktop"
-}
-
-export enum BrowserName {
-  Chrome = "Chrome",
-  Firefox = "Firefox",
-  Safari = "Safari",
-  Edge = "Edge",
-  IE = "IE",
-  Opera = "Opera",
-  Postman = "Postman",
-  Unknown = "Unknown"
-}
-
-type GeoLocation = {
-  city: string | null;
-  state: string | null;
-  country: string | null;
-};
-
-type OSPattern = {
-  pattern: RegExp;
-  name: OSName;
-};
 
 export default class UserAgentService {
   private static readonly osPatterns: OSPattern[] = [

@@ -87,5 +87,23 @@
   },
   "whatsapp": {
     "message": "Bongu! Jien Kuray Karaaslan, kif nista' ngħinek?"
+  },
+  "calendar": {
+    "title": "Kalendarju",
+    "name_placeholder": "Daħħal ismek",
+    "email_placeholder": "Daħħal l-email tiegħek",
+    "phone_placeholder": "Daħħal in-numru tat-telefon tiegħek",
+    "note_placeholder": "Daħħal in-nota tiegħek",
+    "booked": "Riżervat",
+    "cancelled": "Ikkanċellat",
+    "available": "Disponibbli",
+    "no_available_slots": "L-ebda ħin disponibbli",
+    "name": "Ismek",
+    "email": "L-email tiegħek",
+    "phone": "In-numru tat-telefon tiegħek",
+    "description": "Ibbukkja appuntament miegħi.",
+    "available_slots": "Ħinijiet Disponibbli",
+    "book_appointment": "Ibbukkja Appuntament",
+    "select_slot": "Jekk jogħġbok agħżel ħin biex tibbukkja appuntament."
   }
 }

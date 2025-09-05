@@ -87,5 +87,26 @@
   },
   "whatsapp": {
     "message": "Hello! I am Kuray Karaaslan, how can I help you?"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "name_placeholder": "Enter your name",
+    "email_placeholder": "Enter your email",
+    "phone_placeholder": "Enter your phone",
+    "note_placeholder": "Enter your note",
+    "booked": "Booked",
+    "cancelled": "Cancelled",
+    "available": "Available",
+    "no_available_slots": "No available slots",
+    "name": "Your Name",
+    "email": "Your Email",
+    "phone": "Your Phone",
+    "description": "Book an appointment with me.",
+    "available_slots": "Available Slots",
+    "book_appointment": "Book Appointment",
+    "select_slot": "Please select a slot to book an appointment.",
+    "past_date_warning": "You cannot book an appointment for a past date.",
+    "minutes": "{{count}} minutes",
+    "close": "Close"
   }
 }

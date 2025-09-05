@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { SafeUser } from './UserTypes';
 
 const CommentStatus = z.enum(["NOT_PUBLISHED", "PUBLISHED", "SPAM"]).default("NOT_PUBLISHED");
 const PostStatus = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED");
@@ -29,7 +30,7 @@ const Post = z.object({
     image: z.string().nullable(),
     status: z.string().default("PUBLISHED"),
     views: z.number().default(0),
-    deletedAt: z.date().nullable(),
+    deletedAt: z.date().nullable().optional(),
 });
 
 const Category = z.object({
@@ -44,6 +45,11 @@ const Category = z.object({
 });
 
 const PostWithData = Post.extend({
+    author: SafeUser.pick({
+        userId: true,
+        name: true,
+        profilePicture: true,
+    }),
     category: Category.pick({
         categoryId: true,
         title: true,

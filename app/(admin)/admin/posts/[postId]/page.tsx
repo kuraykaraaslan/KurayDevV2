@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
@@ -10,347 +10,352 @@ import UserSelect from '@/components/admin/Selects/UserSelect';
 import ImageLoad from '@/components/common/ImageLoad';
 import AIPrompt from '@/components/admin/AIPrompt';
 
-const SinglePost =  () => {
+type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
-    let { postId } = useParams();
-    const setPostId = (postId: string) => {
-        postId = postId;
-    };
+const SinglePost: React.FC = () => {
+  // Route param (tek kaynak)
+  const params = useParams<{ postId: string }>();
+  const routePostId = params?.postId;
+  const router = useRouter();
 
-    const mandatoryFields = ['title', 'content', 'description', 'slug', 'authorId', 'categoryId'];
-    const router = useRouter();
-    const [mode, setMode] = useState(postId === 'create' ? 'create' : 'edit');
-    const [loading, setLoading] = useState(true);
+  // Mode, paramdan türetiliyor (state değil)
+  const mode: 'create' | 'edit' = useMemo(
+    () => (routePostId === 'create' ? 'create' : 'edit'),
+    [routePostId]
+  );
 
-    // Model fields
-    const [title, setTitle] = useState('');    
-    const [image, setImage] = useState('');
-    const [content, setContent] = useState('');
-    const [description, setDescription] = useState('');
-    const [slug, setSlug] = useState('');
-    const [keywords, setKeywords] = useState<string[]>([]);
-    const [authorId, setAuthorId] = useState<string>('');
-    const [categoryId, setCategoryId] = useState<string>("");
-    const [status, setStatus] = useState('DRAFT');
-    const [createdAt, setCreatedAt] = useState(new Date());
-    const [views, setViews] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        //if we are in edit mode and never update slug again
-        if (mode === 'edit' || loading) {
-            return;
-        }
+  // Model fields
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [content, setContent] = useState('');
+  const [description, setDescription] = useState('');
+  const [slug, setSlug] = useState('');
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [authorId, setAuthorId] = useState<string>('');
+  const [categoryId, setCategoryId] = useState<string>('');
+  const [status, setStatus] = useState<PostStatus>('DRAFT');
+  const [createdAt, setCreatedAt] = useState<Date>(new Date());
+  const [views, setViews] = useState<number>(0);
 
-        if (title) {
-            // Remove all non-english characters
-            const invalidChars = /[^\w\s-]/g;
-            // Remove all non-english characters
-            let slugifiedTitle = title.replace(invalidChars, '');
-            // Replace all spaces with hyphens
-            slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-');
-            // Remove all double hyphens
-            slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
-            // Convert to lowercase
-            slugifiedTitle = slugifiedTitle.toLowerCase();
-            //add MMYYYY to of createdAt
-            const month = createdAt.getMonth() + 1;
-            const year = createdAt.getFullYear();
-            const day = createdAt.getDate();
-            const monthString = month < 10 ? `0${month}` : month;
-            slugifiedTitle = `${slugifiedTitle}-${monthString}${year}`;
-            setSlug(slugifiedTitle);
-        }
-    }, [title]);
+  // Slug üretimi (sadece create modda ve loading bittiyse)
+  useEffect(() => {
+    if (mode === 'edit' || loading) return;
+    if (!title) return;
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const invalidChars = /[^\w\s-]/g;
+    let slugifiedTitle = title.replace(invalidChars, '');
+    slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-');
+    slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
+    slugifiedTitle = slugifiedTitle.toLowerCase();
 
-        var errors: string[] = [];
+    const month = createdAt.getMonth() + 1;
+    const year = createdAt.getFullYear();
+    const monthString = month < 10 ? `0${month}` : String(month);
 
-        mandatoryFields.forEach((fieldName) => {
-            // integer or string
-            const fieldValue = eval(fieldName);
-            const fieldType = typeof fieldValue;
+    setSlug(`${slugifiedTitle}-${monthString}${year}`);
+  }, [title, mode, loading, createdAt]);
 
-            switch (fieldType) {
-                case 'string':
-                    if (!fieldValue || fieldValue === '') {
-                        toast.error(`${fieldName} is required`);
-                        return;
-                    }
-                    break;
-                case 'object':
-                    if (!fieldValue.length || fieldValue.length === 0) {
-                        toast.error(`${fieldName} is required`);
-                        return;
-                    }
-                    break;
-                default:
-                    break;
-            }
+  // Postu yükle (edit modda)
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      // Param yoksa
+      if (!routePostId) {
+        setLoading(false);
+        return;
+      }
+      // Create mod
+      if (routePostId === 'create') {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await axiosInstance.get('/api/posts', {
+          params: { postId: routePostId, status: 'ALL' },
         });
 
-        if (errors.length > 0) {
-            errors.forEach((error) => {
-                toast.error(error);
-            });
-            return;
+        const posts = res.data?.posts ?? [];
+        const post = posts.find((p: any) => p.postId === routePostId);
+        if (!post) {
+          toast.error('Post not found');
+          return;
         }
+        if (cancelled) return;
 
-
-        const body = {
-            postId: postId !== 'create' ? postId : undefined,
-            title,
-            content,
-            description,
-            slug,
-            keywords: keywords,
-            authorId: authorId,
-            categoryId: categoryId,
-            status,
-            createdAt,
-            views,
-            image,
-        };
-
-        if (mode === 'create') {
-
-            await axiosInstance.post('/api/posts', body).then(() => {
-                toast.success('Post created successfully');
-                router.push('/admin/posts');
-            }).catch((error) => {
-                toast.error(error.response.data.message);
-            });
-        } else {
-            await axiosInstance.put('/api/posts/', body).then(() => {
-    
-                toast.success('Post updated successfully');
-                router.push('/admin/posts');
-            }).catch((error) => {
-                toast.error(error.response.data.message);
-            });
-        }
+        setTitle(post.title ?? '');
+        setImage(post.image ?? '');
+        setContent(post.content ?? '');
+        setDescription(post.description ?? '');
+        setSlug(post.slug ?? '');
+        setKeywords(Array.isArray(post.keywords) ? post.keywords : []);
+        setAuthorId(post.authorId ?? '');
+        setCategoryId(post.categoryId ?? '');
+        setStatus((post.status as PostStatus) ?? 'DRAFT');
+        setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date());
+        setViews(typeof post.views === 'number' ? post.views : 0);
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.response?.data?.message ?? 'Failed to load post');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     };
 
-    useEffect(() => {   
-        if (postId) {
-            if (postId === 'create') {
-                setLoading(false);
-                return;
-            } else if (postId === 'create/') {
-                setMode('create');
-            }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [routePostId]);
 
-            axiosInstance.get('/api/posts', { params: { postId: postId , status: "ALL" } }).then((res) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-                const { posts } = res.data;
-                const post = posts.find((post: any) => post.postId === postId);
+    // Güvenli zorunlu alan kontrolü (eval YOK)
+    const errors: string[] = [];
+    const required: Record<string, unknown> = {
+      title,
+      content,
+      description,
+      slug,
+      authorId,
+      categoryId,
+    };
 
-                if (!post) {
-                    toast.error('Post not found');
-                    setLoading(false);
-                    return;
-                }
+    for (const [key, val] of Object.entries(required)) {
+      if (typeof val === 'string' && val.trim() === '') {
+        errors.push(`${key} is required`);
+      }
+      if (Array.isArray(val) && val.length === 0) {
+        errors.push(`${key} is required`);
+      }
+    }
 
-                setPostId(post.postId);
-                setTitle(post.title);
-                setImage(post.image);
-                setContent(post.content);
-                setDescription(post.description);
-                setSlug(post.slug);
-                setKeywords(post.keywords);
-                setAuthorId(post.authorId);
-                setCategoryId(post.categoryId);
-                setStatus(post.status);
-                setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date());
-                setLoading(false);
-                setViews(post.views);
-            }).catch((error) => {
-                console.error(error);
-            });
+    if (errors.length) {
+      errors.forEach((msg) => toast.error(msg));
+      return;
+    }
 
-            setLoading(false);
-        } else {
-            setLoading(false);
-        }
+    const body = {
+      postId: routePostId !== 'create' ? routePostId : undefined,
+      title,
+      content,
+      description,
+      slug,
+      keywords,
+      authorId,
+      categoryId,
+      status,
+      createdAt,
+      views,
+      image,
+    };
 
-    }, [postId]);
+    try {
+      if (mode === 'create') {
+        await axiosInstance.post('/api/posts', body);
+        toast.success('Post created successfully');
+      } else {
+        await axiosInstance.put('/api/posts', body); // trailing slash kaldırıldı
+        toast.success('Post updated successfully');
+      }
+      router.push('/admin/posts');
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message ?? 'Save failed');
+    }
+  };
 
+  return (
+    <>
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center flex-row">
+          <h1 className="text-3xl font-bold h-16 items-center">
+            {mode === 'create' ? 'Create Post' : 'Edit Post'}
+          </h1>
+          <div className="flex gap-2 h-16">
+            <AIPrompt
+              setTitle={setTitle}
+              setContent={setContent}
+              setDescription={setDescription}
+              setKeywords={setKeywords}
+              setSlug={setSlug}
+              setCreatedAt={setCreatedAt}
+              toast={toast}
+            />
+            <Link className="btn btn-primary btn-sm h-12" href="/admin/posts">
+              Back to Posts
+            </Link>
+          </div>
+        </div>
 
-    
-    return (
-        <>
-            <div className="container mx-auto">
-                <div className="flex justify-between items-center flex-row">
-                    <h1 className="text-3xl font-bold h-16 items-center">Create Post</h1>
-                    <div className="flex gap-2 h-16">
-                        <AIPrompt 
-                            setTitle={setTitle}
-                            setContent={setContent}
-                            setDescription={setDescription}
-                            setKeywords={setKeywords}
-                            setSlug={setSlug}
-                            setCreatedAt={setCreatedAt}
-                            toast={toast}
-                        />
-                        <Link className="btn btn-primary btn-sm h-12" href="/admin/posts">
-                            Back to Posts
-                        </Link>
-                    </div>
-                </div>
+        <form className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Title</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Title"
+              className="input input-bordered"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
 
-                <div className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Title</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            className="input input-bordered"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Status</span>
+            </label>
+            <select
+              className="select select-bordered"
+              value={status}
+              onChange={(e) => setStatus(e.target.value as PostStatus)}
+            >
+              <option value="DRAFT">Draft</option>
+              <option value="PUBLISHED">Published</option>
+              <option value="ARCHIVED">Archived</option>
+            </select>
+          </div>
 
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Status</span>
-                        </label>
-                        <select
-                            className="select select-bordered"
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}
-                        >
-                            <option value="DRAFT">Draft</option>
-                            <option value="PUBLISHED">Published</option>
-                            <option value="ARCHIVED">Archived</option>
-                        </select>
-                    </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Category</span>
+            </label>
+            <CategorySelect
+              setSelectedCategoryId={setCategoryId}
+              selectedCategoryId={categoryId}
+            />
+          </div>
 
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Category</span>
-                        </label>
-                        <CategorySelect
-                        setSelectedCategoryId={setCategoryId}
-                        selectedCategoryId={categoryId as string}
-                           
-                        />
-                    </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Created At</span>
+            </label>
+            <input
+              type="date"
+              placeholder="Created At"
+              className="input input-bordered"
+              value={isNaN(createdAt.getTime()) ? '' : createdAt.toISOString().split('T')[0]}
+              onChange={(e) => setCreatedAt(new Date(e.target.value))}
+            />
+          </div>
 
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Created At</span>
-                        </label>
-                        <input
-                            type="date"
-                            placeholder="Created At"
-                            className="input input-bordered"
-                            value={createdAt.toISOString().split('T')[0]}
-                            onChange={(e) => setCreatedAt(new Date(e.target.value))}
-                        />
-                    </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Views</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Views"
+              className="input input-bordered"
+              value={views}
+              onChange={(e) => setViews(Number(e.target.value))}
+            />
+          </div>
 
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Views</span>
-                        </label>
-                        <input
-                            type="number"
-                            placeholder="Views"
-                            className="input input-bordered"
-                            value={views}
-                            onChange={(e) => setViews(parseInt(e.target.value))}
-                        />
-                    </div>  
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Content</span>
+            </label>
+            <Editor
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount',
+                ],
+                toolbar:
+                  'undo redo | formatselect | bold italic backcolor | ' +
+                  'alignleft aligncenter alignright alignjustify | ' +
+                  'bullist numlist outdent indent | removeformat | help',
+              }}
+              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+              value={content}
+              onEditorChange={(val) => setContent(val)}
+            />
+          </div>
 
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Content</span>
-                        </label>
-                        <Editor
-                            init={{
-                                height: 500,
-                                menubar: false,
-                                plugins: [
-                                    'advlist autolink lists link image charmap print preview anchor',
-                                    'searchreplace visualblocks code fullscreen',
-                                    'insertdatetime media table paste code help wordcount'
-                                ],
-                                toolbar:
-                                    'undo redo | formatselect | bold italic backcolor | \
-                                alignleft aligncenter alignright alignjustify | \
-                                bullist numlist outdent indent | removeformat | help'
-                            }}
-                            apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-                            value={content}
-                            onEditorChange={(content) => setContent(content)}
-                        />
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Description</span>
+            </label>
+            <textarea
+              placeholder="Description"
+              className="textarea textarea-bordered"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
 
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Description</span>
-                        </label>
-                        <textarea
-                            placeholder="Description"
-                            className="textarea textarea-bordered"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Slug</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Slug"
-                            className="input input-bordered"
-                            value={slug}
-                            onChange={(e) => setSlug(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Keywords</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Keywords"
-                            className="input input-bordered"
-                            value={keywords.join(',')}
-                            onChange={(e) => setKeywords(e.target.value.split(','))}
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Author</span>
-                        </label>
-                        <UserSelect
-                            setSelectedUserId={setAuthorId}
-                            selectedUserId={authorId as string}
-                        />                        
-                    </div>
-                    <div className="form-control mb-4 mt-4">
-                        <label className="label">
-                            <span className="label-text">Image</span>
-                        </label>
-                        <ImageLoad
-                            image={image}
-                            setImage={setImage}
-                            uploadFolder='projects'
-                            toast={toast}
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary block w-full mt-4" onClick={handleSubmit} disabled={loading}>
-                    {loading ? 'Loading...' : mode === 'create' ? 'Create Post' : 'Update Post'}
-                    </button>
-                </div>
-            </div>
-        </>
-    );
-}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Slug</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Slug"
+              className="input input-bordered"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Keywords</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Keywords (comma separated)"
+              className="input input-bordered"
+              value={keywords.join(',')}
+              onChange={(e) =>
+                setKeywords(
+                  e.target.value
+                    .split(',')
+                    .map((s) => s.trim())
+                    .filter((s) => s.length > 0)
+                )
+              }
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Author</span>
+            </label>
+            {/* key ekleyerek param değişiminde remount sağlıyoruz */}
+            <UserSelect
+              key={routePostId}
+              setSelectedUserId={setAuthorId}
+              selectedUserId={authorId}
+            />
+          </div>
+
+          <div className="form-control mb-4 mt-4">
+            <label className="label">
+              <span className="label-text">Image</span>
+            </label>
+            <ImageLoad
+              image={image}
+              setImage={setImage}
+              uploadFolder="projects"
+              toast={toast}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary block w-full mt-4" disabled={loading}>
+            {loading ? 'Loading...' : mode === 'create' ? 'Create Post' : 'Update Post'}
+          </button>
+        </form>
+      </div>
+    </>
+  );
+};
 
 export default SinglePost;

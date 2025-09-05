@@ -1,91 +1,109 @@
 {
-    "navigation": {
-        "home": "Startseite",
-        "portfolio": "Portfolio",
-        "experience": "Erfahrung",
-        "contact": "Kontakt",
-        "blog": "Blog",
-        "freelance": "Freelance",
-        "github": "GitHub",
-        "linkedin": "LinkedIn",
-        "resume": "Lebenslauf",
-        "backend": "Backend"
+  "navigation": {
+    "home": "Startseite",
+    "portfolio": "Portfolio",
+    "experience": "Erfahrung",
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "freelance": "Freelance",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "resume": "Lebenslauf",
+    "backend": "Backend"
+  },
+  "error": {
+    "404": {
+      "title": "Etwas ist schiefgelaufen",
+      "description": "Entschuldigung, wir können diese Seite nicht finden. Auf der Startseite gibt es viel zu entdecken.",
+      "button": "Zur Startseite"
     },
-    "error": {
-        "404": {
-            "title": "Etwas ist schiefgelaufen",
-            "description": "Entschuldigung, wir können diese Seite nicht finden. Auf der Startseite gibt es viel zu entdecken.",
-            "button": "Zur Startseite"
-        },
-        "500": {
-            "title": "Interner Serverfehler",
-            "description": "Auf dem Server ist ein Fehler aufgetreten.",
-            "button": "Zur Startseite"
-        }
-    },
-    "alert": {
-        "this_blog_is_available_in_only_english": "Dieser Blog ist nur auf Englisch verfügbar",
-        "error": "Ein Fehler ist aufgetreten",
-        "success": "Erfolg",
-        "warning": "Warnung",
-        "info": "Information"
-    },
-    "welcome": {
-        "description": "<bold>Produktorientierter Full-Stack-Entwickler</bold> mit <bold>über 2 Jahren Erfahrung</bold> in der Entwicklung robuster und skalierbarer Softwarelösungen in den Bereichen <bold>Frontend, Backend und Mobile für BIM und IoT.</bold> Spezialisiert auf <bold>Java Spring Boot, React, Next.js, Node.js und PostgreSQL</bold>. Kompetent in der Architektur von <bold>Multi-Tenant-SaaS-Plattformen, Echtzeitsystemen und Zahlungsintegrationen.</bold> Verbindet <bold>starke technische Grundlagen</bold> mit <bold>kreativer Problemlösung</bold> und einem <bold>sauberen, systematischen Codierungsansatz.</bold>",
-        "typingEffect": {
-            "prefix": "Ich bin bereit zu",
-            "suffix": "",
-            "text1": "Probleme lösen",
-            "text2": "Produkte entwickeln",
-            "text3": "Lösungen erstellen",
-            "text4": "einen Unterschied machen",
-            "text5": "Herausforderungen annehmen",
-            "text6": "freelancen"
-        },
-        "contact_me": "Kontaktiere mich",
-        "resume": "Lebenslauf"
-    },
-    "toolbox": {
-        "title": "Kreativität braucht viele Werkzeuge",
-        "description": "Ich habe viele Werkzeuge in meinem Werkzeugkasten und lerne ständig neue dazu."
-    },
-    "timeline": {
-        "title": "Meine Reise",
-        "description": "Mein Wechsel vom Bauingenieur zum Softwareentwickler war eine Reise des Lernens, Wachstums und der Transformation. Hier ist ein Überblick über meinen bisherigen beruflichen Weg."
-    },
-    "projects": {
-        "title": "Portfolio",
-        "description": "Meine professionellen Projekte, an denen ich gearbeitet habe."
-    },
-    "contact": {
-        "title": "Kontakt",
-        "description": "Großartige Dinge entstehen, wenn wir miteinander reden.",
-        "phone_and_mail": "Telefon und E-Mail",
-        "social_media": "Soziale Medien",
-        "send_a_message": "Nachricht senden",
-        "reveal_mail": "E-Mail anzeigen",
-        "reveal_phone": "Telefonnummer anzeigen",
-        "can_not_verify_that_you_are_not_a_robot": "Wir können nicht bestätigen, dass Sie kein Roboter sind. Bitte versuchen Sie es später erneut.",
-        "form": {
-            "name": "Name",
-            "enter_your_name": "Geben Sie Ihren Namen ein",
-            "email": "E-Mail",
-            "enter_your_email": "Geben Sie Ihre E-Mail-Adresse ein",
-            "phone": "Telefon",
-            "enter_your_phone": "Geben Sie Ihre Telefonnummer ein",
-            "message": "Nachricht",
-            "enter_your_message": "Geben Sie Ihre Nachricht ein, z. B. Projektbeschreibung, Anforderungen oder weitere Informationen.",
-            "send": "Senden",
-            "success": "Ihre Nachricht wurde erfolgreich gesendet. Ich werde mich so schnell wie möglich bei Ihnen melden.",
-            "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
-            "please_fill_in_all_fields": "Bitte füllen Sie alle Felder aus.",
-            "loading": "Nachricht wird gesendet..."
-        }
-    },
-    "footer": {
-        "all_rights_reserved": "Alle Rechte vorbehalten."
-    },
-    "whatsapp": {
-        "message": "Hallo! Ich bin Kuray Karaaslan, wie kann ich Ihnen helfen?"
+    "500": {
+      "title": "Interner Serverfehler",
+      "description": "Auf dem Server ist ein Fehler aufgetreten.",
+      "button": "Zur Startseite"
     }
+  },
+  "alert": {
+    "this_blog_is_available_in_only_english": "Dieser Blog ist nur auf Englisch verfügbar",
+    "error": "Ein Fehler ist aufgetreten",
+    "success": "Erfolg",
+    "warning": "Warnung",
+    "info": "Information"
+  },
+  "welcome": {
+    "description": "<bold>Produktorientierter Full-Stack-Entwickler</bold> mit <bold>über 2 Jahren Erfahrung</bold> in der Entwicklung robuster und skalierbarer Softwarelösungen in den Bereichen <bold>Frontend, Backend und Mobile für BIM und IoT.</bold> Spezialisiert auf <bold>Java Spring Boot, React, Next.js, Node.js und PostgreSQL</bold>. Kompetent in der Architektur von <bold>Multi-Tenant-SaaS-Plattformen, Echtzeitsystemen und Zahlungsintegrationen.</bold> Verbindet <bold>starke technische Grundlagen</bold> mit <bold>kreativer Problemlösung</bold> und einem <bold>sauberen, systematischen Codierungsansatz.</bold>",
+    "typingEffect": {
+      "prefix": "Ich bin bereit zu",
+      "suffix": "",
+      "text1": "Probleme lösen",
+      "text2": "Produkte entwickeln",
+      "text3": "Lösungen erstellen",
+      "text4": "einen Unterschied machen",
+      "text5": "Herausforderungen annehmen",
+      "text6": "freelancen"
+    },
+    "contact_me": "Kontaktiere mich",
+    "resume": "Lebenslauf"
+  },
+  "toolbox": {
+    "title": "Kreativität braucht viele Werkzeuge",
+    "description": "Ich habe viele Werkzeuge in meinem Werkzeugkasten und lerne ständig neue dazu."
+  },
+  "timeline": {
+    "title": "Meine Reise",
+    "description": "Mein Wechsel vom Bauingenieur zum Softwareentwickler war eine Reise des Lernens, Wachstums und der Transformation. Hier ist ein Überblick über meinen bisherigen beruflichen Weg."
+  },
+  "projects": {
+    "title": "Portfolio",
+    "description": "Meine professionellen Projekte, an denen ich gearbeitet habe."
+  },
+  "contact": {
+    "title": "Kontakt",
+    "description": "Großartige Dinge entstehen, wenn wir miteinander reden.",
+    "phone_and_mail": "Telefon und E-Mail",
+    "social_media": "Soziale Medien",
+    "send_a_message": "Nachricht senden",
+    "reveal_mail": "E-Mail anzeigen",
+    "reveal_phone": "Telefonnummer anzeigen",
+    "can_not_verify_that_you_are_not_a_robot": "Wir können nicht bestätigen, dass Sie kein Roboter sind. Bitte versuchen Sie es später erneut.",
+    "form": {
+      "name": "Name",
+      "enter_your_name": "Geben Sie Ihren Namen ein",
+      "email": "E-Mail",
+      "enter_your_email": "Geben Sie Ihre E-Mail-Adresse ein",
+      "phone": "Telefon",
+      "enter_your_phone": "Geben Sie Ihre Telefonnummer ein",
+      "message": "Nachricht",
+      "enter_your_message": "Geben Sie Ihre Nachricht ein, z. B. Projektbeschreibung, Anforderungen oder weitere Informationen.",
+      "send": "Senden",
+      "success": "Ihre Nachricht wurde erfolgreich gesendet. Ich werde mich so schnell wie möglich bei Ihnen melden.",
+      "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+      "please_fill_in_all_fields": "Bitte füllen Sie alle Felder aus.",
+      "loading": "Nachricht wird gesendet..."
+    }
+  },
+  "footer": {
+    "all_rights_reserved": "Alle Rechte vorbehalten."
+  },
+  "whatsapp": {
+    "message": "Hallo! Ich bin Kuray Karaaslan, wie kann ich Ihnen helfen?"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "name_placeholder": "Geben Sie Ihren Namen ein",
+    "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+    "phone_placeholder": "Geben Sie Ihre Telefonnummer ein",
+    "note_placeholder": "Geben Sie Ihre Notiz ein",
+    "booked": "Gebucht",
+    "cancelled": "Abgesagt",
+    "available": "Verfügbar",
+    "no_available_slots": "Keine verfügbaren Termine",
+    "name": "Ihr Name",
+    "email": "Ihre E-Mail",
+    "phone": "Ihre Telefonnummer",
+    "description": "Vereinbaren Sie einen Termin mit mir.",
+    "available_slots": "Verfügbare Termine",
+    "book_appointment": "Termin buchen",
+    "select_slot": "Bitte wählen Sie einen Termin aus, um einen Termin zu buchen."
+  }
 }
