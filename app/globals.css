@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.cdnfonts.com/css/bookerly');
+
+html {
+  font-family: 'Bookerly', sans-serif;
+}
