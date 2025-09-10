@@ -1,8 +1,10 @@
 import prisma from "@/libs/prisma";
+import redisInstance from "@/libs/redis";
 import { Project } from "@/types/ProjectTypes";
 import { MetadataRoute } from 'next';
 
 export default class ProjectService {
+    private static CACHE_KEY = 'sitemap:project';
 
     private static sqlInjectionRegex = /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i; // SQL injection prevention
     
@@ -92,6 +94,8 @@ export default class ProjectService {
             throw new Error('Missing required fields.');
         }
 
+        await redisInstance.del(this.CACHE_KEY);
+
         return prisma.project.create({
             data,
         });
@@ -106,6 +110,8 @@ export default class ProjectService {
             throw new Error('Missing required fields.');
         }
 
+        await redisInstance.del(this.CACHE_KEY);
+
         return prisma.project.update({
             where: {
                 projectId: data.projectId,
@@ -115,6 +121,9 @@ export default class ProjectService {
     }
 
     static async deleteProject(projectId: string): Promise<Project> {
+
+        await redisInstance.del(this.CACHE_KEY);
+        
         return prisma.project.delete({
             where: {
                 projectId,
@@ -139,5 +148,21 @@ export default class ProjectService {
             };
         });
     }
+
+    static async getAllProjectSlugs(): Promise<{ title: string; slug: string }[]> {
+       const projects = await prisma.project.findMany({
+            select: {
+                title: true,
+                slug: true,
+            },
+            where: {
+                status: 'PUBLISHED',
+            },
+        });
+
+        return projects;
+    }
+
+
 }
 

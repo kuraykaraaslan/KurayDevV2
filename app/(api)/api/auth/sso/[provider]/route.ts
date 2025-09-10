@@ -3,8 +3,10 @@ import { NextResponse } from "next/server";
 import SSOService from "@/services/AuthService/SSOService";
 import RateLimiter from "@/libs/rateLimit";
 
-export async function GET(request: NextRequest, { params }: { params: { provider: string } }) {
-
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ provider: string }> }
+) {
   const { provider } = await params;
 
   try {

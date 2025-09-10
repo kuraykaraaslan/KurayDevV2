@@ -11,8 +11,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
  */
 export async function GET(
   request: NextRequest,
-
-  { params }: { params: { categoryId: string } }
+  { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
     const { categoryId } = await params
@@ -44,7 +43,7 @@ export async function GET(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
 
@@ -52,7 +51,7 @@ export async function DELETE(
 
 
 
-    const { categoryId } = params;
+    const { categoryId } = await params;
     const category = await CategoryService.getCategoryById(categoryId);
 
     if (!category) {
@@ -84,13 +83,13 @@ export async function DELETE(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
 
     await UserSessionService.authenticateUserByRequest(request);
 
-    const { categoryId } = params;
+    const { categoryId } = await params;
     const post = await CategoryService.getCategoryById(categoryId);
 
     if (!post) {

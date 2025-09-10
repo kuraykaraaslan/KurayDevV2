@@ -5,4 +5,4 @@ declare global {
     declare interface NextRequest extends OriginalNextRequest {
         user: SafeUser
     }
-}
+} 

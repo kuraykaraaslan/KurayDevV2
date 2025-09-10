@@ -15,9 +15,8 @@ const Navbar = () => {
 
     const router = useRouter();
 
-    const { session } = useGlobalStore();
+    const { user } = useGlobalStore();
 
-    const user = session?.user;
     const email = user?.email;
     const hash = createHash('sha256').digest('hex');
     const gravitarUrl = `https://www.gravatar.com/avatar/${hash}?d=identicon`;
@@ -70,7 +69,7 @@ const Navbar = () => {
             <div className="">
                 <nav className="mx-auto h-16 flex items-stretch items-center justify-between lg:px-8 from-base-100 to-base-300 bg-gradient-to-b shadow-lg text-primary" aria-label="Global">
                     <div className="py-4 pl-4 lg:pl-0 flex items-center gap-2">
-                        <Logo href="/admin"/>
+                        <Logo href="/admin" />
                         <ThemeButton />
                     </div>
                     <div className="flex lg:hidden">
@@ -94,7 +93,7 @@ const Navbar = () => {
                         <span className="text-sm font-semibold leading-6 text-primary px-4 py-2">{user?.name ? user?.name : email?.split('@')[0]}</span>
                         <Link href="#" className="flex items-center justify-center border-2 border-primary rounded-full">
                             <Image width={48} height={48}
-                                src={session?.user?.image ? session?.user?.image : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
+                                src={user?.profilePicture ? user?.profilePicture : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
                         </Link>
                     </div>
                 </nav>
