@@ -68,12 +68,12 @@ const FeedCardImage = (props: FeedCardProps) => {
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  from-base-100 to-base-300 bg-gradient-to-b border-t-2 border-primary border-opacity-50 drop-shadow-lg "
             + (props.className || "")}>
             <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
-                href={"/blog/" + props.category.slug + "/" + props.slug}>
+                href={"/blog/" + props?.category?.slug + "/" + props.slug}>
                 <img src={props.image!} alt={props.title}
                 className="w-full object-cover rounded-t-lg" />
             </Link>
             <div className="col-span-12 justify-center px-4">
-                <Link className="text-primary" href={"/blog/" + props.category.slug + "/" + props.slug}>
+                <Link className="text-primary" href={"/blog/" + props.category?.slug + "/" + props.slug}>
                     <h3 className="text-xl font-bold">{props.title || "Title"}</h3>
                 </Link>
                 <p className="text-base mt-2">{props.description?.substring(0, 200) || "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}</p>

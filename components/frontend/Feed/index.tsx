@@ -2,14 +2,19 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
-
+import { SafeUser } from '@/types/UserTypes';
 import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-export default function Feed(props: { category?: Category | null }) {
+interface FeedProps {
+    category?: Pick<Category, 'categoryId' | 'title'>;
+    author?: Pick<SafeUser, 'userId' | 'name' | 'profilePicture'>;
+}
 
-    const { category } = props;
+export default function Feed(props: FeedProps) {
+
+    const { category, author } = props;
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
     const [page, setPage] = useState(0);
@@ -17,7 +22,7 @@ export default function Feed(props: { category?: Category | null }) {
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {
-        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : ''))
+        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : '') + `${author ? `&authorId=${author.userId}` : ''}`)
             .then(response => {
 
 
@@ -53,7 +58,7 @@ export default function Feed(props: { category?: Category | null }) {
             >
                 <div className="mx-auto text-center lg:mb-8 -mt-8 lg:mt-0 ">
                     <h2 className="mb-8 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
-                        {category ? category.title : "Blog"}
+                        {category ? category.title : author ? `Posts by ${author.name}` : 'Latest Posts'}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
                         {feeds.map((feed, index) => {

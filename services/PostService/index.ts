@@ -30,7 +30,14 @@ export default class PostService {
                 slug: true,
                 image: true,
             },
-        }
+        },
+        author: {
+            select: {
+                userId: true,
+                name: true,
+                profilePicture: true,
+            },
+        },
     };
 
 
@@ -79,13 +86,13 @@ export default class PostService {
             pageSize: number;
             search?: string;
             categoryId?: string;
-            userId?: string;
+            authorId?: string;
             status?: string; //ALL, PUBLISHED, DRAFT
             postId?: string;
             slug?: string;
         }): Promise<{ posts: PostWithData[], total: number }> {
 
-        const { page, pageSize, search, categoryId, status, userId, postId, slug } = data;
+        const { page, pageSize, search, categoryId, status, authorId, postId, slug } = data;
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
             throw new Error('Invalid search query.');
@@ -117,7 +124,7 @@ export default class PostService {
                         },
                     }
                 ],
-                userId: userId ? userId : undefined,
+                authorId: authorId ? authorId : undefined,
                 postId: postId ? postId : undefined,
                 categoryId: categoryId ? categoryId : undefined,
                 status: status ? status === "ALL" ? undefined : status : "PUBLISHED",

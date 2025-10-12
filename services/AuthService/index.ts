@@ -54,7 +54,7 @@ export default class AuthService {
 
         // Get the user by email
         const user = await prisma.user.findUnique({
-            where: { email: email },
+            where: { email: email.toLowerCase() },
         })
 
         if (!user) {
@@ -116,7 +116,7 @@ export default class AuthService {
             data: {
                 name,
                 phone,
-                email,
+                email: email.toLowerCase(),
                 password: await AuthService.hashPassword(password),
             },
         });

@@ -50,7 +50,6 @@ export async function DELETE(
     await UserSessionService.authenticateUserByRequest(request);
 
 
-
     const { categoryId } = await params;
     const category = await CategoryService.getCategoryById(categoryId);
 

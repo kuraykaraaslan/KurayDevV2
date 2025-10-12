@@ -28,8 +28,8 @@ const PostHeader = (post: PostWithData) => {
         <span className='text-primary hidden md:inline'>•</span>
         <span className='hidden md:inline'>
           by{' '}
-          <Link href='/' className='text-primary'>
-            Kuray Karaaslan
+          <Link href={'/blog/user/' + post.authorId} className='text-primary'>
+            {post.author.name}
           </Link>
         </span>
       </div>

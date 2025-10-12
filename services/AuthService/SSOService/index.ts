@@ -14,6 +14,8 @@ import AutodeskService from './AutodeskService';
 
 import { SSOMessages } from '@/messages/SSOMessages';
 import { AuthMessages } from '@/messages/AuthMessages';
+import { User } from '@prisma/client';
+import { SafeUser } from '@/types/UserTypes';
 
 
 interface SSOProviderService {
@@ -64,30 +66,6 @@ export default class SSOService {
         return bcrypt.hash(password, 10);
     }
 
-    /**
-     * Create or Update User
-     * @param ssoProfile - The SSO profile.
-     * @returns AuthResponse
-     */
-    static async loginOrCreateUser(
-        profile: SSOProfileResponse,
-        accessToken: string,
-        refreshToken?: string
-    ): Promise<any> {
-        if (!profile.email) {
-            throw new Error(SSOMessages.EMAIL_NOT_FOUND);
-        }
-
-        const existingUser = await prisma.user.findUnique({
-            where: { email: profile.email },
-        });
-
-        if (!existingUser) {
-            return this.createUserFromSSOProfile(profile, accessToken, refreshToken);
-        }
-
-        return this.updateUserFromSSOProfile(existingUser.userId, profile, accessToken, refreshToken);
-    }
 
     private static async createUserFromSSOProfile(
         profile: SSOProfileResponse,
@@ -188,11 +166,12 @@ export default class SSOService {
      * @param code - The code.
      * @param state - The state.
      * @param scope - The scope.
+     * @returns The user and whether it's a new user.
      */
     static async authCallback(
         provider: string,
         code: string
-    ) {
+    ): Promise<{ user: SafeUser; newUser: boolean }> {
         if (!code) {
             throw new Error(SSOMessages.CODE_NOT_FOUND);
         }
@@ -207,7 +186,28 @@ export default class SSOService {
 
         try {
             const profile = await providerService.getUserInfo(access_token);
-            return this.loginOrCreateUser(profile, access_token, refresh_token);
+            if (!profile.email) {
+                throw new Error(SSOMessages.EMAIL_NOT_FOUND);
+            }
+
+            let user = await prisma.user.findUnique({
+                where: { email: profile.email },
+            });
+
+            let newUser = false;
+
+            if (!user) {
+                newUser = true;
+                user = await this.createUserFromSSOProfile(profile, access_token, refresh_token);
+            } else {
+                user = await this.updateUserFromSSOProfile(user.userId, profile, access_token, refresh_token);
+            }
+
+            if (!user) {
+                throw new Error(SSOMessages.OAUTH_ERROR);
+            }
+            
+            return { user, newUser };
         } catch (error) {
             throw new Error(SSOMessages.OAUTH_ERROR);
         }

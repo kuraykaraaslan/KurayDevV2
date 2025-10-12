@@ -68,8 +68,6 @@ export default class UserService {
         // Check if the email is already in use
         const existingUser = await prisma.user.findUnique({
             where: { email },
-        }).then(() => {
-            throw new Error(this.EMAIL_ALREADY_EXISTS);
         });
 
         if (existingUser) {

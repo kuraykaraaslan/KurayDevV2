@@ -22,7 +22,7 @@ export async function GET(
         NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
     }
 
-    const user = await SSOService.authCallback(provider, code as string);
+    const { user, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
@@ -32,7 +32,11 @@ export async function GET(
 
     const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession(user, request as any);
 
-    await MailService.sendWelcomeEmail(user);
+    if (newUser) {
+        await MailService.sendWelcomeEmail(user);
+    } else {
+        await MailService.sendNewLoginEmail(user, userSession);
+    }
 
     if (!userSession) {
         //redirect to frontend
@@ -71,7 +75,7 @@ export async function POST(
         NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
     }
 
-    const user = await SSOService.authCallback(provider, code as string);
+    const { user, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
@@ -80,7 +84,11 @@ export async function POST(
 
     const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession(user, request as any);
 
-    await MailService.sendWelcomeEmail(user);
+    if (newUser) {
+        await MailService.sendWelcomeEmail(user);
+    } else {
+        await MailService.sendNewLoginEmail(user, userSession);
+    }
 
     if (!userSession) {
         //redirect to frontend

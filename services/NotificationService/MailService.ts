@@ -5,13 +5,12 @@ import path from 'path';
 import { User } from '@prisma/client';
 
 // Types
-import {SafeUser} from '@/types/UserTypes';
-import SafeUserSession from '@/types/SafeUserSession';
+import { SafeUser } from '@/types/UserTypes';
+import { SafeUserSession } from '@/types/UserSessionTypes';
 
 // Libs
 import { Queue, Worker } from 'bullmq';
 import redisInstance from '@/libs/redis';
-
 
 const MAIL_HOST = process.env.MAIL_HOST || "localhost";
 const MAIL_PORT = process.env.MAIL_PORT || 587;
@@ -20,9 +19,7 @@ const MAIL_PASS = process.env.MAIL_PASS || "password";
 
 const pwd = process.env.PWD || process.cwd();
 
-
 export default class MailService {
-
     static _initialized = false;
 
     static readonly QUEUE_NAME = "mailQueue";
@@ -40,9 +37,7 @@ export default class MailService {
     });
 
     static {
-
         if (!MailService._initialized) {
-
             MailService.WORKER.on('completed', (job) => {
                 Logger.info(`MAIL /MailService/Worker ${job.id} completed`);
             });
@@ -53,12 +48,8 @@ export default class MailService {
         }
     }
 
-
-
     static readonly TEMPLATE_PATH = path.join(pwd, 'views', 'email');
     static readonly APPLICATION_NAME = process.env.APPLICATION_NAME || "Express Boilerplate";
-
-    // These are the default values, you can change them in the .env file
     static readonly FRONTEND_URL = process.env.FRONTEND_HOST + ":" + process.env.FRONTEND_PORT;
 
     static readonly FRONTEND_LOGIN_PATH = process.env.FRONTEND_LOGIN_PATH || "/auth/login";
@@ -69,197 +60,134 @@ export default class MailService {
     static readonly FRONTEND_FORGOT_PASSWORD_PATH = process.env.FRONTEND_FORGOT_PASSWORD_PATH || "/auth/forgot-password";
     static readonly FRONTEND_SUPPORT_EMAIL = process.env.FRONTEND_SUPPORT_EMAIL || "support@example.com";
 
-
-    //GENERATED LINK : NOT MODIFY
-    static readonly FRONTEND_LOGIN_LINK = MailService.FRONTEND_URL + MailService.FRONTEND_LOGIN_PATH;
-    static readonly FRONTEND_REGISTER_LINK = MailService.FRONTEND_URL + MailService.FRONTEND_REGISTER_PATH;
-    static readonly FRONTEND_PRIVACY_LINK = MailService.FRONTEND_URL + MailService.FRONTEND_PRIVACY_PATH;
-    static readonly FRONTEND_TERMS_LINK = MailService.FRONTEND_URL + MailService.FRONTEND_TERMS_PATH;
-    static readonly FRONTEND_RESET_PASSWORD_LINK = MailService.FRONTEND_URL + MailService.FRONTEND_RESET_PASSWORD_PATH;
-    static readonly FRONTEND_FORGOT_PASSWORD_LINK = MailService.FRONTEND_URL + MailService.FRONTEND_FORGOT_PASSWORD_PATH;
-
-
+    // Tekrar eden sabit değişkenler
+    static getBaseTemplateVars() {
+        return {
+            appName: MailService.APPLICATION_NAME,
+            loginLink: MailService.FRONTEND_URL + MailService.FRONTEND_LOGIN_PATH,
+            resetPasswordLink: MailService.FRONTEND_URL + MailService.FRONTEND_RESET_PASSWORD_PATH,
+            forgotPasswordLink: MailService.FRONTEND_URL + MailService.FRONTEND_FORGOT_PASSWORD_PATH,
+            termsLink: MailService.FRONTEND_URL + MailService.FRONTEND_TERMS_PATH,
+            privacyLink: MailService.FRONTEND_URL + MailService.FRONTEND_PRIVACY_PATH,
+            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
+        };
+    }
 
     static readonly transporter = nodemailer.createTransport({
         host: MAIL_HOST,
         port: Number(MAIL_PORT),
-
         secure: Number(MAIL_PORT) === 465,
-        auth: {
-            user: MAIL_USER,
-            pass: MAIL_PASS,
-        },
+        auth: { user: MAIL_USER, pass: MAIL_PASS },
     });
 
     static async sendMail(to: string, subject: string, html: string) {
         try {
-            await MailService.QUEUE.add('sendMail', {
-                to,
-                subject,
-                html,
-            });
+            await MailService.QUEUE.add('sendMail', { to, subject, html });
         } catch (error: any) {
             Logger.error("MAIL /MailService/sendMail " + to + " " + subject + " " + error.message);
         }
     }
-
-
 
     static async _sendMail(to: string, subject: string, html: string) {
         try {
             await MailService.transporter.sendMail({
                 from: `${MailService.APPLICATION_NAME} <${MAIL_USER}>`,
-                to,
-                subject,
-                html,
+                to, subject, html,
             });
         } catch (error: any) {
-            Logger.error("MAIL /MailService/sendMail " + to + " " + subject + " " + error.message);
+            Logger.error("MAIL /MailService/_sendMail " + to + " " + subject + " " + error.message);
         }
     };
 
+    // ---------- Emails ----------
 
     static async sendWelcomeEmail(user: User | SafeUser) {
-
-        const name = user.name || user.email;
-        const email = user.email;
-
-        const emailContent = await ejs.renderFile(path.join(MailService.TEMPLATE_PATH, 'welcome.ejs'), {
-            user: { name: name || email },
-            appName: MailService.APPLICATION_NAME,
-            loginLink: MailService.FRONTEND_LOGIN_LINK,
-            termsLink: MailService.FRONTEND_TERMS_LINK,
-            privacyLink: MailService.FRONTEND_PRIVACY_LINK,
-            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-        });
-
-        await MailService.sendMail(email, 'Welcome to ' + MailService.APPLICATION_NAME, emailContent);
-    };
-
-    static async sendNewLoginEmail(user: User | SafeUser, userSession?: SafeUserSession) {
-
-        const name = user.name || user.email;
-        const email = user.email;
-
-        const emailContent = await ejs.renderFile(path.join(MailService.TEMPLATE_PATH, 'new-login.ejs'), {
-            user: { name: name || email },
-            appName: MailService.APPLICATION_NAME,
-            device: "Unknown",
-            ip: "Unknown",
-            location: "Unknown",
-            loginTime: new Date().toLocaleString(),
-            forgotPasswordLink: MailService.FRONTEND_FORGOT_PASSWORD_LINK,
-            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-            termsLink: MailService.FRONTEND_TERMS_LINK,
-            privacyLink: MailService.FRONTEND_PRIVACY_LINK,
-        });
-
-        await MailService.sendMail(email, 'New Login Detected', emailContent);
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'welcome.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: user.name || user.email }
+            }
+        );
+        await MailService.sendMail(user.email, 'Welcome to ' + MailService.APPLICATION_NAME, emailContent);
     }
 
+    static async sendNewLoginEmail(user: User | SafeUser, userSession?: SafeUserSession) {
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'new-login.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: user.name || user.email },
+                device: "Unknown",
+                ip: "Unknown",
+                location: "Unknown",
+                loginTime: new Date().toLocaleString(),
+            }
+        );
+        await MailService.sendMail(user.email, 'New Login Detected', emailContent);
+    }
 
-    static async sendForgotPasswordEmail(
-        email: string,
-        name?: string | null,
-        resetToken?: string) {
-
-        const emailContent = await ejs.renderFile(path.join(MailService.TEMPLATE_PATH, 'forgot-password.ejs'), {
-            user: { name: name || email },
-            appName: MailService.APPLICATION_NAME,
-            resetToken: resetToken,
-            resetLink: MailService.FRONTEND_URL + MailService.FRONTEND_FORGOT_PASSWORD_PATH + "?resetToken=" + resetToken + "&email=" + email,
-            expiryTime: 1, // Expiry time in hours
-            termsLink: MailService.FRONTEND_TERMS_LINK,
-            privacyLink: MailService.FRONTEND_PRIVACY_LINK,
-            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-        });
-
-
+    static async sendForgotPasswordEmail(email: string, name?: string | null, resetToken?: string) {
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'forgot-password.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: name || email },
+                resetToken,
+                resetLink: MailService.FRONTEND_URL +
+                  MailService.FRONTEND_FORGOT_PASSWORD_PATH +
+                  "?resetToken=" + resetToken + "&email=" + email,
+                expiryTime: 1,
+            }
+        );
         await MailService.sendMail(email, 'Reset Your Password', emailContent);
     }
 
-    static async sendPasswordResetSuccessEmail(
-        email: string,
-        name?: string | null
-    ) {
-
-        const emailContent = await ejs.renderFile(path.join(MailService.TEMPLATE_PATH, 'password-reset.ejs'), {
-            user: { name: name || email },
-            appName: MailService.APPLICATION_NAME,
-            loginLink: MailService.FRONTEND_LOGIN_LINK,
-            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-            termsLink: MailService.FRONTEND_TERMS_LINK,
-            privacyLink: MailService.FRONTEND_PRIVACY_LINK,
-        });
-
+    static async sendPasswordResetSuccessEmail(email: string, name?: string | null) {
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'password-reset.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: name || email },
+            }
+        );
         await MailService.sendMail(email, 'Password Reset Successful', emailContent);
-
     }
 
-    static async sendOTPEmail({
-        email,
-        name,
-        otpToken,
-    }: {
-        email: string;
-        name?: string | null;
-        otpToken: string;
-    }) {
+    static async sendOTPEmail({ email, name, otpToken }: { email: string; name?: string | null; otpToken: string; }) {
+        if (!otpToken) throw new Error("OTP token is required");
+        if (!email) throw new Error("Email is required");
 
-        if (!otpToken) {
-            throw new Error("OTP token is required");
-        }
-
-        if (!email) {
-            throw new Error("Email is required");
-        }
-
-        const emailContent = await ejs.renderFile(path.join(MailService.TEMPLATE_PATH, 'otp.ejs'), {
-            user: { name: name || email },
-            appName: MailService.APPLICATION_NAME,
-            loginLink: MailService.FRONTEND_LOGIN_LINK,
-            resetPasswordLink: MailService.FRONTEND_RESET_PASSWORD_LINK,
-            termsLink: MailService.FRONTEND_TERMS_LINK,
-            privacyLink: MailService.FRONTEND_PRIVACY_LINK,
-            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-            otpToken: otpToken,
-        });
-
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'otp.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: name || email },
+                otpToken,
+            }
+        );
         await MailService.sendMail(email, 'Your OTP Code', emailContent);
-
     }
 
     static async sendOTPEnabledEmail(email: string, name?: string) {
-
-
-        const emailContent = await ejs.renderFile(path.join(MailService.TEMPLATE_PATH, 'otp-enabled.ejs'), {
-            user: { name: name || email },
-            appName: MailService.APPLICATION_NAME,
-            loginLink: MailService.FRONTEND_LOGIN_LINK,
-            resetPasswordLink: MailService.FRONTEND_RESET_PASSWORD_LINK,
-            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-            termsLink: MailService.FRONTEND_TERMS_LINK,
-            privacyLink: MailService.FRONTEND_PRIVACY_LINK,
-        });
-
-
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'otp-enabled.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: name || email },
+            }
+        );
         await MailService.sendMail(email, 'OTP Enabled', emailContent);
     }
 
-
     static async sendOTPDisabledEmail(email: string, name?: string) {
-
-        const emailContent = await ejs.renderFile(path.join(MailService.TEMPLATE_PATH, 'otp-disabled.ejs'), {
-            user: { name: name || email },
-            appName: MailService.APPLICATION_NAME,
-            loginLink: MailService.FRONTEND_LOGIN_LINK,
-            resetPasswordLink: MailService.FRONTEND_RESET_PASSWORD_LINK,
-            supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-            termsLink: MailService.FRONTEND_TERMS_LINK,
-            privacyLink: MailService.FRONTEND_PRIVACY_LINK,
-        });
-
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'otp-disabled.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: name || email },
+            }
+        );
         await MailService.sendMail(email, 'OTP Disabled', emailContent);
     }
-
 }

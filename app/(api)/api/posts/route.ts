@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
         const page = parseInt(searchParams.get('page') || '1', 10);
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const postId = searchParams.get('postId') || undefined;
-        const userId = searchParams.get('userId') || undefined;
+        const authorId = searchParams.get('authorId') || undefined;
         const status = searchParams.get('status') || 'PUBLISHED';
         const categoryId = searchParams.get('categoryId') || undefined;
         const search = searchParams.get('search') || undefined;
@@ -33,7 +33,8 @@ export async function GET(request: NextRequest) {
             categoryId,
             search,
             postId,
-            userId
+            authorId,
+        
         });
 
         return NextResponse.json({ posts: result.posts, total: result.total , page, pageSize });

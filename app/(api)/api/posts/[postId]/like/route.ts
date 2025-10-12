@@ -8,7 +8,7 @@ export async function POST(request: NextRequest, { params }: { params: { postId:
     await UserSessionService.authenticateUserByRequest(request, 'GUEST' );
     
     const { postId } = await params;
-    const userId = request.user.userId; // Extract userId from the authenticated session
+    const userId = request?.user?.userId || null;
     
     // Call the likePost method with the postId and userId
     await PostLikeService.likePost({
@@ -19,6 +19,7 @@ export async function POST(request: NextRequest, { params }: { params: { postId:
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
+    console.error('Error liking post:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
