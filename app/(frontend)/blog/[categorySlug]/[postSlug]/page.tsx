@@ -12,6 +12,7 @@ import PostHeader from '@/components/frontend/PostHeader';
 
 import MetadataHelper from '@/helpers/MetadataHelper';
 import UserSessionService from '@/services/AuthService/UserSessionService';
+import ReadingProgressBar from '@/components/frontend/ReadingProgressBar';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
@@ -66,6 +67,7 @@ export default async function BlogPost({ request, params }: { request: NextReque
 
         return (
             <>
+                <ReadingProgressBar />
                 {MetadataHelper.generateElements(metadata)}
                 <section className="min-h-screen bg-base-100 pt-32" id="blog">
                     <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col">
