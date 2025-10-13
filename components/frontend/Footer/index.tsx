@@ -9,6 +9,7 @@ import {
 
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import SystemStatusButton from "../SystemStatusButton";
 
 const Footer = (props: any) => {
 
@@ -21,6 +22,7 @@ const Footer = (props: any) => {
           <p>
               © {new Date().getFullYear()} Kuray Karaaslan. {t("footer.all_rights_reserved")}
           </p>
+          <SystemStatusButton />
         </div>
         <div className="col-span-1 flex flex-row flex-wrap justify-start">
 
