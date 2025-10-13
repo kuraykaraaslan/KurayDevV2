@@ -59,6 +59,10 @@ const Navbar = () => {
             href: "/admin/users",
         },
         {
+            name: "Slots",
+            href: "/admin/slots",
+        },
+        {
             name: "Settings",
             href: "/admin/settings",
         }

@@ -3,56 +3,50 @@
 import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
 import './style.css'
-import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import useGlobalStore from '@/libs/zustand'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCalendar,
-  faClock,
-  faStopwatch
-} from '@fortawesome/free-solid-svg-icons'
-import type Value from 'react-calendar'
+import { faCalendar, faClock, faStopwatch, faX } from '@fortawesome/free-solid-svg-icons'
+import { format, parseISO, differenceInMinutes } from 'date-fns'
+import type { Slot } from '@/types/CalendarTypes'
+import axios from 'axios'
+import AppointmentModal from './AppointmentModal'
 
-import { AppointmentSlot, DailyAvailability } from '@/types/CalendarTypes'
-
-import axiosInstance from '@/libs/axios'
-
-export default function AppointmentCalendar () {
-  const [availabilities, setAvailabilities] = useState<DailyAvailability[]>([])
+export default function AppointmentCalendar() {
+  const [availableSlots, setAvailableSlots] = useState<Slot[]>([])
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-  const [selectedSlot, setSelectedSlot] = useState<AppointmentSlot | null>(null)
+  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null)
   const today = new Date()
 
-  const { t } = useTranslation()
-  const { user } = useGlobalStore()
+  /** Format date as yyyy-MM-dd */
+  const formatDate = (date: Date) => format(date, 'yyyy-MM-dd')
 
-  const formatDate = (date: Date) => date.toLocaleDateString('sv-SE')
+  /** Tile styling */
+  const getTileClassName = ({ date }: { date: Date }): string => {
+    const d = formatDate(date)
+    const todayStr = formatDate(today)
+    const hasSlot = availableSlots.some(
+      (s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d
+    )
+    const isSelected = format(selectedDate, 'yyyy-MM-dd') === d
+    const isPast = date < new Date(todayStr)
 
-  const getTileClassName = (date: Date): string => {
-    const dateStr = formatDate(date)
-    const isToday = date.toDateString() === today.toDateString()
-    const hasSlot = availabilities.some(a => a.date === dateStr)
-    const isPast = date < new Date(today.toDateString())
-    const isSelected = selectedDate.toDateString() === date.toDateString()
-
-    const classes = []
+    const classes: string[] = []
     if (isSelected) classes.push('selected')
-    if (isToday) classes.push('now')
-    if (hasSlot) classes.push('available')
-    else classes.push('unavailable')
+    if (d === todayStr) classes.push('now')
+    classes.push(hasSlot ? 'available' : 'unavailable')
     if (isPast) classes.push('disabled')
-
     return classes.join(' ')
   }
 
-  const getSlotsForDate = (date: Date) => {
-    const dateStr = formatDate(date)
-    return availabilities.find(a => a.date === dateStr)?.slots || []
+  const slotsOf = (date: Date) => {
+    const d = format(date, 'yyyy-MM-dd')
+    return availableSlots.filter(
+      (s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d
+    )
   }
 
-  // @ts-ignore
-  const handleDateSelect = ( value: Value,
+  const handleDateSelect = (
+    value: Date | Date[] | null,
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (value instanceof Date) {
@@ -61,267 +55,129 @@ export default function AppointmentCalendar () {
     }
   }
 
-  const handleTimeSelect = (slot: AppointmentSlot) => {
-    setSelectedDate(new Date(slot.date))
+  const handleTimeSelect = (slot: Slot) => {
     setSelectedSlot(slot)
   }
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget as HTMLFormElement)
-    const name = data.get('name') as string
-    const email = data.get('email') as string
-    const phone = data.get('phone') as string
-    const note = data.get('note') as string
-
-    if (!selectedSlot) return
+  const preloadRange = async () => {
+    const start = new Date()
+    const end = new Date()
+    end.setDate(start.getDate() + 14)
 
     try {
-      const response = await axiosInstance.post('/api/appointments/book', {
-        name,
-        email,
-        phone,
-        note,
-        slot: selectedSlot
-      })
-
-      if (response.data.success) {
-        toast.success(t('calendar.success'))
-        fetchAvailabilities()
-        // @ts-ignore
-        document.getElementById('my_modal_1')?.close()
-      } else {
-        toast.error(response.data.message)
-      }
-    } catch (error) {
-      toast.error(t('calendar.error'))
-    }
-  }
-
-  const isDatePast = (date: Date): boolean => {
-    const today = new Date()
-    return (
-      date < new Date(today.getFullYear(), today.getMonth(), today.getDate())
-    )
-  }
-
-  const fetchAvailabilities = async () => {
-    try {
-      const response = await axiosInstance.get<DailyAvailability[]>(
-        '/api/appointments/slots'
+      const res = await axios.get(
+        `/api/slots?startDate=${formatDate(start)}&endDate=${formatDate(end)}`
       )
-      const data = response.data
-      setAvailabilities(data)
+      const data = (res.data?.slots || []) as Slot[]
+      setAvailableSlots(data)
 
-      if (data.length > 0) {
-        const todayStr = formatDate(new Date())
-        const todayAvailability = data.find(a => a.date === todayStr)
-
-        if (todayAvailability?.slots?.length) {
-          setSelectedDate(new Date(todayAvailability.date))
-          setSelectedSlot(todayAvailability.slots[0])
-        } else {
-          const firstAvailable = data.find(a => a.slots.length > 0)
-          if (firstAvailable) {
-            setSelectedDate(new Date(firstAvailable.date))
-            setSelectedSlot(firstAvailable.slots[0])
-          }
-        }
-      } else {
-        setSelectedDate(new Date())
-        setSelectedSlot(null)
+      // Select first available date automatically
+      if (!selectedDate && data.length > 0) {
+        const first = new Date(data[0].startTime)
+        setSelectedDate(first)
       }
-    } catch (error) {
-      console.error('Error fetching availabilities:', error)
-      toast.error(t('calendar.fetchError'))
-      setAvailabilities([])
+    } catch (err) {
+      console.error(err)
+      toast.error('Slotlar alınamadı')
     }
   }
 
   useEffect(() => {
-    fetchAvailabilities()
+    preloadRange()
   }, [])
 
   return (
-    <section className='bg-base-200 pt-16' id='portfolio'>
-      <div className='px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000'>
-        <div className='mx-auto max-w-screen-sm text-center -mt-8 lg:mt-0'>
-          <h2 className='mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold'>
-            {t('calendar.title')}
+    <section className="bg-base-200 pt-16" id="appointments">
+      <div className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6">
+        <div className="mx-auto max-w-screen-sm text-center -mt-8 lg:mt-0">
+          <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
+            Randevu
           </h2>
-          <p className='font-light sm:text-xl'>{t('calendar.description')}</p>
+          <p className="font-light sm:text-xl">Uygun bir günü ve saati seçin</p>
         </div>
 
-        <div className='flex flex-wrap justify-center gap-4 mb-8 mt-3'>
-          {/* Takvim */}
-          <div className='w-1/2 sm:w-1/3 md:w-1/4'>
+        <div className="flex flex-wrap justify-center gap-4 mb-8 mt-3">
+          <div className="w-1/2 sm:w-1/3 md:w-1/4">
             <Calendar
+              // @ts-ignore
               onChange={handleDateSelect}
               value={selectedDate}
-              tileClassName={({ date }) => getTileClassName(date)}
-              minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
-              maxDate={new Date(new Date().setDate(new Date().getDate() + 14))}
+              tileClassName={getTileClassName}
+              minDate={today}
+              maxDate={new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000)}
             />
           </div>
 
-          {/* Slot seçimi ve form */}
-          <div className='w-1/2 sm:w-1/3 md:w-1/4'>
-            {isDatePast(selectedDate) ? (
-              <div className='text-lg font-semibold mb-2'>
-                {t('calendar.past_date_warning')}
-              </div>
-            ) : (
-              <>
-                <h3 className='text-lg font-semibold mb-2'>
-                  {t('calendar.available_slots')}
-                </h3>
-                <ul className='flex flex-wrap gap-2'>
-                  {getSlotsForDate(selectedDate).map((slot, index) => (
-                    <li key={index}>
+          <div className="w-1/2 sm:w-1/3 md:w-1/4">
+            {slotsOf(selectedDate).length > 0 ? (
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Mevcut Saatler</h3>
+                <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-2">
+                  {slotsOf(selectedDate).map((slot, idx) => {
+                    const start = new Date(slot.startTime)
+                    const end = new Date(slot.endTime)
+                    const length = differenceInMinutes(end, start)
+                    const label = `${format(start, 'HH:mm')}`
+                    const isSelected =
+                      selectedSlot?.startTime === slot.startTime &&
+                      selectedSlot?.endTime === slot.endTime
+
+                    return (
                       <button
-                        className={`btn btn-sm ${
-                          selectedSlot?.time === slot.time
-                            ? 'btn-accent'
-                            : 'btn-outline'
-                        }`}
+                        key={idx}
+                        disabled={slot.capacity <= 0}
+                        className={`btn btn-outline btn-sm btn-block text-left h-16 ${isSelected ? 'btn-primary' : ''
+                          } ${slot.capacity <= 0 ? 'btn-disabled cursor-not-allowed' : ''}`}
                         onClick={() => handleTimeSelect(slot)}
                       >
-                        {slot.time}
+                        <FontAwesomeIcon icon={slot.capacity <= 0 ? faX : faClock} className="mr-2" />
+                        {label} ({length} dk)
                       </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-
-            {selectedSlot ? (
-              <div className='mt-4'>
-                <h3 className='text-lg font-semibold mb-2'>
-                  {t('calendar.selected_slot')}
-                </h3>
-                <p className='text-sm space-x-2'>
-                  <span className='font-semibold'>
-                    <FontAwesomeIcon icon={faCalendar} className='mr-2' />
-                    {formatDate(selectedDate)}
-                  </span>
-                  <span className='font-semibold'>
-                    <FontAwesomeIcon icon={faClock} className='mr-2' />
-                    {selectedSlot.time}
-                  </span>
-                  <span className='font-semibold'>
-                    <FontAwesomeIcon icon={faStopwatch} className='mr-2' />
-                    {t('calendar.minutes', {
-                      count: selectedSlot.length || 30
-                    })}
-                  </span>
-                </p>
-
-                <button
-                  className='btn btn-primary btn-block mt-4'
-                  onClick={() => {
-                    // @ts-ignore
-                    document.getElementById('my_modal_1')?.showModal()
-                  }}
-                >
-                  <FontAwesomeIcon icon={faCalendar} className='mr-2' />
-                  {t('calendar.book_appointment')}
-                </button>
+                    )
+                  })}
+                </div>
               </div>
             ) : (
-              <div className='mt-4 text-lg'>{t('calendar.select_slot')}</div>
+              <p className="text-sm text-gray-500">Seçilen gün için müsait saat yok.</p>
+            )}
+
+            {selectedSlot && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2">Seçilen Saat</h3>
+                <p className="text-sm space-x-2">
+                  <span className="font-semibold">
+                    <FontAwesomeIcon icon={faCalendar} className="mr-2" />
+                    {format(parseISO(selectedSlot.startTime.toString()), 'yyyy-MM-dd')}
+                  </span>
+                  <span className="font-semibold">
+                    <FontAwesomeIcon icon={faClock} className="mr-2" />
+                    {format(new Date(selectedSlot.startTime), 'HH:mm')} -{' '}
+                    {format(new Date(selectedSlot.endTime), 'HH:mm')}
+                  </span>
+                  <span className="font-semibold">
+                    <FontAwesomeIcon icon={faStopwatch} className="mr-2" />
+                    {differenceInMinutes(
+                      new Date(selectedSlot.endTime),
+                      new Date(selectedSlot.startTime)
+                    )}{' '}
+                    dk
+                  </span>
+                </p>
+                <button
+                  className="btn btn-primary btn-block mt-4"
+                  onClick={() =>
+                    (document.getElementById('appt_modal') as HTMLDialogElement)?.showModal()
+                  }
+                >
+                  Randevu Al
+                </button>
+              </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Modal */}
-      <dialog id='my_modal_1' className='modal'>
-        <div className='modal-box'>
-          <h3 className='font-bold text-lg mb-4'>
-            {t('calendar.book_appointment')}
-          </h3>
-
-          <p className='text-sm space-x-2 mb-4'>
-            <span className='font-semibold'>
-              <FontAwesomeIcon icon={faCalendar} className='mr-2' />
-              {formatDate(selectedDate)}
-            </span>
-            <span className='font-semibold'>
-              <FontAwesomeIcon icon={faClock} className='mr-2' />
-              {selectedSlot?.time}
-            </span>
-            <span className='font-semibold'>
-              <FontAwesomeIcon icon={faStopwatch} className='mr-2' />
-              {t('calendar.minutes', { count: selectedSlot?.length || 30 })}
-            </span>
-          </p>
-
-          <form onSubmit={handleFormSubmit} className='space-y-3'>
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.name')}</span>
-              </label>
-              <input
-                type='text'
-                name='name'
-                required
-                placeholder={t('calendar.name_placeholder')}
-                className='input input-bordered w-full'
-              />
-            </div>
-
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.email')}</span>
-              </label>
-              <input
-                type='email'
-                name='email'
-                required
-                placeholder={t('calendar.email_placeholder')}
-                className='input input-bordered w-full'
-              />
-            </div>
-
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.phone')}</span>
-              </label>
-              <input
-                type='tel'
-                name='phone'
-                required
-                placeholder={t('calendar.phone_placeholder')}
-                className='input input-bordered w-full'
-              />
-            </div>
-
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.note')}</span>
-              </label>
-              <textarea
-                name='note'
-                rows={3}
-                placeholder={t('calendar.note_placeholder')}
-                className='textarea textarea-bordered w-full'
-              />
-            </div>
-
-            <button type='submit' className='btn btn-primary w-full'>
-              {t('calendar.book_appointment')}
-            </button>
-          </form>
-
-          <div className='modal-action'>
-            <form method='dialog' className='w-full'>
-              <button className='btn btn-secondary btn-block'>
-                {t('calendar.close')}
-              </button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <AppointmentModal selectedSlot={selectedSlot} preloadRange={preloadRange} />
     </section>
   )
 }

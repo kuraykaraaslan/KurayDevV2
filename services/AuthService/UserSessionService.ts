@@ -11,6 +11,7 @@ import crypto from "crypto";
 import AuthMessages from "@/messages/AuthMessages";
 
 import { v4 as uuidv4 } from "uuid";
+import redisInstance from "@/libs/redis";
 
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; // Burada bir varsayılan değer belirleyebilirsiniz
@@ -20,6 +21,7 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET; // Burada bir var
 const REFRESH_TOKEN_EXPIRES_IN: string | number = process.env.REFRESH_TOKEN_EXPIRES_IN || '7d'; // veya '7d' gibi
 
 const SESSION_EXPIRY_MS = parseInt(process.env.SESSION_EXPIRY_MS || `${1000 * 60 * 60 * 24 * 7}`); // 7 gün
+const SESSION_REDIS_EXPIRY_MS = parseInt(process.env.SESSION_REDIS_EXPIRY_MS || `${1000 * 60 * 30}`); // 30 min default
 
 
 if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
@@ -28,6 +30,10 @@ if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
 
 if (isNaN(SESSION_EXPIRY_MS)) {
   throw new Error("Invalid SESSION_EXPIRY_MS value in environment variables.");
+}
+
+if (isNaN(SESSION_REDIS_EXPIRY_MS)) {
+  throw new Error("Invalid SESSION_REDIS_EXPIRY_MS value in environment variables.");
 }
 
 export default class UserSessionService {
@@ -238,54 +244,51 @@ export default class UserSessionService {
    * @param accessToken - The session token.
    * @returns The user session.
    */
-  static async getSessionDangerously(accessToken: string, request: NextRequest): Promise<{ user: SafeUser, userSession: SafeUserSession }> {
-
-    // Verify the access token
+  static async getSessionDangerously(
+    accessToken: string,
+    request: NextRequest
+  ): Promise<{ user: SafeUser; userSession: SafeUserSession }> {
     const deviceFingerprint = await UserSessionService.generateDeviceFingerprint(request);
-
     const { userId } = await UserSessionService.verifyAccessToken(accessToken, deviceFingerprint);
 
-    // Check if the device fingerprint is provided
+    const cacheKey = `session:${userId}:${UserSessionService.hashToken(accessToken)}`;
+
+    // 1️⃣ Try from Redis cache first
+    const cached = await redisInstance.get(cacheKey);
+    if (cached) {
+      const { user, userSession } = JSON.parse(cached);
+      return { user, userSession };
+    }
+
+    // 2️⃣ If not cached, query DB
     const hashedAccessToken = UserSessionService.hashToken(accessToken);
 
     const userSession = await prisma.userSession.findFirst({
       where: {
         accessToken: hashedAccessToken,
         deviceFingerprint: deviceFingerprint,
-        sessionExpiry: {
-          gte: new Date(), // Check if the session is not expired   
-        },
-
+        sessionExpiry: { gte: new Date() },
       },
-    })
+    });
 
-    if (!userSession || userSession.userId !== userId) {
+    if (!userSession || userSession.userId !== userId)
       throw new Error(AuthMessages.SESSION_NOT_FOUND);
-    }
-
-    // Otp needed kontrolü
-    if (userSession.otpVerifyNeeded) {
+    if (userSession.otpVerifyNeeded)
       throw new Error(AuthMessages.OTP_NEEDED);
-    }
-
-    // Check if the connection is from the same device
-    if (userSession.deviceFingerprint !== deviceFingerprint) {
+    if (userSession.deviceFingerprint !== deviceFingerprint)
       throw new Error(AuthMessages.DEVICE_FINGERPRINT_NOT_MATCH);
-    }
 
-    // Check if the session 
-    const user = await prisma.user.findUnique({
-      where: { userId: userSession.userId },
-    })
+    const user = await prisma.user.findUnique({ where: { userId: userSession.userId } });
+    if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
 
-    if (!user) {
-      throw new Error(AuthMessages.USER_NOT_FOUND);
-    }
+    const safeUser = UserService.omitSensitiveFields(user);
+    const safeSession = UserSessionService.omitSensitiveFields(userSession);
 
-    return {
-      user: UserService.omitSensitiveFields(user),
-      userSession: UserSessionService.omitSensitiveFields(userSession),
-    };
+    // 3️⃣ Cache result in Redis
+    const ttlSeconds = Math.floor(SESSION_REDIS_EXPIRY_MS / 1000);
+    await redisInstance.setex(cacheKey, ttlSeconds, JSON.stringify({ user: safeUser, userSession: safeSession }));
+
+    return { user: safeUser, userSession: safeSession };
   }
 
   /**
@@ -314,60 +317,85 @@ export default class UserSessionService {
   }
 
 
-  public static async refreshAccessToken(currentRefreshToken: string) {
-
-    // Decode the refresh token
+  static async refreshAccessToken(currentRefreshToken: string) {
+    // 🔍 Decode & verify refresh token
     const { userId } = await UserSessionService.verifyRefreshToken(currentRefreshToken);
 
+    // Hash the current refresh token for DB lookup
+    const hashedRefreshToken = UserSessionService.hashToken(currentRefreshToken);
+
+    // 🔎 Find the session in DB
     const userSession = await prisma.userSession.findFirst({
       where: {
-        refreshToken: UserSessionService.hashToken(currentRefreshToken),
-        userId: userId,
-        sessionExpiry: {
-          gte: new Date(), // Check if the session is not expired
-        },
+        refreshToken: hashedRefreshToken,
+        userId,
+        sessionExpiry: { gte: new Date() },
       },
     });
 
-
     if (!userSession) throw new Error(AuthMessages.SESSION_NOT_FOUND);
+    if (userSession.otpVerifyNeeded) throw new Error(AuthMessages.OTP_NEEDED);
 
+    // 🚨 Reuse detection: verify the stored token matches hash
+    if (userSession.refreshToken !== hashedRefreshToken) {
+      // Token reuse detected → invalidate all sessions
+      await prisma.userSession.deleteMany({ where: { userId: userSession.userId } });
 
-    // Otp needed kontrolü
-    if (userSession.otpVerifyNeeded) {
-      throw new Error(AuthMessages.OTP_NEEDED);
+      // 🔥 Remove from Redis immediately
+      const pattern = `session:${userSession.userId}:*`;
+      const keys = await redisInstance.keys(pattern);
+      if (keys.length > 0) await redisInstance.del(...keys);
+
+      throw new Error(AuthMessages.REFRESH_TOKEN_REUSED);
     }
 
-    const hashed = this.hashToken(currentRefreshToken);
+    // 🔁 Generate new tokens
+    const newAccessToken = UserSessionService.generateAccessToken(
+      userSession.userId,
+      userSession.userSessionId,
+      userSession.deviceFingerprint!
+    );
 
-    // 🔁 Refresh token reuse kontrolü
-    if (userSession.refreshToken !== hashed) {
-      // Reuse detected: tüm oturumları sil
-      await prisma.userSession.deleteMany({
-        where: {
-          userId: userSession.userId,
-        },
-      });
+    const newRefreshToken = UserSessionService.generateRefreshToken(
+      userSession.userId,
+      userSession.userSessionId,
+      userSession.deviceFingerprint!
+    );
 
-      throw new Error(AuthMessages.REFRESH_TOKEN_REUSED); // ya da 401
-    }
+    const newRefreshTokenHash = UserSessionService.hashToken(newRefreshToken);
+    const newAccessTokenHash = UserSessionService.hashToken(newAccessToken);
 
-    // 🔄 Token rotation
-    const newAccessToken = this.generateAccessToken(userSession.userId, userSession.userSessionId, userSession.deviceFingerprint!);
-    const newRefreshToken = this.generateRefreshToken(userSession.userId, userSession.userSessionId, userSession.deviceFingerprint!);
-    const newRefreshTokenHash = this.hashToken(newRefreshToken);
-
+    // 🕓 Update DB session
     const updatedSession = await prisma.userSession.update({
       where: { userSessionId: userSession.userSessionId },
       data: {
-        accessToken: this.hashToken(newAccessToken),
+        accessToken: newAccessTokenHash,
         refreshToken: newRefreshTokenHash,
         sessionExpiry: new Date(Date.now() + SESSION_EXPIRY_MS),
-      }
+      },
     });
 
+    // 🧹 Invalidate old Redis caches
+    const pattern = `session:${userSession.userId}:*`;
+    const keys = await redisInstance.keys(pattern);
+    if (keys.length > 0) await redisInstance.del(...keys);
+
+    // ⚡ Cache the updated session with new tokens
+    const safeSession = UserSessionService.omitSensitiveFields(updatedSession);
+    const ttlSeconds = Math.floor(SESSION_REDIS_EXPIRY_MS / 1000);
+
+    await redisInstance.setex(
+      `session:${userSession.userId}:${newAccessTokenHash}`,
+      ttlSeconds,
+      JSON.stringify({
+        userSession: safeSession,
+        // Optional: You may also cache user details if needed for getSessionDangerously
+      })
+    );
+
+    // ✅ Return new tokens & session
     return {
-      userSession: this.omitSensitiveFields(updatedSession),
+      userSession: safeSession,
       rawAccessToken: newAccessToken,
       rawRefreshToken: newRefreshToken,
     };
@@ -382,16 +410,19 @@ export default class UserSessionService {
    * @returns A promise that resolves when the sessions are destroyed.
    */
   static async destroyOtherSessions(userSession: SafeUserSession): Promise<void> {
-    // Delete all sessions except the current one
     await prisma.userSession.deleteMany({
       where: {
         userId: userSession.userId,
-        userSessionId: {
-          not: userSession.userSessionId,
-        },
+        userSessionId: { not: userSession.userSessionId },
       },
     });
+
+    // 🧹 Clear all Redis caches except the current session
+    const pattern = `session:${userSession.userId}:*`;
+    const keys = await redisInstance.keys(pattern);
+    if (keys.length > 0) await redisInstance.del(...keys);
   }
+
 
 
 
@@ -401,12 +432,16 @@ export default class UserSessionService {
    */
 
   static async deleteSession(data: SafeUserSession): Promise<void> {
-
     await prisma.userSession.deleteMany({
       where: { userSessionId: data.userSessionId },
     });
 
+    // 🧹 Remove related cache entries
+    const pattern = `session:${data.userId}:*`;
+    const keys = await redisInstance.keys(pattern);
+    if (keys.length > 0) await redisInstance.del(...keys);
   }
+
 
 
   /**
@@ -454,8 +489,8 @@ export default class UserSessionService {
       return user;
     } catch (error: any) {
       if (requiredUserRole !== "GUEST") {
-        throw new Error(error.message || AuthMessages.USER_NOT_AUTHENTICATED);
-      } 
+        throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
+      }
       request.user = null; // GUEST role is allowed to not be authenticated
       return null; // GUEST role is allowed to not be authenticated
     }

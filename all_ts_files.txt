@@ -1741,102 +1741,327 @@ export default class UserService {
 
 
 
-=== ./services/AppointmentService/WorkDayService.ts ===
-import prisma from '@/libs/prisma'
+=== ./services/AppointmentService/SlotService.ts ===
+import redisInstance from '@/libs/redis'
+import { Slot } from '@/types/CalendarTypes'
+import { format, parse } from 'date-fns'
+import { separateDateTimeWithTimeZone } from '@/helpers/TimeHelper'
 
-export default class WorkDayService {
-  static async getWorkDays({
-    startDate,
-    endDate,
-  }: {
-    startDate: Date
-    endDate: Date
-  }) {
-    return prisma.workDay.findMany({
-      where: {
-        date: {
-          gte: startDate,
-          lte: endDate,
-        },
-      },
-      orderBy: { date: 'asc' },
-    })
+export default class SlotService {
+  static SLOT_PREFIX = 'slot:{date}:{time}'
+
+  private static makeKey(date: string, time: string): string {
+    return this.SLOT_PREFIX.replace('{date}', date).replace('{time}', time)
   }
 
-  static async createWorkDay(date: Date) {
-    return prisma.workDay.create({
-      data: { date },
-    })
+  private static async scanKeys(pattern: string): Promise<string[]> {
+    const keys: string[] = []
+    let cursor = '0'
+    do {
+      const [next, found] = await redisInstance.scan(cursor, 'MATCH', pattern, 'COUNT', 100)
+      keys.push(...found)
+      cursor = next
+    } while (cursor !== '0')
+    return keys
   }
 
-  static async updateWorkDay(id: number, data: Partial<{ date: Date }>) {
-    return prisma.workDay.update({
-      where: { id },
-      data,
-    })
+  private static async getOverlappingSlots(
+    date: string,
+    startTime: string,
+    endTime: string
+  ): Promise<Slot | null> {
+    const pattern = this.makeKey(date, '*')
+    const keys = await this.scanKeys(pattern)
+
+    const newStart = parse(startTime, 'HH:mm', new Date())
+    const newEnd = parse(endTime, 'HH:mm', new Date())
+
+    for (const key of keys) {
+      const value = await redisInstance.get(key)
+      if (value) {
+        const slot: Slot = JSON.parse(value)
+        const slotStart = parse(format(slot.startTime, 'HH:mm'), 'HH:mm', new Date())
+        const slotEnd = parse(format(slot.endTime, 'HH:mm'), 'HH:mm', new Date())
+        if (newStart < slotEnd && newEnd > slotStart) {
+          return slot
+        }
+      }
+    }
+    return null
+  }
+
+  static async createSlot(slot: Slot): Promise<Slot> {
+    const { date: startDate, time: startTime } = separateDateTimeWithTimeZone(slot.startTime)
+    const { date: endDate, time: endTime } = separateDateTimeWithTimeZone(slot.endTime)
+
+    if (startDate !== endDate) throw new Error('Slot startTime and endTime must be on the same date')
+    if (startTime >= endTime) throw new Error('Slot startTime must be before endTime')
+
+    const overlappingSlot = await this.getOverlappingSlots(startDate, startTime, endTime)
+    if (overlappingSlot) {
+      throw new Error(
+        `Overlapping slot exists: ${format(overlappingSlot.startTime, 'HH:mm')} - ${format(overlappingSlot.endTime, 'HH:mm')}`
+      )
+    }
+
+    const key = this.makeKey(startDate, startTime)
+    const ttlSeconds = 60 * 60 * 24 * 14 // 14 gün sakla
+    await redisInstance.set(key, JSON.stringify(slot), 'EX', ttlSeconds)
+    return slot
+  }
+
+  static async getSlot(date: string, time: string): Promise<Slot | null> {
+    const key = this.makeKey(date, time)
+    const value = await redisInstance.get(key)
+    return value ? (JSON.parse(value) as Slot) : null
+  }
+
+  static async updateSlot(slot: Slot): Promise<Slot> {
+    const { date, time } = separateDateTimeWithTimeZone(slot.startTime)
+    const key = this.makeKey(date, time)
+    await redisInstance.set(key, JSON.stringify(slot))
+    return slot
+  }
+
+  static async deleteSlot(date: string, time: string): Promise<boolean> {
+    const key = this.makeKey(date, time)
+    const result = await redisInstance.del(key)
+    return result > 0
+  }
+
+  static async getAllSlotsForDate(date: string): Promise<Slot[]> {
+    const pattern = this.makeKey(date, '*')
+    const keys = await this.scanKeys(pattern)
+    if (!keys.length) return []
+    const values = await redisInstance.mget(keys)
+    return values.filter((v): v is string => !!v).map((v) => JSON.parse(v) as Slot)
+  }
+
+  static async emptySlotsForDate(date: Date): Promise<void> {
+    const { date: formattedDate } = separateDateTimeWithTimeZone(date)
+    const pattern = this.makeKey(formattedDate, '*')
+    const keys = await this.scanKeys(pattern)
+    if (keys.length) await redisInstance.del(...keys)
+  }
+
+  static async getAllSlotsForDateRange(params: {
+    startDate?: string
+    endDate?: string
+  }): Promise<{ slots: Slot[]; total: number }> {
+    const { startDate, endDate } = params
+    if (!startDate && !endDate)
+      throw new Error('At least one of startDate or endDate must be provided')
+
+    const start = startDate ? new Date(startDate) : new Date('1970-01-01')
+    const end = endDate ? new Date(endDate) : new Date('2100-01-01')
+
+    if (start > end) throw new Error('startDate cannot be after endDate')
+
+    const dates: string[] = []
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(format(new Date(d), 'yyyy-MM-dd'))
+    }
+
+    const allSlots = (await Promise.all(dates.map((d) => this.getAllSlotsForDate(d)))).flat()
+    return { slots: allSlots, total: allSlots.length }
   }
 }
 
 
-=== ./services/AppointmentService/index.ts ===
-import prisma from '@/libs/prisma'
-import { AppointmentSlot } from '@/types/CalendarTypes'
+=== ./services/AppointmentService/SlotTemplateService.ts ===
+import { Day, Slot, SlotTemplate } from "@/types/CalendarTypes";
 
-export default class AppointmentService {
-  static async getAvailability(date?: string) {
-    const where = date ? { date: new Date(date) } : {}
+import redisInstance from '@/libs/redis';
 
-    const days = await prisma.workDay.findMany({
-      where,
-      include: { slots: true },
-      orderBy: { date: 'asc' },
-    })
+export default class SlotTemplateService {
 
-    return days.map(day => ({
-      date: day.date.toISOString().split('T')[0],
-      slots: day.slots.map(slot => ({
-        date: day.date.toISOString().split('T')[0],
-        time: slot.time,
-        status: slot.status,
-        length: slot.length,
-      })),
-    }))
-  }
+    static SLOT_TEMPLATE_PREFIX = 'slot_template:';
 
-  static async bookAppointment({
-    slot,
-    name,
-    email,
-    phone,
-    note
-  }: {
-    slot: AppointmentSlot
-    name: string
-    email: string
-    phone: string
-    note?: string
-  }): Promise<{ success: boolean; message: string }> {
-    const workDay = await prisma.workDay.findFirst({
-      where: { date: new Date(slot.date) },
-      include: { slots: true },
-    })
-
-    const matchingSlot = workDay?.slots.find(
-      s => s.time === slot.time && s.status === 'AVAILABLE'
-    )
-
-    if (!matchingSlot) {
-      return { success: false, message: 'Slot not available' }
+    static async createOrUpdateSlotTemplate(day: Day, slots: Slot[]): Promise<SlotTemplate> {
+        const key = `${this.SLOT_TEMPLATE_PREFIX}${day}`;
+        const template: SlotTemplate = { day, slots };
+        await redisInstance.set(key, JSON.stringify(template));
+        return template;
     }
 
-    await prisma.slot.update({
-      where: { id: matchingSlot.id },
-      data: { status: 'BOOKED' },
+    static async getSlotTemplate(day: Day): Promise<SlotTemplate> {
+        const key = `${this.SLOT_TEMPLATE_PREFIX}${day}`;
+        const value = await redisInstance.get(key);
+        if (value) {
+            return JSON.parse(value);
+        }
+
+        return { day, slots: [] };
+
+    }
+
+    static async emptySlotTemplate(day: Day): Promise<SlotTemplate> {
+        const key = `${this.SLOT_TEMPLATE_PREFIX}${day}`;
+        const template: SlotTemplate = { day, slots: [] };
+        await redisInstance.set(key, JSON.stringify(template));
+        return template;
+    }
+
+    static async getAllSlotTemplates(): Promise<SlotTemplate[]> {
+        const keys = await redisInstance.keys(`${this.SLOT_TEMPLATE_PREFIX}*`);
+        if (keys.length === 0) return [];
+
+        const templates = await Promise.all(keys.map(async (key) => {
+            const value = await redisInstance.get(key);
+            if (value) {
+                return JSON.parse(value);
+            }
+            return null;
+        }));
+        return templates.filter((template): template is SlotTemplate => template !== null);
+    }
+}
+
+=== ./services/AppointmentService/index.ts ===
+import prisma from '@/libs/prisma'
+import Logger from '@/libs/logger'
+import { Appointment, AppointmentStatus } from '@/types/CalendarTypes'
+import SlotService from './SlotService'
+import { separateDateTimeWithTimeZone } from '@/helpers/TimeHelper'
+
+export default class AppointmentService {
+  static APPOINTMENT_PREFIX = 'appointment:{date}:{time}'
+
+  /** Utility: Get appointment or throw */
+  private static async getAppointmentByIdOrThrow(appointmentId: string): Promise<Appointment> {
+    const appointment = await prisma.appointment.findUnique({ where: { appointmentId } })
+    if (!appointment) throw new Error(`Appointment not found: ${appointmentId}`)
+    return appointment
+  }
+
+  /** 🔹 Appointment creation + slot capacity check */
+  static async createAppointment(appointment: Appointment): Promise<Appointment> {
+    const { date, time } = separateDateTimeWithTimeZone(appointment.startTime)
+    const slot = await SlotService.getSlot(date, time)
+    if (!slot) throw new Error(`Slot not found for ${date} ${time}`)
+    if (slot.capacity <= 0) throw new Error('No available capacity for this slot')
+
+    const created = await prisma.$transaction(async (tx) => {
+      const newApp = await tx.appointment.create({ data: appointment })
+      if (slot.capacity > 0) slot.capacity -= 1
+      await SlotService.updateSlot(slot)
+      return newApp
     })
 
-    // Not: Burada randevu kayıtları için ekstra `Appointment` modeli eklenebilir
+    Logger.info(`Appointment created for ${date} ${time}`)
+    return created
+  }
 
-    return { success: true, message: 'Appointment booked successfully' }
+  /** Retrieve appointment */
+  static async getAppointmentById(appointmentId: string): Promise<Appointment | null> {
+    return prisma.appointment.findUnique({ where: { appointmentId } })
+  }
+
+  /** Retrieve by datetime range */
+  static async getAppointmentsByDatetimeRange(startTime: Date, endTime: Date): Promise<Appointment[]> {
+    return prisma.appointment.findMany({
+      where: { startTime: { gte: startTime }, endTime: { lte: endTime } },
+      orderBy: { startTime: 'asc' },
+    })
+  }
+
+  /** Update appointment (immutable date/time) */
+  static async updateAppointment(
+    appointmentId: string,
+    updates: Partial<Appointment>
+  ): Promise<Appointment> {
+    const existing = await this.getAppointmentByIdOrThrow(appointmentId)
+    if (updates.startTime && updates.startTime.getTime() !== existing.startTime.getTime())
+      throw new Error('Cannot change appointment time')
+    if (updates.endTime && updates.endTime.getTime() !== existing.endTime.getTime())
+      throw new Error('Cannot change appointment duration')
+
+    const updated = await prisma.appointment.update({ where: { appointmentId }, data: updates })
+    Logger.info(`Appointment ${appointmentId} updated`)
+    return updated
+  }
+
+  /** 🔹 Book appointment — atomic */
+  static async bookAppointment(appointmentId: string): Promise<Appointment> {
+    const existing = await this.getAppointmentByIdOrThrow(appointmentId)
+    if (existing.status === 'BOOKED') throw new Error('Already booked')
+
+    const { date, time } = separateDateTimeWithTimeZone(existing.startTime)
+    const slot = await SlotService.getSlot(date, time)
+    if (!slot) throw new Error('Slot not found')
+
+    if (slot.capacity <= 0) throw new Error('No available capacity')
+
+    const updated = await prisma.$transaction(async (tx) => {
+      const booked = await tx.appointment.update({
+        where: { appointmentId },
+        data: { status: 'BOOKED' },
+      })
+      if (slot.capacity > 0) slot.capacity -= 1
+      await SlotService.updateSlot(slot)
+      return booked
+    })
+
+    Logger.info(`Appointment ${appointmentId} booked`)
+    return updated
+  }
+
+  /** 🔹 Cancel appointment — atomic restore */
+  static async cancelAppointment(appointmentId: string): Promise<Appointment> {
+    const existing = await this.getAppointmentByIdOrThrow(appointmentId)
+    if (existing.status === 'CANCELLED') throw new Error('Already cancelled')
+
+    const { date, time } = separateDateTimeWithTimeZone(existing.startTime)
+    const slot = await SlotService.getSlot(date, time)
+
+    const updated = await prisma.$transaction(async (tx) => {
+      const cancelled = await tx.appointment.update({
+        where: { appointmentId },
+        data: { status: 'CANCELLED' },
+      })
+      if (slot) {
+        slot.capacity += 1
+        await SlotService.updateSlot(slot)
+      }
+      return cancelled
+    })
+
+    Logger.info(`Appointment ${appointmentId} cancelled`)
+    return updated
+  }
+
+  /** Paginated + filtered listing */
+  static async getAllAppointments(params: {
+    page: number
+    pageSize: number
+    startDate?: string
+    endDate?: string
+    status?: AppointmentStatus | 'ALL'
+    appointmentId?: string
+    email?: string
+    name?: string
+  }): Promise<{ appointments: Appointment[]; total: number }> {
+    const { page, pageSize, startDate, endDate, status, appointmentId, email, name } = params
+    const where: any = {
+      startTime: startDate ? { gte: new Date(startDate) } : undefined,
+      endTime: endDate ? { lte: new Date(endDate) } : undefined,
+      appointmentId: appointmentId || undefined,
+      email: email || undefined,
+      name: name || undefined,
+      status: status && status !== 'ALL' ? status : undefined,
+    }
+
+    const [appointments, total] = await prisma.$transaction([
+      prisma.appointment.findMany({
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        where,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.appointment.count({ where }),
+    ])
+
+    return { appointments, total }
   }
 }
 
@@ -4316,6 +4541,7 @@ import crypto from "crypto";
 import AuthMessages from "@/messages/AuthMessages";
 
 import { v4 as uuidv4 } from "uuid";
+import redisInstance from "@/libs/redis";
 
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; // Burada bir varsayılan değer belirleyebilirsiniz
@@ -4325,6 +4551,7 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET; // Burada bir var
 const REFRESH_TOKEN_EXPIRES_IN: string | number = process.env.REFRESH_TOKEN_EXPIRES_IN || '7d'; // veya '7d' gibi
 
 const SESSION_EXPIRY_MS = parseInt(process.env.SESSION_EXPIRY_MS || `${1000 * 60 * 60 * 24 * 7}`); // 7 gün
+const SESSION_REDIS_EXPIRY_MS = parseInt(process.env.SESSION_REDIS_EXPIRY_MS || `${1000 * 60 * 30}`); // 30 min default
 
 
 if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
@@ -4333,6 +4560,10 @@ if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
 
 if (isNaN(SESSION_EXPIRY_MS)) {
   throw new Error("Invalid SESSION_EXPIRY_MS value in environment variables.");
+}
+
+if (isNaN(SESSION_REDIS_EXPIRY_MS)) {
+  throw new Error("Invalid SESSION_REDIS_EXPIRY_MS value in environment variables.");
 }
 
 export default class UserSessionService {
@@ -4543,54 +4774,51 @@ export default class UserSessionService {
    * @param accessToken - The session token.
    * @returns The user session.
    */
-  static async getSessionDangerously(accessToken: string, request: NextRequest): Promise<{ user: SafeUser, userSession: SafeUserSession }> {
-
-    // Verify the access token
+  static async getSessionDangerously(
+    accessToken: string,
+    request: NextRequest
+  ): Promise<{ user: SafeUser; userSession: SafeUserSession }> {
     const deviceFingerprint = await UserSessionService.generateDeviceFingerprint(request);
-
     const { userId } = await UserSessionService.verifyAccessToken(accessToken, deviceFingerprint);
 
-    // Check if the device fingerprint is provided
+    const cacheKey = `session:${userId}:${UserSessionService.hashToken(accessToken)}`;
+
+    // 1️⃣ Try from Redis cache first
+    const cached = await redisInstance.get(cacheKey);
+    if (cached) {
+      const { user, userSession } = JSON.parse(cached);
+      return { user, userSession };
+    }
+
+    // 2️⃣ If not cached, query DB
     const hashedAccessToken = UserSessionService.hashToken(accessToken);
 
     const userSession = await prisma.userSession.findFirst({
       where: {
         accessToken: hashedAccessToken,
         deviceFingerprint: deviceFingerprint,
-        sessionExpiry: {
-          gte: new Date(), // Check if the session is not expired   
-        },
-
+        sessionExpiry: { gte: new Date() },
       },
-    })
+    });
 
-    if (!userSession || userSession.userId !== userId) {
+    if (!userSession || userSession.userId !== userId)
       throw new Error(AuthMessages.SESSION_NOT_FOUND);
-    }
-
-    // Otp needed kontrolü
-    if (userSession.otpVerifyNeeded) {
+    if (userSession.otpVerifyNeeded)
       throw new Error(AuthMessages.OTP_NEEDED);
-    }
-
-    // Check if the connection is from the same device
-    if (userSession.deviceFingerprint !== deviceFingerprint) {
+    if (userSession.deviceFingerprint !== deviceFingerprint)
       throw new Error(AuthMessages.DEVICE_FINGERPRINT_NOT_MATCH);
-    }
 
-    // Check if the session 
-    const user = await prisma.user.findUnique({
-      where: { userId: userSession.userId },
-    })
+    const user = await prisma.user.findUnique({ where: { userId: userSession.userId } });
+    if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
 
-    if (!user) {
-      throw new Error(AuthMessages.USER_NOT_FOUND);
-    }
+    const safeUser = UserService.omitSensitiveFields(user);
+    const safeSession = UserSessionService.omitSensitiveFields(userSession);
 
-    return {
-      user: UserService.omitSensitiveFields(user),
-      userSession: UserSessionService.omitSensitiveFields(userSession),
-    };
+    // 3️⃣ Cache result in Redis
+    const ttlSeconds = Math.floor(SESSION_REDIS_EXPIRY_MS / 1000);
+    await redisInstance.setex(cacheKey, ttlSeconds, JSON.stringify({ user: safeUser, userSession: safeSession }));
+
+    return { user: safeUser, userSession: safeSession };
   }
 
   /**
@@ -4619,60 +4847,85 @@ export default class UserSessionService {
   }
 
 
-  public static async refreshAccessToken(currentRefreshToken: string) {
-
-    // Decode the refresh token
+  static async refreshAccessToken(currentRefreshToken: string) {
+    // 🔍 Decode & verify refresh token
     const { userId } = await UserSessionService.verifyRefreshToken(currentRefreshToken);
 
+    // Hash the current refresh token for DB lookup
+    const hashedRefreshToken = UserSessionService.hashToken(currentRefreshToken);
+
+    // 🔎 Find the session in DB
     const userSession = await prisma.userSession.findFirst({
       where: {
-        refreshToken: UserSessionService.hashToken(currentRefreshToken),
-        userId: userId,
-        sessionExpiry: {
-          gte: new Date(), // Check if the session is not expired
-        },
+        refreshToken: hashedRefreshToken,
+        userId,
+        sessionExpiry: { gte: new Date() },
       },
     });
 
-
     if (!userSession) throw new Error(AuthMessages.SESSION_NOT_FOUND);
+    if (userSession.otpVerifyNeeded) throw new Error(AuthMessages.OTP_NEEDED);
 
+    // 🚨 Reuse detection: verify the stored token matches hash
+    if (userSession.refreshToken !== hashedRefreshToken) {
+      // Token reuse detected → invalidate all sessions
+      await prisma.userSession.deleteMany({ where: { userId: userSession.userId } });
 
-    // Otp needed kontrolü
-    if (userSession.otpVerifyNeeded) {
-      throw new Error(AuthMessages.OTP_NEEDED);
+      // 🔥 Remove from Redis immediately
+      const pattern = `session:${userSession.userId}:*`;
+      const keys = await redisInstance.keys(pattern);
+      if (keys.length > 0) await redisInstance.del(...keys);
+
+      throw new Error(AuthMessages.REFRESH_TOKEN_REUSED);
     }
 
-    const hashed = this.hashToken(currentRefreshToken);
+    // 🔁 Generate new tokens
+    const newAccessToken = UserSessionService.generateAccessToken(
+      userSession.userId,
+      userSession.userSessionId,
+      userSession.deviceFingerprint!
+    );
 
-    // 🔁 Refresh token reuse kontrolü
-    if (userSession.refreshToken !== hashed) {
-      // Reuse detected: tüm oturumları sil
-      await prisma.userSession.deleteMany({
-        where: {
-          userId: userSession.userId,
-        },
-      });
+    const newRefreshToken = UserSessionService.generateRefreshToken(
+      userSession.userId,
+      userSession.userSessionId,
+      userSession.deviceFingerprint!
+    );
 
-      throw new Error(AuthMessages.REFRESH_TOKEN_REUSED); // ya da 401
-    }
+    const newRefreshTokenHash = UserSessionService.hashToken(newRefreshToken);
+    const newAccessTokenHash = UserSessionService.hashToken(newAccessToken);
 
-    // 🔄 Token rotation
-    const newAccessToken = this.generateAccessToken(userSession.userId, userSession.userSessionId, userSession.deviceFingerprint!);
-    const newRefreshToken = this.generateRefreshToken(userSession.userId, userSession.userSessionId, userSession.deviceFingerprint!);
-    const newRefreshTokenHash = this.hashToken(newRefreshToken);
-
+    // 🕓 Update DB session
     const updatedSession = await prisma.userSession.update({
       where: { userSessionId: userSession.userSessionId },
       data: {
-        accessToken: this.hashToken(newAccessToken),
+        accessToken: newAccessTokenHash,
         refreshToken: newRefreshTokenHash,
         sessionExpiry: new Date(Date.now() + SESSION_EXPIRY_MS),
-      }
+      },
     });
 
+    // 🧹 Invalidate old Redis caches
+    const pattern = `session:${userSession.userId}:*`;
+    const keys = await redisInstance.keys(pattern);
+    if (keys.length > 0) await redisInstance.del(...keys);
+
+    // ⚡ Cache the updated session with new tokens
+    const safeSession = UserSessionService.omitSensitiveFields(updatedSession);
+    const ttlSeconds = Math.floor(SESSION_REDIS_EXPIRY_MS / 1000);
+
+    await redisInstance.setex(
+      `session:${userSession.userId}:${newAccessTokenHash}`,
+      ttlSeconds,
+      JSON.stringify({
+        userSession: safeSession,
+        // Optional: You may also cache user details if needed for getSessionDangerously
+      })
+    );
+
+    // ✅ Return new tokens & session
     return {
-      userSession: this.omitSensitiveFields(updatedSession),
+      userSession: safeSession,
       rawAccessToken: newAccessToken,
       rawRefreshToken: newRefreshToken,
     };
@@ -4687,16 +4940,19 @@ export default class UserSessionService {
    * @returns A promise that resolves when the sessions are destroyed.
    */
   static async destroyOtherSessions(userSession: SafeUserSession): Promise<void> {
-    // Delete all sessions except the current one
     await prisma.userSession.deleteMany({
       where: {
         userId: userSession.userId,
-        userSessionId: {
-          not: userSession.userSessionId,
-        },
+        userSessionId: { not: userSession.userSessionId },
       },
     });
+
+    // 🧹 Clear all Redis caches except the current session
+    const pattern = `session:${userSession.userId}:*`;
+    const keys = await redisInstance.keys(pattern);
+    if (keys.length > 0) await redisInstance.del(...keys);
   }
+
 
 
 
@@ -4706,12 +4962,16 @@ export default class UserSessionService {
    */
 
   static async deleteSession(data: SafeUserSession): Promise<void> {
-
     await prisma.userSession.deleteMany({
       where: { userSessionId: data.userSessionId },
     });
 
+    // 🧹 Remove related cache entries
+    const pattern = `session:${data.userId}:*`;
+    const keys = await redisInstance.keys(pattern);
+    if (keys.length > 0) await redisInstance.del(...keys);
   }
+
 
 
   /**
@@ -4759,8 +5019,8 @@ export default class UserSessionService {
       return user;
     } catch (error: any) {
       if (requiredUserRole !== "GUEST") {
-        throw new Error(error.message || AuthMessages.USER_NOT_AUTHENTICATED);
-      } 
+        throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
+      }
       request.user = null; // GUEST role is allowed to not be authenticated
       return null; // GUEST role is allowed to not be authenticated
     }
@@ -5940,6 +6200,7 @@ const HomePage = () => {
       <Welcome />
       <Toolbox />
       <ProjectsHero />
+      <AppointmentCalendar />
       <Contact />
       <ToastContainer />
     </>
@@ -7545,6 +7806,166 @@ export async function POST(request: NextRequest) {
 
 
 
+=== ./app/(api)/api/slot-templates/[day]/apply/route.ts ===
+import { NextResponse } from 'next/server'
+import SlotService from '@/services/AppointmentService/SlotService'
+import { Day, Slot, SlotTemplate } from '@/types/CalendarTypes'
+import UserSessionService from '@/services/AuthService/UserSessionService'
+import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService';
+import { date } from 'zod';
+
+
+
+export async function POST(
+    request: NextRequest,
+    { params }: { params: Promise<{ day: Day }> }
+) {
+
+    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+
+    const { formattedDate } = await request.json();
+    const { day } = await params
+
+    if (!date) {
+        return NextResponse.json(
+            { success: false, message: 'Date is required' },
+            { status: 400 }
+        )
+    }
+
+    console.log("Applying template for 0", day, "to date", formattedDate);
+
+    const SlotTemplate = await SlotTemplateService.getSlotTemplate(day);
+
+    console.log("Fetched template:", SlotTemplate);
+    
+    if (!SlotTemplate || SlotTemplate.slots.length === 0) {
+        return NextResponse.json(
+            { success: false, message: 'No slot template found for the specified day' },
+            { status: 404 }
+        )
+    }
+
+    console.log("Applying template for 1", day, "to date", formattedDate);
+
+    await SlotService.emptySlotsForDate(formattedDate);
+
+    console.log("Applying template for", day, "to date", formattedDate);
+
+    const createdSlots: Slot[] = [];
+
+    for (const slot of SlotTemplate.slots) {
+        const slotData: Slot = {
+            startTime: slot.startTime,
+            endTime: slot.endTime,
+            capacity: slot.capacity, // Default capacity if not provided
+        };
+        const createdSlot = await SlotService.createSlot(slotData);
+        createdSlots.push(createdSlot);
+    }
+
+    return NextResponse.json({ success: true, slots: createdSlots })
+}
+
+
+
+
+
+=== ./app/(api)/api/slot-templates/[day]/route.ts ===
+import { NextResponse } from 'next/server'
+import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService'
+import { Day, Slot } from '@/types/CalendarTypes'
+import UserSessionService from '@/services/AuthService/UserSessionService'
+
+/**
+ * [day] → MONDAY..SUNDAY
+ * GET:   haftalık şablonu getirir
+ * POST:  haftalık şablonu kaydeder  { slots: [{ time, length? }] }
+ */
+
+export async function GET(
+    req: Request,
+    { params }: { params: Promise<{ day: Day }> }
+) {
+    try {
+    const { day } = await params
+    if (!day) {
+        return NextResponse.json(
+            { success: false, message: 'Day is required' },
+            { status: 400 }
+        )
+    }
+    const slotsTemplate = await SlotTemplateService.getSlotTemplate(day)
+
+    return NextResponse.json(slotsTemplate)
+    } catch (error: any) {
+        console.error(error.message);
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
+}
+
+export async function POST(
+    request: NextRequest,
+    { params }: { params: Promise<{ day: Day }> }
+) {
+
+    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+
+    const { day, slots } = await request.json()
+
+    console.log("Received template for day:", day, "with slots:", slots);
+
+    if (!day) {
+        return NextResponse.json(
+            { success: false, message: 'Day is required' },
+            { status: 400 }
+        )
+    }
+
+    console.log("Day parameter:", day);
+
+    if (!slots || !Array.isArray(slots)) {
+        return NextResponse.json(
+            { success: false, message: 'Slots are required and must be an array' },
+            { status: 400 }
+        )
+    }
+
+    console.log("Slots parameter:", slots);
+
+    const result = Day.safeParse(day)
+
+    if (!result.success) {
+        return NextResponse.json(
+            { success: false, message: 'Invalid day', issues: result.error.issues },
+            { status: 400 }
+        )
+    }
+
+    console.log("Day validation passed:", result.data);
+
+    for (const slot of slots) {
+        const result = Slot.safeParse(slot)
+        if (!result.success) {
+            console.log("Slot validation failed for slot:", slot, "Issues:", result.error.issues);
+            return NextResponse.json(
+                { success: false, message: 'Invalid slot', issues: result.error.issues },
+                { status: 400 }
+            )
+        }
+    }
+
+    console.log("All slots validation passed");
+
+    const slotsTemplate = await SlotTemplateService.createOrUpdateSlotTemplate(day, slots)
+
+    return NextResponse.json({ slotsTemplate })
+}
+
+
 === ./app/(api)/api/users/[userId]/route.ts ===
 "use server";
 import { NextResponse } from "next/server";
@@ -7753,6 +8174,108 @@ export async function POST(request: NextRequest) {
 }
 
 
+=== ./app/(api)/api/slots/[date]/route.ts ===
+import { NextResponse } from 'next/server'
+import SlotService from '@/services/AppointmentService/SlotService'
+import { Day, Slot } from '@/types/CalendarTypes'
+import UserSessionService from '@/services/AuthService/UserSessionService'
+
+/**
+ * [day] → MONDAY..SUNDAY
+ * GET:   haftalık şablonu getirir
+ * POST:  haftalık şablonu kaydeder  { slots: [{ time, length? }] }
+ */
+
+export async function GET(
+    req: Request,
+    { params }: { params: Promise<{ date: string }> }
+) {
+    try {
+        const { date } = await params
+
+        console.log("date", date);
+
+        if (!date) {
+            return NextResponse.json(
+                { success: false, message: 'Date is required' },
+                { status: 400 }
+            )
+        }
+
+        const slots = await SlotService.getAllSlotsForDate(date)
+
+        return NextResponse.json({ slots })
+    } catch (error: any) {
+        console.error(error);
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
+}
+
+export async function POST(
+    request: NextRequest,
+    { params }: { params: Promise<{ day: Day }> }
+) {
+
+    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+
+    const body = await request.json()
+
+    const result = Slot.safeParse(body)
+    if (!result.success) {
+        return NextResponse.json(
+            { success: false, message: 'Invalid slot data', issues: result.error.issues },
+            { status: 400 }
+        )
+    }
+
+    const slotData = result.data
+
+    const createdSlot = await SlotService.createSlot(slotData)
+
+    return NextResponse.json({ success: true, slot: createdSlot })
+}
+
+
+
+=== ./app/(api)/api/slots/route.ts ===
+import SlotService from "@/services/AppointmentService/SlotService";
+import { NextResponse } from "next/server";
+
+
+export async function GET(
+    req: Request
+) {
+
+    try {
+
+        const { searchParams } = new URL(req.url);
+
+        const page = parseInt(searchParams.get('page') || '1', 10);
+        const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+        const startDate = searchParams.get('startDate') || undefined;
+        const endDate = searchParams.get('endDate') || undefined;
+
+
+        const { slots, total } = await SlotService.getAllSlotsForDateRange({
+            startDate,
+            endDate
+        });
+
+        return NextResponse.json({ slots, total });
+
+    }
+    catch (error: any) {
+        console.error(error.message);
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
+}
+
 === ./app/(api)/api/settings/route.ts ===
 "use server";
 
@@ -7804,6 +8327,67 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
+=== ./app/(api)/api/booking/route.ts ===
+import { NextResponse, NextRequest } from 'next/server'
+import AppointmentService from '@/services/AppointmentService'
+import Logger from '@/libs/logger'
+import SlotService from '@/services/AppointmentService/SlotService'
+// gerekirse: import UserSessionService from '@/services/AuthService/UserSessionService'
+
+export async function POST(request: NextRequest) {
+  try {
+    // gerekirse auth:
+    // await UserSessionService.authenticateUserByRequest(request, "USER")
+
+    const body = await request.json()
+    const { date, time , name, email, phone, note } = body || {}
+
+    if (!!name || !email || !phone) {
+      return NextResponse.json(
+        { success: false, message: 'Missing required fields' },
+        { status: 400 }
+      )
+    }
+
+    // Assume slotId refers to a slot with date and time; fetch slot details
+    const slot = await SlotService.getSlot(date, time)
+    if (!slot) {
+      return NextResponse.json(
+        { success: false, message: 'Slot not found' },
+        { status: 404 }
+      )
+    }
+
+    const appointmentData = {
+      status: "PENDING" as "PENDING",
+      createdAt: new Date(),
+      name,
+      email,
+      phone,
+      appointmentId: crypto.randomUUID(),
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+      note: note ?? null
+    }
+
+    const result = await AppointmentService.createAppointment(appointmentData)
+
+    console.log('Booking result:', result)
+
+
+    return NextResponse.json(result)
+
+    
+  } catch (err: any) {
+    Logger.error('API/booking POST: ' + err.message)
+    return NextResponse.json(
+      { success: false, message: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
 
 === ./app/(api)/api/categories/route.ts ===
 "use server";
@@ -7947,7 +8531,6 @@ export async function DELETE(
   try {
 
     await UserSessionService.authenticateUserByRequest(request);
-
 
 
     const { categoryId } = await params;
@@ -8396,30 +8979,93 @@ export async function POST(request: NextRequest) {
 }
 
 
-=== ./app/(api)/api/appointments/slots/route.ts ===
-import AppointmentService from '@/services/AppointmentService'
+=== ./app/(api)/api/appointments/[appointmentId]/cancel/route.ts ===
 import { NextResponse } from 'next/server'
+import Logger from '@/libs/logger'
 
-export async function GET() {
-  const result = await AppointmentService.getAvailability()
-  return NextResponse.json(result)
+import AppointmentService from '@/services/AppointmentService'
+
+export async function POST(req: Request, { params }: { params: Promise<{ appointmentId: string }> }) {
+  try {
+    const { appointmentId } = await params
+
+    const result = await AppointmentService.cancelAppointment(appointmentId)
+
+    return NextResponse.json(result, {
+      status: 200,
+    })
+  } catch (err: any) {
+    Logger.error('API/appointments/[appointmentId]/cancel POST: ' + err.message)
+    return NextResponse.json(
+      { success: false, message: 'Internal server error' },
+      { status: 500 }
+    )
+  }
 }
 
+=== ./app/(api)/api/appointments/[appointmentId]/book/route.ts ===
+import { NextResponse } from 'next/server'
+import Logger from '@/libs/logger'
 
-=== ./app/(api)/api/appointments/book/route.ts ===
+import AppointmentService from '@/services/AppointmentService'
+
+export async function POST(req: Request, { params }: { params: Promise<{ appointmentId: string }> }) {
+  try {
+    const { appointmentId } = await params
+
+    const result = await AppointmentService.bookAppointment(appointmentId)
+
+    return NextResponse.json(result, {
+      status: 200,
+    })
+  } catch (err: any) {
+    Logger.error('API/appointments/[appointmentId]/book POST: ' + err.message)
+    return NextResponse.json(
+      { success: false, message: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+=== ./app/(api)/api/appointments/route.ts ===
 import AppointmentService from '@/services/AppointmentService'
 import { NextResponse } from 'next/server'
+import Logger from '@/libs/logger'
+import UserSessionService from '@/services/AuthService/UserSessionService'
 
-export async function POST(req: Request) {
-  const body = await req.json()
+export async function GET(request: NextRequest) {
+    try {
 
-  const result = await AppointmentService.bookAppointment(body)
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
-  if (!result.success) {
-    return NextResponse.json(result, { status: 400 })
-  }
+        const { searchParams } = new URL(request.url);
+        // Extract query parameters
+        const page = parseInt(searchParams.get('page') || '1', 10);
+        const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+        const date = searchParams.get('date') || undefined;
+        const status = searchParams.get('status') || undefined;
+        const appointmentId = searchParams.get('appointmentId') || undefined;
+        const email = searchParams.get('email') || undefined;
 
-  return NextResponse.json(result)
+        const result = await AppointmentService.getAllAppointments({
+            page,
+            pageSize,
+            status,
+            date,
+            appointmentId,
+            email
+        });
+
+        return NextResponse.json({ posts: result.posts, total: result.total , page, pageSize });
+
+    }
+    catch (error: any) {
+        console.error(error.message);
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
 }
 
 
@@ -10469,6 +11115,35 @@ const CreateUser = () => {
 
 export default CreateUser;
 
+=== ./app/(admin)/admin/slots/page.tsx ===
+'use client'
+import React, { useState } from 'react'
+import type { Day } from '@/types/CalendarTypes'
+
+import SlotTemplateBuilder from '@/components/admin/SlotTemplateBuilder'
+import SlotsEditor from '@/components/admin/SlotsEditor'
+
+export default function SlotTemplatesPage() {
+    const [selectedDay, setSelectedDay] = useState<Day>('monday')
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+
+    const TIME_INTERVALS = [15, 30, 45, 60]
+    const DAYS: Day[] = [
+        'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+    ]
+
+    return (
+        <div className="container mx-auto px-4 py-6">
+            <h1 className="text-3xl font-bold mb-6">Slot Templates & Calendar</h1>
+            <div className="grid lg:grid-cols-2 gap-6">
+                <SlotTemplateBuilder selectedDay={selectedDay} setSelectedDay={setSelectedDay} DAYS={DAYS} TIME_INTERVALS={TIME_INTERVALS} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                <SlotsEditor selectedDay={selectedDay} setSelectedDay={setSelectedDay} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+            </div>
+        </div>
+    )
+}
+
+
 === ./app/(admin)/admin/settings/page.tsx ===
 'use client'
 import React, { useState, useEffect, useCallback } from 'react';
@@ -11518,24 +12193,65 @@ export type UserStatus = z.infer<typeof UserStatus>;
 export { SafeUser, User, UserRole, OTPMethod, UserStatus };
 
 === ./types/CalendarTypes.ts ===
-import { z } from "zod";
+import { time } from 'console'
+import { z } from 'zod'
 
-const AppointmentSlot = z.object({
-    date: z.string(),
-    time: z.string(),
-    status: z.enum(['AVAILABLE', 'BOOKED', 'UNAVAILABLE']),
-    length: z.number().optional(), // Optional, for future use if needed
-});
+export const Day = z.enum([
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+])
 
-const DailyAvailability = z.object({
-    date: z.string(),
-    slots: z.array(AppointmentSlot),
-});
+export type Day = z.infer<typeof Day>
 
-export type AppointmentSlot = z.infer<typeof AppointmentSlot>;
-export type DailyAvailability = z.infer<typeof DailyAvailability>;
+ 
+export const Slot = z.object({
+  startTime: z.preprocess(
+    (val) => (typeof val === "string" ? new Date(val) : val),
+    z.date()
+  ),
+  endTime: z.preprocess(
+    (val) => (typeof val === "string" ? new Date(val) : val),
+    z.date()
+  ),
 
-export { AppointmentSlot, DailyAvailability };
+  capacity: z.number().min(0).default(1), // max appointments for this slot
+})
+
+
+export const SlotTemplate = z.object({
+  day: Day,
+  slots: Slot.array(),
+})
+
+
+export const AppointmentStatus = z.enum(['PENDING', 'BOOKED', 'CANCELLED', 'COMPLETED'])
+export type AppointmentStatus = z.infer<typeof AppointmentStatus>
+
+
+export const Appointment = z.object({
+  appointmentId: z.string(),
+
+  startTime: z.date(),  // YYYY-MM-DDTHH:mm UTC format
+  endTime: z.date(),    // YYYY-MM-DDTHH:mm UTC format
+
+  name: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  note: z.string().nullable().optional(),
+
+  status: AppointmentStatus.default('PENDING'),
+  createdAt: z.date(),
+})
+
+export type Appointment = z.infer<typeof Appointment>
+export type Slot = z.infer<typeof Slot>
+export type SlotTemplate = z.infer<typeof SlotTemplate>
+
 
 === ./types/SettingTypes.ts ===
 import { z } from "zod";
@@ -12110,56 +12826,50 @@ export default Whatsapp;
 import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
 import './style.css'
-import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import useGlobalStore from '@/libs/zustand'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCalendar,
-  faClock,
-  faStopwatch
-} from '@fortawesome/free-solid-svg-icons'
-import type Value from 'react-calendar'
+import { faCalendar, faClock, faStopwatch, faX } from '@fortawesome/free-solid-svg-icons'
+import { format, parseISO, differenceInMinutes } from 'date-fns'
+import type { Slot } from '@/types/CalendarTypes'
+import axios from 'axios'
+import AppointmentModal from './AppointmentModal'
 
-import { AppointmentSlot, DailyAvailability } from '@/types/CalendarTypes'
-
-import axiosInstance from '@/libs/axios'
-
-export default function AppointmentCalendar () {
-  const [availabilities, setAvailabilities] = useState<DailyAvailability[]>([])
+export default function AppointmentCalendar() {
+  const [availableSlots, setAvailableSlots] = useState<Slot[]>([])
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-  const [selectedSlot, setSelectedSlot] = useState<AppointmentSlot | null>(null)
+  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null)
   const today = new Date()
 
-  const { t } = useTranslation()
-  const { user } = useGlobalStore()
+  /** Format date as yyyy-MM-dd */
+  const formatDate = (date: Date) => format(date, 'yyyy-MM-dd')
 
-  const formatDate = (date: Date) => date.toLocaleDateString('sv-SE')
+  /** Tile styling */
+  const getTileClassName = ({ date }: { date: Date }): string => {
+    const d = formatDate(date)
+    const todayStr = formatDate(today)
+    const hasSlot = availableSlots.some(
+      (s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d
+    )
+    const isSelected = format(selectedDate, 'yyyy-MM-dd') === d
+    const isPast = date < new Date(todayStr)
 
-  const getTileClassName = (date: Date): string => {
-    const dateStr = formatDate(date)
-    const isToday = date.toDateString() === today.toDateString()
-    const hasSlot = availabilities.some(a => a.date === dateStr)
-    const isPast = date < new Date(today.toDateString())
-    const isSelected = selectedDate.toDateString() === date.toDateString()
-
-    const classes = []
+    const classes: string[] = []
     if (isSelected) classes.push('selected')
-    if (isToday) classes.push('now')
-    if (hasSlot) classes.push('available')
-    else classes.push('unavailable')
+    if (d === todayStr) classes.push('now')
+    classes.push(hasSlot ? 'available' : 'unavailable')
     if (isPast) classes.push('disabled')
-
     return classes.join(' ')
   }
 
-  const getSlotsForDate = (date: Date) => {
-    const dateStr = formatDate(date)
-    return availabilities.find(a => a.date === dateStr)?.slots || []
+  const slotsOf = (date: Date) => {
+    const d = format(date, 'yyyy-MM-dd')
+    return availableSlots.filter(
+      (s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d
+    )
   }
 
-  // @ts-ignore
-  const handleDateSelect = ( value: Value,
+  const handleDateSelect = (
+    value: Date | Date[] | null,
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (value instanceof Date) {
@@ -12168,271 +12878,239 @@ export default function AppointmentCalendar () {
     }
   }
 
-  const handleTimeSelect = (slot: AppointmentSlot) => {
-    setSelectedDate(new Date(slot.date))
+  const handleTimeSelect = (slot: Slot) => {
     setSelectedSlot(slot)
   }
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget as HTMLFormElement)
-    const name = data.get('name') as string
-    const email = data.get('email') as string
-    const phone = data.get('phone') as string
-    const note = data.get('note') as string
-
-    if (!selectedSlot) return
+  const preloadRange = async () => {
+    const start = new Date()
+    const end = new Date()
+    end.setDate(start.getDate() + 14)
 
     try {
-      const response = await axiosInstance.post('/api/appointments/book', {
-        name,
-        email,
-        phone,
-        note,
-        slot: selectedSlot
-      })
-
-      if (response.data.success) {
-        toast.success(t('calendar.success'))
-        fetchAvailabilities()
-        // @ts-ignore
-        document.getElementById('my_modal_1')?.close()
-      } else {
-        toast.error(response.data.message)
-      }
-    } catch (error) {
-      toast.error(t('calendar.error'))
-    }
-  }
-
-  const isDatePast = (date: Date): boolean => {
-    const today = new Date()
-    return (
-      date < new Date(today.getFullYear(), today.getMonth(), today.getDate())
-    )
-  }
-
-  const fetchAvailabilities = async () => {
-    try {
-      const response = await axiosInstance.get<DailyAvailability[]>(
-        '/api/appointments/slots'
+      const res = await axios.get(
+        `/api/slots?startDate=${formatDate(start)}&endDate=${formatDate(end)}`
       )
-      const data = response.data
-      setAvailabilities(data)
+      const data = (res.data?.slots || []) as Slot[]
+      setAvailableSlots(data)
 
-      if (data.length > 0) {
-        const todayStr = formatDate(new Date())
-        const todayAvailability = data.find(a => a.date === todayStr)
-
-        if (todayAvailability?.slots?.length) {
-          setSelectedDate(new Date(todayAvailability.date))
-          setSelectedSlot(todayAvailability.slots[0])
-        } else {
-          const firstAvailable = data.find(a => a.slots.length > 0)
-          if (firstAvailable) {
-            setSelectedDate(new Date(firstAvailable.date))
-            setSelectedSlot(firstAvailable.slots[0])
-          }
-        }
-      } else {
-        setSelectedDate(new Date())
-        setSelectedSlot(null)
+      // Select first available date automatically
+      if (!selectedDate && data.length > 0) {
+        const first = new Date(data[0].startTime)
+        setSelectedDate(first)
       }
-    } catch (error) {
-      console.error('Error fetching availabilities:', error)
-      toast.error(t('calendar.fetchError'))
-      setAvailabilities([])
+    } catch (err) {
+      console.error(err)
+      toast.error('Slotlar alınamadı')
     }
   }
 
   useEffect(() => {
-    fetchAvailabilities()
+    preloadRange()
   }, [])
 
   return (
-    <section className='bg-base-200 pt-16' id='portfolio'>
-      <div className='px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000'>
-        <div className='mx-auto max-w-screen-sm text-center -mt-8 lg:mt-0'>
-          <h2 className='mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold'>
-            {t('calendar.title')}
+    <section className="bg-base-200 pt-16" id="appointments">
+      <div className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6">
+        <div className="mx-auto max-w-screen-sm text-center -mt-8 lg:mt-0">
+          <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
+            Randevu
           </h2>
-          <p className='font-light sm:text-xl'>{t('calendar.description')}</p>
+          <p className="font-light sm:text-xl">Uygun bir günü ve saati seçin</p>
         </div>
 
-        <div className='flex flex-wrap justify-center gap-4 mb-8 mt-3'>
-          {/* Takvim */}
-          <div className='w-1/2 sm:w-1/3 md:w-1/4'>
+        <div className="flex flex-wrap justify-center gap-4 mb-8 mt-3">
+          <div className="w-1/2 sm:w-1/3 md:w-1/4">
             <Calendar
+              // @ts-ignore
               onChange={handleDateSelect}
               value={selectedDate}
-              tileClassName={({ date }) => getTileClassName(date)}
-              minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
-              maxDate={new Date(new Date().setDate(new Date().getDate() + 14))}
+              tileClassName={getTileClassName}
+              minDate={today}
+              maxDate={new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000)}
             />
           </div>
 
-          {/* Slot seçimi ve form */}
-          <div className='w-1/2 sm:w-1/3 md:w-1/4'>
-            {isDatePast(selectedDate) ? (
-              <div className='text-lg font-semibold mb-2'>
-                {t('calendar.past_date_warning')}
-              </div>
-            ) : (
-              <>
-                <h3 className='text-lg font-semibold mb-2'>
-                  {t('calendar.available_slots')}
-                </h3>
-                <ul className='flex flex-wrap gap-2'>
-                  {getSlotsForDate(selectedDate).map((slot, index) => (
-                    <li key={index}>
+          <div className="w-1/2 sm:w-1/3 md:w-1/4">
+            {slotsOf(selectedDate).length > 0 ? (
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Mevcut Saatler</h3>
+                <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-2">
+                  {slotsOf(selectedDate).map((slot, idx) => {
+                    const start = new Date(slot.startTime)
+                    const end = new Date(slot.endTime)
+                    const length = differenceInMinutes(end, start)
+                    const label = `${format(start, 'HH:mm')}`
+                    const isSelected =
+                      selectedSlot?.startTime === slot.startTime &&
+                      selectedSlot?.endTime === slot.endTime
+
+                    return (
                       <button
-                        className={`btn btn-sm ${
-                          selectedSlot?.time === slot.time
-                            ? 'btn-accent'
-                            : 'btn-outline'
-                        }`}
+                        key={idx}
+                        disabled={slot.capacity <= 0}
+                        className={`btn btn-outline btn-sm btn-block text-left h-16 ${isSelected ? 'btn-primary' : ''
+                          } ${slot.capacity <= 0 ? 'btn-disabled cursor-not-allowed' : ''}`}
                         onClick={() => handleTimeSelect(slot)}
                       >
-                        {slot.time}
+                        <FontAwesomeIcon icon={slot.capacity <= 0 ? faX : faClock} className="mr-2" />
+                        {label} ({length} dk)
                       </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-
-            {selectedSlot ? (
-              <div className='mt-4'>
-                <h3 className='text-lg font-semibold mb-2'>
-                  {t('calendar.selected_slot')}
-                </h3>
-                <p className='text-sm space-x-2'>
-                  <span className='font-semibold'>
-                    <FontAwesomeIcon icon={faCalendar} className='mr-2' />
-                    {formatDate(selectedDate)}
-                  </span>
-                  <span className='font-semibold'>
-                    <FontAwesomeIcon icon={faClock} className='mr-2' />
-                    {selectedSlot.time}
-                  </span>
-                  <span className='font-semibold'>
-                    <FontAwesomeIcon icon={faStopwatch} className='mr-2' />
-                    {t('calendar.minutes', {
-                      count: selectedSlot.length || 30
-                    })}
-                  </span>
-                </p>
-
-                <button
-                  className='btn btn-primary btn-block mt-4'
-                  onClick={() => {
-                    // @ts-ignore
-                    document.getElementById('my_modal_1')?.showModal()
-                  }}
-                >
-                  <FontAwesomeIcon icon={faCalendar} className='mr-2' />
-                  {t('calendar.book_appointment')}
-                </button>
+                    )
+                  })}
+                </div>
               </div>
             ) : (
-              <div className='mt-4 text-lg'>{t('calendar.select_slot')}</div>
+              <p className="text-sm text-gray-500">Seçilen gün için müsait saat yok.</p>
+            )}
+
+            {selectedSlot && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2">Seçilen Saat</h3>
+                <p className="text-sm space-x-2">
+                  <span className="font-semibold">
+                    <FontAwesomeIcon icon={faCalendar} className="mr-2" />
+                    {format(parseISO(selectedSlot.startTime.toString()), 'yyyy-MM-dd')}
+                  </span>
+                  <span className="font-semibold">
+                    <FontAwesomeIcon icon={faClock} className="mr-2" />
+                    {format(new Date(selectedSlot.startTime), 'HH:mm')} -{' '}
+                    {format(new Date(selectedSlot.endTime), 'HH:mm')}
+                  </span>
+                  <span className="font-semibold">
+                    <FontAwesomeIcon icon={faStopwatch} className="mr-2" />
+                    {differenceInMinutes(
+                      new Date(selectedSlot.endTime),
+                      new Date(selectedSlot.startTime)
+                    )}{' '}
+                    dk
+                  </span>
+                </p>
+                <button
+                  className="btn btn-primary btn-block mt-4"
+                  onClick={() =>
+                    (document.getElementById('appt_modal') as HTMLDialogElement)?.showModal()
+                  }
+                >
+                  Randevu Al
+                </button>
+              </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Modal */}
-      <dialog id='my_modal_1' className='modal'>
-        <div className='modal-box'>
-          <h3 className='font-bold text-lg mb-4'>
-            {t('calendar.book_appointment')}
-          </h3>
-
-          <p className='text-sm space-x-2 mb-4'>
-            <span className='font-semibold'>
-              <FontAwesomeIcon icon={faCalendar} className='mr-2' />
-              {formatDate(selectedDate)}
-            </span>
-            <span className='font-semibold'>
-              <FontAwesomeIcon icon={faClock} className='mr-2' />
-              {selectedSlot?.time}
-            </span>
-            <span className='font-semibold'>
-              <FontAwesomeIcon icon={faStopwatch} className='mr-2' />
-              {t('calendar.minutes', { count: selectedSlot?.length || 30 })}
-            </span>
-          </p>
-
-          <form onSubmit={handleFormSubmit} className='space-y-3'>
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.name')}</span>
-              </label>
-              <input
-                type='text'
-                name='name'
-                required
-                placeholder={t('calendar.name_placeholder')}
-                className='input input-bordered w-full'
-              />
-            </div>
-
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.email')}</span>
-              </label>
-              <input
-                type='email'
-                name='email'
-                required
-                placeholder={t('calendar.email_placeholder')}
-                className='input input-bordered w-full'
-              />
-            </div>
-
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.phone')}</span>
-              </label>
-              <input
-                type='tel'
-                name='phone'
-                required
-                placeholder={t('calendar.phone_placeholder')}
-                className='input input-bordered w-full'
-              />
-            </div>
-
-            <div>
-              <label className='label'>
-                <span className='label-text'>{t('calendar.note')}</span>
-              </label>
-              <textarea
-                name='note'
-                rows={3}
-                placeholder={t('calendar.note_placeholder')}
-                className='textarea textarea-bordered w-full'
-              />
-            </div>
-
-            <button type='submit' className='btn btn-primary w-full'>
-              {t('calendar.book_appointment')}
-            </button>
-          </form>
-
-          <div className='modal-action'>
-            <form method='dialog' className='w-full'>
-              <button className='btn btn-secondary btn-block'>
-                {t('calendar.close')}
-              </button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <AppointmentModal selectedSlot={selectedSlot} preloadRange={preloadRange} />
     </section>
   )
 }
 
+
+=== ./components/frontend/AppointmentCalendar/AppointmentModal.tsx ===
+import { Slot } from "@/types/CalendarTypes"
+import { differenceInMinutes, format } from "date-fns"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCalendar, faClock, faStopwatch } from "@fortawesome/free-solid-svg-icons"
+import { toast } from "react-toastify"
+import axiosInstance from "@/libs/axios"
+
+const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot | null, preloadRange: () => Promise<void> }) => {
+    
+    const handleFormSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!selectedSlot) return toast.error('Önce bir saat seçin.')
+
+        const data = new FormData(e.currentTarget as HTMLFormElement)
+        const name = data.get('name') as string
+        const email = data.get('email') as string
+        const phone = data.get('phone') as string
+        const note = (data.get('note') as string) || ''
+
+        try {
+            const res = await axiosInstance.post('/api/booking', {
+                startTime: selectedSlot.startTime,
+                endTime: selectedSlot.endTime,
+                name,
+                email,
+                phone,
+                note,
+            })
+            if (res.data?.success) {
+                toast.success('Randevunuz oluşturuldu.')
+                await preloadRange()
+                    ; (document.getElementById('appt_modal') as HTMLDialogElement)?.close()
+            } else {
+                toast.error(res.data?.message || 'Randevu alınamadı')
+            }
+        } catch (err) {
+            console.error(err)
+            toast.error('Bir hata oluştu')
+        }
+    }
+
+
+    return (
+        <dialog id="appt_modal" className="modal">
+            <div className="modal-box">
+                <h3 className="font-bold text-lg mb-4">Randevu Bilgileri</h3>
+                {selectedSlot && (
+                    <p className="text-sm space-x-2 mb-4">
+                        <span className="font-semibold">
+                            <FontAwesomeIcon icon={faCalendar} className="mr-2" />
+                            {format(new Date(selectedSlot.startTime), 'yyyy-MM-dd')}
+                        </span>
+                        <span className="font-semibold">
+                            <FontAwesomeIcon icon={faClock} className="mr-2" />
+                            {format(new Date(selectedSlot.startTime), 'HH:mm')} -{' '}
+                            {format(new Date(selectedSlot.endTime), 'HH:mm')}
+                        </span>
+                        <span className="font-semibold">
+                            <FontAwesomeIcon icon={faStopwatch} className="mr-2" />
+                            {differenceInMinutes(
+                                new Date(selectedSlot.endTime),
+                                new Date(selectedSlot.startTime)
+                            )}{' '}
+                            dk
+                        </span>
+                    </p>
+                )}
+
+                <form onSubmit={handleFormSubmit} className="space-y-3">
+                    <label className="label">
+                        <span className="label-text">Ad Soyad</span>
+                    </label>
+                    <input type="text" name="name" required className="input input-bordered w-full" />
+
+                    <label className="label">
+                        <span className="label-text">E-posta</span>
+                    </label>
+                    <input type="email" name="email" required className="input input-bordered w-full" />
+
+                    <label className="label">
+                        <span className="label-text">Telefon</span>
+                    </label>
+                    <input type="tel" name="phone" required className="input input-bordered w-full" />
+
+                    <label className="label">
+                        <span className="label-text">Not</span>
+                    </label>
+                    <textarea name="note" rows={3} className="textarea textarea-bordered w-full" />
+
+                    <button type="submit" className="btn btn-primary w-full">
+                        Randevuyu Oluştur
+                    </button>
+                </form>
+
+                <div className="modal-action">
+                    <form method="dialog" className="w-full">
+                        <button className="btn btn-secondary btn-block">Kapat</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+    )
+}
+export default AppointmentModal
 
 === ./components/frontend/AppointmentCalendar/SSOLogin/index.tsx ===
 'use client'
@@ -17784,6 +18462,493 @@ export const useTerminal = () => {
 
 };
 
+=== ./components/admin/SlotTemplateBuilder/index.tsx ===
+'use client'
+
+import axiosInstance from '@/libs/axios'
+import { Day, Slot, SlotTemplate } from '@/types/CalendarTypes'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { format, parse, startOfWeek, addDays } from 'date-fns'
+
+interface SlotTemplateBuilderProps {
+    selectedDay: Day
+    selectedDate: Date
+    DAYS: Day[]
+    TIME_INTERVALS: number[]
+    setSelectedDay: (day: Day) => void,
+    setSelectedDate: (date: Date) => void
+}
+
+export default function SlotTemplateBuilder({
+    selectedDay,
+    selectedDate = new Date(),
+    DAYS,
+    TIME_INTERVALS,
+    setSelectedDay,
+    setSelectedDate
+}: SlotTemplateBuilderProps) {
+
+    const [templateSlots, setTemplateSlots] = useState<Slot[]>([])
+    const [interval, setInterval] = useState<number>(30)
+    const [startTime, setStartTime] = useState('08:00')
+    const [endTime, setEndTime] = useState('18:00')
+    const [saving, setSaving] = useState(false)
+    const [newTime, setNewTime] = useState('')
+
+    const formattedDate = format(selectedDate, 'yyyy-MM-dd')
+
+    /** Fetch Template Slots */
+    const fetchTemplate = async (day: Day) => {
+        try {
+            const res = await axiosInstance.get(`/api/slot-templates/${day}`)
+            setTemplateSlots(
+                res.data.slots?.map((s: any) => ({
+                    startTime: new Date(s.startTime),
+                    endTime: new Date(s.endTime),
+                    capacity: s.capacity
+                })) || []
+            )
+        } catch (err) {
+            console.error(err)
+            toast.error('Failed to fetch template slots')
+        }
+    }
+
+    useEffect(() => {
+        fetchTemplate(selectedDay)
+    }, [selectedDay])
+
+    /** Generate slots between start and end */
+    const generateTemplateSlots = () => {
+        const [sh, sm] = startTime.split(':').map(Number)
+        const [eh, em] = endTime.split(':').map(Number)
+        const startMinutes = sh * 60 + sm
+        const endMinutes = eh * 60 + em
+
+        if (startMinutes >= endMinutes)
+            return toast.error('Start time must be earlier than end time')
+
+        const generated: Slot[] = []
+        let current = startMinutes
+        while (current < endMinutes) {
+            const startH = Math.floor(current / 60)
+            const startM = current % 60
+            const endH = Math.floor((current + interval) / 60)
+            const endM = (current + interval) % 60
+
+            const start = parse(
+                `${formattedDate} ${String(startH).padStart(2, '0')}:${String(startM).padStart(2, '0')}`,
+                'yyyy-MM-dd HH:mm',
+                new Date()
+            )
+            const end = parse(
+                `${formattedDate} ${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}`,
+                'yyyy-MM-dd HH:mm',
+                new Date()
+            )
+
+            if (end > start && end <= parse(`${formattedDate} ${endTime}`, 'yyyy-MM-dd HH:mm', new Date())) {
+                generated.push({ startTime: start, endTime: end, capacity: 1 })
+            }
+
+            current += interval
+        }
+
+        setTemplateSlots(generated)
+        toast.info(`Generated ${generated.length} slots`)
+    }
+
+    /** Add manual slot */
+    const addTemplateSlot = () => {
+        if (!newTime) return toast.warn('Please select a time')
+
+        const start = parse(`${formattedDate} ${newTime}`, 'yyyy-MM-dd HH:mm', new Date())
+        const end = new Date(start.getTime() + interval * 60 * 1000)
+
+        if (templateSlots.some((s) => s.startTime.getTime() === start.getTime()))
+            return toast.warn('Slot already exists')
+
+        const newSlot: Slot = { startTime: start, endTime: end, capacity: 1 }
+        setTemplateSlots((prev) => [...prev, newSlot].sort((a, b) => a.startTime.getTime() - b.startTime.getTime()))
+        setNewTime('')
+    }
+
+    /** Remove one or all slots */
+    const removeTemplateSlot = (slot: Slot) =>
+        setTemplateSlots((prev) => prev.filter((s) => s.startTime.getTime() !== slot.startTime.getTime()))
+    const removeAllTemplateSlots = () => setTemplateSlots([])
+
+    /** Save Template */
+    const saveTemplate = async () => {
+        setSaving(true)
+        try {
+            const payload: SlotTemplate = {
+                day: selectedDay,
+                slots: templateSlots
+            }
+            await axiosInstance.post(`/api/slot-templates/${selectedDay}`, payload)
+            toast.success('Template saved successfully')
+        } catch (e) {
+            console.error(e)
+            toast.error('Failed to save template')
+        } finally {
+            setSaving(false)
+        }
+    }
+
+    /** Apply Template to Date */
+    const applyTemplateToDate = async () => {
+
+        if (!confirm(`Apply ${selectedDay} template to ${formattedDate}? This will overwrite existing slots.`)) return
+        if (templateSlots.length === 0) return toast.warn('No slots to apply')
+
+        try {
+            const payload = {
+                formattedDate: formattedDate,
+            }
+            await axiosInstance.post('/api/slot-templates/' + selectedDay + '/apply', payload)
+            toast.success(`Template applied to ${formattedDate}`)
+        } catch (err) {
+            console.error(err)
+            toast.error('Failed to apply template')
+        }
+    }
+
+    /** Apply all templates to current week (Mon–Sun) */
+    const applyAllTemplateToWeek = async () => {
+
+        if (!confirm(`This will overwrite existing slots for the week that start from the ${format(startOfWeek(selectedDate, { weekStartsOn: 1 }), 'dd MMM yyyy')}. Continue?`)) return
+
+        try {
+            const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 }) // Monday
+            for (let i = 0; i < 7; i++) {
+                const day = DAYS[i]
+                const date = addDays(weekStart, i)
+                const formatted = format(date, 'yyyy-MM-dd')
+
+                // fetch each day's template first
+                const res = await axiosInstance.get(`/api/slot-templates/${day}`)
+                const slots: Slot[] =
+                    res.data.slots?.map((s: any) => ({
+                        startTime: new Date(s.startTime),
+                        endTime: new Date(s.endTime),
+                        capacity: s.capacity
+                    })) || []
+
+                if (slots.length > 0) {
+                    const payload = {
+                        date: formatted,
+                        slots: slots.map((s) => ({
+                            startTime: s.startTime.toISOString(),
+                            endTime: s.endTime.toISOString(),
+                            capacity: s.capacity
+                        }))
+                    }
+                    await axiosInstance.post(`/api/slots-template/${day}/apply`, payload)
+                }
+            }
+
+            toast.success('Templates applied to all week successfully')
+        } catch (err) {
+            console.error(err)
+            toast.error('Failed to apply templates to week')
+        }
+    }
+
+    return (
+        <div className="card bg-base-100 shadow-xl border border-base-200">
+            <div className="card-body">
+                <h2 className="text-2xl font-semibold mb-2">Template Builder</h2>
+                <div className="text-sm text-gray-500 mb-4">
+                    Create and manage slot templates for each day of the week.
+                </div>
+
+                {/* Day Selector */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                    {DAYS.map((day) => (
+                        <button
+                            key={day}
+                            onClick={() => setSelectedDay(day)}
+                            className={`btn btn-sm rounded-full ${selectedDay === day
+                                ? 'btn-primary text-white'
+                                : 'btn-outline border-gray-400 text-gray-600'
+                                }`}
+                        >
+                            {day.charAt(0).toUpperCase() + day.slice(1)}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Generator */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                    <div>
+                        <label className="text-xs text-gray-600">Start</label>
+                        <input
+                            type="time"
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                            className="input input-bordered w-full"
+                        />
+                    </div>
+                    <div>
+                        <label className="text-xs text-gray-600">End</label>
+                        <input
+                            type="time"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                            className="input input-bordered w-full"
+                        />
+                    </div>
+                    <div>
+                        <label className="text-xs text-gray-600">Interval</label>
+                        <select
+                            value={interval}
+                            onChange={(e) => setInterval(Number(e.target.value))}
+                            className="select select-bordered w-full"
+                        >
+                            {TIME_INTERVALS.map((i) => (
+                                <option key={i} value={i}>
+                                    {i} min
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex items-end">
+                        <button onClick={generateTemplateSlots} className="btn btn-outline w-full">
+                            Generate
+                        </button>
+                    </div>
+                </div>
+
+                {/* Manual Add */}
+                <div className="flex gap-2 mb-4">
+                    <input
+                        type="time"
+                        value={newTime}
+                        onChange={(e) => setNewTime(e.target.value)}
+                        className="input input-bordered w-full"
+                    />
+                    <button className="btn btn-outline" onClick={addTemplateSlot}>
+                        Add
+                    </button>
+                </div>
+
+                {/* Save + Apply */}
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                    <button
+                        onClick={saveTemplate}
+                        disabled={saving}
+                        className="btn btn-primary text-white"
+                    >
+                        {saving ? 'Saving...' : 'Save'}
+                    </button>
+                    <button onClick={applyTemplateToDate} className="btn btn-accent text-white">
+                        Apply to {formattedDate}
+                    </button>
+                    <button onClick={applyAllTemplateToWeek} className="btn btn-secondary text-white">
+                        Apply to Week of {format(startOfWeek(selectedDate, { weekStartsOn: 1 }), 'dd MMM')}
+                    </button>
+                </div>
+
+                {/* Remove All */}
+                <button onClick={removeAllTemplateSlots} className="btn btn-outline w-full mb-3">
+                    Remove All Slots
+                </button>
+
+                {/* Slot List */}
+                <div className="bg-base-200 rounded-lg max-h-[300px] overflow-y-auto p-2">
+                    {templateSlots.length === 0 ? (
+                        <p className="text-gray-500 text-center py-6">No slots yet</p>
+                    ) : (
+                        templateSlots.map((slot, i) => (
+                            <SingleTemplateSlot
+                                key={i}
+                                slot={slot}
+                                removeTemplateSlot={removeTemplateSlot}
+                            />
+                        ))
+                    )}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function SingleTemplateSlot({
+    slot, key, removeTemplateSlot
+}: {
+    slot: Slot,
+    key: number,
+    removeTemplateSlot: (slot: Slot) => void
+}) {
+    return (
+        <div
+            key={key}
+            className="flex justify-between items-center px-3 py-2 bg-base-100 rounded-lg mb-2 shadow-sm"
+        >
+            <span className="font-mono">
+                {format(new Date(slot.startTime), 'HH:mm')} - {format(new Date(slot.endTime), 'HH:mm')}
+            </span>
+            <button
+                className="btn btn-xs btn-error text-white"
+                onClick={() => removeTemplateSlot(slot)}
+            >
+                ✕
+            </button>
+        </div>
+    )
+}
+
+=== ./components/admin/SlotsEditor/index.tsx ===
+import { Day, Slot } from "@/types/CalendarTypes"
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import axiosInstance from "@/libs/axios";
+import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
+const SlotsEditor = (
+    {
+        selectedDay,
+        selectedDate,
+        setSelectedDay,
+        setSelectedDate
+    }: {
+        selectedDay: Day,
+        selectedDate: Date,
+        setSelectedDay: (day: Day) => void,
+        setSelectedDate: (date: Date) => void
+    }
+) => {
+
+    const [dailySlots, setDailySlots] = useState<Slot[]>([])
+    const [loading, setLoading] = useState(false)
+    const formattedDate = format(selectedDate, 'yyyy-MM-dd')
+
+
+    /** Fetch Slots for selected date */
+    const fetchDailySlots = async (date: string) => {
+        setLoading(true)
+        try {
+            const res = await axiosInstance.get(`/api/slots/${date}`)
+            setDailySlots(res.data.slots || [])
+        } catch {
+            toast.error('Failed to fetch daily slots')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const removeSlot = (index: number) => {
+        const updatedSlots = [...dailySlots]
+        updatedSlots.splice(index, 1)
+        setDailySlots(updatedSlots)
+    }
+
+    const updateDailySlots = () => {
+        setLoading(true)
+        axiosInstance.put(`/api/slots/${formattedDate}`, { slots: dailySlots })
+            .then(() => {
+                toast.success('Slots updated successfully')
+            })
+            .catch(() => {
+                toast.error('Failed to update slots')
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
+    useEffect(() => {
+        fetchDailySlots(formattedDate)
+    }, [formattedDate])
+
+    return (
+        <div className="card bg-base-100 shadow-xl border border-base-200 p-4">
+            <div className="flex flex-col items-center mb-6">
+                <Calendar
+                    onChange={(value) => {
+                        if (value instanceof Date) {
+                            setSelectedDate(value);
+                        } else if (Array.isArray(value) && value[0] instanceof Date) {
+                            setSelectedDate(value[0]);
+                        }
+
+                    }}
+                    value={selectedDate}
+                    className="react-calendar border border-gray-300 rounded-lg p-2 w-full"
+                />
+            </div>
+
+            <h2 className="text-lg font-semibold mb-2 text-center">
+                {format(selectedDate, 'EEEE, dd MMM yyyy')}
+            </h2>
+
+            {loading ? (
+                <div className="text-center py-10 text-gray-500">Loading...</div>
+            ) : dailySlots.length === 0 ? (
+                <div className="text-center py-10 text-gray-500">No slots for this day</div>
+            ) : (
+                <div className="overflow-y-auto max-h-[250px]">
+                    {dailySlots.map((slot, i) => (
+                        <SingleSlot
+                            key={i}
+                            slot={slot}
+                            index={i}
+                            removeSlot={removeSlot}
+                        />
+                    ))}
+                </div>
+            )}
+
+            <div className="mt-4 w-full flex justify-end">
+                <button
+                    className="btn btn-primary btn-block"
+                    onClick={updateDailySlots}
+                    disabled={loading}
+                >
+                    {loading ? 'Saving...' : 'Save Changes'}
+                </button>
+            </div>
+        </div>
+    )
+}
+
+export function SingleSlot({
+    slot, index, removeSlot
+}: {
+    slot: Slot,
+    index: number,
+    removeSlot: (index: number) => void
+}) {
+
+    return (
+        <div
+            key={index}
+            className="flex justify-between items-center px-3 py-2 bg-base-100 rounded-lg mb-2 shadow-sm"
+        >
+            <span className="font-mono">
+                {format(new Date(slot.startTime), 'HH:mm')} - {format(new Date(slot.endTime), 'HH:mm')}
+            </span>
+            <span className="text-sm text-gray-500">
+                Capacity: {slot.capacity}
+            </span>
+            <button
+                className="btn btn-xs btn-error text-white"
+                onClick={() => removeSlot(index)}
+            >
+                ✕
+            </button>
+        </div>
+    )
+}
+
+export default SlotsEditor;
+
 === ./components/admin/AIPrompt/index.tsx ===
 import React, { useState } from 'react';
 import axiosInstance from '@/libs/axios';
@@ -18706,6 +19871,10 @@ const Navbar = () => {
             href: "/admin/users",
         },
         {
+            name: "Slots",
+            href: "/admin/slots",
+        },
+        {
             name: "Settings",
             href: "/admin/settings",
         }
@@ -19501,6 +20670,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/admin/settings">
 }
 
+// Validate ../../app/(admin)/admin/slots/page.tsx
+{
+  const handler = {} as typeof import("../../app/(admin)/admin/slots/page.js")
+  handler satisfies AppPageConfig<"/admin/slots">
+}
+
 // Validate ../../app/(admin)/admin/users/[userId]/page.tsx
 {
   const handler = {} as typeof import("../../app/(admin)/admin/users/[userId]/page.js")
@@ -19627,16 +20802,22 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies RouteHandlerConfig<"/api/ai/gpt-4o">
 }
 
-// Validate ../../app/(api)/api/appointments/book/route.ts
+// Validate ../../app/(api)/api/appointments/[appointmentId]/book/route.ts
 {
-  const handler = {} as typeof import("../../app/(api)/api/appointments/book/route.js")
-  handler satisfies RouteHandlerConfig<"/api/appointments/book">
+  const handler = {} as typeof import("../../app/(api)/api/appointments/[appointmentId]/book/route.js")
+  handler satisfies RouteHandlerConfig<"/api/appointments/[appointmentId]/book">
 }
 
-// Validate ../../app/(api)/api/appointments/slots/route.ts
+// Validate ../../app/(api)/api/appointments/[appointmentId]/cancel/route.ts
 {
-  const handler = {} as typeof import("../../app/(api)/api/appointments/slots/route.js")
-  handler satisfies RouteHandlerConfig<"/api/appointments/slots">
+  const handler = {} as typeof import("../../app/(api)/api/appointments/[appointmentId]/cancel/route.js")
+  handler satisfies RouteHandlerConfig<"/api/appointments/[appointmentId]/cancel">
+}
+
+// Validate ../../app/(api)/api/appointments/route.ts
+{
+  const handler = {} as typeof import("../../app/(api)/api/appointments/route.js")
+  handler satisfies RouteHandlerConfig<"/api/appointments">
 }
 
 // Validate ../../app/(api)/api/auth/callback/[provider]/route.ts
@@ -19697,6 +20878,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   const handler = {} as typeof import("../../app/(api)/api/aws/route.js")
   handler satisfies RouteHandlerConfig<"/api/aws">
+}
+
+// Validate ../../app/(api)/api/booking/route.ts
+{
+  const handler = {} as typeof import("../../app/(api)/api/booking/route.js")
+  handler satisfies RouteHandlerConfig<"/api/booking">
 }
 
 // Validate ../../app/(api)/api/categories/[categoryId]/route.ts
@@ -19787,6 +20974,30 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   const handler = {} as typeof import("../../app/(api)/api/settings/route.js")
   handler satisfies RouteHandlerConfig<"/api/settings">
+}
+
+// Validate ../../app/(api)/api/slot-templates/[day]/apply/route.ts
+{
+  const handler = {} as typeof import("../../app/(api)/api/slot-templates/[day]/apply/route.js")
+  handler satisfies RouteHandlerConfig<"/api/slot-templates/[day]/apply">
+}
+
+// Validate ../../app/(api)/api/slot-templates/[day]/route.ts
+{
+  const handler = {} as typeof import("../../app/(api)/api/slot-templates/[day]/route.js")
+  handler satisfies RouteHandlerConfig<"/api/slot-templates/[day]">
+}
+
+// Validate ../../app/(api)/api/slots/[date]/route.ts
+{
+  const handler = {} as typeof import("../../app/(api)/api/slots/[date]/route.js")
+  handler satisfies RouteHandlerConfig<"/api/slots/[date]">
+}
+
+// Validate ../../app/(api)/api/slots/route.ts
+{
+  const handler = {} as typeof import("../../app/(api)/api/slots/route.js")
+  handler satisfies RouteHandlerConfig<"/api/slots">
 }
 
 // Validate ../../app/(api)/api/stats/route.ts
@@ -19894,8 +21105,8 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 // This file is generated automatically by Next.js
 // Do not edit this file manually
 
-type AppRoutes = "/" | "/admin" | "/admin/categories" | "/admin/categories/[categoryId]" | "/admin/categories/[categoryId]/posts" | "/admin/categories/create" | "/admin/comments" | "/admin/posts" | "/admin/posts/[postId]" | "/admin/projects" | "/admin/projects/[projectId]" | "/admin/settings" | "/admin/users" | "/admin/users/[userId]" | "/admin/users/create" | "/auth/callback" | "/auth/forgot-password" | "/auth/login" | "/auth/logout" | "/auth/register" | "/blog" | "/blog/[categorySlug]" | "/blog/[categorySlug]/[postSlug]" | "/blog/user/[userId]" | "/easter/terminal" | "/my-links" | "/privacy-policy" | "/project" | "/project/[projectSlug]" | "/terms-of-use"
-type AppRouteHandlerRoutes = "/api/ai/dall-e" | "/api/ai/gpt-4o" | "/api/appointments/book" | "/api/appointments/slots" | "/api/auth/callback/[provider]" | "/api/auth/forgot-password" | "/api/auth/login" | "/api/auth/logout" | "/api/auth/register" | "/api/auth/reset-password" | "/api/auth/session" | "/api/auth/sso/[provider]" | "/api/aws" | "/api/aws/from-url" | "/api/categories" | "/api/categories/[categoryId]" | "/api/comments" | "/api/contact/form" | "/api/contact/info/mail" | "/api/contact/info/phone" | "/api/contact/subscription" | "/api/posts" | "/api/posts/[postId]/cover.jpeg" | "/api/posts/[postId]/like" | "/api/posts/[postId]/like/count" | "/api/projects" | "/api/sections/github" | "/api/sections/gitlab" | "/api/settings" | "/api/stats" | "/api/users" | "/api/users/[userId]" | "/api/widget/posts" | "/blog/sitemap.xml" | "/project/sitemap.xml" | "/sitemap-static.xml" | "/sitemap.xml"
+type AppRoutes = "/" | "/admin" | "/admin/categories" | "/admin/categories/[categoryId]" | "/admin/categories/[categoryId]/posts" | "/admin/categories/create" | "/admin/comments" | "/admin/posts" | "/admin/posts/[postId]" | "/admin/projects" | "/admin/projects/[projectId]" | "/admin/settings" | "/admin/slots" | "/admin/users" | "/admin/users/[userId]" | "/admin/users/create" | "/auth/callback" | "/auth/forgot-password" | "/auth/login" | "/auth/logout" | "/auth/register" | "/blog" | "/blog/[categorySlug]" | "/blog/[categorySlug]/[postSlug]" | "/blog/user/[userId]" | "/easter/terminal" | "/my-links" | "/privacy-policy" | "/project" | "/project/[projectSlug]" | "/terms-of-use"
+type AppRouteHandlerRoutes = "/api/ai/dall-e" | "/api/ai/gpt-4o" | "/api/appointments" | "/api/appointments/[appointmentId]/book" | "/api/appointments/[appointmentId]/cancel" | "/api/auth/callback/[provider]" | "/api/auth/forgot-password" | "/api/auth/login" | "/api/auth/logout" | "/api/auth/register" | "/api/auth/reset-password" | "/api/auth/session" | "/api/auth/sso/[provider]" | "/api/aws" | "/api/aws/from-url" | "/api/booking" | "/api/categories" | "/api/categories/[categoryId]" | "/api/comments" | "/api/contact/form" | "/api/contact/info/mail" | "/api/contact/info/phone" | "/api/contact/subscription" | "/api/posts" | "/api/posts/[postId]/cover.jpeg" | "/api/posts/[postId]/like" | "/api/posts/[postId]/like/count" | "/api/projects" | "/api/sections/github" | "/api/sections/gitlab" | "/api/settings" | "/api/slot-templates/[day]" | "/api/slot-templates/[day]/apply" | "/api/slots" | "/api/slots/[date]" | "/api/stats" | "/api/users" | "/api/users/[userId]" | "/api/widget/posts" | "/blog/sitemap.xml" | "/project/sitemap.xml" | "/sitemap-static.xml" | "/sitemap.xml"
 type PageRoutes = never
 type LayoutRoutes = "/" | "/admin" | "/blog" | "/easter/terminal"
 type RedirectRoutes = never
@@ -19916,13 +21127,15 @@ interface ParamMap {
   "/admin/projects": {}
   "/admin/projects/[projectId]": { "projectId": string; }
   "/admin/settings": {}
+  "/admin/slots": {}
   "/admin/users": {}
   "/admin/users/[userId]": { "userId": string; }
   "/admin/users/create": {}
   "/api/ai/dall-e": {}
   "/api/ai/gpt-4o": {}
-  "/api/appointments/book": {}
-  "/api/appointments/slots": {}
+  "/api/appointments": {}
+  "/api/appointments/[appointmentId]/book": { "appointmentId": string; }
+  "/api/appointments/[appointmentId]/cancel": { "appointmentId": string; }
   "/api/auth/callback/[provider]": { "provider": string; }
   "/api/auth/forgot-password": {}
   "/api/auth/login": {}
@@ -19933,6 +21146,7 @@ interface ParamMap {
   "/api/auth/sso/[provider]": { "provider": string; }
   "/api/aws": {}
   "/api/aws/from-url": {}
+  "/api/booking": {}
   "/api/categories": {}
   "/api/categories/[categoryId]": { "categoryId": string; }
   "/api/comments": {}
@@ -19948,6 +21162,10 @@ interface ParamMap {
   "/api/sections/github": {}
   "/api/sections/gitlab": {}
   "/api/settings": {}
+  "/api/slot-templates/[day]": { "day": string; }
+  "/api/slot-templates/[day]/apply": { "day": string; }
+  "/api/slots": {}
+  "/api/slots/[date]": { "date": string; }
   "/api/stats": {}
   "/api/users": {}
   "/api/users/[userId]": { "userId": string; }
@@ -20429,617 +21647,6 @@ type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any 
 type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
 
 
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(frontend)/blog/layout.ts ===
-// File: /home/kuray/KurayDevV2/app/(frontend)/blog/layout.tsx
-import * as entry from '../../../../../app/(frontend)/blog/layout.js'
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-type TEntry = typeof import('../../../../../app/(frontend)/blog/layout.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  default: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-  metadata?: any
-  generateMetadata?: Function
-  viewport?: any
-  generateViewport?: Function
-  experimental_ppr?: boolean
-  
-}, TEntry, ''>>()
-
-
-// Check the prop type of the entry function
-checkFields<Diff<LayoutProps, FirstArg<TEntry['default']>, 'default'>>()
-
-// Check the arguments and return type of the generateMetadata function
-if ('generateMetadata' in entry) {
-  checkFields<Diff<LayoutProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-}
-
-// Check the arguments and return type of the generateViewport function
-if ('generateViewport' in entry) {
-  checkFields<Diff<LayoutProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(frontend)/blog/[categorySlug]/[postSlug]/page.ts ===
-// File: /home/kuray/KurayDevV2/app/(frontend)/blog/[categorySlug]/[postSlug]/page.tsx
-import * as entry from '../../../../../../../app/(frontend)/blog/[categorySlug]/[postSlug]/page.js'
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-type TEntry = typeof import('../../../../../../../app/(frontend)/blog/[categorySlug]/[postSlug]/page.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  default: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-  metadata?: any
-  generateMetadata?: Function
-  viewport?: any
-  generateViewport?: Function
-  experimental_ppr?: boolean
-  
-}, TEntry, ''>>()
-
-
-// Check the prop type of the entry function
-checkFields<Diff<PageProps, FirstArg<TEntry['default']>, 'default'>>()
-
-// Check the arguments and return type of the generateMetadata function
-if ('generateMetadata' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-}
-
-// Check the arguments and return type of the generateViewport function
-if ('generateViewport' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(frontend)/blog/[categorySlug]/page.ts ===
-// File: /home/kuray/KurayDevV2/app/(frontend)/blog/[categorySlug]/page.tsx
-import * as entry from '../../../../../../app/(frontend)/blog/[categorySlug]/page.js'
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-type TEntry = typeof import('../../../../../../app/(frontend)/blog/[categorySlug]/page.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  default: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-  metadata?: any
-  generateMetadata?: Function
-  viewport?: any
-  generateViewport?: Function
-  experimental_ppr?: boolean
-  
-}, TEntry, ''>>()
-
-
-// Check the prop type of the entry function
-checkFields<Diff<PageProps, FirstArg<TEntry['default']>, 'default'>>()
-
-// Check the arguments and return type of the generateMetadata function
-if ('generateMetadata' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-}
-
-// Check the arguments and return type of the generateViewport function
-if ('generateViewport' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(api)/api/posts/route.ts ===
-// File: /home/kuray/KurayDevV2/app/(api)/api/posts/route.ts
-import * as entry from '../../../../../../app/(api)/api/posts/route.js'
-import type { NextRequest } from 'next/server.js'
-
-type TEntry = typeof import('../../../../../../app/(api)/api/posts/route.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  GET?: Function
-  HEAD?: Function
-  OPTIONS?: Function
-  POST?: Function
-  PUT?: Function
-  DELETE?: Function
-  PATCH?: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-}, TEntry, ''>>()
-
-type RouteContext = { params: Promise<SegmentParams> }
-// Check the prop type of the entry function
-if ('GET' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'GET',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'GET',
-        __return_type__: ReturnType<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('HEAD' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'HEAD',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'HEAD',
-        __return_type__: ReturnType<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('OPTIONS' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: ReturnType<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('POST' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'POST',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'POST',
-        __return_type__: ReturnType<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PUT' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PUT',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PUT',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('DELETE' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'DELETE',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'DELETE',
-        __return_type__: ReturnType<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PATCH' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PATCH',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PATCH',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-type ParamCheck<T> = {
-  __tag__: string
-  __param_position__: string
-  __param_type__: T
-}
 
 function checkFields<_ extends { [k in keyof any]: never }>() {}
 
@@ -21750,12 +22357,12 @@ type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${s
 type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
 
 
-=== ./.next/types/app/(api)/api/stats/route.ts ===
-// File: /home/kuray/KurayDevV2/app/(api)/api/stats/route.ts
-import * as entry from '../../../../../../app/(api)/api/stats/route.js'
+=== ./.next/types/app/(api)/api/slot-templates/[day]/route.ts ===
+// File: /home/kuray/KurayDevV2/app/(api)/api/slot-templates/[day]/route.ts
+import * as entry from '../../../../../../../app/(api)/api/slot-templates/[day]/route.js'
 import type { NextRequest } from 'next/server.js'
 
-type TEntry = typeof import('../../../../../../app/(api)/api/stats/route.js')
+type TEntry = typeof import('../../../../../../../app/(api)/api/slot-templates/[day]/route.js')
 
 type SegmentParams<T extends Object = any> = T extends Record<string, any>
   ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
@@ -22100,12 +22707,12 @@ type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${s
 type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
 
 
-=== ./.next/types/app/(api)/api/comments/route.ts ===
-// File: /home/kuray/KurayDevV2/app/(api)/api/comments/route.ts
-import * as entry from '../../../../../../app/(api)/api/comments/route.js'
+=== ./.next/types/app/(api)/api/slots/[date]/route.ts ===
+// File: /home/kuray/KurayDevV2/app/(api)/api/slots/[date]/route.ts
+import * as entry from '../../../../../../../app/(api)/api/slots/[date]/route.js'
 import type { NextRequest } from 'next/server.js'
 
-type TEntry = typeof import('../../../../../../app/(api)/api/comments/route.js')
+type TEntry = typeof import('../../../../../../../app/(api)/api/slots/[date]/route.js')
 
 type SegmentParams<T extends Object = any> = T extends Record<string, any>
   ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
@@ -22450,12 +23057,12 @@ type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${s
 type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
 
 
-=== ./.next/types/app/(api)/api/aws/route.ts ===
-// File: /home/kuray/KurayDevV2/app/(api)/api/aws/route.ts
-import * as entry from '../../../../../../app/(api)/api/aws/route.js'
+=== ./.next/types/app/(api)/api/slots/route.ts ===
+// File: /home/kuray/KurayDevV2/app/(api)/api/slots/route.ts
+import * as entry from '../../../../../../app/(api)/api/slots/route.js'
 import type { NextRequest } from 'next/server.js'
 
-type TEntry = typeof import('../../../../../../app/(api)/api/aws/route.js')
+type TEntry = typeof import('../../../../../../app/(api)/api/slots/route.js')
 
 type SegmentParams<T extends Object = any> = T extends Record<string, any>
   ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
@@ -22790,1230 +23397,6 @@ type ParamCheck<T> = {
   __param_position__: string
   __param_type__: T
 }
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(api)/api/users/route.ts ===
-// File: /home/kuray/KurayDevV2/app/(api)/api/users/route.ts
-import * as entry from '../../../../../../app/(api)/api/users/route.js'
-import type { NextRequest } from 'next/server.js'
-
-type TEntry = typeof import('../../../../../../app/(api)/api/users/route.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  GET?: Function
-  HEAD?: Function
-  OPTIONS?: Function
-  POST?: Function
-  PUT?: Function
-  DELETE?: Function
-  PATCH?: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-}, TEntry, ''>>()
-
-type RouteContext = { params: Promise<SegmentParams> }
-// Check the prop type of the entry function
-if ('GET' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'GET',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'GET',
-        __return_type__: ReturnType<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('HEAD' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'HEAD',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'HEAD',
-        __return_type__: ReturnType<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('OPTIONS' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: ReturnType<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('POST' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'POST',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'POST',
-        __return_type__: ReturnType<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PUT' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PUT',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PUT',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('DELETE' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'DELETE',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'DELETE',
-        __return_type__: ReturnType<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PATCH' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PATCH',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PATCH',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-type ParamCheck<T> = {
-  __tag__: string
-  __param_position__: string
-  __param_type__: T
-}
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(api)/api/categories/route.ts ===
-// File: /home/kuray/KurayDevV2/app/(api)/api/categories/route.ts
-import * as entry from '../../../../../../app/(api)/api/categories/route.js'
-import type { NextRequest } from 'next/server.js'
-
-type TEntry = typeof import('../../../../../../app/(api)/api/categories/route.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  GET?: Function
-  HEAD?: Function
-  OPTIONS?: Function
-  POST?: Function
-  PUT?: Function
-  DELETE?: Function
-  PATCH?: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-}, TEntry, ''>>()
-
-type RouteContext = { params: Promise<SegmentParams> }
-// Check the prop type of the entry function
-if ('GET' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'GET',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'GET',
-        __return_type__: ReturnType<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('HEAD' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'HEAD',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'HEAD',
-        __return_type__: ReturnType<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('OPTIONS' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: ReturnType<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('POST' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'POST',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'POST',
-        __return_type__: ReturnType<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PUT' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PUT',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PUT',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('DELETE' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'DELETE',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'DELETE',
-        __return_type__: ReturnType<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PATCH' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PATCH',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PATCH',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-type ParamCheck<T> = {
-  __tag__: string
-  __param_position__: string
-  __param_type__: T
-}
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(api)/api/auth/login/route.ts ===
-// File: /home/kuray/KurayDevV2/app/(api)/api/auth/login/route.ts
-import * as entry from '../../../../../../../app/(api)/api/auth/login/route.js'
-import type { NextRequest } from 'next/server.js'
-
-type TEntry = typeof import('../../../../../../../app/(api)/api/auth/login/route.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  GET?: Function
-  HEAD?: Function
-  OPTIONS?: Function
-  POST?: Function
-  PUT?: Function
-  DELETE?: Function
-  PATCH?: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-}, TEntry, ''>>()
-
-type RouteContext = { params: Promise<SegmentParams> }
-// Check the prop type of the entry function
-if ('GET' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'GET'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'GET',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'GET',
-        __return_type__: ReturnType<MaybeField<TEntry, 'GET'>>
-      },
-      'GET'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('HEAD' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'HEAD'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'HEAD',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'HEAD',
-        __return_type__: ReturnType<MaybeField<TEntry, 'HEAD'>>
-      },
-      'HEAD'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('OPTIONS' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'OPTIONS'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'OPTIONS',
-        __return_type__: ReturnType<MaybeField<TEntry, 'OPTIONS'>>
-      },
-      'OPTIONS'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('POST' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'POST'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'POST',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'POST',
-        __return_type__: ReturnType<MaybeField<TEntry, 'POST'>>
-      },
-      'POST'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PUT' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PUT'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PUT',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PUT',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PUT'>>
-      },
-      'PUT'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('DELETE' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'DELETE'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'DELETE',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'DELETE',
-        __return_type__: ReturnType<MaybeField<TEntry, 'DELETE'>>
-      },
-      'DELETE'
-    >
-  >()
-}
-// Check the prop type of the entry function
-if ('PATCH' in entry) {
-  checkFields<
-    Diff<
-      ParamCheck<Request | NextRequest>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'first'
-        __param_type__: FirstArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  checkFields<
-    Diff<
-      ParamCheck<RouteContext>,
-      {
-        __tag__: 'PATCH'
-        __param_position__: 'second'
-        __param_type__: SecondArg<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-  
-  checkFields<
-    Diff<
-      {
-        __tag__: 'PATCH',
-        __return_type__: Response | void | never | Promise<Response | void | never>
-      },
-      {
-        __tag__: 'PATCH',
-        __return_type__: ReturnType<MaybeField<TEntry, 'PATCH'>>
-      },
-      'PATCH'
-    >
-  >()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-type ParamCheck<T> = {
-  __tag__: string
-  __param_position__: string
-  __param_type__: T
-}
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(auth)/layout.ts ===
-// File: /home/kuray/KurayDevV2/app/(auth)/layout.tsx
-import * as entry from '../../../../app/(auth)/layout.js'
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-type TEntry = typeof import('../../../../app/(auth)/layout.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  default: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-  metadata?: any
-  generateMetadata?: Function
-  viewport?: any
-  generateViewport?: Function
-  experimental_ppr?: boolean
-  
-}, TEntry, ''>>()
-
-
-// Check the prop type of the entry function
-checkFields<Diff<LayoutProps, FirstArg<TEntry['default']>, 'default'>>()
-
-// Check the arguments and return type of the generateMetadata function
-if ('generateMetadata' in entry) {
-  checkFields<Diff<LayoutProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-}
-
-// Check the arguments and return type of the generateViewport function
-if ('generateViewport' in entry) {
-  checkFields<Diff<LayoutProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(auth)/auth/login/page.ts ===
-// File: /home/kuray/KurayDevV2/app/(auth)/auth/login/page.tsx
-import * as entry from '../../../../../../app/(auth)/auth/login/page.js'
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-type TEntry = typeof import('../../../../../../app/(auth)/auth/login/page.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  default: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-  metadata?: any
-  generateMetadata?: Function
-  viewport?: any
-  generateViewport?: Function
-  experimental_ppr?: boolean
-  
-}, TEntry, ''>>()
-
-
-// Check the prop type of the entry function
-checkFields<Diff<PageProps, FirstArg<TEntry['default']>, 'default'>>()
-
-// Check the arguments and return type of the generateMetadata function
-if ('generateMetadata' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-}
-
-// Check the arguments and return type of the generateViewport function
-if ('generateViewport' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-
 
 function checkFields<_ extends { [k in keyof any]: never }>() {}
 
@@ -24198,186 +23581,12 @@ type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${s
 type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
 
 
-=== ./.next/types/app/(admin)/admin/posts/page.ts ===
-// File: /home/kuray/KurayDevV2/app/(admin)/admin/posts/page.tsx
-import * as entry from '../../../../../../app/(admin)/admin/posts/page.js'
+=== ./.next/types/app/(admin)/admin/slots/page.ts ===
+// File: /home/kuray/KurayDevV2/app/(admin)/admin/slots/page.tsx
+import * as entry from '../../../../../../app/(admin)/admin/slots/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../../../app/(admin)/admin/posts/page.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  default: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-  metadata?: any
-  generateMetadata?: Function
-  viewport?: any
-  generateViewport?: Function
-  experimental_ppr?: boolean
-  
-}, TEntry, ''>>()
-
-
-// Check the prop type of the entry function
-checkFields<Diff<PageProps, FirstArg<TEntry['default']>, 'default'>>()
-
-// Check the arguments and return type of the generateMetadata function
-if ('generateMetadata' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-}
-
-// Check the arguments and return type of the generateViewport function
-if ('generateViewport' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(admin)/admin/posts/[postId]/page.ts ===
-// File: /home/kuray/KurayDevV2/app/(admin)/admin/posts/[postId]/page.tsx
-import * as entry from '../../../../../../../app/(admin)/admin/posts/[postId]/page.js'
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-type TEntry = typeof import('../../../../../../../app/(admin)/admin/posts/[postId]/page.js')
-
-type SegmentParams<T extends Object = any> = T extends Record<string, any>
-  ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
-  : T
-
-// Check that the entry is a valid entry
-checkFields<Diff<{
-  default: Function
-  config?: {}
-  generateStaticParams?: Function
-  revalidate?: RevalidateRange<TEntry> | false
-  dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
-  dynamicParams?: boolean
-  fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
-  runtime?: 'nodejs' | 'experimental-edge' | 'edge'
-  maxDuration?: number
-  
-  metadata?: any
-  generateMetadata?: Function
-  viewport?: any
-  generateViewport?: Function
-  experimental_ppr?: boolean
-  
-}, TEntry, ''>>()
-
-
-// Check the prop type of the entry function
-checkFields<Diff<PageProps, FirstArg<TEntry['default']>, 'default'>>()
-
-// Check the arguments and return type of the generateMetadata function
-if ('generateMetadata' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-  checkFields<Diff<ResolvingMetadata, SecondArg<MaybeField<TEntry, 'generateMetadata'>>, 'generateMetadata'>>()
-}
-
-// Check the arguments and return type of the generateViewport function
-if ('generateViewport' in entry) {
-  checkFields<Diff<PageProps, FirstArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-  checkFields<Diff<ResolvingViewport, SecondArg<MaybeField<TEntry, 'generateViewport'>>, 'generateViewport'>>()
-}
-
-// Check the arguments and return type of the generateStaticParams function
-if ('generateStaticParams' in entry) {
-  checkFields<Diff<{ params: SegmentParams }, FirstArg<MaybeField<TEntry, 'generateStaticParams'>>, 'generateStaticParams'>>()
-  checkFields<Diff<{ __tag__: 'generateStaticParams', __return_type__: any[] | Promise<any[]> }, { __tag__: 'generateStaticParams', __return_type__: ReturnType<MaybeField<TEntry, 'generateStaticParams'>> }>>()
-}
-
-export interface PageProps {
-  params?: Promise<SegmentParams>
-  searchParams?: Promise<any>
-}
-export interface LayoutProps {
-  children?: React.ReactNode
-
-  params?: Promise<SegmentParams>
-}
-
-// =============
-// Utility types
-type RevalidateRange<T> = T extends { revalidate: any } ? NonNegative<T['revalidate']> : never
-
-// If T is unknown or any, it will be an empty {} type. Otherwise, it will be the same as Omit<T, keyof Base>.
-type OmitWithTag<T, K extends keyof any, _M> = Omit<T, K>
-type Diff<Base, T extends Base, Message extends string = ''> = 0 extends (1 & T) ? {} : OmitWithTag<T, keyof Base, Message>
-
-type FirstArg<T extends Function> = T extends (...args: [infer T, any]) => any ? unknown extends T ? any : T : never
-type SecondArg<T extends Function> = T extends (...args: [any, infer T]) => any ? unknown extends T ? any : T : never
-type MaybeField<T, K extends string> = T extends { [k in K]: infer G } ? G extends Function ? G : never : never
-
-
-
-function checkFields<_ extends { [k in keyof any]: never }>() {}
-
-// https://github.com/sindresorhus/type-fest
-type Numeric = number | bigint
-type Zero = 0 | 0n
-type Negative<T extends Numeric> = T extends Zero ? never : `${T}` extends `-${string}` ? T : never
-type NonNegative<T extends Numeric> = T extends Zero ? T : Negative<T> extends never ? T : '__invalid_negative_number__'
-
-
-=== ./.next/types/app/(admin)/admin/page.ts ===
-// File: /home/kuray/KurayDevV2/app/(admin)/admin/page.tsx
-import * as entry from '../../../../../app/(admin)/admin/page.js'
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-type TEntry = typeof import('../../../../../app/(admin)/admin/page.js')
+type TEntry = typeof import('../../../../../../app/(admin)/admin/slots/page.js')
 
 type SegmentParams<T extends Object = any> = T extends Record<string, any>
   ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
@@ -25093,4 +24302,25 @@ const ContactUsSMSTemplate = (props: { name?: string, language?: string }) => {
 }
 
 export default ContactUsSMSTemplate;
+
+=== ./helpers/TimeHelper.ts ===
+import { format, parseISO } from 'date-fns'
+import { toZonedTime } from 'date-fns-tz'
+import Logger from '@/libs/logger'
+
+export function separateDateTimeWithTimeZone(
+    datetime: Date,
+    timeZone = 'UTC'
+  ): { date: string; time: string } {
+    try {
+      const zoned = toZonedTime(datetime, timeZone)
+      const date = format(zoned, 'yyyy-MM-dd')
+      const time = format(zoned, 'HH:mm')
+      return { date, time }
+    } catch (err: any) {
+      Logger.error('Failed to parse datetime:' + err.message)
+      throw new Error(`Invalid datetime format: ${datetime}`)
+    }
+  }
+
 

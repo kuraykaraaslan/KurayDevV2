@@ -1,18 +1,58 @@
-import { z } from "zod";
+import { time } from 'console'
+import { z } from 'zod'
 
-const AppointmentSlot = z.object({
-    date: z.string(),
-    time: z.string(),
-    status: z.enum(['AVAILABLE', 'BOOKED', 'UNAVAILABLE']),
-    length: z.number().optional(), // Optional, for future use if needed
-});
+export const Day = z.enum([
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+])
 
-const DailyAvailability = z.object({
-    date: z.string(),
-    slots: z.array(AppointmentSlot),
-});
+export type Day = z.infer<typeof Day>
 
-export type AppointmentSlot = z.infer<typeof AppointmentSlot>;
-export type DailyAvailability = z.infer<typeof DailyAvailability>;
+ 
+export const Slot = z.object({
+  startTime: z.preprocess(
+    (val) => (typeof val === "string" ? new Date(val) : val),
+    z.date()
+  ),
+  endTime: z.preprocess(
+    (val) => (typeof val === "string" ? new Date(val) : val),
+    z.date()
+  ),
 
-export { AppointmentSlot, DailyAvailability };
+  capacity: z.number().min(0).default(1), // max appointments for this slot
+})
+
+
+export const SlotTemplate = z.object({
+  day: Day,
+  slots: Slot.array(),
+})
+
+
+export const AppointmentStatus = z.enum(['PENDING', 'BOOKED', 'CANCELLED', 'COMPLETED'])
+export type AppointmentStatus = z.infer<typeof AppointmentStatus>
+
+
+export const Appointment = z.object({
+  appointmentId: z.string(),
+
+  startTime: z.date(),  // YYYY-MM-DDTHH:mm UTC format
+  endTime: z.date(),    // YYYY-MM-DDTHH:mm UTC format
+
+  name: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  note: z.string().nullable().optional(),
+
+  status: AppointmentStatus.default('PENDING'),
+  createdAt: z.date(),
+})
+
+export type Appointment = z.infer<typeof Appointment>
+export type Slot = z.infer<typeof Slot>
+export type SlotTemplate = z.infer<typeof SlotTemplate>

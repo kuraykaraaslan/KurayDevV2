@@ -26,7 +26,6 @@ enum UserStatus {
   BANNED
 }
 
-
 model User {
   userId   String  @id @default(cuid())
   email    String  @unique
@@ -58,22 +57,20 @@ model User {
   userNationalityId      String?
   userNationalityCountry String?
 
+  // Relations
+  posts Post[]
+  likes Like[]
+
   //index
   @@index([email])
   @@index([phone])
-
-
-  // Relations
-  posts                   Post[]
-  likes                   Like[]
 }
-
 
 model UserSession {
   userSessionId String @id @default(cuid())
 
-  userId    String
-  user      User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   accessToken  String @unique
   refreshToken String @unique
@@ -81,8 +78,8 @@ model UserSession {
   sessionExpiry DateTime
 
   //OTP Needed
-  otpVerifyNeeded Boolean @default(false)
-  otpVerifiedAt DateTime?
+  otpVerifyNeeded Boolean   @default(false)
+  otpVerifiedAt   DateTime?
 
   // User Agent
   ip      String?
@@ -121,7 +118,6 @@ model UserSocialAccount {
   @@index([provider, providerId])
 }
 
-
 model VerificationToken {
   identifier String
   token      String
@@ -145,10 +141,10 @@ model Post {
   views       Int       @default(0)
   deletedAt   DateTime?
 
-  comment     Comment[]
-  author      User      @relation(fields: [authorId], references: [userId])
-  category    Category  @relation(fields: [categoryId], references: [categoryId])
-  likes       Like[]
+  comment  Comment[]
+  author   User      @relation(fields: [authorId], references: [userId])
+  category Category  @relation(fields: [categoryId], references: [categoryId])
+  likes    Like[]
 }
 
 model Category {
@@ -161,23 +157,21 @@ model Category {
   image       String?
   keywords    String[]
 
-
-  posts        Post[]
+  posts Post[]
 }
 
 model Comment {
-  commentId String    @id @default(cuid())
+  commentId String   @id @default(cuid())
   content   String
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
   postId    String
   parentId  String?
   email     String?
   name      String?
 
-
-  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
-  children  Comment[] @relation("CommentToComment")
-  post      Post      @relation(fields: [postId], references: [postId])
+  parent   Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
+  children Comment[] @relation("CommentToComment")
+  post     Post      @relation(fields: [postId], references: [postId])
 
   status String @default("NOT_PUBLISHED") // NOT_PUBLISHED, PUBLISHED, SPAM
 }
@@ -207,64 +201,63 @@ model Setting {
 }
 
 model Project {
-  projectId    String   @id @default(cuid())
+  projectId    String    @id @default(cuid())
   title        String
   description  String?
-  slug         String   @unique
+  slug         String    @unique
   image        String?
-  status       String   @default("PUBLISHED")
-  platforms    String[] @default([])
-  technologies String[] @default([])
+  status       String    @default("PUBLISHED")
+  platforms    String[]  @default([])
+  technologies String[]  @default([])
   content      String
-  createdAt    DateTime @default(now())
+  createdAt    DateTime  @default(now())
   updatedAt    DateTime? @default(now()) @updatedAt
   projectLinks String[]
 }
 
-
 // Appointment Scheduling
-
-model WorkDay {
-  id     Int      @id @default(autoincrement())
-  date   DateTime @unique
-  slots  Slot[]
-}
-
-model Slot {
-  id          Int      @id @default(autoincrement())
-  time        String   // örn: '14:00'
-  length      Int      // dakikada
-  status      SlotStatus
-  workDayId   Int
-  workDay     WorkDay  @relation(fields: [workDayId], references: [id])
-}
-
-enum SlotStatus {
-  AVAILABLE
+enum AppointmentStatus {
+  PENDING
   BOOKED
   CANCELLED
+  COMPLETED
 }
 
+model Appointment {
+  appointmentId String   @id @default(cuid())
+
+  startTime DateTime @db.Timestamptz
+  endTime   DateTime @db.Timestamptz
+
+  name          String
+  email         String
+  phone         String
+  note          String?
+
+  status AppointmentStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+
+}
 
 model Like {
-  likeId String   @id @default(cuid())
-  
-  postId     String
-  post       Post     @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  likeId String @id @default(cuid())
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [postId], onDelete: Cascade)
 
   // Kayıtlı kullanıcı beğenisi
-  userId     String? 
-  user       User?    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   // Anonim kullanıcılar için IP ve/veya fingerprint
-  ipAddress          String?
-  deviceFingerprint  String?
+  ipAddress         String?
+  deviceFingerprint String?
 
   createdAt DateTime @default(now())
 
+  @@unique([postId, userId]) // Bir kullanıcı bir postu sadece 1 kez beğenebilir
+  @@unique([postId, ipAddress, deviceFingerprint]) // Aynı anonimin tekrarlayan beğenisini engellemek için
   @@index([postId])
   @@index([userId])
   @@index([ipAddress, deviceFingerprint])
-  @@unique([postId, userId]) // Bir kullanıcı bir postu sadece 1 kez beğenebilir
-  @@unique([postId, ipAddress, deviceFingerprint]) // Aynı anonimin tekrarlayan beğenisini engellemek için
 }
