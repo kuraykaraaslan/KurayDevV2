@@ -29,7 +29,6 @@ const BlogPage = ({
             {MetadataHelper.generateElements(metadata)}
             <Feed />
             <CategoryBullets />
-            <KnowledgeGraph3D />
             <Newsletter />
         </>
     );

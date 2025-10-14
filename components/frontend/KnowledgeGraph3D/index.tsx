@@ -3,8 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
+import axiosInstance from '@/libs/axios';
+import { useParams } from 'next/navigation';
 
-export default function KnowledgeGraph3D({ className = "" }: { className?: string }) {
+export default function KnowledgeGraph3D({ className }: { className?: string }) {
+
+  const { categorySlug } = useParams() as { categorySlug?: string };
   const containerRef = useRef<HTMLDivElement>(null)
   const tooltipRef = useRef<HTMLDivElement>(null)
   
@@ -30,17 +34,15 @@ export default function KnowledgeGraph3D({ className = "" }: { className?: strin
 
   // --- fetch data ---
   const fetchKGData = async () => {
-    try {
-      const res = await fetch('/api/knowledge-graph')
-      const apiData = await res.json()
-      setData(apiData)
-    } catch (error) {
-      console.error('Failed to fetch knowledge graph data:', error)
-      setData({ nodes: [], links: [] })
-    }
+    await axiosInstance.get('/api/knowledge-graph?' + (categorySlug ? `categorySlug=${categorySlug}` : '')).then((res) => {
+      console.log(res.data)
+      setData(res.data)
+    })
   }
 
-  useEffect(() => { fetchKGData() }, [])
+  useEffect(() => { 
+    console.log('categorySlug changed:', categorySlug);
+    fetchKGData() }, [categorySlug])
 
   // --- theme detection ---
   useEffect(() => {
