@@ -8,8 +8,9 @@ import ThemeButton from './Partials/ThemeButton';
 import LangButton from './Partials/LangButton';
 
 import dynamic from 'next/dynamic';
-import { usePathname,useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Logo from '@/components/common/Logo';
+import ReadingProgressBar from '../ReadingProgressBar';
 
 const AuthButton = dynamic(
     () => import('./Partials/AuthButton'),
@@ -74,12 +75,12 @@ const Navbar = () => {
                     </label>
                 </div>
                 <div className="mx-2 flex-1 px-2 text-lg font-semibold">
-                    <Logo/>
- 
+                    <Logo />
+
                     <div className="items-center gap-2 ml-1">
                         <ThemeButton />
                         <LangButton />
-                        
+
                     </div>
                 </div>
                 <div className="hidden flex-none xl:block">
@@ -94,6 +95,8 @@ const Navbar = () => {
                     </ul>
                 </div>
             </div>
+                            <ReadingProgressBar />
+
         </div >
     );
 };

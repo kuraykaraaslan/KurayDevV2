@@ -1,31 +1,38 @@
 'use client'
 
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react'
 
 export default function ReadingProgressBar() {
   const [progress, setProgress] = useState(0)
+  const {postSlug} = useParams();
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrolled = (scrollTop / docHeight) * 100 
-      setProgress(scrolled >= 99 ? 100 : scrolled)
+      const scrolled = (scrollTop / docHeight) * 100
+      console.log(scrolled)
+      setProgress(scrolled >= 90 ? 100 : scrolled < 10 ? 0 : scrolled)
 
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    if (postSlug) {
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      return () => window.removeEventListener('scroll', handleScroll)
+    } else {
+      setProgress(0);
+    }
+  }, [postSlug])
 
   return (
     <div
-      className="fixed top-0 left-0 z-100 h-[3px] w-full bg-gray-200 dark:bg-gray-700"
-      style={{ backdropFilter: 'blur(6px)' , zIndex: 1000}}
+      className="bottom-[-10px] left-0 h-[1.5px] w-full transition-all duration-300 ease-in-out"
+      style={{ backdropFilter: 'blur(6px)' , zIndex: 100}}
     >
       <div
-        className="h-[3px] bg-gradient-to-r from-primary via-secondary to-base-500 transition-[width] duration-150 ease-out"
-        style={{ width: `${progress}%` }}
+        className="h-[1.5px] bg-gradient-to-r from-primary via-secondary to-base-500 transition-[width] duration-150 ease-out"
+        style={{ width: `${progress * 1.2}%` }}
       />
     </div>
   )

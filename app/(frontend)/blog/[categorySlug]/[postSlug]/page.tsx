@@ -67,7 +67,6 @@ export default async function BlogPost({ request, params }: { request: NextReque
 
         return (
             <>
-                <ReadingProgressBar />
                 {MetadataHelper.generateElements(metadata)}
                 <section className="min-h-screen bg-base-100 pt-32" id="blog">
                     <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col">

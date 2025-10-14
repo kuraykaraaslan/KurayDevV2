@@ -9,6 +9,7 @@ import Timeline from '@/components/frontend/Hero/Timeline';
 import AppointmentCalendar from '@/components/frontend/AppointmentCalendar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import OfflineIndicator from '@/components/frontend/OfflineIndicator';
 
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
@@ -38,6 +39,7 @@ const HomePage = () => {
       <AppointmentCalendar />
       <Contact />
       <ToastContainer />
+      <OfflineIndicator />
     </>
   );
 };

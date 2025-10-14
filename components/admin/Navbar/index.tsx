@@ -10,6 +10,7 @@ import ThemeButton from "./Partials/ThemeButton";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/common/Logo";
+import ReadingProgressBar from "@/components/frontend/ReadingProgressBar";
 
 const Navbar = () => {
 
@@ -71,7 +72,7 @@ const Navbar = () => {
     return (
         <>
             <div className="">
-                <nav className="mx-auto h-16 flex items-stretch items-center justify-between lg:px-8 from-base-100 to-base-300 bg-gradient-to-b shadow-lg text-primary" aria-label="Global">
+                <nav className="relative mx-auto h-16 flex items-stretch items-center justify-between lg:px-8 from-base-100 to-base-300 bg-gradient-to-b shadow-lg text-primary" aria-label="Global">
                     <div className="py-4 pl-4 lg:pl-0 flex items-center gap-2">
                         <Logo href="/admin" />
                         <ThemeButton />
@@ -134,6 +135,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+
         </>
 
     )
