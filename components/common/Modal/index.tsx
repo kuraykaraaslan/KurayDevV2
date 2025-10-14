@@ -1,6 +1,15 @@
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 
+/**
+ * HeadlessModal (Tailwind + daisyUI friendly)
+ * - Fully controlled via `open` + `onClose`
+ * - Accessible: role="dialog", aria-labelledby/aria-describedby, focus trap, ESC to close
+ * - No external deps. Uses daisyUI design tokens/classes (bg-base-100, text-base-content, btn, etc.)
+ * - Works with Tailwind transitions; customizable via `size`, `className`, and `backdropClassName`.
+ * - Now includes `maxWidth` and `maxHeight` that fit the screen.
+ */
+
 export type HeadlessModalProps = {
   open: boolean
   onClose: () => void
@@ -14,10 +23,6 @@ export type HeadlessModalProps = {
   className?: string
   backdropClassName?: string
   children?: React.ReactNode
-  /** Yeni: Z-index kontrolü (örnek: zIndex={80} veya "z-[9999]") */
-  zIndex?: number | string
-  /** Yeni: Başlıktan tutup taşıyabilme */
-  moveable?: boolean
 }
 
 export function HeadlessModal({
@@ -32,8 +37,6 @@ export function HeadlessModal({
   size = "md",
   className = "",
   backdropClassName = "",
-  zIndex = 50,
-  moveable = false,
   children,
 }: HeadlessModalProps) {
   const [mounted, setMounted] = useState(false)
@@ -42,13 +45,10 @@ export function HeadlessModal({
   const labelledById = useId()
   const describedById = useId()
 
-  // moveable state
-  const [offset, setOffset] = useState({ x: 0, y: 0 })
-  const [dragging, setDragging] = useState(false)
-  const dragStart = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
-
-  // Client-only portal mount
-  useEffect(() => setMounted(true), [])
+  // Create portal root (client-only)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Lock scroll
   useEffect(() => {
@@ -61,12 +61,16 @@ export function HeadlessModal({
     }
   }, [open])
 
-  // Focus management
+  // Restore focus
   useEffect(() => {
-    if (open) lastActiveRef.current = (document.activeElement as HTMLElement) ?? null
-    else lastActiveRef.current?.focus?.()
+    if (open) {
+      lastActiveRef.current = (document.activeElement as HTMLElement) ?? null
+    } else {
+      lastActiveRef.current?.focus?.()
+    }
   }, [open])
 
+  // Focus handling
   useEffect(() => {
     if (!open) return
     const timer = setTimeout(() => {
@@ -76,7 +80,7 @@ export function HeadlessModal({
     return () => clearTimeout(timer)
   }, [open, initialFocusRef])
 
-  // ESC close + focus trap
+  // ESC to close + focus trap
   useEffect(() => {
     if (!open || !closeOnEsc) return
     const onKey = (e: KeyboardEvent) => {
@@ -109,12 +113,18 @@ export function HeadlessModal({
 
   const sizeClass = useMemo(() => {
     switch (size) {
-      case "sm": return "max-w-sm"
-      case "md": return "max-w-lg"
-      case "lg": return "max-w-2xl"
-      case "xl": return "max-w-4xl"
-      case "full": return "w-screen h-screen"
-      default: return "max-w-lg"
+      case "sm":
+        return "max-w-sm"
+      case "md":
+        return "max-w-lg"
+      case "lg":
+        return "max-w-2xl"
+      case "xl":
+        return "max-w-4xl"
+      case "full":
+        return "w-screen h-screen"
+      default:
+        return "max-w-lg"
     }
   }, [size])
 
@@ -126,40 +136,13 @@ export function HeadlessModal({
     [closeOnBackdrop, onClose]
   )
 
-  /** Dragging logic */
-  const onMouseDown = (e: React.MouseEvent) => {
-    if (!moveable) return
-    if (!(e.target as HTMLElement).closest(".modal-header")) return
-    setDragging(true)
-    dragStart.current = { x: e.clientX - offset.x, y: e.clientY - offset.y }
-    e.preventDefault()
-  }
-  const onMouseMove = (e: MouseEvent) => {
-    if (!dragging) return
-    setOffset({ x: e.clientX - dragStart.current.x, y: e.clientY - dragStart.current.y })
-  }
-  const onMouseUp = () => setDragging(false)
-
-  useEffect(() => {
-    if (!moveable) return
-    window.addEventListener("mousemove", onMouseMove)
-    window.addEventListener("mouseup", onMouseUp)
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove)
-      window.removeEventListener("mouseup", onMouseUp)
-    }
-  }, [dragging, moveable])
-
   if (!mounted) return null
-
-  const zClass = typeof zIndex === "string" ? zIndex : `z-[${zIndex}]`
 
   return createPortal(
     <div
       className={[
-        "fixed inset-0",
+        "fixed inset-0 z-50",
         open ? "pointer-events-auto" : "pointer-events-none",
-        zClass,
       ].join(" ")}
       aria-hidden={!open}
     >
@@ -184,7 +167,6 @@ export function HeadlessModal({
         {/* Dialog Panel */}
         <div
           ref={panelRef}
-          onMouseDown={onMouseDown}
           role="dialog"
           aria-modal="true"
           aria-labelledby={title ? labelledById : undefined}
@@ -193,19 +175,18 @@ export function HeadlessModal({
             "bg-base-100 text-base-content shadow-2xl rounded-box",
             "w-full",
             sizeClass,
+            // Fit to screen
             "max-w-[95vw] max-h-[90vh] overflow-auto",
+            // Animation
             "transition-all duration-200",
             open ? "opacity-100 scale-100" : "opacity-0 scale-95",
             className,
           ].join(" ")}
-          style={{
-            transform: `translate(${offset.x}px, ${offset.y}px)`,
-            cursor: moveable ? (dragging ? "grabbing" : "grab") : "default",
-          }}
-          onMouseDownCapture={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
         >
+          {/* Header */}
           {(title || showClose) && (
-            <div className="modal-header flex items-center justify-between gap-2 p-4 border-b border-base-200 select-none">
+            <div className="flex items-center justify-between gap-2 p-4 border-b border-base-200">
               {title ? (
                 <h2 id={labelledById} className="text-lg font-semibold">
                   {title}
@@ -226,12 +207,14 @@ export function HeadlessModal({
             </div>
           )}
 
+          {/* Description */}
           {description && (
             <div id={describedById} className="px-4 pt-3 text-sm text-base-content/70">
               {description}
             </div>
           )}
 
+          {/* Body */}
           <div className="p-4">{children}</div>
         </div>
       </div>
@@ -240,7 +223,7 @@ export function HeadlessModal({
   )
 }
 
-/* --- Helpers --- */
+/** Get all focusable elements inside container */
 function getFocusable(root: HTMLElement | null): HTMLElement[] {
   if (!root) return []
   const selectors = [
@@ -254,9 +237,11 @@ function getFocusable(root: HTMLElement | null): HTMLElement[] {
   const nodes = Array.from(root.querySelectorAll<HTMLElement>(selectors.join(',')))
   return nodes.filter((el) => !el.hasAttribute("disabled") && isVisible(el))
 }
+
 function getFirstFocusable(root: HTMLElement | null): HTMLElement | null {
   return getFocusable(root)[0] ?? null
 }
+
 function isVisible(el: HTMLElement): boolean {
   const style = window.getComputedStyle(el)
   return style.visibility !== "hidden" && style.display !== "none"

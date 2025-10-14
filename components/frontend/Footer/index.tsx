@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import SystemStatusButton from "../SystemStatusButton";
+import GeoHeatmapButton from "../GeoHeatmap/Button";
 
 const Footer = (props: any) => {
 
@@ -23,6 +24,7 @@ const Footer = (props: any) => {
               © {new Date().getFullYear()} Kuray Karaaslan. {t("footer.all_rights_reserved")}
           </p>
           <SystemStatusButton />
+          <GeoHeatmapButton />
         </div>
         <div className="col-span-1 flex flex-row flex-wrap justify-start">
 

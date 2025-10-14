@@ -17,7 +17,7 @@ export default class UserAgentService {
     { pattern: /X11/i, name: OSName.Unix }
   ];
 
-  private static async getGeoLocationFromMaxMind(ip: string): Promise<GeoLocation> {
+  static async getGeoLocationFromMaxMind(ip: string): Promise<GeoLocation> {
     const cacheKey = `geo:location:${ip}`;
     const cached = await redis.get(cacheKey);
     if (cached) {
@@ -45,7 +45,9 @@ export default class UserAgentService {
       const location: GeoLocation = {
         city: data.city?.names?.en ?? null,
         state: data.subdivisions?.[0]?.names?.en ?? null,
-        country: data.country?.names?.en ?? null
+        country: data.country?.names?.en ?? null,
+        latitude: data.location?.latitude ?? null,
+        longitude: data.location?.longitude ?? null
       };
 
       await redis.set(cacheKey, JSON.stringify(location), "EX", 86400); // 1 gün cache

@@ -30,6 +30,8 @@ type GeoLocation = {
   city: string | null;
   state: string | null;
   country: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 
 type OSPattern = {
