@@ -1,5 +1,6 @@
 import redis from '@/libs/redis'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
+import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 
 let cache: { data: any; expiresAt: number } | null = null
 
@@ -37,12 +38,11 @@ export async function GET() {
   }
 
   const nodesMap = JSON.parse(nodesRaw || '{}')
-  const nodes = Object.values(nodesMap).map((n: any) => ({
+  const nodes = (Object.values(nodesMap) as KnowledgeGraphNode[]).map((n) => ({
     id: n.id,
     title: n.title,
     slug: n.slug,
     categorySlug: n.categorySlug,
-    group: n.group,
     size: Math.max(4, Math.min(18, Math.floor(Math.log10((n.views || 0) + 10) * 6))),
   }))
 

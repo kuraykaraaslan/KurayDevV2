@@ -4,6 +4,7 @@ import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
 import { SafeUser } from '@/types/UserTypes';
 import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
+import KnowledgeGraph3DButton from '../KnowledgeGraph3D/Button';
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
@@ -32,7 +33,7 @@ export default function Feed(props: FeedProps) {
                     if (feeds.find(feed => feed.postId === post.postId)) {
                         return null;
                     }
-                    
+
                     return {
                         ...post,
                         category: post.category,
@@ -44,7 +45,7 @@ export default function Feed(props: FeedProps) {
                 });
 
                 setFeeds(prev => [...prev, ...incomingFeeds]);
-            
+
 
                 setIsMoreAvailable((response.data.total > (page + 1) * pageSize) && incomingFeeds.length === pageSize);
             });
@@ -57,9 +58,17 @@ export default function Feed(props: FeedProps) {
                 className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000"
             >
                 <div className="mx-auto text-center lg:mb-8 -mt-8 lg:mt-0 ">
-                    <h2 className="mb-8 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
-                        {category ? category.title : author ? `Posts by ${author.name}` : 'Latest Posts'}
-                    </h2>
+                    <div className="mb-8 hidden sm:flex items-center justify-center space-x-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
+                        <p>
+                            {category
+                                ? category.title
+                                : author
+                                    ? `Posts by ${author.name}`
+                                    : 'Latest Posts'}
+                        </p>
+                        <KnowledgeGraph3DButton />
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
                         {feeds.map((feed, index) => {
                             if (index < 2) {

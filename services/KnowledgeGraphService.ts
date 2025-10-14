@@ -3,6 +3,7 @@ import LocalEmbedService from './PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
 import PostService from '@/services/PostService'
 import { PostStatus } from '@/types/BlogTypes'
+import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 
 const KEY_NODES = 'kg:nodes'
 const LINKS = (id: string) => `kg:links:${id}`
@@ -11,11 +12,13 @@ const TOP_K = 5
 const THRESH = 0.22
 const LOCK_TTL_MS = 1000 * 60 * 10 // 10 dakika (süre aşımı)
 
-async function loadNodes() {
-  return JSON.parse((await redis.get(KEY_NODES)) || '{}') as Record<string, any>
+
+
+async function loadNodes() : Promise<Record<string, KnowledgeGraphNode>> {
+  return JSON.parse((await redis.get(KEY_NODES)) || '{}') as Record<string, KnowledgeGraphNode>
 }
 
-async function saveNodes(n: Record<string, any>) {
+async function saveNodes(n: Record<string, KnowledgeGraphNode>) {
   await redis.set(KEY_NODES, JSON.stringify(n))
 }
 
@@ -50,13 +53,14 @@ export default class KnowledgeGraphService {
     const embedding = await embedPost(post)
 
     nodes[postId] = {
-      id: postId,
+      id: post.postId,
       title: post.title,
       slug: post.slug,
-      group: post.category?.slug || 'general',
+      categorySlug: post.category?.slug || 'general',
       views: post.views || 0,
-      embedding,
+      embedding: embedding,
     }
+
     await saveNodes(nodes)
 
     // bağlantılar
