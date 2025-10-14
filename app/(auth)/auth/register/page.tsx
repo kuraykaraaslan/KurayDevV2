@@ -62,7 +62,7 @@ const RegisterPage = () => {
 
         toast.success("Registering...");
 
-        const res = await axiosInstance.post(`/api/auth/register`, {
+        await axiosInstance.post(`/api/auth/register`, {
             email: email,
             password: password
         }).then((res) => {

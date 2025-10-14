@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Skill from "@/types/Skill";
+import {Skill} from "@/types/SkillTypes";
 
 const SingleSkill: React.FC<Skill> = ({ icon, bgColor, title, textColor }) => {
 

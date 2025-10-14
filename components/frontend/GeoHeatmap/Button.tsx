@@ -1,7 +1,7 @@
 'use client'
 import HeadlessModal, { useModal } from '@/components/common/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMap, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
+import { faMap } from '@fortawesome/free-solid-svg-icons'
 import GeoHeatmap from './index'
 
 export default function GeoHeatmapButton() {

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage, PersistOptions } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import {SafeUser} from '@/types/UserTypes';
 
 type GlobalState = {
@@ -16,12 +16,9 @@ type GlobalState = {
   setTheme: (theme: string) => void;
 };
 
-// Extend the store type to include PersistOptions
-type GlobalStatePersist = PersistOptions<GlobalState>;
-
 export const useGlobalStore = create<GlobalState>()(
   persist(
-    (set, get) => ({
+    (set, _get) => ({
       user: null,
       availableLanguages: ['en', 'tr', 'de', 'gr', 'et', 'mt', 'th'],
       availableThemes: ['light', 'dark'],

@@ -1,24 +1,11 @@
 'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { usePathname } from 'next/navigation';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function LinksLayout({ children, title }: { children: React.ReactNode, title: string }) {
+export default function LinksLayout({ children }: { children: React.ReactNode }) {
 
-  //Create a context to store the user's authentication status
-
-  const pathname = usePathname();
-
-  const titles = [
-    {
-      path: '/my-links',
-      title: 'My Links'
-    }
-  ]
 
   return (
     <>
@@ -46,7 +33,6 @@ export default function LinksLayout({ children, title }: { children: React.React
           </div>
         </div>
       </div>
-      <ToastContainer />
     </>
   )
 }

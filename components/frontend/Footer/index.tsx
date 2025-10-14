@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import SystemStatusButton from "../SystemStatusButton";
 import GeoHeatmapButton from "../GeoHeatmap/Button";
 
-const Footer = (props: any) => {
+const Footer = () => {
 
   const { t } = useTranslation();
 

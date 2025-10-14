@@ -32,6 +32,7 @@ const MyImage = () => {
             </span>
             <Image
               src="/assets/svg/spades.svg"
+              alt="spade icon"
               className="h-8 w-8 transition"
             />
           </div>
@@ -39,6 +40,7 @@ const MyImage = () => {
           <div className="relative flex flex-col items-center justify-center w-full h-full">
             <Image
               src="/assets/svg/spades.svg"
+              alt="spade icon"
               className="h-16 w-16 transition"
             />
           </div>

@@ -1,5 +1,6 @@
 import { Twilio } from "twilio";
 import axios from "axios";
+import Logger from "@/libs/logger";
 
 
 export default class SendSMS {
@@ -22,10 +23,9 @@ export default class SendSMS {
     // if it is other than +90, it is the country code of another country then use TWILIO
 
     if (phone.startsWith("90")) {
-      const targetPhone = phone.replace("90", "");
+      phone.replace("90", "");
       await this.sendOTPbyNETGSM(phone, message);
     } else {
-      const targetPhone = phone;
       await this.sendOTPbyTwillo(phone, message);
     }
   }
@@ -34,7 +34,7 @@ export default class SendSMS {
     This function is responsible for sending the OTP code to the user using Twilio.
     It uses the Twilio API to send the SMS.
     */
-  
+
   public static async sendOTPbyTwillo(
     phone: string,
     message: string,
@@ -60,10 +60,10 @@ export default class SendSMS {
         to: phone,
       })
       .then((message) => {
-
-      }) 
+        Logger.info(`Message sent to ${phone} with SID: ${message.sid}`);
+      })
       .catch((err) => {
-        console.error(err);
+        Logger.error(err);
         throw new Error("ERROR_SENDING_SMS");
       });
   }
@@ -114,8 +114,6 @@ export default class SendSMS {
     try {
       await axios
         .post("https://api.netgsm.com.tr/sms/send/get", formData)
-        .then((response) => {
-        })
         .catch((err) => {
           console.error(err);
           throw new Error("ERROR_SENDING_SMS");

@@ -4,8 +4,8 @@ import PostService from '@/services/PostService';
 import { NextRequest } from 'next/server';
 import { notFound } from 'next/navigation';
 
-export async function GET(request: NextRequest,
-    { params }: { params: { postId: string } }) {
+export async function GET(_request: NextRequest,
+    { params }: { params: Promise<{ postId: string }> }) {
 
     const { postId } = await params;
 

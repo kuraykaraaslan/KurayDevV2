@@ -4,17 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, ReactNode, useRef, useEffect, useCallback } from 'react';
 import PostCard from './Partials/PostCard';
 import axiosInstance from '@/libs/axios';
-import { PostWithData } from '@/types/BlogTypes';
+import { useParams } from 'next/navigation';
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-const OtherPosts = ({ currentPostId, categoryId }: { currentPostId?: String, categoryId?: String }) => {
+const OtherPosts = () => {
 
+    const { categoryId } = useParams();
     const [children, setChildren] = useState<ReactNode[]>([]);
 
     const sliderRef = useRef<HTMLDivElement>(null);
-
-    const timer = useRef<NodeJS.Timeout>();
 
     const fetchPosts = useCallback(async () => {
         await axiosInstance.get(`/api/posts?categoryId=${categoryId}&pageSize=10`).then((res) => {

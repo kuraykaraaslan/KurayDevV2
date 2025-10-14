@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 const Testimonial = z.object({
   id: z.number(),
   name: z.string(),

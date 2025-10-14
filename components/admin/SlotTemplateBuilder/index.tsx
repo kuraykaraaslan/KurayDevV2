@@ -11,8 +11,7 @@ interface SlotTemplateBuilderProps {
     selectedDate: Date
     DAYS: Day[]
     TIME_INTERVALS: number[]
-    setSelectedDay: (day: Day) => void,
-    setSelectedDate: (date: Date) => void
+    setSelectedDay: (day: Day) => void
 }
 
 export default function SlotTemplateBuilder({
@@ -21,7 +20,6 @@ export default function SlotTemplateBuilder({
     DAYS,
     TIME_INTERVALS,
     setSelectedDay,
-    setSelectedDate
 }: SlotTemplateBuilderProps) {
 
     const [templateSlots, setTemplateSlots] = useState<Slot[]>([])

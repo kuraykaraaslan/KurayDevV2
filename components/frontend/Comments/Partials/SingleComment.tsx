@@ -1,20 +1,14 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Comment } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faMessage } from '@fortawesome/free-solid-svg-icons';
-import useGlobalStore from '@/libs/zustand';
 import axiosInstance from '@/libs/axios';
 
 
 const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: string}) => {
 
-    const { session } = useGlobalStore();
-
-    const user = session?.user;
-    const isAdmin = user?.role === "ADMIN";
-
-    const { content, createdAt, parentId, name, email } = comment;
+    const { content, createdAt, parentId, name } = comment;
 
 
     const handleReply = () => {
@@ -25,16 +19,10 @@ const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: 
             data: {
                 commentId: comment.commentId
             }
-        }).then((response) => {
         }).catch((error) => {
             console.error(error);
         });
     }
-
-    useEffect(() => {
-        //role
-    } , [session]);
-
 
     return (
         <>

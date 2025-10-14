@@ -1,5 +1,5 @@
 //create a s3 client
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client } from "@aws-sdk/client-s3";
 
 //create a s3 client
 const s3Client = new S3Client({ region: process.env.AWS_REGION!,

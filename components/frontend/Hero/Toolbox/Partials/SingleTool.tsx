@@ -1,8 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import Tool from "@/types/Tool";
-
+import {Tool} from "@/types/SkillTypes";
 
 const SingleTool: React.FC<Tool> = ({
   icon,

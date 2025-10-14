@@ -160,6 +160,12 @@ model Category {
   posts Post[]
 }
 
+enum CommentStatus {
+  NOT_PUBLISHED
+  PUBLISHED
+  SPAM
+}
+
 model Comment {
   commentId String   @id @default(cuid())
   content   String
@@ -173,7 +179,7 @@ model Comment {
   children Comment[] @relation("CommentToComment")
   post     Post      @relation(fields: [postId], references: [postId])
 
-  status String @default("NOT_PUBLISHED") // NOT_PUBLISHED, PUBLISHED, SPAM
+  status CommentStatus @default(NOT_PUBLISHED)
 }
 
 model ContactForm {

@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 
 const MyImage = () => {
 
-  const [comingSoon, setComingSoon] = React.useState(false);
+  const [comingSoon, _setComingSoon] = React.useState(false);
 
   const [playing, setPlaying] = React.useState(false);
   const player = createRef<ReactPlayer>();

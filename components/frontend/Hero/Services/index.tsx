@@ -16,11 +16,7 @@ import {
 import SingleService, { Service } from "./Partials/SingleService";
 
 const Services = () => {
-
-  const [expanded, setExpanded] = React.useState(true);
   const container = React.useRef(null);
-
-
   const projects: Service[] = [
     {
       id: "1",

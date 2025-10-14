@@ -1,4 +1,4 @@
-import { TerminalFile, TerminalFolder } from "./models";
+import { TerminalFolder } from "./models";
 
 const filesystem: TerminalFolder = {
     name: '~',

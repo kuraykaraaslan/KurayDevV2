@@ -7,8 +7,7 @@ import Link from 'next/link';
 export default function CategoryBullets() {
 
     const [categories, setCategories] = useState<Category[]>([]);
-    const [page, setPage] = useState(0);
-    const [pageSize, setPageSize] = useState(100);
+    const [page, _setPage] = useState(0);
 
     useEffect(() => {
         axiosInstance.get(`/api/categories?page=${page + 1}`)

@@ -41,9 +41,9 @@ const fakeData = [
     }
 ]
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
     // 1️⃣ IP'yi al
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || '127.0.0.1'
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || '127.0.0.1'
     const { country, city, latitude, longitude } = await UserAgentService.getGeoLocationFromMaxMind(ip)
 
     // 2️⃣ Redis key: geo:{country}:{city}

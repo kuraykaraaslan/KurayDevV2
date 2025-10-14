@@ -5,9 +5,8 @@ import Newsletter from '@/components/frontend/Newsletter';
 import ProjectService from '@/services/ProjectService';
 import Image from 'next/image';
 import SingleProject from '@/components/frontend/SingleProject';
-import { faDownload, faExternalLinkAlt, faFile } from '@fortawesome/free-solid-svg-icons';
-import { faGithub, faYoutube, faLinkedin, faTwitter, faInstagram, faFacebook, faDiscord, faGitlab } from '@fortawesome/free-brands-svg-icons';
 
+//@ts-ignore
 const SinglePin = ({ bgColor, textColor, text }: { bgColor: string, textColor: string, text: string }) => (
     <div className={`bg-${bgColor} text-${textColor} rounded-lg p-1`}>
         <p className="text-center">{text}</p>
@@ -22,11 +21,11 @@ export default async function ProjectPage({ params }: { params: { projectSlug: s
     try {
 
 
-        const params = useParams();
+        const { projectSlug } = params;
 
 
         const response = await ProjectService.getAllProjects({
-            slug: params.projectSlug,
+            projectSlug: projectSlug,
             page: 1,
             pageSize: 1,
             onlyPublished: true
@@ -38,7 +37,6 @@ export default async function ProjectPage({ params }: { params: { projectSlug: s
 
         const project = response.projects[0];
         const meta = generateMetadata(project);
-        const readTime = Math.ceil(project.content.split(' ').length / 200);
 
         return (
             <>
@@ -120,19 +118,3 @@ function generateMetadataElement(meta: Metadata) {
         </>
     );
 }
-
-const allowedIconOptions = [
-    { value: 'github', label: 'GitHub', icon: faGithub },
-    { value: 'demo', label: 'Demo', icon: faExternalLinkAlt },
-    { value: 'gitlab', label: 'GitLab', icon: faGitlab },
-    { value: 'download', label: 'Download', icon: faDownload },
-    { value: 'link', label: 'Link', icon: faExternalLinkAlt },
-    { value: 'file', label: 'File', icon: faFile },
-    { value: 'external-link', label: 'External Link', icon: faExternalLinkAlt },
-    { value: 'youtube', label: 'YouTube', icon: faYoutube },
-    { value: 'linkedin', label: 'LinkedIn', icon: faLinkedin },
-    { value: 'twitter', label: 'Twitter', icon: faTwitter },
-    { value: 'instagram', label: 'Instagram', icon: faInstagram },
-    { value: 'facebook', label: 'Facebook', icon: faFacebook },
-    { value: 'discord', label: 'Discord', icon: faDiscord },
-];

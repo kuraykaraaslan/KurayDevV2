@@ -1,18 +1,17 @@
 'use client';
-import React, { useRef } from 'react';
-import { Editor as TinyMCEEditorType } from 'tinymce';
+import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import axiosInstance from '@/libs/axios';
-
 
 const NEXT_PUBLIC_TINYMCE_API_KEY = process.env.NEXT_PUBLIC_TINYMCE_API_KEY;
 
 const TinyMCEEditor = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => {
-    function onInit(evt: any, editor: TinyMCEEditorType) {
+    
+    function onInit() {
     }
 
 
-    const image_upload_handler = (blobInfo : any, progress : any) => new Promise(async (resolve, reject) => {
+    const image_upload_handler = (blobInfo : any) => new Promise(async (resolve, reject) => {
        
         const formData = new FormData();
         formData.append('file', blobInfo.blob(), blobInfo.filename());
@@ -25,7 +24,7 @@ const TinyMCEEditor = ({ value, onChange }: { value: string, onChange: (value: s
         }).then((res) => {
             resolve(res.data.url);
         }
-        ).catch((error) => {
+        ).catch(() => {
             reject('Error uploading image');
         });
         

@@ -1,14 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCode } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from '../Menu';
 import ThemeButton from './Partials/ThemeButton';
 import LangButton from './Partials/LangButton';
-
 import dynamic from 'next/dynamic';
-import { usePathname, useRouter } from 'next/navigation';
 import Logo from '@/components/common/Logo';
 import ReadingProgressBar from '../ReadingProgressBar';
 
@@ -19,13 +16,7 @@ const AuthButton = dynamic(
 
 
 const Navbar = () => {
-
-
-    const path = usePathname();
-    const router = useRouter();
-
     const [isTopReached, setIsTopReached] = useState(true);
-
 
     useEffect(() => {
         const handleScroll = () => {

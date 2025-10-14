@@ -4,13 +4,7 @@ import CommentService from '@/services/CommentService';
 import PostService from '@/services/PostService';
 import { NextResponse } from "next/server";
 
-
-type ResponseData = {
-    message: string;
-};
-
-
-export async function POST(request: NextRequest, res: NextResponse<ResponseData>) {
+export async function POST(request: NextRequest, _response: NextResponse) {
 
     try {
         await UserSessionService.authenticateUserByRequest(request, "USER");
@@ -29,13 +23,13 @@ export async function POST(request: NextRequest, res: NextResponse<ResponseData>
         }
 
         // Create the comment
-        const comment = await CommentService.createComment({
+        await CommentService.createComment({
             content,
             postId,
             parentId,
             email,
             name,
-            status: 'PENDING', // or any default status
+            status: "NOT_PUBLISHED", // New comments are not published by default
             createdAt: new Date(), // current date and time
         });
 
@@ -99,7 +93,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-export async function PUT(request: NextRequest, res: NextResponse<ResponseData>) {
+export async function PUT(request: NextRequest, _response: NextResponse) {
 
     try {
         await UserSessionService.authenticateUserByRequest(request, "ADMIN");

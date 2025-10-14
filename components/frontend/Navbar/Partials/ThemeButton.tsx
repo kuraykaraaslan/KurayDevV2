@@ -18,7 +18,7 @@ const ThemeButton = () => {
   const nextTheme = () => {
     const currentIndex = availableThemes.indexOf(theme);
 
-    var nextTheme: string;
+    let nextTheme: string;
 
     switch (currentIndex) {
       case -1:

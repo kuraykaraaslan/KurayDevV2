@@ -18,7 +18,7 @@ export default function SlotTemplatesPage() {
         <div className="container mx-auto px-4 py-6">
             <h1 className="text-3xl font-bold mb-6">Slot Templates & Calendar</h1>
             <div className="grid lg:grid-cols-2 gap-6">
-                <SlotTemplateBuilder selectedDay={selectedDay} setSelectedDay={setSelectedDay} DAYS={DAYS} TIME_INTERVALS={TIME_INTERVALS} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                <SlotTemplateBuilder selectedDay={selectedDay} setSelectedDay={setSelectedDay} DAYS={DAYS} TIME_INTERVALS={TIME_INTERVALS} selectedDate={selectedDate} />
                 <SlotsEditor selectedDay={selectedDay} setSelectedDay={setSelectedDay} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
             </div>
         </div>

@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import GithubService from "@/services/IntegrationService/GithubService";
 
-export async function GET(req: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const data = await GithubService.getContributionCalendar();
     return NextResponse.json(data, { status: 200 });

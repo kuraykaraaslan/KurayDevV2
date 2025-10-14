@@ -9,7 +9,7 @@ const nextConfig = {
   },
   reactStrictMode: false,
   eslint: {
-    ignoreDuringBuilds: true
+    ignoreDuringBuilds: false
   },
   env: {
     APPLICATION_HOST: env.APPLICATION_HOST || 'http://localhost:3000',

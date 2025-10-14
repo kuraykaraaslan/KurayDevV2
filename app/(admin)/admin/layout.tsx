@@ -1,9 +1,8 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useGlobalStore from "@/libs/zustand";
-import { useRouter } from "next/navigation";
+
 import dynamic from "next/dynamic";
 
 // Make sure to import the Navbar component from the correct path
@@ -14,11 +13,6 @@ const Layout = ({
 }: {
     children: React.ReactNode;
 }) => {
-
-
-
-
-
     return (
         <>
             <Navbar />

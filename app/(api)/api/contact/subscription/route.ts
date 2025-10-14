@@ -6,9 +6,9 @@ type ResponseData = {
     message: string;
 };
 
-export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
+export async function POST(request: NextRequest, _response: NextResponse<ResponseData>) {
 
-    const { email } = await req.json();
+    const { email } = await request.json();
 
     if (!email) {
         return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });
@@ -26,9 +26,9 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
     }
 }
 
-export async function DELETE(req: NextRequest, res: NextResponse<ResponseData>) {
+export async function DELETE(request: NextRequest, _response: NextResponse<ResponseData>) {
 
-    const { email } = await req.json();
+    const { email } = await request.json();
 
     if (!email) {
         return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });

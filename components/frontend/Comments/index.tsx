@@ -11,8 +11,8 @@ const Comments = ({ postId }: { postId: string }) => {
     
 
     const [comments, setComments] = useState<Comment[]>([]);
-    const [page, setPage] = useState(0);
-    const [pageSize, setPageSize] = useState(10);
+    const [page, _setPage] = useState(0);
+    const [pageSize, _setPageSize] = useState(10);
 
     const fetchComments = async () => {
         // Fetch comments for the post

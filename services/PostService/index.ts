@@ -48,7 +48,7 @@ export default class PostService {
      */
     static async createPost(data: Omit<Post, 'postId'>): Promise<Post> {
 
-        var { title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
+        let { title, content, description, slug, keywords, authorId, categoryId } = data;
 
         // Validate input
         if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
@@ -165,7 +165,7 @@ export default class PostService {
      */
     static async updatePost(data: Post): Promise<Post> {
 
-        const { postId, title, content, description, slug, keywords, image, authorId, categoryId, status, createdAt } = data;
+        const { postId, title, content, description, slug, keywords, authorId, categoryId } = data;
 
         // Validate input
         if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {

@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from "react";
 import StatCard from "./Partials/StatCard";
-import { faUserAlt, faBlog, faEye, faFolder, faComment, faStar, faHeart, faClock, faChartLine, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faUserAlt, faBlog, faEye, faFolder, faComment} from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "@/libs/axios";
 
 const StatsSection = () => {
@@ -18,7 +18,7 @@ const StatsSection = () => {
   async function getStats() {
     await axiosInstance.get(`/api/stats`).then((res) => {
       setValues(res.data.values);
-    }).catch((err) => {
+    }).catch(() => {
     });
   }
 

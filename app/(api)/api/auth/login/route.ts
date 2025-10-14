@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
             throw new Error(AuthMessages.INVALID_CREDENTIALS);
         }
 
-        const { userSession, rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession(user, request);
+        const { rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession(user, request);
 
         return NextResponse.json({
             user,

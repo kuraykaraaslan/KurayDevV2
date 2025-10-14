@@ -1,22 +1,16 @@
 'use client'
 import React from 'react';
 import { PostWithData } from '@/types/BlogTypes';
-import Link from 'next/link';
-import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
-import { Category } from '@prisma/client';
-import { useRouter } from 'next/navigation';
-import { CommentWithData } from '@/types/CommentWithData';
+import { CommentWithData } from '@/types/BlogTypes';
 
 const CommentTable = ({ post }: { post?: PostWithData }) => {
 
     const [search, setSearch] = React.useState('');
     const [comments, setComments] = React.useState<Partial<CommentWithData>[]>([]);
     const [page, setPage] = React.useState(0);
-    const [pageSize, setPageSize] = React.useState(10);
+    const [pageSize, _setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);
-
-    const router = useRouter();
 
     React.useEffect(() => {
 
@@ -57,7 +51,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
             await axiosInstance.put(`/api/comments`, { commentId, status: "APPROVED" });
             setComments(comments.map(comment => {
                 if (comment.commentId === commentId) {
-                    return { ...comment, status: 'APPROVED' };
+                    return { ...comment, status: 'PUBLISHED' };
                 }
                 return comment;
             }));
@@ -78,7 +72,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
             await axiosInstance.put(`/api/comments`, { commentId, status: "PENDING" });
             setComments(comments.map(comment => {
                 if (comment.commentId === commentId) {
-                    return { ...comment, status: 'PENDING' };
+                    return { ...comment, status: 'PUBLISHED' };
                 }
                 return comment;
             }));
@@ -132,7 +126,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
                                 <td className="flex gap-2 max-w-16">
                                     <button onClick={() => deleteComment(comment.commentId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">Delete</button>
 
-                                    {comment.status === 'PENDING' ? (
+                                    {comment.status === 'NOT_PUBLISHED' ? (
                                         <button onClick={() => approveComment(comment.commentId as string)} className="btn btn-sm bg-green-500 text-white hidden md:flex">Approve</button>
                                     ) : (
                                         <button onClick={() => rejectComment(comment.commentId as string)} className="btn btn-sm bg-yellow-500 text-white hidden md:flex">Reject</button>

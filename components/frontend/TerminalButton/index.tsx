@@ -1,8 +1,7 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faTerminal } from "@fortawesome/free-solid-svg-icons";
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import {  faTerminal } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 
 const TerminalButton = () => {
@@ -13,14 +12,11 @@ const TerminalButton = () => {
         const scrollToTopBtn = document.getElementById(
             "terminalButton",
         ) as HTMLElement;
-        const main = document.getElementById("main");
-
         //make the button appear slowly when the user scrolls down 20px from the top to 500ms
 
         window?.addEventListener("scroll", () => {
 
-            var totalWindowHeight = document.body.scrollHeight - window?.innerHeight;
-            var aligned = window?.scrollY * 0.1 - 100; // Moved 20px up by subtracting 20 more
+            let aligned = window?.scrollY * 0.1 - 100; // Moved 20px up by subtracting 20 more
             if (aligned > 20) {
                 aligned = 20;
             }

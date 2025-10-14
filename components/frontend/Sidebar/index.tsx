@@ -1,8 +1,6 @@
 'use client';
-import React, { createRef } from 'react';
-import styles from './Sidebar.module.css';
+import React from 'react';
 import Menu from '../Menu';
-
 
 const Sidebar = () => {
   

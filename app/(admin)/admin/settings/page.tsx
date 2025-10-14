@@ -1,12 +1,12 @@
 'use client'
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosInstance from "@/libs/axios";
 import { Setting } from '@prisma/client';
 
 
 const Page = () => {
 
-    const [defaultSettings, setDefaultSettings] = useState<Pick<Setting, 'key' | 'value'>[]>([
+    const [defaultSettings, _setDefaultSettings] = useState<Pick<Setting, 'key' | 'value'>[]>([
         {
             key: 'ALLOW_REGISTRATION',
             value: 'true'

@@ -13,13 +13,13 @@ export default class ProjectService {
             page: number;
             pageSize: number;
             projectId?: string;
-            slug?: string;
+            projectSlug?: string;
             search?: string;
             onlyPublished?: boolean;
         }): Promise<{ projects: Project[], total: number }> {
 
 
-        const { page, pageSize, search, onlyPublished , projectId, slug } = data;
+        const { page, pageSize, search, onlyPublished , projectId, projectSlug } = data;
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {
@@ -39,7 +39,7 @@ export default class ProjectService {
                 platforms: true,
                 technologies: true,
                 projectLinks: true,
-                content: (slug || projectId) ? true : false,
+                content: (projectSlug || projectId) ? true : false,
             },
             where: {
                 OR: [
@@ -56,7 +56,7 @@ export default class ProjectService {
                 ],
                 status: !onlyPublished ? undefined : 'PUBLISHED',
                 projectId: projectId ? projectId : undefined,
-                slug: slug ? slug : undefined,
+                slug: projectSlug ? projectSlug : undefined,
             },
             orderBy: {
                 createdAt: 'desc' as const,

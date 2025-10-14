@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, use } from 'react';
+import React, { useState } from 'react';
 import axiosInstance from '@/libs/axios';
 interface ImageLoadProps {
     image: string;
@@ -19,7 +19,7 @@ const ImageLoad = ({ image, setImage, uploadFolder = 'default', toast }: ImageLo
 
         const formData = new FormData();
         formData.append('file', imageFile);
-        formData.append('folder', 'categories');
+        formData.append('folder', uploadFolder);
 
         await axiosInstance.post('/api/aws', formData, {
             headers: {

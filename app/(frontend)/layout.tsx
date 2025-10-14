@@ -2,10 +2,8 @@ import Footer from "@/components/frontend/Footer";
 import Navbar from "@/components/frontend/Navbar";
 import ScrollToTop from "@/components/frontend/ScrollToTop";
 import Sidebar from "@/components/frontend/Sidebar";
-import TerminalButton from "@/components/frontend/TerminalButton";
 import Whatsapp from "@/components/frontend/Whatsapp";
-import { Suspense , useEffect, useState } from "react";
-import { useGlobalStore } from "@/libs/zustand";
+import { Suspense } from "react";
 /*
 export const metadata: Metadata = {
   title: "Kuray Karaaslan | Software Engineer",
@@ -15,10 +13,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  props = { lng: "en" },
 }: Readonly<{
   children: React.ReactNode;
-  props: { lng: string };
 }>) {
 
 

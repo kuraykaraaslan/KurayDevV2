@@ -112,7 +112,7 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
     // camera movement
     let isDragging = false
     let previousMousePosition = { x: 0, y: 0 }
-    let cameraRotation = { x: 0, y: 0 }
+    const cameraRotation = { x: 0, y: 0 }
     let cameraDistance = 400
     const cameraTarget = new THREE.Vector3(0, 0, 0)
 

@@ -15,8 +15,6 @@ export async function GET(request: NextRequest) {
 
         await UserSessionService.authenticateUserByRequest(request);
 
-        const { searchParams } = new URL(request.url);
-
         // Extract query parameters
         const stats = await StatService.getAllStats();
 

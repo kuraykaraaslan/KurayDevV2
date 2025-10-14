@@ -4,18 +4,14 @@ import {Project} from '@prisma/client';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
-import { Category } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 
 const ProjectTable = () => {
 
     const [search, setSearch] = React.useState('');
     const [projects, setProjects] = React.useState<Partial<Project>[]>([]);
     const [page, setPage] = React.useState(0);
-    const [pageSize, setPageSize] = React.useState(10);
+    const [pageSize, _setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);
-
-    const router = useRouter();
 
     React.useEffect(() => {
 

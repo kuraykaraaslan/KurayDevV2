@@ -17,7 +17,7 @@ export default class CommentService {
 
     static async createComment(data: Omit<Comment, 'commentId'>): Promise<Comment> {
 
-        var { content, postId, parentId, email, name } = data;
+        let { content, postId, email, name } = data;
 
         // Validate input
         if (!content || !postId || !email || !name) {
@@ -89,7 +89,7 @@ export default class CommentService {
                 content: {
                     contains: search,
                 },
-                status: pending ? undefined : 'APPROVED',
+                status: pending ? undefined : "PUBLISHED",
             },
             orderBy: {
                 createdAt: 'desc',
@@ -170,7 +170,7 @@ export default class CommentService {
      * @returns The updated comment
      */
     static async updateComment(data: Comment): Promise<Comment> {
-        const { commentId, content, postId, parentId, email, name, status } = data;
+        const { commentId } = data;
 
         // Update the comment
         const comment = await prisma.comment.update({

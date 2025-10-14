@@ -3,7 +3,6 @@ import Feed from '@/components/frontend/Feed';
 import CategoryBullets from '@/components/frontend/CategoryBullets';
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
-import KnowledgeGraph3D from '@/components/frontend/KnowledgeGraph3D';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 

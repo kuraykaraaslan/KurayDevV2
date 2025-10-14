@@ -13,7 +13,7 @@ const Comment = z.object({
     parentId: z.string().nullable(),
     email: z.string().email().nullable(),
     name: z.string().nullable(),
-    status: z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED") 
+    status: CommentStatus,
 });
 
 

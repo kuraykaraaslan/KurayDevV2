@@ -9,9 +9,6 @@ export async function GET(
     try {
 
         const { searchParams } = new URL(req.url);
-
-        const page = parseInt(searchParams.get('page') || '1', 10);
-        const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const startDate = searchParams.get('startDate') || undefined;
         const endDate = searchParams.get('endDate') || undefined;
 

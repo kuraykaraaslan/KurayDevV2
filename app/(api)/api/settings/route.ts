@@ -9,7 +9,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
  * @param request - The incoming request object
  * @returns A NextResponse containing the posts data or an error message
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
     try {
 
         const settings = await SettingService.getSettings();

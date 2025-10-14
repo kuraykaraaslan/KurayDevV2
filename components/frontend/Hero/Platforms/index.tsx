@@ -2,7 +2,8 @@
 import React from 'react';
 import SinglePlatform from './Partials/SinglePlatform';
 
-const Platforms = (props: any) => {
+
+const Platforms = () => {
 
 
 

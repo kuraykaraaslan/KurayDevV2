@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
-import { Day, Slot } from '@/types/CalendarTypes'
+import { Slot } from '@/types/CalendarTypes'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 
 /**
@@ -10,7 +10,7 @@ import UserSessionService from '@/services/AuthService/UserSessionService'
  */
 
 export async function GET(
-    req: Request,
+    _request: NextRequest,
     { params }: { params: Promise<{ date: string }> }
 ) {
     try {
@@ -38,8 +38,7 @@ export async function GET(
 }
 
 export async function POST(
-    request: NextRequest,
-    { params }: { params: Promise<{ day: Day }> }
+    request: NextRequest
 ) {
 
     await UserSessionService.authenticateUserByRequest(request, "ADMIN");

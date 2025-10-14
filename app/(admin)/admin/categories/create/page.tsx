@@ -13,7 +13,7 @@ const CreateCategory = () => {
     const [slug, setSlug] = useState('default-slug');
     const [keywords, setKeywords] = useState<string[]>([]);
 
-    const [imageUrl, setImageUrl] = useState<String | null>(null);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     const router = useRouter();
 
@@ -57,7 +57,7 @@ const CreateCategory = () => {
     }
 
     const generateImage = async () => {
-        const response = await axiosInstance.post('/api/ai/dall-e', {
+        await axiosInstance.post('/api/ai/dall-e', {
             prompt: 'create a category image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(','),
         }).then((res) => {
             toast.success('Image generated successfully,');
@@ -85,8 +85,6 @@ const CreateCategory = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const neededFields = [title, description, slug, keywords];
 
         const blogCategory = {
             title,
@@ -124,20 +122,6 @@ const CreateCategory = () => {
 
 
     };
-
-    const showModal = () => {
-        if (!document) {
-            return;
-        }
-
-        const modal = document.getElementById('my_modal_4');
-
-        if (modal) {
-            //@ts-ignore
-            modal?.showModal();
-        }
-
-    }
 
     return (
         <>

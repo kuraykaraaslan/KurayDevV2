@@ -2,8 +2,6 @@
 import React from "react";
 import { SafeUser } from "@/types/UserTypes";
 
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
-
 export default function AuthorHeader(author: Partial<SafeUser>) {
   const coverImage = author.headerImage
     ? author.headerImage

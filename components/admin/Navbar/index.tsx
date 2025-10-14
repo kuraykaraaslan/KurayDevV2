@@ -1,5 +1,5 @@
 'use client';
-import { faBars, faCaretDown, faTicket, faUser, faCode } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCode } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import Link from "next/link";
@@ -10,7 +10,6 @@ import ThemeButton from "./Partials/ThemeButton";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/common/Logo";
-import ReadingProgressBar from "@/components/frontend/ReadingProgressBar";
 
 const Navbar = () => {
 
@@ -22,13 +21,7 @@ const Navbar = () => {
     const hash = createHash('sha256').digest('hex');
     const gravitarUrl = `https://www.gravatar.com/avatar/${hash}?d=identicon`;
 
-
-    const [isFeaturesMenuOpen, setIsFeaturesMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-    const toggleFeaturesMenu = () => {
-        setIsFeaturesMenuOpen(!isFeaturesMenuOpen);
-    };
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);

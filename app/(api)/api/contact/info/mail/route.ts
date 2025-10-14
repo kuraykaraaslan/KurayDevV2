@@ -9,7 +9,7 @@ type ResponseData = {
     }>;
 };
 
-export async function GET(req: NextRequest, res: NextResponse<ResponseData>) {
+export async function GET(_request: NextRequest, _response: NextResponse<ResponseData>) {
 
     const mails = [
         {

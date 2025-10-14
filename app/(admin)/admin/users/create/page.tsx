@@ -1,6 +1,5 @@
 'use client';
-import React, { useState} from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
@@ -16,19 +15,16 @@ const CreateUser = () => {
     const [phone, setPhone] = useState('');
     const [role, setRole] = useState('USER');
     const [slug, setSlug] = useState('');
-    const [image, setImage] = useState('');
+    const [image, _setImage] = useState('');
     const [bio, setBio] = useState('');
 
     const [imageUrl, setImageUrl] = useState<String | null>(null);
     //image upLoad
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const router = useRouter();
-
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const neededFields = [name, email, password, phone, role, slug, image, bio];
 
         const user = {
             name,
@@ -38,7 +34,7 @@ const CreateUser = () => {
             role,
             slug,
             image,
-            bio, 
+            bio,
         };
 
         if (name === '') {
@@ -74,21 +70,7 @@ const CreateUser = () => {
         }
 
 
-        await axiosInstance.post('/api/users', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: {
-                name,
-                email,
-                password,
-                phone,
-                role,
-                slug,
-                image,
-                bio,
-            },
-
-        }).then(() => {
+        await axiosInstance.post('/api/users', { user }).then(() => {
             toast.success('User created successfully');
             // router.push('/admin/posts');
         }).catch((error) => {
@@ -245,14 +227,14 @@ const CreateUser = () => {
                             onChange={(e) => setSlug(e.target.value)}
                         />
                     </div>
-                
+
                     <div className="form-control mb-4 mt-4">
                         <label className="label">
                             <span className="label-text">Image</span>
                         </label>
                         <Image src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
-                        
-                        width={384} height={256}
+
+                            width={384} height={256}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

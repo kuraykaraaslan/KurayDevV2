@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle, faCircleNodes } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNodes } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import WorldMap from "react-svg-worldmap";
 
@@ -13,7 +13,7 @@ const HireMeVideo = dynamic(
 
 const HireMe = () => {
 
-    const [dotColor, setDotColor] = useState("#ffffff");
+    const [_dotColor, setDotColor] = useState("#ffffff");
 
 
   useEffect(() => {

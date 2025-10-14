@@ -13,20 +13,14 @@ const Whatsapp = () => {
 
     const [resetted, setResetted] = useState(false);
 
-    const [message, setMessage] = useState(t("whatsapp.message"));
-
     useEffect(() => {
         const scrollToTopBtn = document.getElementById(
             "whatsapp",
         ) as HTMLElement;
-        const main = document.getElementById("main");
-
         //make the button appear slowly  when the user scrolls down 20px from the top to 500ms
 
         window?.addEventListener("scroll", () => {
-
-            var totalWindowHeight = document.body.scrollHeight - window?.innerHeight;
-            var aligned = window?.scrollY * 0.1 - 80;
+            let aligned = window?.scrollY * 0.1 - 80;
             if (aligned > 20) {
                 aligned = 20;
             }

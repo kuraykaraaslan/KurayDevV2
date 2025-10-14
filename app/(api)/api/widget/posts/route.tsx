@@ -3,7 +3,7 @@ import { ImageResponse } from 'next/og';
 import PostService from '@/services/PostService';
 import { NextRequest } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
     const { posts } = await PostService.getAllPosts({ page: 1, pageSize: 10, search: undefined });
 
     // Convert posts to JSX list items
@@ -21,22 +21,6 @@ export async function GET(request: NextRequest) {
             &#8226; {post.title.length > 100 ? post.title.substring(0, 100) + '...' : post.title}
         </div>
     ));
-
-    const header = (
-        <div style={{
-            width: 600,
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'row',
-            padding: '20px',
-            position: 'absolute',
-            top: 0,
-            fontWeight: 'bold',
-            fontSize: 20,
-        }}>
-            Latest Posts
-        </div>
-    );
 
     return new ImageResponse(
         (

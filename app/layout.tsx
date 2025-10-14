@@ -12,11 +12,9 @@ const NEXT_PUBLIC_GOOGLE_TAG = process.env.NEXT_PUBLIC_GOOGLE_TAG;
 
 export default function RootLayout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: any;
-}>) {
+}> ) {
   return (
     <html data-theme="dark" className="antialiased scroll-smooth focus:scroll-auto">
       <head>

@@ -10,7 +10,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
  * @returns A NextResponse containing the post data or an error message
  */
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {

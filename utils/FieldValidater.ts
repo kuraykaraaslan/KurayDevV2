@@ -153,16 +153,6 @@ export default class FieldValidater {
     }
 
     /**
-     * Validates if the provided value is cuid2.
-     * @param value - The cuid2 string to validate.
-     * @returns `true` if valid, `false` otherwise.
-     * d3o47zbqg28ftevdgehuewiw
-     */
-    static isAccessToken(value: string | undefined | null): boolean {
-
-        return true;
-    }
-    /**
      * Validates if the provided JSON matches the model.
      * Ensures all fields in the model are present in the JSON
      * and that there are no extra fields in the JSON.

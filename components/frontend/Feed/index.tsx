@@ -19,7 +19,7 @@ export default function Feed(props: FeedProps) {
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
     const [page, setPage] = useState(0);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, _setPageSize] = useState(5);
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {

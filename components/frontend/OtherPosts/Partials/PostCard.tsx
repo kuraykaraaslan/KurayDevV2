@@ -4,9 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { PostWithData } from '@/types/BlogTypes';
-import Image from 'next/image';
-
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 const PostCard = ({post}: { post: PostWithData }) => {
 

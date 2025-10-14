@@ -38,8 +38,7 @@ export default class AWSService {
                 Body: new Uint8Array(fileBuffer),
             });
 
-            const response = await s3.send(command);
-
+            await s3.send(command);
             const publicUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`;
 
             return publicUrl;
@@ -73,7 +72,7 @@ export default class AWSService {
                 Body: new Uint8Array(fileBuffer),
             });
             
-            const uploadResponse = await s3.send(command);
+            await s3.send(command);
 
             const publicUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`;
 

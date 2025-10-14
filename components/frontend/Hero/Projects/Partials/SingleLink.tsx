@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import {
   faReact,
-  faBootstrap,
   faHtml5,
   faPython,
   faPhp,
@@ -10,7 +9,6 @@ import {
   faJs,
   faGithub,
   faGitlab,
-  faGooglePlay,
   faYoutube,
   faLinkedin,
   faTwitter,

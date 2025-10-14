@@ -1,10 +1,9 @@
 'use client'
-import React, { useEffect } from "react";
-import { faGear, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import {  faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import useGlobalStore from "@/libs/zustand";
-import { UserRole } from "@prisma/client";
 
 const AuthButton = () => {
     const { user } = useGlobalStore();

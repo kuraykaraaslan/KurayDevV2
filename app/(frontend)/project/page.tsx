@@ -1,14 +1,6 @@
-import 'react-toastify/dist/ReactToastify.css';
 import { notFound } from 'next/navigation';
 
-export default async function ({ params }: { params: { categorySlug: string } }) {
+export default async function () {
 
-
-    // Disable this page for now
     return notFound();
-
-    return (
-        <>
-        </>
-    );
 };

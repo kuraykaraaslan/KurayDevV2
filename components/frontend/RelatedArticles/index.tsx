@@ -4,15 +4,11 @@ import React from 'react';
 import SingleArticle from './Partials/SingleArticle';
 import { PostWithData } from '@/types/BlogTypes';
 
-import { useParams } from 'next/navigation';
-
 const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
 
     if (!categoryId) {
         return null;
     }
-
-    const params = useParams();
 
     const articles: PostWithData[] = [
         {

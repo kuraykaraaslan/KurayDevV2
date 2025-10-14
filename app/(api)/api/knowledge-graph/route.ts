@@ -58,7 +58,6 @@ export async function GET(request: NextRequest) {
 
   // Build links (filter both source and target)
   const links: any[] = []
-  const validNodeIds = new Set(nodes.map(n => n.id))
 
   for (const n of allNodes) {
     if (categorySlug && n.categorySlug !== categorySlug) continue

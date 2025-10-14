@@ -2,14 +2,22 @@ import openai from '@/libs/openai';
 
 export default class OpenAIService {
 
-    static async generateImage(prompt: string, width: number = 1200, height: number = 630) : Promise<string | null> {
+    static async generateImage(prompt: string, width: number = 1792, height: number = 1024) : Promise<string | null> {
+        
+        const validSizes = ['256x256', '512x512', '1024x1024', '1792x1024', '1024x1792'];
+        
+        if (!validSizes.includes(`${width}x${height}`)) {
+            throw new Error('Invalid image size. Allowed sizes are 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792.');
+        }
+
         try {
             const response = await openai.images.generate({
                 model: 'dall-e-3',
                 prompt: prompt,
                 n: 1,
 
-                size: '1792x1024',
+                // @ts-ignore
+                size: `${width}x${height}`,
                 response_format: 'url',
             });
 
@@ -41,7 +49,7 @@ export default class OpenAIService {
                 max_tokens: 1000,
             });
 
-            var text = response.choices[0].message.content;
+            let text = response.choices[0].message.content;
 
             if (!text) {
                 return null;

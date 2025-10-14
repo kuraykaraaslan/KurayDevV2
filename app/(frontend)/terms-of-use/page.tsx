@@ -20,7 +20,7 @@ export default function TermsPage() {
           <div className="prose max-w-3xl mx-auto">
             <h2 className="text-xl font-semibold mb-4">1. Introduction</h2>
             <p className="mb-4">
-              Welcome to <strong>kuray.dev</strong> (the "Website"), operated by Kuray Karaaslan ("we," "us," or "our"). By accessing or using this Website, you agree to comply with and be bound by the following terms and conditions of use. If you do not agree to these terms, please do not use this Website.
+              Welcome to <strong>kuray.dev</strong> (the &apos;Website&apos;), operated by Kuray Karaaslan (&apos;we,&apos; &apos;us,&apos; or &apos;our&apos;). By accessing or using this Website, you agree to comply with and be bound by the following terms and conditions of use. If you do not agree to these terms, please do not use this Website.
             </p>
 
             <h2 className="text-xl font-semibold mb-4">2. Intellectual Property</h2>

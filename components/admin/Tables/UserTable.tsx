@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
@@ -10,7 +10,7 @@ const UserTable = () => {
 
     const [users, setUsers] = React.useState<Partial<User>[]>([]);
     const [page, setPage] = React.useState(0);
-    const [pageSize, setPageSize] = React.useState(10);
+    const [pageSize, _setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);
 
     const [search, setSearch] = React.useState('');
@@ -22,7 +22,7 @@ const UserTable = () => {
                 setUsers(response.data.users);
                 setTotal(response.data.total);
             })
-            .catch((error) => {
+            .catch(() => {
             });
     }
         , [page, pageSize, search]);
@@ -67,7 +67,7 @@ const UserTable = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>User Slug</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -75,19 +75,18 @@ const UserTable = () => {
                         {users.map((user, index) => (
                             <tr key={index} className="h-12 hover:bg-primary hover:bg-opacity-10">
                                 <td>
-                                    {user.image ?
-                                        <Image width={32} height={32} src={user.image} className="h-8 w-8 rounded-full" alt={user.name as string} />
+                                    {user.profilePicture ?
+                                        <Image width={32} height={32} src={user.profilePicture} className="h-8 w-8 rounded-full" alt={user.name as string} />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }
                                 </td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td>{user.slug}</td>
+                                <td>{user.userRole}</td>
+                                <td>{user.userStatus}</td>
                                 <td className="flex gap-2">
                                     <Link href={`/admin/users/${user.userId}`} className="btn btn-sm btn-primary">Edit</Link>
-                                    <Link href={`/blog/${user.slug}`} className="btn btn-sm btn-secondary hidden md:flex">View</Link>
                                     <button onClick={() => deleteUser(user.userId as string)} className="btn btn-sm btn-warning hidden md:flex">Delete</button>
                                 </td>
                             </tr>

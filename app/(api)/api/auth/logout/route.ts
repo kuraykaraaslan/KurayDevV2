@@ -4,7 +4,7 @@
 import { NextResponse } from "next/server";
 import AuthMessages from "@/messages/AuthMessages";
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
     try {
 
         return NextResponse.json({

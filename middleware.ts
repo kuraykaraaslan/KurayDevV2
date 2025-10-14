@@ -9,8 +9,8 @@ function shouldSkipMiddleware(pathname: string): boolean {
   return pathname.startsWith('/_next') || PUBLIC_FILE.test(pathname);
 }
 
-function getLocaleFromHeader(req: NextRequest): string {
-  const acceptLanguage = req.headers.get('accept-language');
+function getLocaleFromHeader(request: NextRequest): string {
+  const acceptLanguage = request.headers.get('accept-language');
   if (!acceptLanguage) return DEFAULT_LOCALE;
 
   const preferredLanguages = acceptLanguage.split(',').map(lang => lang.trim().split(';')[0]);
@@ -20,16 +20,16 @@ function getLocaleFromHeader(req: NextRequest): string {
   return matchedLocale?.split('-')[0] || DEFAULT_LOCALE;
 }
 
-export function middleware(req: NextRequest) {
-  const { pathname, locale, search } = req.nextUrl;
+export function middleware(request: NextRequest) {
+  const { pathname, locale, search } = request.nextUrl;
 
   if (shouldSkipMiddleware(pathname)) {
     return NextResponse.next();
   }
 
   if (locale === 'default') {
-    const detectedLocale = getLocaleFromHeader(req);
-    const url = new URL(`/${detectedLocale}${pathname}${search}`, req.url);
+    const detectedLocale = getLocaleFromHeader(request);
+    const url = new URL(`/${detectedLocale}${pathname}${search}`, request.url);
     return NextResponse.redirect(url);
   }
 

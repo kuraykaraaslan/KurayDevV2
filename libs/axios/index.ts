@@ -1,6 +1,5 @@
 'use client';
 import axios from 'axios';
-import useGlobalStore from '../zustand';
 import { AuthMessages } from '@/messages/AuthMessages';
 
 const axiosInstance = axios.create({

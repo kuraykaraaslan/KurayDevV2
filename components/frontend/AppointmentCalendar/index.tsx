@@ -47,7 +47,6 @@ export default function AppointmentCalendar() {
 
   const handleDateSelect = (
     value: Date | Date[] | null,
-    event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (value instanceof Date) {
       setSelectedDate(value)

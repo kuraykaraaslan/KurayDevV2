@@ -17,7 +17,7 @@ export default class ContactFormService {
         phone: string;
     }): Promise<any> {
             
-            var { name, email, message, phone } = data;
+            let { name, email, message, phone } = data;
     
             // Validate input
             if (!name || !email || !message) {

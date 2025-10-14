@@ -5,6 +5,9 @@
       "dom.iterable",
       "esnext"
     ],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -37,7 +40,10 @@
     "prisma/seed.js"
 , "app/not-found.js"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next",
+    "dist",
+    "build"
   ],
   "files": [
     "next-env.d.ts",

@@ -4,18 +4,16 @@ import { PostWithData } from '@/types/BlogTypes';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
-import { Category } from '@prisma/client';
-import { useRouter } from 'next/navigation';
+import { Category } from '@/types/BlogTypes';
 
 const PostTable = ({ category }: { category?: Category }) => {
 
     const [search, setSearch] = React.useState('');
     const [posts, setPosts] = React.useState<Partial<PostWithData>[]>([]);
     const [page, setPage] = React.useState(0);
-    const [pageSize, setPageSize] = React.useState(10);
+    const [pageSize, _setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);
 
-    const router = useRouter();
 
     React.useEffect(() => {
 

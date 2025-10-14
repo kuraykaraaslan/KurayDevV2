@@ -7,9 +7,8 @@ import { useParams } from 'next/navigation';
 
 const Page = async () => {
 
-    const params = useParams();
+    const {categoryId} = useParams();
 
-    const categoryId = params.categoryId;
     const category = await CategoryService.getCategoryById(categoryId as string);
 
     if (!category) {

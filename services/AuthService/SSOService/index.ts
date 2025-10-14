@@ -14,7 +14,6 @@ import AutodeskService from './AutodeskService';
 
 import { SSOMessages } from '@/messages/SSOMessages';
 import { AuthMessages } from '@/messages/AuthMessages';
-import { User } from '@prisma/client';
 import { SafeUser } from '@/types/UserTypes';
 
 

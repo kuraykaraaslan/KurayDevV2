@@ -2,7 +2,6 @@ import redis from '@/libs/redis'
 import LocalEmbedService from './PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
 import PostService from '@/services/PostService'
-import { PostStatus } from '@/types/BlogTypes'
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 
 const KEY_NODES = 'kg:nodes'
@@ -11,8 +10,6 @@ const LOCK_KEY = 'kg:rebuild:lock'
 const TOP_K = 5
 const THRESH = 0.22
 const LOCK_TTL_MS = 1000 * 60 * 10 // 10 dakika (süre aşımı)
-
-
 
 async function loadNodes() : Promise<Record<string, KnowledgeGraphNode>> {
   return JSON.parse((await redis.get(KEY_NODES)) || '{}') as Record<string, KnowledgeGraphNode>

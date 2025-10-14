@@ -3,7 +3,7 @@ import Logger from '@/libs/logger'
 
 import AppointmentService from '@/services/AppointmentService'
 
-export async function POST(req: Request, { params }: { params: Promise<{ appointmentId: string }> }) {
+export async function POST(_request: Request, { params }: { params: Promise<{ appointmentId: string }> }) {
   try {
     const { appointmentId } = await params
 

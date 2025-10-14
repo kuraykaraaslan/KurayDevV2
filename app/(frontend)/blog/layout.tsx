@@ -9,7 +9,7 @@ import i18n from "@/libs/localize/localize";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
 
-  const { setLanguage, language } = useGlobalStore();
+  const { language } = useGlobalStore();
   const [ languageNotifiedOnce, setLanguageNotifiedOnce ] = useState(false);
   const { t } = i18n;
 

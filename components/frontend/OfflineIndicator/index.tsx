@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 
 const OfflineIndicator = () => {
-    const [isOnline, setIsOnline] = useState(true);
+    const [_isOnline, setIsOnline] = useState(true);
 
     useEffect(() => {
         const handleOnline = () => {

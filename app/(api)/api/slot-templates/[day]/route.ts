@@ -3,14 +3,8 @@ import SlotTemplateService from '@/services/AppointmentService/SlotTemplateServi
 import { Day, Slot } from '@/types/CalendarTypes'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 
-/**
- * [day] → MONDAY..SUNDAY
- * GET:   haftalık şablonu getirir
- * POST:  haftalık şablonu kaydeder  { slots: [{ time, length? }] }
- */
-
 export async function GET(
-    req: Request,
+    _request: NextRequest,
     { params }: { params: Promise<{ day: Day }> }
 ) {
     try {
@@ -35,7 +29,6 @@ export async function GET(
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: Promise<{ day: Day }> }
 ) {
 
     await UserSessionService.authenticateUserByRequest(request, "ADMIN");

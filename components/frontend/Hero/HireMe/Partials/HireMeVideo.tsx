@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, createRef } from "react";
+import React, { createRef } from "react";
 import ReactPlayer from 'react-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';

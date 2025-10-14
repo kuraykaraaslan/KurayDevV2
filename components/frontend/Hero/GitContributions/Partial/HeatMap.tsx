@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect, Suspense, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "@/libs/axios";
-import  { ContributionDay, Week, Weeks, GraphQLRes } from "@/types/GitTypes";
+import  {Weeks, GraphQLRes } from "@/types/GitTypes";
 
 const HeatMap = () => {
 

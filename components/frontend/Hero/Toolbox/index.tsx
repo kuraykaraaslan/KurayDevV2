@@ -1,37 +1,25 @@
 "use client";
 import {
   faHtml5,
-  faPython,
   faPhp,
   faJava,
   faLinux,
   faFigma,
   faCss3,
-  faSquareJs,
   faNodeJs,
   faReact,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faArchway,
   faCode,
-  faCodeBranch,
   faDatabase,
-  faLightbulb,
-  faUsers,
   IconDefinition,
-  faServer,
   faKey,
-  faCodeMerge,
   faProjectDiagram,
   faRocket,
   faStream,
-  faDrum,
   faMoneyBill,
   faCogs,
-  faBugSlash,
-  faTasks,
-  faCircleCheck,
-  faCircleXmark,
   faCloud,
   faVial,
 } from "@fortawesome/free-solid-svg-icons";
@@ -39,14 +27,13 @@ import React from "react";
 
 import SingleTool from "./Partials/SingleTool";
 import SingleSkill from "./Partials/SingleSkill";
-import Tool from "@/types/Tool";
-import Skill from "@/types/Skill";
+import {Tool, Skill } from "@/types/SkillTypes";
 import { useTranslation } from "react-i18next";
 
 const Toolbox = () => {
 
-
-  const customTSIcon: IconDefinition = {
+  // @ts-ignore
+  const _customTSIcon: IconDefinition = {
     prefix: 'fab',
     //@ts-ignore
     iconName: 'typescript',

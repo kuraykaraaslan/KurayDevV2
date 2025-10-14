@@ -10,17 +10,6 @@ import { faHourglass, faMessage } from "@fortawesome/free-solid-svg-icons";
 import i18n from "@/libs/localize/localize";
 
 
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
-
-interface CountryCode extends String {
-  name: string;
-  dialCode: string;
-  countryCode: string;
-}
-
-
-
-// @ts-ignore
 const ContactForm = (props: { className?: string; token: string }) => {
 
   const { t } = i18n;
@@ -51,7 +40,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
       setGeoInfo(data);
       setDefaultCountry(data.country);
 
-    }).catch((error) => {
+    }).catch(() => {
     });
   }
 

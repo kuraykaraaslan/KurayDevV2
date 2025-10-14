@@ -3,11 +3,7 @@ import Terminal from '@/components/easter/Terminal';
 
 const TerminalPage: React.FC = () => {
 
-    return (
-        <>
-            <Terminal />
-        </>
-    );
+    return  <Terminal />
 }
 
 export default TerminalPage;

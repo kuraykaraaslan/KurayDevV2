@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
  * @returns A NextResponse containing a success message or an error message
  * */
 
-export async function DELETE(request: Request) {
+export async function DELETE(_request: Request) {
         try {
             await CategoryService.deleteAllCategories();
 

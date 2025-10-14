@@ -5,32 +5,25 @@ import ContactFormService from '@/services/ContactFormService';
 import MailService from '@/services/NotificationService/MailService';
 import SMSService from '@/services/NotificationService/SMSService';
 
-import AdminContactUsMailTemplate from '@/helpers/MailTemplates/Admin/AdminContactUsMailTemplate';
-import CustomerContactUsMailTemplate from '@/helpers/MailTemplates/Customer/CustomerContactUsMailTemplate';
-
-import AdminContactUsSMSTemplate from '@/helpers/SMSTemplates/Admin/AdminContactUsSMSTemplate';
-import CustomerContactUsSMSTemplate from '@/helpers/SMSTemplates/Customer/CustomerContactUsSMSTemplate';
-
 type ResponseData = {
     message: string;
 };
 
 
-export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
+export async function POST(request: NextRequest, _response: NextResponse<ResponseData>) {
 
-    const { name, email, phone, message } = await req.json();
+    const { name, email, phone, message } = await request.json();
 
     if (!name || !email || !phone || !message) {
         return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });
     }
 
-    const INFORM_NAME = process.env.INFORM_MAIL as string;
-    const INFORM_TITLE = process.env.INFORM_TITLE as string;
-    const INFORM_MAIL = process.env.INFORM_MAIL as string;
-    const INFORM_PHONE = process.env.INFORM_PHONE as string;
-
     //find recent contact form entries
     const recentEntries = await ContactFormService.getRecentContactFormEntriesByPhoneOrEmail(phone, email);
+
+    if (recentEntries.length > 2) {
+        return NextResponse.json({ message: "You have already submitted a message recently. Please wait before sending another message." }, { status: 429 });
+    }
 
     try {
         const data = {
@@ -41,18 +34,13 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
         };
 
         await ContactFormService.createContactForm(data);
+
     } catch (error) { console.error(error); }
 
-    try {
-        const adminMailBody = AdminContactUsMailTemplate({ name, email, message, phone });
-        await MailService.sendMail(INFORM_MAIL, "Contact Form Message", adminMailBody);
-    } catch (error) { console.error(error); }
 
-    try {
-        const customerMailBody = CustomerContactUsMailTemplate({ name, email, message, phone });
-        await MailService.sendMail(email, "Contact Form Message", customerMailBody);
-    } catch (error) { console.error(error); }
+    try { await MailService.sendContactFormAdminEmail({ name, email, phone, message }); } catch (error) { console.error(error); }
 
+    try { await MailService.sendContactFormUserEmail({ name, email }); } catch (error) { console.error(error); }
 
     try {
         const discordMessage = `A new message has been received from the contact form.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
@@ -60,23 +48,14 @@ export async function POST(req: NextRequest, res: NextResponse<ResponseData>) {
     } catch (error) { console.error(error); }
 
     try {
-        const customerSMSBody = CustomerContactUsSMSTemplate({ name });
 
-        if (recentEntries.length === 0) {
-            // Send SMS to customer if user not contacted recently 
-            await SMSService.sendShortMessage({ to: phone, body: customerSMSBody });
-        } 
+        const userSMSBody = `Hi ${name},\n\n` +
+            `Thank you for reaching out to us. We have received your message and will get back to you shortly.\n\n` +
+            `Best regards,\n` +
+            `Kuray Karaaslan`
 
-    } catch (error) { console.error(error); }
+        await SMSService.sendShortMessage({ to: phone, body: userSMSBody });
 
-    try {
-        const adminSMSBody = AdminContactUsSMSTemplate({ name });
-        if (recentEntries.length === 0) {
-            // Send SMS to admin if user not contacted recently
-            await SMSService.sendShortMessage({ to: INFORM_PHONE, body: adminSMSBody });
-        }
-        
-        
     } catch (error) { console.error(error); }
 
     return NextResponse.json({ message: "Your message has been sent successfully." });

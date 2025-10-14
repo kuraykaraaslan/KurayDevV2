@@ -5,12 +5,8 @@ import {
   faAnglesUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-//i18n
 import { useTranslation } from "react-i18next";
-
 import SingleProject from './Partials/SingleProject'
-import { useRouter } from 'next/navigation'
 import { Project } from '@prisma/client';
 import axiosInstance from '@/libs/axios';
 
@@ -34,13 +30,11 @@ const ProjectsHero = () => {
   const [expanded, setExpanded] = React.useState(false);
   const container = React.useRef(null);
 
-  const [search, setSearch] = React.useState('');
+  const [search, _setSearch] = React.useState('');
   const [projects, setProjects] = React.useState<Project[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(100);
-  const [total, setTotal] = React.useState(0);
-
-  const router = useRouter();
+  const [page, _setPage] = React.useState(0);
+  const [pageSize, _setPageSize] = React.useState(100);
+  const [_total, setTotal] = React.useState(0);
 
   React.useEffect(() => {
 

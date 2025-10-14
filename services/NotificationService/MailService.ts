@@ -60,6 +60,9 @@ export default class MailService {
     static readonly FRONTEND_FORGOT_PASSWORD_PATH = process.env.FRONTEND_FORGOT_PASSWORD_PATH || "/auth/forgot-password";
     static readonly FRONTEND_SUPPORT_EMAIL = process.env.FRONTEND_SUPPORT_EMAIL || "support@example.com";
 
+    static readonly ADMIN_EMAIL = process.env.INFORM_MAIL || "kuraykaraaslan@gmail.com";
+    static readonly ADMIN_NAME = process.env.INFORM_NAME || "Kuray Karaaslan";
+
     // Tekrar eden sabit değişkenler
     static getBaseTemplateVars() {
         return {
@@ -112,7 +115,7 @@ export default class MailService {
         await MailService.sendMail(user.email, 'Welcome to ' + MailService.APPLICATION_NAME, emailContent);
     }
 
-    static async sendNewLoginEmail(user: User | SafeUser, userSession?: SafeUserSession) {
+    static async sendNewLoginEmail(user: User | SafeUser, _userSession?: SafeUserSession) {
         const emailContent = await ejs.renderFile(
             path.join(MailService.TEMPLATE_PATH, 'new-login.ejs'),
             {
@@ -189,5 +192,30 @@ export default class MailService {
             }
         );
         await MailService.sendMail(email, 'OTP Disabled', emailContent);
+    }
+
+    static async sendContactFormAdminEmail({message, name, email, phone}: {message: string, name: string, email: string, phone: string}) {
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'contact-form-admin.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                message,
+                name,
+                email,
+                phone
+            }
+        );
+        await MailService.sendMail(MailService.ADMIN_EMAIL, 'New Contact Form Message', emailContent);
+    }   
+
+    static async sendContactFormUserEmail({name, email}: {name: string, email: string}) {
+        const emailContent = await ejs.renderFile(
+            path.join(MailService.TEMPLATE_PATH, 'contact-form-user.ejs'),
+            {
+                ...MailService.getBaseTemplateVars(),
+                user: { name: name || email },
+            }
+        );
+        await MailService.sendMail(email, 'We Received Your Message', emailContent);
     }
 }

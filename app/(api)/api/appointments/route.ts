@@ -1,7 +1,7 @@
 import AppointmentService from '@/services/AppointmentService'
 import { NextResponse } from 'next/server'
-import Logger from '@/libs/logger'
 import UserSessionService from '@/services/AuthService/UserSessionService'
+import { AppointmentStatus } from '@/types/CalendarTypes';
 
 export async function GET(request: NextRequest) {
     try {
@@ -12,8 +12,9 @@ export async function GET(request: NextRequest) {
         // Extract query parameters
         const page = parseInt(searchParams.get('page') || '1', 10);
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
-        const date = searchParams.get('date') || undefined;
-        const status = searchParams.get('status') || undefined;
+        const startDate = searchParams.get('startDate') || undefined;
+        const endDate = searchParams.get('endDate') || undefined;
+        const status = searchParams.get('status') as AppointmentStatus || undefined;
         const appointmentId = searchParams.get('appointmentId') || undefined;
         const email = searchParams.get('email') || undefined;
 
@@ -21,12 +22,13 @@ export async function GET(request: NextRequest) {
             page,
             pageSize,
             status,
-            date,
+            startDate,
+            endDate,
             appointmentId,
             email
         });
 
-        return NextResponse.json({ posts: result.posts, total: result.total , page, pageSize });
+        return NextResponse.json({ appointments: result.appointments, total: result.total , page, pageSize });
 
     }
     catch (error: any) {

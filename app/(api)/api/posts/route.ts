@@ -1,11 +1,7 @@
 "use server";
-
 import { NextResponse } from "next/server";
-   
 import PostService from "@/services/PostService";
-import AuthService from "@/services/AuthService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
-
 
 /**
  * GET handler for retrieving all posts with optional pagination and search.

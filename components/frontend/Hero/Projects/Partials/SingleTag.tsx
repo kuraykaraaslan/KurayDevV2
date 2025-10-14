@@ -2,58 +2,23 @@ import React from 'react';
 
 import {
     faReact,
-    faBootstrap,
-    faHtml5,
     faPython,
-    faPhp,
     faJava,
-    faJs,
-    faAmazon,
-    faAndroid,
     faChrome,
-    faOpera,
-    faApple,
-    faGithub,
-    faGit,
     faNodeJs,
     faAws,
     faGoogle,
   } from "@fortawesome/free-brands-svg-icons";
   import {
-    faAnchor,
-    faAnglesDown,
-    faAnglesUp,
     faCloud,
     faCode,
-    faFire,
-    faGear,
     faGlobe,
-    faMobileScreenButton,
-    faTv,
-    faWind,
     IconDefinition,
   } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const SingleTag = ({ technology } : { technology: string }) => {
-
-    const allowedTechnologies = [
-        'react',
-        'react native',
-        'express',
-        'next',
-        'java',
-        'python',
-        'c',
-        'c++',
-        'c#',
-        'aws',
-        'azure',
-        'gcp',
-        'chrome extension',
-        'other'
-    ];
 
     const data: { [key: string]: { name: string, color: string, icon: IconDefinition, bgColor: string } } = {
         'react': { name: 'React', color: 'text-[#000000]', icon: faReact, bgColor: "bg-[#61DBFB]" },

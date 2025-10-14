@@ -5,14 +5,10 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import axiosInstance from "@/libs/axios";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const SlotsEditor = (
     {
-        selectedDay,
         selectedDate,
-        setSelectedDay,
         setSelectedDate
     }: {
         selectedDay: Day,

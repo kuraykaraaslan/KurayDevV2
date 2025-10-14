@@ -19,7 +19,7 @@ export default function TermsPage() {
         <div className="prose max-w-3xl mx-auto">
           <h2 className="text-xl font-semibold mb-4">1. Introduction</h2>
           <p className="mb-4">
-            Welcome to <strong>kuray.dev</strong> (the "Website"). Your privacy is important to us, and this Privacy Policy explains how we collect, use, disclose, and protect your personal information when you visit our Website.
+            Welcome to <strong>kuray.dev</strong> (the &apos;Website&apos;). Your privacy is important to us, and this Privacy Policy explains how we collect, use, disclose, and protect your personal information when you visit our Website.
           </p>
 
           <h2 className="text-xl font-semibold mb-4">2. Information We Collect</h2>

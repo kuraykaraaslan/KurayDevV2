@@ -1,24 +1,15 @@
 import React from 'react';
-import AuthorHeader from '@/components/frontend/AuthorHeader';
-import PostService from '@/services/PostService';
-
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Comments from '@/components/frontend/Comments';
-import OtherPosts from '@/components/frontend/OtherPosts';
 import Newsletter from '@/components/frontend/Newsletter';
-import PostHeader from '@/components/frontend/PostHeader';
-
-
 import MetadataHelper from '@/helpers/MetadataHelper';
-import UserSessionService from '@/services/AuthService/UserSessionService';
 import UserService from '@/services/UserService';
 import { ToastContainer } from 'react-toastify';
 import Feed from '@/components/frontend/Feed';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-export default async function AuthorPage({ request, params }: { request: NextRequest, params: { userId: string } }) {
+export default async function AuthorPage({ params }: { params: Promise<{ userId: string }> }) {
     try {
 
         const { userId } = await params;

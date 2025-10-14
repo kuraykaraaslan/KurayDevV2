@@ -9,12 +9,10 @@ const ScrollToTop = () => {
         const scrollToTopBtn = document.getElementById(
             "scrollToTop",
         ) as HTMLElement;
-        const main = document.getElementById("main");
 
         //make the button appear slowly  when the user scrolls down 20px from the top to 500ms
         window?.addEventListener("scroll", () => {
-            var totalWindowHeight = document.body.scrollHeight - window?.innerHeight;
-            var aligned = window?.scrollY * 0.1 - 80;
+            let aligned = window?.scrollY * 0.1 - 80;
             if (aligned > 20) {
                 aligned = 20;
             }
@@ -44,18 +42,18 @@ const ScrollToTop = () => {
 
     return (
         <div
-          className="fixed transition duration-1000 ease-in-out bg-accent hover:bg-base-400 cursor-pointer p-4 shadow-lg rounded-full hover:rounded-box"
-          style={{ zIndex: 100, right: "-80px", bottom: "20px" }}
-          id="scrollToTop"
-          onClick={() => window?.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed transition duration-1000 ease-in-out bg-accent hover:bg-base-400 cursor-pointer p-4 shadow-lg rounded-full hover:rounded-box"
+            style={{ zIndex: 100, right: "-80px", bottom: "20px" }}
+            id="scrollToTop"
+            onClick={() => window?.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          <FontAwesomeIcon
-            icon={faArrowUp}
-            className="text-l text-white w-8 h-8 md:w-6 md:h-6"
-          />
+            <FontAwesomeIcon
+                icon={faArrowUp}
+                className="text-l text-white w-8 h-8 md:w-6 md:h-6"
+            />
         </div>
-        
+
     );
-    }
+}
 
 export default ScrollToTop;

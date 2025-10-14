@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useGlobalStore } from '@/libs/zustand';
 import i18n from "@/libs/localize/localize";
 import {  IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import MenuItem from '@/types/UITypes';
+import {MenuItem} from '@/types/UITypes';
 import MenuItems from '../MenuItems';
 
 const Menu = ({isSidebar = false}) => {
@@ -13,8 +13,6 @@ const Menu = ({isSidebar = false}) => {
     const { t } = i18n;
 
     const router = useRouter();
-    const pathname = usePathname();
-
     const { user } = useGlobalStore();
     const isAdmin = user?.userRole === 'ADMIN' || user?.userRole === 'SUPER_ADMIN';
 
@@ -44,8 +42,6 @@ const Menu = ({isSidebar = false}) => {
         const yPosition = getYpositionOfElementById(id);
 
         if (yPosition === null) {
-            const currentPage = pathname;
-
             router.push(page); // Use the 'page' field for navigation
             // wait for the page to load and try again maks 2 seconds
             setTimeout(() => {

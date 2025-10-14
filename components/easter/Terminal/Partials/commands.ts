@@ -1,10 +1,4 @@
-// commands.ts
-
 import { TerminalFolder, CommandOutput } from "./models";
-import { useTerminal } from "../Hooks/useTerminal";
-import { rm } from "fs";
-import { clear } from "console";
-import { arch } from "os";
 
 type CommandHandler = (
     currentPath: string[],
@@ -372,6 +366,7 @@ export const commandMap: Record<string, CommandHandler> = {
         }));
         return { output: { type: 'text', content: '' }, newFileSystem };
     },
+    //@ts-ignore
     echo: (currentPath, fileSystem, args) => {
         const textToEcho = args.join(' ');
         return {

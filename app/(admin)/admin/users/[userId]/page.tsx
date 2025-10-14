@@ -5,7 +5,6 @@ import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
 
-
 const UpdateUser = () => {
 
     const params = useParams();
@@ -78,21 +77,6 @@ const UpdateUser = () => {
         });
 
     };
-
-    const showModal = () => {
-        if (!document) {
-            return;
-        }
-
-        const modal = document.getElementById('my_modal_4');
-
-        if (modal) {
-            //@ts-ignore
-            modal?.showModal();
-        }
-
-    }
-
 
     useEffect(() => {
 

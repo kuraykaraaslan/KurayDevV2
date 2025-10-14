@@ -15,6 +15,7 @@ export async function GET(
     const searchParams = request.nextUrl.searchParams;
 
     const code = searchParams.get('code');
+    // @ts-ignore
     const state = searchParams.get('state');
 
     if (!code) {
@@ -68,6 +69,7 @@ export async function POST(
 ) {
     const { provider } = await params;
 
+    // @ts-ignore
     const { code, state } = await request.json();
 
     if (!code) {

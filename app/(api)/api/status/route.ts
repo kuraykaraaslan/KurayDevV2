@@ -3,7 +3,6 @@ import redisInstance from '@/libs/redis'
 import MailService from '@/services/NotificationService/MailService'
 import SMSService from '@/services/NotificationService/SMSService'
 import OpenAIService from '@/services/OpenAIService'
-import { s3 } from '@/libs/s3'
 
 export const dynamic = 'force-dynamic'
 

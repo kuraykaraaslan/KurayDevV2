@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
@@ -7,7 +7,14 @@ import { toast } from 'react-toastify';
 
 const EditCategory = () => {
 
-    const params = useParams();
+    const params = useParams<{ categoryId: string }>();
+    const routeCategoryId = params.categoryId;
+
+    const mode: 'create' | 'edit' = useMemo(
+        () => (routeCategoryId === 'create' ? 'create' : 'edit'),
+        [routeCategoryId]
+    );
+
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -16,7 +23,7 @@ const EditCategory = () => {
 
     const [loading, setLoading] = useState(true);
 
-    const [imageUrl, setImageUrl] = useState<String | null>(null);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     //image upload
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -59,7 +66,7 @@ const EditCategory = () => {
     }
 
     const generateImage = async () => {
-        const response = await axiosInstance.post('/api/ai/dall-e', {
+        await axiosInstance.post('/api/ai/dall-e', {
             prompt: 'create a category image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(','),
         }).then((res) => {
             toast.success('Image generated successfully,');
@@ -93,22 +100,18 @@ const EditCategory = () => {
     }, []);
 
     useEffect(() => {
-
-        return;
-
-        if (!title) {
-            return;
-        }
-
-        if (loading) {
-            return;
-        }
-
+        if (mode === 'edit' || loading) return;
+        if (!title) return;
 
         const invalidChars = /[^\w\s-]/g;
-        const slugifiedTitle = title.toLowerCase().replace(invalidChars, '').replace(/\s+/g, '-');
-        setSlug(slugifiedTitle);    
-    }, [title]);
+        let slugifiedTitle = title.replace(invalidChars, '');
+        slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-');
+        slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
+        slugifiedTitle = slugifiedTitle.toLowerCase();
+
+        setSlug(`${slugifiedTitle}`);
+    }, [title, mode, loading]);
+
 
 
     useEffect(() => {
@@ -118,8 +121,6 @@ const EditCategory = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const neededFields = [title, description, slug, keywords];
 
         const blogCategory = {
             title,
@@ -152,22 +153,6 @@ const EditCategory = () => {
         });
 
     };
-
-    const showModal = () => {
-        if (!document) {
-            return;
-        }
-
-        const modal = document.getElementById('my_modal_4');
-
-        if (modal) {
-            //@ts-ignore
-            modal?.showModal();
-        }
-
-    }
-
-
 
     return (
         <>
@@ -234,8 +219,8 @@ const EditCategory = () => {
                             <span className="label-text">Image</span>
                         </label>
                         <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
-                        
-                        width={384} height={256}
+
+                            width={384} height={256}
                             alt="Image" className="h-64 w-96 object-cover rounded-lg" />
                         <div className="relative flex justify-between items-center">
                             <input

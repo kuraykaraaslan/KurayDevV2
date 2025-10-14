@@ -1,14 +1,9 @@
-// SingleProject.tsx
-import React, { use } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition, faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import React from "react";
 import Link from "next/link";
 import { Project } from "@prisma/client";
 import Image from 'next/image';
 import SingleLink from "./SingleLink";
 import SingleTag from "./SingleTag";
-
 
 const SingleProject = ({ project }: { project: Project }) => {
   return (

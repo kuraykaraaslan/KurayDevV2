@@ -49,7 +49,7 @@ interface ContactProps {
 
 const Contact = (props: ContactProps) => {
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const [phoneNumbers, setPhoneNumbers] = useState<Phone[]>([]);
   const [mails, setMails] = useState<Mail[]>([]);

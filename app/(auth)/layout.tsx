@@ -9,7 +9,7 @@ import { Suspense } from 'react';
 import SSOLogin from '@/components/auth/SSOLogin';
 
 
-export default function AuthLayout({ children, title }: { children: React.ReactNode, title: string }) {
+export default function AuthLayout({ children }: { children: React.ReactNode}) {
 
   //Create a context to store the user's authentication status
 

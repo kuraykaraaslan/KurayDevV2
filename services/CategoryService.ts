@@ -18,7 +18,7 @@ export default class CategoryService {
         image: string;
     }): Promise<any> {
 
-        var { title, description, slug, image } = data;
+        let { title, description, slug, image } = data;
 
         // Validate input
         if (!title || !description || !slug) {
@@ -156,7 +156,7 @@ export default class CategoryService {
      * @returns The deleted categories
      * */
     static async deleteAllCategories(): Promise<void> {
-        const categories = await prisma.category.deleteMany();
+        await prisma.category.deleteMany();
 
         return;
     }
