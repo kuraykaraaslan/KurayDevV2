@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import i18n from "@/libs/localize/localize";
 
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const { language } = useGlobalStore();
   const [ languageNotifiedOnce, setLanguageNotifiedOnce ] = useState(false);
@@ -47,4 +47,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default layout;
+export default Layout;

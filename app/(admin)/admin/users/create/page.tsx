@@ -18,7 +18,7 @@ const CreateUser = () => {
     const [image, _setImage] = useState('');
     const [bio, setBio] = useState('');
 
-    const [imageUrl, setImageUrl] = useState<String | null>(null);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
     //image upLoad
     const [imageFile, setImageFile] = useState<File | null>(null);
 

@@ -18,8 +18,7 @@ const HireMe = () => {
 
   useEffect(() => {
 
-    //detect theme change
-    let html_theme = document.documentElement.getAttribute("data-theme");
+    const html_theme = document.documentElement.getAttribute("data-theme");
 
     if (html_theme === "dark") {
       setDotColor("#ffffff");
@@ -71,7 +70,7 @@ const HireMe = () => {
               <div className="max-w-lg mr-4">
                 <h1 className="text-5xl font-bold">Seamless Freelance Experience</h1>
                 <p className="py-6">
-                Have a project in mind? Let's work together to make it a reality.
+                Have a project in mind? Let&apos;s work together to make it a reality.
                 </p>
                 {/* @ts-ignore */}
                 <HireMeVideo />

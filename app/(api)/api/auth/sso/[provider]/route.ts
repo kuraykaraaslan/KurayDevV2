@@ -10,7 +10,7 @@ export async function GET(
   const { provider } = await params;
 
   try {
-    await RateLimiter.useRateLimit(request);
+    await RateLimiter.checkRateLimit(request);
 
     const url = await SSOService.generateAuthUrl(provider);
 

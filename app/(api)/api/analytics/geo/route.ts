@@ -68,7 +68,7 @@ export async function GET() {
             console.log('fakeData', fakeData);
 
             for (const fd of fakeData) {
-                let _fd = { country: fd.country, city: fd.city, lat: "0", lon: "0" }
+                const _fd = { country: fd.country, city: fd.city, lat: "0", lon: "0" }
                 _fd.lat = fd.lat.toString()
                 _fd.lon = fd.lon.toString()
                 results.push(_fd)

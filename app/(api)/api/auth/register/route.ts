@@ -9,7 +9,7 @@ import { RegisterRequest } from "@/dtos/AuthDTO";
 export async function POST(request: NextRequest) {
     try {
 
-        await RateLimiter.useRateLimit(request);
+        await RateLimiter.checkRateLimit(request);
 
 
         const parsedData = RegisterRequest.safeParse(await request.json());

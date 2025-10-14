@@ -10,7 +10,7 @@ import { LoginRequest } from "@/dtos/AuthDTO";
 export async function POST(request: NextRequest) {
     try {
 
-        await RateLimiter.useRateLimit(request);
+        await RateLimiter.checkRateLimit(request);
 
 
         const parsedData = LoginRequest.safeParse(await request.json());

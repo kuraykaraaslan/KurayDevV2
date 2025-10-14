@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import AppointmentService from '@/services/AppointmentService'
 import Logger from '@/libs/logger'
 import SlotService from '@/services/AppointmentService/SlotService'
+import { AppointmentStatus } from '@/types/CalendarTypes'
 // gerekirse: import UserSessionService from '@/services/AuthService/UserSessionService'
 
 export async function POST(request: NextRequest) {
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     const appointmentData = {
-      status: "PENDING" as "PENDING",
+      status: "PENDING" as AppointmentStatus,
       createdAt: new Date(),
       name,
       email,

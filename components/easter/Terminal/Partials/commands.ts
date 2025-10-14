@@ -48,7 +48,7 @@ const resolvePath = (currentPath: string[], inputPath: string): string[] => {
     }
 
     // Handle relative paths
-    let newPath = [...currentPath];
+    const newPath = [...currentPath];
     const parts = inputPath.split('/');
 
     for (const part of parts) {

@@ -45,4 +45,21 @@ export default class RateLimiter {
 
     return res;
   }
+
+  static async checkRateLimit(request: NextRequest): Promise<NextResponse | null> {
+    const ip = this.getIpFromRequest(request);
+    const { success, remaining } = await this.check(ip);
+
+    const res = NextResponse.next();
+    res.headers.set('X-RateLimit-Limit', RATE_LIMIT.toString());
+    res.headers.set('X-RateLimit-Remaining', remaining.toString());
+
+    if (!success) {
+      return new NextResponse(JSON.stringify({ message: 'Too many requests' }), {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    return res;
+  }
 }

@@ -36,10 +36,8 @@ const ContactForm = (props: { className?: string; token: string }) => {
 
   function getCountry() {
     axios.get('https://ipapi.co/json/').then((response) => {
-      let data = response.data;
-      setGeoInfo(data);
-      setDefaultCountry(data.country);
-
+      setGeoInfo(response.data);
+      setDefaultCountry(response.data.country);
     }).catch(() => {
     });
   }

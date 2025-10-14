@@ -14,7 +14,7 @@ const UpdateUser = () => {
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('USER');
 
-    const [imageUrl, setImageUrl] = useState<String | null>(null);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     const router = useRouter();
 

@@ -5,7 +5,7 @@ import RateLimiter from "@/libs/rateLimit";
 
 export async function GET(request: NextRequest) {
     try {
-        await RateLimiter.useRateLimit(request);
+        await RateLimiter.checkRateLimit(request);
         await UserSessionService.authenticateUserByRequest(request, "USER");
         return NextResponse.json({ user: request.user }, { status: 200 });
     } catch (error: any) {

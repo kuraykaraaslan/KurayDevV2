@@ -13,8 +13,8 @@ const LoginPage = () => {
     const emailRegex = /\S+@\S+\.\S+/;
     const passwordRegex = /^.{6,}$/;
 
-    const [email, setEmail] = useState<String>("");
-    const [password, setPassword] = useState<String>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     const { setUser } = useGlobalStore();
 

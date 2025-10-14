@@ -33,7 +33,7 @@ export default function TermsPage() {
               By using this Website, you agree to:
               <ul className="list-disc list-inside">
                 <li>Use the Website only for lawful purposes.</li>
-                <li>Not engage in any activity that disrupts or interferes with the Website's functionality.</li>
+                <li>Not engage in any activity that disrupts or interferes with the Website&apos;s functionality.</li>
                 <li>Not attempt to gain unauthorized access to any part of the Website or its systems.</li>
               </ul>
             </p>

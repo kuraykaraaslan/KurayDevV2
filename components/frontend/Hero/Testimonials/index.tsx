@@ -38,7 +38,7 @@ const Testimonials = () => {
           <div className="max-w-2xl mx-auto my-8 space-y-4 text-center xl:col-span-2 xl:text-left">
             <h2 className="text-4xl font-bold">What People Say</h2>
             <p className="">
-            I've worked with some amazing people and companies. Here's what they have to say about me.
+            I&apos;ve worked with some amazing people and companies. Here&apos;s what they have to say about me.
             </p>
           </div>
           <div className="p-6 xl:col-span-3 pt-0">

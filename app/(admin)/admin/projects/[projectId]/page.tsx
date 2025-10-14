@@ -89,7 +89,7 @@ const SingleProject = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        var errors: string[] = [];
+        const errors: string[] = [];
 
         mandatoryFields.forEach((fieldName) => {
             // integer or string

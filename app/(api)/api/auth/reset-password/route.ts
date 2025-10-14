@@ -10,7 +10,7 @@ import { ResetPasswordRequest } from "@/dtos/AuthDTO";
 export async function POST(request: NextRequest) {
     try {
 
-        await RateLimiter.useRateLimit(request);
+        await RateLimiter.checkRateLimit(request);
 
         const { email , resetToken, password } = await request.json();
 

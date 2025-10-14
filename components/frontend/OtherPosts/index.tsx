@@ -18,7 +18,7 @@ const OtherPosts = () => {
     const fetchPosts = useCallback(async () => {
         await axiosInstance.get(`/api/posts?categoryId=${categoryId}&pageSize=10`).then((res) => {
             const posts = res.data.posts;
-            var postCards = posts.map((post: any) => {
+            let postCards = posts.map((post: any) => {
 
               post.image = post.image || `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
 

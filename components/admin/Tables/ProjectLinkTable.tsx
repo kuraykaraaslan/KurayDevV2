@@ -16,7 +16,7 @@ const ProjectLinkTable = ({ projectLinks, setProjectLinks }: { projectLinks: str
                     {projectLinks?.map((link : string, index: number) => {
                                             
                         return (
-                            <tr>
+                            <tr key={index}>
                                 <td className="">
                                     <input type="text" name="url" className="input input-bordered w-full"
                                     onChange={(e) => {
