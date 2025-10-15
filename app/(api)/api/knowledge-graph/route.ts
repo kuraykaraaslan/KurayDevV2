@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   if (!nodesRaw) {
     Logger.info('[KG] Knowledge graph empty, triggering lazy rebuild...')
     try {
-      KnowledgeGraphService.fullRebuild().catch(err => {
+      KnowledgeGraphService.queueFullRebuild().catch((err) => {
         console.error('[KG] Lazy rebuild failed:', err)
       })
       return Response.json({

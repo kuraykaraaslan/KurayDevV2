@@ -107,12 +107,10 @@ export default class MetadataHelper {
                 <meta name="description" content={String(description)} />
                 <link rel="canonical" href={String(canonicalUrl)} />
                 <meta property="og:title" content={String(meta?.openGraph?.title || title)} />
+                <meta property="og:image" content={images[0]} />
                 <meta property="og:description" content={String(meta?.openGraph?.description || description)} />
                 <meta property="og:type" content={ogType} />
                 <meta property="og:url" content={String(url)} />
-                {images.map((img, idx) => (
-                    <meta property="og:image" content={img} key={`og:image:${idx}`} />
-                ))}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:site" content="@dropshoptickets" />
                 <meta name="twitter:creator" content="@dropshoptickets" />

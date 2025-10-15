@@ -733,7 +733,7 @@ export default class SMSService {
 //SubscriptionService
 
 import { Subscription } from "@/types/SubscriptionTypes";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 export default class SubscriptionService {
 
@@ -791,90 +791,96 @@ export default class SubscriptionService {
 
 
 === ./services/StorageService/AWSService.ts ===
-import { s3 } from '@/libs/s3';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-
+import { s3 } from '@/libs/s3'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 
 export default class AWSService {
+  static allowedFolders = [
+    'general',
+    'categories',
+    'users',
+    'posts',
+    'comments',
+    'images',
+    'videos',
+    'audios',
+    'files',
+    'content',
+  ]
 
-    static allowedFolders = ['general', 'categories', 'users', 'posts', 'comments', 'images', 'videos', 'audios', 'files', 'content'];
-    static allowedExtensions = ['jpeg', 'jpg', 'png' ];
+  static allowedExtensions = ['jpeg', 'jpg', 'png', 'webp', 'avif']
+  static allowedMimeTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/avif',
+  ]
 
-    static uploadFile = async (file: File, folder?: string) : Promise<string | undefined> => {
-        try {
-            if (!file) {
-                throw new Error("No file provided");
-            } 
+  /** Validate MIME type and extension consistency */
+  private static validateFile(file: File, folder: string) {
+    if (!file) throw new Error('No file provided')
+    if (!AWSService.allowedFolders.includes(folder)) throw new Error('INVALID_FOLDER_NAME')
 
-            if (!folder) {
-                folder = 'general';
-            }
+    const extension = file.name.split('.').pop()?.toLowerCase()
+    if (!extension || !AWSService.allowedExtensions.includes(extension))
+      throw new Error(`Invalid file extension: .${extension}`)
 
-            if (!AWSService.allowedFolders.includes(folder)) {
-                throw new Error("Invalid folder name");
-            }
+    const mimeType = file.type
+    if (!mimeType || !AWSService.allowedMimeTypes.includes(mimeType))
+      throw new Error(`Invalid MIME type: ${mimeType}`)
+  }
 
+  static uploadFile = async (file: File, folder: string = 'general'): Promise<string | undefined> => {
+    this.validateFile(file, folder)
 
-            const raandomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            const extension = file.name.split('.').pop() as string;
-            const timestamp = new Date().getTime();
-            const fileBuffer = await file.arrayBuffer();
+    const randomString = Math.random().toString(36).slice(2, 10)
+    const extension = file.name.split('.').pop()?.toLowerCase()
+    const timestamp = Date.now()
+    const fileBuffer = Buffer.from(await file.arrayBuffer())
 
-            if (!AWSService.allowedExtensions.includes(extension)) {
-                throw new Error("Invalid file extension");
-            }
+    if (!AWSService.allowedFolders.includes(folder)) throw new Error('INVALID_FOLDER_NAME')
 
-            const fileKey = `${folder}/${timestamp}-${raandomString}.${extension}`;
-            const command = new PutObjectCommand({
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key:  fileKey,
-                Body: new Uint8Array(fileBuffer),
-            });
+    const fileKey = `${folder}/${timestamp}-${randomString}.${extension}`
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileKey,
+      Body: fileBuffer,
+      ContentType: file.type, 
+    })
 
-            await s3.send(command);
-            const publicUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`;
+    await s3.send(command)
+    return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
 
-            return publicUrl;
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
-    }
+  }
 
-    static uploadFromUrl = async (url: string, folder?: string) : Promise<string | undefined> => {
-        try {
-            const response = await fetch(url);
-            const fileBuffer = await response.arrayBuffer();
-            const timestamp = new Date().getTime();
+  static uploadFromUrl = async (url: string, folder: string = 'general'): Promise<string | undefined> => {
+    if (!AWSService.allowedFolders.includes(folder)) throw new Error('INVALID_FOLDER_NAME')
 
-            const beforeQuestionMark = url.split('?')[0];
+      const response = await fetch(url)
+      const mimeType = response.headers.get('content-type') || 'application/octet-stream'
 
-            if (!folder) {
-                folder = 'general';
-            }
+      if (!AWSService.allowedMimeTypes.includes(mimeType)) {
+        throw new Error(`Invalid MIME type from URL: ${mimeType}`)
+      }
 
-            if (!AWSService.allowedFolders.includes(folder)) {
-                throw new Error("Invalid folder name");
-            }
+      const arrayBuffer = await response.arrayBuffer()
+      const fileBuffer = Buffer.from(arrayBuffer)
+      const timestamp = Date.now()
+      const filename = url.split('?')[0].split('/').pop() || 'file'
+      const fileKey = `${folder}/${timestamp}-${filename}`
 
-            const fileKey = `${folder}/${timestamp}-${beforeQuestionMark.split('/').pop()}`;           
+      const command = new PutObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: fileKey,
+        Body: fileBuffer,
+        ContentType: mimeType,
+      })
 
-
-            const command = new PutObjectCommand({
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key:  fileKey,
-                Body: new Uint8Array(fileBuffer),
-            });
-            
-            await s3.send(command);
-
-            const publicUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`;
-
-            return publicUrl;
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
-    }
+      await s3.send(command)
+      return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
+  }
 }
+
 
 === ./services/OpenAIService.ts ===
 import openai from '@/libs/openai';
@@ -1096,15 +1102,15 @@ export default class UserAgentService {
 
 
 === ./services/PostService/LocalEmbedService.ts ===
+import Logger from '@/libs/logger'
 import { pipeline } from '@xenova/transformers'
 
-// Tek seferlik model yükle
 let embedder: any | null = null
 
 export default class LocalEmbedService {
   static async getEmbedder() {
     if (!embedder) {
-      console.log('[LocalEmbedService] Loading nomic-embed-text-v1 model...')
+      Logger.info('[Embed] Loading local embedding model...')
       embedder = await pipeline('feature-extraction', 'nomic-ai/nomic-embed-text-v1')
     }
     return embedder
@@ -1123,7 +1129,7 @@ export default class LocalEmbedService {
 
 
 === ./services/PostService/LikeService.ts ===
-import prisma from '@/libs/prisma';
+import {prisma} from '@/libs/prisma';
 import UserAgentService from '@/services/UserAgentService';
 
 export default class PostLikeService {
@@ -1253,7 +1259,7 @@ export default class PostLikeService {
 
 === ./services/PostService/index.ts ===
 import { Post, PostWithData } from '@/types/BlogTypes';
-import prisma from '@/libs/prisma';
+import {prisma} from '@/libs/prisma';
 import { MetadataRoute } from 'next';
 import redisInstance from '@/libs/redis';
 
@@ -1569,15 +1575,15 @@ import LocalEmbedService from './PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
 import PostService from '@/services/PostService'
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
+import Logger from '@/libs/logger'
+import { Queue, Worker } from 'bullmq'
 
 const KEY_NODES = 'kg:nodes'
 const LINKS = (id: string) => `kg:links:${id}`
-const LOCK_KEY = 'kg:rebuild:lock'
 const TOP_K = 5
 const THRESH = 0.22
-const LOCK_TTL_MS = 1000 * 60 * 10 // 10 dakika (süre aşımı)
 
-async function loadNodes() : Promise<Record<string, KnowledgeGraphNode>> {
+async function loadNodes(): Promise<Record<string, KnowledgeGraphNode>> {
   return JSON.parse((await redis.get(KEY_NODES)) || '{}') as Record<string, KnowledgeGraphNode>
 }
 
@@ -1594,23 +1600,49 @@ async function embedPost(p: any) {
 }
 
 export default class KnowledgeGraphService {
-  /** 🔐 Redis tabanlı rebuild kilidi */
-  private static async acquireLock(): Promise<boolean> {
-    const result = await redis.set(LOCK_KEY, '1', 'PX', LOCK_TTL_MS, 'NX')
-    return result === 'OK' // true → kilit alındı
+  /** Queue + Worker */
+  static readonly QUEUE_NAME = 'knowledgeGraphQueue'
+  static readonly QUEUE = new Queue(KnowledgeGraphService.QUEUE_NAME, {
+    connection: redis,
+  })
+
+  static readonly WORKER = new Worker(
+    KnowledgeGraphService.QUEUE_NAME,
+    async job => {
+      const { type, postId } = job.data
+      Logger.info(`[KG-Worker] Processing job ${job.id}: ${type} ${postId || ''}`)
+      if (type === 'fullRebuild') await KnowledgeGraphService._fullRebuildInternal()
+      if (type === 'updatePost' && postId) await KnowledgeGraphService._updatePostInternal(postId)
+    },
+    { connection: redis }
+  )
+
+  static {
+    KnowledgeGraphService.WORKER.on('completed', job => {
+      Logger.info(`[KG-Worker] Job ${job.id} completed`)
+    })
+    KnowledgeGraphService.WORKER.on('failed', (job, err) => {
+      Logger.error(`[KG-Worker] Job ${job?.id} failed: ${err.message}`)
+    })
   }
 
-  private static async releaseLock() {
-    await redis.del(LOCK_KEY)
+  // --------------------- Public async triggers ---------------------
+
+  static async queueFullRebuild() {
+    await KnowledgeGraphService.QUEUE.add('fullRebuild', { type: 'fullRebuild' })
+    Logger.info('[KG] Full rebuild queued.')
   }
 
-  static async isLocked(): Promise<boolean> {
-    return !!(await redis.exists(LOCK_KEY))
+  static async queueUpdatePost(postId: string) {
+    await KnowledgeGraphService.QUEUE.add('updatePost', { type: 'updatePost', postId })
+    Logger.info(`[KG] Post update queued for ${postId}.`)
   }
 
-  /** Tek post güncelle */
-  static async updatePost(postId: string) {
-    const post = await PostService.getAllPosts({ page: 1, pageSize: 1, postId: postId }).then(r => r.posts[0])
+  // --------------------- Internal logic ---------------------
+
+  /** Tek post rebuild */
+  private static async _updatePostInternal(postId: string) {
+    const post = await PostService.getAllPosts({ page: 1, pageSize: 1, postId }).then(r => r.posts[0])
     if (!post) return
     const nodes = await loadNodes()
     const embedding = await embedPost(post)
@@ -1619,25 +1651,25 @@ export default class KnowledgeGraphService {
       id: post.postId,
       title: post.title,
       slug: post.slug,
+      image: post.image || undefined,
       categorySlug: post.category?.slug || 'general',
       views: post.views || 0,
-      embedding: embedding,
+      embedding,
     }
 
     await saveNodes(nodes)
 
-    // bağlantılar
     const sims: { id: string; s: number }[] = []
     for (const [id, n] of Object.entries(nodes)) {
       if (id === postId) continue
       const s = cosine(embedding, n.embedding)
       sims.push({ id, s })
     }
+
     sims.sort((a, b) => b.s - a.s)
     const top = sims.slice(0, TOP_K).filter(x => x.s >= THRESH)
     await redis.set(LINKS(postId), JSON.stringify(top))
 
-    // karşı taraflara da yansıt
     for (const t of top) {
       const revKey = LINKS(t.id)
       const arr = JSON.parse((await redis.get(revKey)) || '[]')
@@ -1647,19 +1679,13 @@ export default class KnowledgeGraphService {
       await redis.set(revKey, JSON.stringify(arr))
     }
 
-    console.log(`[KG] updated post: ${post.title}`)
+    Logger.info(`[KG] Post ${postId} updated.`)
   }
 
-  /** Tam rebuild (eşzamanlı korumalı) */
-  static async fullRebuild() {
-    const locked = await this.acquireLock()
-    if (!locked) {
-      console.warn('[KG] rebuild skipped — another rebuild is already in progress.')
-      return
-    }
-
+  /** Tam rebuild */
+  private static async _fullRebuildInternal() {
     try {
-      console.log('[KG] full rebuild started')
+      Logger.info('[KG] Starting full rebuild...')
       await redis.hset('kg:meta', {
         status: 'running',
         startedAt: new Date().toISOString(),
@@ -1667,7 +1693,7 @@ export default class KnowledgeGraphService {
 
       const { posts } = await PostService.getAllPosts({ page: 1, pageSize: 5000 })
       if (!posts?.length) {
-        console.warn('[KG] no posts found')
+        Logger.warn('[KG] No posts found for rebuild, aborting.')
         return
       }
 
@@ -1686,6 +1712,7 @@ export default class KnowledgeGraphService {
           title: p.title,
           slug: p.slug,
           categorySlug: p.category?.slug || 'general',
+          image: p.image || undefined,
           group: p.category?.slug || 'general',
           views: p.views || 0,
           embedding: embeddings[i],
@@ -1709,23 +1736,21 @@ export default class KnowledgeGraphService {
         postCount: ids.length,
       })
 
-      console.log(`[KG] full rebuild complete (${ids.length} posts)`)
-    } catch (err) {
-      console.error('[KG] full rebuild failed:', err)
+      Logger.info('[KG] Full rebuild completed successfully.')
+    } catch (err: any) {
+      Logger.error('[KG] Full rebuild failed: ' + err.message)
       await redis.hset('kg:meta', {
         status: 'failed',
         error: String(err),
       })
-    } finally {
-      await this.releaseLock()
     }
   }
 }
 
 
 === ./services/UserService/index.ts ===
-import prisma from "@/libs/prisma";
-import { User, UserRole , SafeUser } from "@/types/UserTypes";
+import {prisma} from '@/libs/prisma';
+import { User, UserRole, SafeUser } from "@/types/UserTypes";
 
 // Libraries
 import bcrypt from "bcrypt";
@@ -1745,14 +1770,14 @@ export default class UserService {
     static USER_NOT_FOUND = "USER_NOT_FOUND";
     static EMAIL_ALREADY_EXISTS = "EMAIL_ALREADY_EXISTS";
 
-    
+
     /**
      * Omit sensitive fields from the user object.
      * @param user - The user object.
      * @returns The user object without the password, resetToken, and resetTokenExpiry.
      */
     static omitSensitiveFields(user: User): SafeUser {
-        const omitted : SafeUser = {
+        const omitted: SafeUser = {
             userId: user.userId,
             email: user.email,
             phone: user.phone,
@@ -1774,7 +1799,7 @@ export default class UserService {
      * @param data - Partial user data to create the user.
      * @returns The created user without sensitive fields like password.
      */
-    static async create({ email, password, name , phone, userRole } : {
+    static async create({ email, password, name, phone, userRole }: {
         email: string,
         password: string,
         name: string,
@@ -1787,18 +1812,19 @@ export default class UserService {
             throw new Error(this.INVALID_EMAIL);
         }
 
-        if (!password || !FieldValidater.isPassword(password)) {
-            throw new Error(this.INVALID_PASSWORD_FORMAT);
-        }
-
         // Check if the email is already in use
         const existingUser = await prisma.user.findUnique({
-            where: { email },
+            where: { email: email.toLowerCase() }
         });
 
         if (existingUser) {
             throw new Error(this.EMAIL_ALREADY_EXISTS);
         }
+
+        if (!password || !FieldValidater.isPassword(password)) {
+            throw new Error(this.INVALID_PASSWORD_FORMAT);
+        }
+
 
         // Hash the password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -1833,7 +1859,7 @@ export default class UserService {
         pageSize,
         search,
         userId,
-    } : { 
+    }: {
         page: number,
         pageSize: number,
         search?: string,
@@ -1842,8 +1868,8 @@ export default class UserService {
 
 
         const queryOptions = {
-            skip : (page - 1) * pageSize,
-            take : pageSize,
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             where: {
                 userId: userId ? userId : undefined,
                 OR: [
@@ -1871,7 +1897,7 @@ export default class UserService {
      * @returns The user details.
      */
     static async getById(userId: string): Promise<SafeUser> {
-        
+
         // Get the user by ID
         const user = await prisma.user.findUnique({
             where: { userId },
@@ -1908,7 +1934,7 @@ export default class UserService {
         // Update the user in the database
         const updatedUser = await prisma.user.update({
             where: { userId: data.userId },
-            data : data as User,
+            data: data as User,
         });
 
         // Exclude sensitive fields from the response
@@ -2288,7 +2314,7 @@ export default class AppointmentService {
 
 === ./services/ContactFormService.ts ===
 import { ContactForm } from '@/types/ContactTypes';
-import prisma from '@/libs/prisma';
+import {prisma} from '@/libs/prisma';
 
 export default class ContactFormService {
 
@@ -2397,7 +2423,7 @@ export default class ContactFormService {
 
 === ./services/CategoryService.ts ===
 import { Category } from '@/types/BlogTypes';
-import prisma from '@/libs/prisma';
+import {prisma} from '@/libs/prisma';
 
 export default class CategoryService {
 
@@ -2561,7 +2587,7 @@ export default class CategoryService {
 }
 
 === ./services/ProjectService.ts ===
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import redisInstance from "@/libs/redis";
 import { Project } from "@/types/ProjectTypes";
 import { MetadataRoute } from 'next';
@@ -2733,7 +2759,7 @@ export default class ProjectService {
 
 === ./services/CommentService.ts ===
 import { Comment, CommentWithData } from "@/types/BlogTypes";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 export default class CommentService {
 
@@ -2921,24 +2947,23 @@ export default class CommentService {
 
 === ./services/StatService.ts ===
 import redis from "@/libs/redis";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 export default class StatService {
   static REDIS_KEY = "stats:global";
-  static CACHE_TTL_SECONDS = 320; // 5 dakika
+  static CACHE_TTL_SECONDS = 320; 
 
   /**
    * Get all stats with Redis caching
    * @returns Cached or fresh stats
    */
   static async getAllStats() {
-    // Önce Redis’te var mı kontrol et
+
     const cached = await redis.get(this.REDIS_KEY);
     if (cached) {
       return JSON.parse(cached);
     }
 
-    // Yoksa veritabanından al
     const [
       totalPosts,
       totalCategories,
@@ -2961,9 +2986,6 @@ export default class StatService {
       totalComments
     };
 
-    console.log("Stats:", stats);
-
-    // Redis’e yaz
     await redis.set(this.REDIS_KEY, JSON.stringify(stats), "EX", this.CACHE_TTL_SECONDS);
 
     return stats;
@@ -2975,7 +2997,7 @@ export default class StatService {
 //SettingService.tsx
 
 import { Setting } from "@/types/SettingTypes";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 export default class SettingService {
 
@@ -3382,8 +3404,6 @@ export default class AutodeskService {
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
         );
 
-        console.log('Autodesk Token Response:', response.data);
-
         return { access_token: response.data.access_token, refresh_token: response.data.refresh_token };
     }
 
@@ -3398,8 +3418,6 @@ export default class AutodeskService {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-
-        console.log('Autodesk User Info Response:', response.data);
 
         const { userId, emailId, firstName, lastName, profileImages } = response.data;
 
@@ -4189,7 +4207,7 @@ export default class SSOService {
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import redis from "@/libs/redis";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import AuthMessages from "@/messages/AuthMessages";
 import MailService from "../NotificationService/MailService";
 import SMSService from "../NotificationService/SMSService";
@@ -4285,7 +4303,7 @@ export default class PasswordService {
 
 === ./services/AuthService/SocialAccountService.ts ===
 import { UserSocialAccount } from "@prisma/client";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 // Other Services
 import UserService from "../UserService";
@@ -4420,7 +4438,7 @@ import redis from "@/libs/redis";
 import { OTPMethod } from "@prisma/client";
 import MailService from "../NotificationService/MailService";
 import SMSService from "../NotificationService/SMSService";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import AuthMessages from "@/messages/AuthMessages";
 import { authenticator } from "otplib";
 import {  SafeUserSession } from "@/types/UserSessionTypes";
@@ -4572,7 +4590,7 @@ export default class UserSessionOTPService {
 === ./services/AuthService/OTPService.ts ===
 import { OTPMethod, User } from "@prisma/client";
 import redis from "@/libs/redis";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import AuthMessages from "@/messages/AuthMessages";
 import MailService from "../NotificationService/MailService";
 import SMSService from "../NotificationService/SMSService";
@@ -4604,7 +4622,7 @@ export default class OTPService {
   }
 
 
-  static async requestOTP({ user, method }: { user: User; method: OTPMethod }) {
+  static async requestOTP({ user, method }: { user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>; method: OTPMethod }) {
     if (method === OTPMethod.TOTP_APP || method === OTPMethod.PUSH_APP) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD);
     }
@@ -4644,7 +4662,7 @@ export default class OTPService {
     method,
     otpToken,
   }: {
-    user: User;
+    user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>;
     method: OTPMethod;
     otpToken: string;
   }) {
@@ -4669,7 +4687,7 @@ export default class OTPService {
   }
 
 
-  static async requestDeactivation({ user, method }: { user: User; method: OTPMethod }) {
+  static async requestDeactivation({ user, method }: { user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>; method: OTPMethod }) {
     if (!user.otpMethods.includes(method)) {
       throw new Error(`This method (${method}) is not currently active.`);
     }
@@ -4712,7 +4730,7 @@ export default class OTPService {
     method,
     otpToken,
   }: {
-    user: User;
+    user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>;
     method: OTPMethod;
     otpToken: string;
   }) {
@@ -4748,7 +4766,7 @@ export default class OTPService {
 
 === ./services/AuthService/UserSessionService.ts ===
 import { UserSession, UserRole } from "@prisma/client";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 // Other Services
 import UserService from "../UserService";
@@ -5252,7 +5270,7 @@ export default class UserSessionService {
 
 
 === ./services/AuthService/index.ts ===
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import bcrypt from "bcrypt";
 
 // Other Services
@@ -5423,7 +5441,7 @@ const prisma = globalForPrisma.prisma || new PrismaClient()
  
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
 
-export default prisma
+export { prisma }
 
 === ./libs/zustand/index.ts ===
 import { create } from 'zustand';
@@ -5824,7 +5842,7 @@ export type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>;
 
 export default class FieldValidater {
     static emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    static passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    static passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._-])[A-Za-z\d@$!%*?&._-]{8,}$/;
     static tokenRegex = /^[0-9]{6}$/;
     static sqlInjectionRegex = /[\s\[\]{}()*+?.,\\^$|#]/;
     static domainRegex = /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
@@ -5941,7 +5959,7 @@ export default class FieldValidater {
      * @param tenantUserRole - The tenant user role string to validate.
      * @returns `true` if valid, `false` otherwise.
      * @see
-     */ 
+     */
 
     static isTenantUserRole(tenantUserRole: string | undefined | null): boolean {
         if (!tenantUserRole || typeof tenantUserRole !== "string") return false;
@@ -5979,7 +5997,7 @@ export default class FieldValidater {
      * @param model - The model class to validate against.
      * @returns `true` if valid, `false` otherwise.
      */
-    static validateBody(body: any = {}, Model: any): boolean {       
+    static validateBody(body: any = {}, Model: any): boolean {
 
         // Create an instance of the model to get the required and optional fields
         const orginalInstance = new Model();
@@ -6003,7 +6021,7 @@ export default class FieldValidater {
         if (optionalFields.some((key) => !bodyFields.includes(key))) {
             return false;
         }
-           
+
 
 
         return true; // Valid if no issues
@@ -6018,7 +6036,7 @@ export default class FieldValidater {
         if (!domain || typeof domain !== "string") return false;
         return this.domainRegex.test(domain);
     }
-    
+
 
     /**
      * Validates if the provided string is a valid name.
@@ -6038,7 +6056,7 @@ export default class FieldValidater {
      * @param tenantStatus - The tenant status string to validate.
      * @returns `true` if valid, `false` otherwise.
      * @see
-     */ 
+     */
 
     static isTenantStatus(tenantStatus: string | undefined | null): boolean {
         if (!tenantStatus || typeof tenantStatus !== "string") return false;
@@ -7165,6 +7183,7 @@ export async function POST(request: NextRequest, { params }: { params: { postId:
 import { NextResponse } from "next/server";
 import PostService from "@/services/PostService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import KnowledgeGraphService from "@/services/KnowledgeGraphService";
 
 /**
  * GET handler for retrieving all posts with optional pagination and search.
@@ -7221,6 +7240,8 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
 
         const post = await PostService.createPost(body);
+
+        await KnowledgeGraphService.queueUpdatePost(post.postId)
         
         return NextResponse.json({ post });
 
@@ -7247,6 +7268,8 @@ export async function PUT(request: NextRequest) {
         const data = await request.json();
  
         const post = await PostService.updatePost(data);
+
+        await KnowledgeGraphService.queueUpdatePost(post.postId)
         
         return NextResponse.json({ post });
 
@@ -7330,8 +7353,6 @@ export async function GET() {
         //load fake data ./fakegeo.json if lat or lon is null
         if (!data.lat || !data.lon) {
 
-            console.log('fakeData', fakeData);
-
             for (const fd of fakeData) {
                 const _fd = { country: fd.country, city: fd.city, lat: "0", lon: "0" }
                 _fd.lat = fd.lat.toString()
@@ -7349,7 +7370,6 @@ export async function GET() {
         })
     }
 
-    console.log('results', results);
     return NextResponse.json(fakeData   )
 }
 
@@ -8122,11 +8142,7 @@ export async function POST(
         )
     }
 
-    console.log("Applying template for 0", day, "to date", formattedDate);
-
     const SlotTemplate = await SlotTemplateService.getSlotTemplate(day);
-
-    console.log("Fetched template:", SlotTemplate);
     
     if (!SlotTemplate || SlotTemplate.slots.length === 0) {
         return NextResponse.json(
@@ -8135,11 +8151,7 @@ export async function POST(
         )
     }
 
-    console.log("Applying template for 1", day, "to date", formattedDate);
-
     await SlotService.emptySlotsForDate(formattedDate);
-
-    console.log("Applying template for", day, "to date", formattedDate);
 
     const createdSlots: Slot[] = [];
 
@@ -8198,8 +8210,6 @@ export async function POST(
 
     const { day, slots } = await request.json()
 
-    console.log("Received template for day:", day, "with slots:", slots);
-
     if (!day) {
         return NextResponse.json(
             { success: false, message: 'Day is required' },
@@ -8207,16 +8217,12 @@ export async function POST(
         )
     }
 
-    console.log("Day parameter:", day);
-
     if (!slots || !Array.isArray(slots)) {
         return NextResponse.json(
             { success: false, message: 'Slots are required and must be an array' },
             { status: 400 }
         )
     }
-
-    console.log("Slots parameter:", slots);
 
     const result = Day.safeParse(day)
 
@@ -8227,20 +8233,15 @@ export async function POST(
         )
     }
 
-    console.log("Day validation passed:", result.data);
-
     for (const slot of slots) {
         const result = Slot.safeParse(slot)
         if (!result.success) {
-            console.log("Slot validation failed for slot:", slot, "Issues:", result.error.issues);
             return NextResponse.json(
                 { success: false, message: 'Invalid slot', issues: result.error.issues },
                 { status: 400 }
             )
         }
     }
-
-    console.log("All slots validation passed");
 
     const slotsTemplate = await SlotTemplateService.createOrUpdateSlotTemplate(day, slots)
 
@@ -8475,8 +8476,6 @@ export async function GET(
     try {
         const { date } = await params
 
-        console.log("date", date);
-
         if (!date) {
             return NextResponse.json(
                 { success: false, message: 'Date is required' },
@@ -8652,9 +8651,6 @@ export async function POST(request: NextRequest) {
 
     const result = await AppointmentService.createAppointment(appointmentData)
 
-    console.log('Booking result:', result)
-
-
     return NextResponse.json(result)
 
     
@@ -8684,6 +8680,7 @@ export async function POST() {
 
 
 === ./app/(api)/api/knowledge-graph/route.ts ===
+import Logger from '@/libs/logger'
 import redis from '@/libs/redis'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
@@ -8695,8 +8692,6 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   const categorySlug = new URL(request.url).searchParams.get('categorySlug')
-  console.log(`[KG] Request received${categorySlug ? ` for category ${categorySlug}` : ''}`)
-
   const now = Date.now()
 
   // Cache check
@@ -8708,7 +8703,7 @@ export async function GET(request: NextRequest) {
 
   // Lazy rebuild if empty
   if (!nodesRaw) {
-    console.warn('[KG] No graph found in Redis — triggering lazy rebuild...')
+    Logger.info('[KG] Knowledge graph empty, triggering lazy rebuild...')
     try {
       KnowledgeGraphService.fullRebuild().catch(err => {
         console.error('[KG] Lazy rebuild failed:', err)
@@ -8720,8 +8715,8 @@ export async function GET(request: NextRequest) {
         nodes: [],
         links: [],
       })
-    } catch (err) {
-      console.error('[KG] Lazy rebuild trigger error:', err)
+    } catch (err: any) {
+      Logger.error('[KG] Failed to trigger lazy rebuild: ' + err.message)
       return Response.json({ ok: false, error: 'Failed to trigger rebuild.' }, { status: 500 })
     }
   }
@@ -8737,10 +8732,12 @@ export async function GET(request: NextRequest) {
       title: n.title,
       slug: n.slug,
       categorySlug: n.categorySlug,
+      image: n.image,
       size: Math.max(4, Math.min(18, Math.floor(Math.log10((n.views || 0) + 10) * 6))),
     }))
 
-  console.log(`[KG] Serving ${nodes.length} nodes${categorySlug ? ` for category ${categorySlug}` : ''}`)
+
+  Logger.info(`[KG] Serving ${nodes.length} nodes${categorySlug ? ` for category ${categorySlug}` : ''}`)
 
   // Build links (filter both source and target)
   const links: any[] = []
@@ -10570,7 +10567,7 @@ const SinglePost: React.FC = () => {
             <ImageLoad
               image={image}
               setImage={setImage}
-              uploadFolder="projects"
+              uploadFolder="posts"
               toast={toast}
             />
           </div>
@@ -12276,6 +12273,965 @@ export async function GET() {
 // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
 
 
+=== ./jest.setup.ts ===
+jest.mock('@/libs/redis', () => ({
+  get: jest.fn(),
+  set: jest.fn(),
+  del: jest.fn(),
+  scan: jest.fn().mockResolvedValue(['0', []]),
+  mget: jest.fn(),
+  hset: jest.fn(),
+  exists: jest.fn(),
+}));
+
+jest.mock('@/libs/logger', () => ({
+  info: jest.fn(),
+  warn: jest.fn(),
+  error: jest.fn(),
+}));
+
+
+=== ./tests/services/IntegrationService/GithubService.test.ts ===
+import * as GithubService from '@/services/IntegrationService/GithubService'
+
+describe('IntegrationService - GithubService', () => {
+  it('should be defined', () => {
+    expect(GithubService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/IntegrationService/GitlabService.test.ts ===
+import * as GitlabService from '@/services/IntegrationService/GitlabService'
+
+describe('IntegrationService - GitlabService', () => {
+  it('should be defined', () => {
+    expect(GitlabService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/ContactFormService.test.ts ===
+import * as ContactFormService from '@/services/ContactFormService'
+
+describe('ContactFormService', () => {
+  it('should be defined', () => {
+    expect(ContactFormService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/NotificationService/MailService.test.ts ===
+import * as MailService from '@/services/NotificationService/MailService'
+
+describe('NotificationService - MailService', () => {
+  it('should be defined', () => {
+    expect(MailService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/NotificationService/SMSService/NexmoService.test.ts ===
+import * as NexmoService from '@/services/NotificationService/SMSService/NexmoService'
+
+describe('NotificationService - SMS - NexmoService', () => {
+  it('should be defined', () => {
+    expect(NexmoService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/NotificationService/SMSService/index.test.ts ===
+import * as SMSIndex from '@/services/NotificationService/SMSService'
+
+describe('NotificationService - SMS - index', () => {
+  it('should be defined', () => {
+    expect(SMSIndex).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/NotificationService/SMSService/ClickatellService.test.ts ===
+import * as ClickatellService from '@/services/NotificationService/SMSService/ClickatellService'
+
+describe('NotificationService - SMS - ClickatellService', () => {
+  it('should be defined', () => {
+    expect(ClickatellService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/NotificationService/SMSService/TwilloService.test.ts ===
+import * as TwilloService from '@/services/NotificationService/SMSService/TwilloService'
+
+describe('NotificationService - SMS - TwilloService', () => {
+  it('should be defined', () => {
+    expect(TwilloService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/NotificationService/SMSService/NetGSMService.test.ts ===
+import * as NetGSMService from '@/services/NotificationService/SMSService/NetGSMService'
+
+describe('NotificationService - SMS - NetGSMService', () => {
+  it('should be defined', () => {
+    expect(NetGSMService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/StorageService/AWSService.test.ts ===
+import AWSService from '@/services/StorageService/AWSService'
+
+jest.mock('@/libs/s3', () => ({
+  s3: { send: jest.fn() }
+}))
+
+describe('AWSService', () => {
+  it('uploads a valid jpeg file', async () => {
+    const file = new File(['data'], 'test.jpg', { type: 'image/jpeg' })
+    const result = await AWSService.uploadFile(file, 'images')
+    expect(result).toContain('https://')
+  })
+
+  it('rejects invalid folder', async () => {
+    const file = new File(['data'], 'test.jpg', { type: 'image/jpeg' })
+    await expect(AWSService.uploadFile(file, 'not_allowed')).rejects.toThrow('INVALID_FOLDER_NAME')
+  })
+})
+
+
+=== ./tests/services/StatService.test.ts ===
+import * as StatService from '@/services/StatService'
+
+describe('StatService', () => {
+  it('should be defined', () => {
+    expect(StatService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/CommentService.test.ts ===
+import * as CommentService from '@/services/CommentService'
+
+describe('CommentService', () => {
+  it('should be defined', () => {
+    expect(CommentService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/PostService/LikeService.test.ts ===
+import * as LikeService from '@/services/PostService/LikeService'
+
+describe('PostService - LikeService', () => {
+  it('should be defined', () => {
+    expect(LikeService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/PostService/index.test.ts ===
+import  PostService from '@/services/PostService'
+
+describe('PostService', () => {
+  it('should be defined', () => {
+    expect(PostService).toBeDefined()
+  })
+})
+
+import { prisma } from '@/libs/prisma'
+import redisInstance from '@/libs/redis'
+
+jest.mock('@/libs/prisma', () => ({
+  __esModule: true,
+  prisma: {
+    post: {
+      findFirst: jest.fn(),
+      create: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      update: jest.fn(),
+      findUnique: jest.fn(),
+    },
+    $transaction: jest.fn(),
+  },
+}))
+
+jest.mock('@/libs/redis', () => ({
+  __esModule: true,
+  default: {
+    del: jest.fn(),
+  },
+}))
+
+describe('PostService', () => {
+  const mockPost = {
+    postId: '1',
+    title: 'Test Post',
+    description: 'Desc',
+    slug: 'test-post',
+    keywords: ['test'],
+    image: '/img.jpg',
+    authorId: 'u1',
+    categoryId: 'c1',
+    createdAt: new Date(),
+    status: 'PUBLISHED',
+    views: 0,
+    content: 'Hello',
+    deletedAt: null,
+    category: {
+      categoryId: 'c1',
+      title: 'Cat',
+      description: null,
+      slug: 'cat',
+      createdAt: new Date(),
+      image: '',
+      keywords: ['test'],
+      updatedAt: undefined,
+    },
+    author: { userId: 'u1', name: 'Kuray', profilePicture: '' },
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  // CREATE
+  it('creates a post successfully', async () => {
+    ;(prisma.post.findFirst as jest.Mock).mockResolvedValue(null)
+    ;(prisma.post.create as jest.Mock).mockResolvedValue(mockPost)
+
+    const data = {
+      title: 'Test Post',
+      description: 'Desc',
+      slug: 'test-post',
+      keywords: 'test',
+      image: '/img.jpg',
+      authorId: 'u1',
+      categoryId: 'c1',
+      content: 'Hello',
+      status: 'PUBLISHED',
+    }
+
+    const result = await PostService.createPost(data as any)
+
+    expect(prisma.post.findFirst).toHaveBeenCalled()
+    expect(prisma.post.create).toHaveBeenCalled()
+    expect(redisInstance.del).toHaveBeenCalledWith('sitemap:blog')
+    expect(result.title).toBe('Test Post')
+  })
+
+  it('throws error if missing fields in create', async () => {
+    await expect(PostService.createPost({ title: '' } as any)).rejects.toThrow(
+      'All fields are required.'
+    )
+  })
+
+  // GET ALL
+  it('retrieves all posts and total count', async () => {
+    ;(prisma.$transaction as jest.Mock).mockResolvedValue([[mockPost], 1])
+
+    const result = await PostService.getAllPosts({ page: 1, pageSize: 10 })
+    expect(result.posts).toHaveLength(1)
+    expect(result.total).toBe(1)
+    expect(prisma.$transaction).toHaveBeenCalled()
+  })
+
+  it('throws error for SQL injection search', async () => {
+    await expect(
+      PostService.getAllPosts({ page: 1, pageSize: 10, search: 'DROP TABLE posts' })
+    ).rejects.toThrow('Invalid search query.')
+  })
+
+  // UPDATE
+  it('updates post successfully', async () => {
+    ;(prisma.post.update as jest.Mock).mockResolvedValue(mockPost)
+
+    const result = await PostService.updatePost(mockPost as any)
+
+    expect(prisma.post.update).toHaveBeenCalledWith({
+      where: { postId: mockPost.postId },
+      data: mockPost,
+    })
+    expect(redisInstance.del).toHaveBeenCalledWith('sitemap:blog')
+    expect(result.postId).toBe('1')
+  })
+
+  it('throws error if missing fields in update', async () => {
+    await expect(PostService.updatePost({ postId: '1' } as any)).rejects.toThrow(
+      'All fields are required.'
+    )
+  })
+
+  // DELETE
+  it('archives post instead of deleting', async () => {
+    ;(prisma.post.update as jest.Mock).mockResolvedValue(mockPost)
+    await PostService.deletePost('1')
+    expect(prisma.post.update).toHaveBeenCalledWith({
+      where: { postId: '1' },
+      data: expect.objectContaining({ status: 'ARCHIVED' }),
+    })
+  })
+
+  // INCREMENT VIEW
+  it('increments view count', async () => {
+    ;(prisma.post.update as jest.Mock).mockResolvedValue({ ...mockPost, views: 1 })
+    const res = await PostService.incrementViewCount('1')
+    expect(res.views).toBe(1)
+  })
+
+  // GET BY ID
+  it('retrieves a post by id', async () => {
+    ;(prisma.post.findUnique as jest.Mock).mockResolvedValue(mockPost)
+    const res = await PostService.getPostById('1')
+    expect(res?.title).toBe('Test Post')
+  })
+
+  // GET ALL SLUGS
+  it('returns all post slugs', async () => {
+    ;(prisma.post.findMany as jest.Mock).mockResolvedValue([
+      { title: 'T', slug: 't', category: { slug: 'c' } },
+    ])
+    const res = await PostService.getAllPostSlugs()
+    expect(res[0]).toEqual({ title: 'T', slug: 't', categorySlug: 'c' })
+  })
+
+  // SITEMAP
+  it('generates sitemap entries', async () => {
+    jest.spyOn(PostService, 'getAllPosts').mockResolvedValue({
+      posts: [mockPost],
+      total: 1,
+    })
+    const sitemap = await PostService.generateSiteMap()
+    expect(sitemap[0].url).toBe('/blog/test-post')
+  })
+})
+
+
+=== ./tests/services/SocialMediaService/DiscordService.test.ts ===
+import * as DiscordService from '@/services/SocialMediaService/DiscordService'
+
+describe('SocialMediaService - DiscordService', () => {
+  it('should be defined', () => {
+    expect(DiscordService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/UserService/index.test.ts ===
+import UserService from '@/services/UserService'
+import FieldValidater from '@/utils/FieldValidater'
+
+// Mock prisma client so prisma.user methods are available as jest mocks
+jest.mock('@/libs/prisma', () => ({
+  prisma: {
+    user: {
+      findUnique: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    },
+  },
+}))
+
+import { prisma } from '@/libs/prisma'
+
+jest.mock('bcrypt', () => ({
+  hash: jest.fn(() => Promise.resolve('hashed_password')),
+}))
+
+jest.mock('@/utils/FieldValidater', () => ({
+  __esModule: true,
+  default: {
+    isEmail: jest.fn(),
+    isPassword: jest.fn(),
+  },
+}))
+
+describe('UserService', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const mockUser = {
+    userId: '1',
+    email: 'test@example.com',
+    name: 'Test User',
+    phone: '555-5555',
+    password: 'hashed_password',
+    userRole: 'USER',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    profilePicture: null,
+    otpMethods: [],
+  }
+
+  // CREATE
+  it('creates a new user successfully', async () => {
+    ; (FieldValidater.isEmail as jest.Mock).mockReturnValue(true)
+      ; (FieldValidater.isPassword as jest.Mock).mockReturnValue(true)
+      ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
+      ; (prisma.user.create as jest.Mock).mockResolvedValue(mockUser)
+
+    const result = await UserService.create({
+      email: 'test@example.com',
+      password: 'Password123!',
+      name: 'Test User',
+    })
+
+    expect(result.email).toBe('test@example.com')
+    expect(prisma.user.create).toHaveBeenCalled()
+  })
+
+  it('throws error when email invalid', async () => {
+    ; (FieldValidater.isEmail as jest.Mock).mockReturnValue(false)
+    await expect(
+      UserService.create({
+        email: 'invalid',
+        password: 'Password123!',
+        name: 'Test User',
+      })
+    ).rejects.toThrow(UserService.INVALID_EMAIL)
+  })
+
+  it('throws error when password invalid', async () => {
+    ; (FieldValidater.isEmail as jest.Mock).mockReturnValue(true)
+      ; (FieldValidater.isPassword as jest.Mock).mockReturnValue(false)
+      ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
+
+    await expect(
+      UserService.create({
+        email: 'test@example.com',
+        password: 'Password123!',
+        name: 'Test User',
+      })
+    ).rejects.toThrow(UserService.INVALID_PASSWORD_FORMAT)
+  })
+
+  it('throws error when email already exists', async () => {
+    ; (FieldValidater.isEmail as jest.Mock).mockReturnValue(true)
+      ; (FieldValidater.isPassword as jest.Mock).mockReturnValue(true)
+      ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser)
+
+    await expect(
+      UserService.create({
+        email: 'test@example.com',
+        password: 'Password123!',
+        name: 'Test User',
+      })
+    ).rejects.toThrow(UserService.EMAIL_ALREADY_EXISTS)
+  })
+
+  
+
+  // GET BY ID
+  it('gets user by ID successfully', async () => {
+    ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser)
+    const result = await UserService.getById('1')
+    expect(result.email).toBe(mockUser.email)
+  })
+
+  it('throws error when user not found by ID', async () => {
+    ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
+    await expect(UserService.getById('999')).rejects.toThrow(UserService.USER_NOT_FOUND)
+  })
+
+  // UPDATE
+  it('updates user successfully', async () => {
+    ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser)
+      ; (prisma.user.update as jest.Mock).mockResolvedValue({ ...mockUser, name: 'Updated' })
+    const result = await UserService.update({ userId: '1', name: 'Updated' })
+    expect(result.name).toBe('Updated')
+  })
+
+  it('throws error when updating non-existing user', async () => {
+    ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
+    await expect(UserService.update({ userId: '404', name: 'X' })).rejects.toThrow(
+      UserService.USER_NOT_FOUND
+    )
+  })
+
+  // DELETE
+  it('deletes user successfully', async () => {
+    ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser)
+      ; (prisma.user.delete as jest.Mock).mockResolvedValue(undefined)
+    await expect(UserService.delete('1')).resolves.not.toThrow()
+    expect(prisma.user.delete).toHaveBeenCalled()
+  })
+
+  it('throws error when deleting non-existing user', async () => {
+    ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
+    await expect(UserService.delete('999')).rejects.toThrow(UserService.USER_NOT_FOUND)
+  })
+
+  // GET BY EMAIL
+  it('gets user by email successfully', async () => {
+    ; (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser)
+    const result = await UserService.getByEmail('test@example.com')
+    expect(result?.email).toBe(mockUser.email)
+  })
+})
+
+
+=== ./tests/services/AppointmentService/SlotService.test.ts ===
+import SlotService from '@/services/AppointmentService/SlotService'
+import redisInstance from '@/libs/redis'
+
+describe('SlotService', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('creates a valid slot', async () => {
+    const slot = { startTime: '2025-05-01T10:00:00Z', endTime: '2025-05-01T11:00:00Z' }
+    jest.spyOn(redisInstance, 'set').mockResolvedValue('OK')
+    const result = await SlotService.createSlot(slot as any)
+    expect(result).toEqual(slot)
+  })
+
+  it('throws on overlapping slots', async () => {
+    jest.spyOn(SlotService as any, 'getOverlappingSlots').mockResolvedValue({
+      startTime: '2025-05-01T10:00:00Z',
+      endTime: '2025-05-01T11:00:00Z'
+    })
+    const slot = { startTime: '2025-05-01T10:30:00Z', endTime: '2025-05-01T11:30:00Z' }
+    await expect(SlotService.createSlot(slot as any))
+      .rejects.toThrow('Overlapping slot exists')
+  })
+})
+
+
+=== ./tests/services/AppointmentService/SlotTemplateService.test.ts ===
+import * as SlotTemplateService from '@/services/AppointmentService/SlotTemplateService'
+
+describe('AppointmentService - SlotTemplateService', () => {
+  it('should be defined', () => {
+    expect(SlotTemplateService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/CategoryService.test.ts ===
+import CategoryService from '@/services/CategoryService'
+
+describe('CategoryService', () => {
+	it('exports methods and is usable', () => {
+		expect(CategoryService).toBeDefined()
+		const props = Object.getOwnPropertyNames(CategoryService)
+		const hasStatic = props.some((p) => typeof (CategoryService as any)[p] === 'function')
+		expect(hasStatic).toBe(true)
+	})
+})
+
+
+
+=== ./tests/services/UserAgentService.test.ts ===
+import * as UserAgentService from '@/services/UserAgentService'
+
+describe('UserAgentService', () => {
+  it('exports functions and is usable', () => {
+    expect(UserAgentService).toBeDefined()
+    const target = (UserAgentService as any).default ?? UserAgentService
+    const props = Object.getOwnPropertyNames(target)
+    const hasFunction = props.some((p) => typeof (target as any)[p] === 'function')
+    expect(hasFunction).toBe(true)
+  })
+})
+
+
+=== ./tests/services/ProjectService.test.ts ===
+import ProjectService from '@/services/ProjectService'
+
+describe('ProjectService', () => {
+  it('exports methods and is usable and should be defined', () => {
+    expect(ProjectService).toBeDefined()
+    const props = Object.getOwnPropertyNames(ProjectService)
+    const hasStatic = props.some((p) => typeof (ProjectService as any)[p] === 'function')
+    expect(hasStatic).toBe(true)
+  })
+
+})
+
+
+=== ./tests/services/SubscriptionService.test.ts ===
+import * as SubscriptionService from '@/services/SubscriptionService'
+
+describe('SubscriptionService', () => {
+  it('should be defined', () => {
+    expect(SubscriptionService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/SettingService.test.ts ===
+import * as SettingService from '@/services/SettingService'
+
+describe('SettingService', () => {
+  it('should be defined', () => {
+    expect(SettingService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/UserSessionOTPService.test.ts ===
+import * as UserSessionOTPService from '@/services/AuthService/UserSessionOTPService'
+
+describe('AuthService - UserSessionOTPService', () => {
+  it('should be defined', () => {
+    expect(UserSessionOTPService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/SlackService.test.ts ===
+import * as SlackService from '@/services/AuthService/SSOService/SlackService'
+
+describe('AuthService - SSO - SlackService', () => {
+  it('should be defined', () => {
+    expect(SlackService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/WeChatService.test.ts ===
+import * as WeChatService from '@/services/AuthService/SSOService/WeChatService'
+
+describe('AuthService - SSO - WeChatService', () => {
+  it('should be defined', () => {
+    expect(WeChatService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/TwitterService.test.ts ===
+import * as TwitterService from '@/services/AuthService/SSOService/TwitterService'
+
+describe('AuthService - SSO - TwitterService', () => {
+  it('should be defined', () => {
+    expect(TwitterService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/MicrosoftService.test.ts ===
+import * as MicrosoftService from '@/services/AuthService/SSOService/MicrosoftService'
+
+describe('AuthService - SSO - MicrosoftService', () => {
+  it('should be defined', () => {
+    expect(MicrosoftService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/AutodeskService.test.ts ===
+import * as AutodeskService from '@/services/AuthService/SSOService/AutodeskService'
+
+describe('AuthService - SSO - AutodeskService', () => {
+  it('should be defined', () => {
+    expect(AutodeskService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/FacebookService.test.ts ===
+import * as FacebookService from '@/services/AuthService/SSOService/FacebookService'
+
+describe('AuthService - SSO - FacebookService', () => {
+  it('should be defined', () => {
+    expect(FacebookService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/LinkedInService.test.ts ===
+import * as LinkedInService from '@/services/AuthService/SSOService/LinkedInService'
+
+describe('AuthService - SSO - LinkedInService', () => {
+  it('should be defined', () => {
+    expect(LinkedInService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/TiktokService.test.ts ===
+import * as TiktokService from '@/services/AuthService/SSOService/TiktokService'
+
+describe('AuthService - SSO - TiktokService', () => {
+  it('should be defined', () => {
+    expect(TiktokService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/GoogleService.test.ts ===
+import * as GoogleService from '@/services/AuthService/SSOService/GoogleService'
+
+describe('AuthService - SSO - GoogleService', () => {
+  it('should be defined', () => {
+    expect(GoogleService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/SSOService/GithubService.test.ts ===
+import * as GHService from '@/services/AuthService/SSOService/GithubService'
+
+describe('AuthService - SSO - GithubService', () => {
+  it('should be defined', () => {
+    expect(GHService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/UserSessionService.test.ts ===
+import * as UserSessionService from '@/services/AuthService/UserSessionService'
+
+describe('AuthService - UserSessionService', () => {
+  it('should be defined', () => {
+    expect(UserSessionService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/OTPService.test.ts ===
+import OTPService from '@/services/AuthService/OTPService'
+import { OTPMethod } from '@prisma/client'
+import AuthMessages from '@/messages/AuthMessages'
+
+// --- Mocklar ---
+jest.mock('@/libs/redis', () => ({
+  get: jest.fn(),
+  set: jest.fn(),
+  del: jest.fn(),
+}))
+jest.mock('@/libs/prisma', () => ({
+  prisma: {
+    user: {
+      update: jest.fn(),
+    },
+  },
+}))
+jest.mock('@/services/NotificationService/MailService', () => ({
+  __esModule: true,
+  default: {
+    sendOTPEmail: jest.fn(),
+  },
+}))
+jest.mock('@/services/NotificationService/SMSService', () => ({
+  __esModule: true,
+  default: {
+    sendShortMessage: jest.fn(),
+  },
+}))
+
+import redis from '@/libs/redis'
+import { prisma } from '@/libs/prisma'
+import MailService from '@/services/NotificationService/MailService'
+import SMSService from '@/services/NotificationService/SMSService'
+
+describe('OTPService', () => {
+  const mockUser = {
+    userId: 'u123',
+    name: 'Test User',
+    email: 'test@example.com',
+    phone: '+905551112233',
+    otpMethods: [],
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  // -------------------------------------------------------------
+  describe('generateToken', () => {
+    it('should generate a token with correct length', () => {
+      const token = OTPService.generateToken(6)
+      expect(token).toHaveLength(6)
+      expect(/^\d{6}$/.test(token)).toBe(true)
+    })
+  })
+
+  // -------------------------------------------------------------
+  describe('requestOTP', () => {
+    it('should send OTP via email', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce(null)
+      ;(redis.set as jest.Mock).mockResolvedValue(true)
+
+      await OTPService.requestOTP({ user: mockUser, method: OTPMethod.EMAIL })
+
+      expect(redis.set).toHaveBeenCalledTimes(2)
+      expect(MailService.sendOTPEmail).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: mockUser.email,
+          name: mockUser.name,
+          otpToken: expect.any(String),
+        })
+      )
+    })
+
+    it('should send OTP via SMS', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce(null)
+      ;(redis.set as jest.Mock).mockResolvedValue(true)
+
+      await OTPService.requestOTP({ user: mockUser, method: OTPMethod.SMS })
+
+      expect(SMSService.sendShortMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: mockUser.phone,
+          body: expect.stringContaining('Your OTP code'),
+        })
+      )
+    })
+
+    it('should throw if OTP already sent', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce('1')
+      await expect(
+        OTPService.requestOTP({ user: mockUser, method: OTPMethod.EMAIL })
+      ).rejects.toThrow(AuthMessages.OTP_ALREADY_SENT)
+    })
+
+    it('should throw for invalid method (TOTP_APP)', async () => {
+      await expect(
+        OTPService.requestOTP({ user: mockUser, method: OTPMethod.TOTP_APP })
+      ).rejects.toThrow(AuthMessages.INVALID_OTP_METHOD)
+    })
+  })
+
+  // -------------------------------------------------------------
+  describe('verifyOTPAndActivate', () => {
+    it('should verify valid OTP and activate method', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce('123456')
+
+      const updatedUser = { ...mockUser, otpMethods: [OTPMethod.EMAIL] }
+      ;(prisma.user.update as jest.Mock).mockResolvedValue(updatedUser)
+
+      await OTPService.verifyOTPAndActivate({
+        user: mockUser,
+        method: OTPMethod.EMAIL,
+        otpToken: '123456',
+      })
+
+      expect(prisma.user.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { userId: mockUser.userId },
+          data: expect.any(Object),
+        })
+      )
+      expect(redis.del).toHaveBeenCalledTimes(2)
+    })
+
+    it('should throw if token is invalid', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce('999999')
+      await expect(
+        OTPService.verifyOTPAndActivate({
+          user: mockUser,
+          method: OTPMethod.EMAIL,
+          otpToken: '123456',
+        })
+      ).rejects.toThrow(AuthMessages.INVALID_OTP)
+    })
+  })
+
+  // -------------------------------------------------------------
+  describe('requestDeactivation', () => {
+    const activeUser = { ...mockUser, otpMethods: [OTPMethod.EMAIL] }
+
+    it('should send OTP for deactivation via email', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce(null)
+      ;(redis.set as jest.Mock).mockResolvedValue(true)
+
+      await OTPService.requestDeactivation({ user: activeUser, method: OTPMethod.EMAIL })
+
+      expect(MailService.sendOTPEmail).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: activeUser.email,
+          otpToken: expect.any(String),
+        })
+      )
+    })
+
+    it('should throw if method not active', async () => {
+      await expect(
+        OTPService.requestDeactivation({ user: mockUser, method: OTPMethod.EMAIL })
+      ).rejects.toThrow(`This method (${OTPMethod.EMAIL}) is not currently active.`)
+    })
+  })
+
+  // -------------------------------------------------------------
+  describe('verifyDeactivation', () => {
+    const activeUser = { ...mockUser, otpMethods: [OTPMethod.SMS] }
+
+    it('should verify and deactivate OTP method', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce('999999')
+
+      await OTPService.verifyDeactivation({
+        user: activeUser,
+        method: OTPMethod.SMS,
+        otpToken: '999999',
+      })
+
+      expect(prisma.user.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            otpMethods: expect.objectContaining({
+              set: [],
+            }),
+          }),
+        })
+      )
+      expect(redis.del).toHaveBeenCalledTimes(2)
+    })
+
+    it('should throw for invalid token', async () => {
+      ;(redis.get as jest.Mock).mockResolvedValueOnce('123')
+      await expect(
+        OTPService.verifyDeactivation({
+          user: activeUser,
+          method: OTPMethod.SMS,
+          otpToken: '999999',
+        })
+      ).rejects.toThrow(AuthMessages.INVALID_OTP)
+    })
+  })
+})
+
+
+=== ./tests/services/AuthService/SocialAccountService.test.ts ===
+import * as SocialAccountService from '@/services/AuthService/SocialAccountService'
+
+describe('AuthService - SocialAccountService', () => {
+  it('should be defined', () => {
+    expect(SocialAccountService).toBeDefined()
+  })
+})
+
+
+=== ./tests/services/AuthService/PasswordService.test.ts ===
+import * as PasswordService from '@/services/AuthService/PasswordService'
+
+describe('AuthService - PasswordService', () => {
+  it('should be defined', () => {
+    expect(PasswordService).toBeDefined()
+  })
+})
+
+
+=== ./jest.config.ts ===
+import type { Config } from 'jest';
+
+const config: Config = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+  },
+  setupFiles: ['<rootDir>/jest.setup.ts'],
+  collectCoverageFrom: ['services/**/*.ts', 'helpers/**/*.ts', 'utils/**/*.ts'],
+};
+
+export default config;
+
+
 === ./types/BlogTypes.ts ===
 import { z } from 'zod';
 import { SafeUser } from './UserTypes';
@@ -12444,6 +13400,7 @@ export interface KnowledgeGraphNode {
   title: string
   slug: string
   categorySlug: string
+  image?: string 
   views: number
   embedding: number[]
   size?: number
@@ -13043,6 +14000,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 import axiosInstance from '@/libs/axios';
 import { useParams } from 'next/navigation';
+import { string } from 'zod';
 
 export default function KnowledgeGraph3D({ className }: { className?: string }) {
 
@@ -13053,7 +14011,7 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
   const [data, setData] = useState<{ nodes: KnowledgeGraphNode[]; links: any[] }>({ nodes: [], links: [] })
   const [theme, setTheme] = useState<'dark' | 'light'>('light')
   
-  const [tooltip, setTooltip] = useState<{ visible: boolean; x: number; y: number; title: string }>({
+  const [tooltip, setTooltip] = useState<{ visible: boolean; x: number; y: number; title: string, image?: string }>({
     visible: false,
     x: 0,
     y: 0,
@@ -13273,11 +14231,13 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
           const nodeData = nodeMap.get(hoveredNode.userData.id)
           if (nodeData) hoveredNode.scale.set(1.5, 1.5, 1.5)
           container.style.cursor = 'pointer'
+        console.log(hoveredNode)
           setTooltip({
             visible: true,
             x: e.clientX - rect.left,
             y: e.clientY - rect.top,
-            title: hoveredNode.userData.title || 'Untitled'
+            title: hoveredNode.userData.title || 'Untitled',
+            image: hoveredNode.userData.image
           })
         } else {
           hoveredNode = null
@@ -13423,7 +14383,7 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
       {tooltip.visible && (
         <div
           ref={tooltipRef}
-          className="absolute pointer-events-none z-50 px-3 py-2 rounded-lg shadow-lg text-sm font-medium"
+          className="absolute pointer-events-none z-50 px-3 py-2 rounded-lg shadow-lg text-sm font-medium max-w-xs"
           style={{
             left: `${tooltip.x + 10}px`,
             top: `${tooltip.y + 10}px`,
@@ -13432,7 +14392,8 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
             border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
           }}
         >
-          {tooltip.title}
+          {tooltip.image && (<img src={tooltip.image} alt={tooltip.title} className="w-full h-auto mb-2 rounded ratio-[9/16] object-cover" />)}
+          <div>{tooltip.title.length > 60 ? tooltip.title.slice(0, 57) + '...' : tooltip.title}</div>
         </div>
       )}
     </div>
@@ -20674,6 +21635,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@/types/BlogTypes';
+import { toast } from 'react-toastify';
 
 const PostTable = ({ category }: { category?: Category }) => {
 
@@ -20683,6 +21645,8 @@ const PostTable = ({ category }: { category?: Category }) => {
     const [pageSize, _setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);
 
+    // This toggle is to prevent multiple KG reset on initial load
+    const [alreadyResettedKG, setAlreadyResettedKG] = React.useState(false);
 
     React.useEffect(() => {
 
@@ -20712,11 +21676,35 @@ const PostTable = ({ category }: { category?: Category }) => {
         }
     }
 
+    const resetKnowledgeGraph = async () => {
+
+        if (alreadyResettedKG) {
+            toast.info('Knowledge graph rebuild already triggered. You need to refresh the page to trigger again.');
+            return;
+        }
+
+        setAlreadyResettedKG(true);
+
+        await axiosInstance.post('/api/knowledge-graph/rebuild').then(() => {
+            toast.success('Knowledge graph rebuild triggered.');
+        }).catch((error) => {
+            console.error(error);
+            toast.error('Failed to trigger knowledge graph rebuild.');
+            setAlreadyResettedKG(false);
+        });
+    }
+
+
     return (
         <div className="container mx-auto">
             <div className="flex justify-between md:items-center flex-col md:flex-row">
                 <h1 className="text-3xl font-bold h-16 md:items-center">{category ? category.title + " Posts" : "Posts"}</h1>
                 <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
+                    <button onClick={resetKnowledgeGraph} 
+                    disabled={alreadyResettedKG}
+                    className="btn btn-warning btn-sm h-12 disabled:bg-base-300 disabled:cursor-not-allowed">
+                        {alreadyResettedKG ? 'Rebuild Triggered' : 'Reset Knowledge Graph'}
+                    </button>
                     <input type="text" placeholder="Search" className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <Link className="btn btn-primary btn-sm h-12" href="/admin/posts/create">
                         Create Post
