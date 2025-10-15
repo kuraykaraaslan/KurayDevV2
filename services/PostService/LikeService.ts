@@ -1,4 +1,4 @@
-import prisma from '@/libs/prisma';
+import {prisma} from '@/libs/prisma';
 import UserAgentService from '@/services/UserAgentService';
 
 export default class PostLikeService {

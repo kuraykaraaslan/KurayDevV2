@@ -1,5 +1,5 @@
 import { UserSession, UserRole } from "@prisma/client";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 // Other Services
 import UserService from "../UserService";

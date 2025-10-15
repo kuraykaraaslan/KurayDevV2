@@ -1,5 +1,5 @@
 import redis from "@/libs/redis";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 export default class StatService {
   static REDIS_KEY = "stats:global";

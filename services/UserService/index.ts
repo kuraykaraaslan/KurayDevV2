@@ -1,5 +1,5 @@
-import prisma from "@/libs/prisma";
-import { User, UserRole , SafeUser } from "@/types/UserTypes";
+import {prisma} from '@/libs/prisma';
+import { User, UserRole, SafeUser } from "@/types/UserTypes";
 
 // Libraries
 import bcrypt from "bcrypt";
@@ -19,14 +19,14 @@ export default class UserService {
     static USER_NOT_FOUND = "USER_NOT_FOUND";
     static EMAIL_ALREADY_EXISTS = "EMAIL_ALREADY_EXISTS";
 
-    
+
     /**
      * Omit sensitive fields from the user object.
      * @param user - The user object.
      * @returns The user object without the password, resetToken, and resetTokenExpiry.
      */
     static omitSensitiveFields(user: User): SafeUser {
-        const omitted : SafeUser = {
+        const omitted: SafeUser = {
             userId: user.userId,
             email: user.email,
             phone: user.phone,
@@ -48,7 +48,7 @@ export default class UserService {
      * @param data - Partial user data to create the user.
      * @returns The created user without sensitive fields like password.
      */
-    static async create({ email, password, name , phone, userRole } : {
+    static async create({ email, password, name, phone, userRole }: {
         email: string,
         password: string,
         name: string,
@@ -61,18 +61,19 @@ export default class UserService {
             throw new Error(this.INVALID_EMAIL);
         }
 
-        if (!password || !FieldValidater.isPassword(password)) {
-            throw new Error(this.INVALID_PASSWORD_FORMAT);
-        }
-
         // Check if the email is already in use
         const existingUser = await prisma.user.findUnique({
-            where: { email },
+            where: { email: email.toLowerCase() }
         });
 
         if (existingUser) {
             throw new Error(this.EMAIL_ALREADY_EXISTS);
         }
+
+        if (!password || !FieldValidater.isPassword(password)) {
+            throw new Error(this.INVALID_PASSWORD_FORMAT);
+        }
+
 
         // Hash the password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -107,7 +108,7 @@ export default class UserService {
         pageSize,
         search,
         userId,
-    } : { 
+    }: {
         page: number,
         pageSize: number,
         search?: string,
@@ -116,8 +117,8 @@ export default class UserService {
 
 
         const queryOptions = {
-            skip : (page - 1) * pageSize,
-            take : pageSize,
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             where: {
                 userId: userId ? userId : undefined,
                 OR: [
@@ -145,7 +146,7 @@ export default class UserService {
      * @returns The user details.
      */
     static async getById(userId: string): Promise<SafeUser> {
-        
+
         // Get the user by ID
         const user = await prisma.user.findUnique({
             where: { userId },
@@ -182,7 +183,7 @@ export default class UserService {
         // Update the user in the database
         const updatedUser = await prisma.user.update({
             where: { userId: data.userId },
-            data : data as User,
+            data: data as User,
         });
 
         // Exclude sensitive fields from the response

@@ -1,5 +1,5 @@
 import { Comment, CommentWithData } from "@/types/BlogTypes";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 
 export default class CommentService {
 

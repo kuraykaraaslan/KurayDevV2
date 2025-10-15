@@ -26,7 +26,7 @@ export default class AWSService {
   /** Validate MIME type and extension consistency */
   private static validateFile(file: File, folder: string) {
     if (!file) throw new Error('No file provided')
-    if (!AWSService.allowedFolders.includes(folder)) throw new Error('Invalid folder name')
+    if (!AWSService.allowedFolders.includes(folder)) throw new Error('INVALID_FOLDER_NAME')
 
     const extension = file.name.split('.').pop()?.toLowerCase()
     if (!extension || !AWSService.allowedExtensions.includes(extension))
@@ -38,32 +38,30 @@ export default class AWSService {
   }
 
   static uploadFile = async (file: File, folder: string = 'general'): Promise<string | undefined> => {
-    try {
-      this.validateFile(file, folder)
+    this.validateFile(file, folder)
 
-      const randomString = Math.random().toString(36).slice(2, 10)
-      const extension = file.name.split('.').pop()?.toLowerCase()
-      const timestamp = Date.now()
-      const fileBuffer = Buffer.from(await file.arrayBuffer())
+    const randomString = Math.random().toString(36).slice(2, 10)
+    const extension = file.name.split('.').pop()?.toLowerCase()
+    const timestamp = Date.now()
+    const fileBuffer = Buffer.from(await file.arrayBuffer())
 
-      const fileKey = `${folder}/${timestamp}-${randomString}.${extension}`
-      const command = new PutObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: fileKey,
-        Body: fileBuffer,
-        ContentType: file.type, // ✅ S3 metadata
-      })
+    if (!AWSService.allowedFolders.includes(folder)) throw new Error('INVALID_FOLDER_NAME')
 
-      await s3.send(command)
-      return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
-    } catch (error) {
-      console.error('Error uploading file:', error)
-    }
+    const fileKey = `${folder}/${timestamp}-${randomString}.${extension}`
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileKey,
+      Body: fileBuffer,
+      ContentType: file.type, 
+    })
+
+    await s3.send(command)
+    return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
+
   }
 
   static uploadFromUrl = async (url: string, folder: string = 'general'): Promise<string | undefined> => {
-    try {
-      if (!AWSService.allowedFolders.includes(folder)) throw new Error('Invalid folder name')
+    if (!AWSService.allowedFolders.includes(folder)) throw new Error('INVALID_FOLDER_NAME')
 
       const response = await fetch(url)
       const mimeType = response.headers.get('content-type') || 'application/octet-stream'
@@ -87,8 +85,5 @@ export default class AWSService {
 
       await s3.send(command)
       return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
-    } catch (error) {
-      console.error('Error uploading file from URL:', error)
-    }
   }
 }

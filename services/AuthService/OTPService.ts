@@ -1,6 +1,6 @@
 import { OTPMethod, User } from "@prisma/client";
 import redis from "@/libs/redis";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import AuthMessages from "@/messages/AuthMessages";
 import MailService from "../NotificationService/MailService";
 import SMSService from "../NotificationService/SMSService";
@@ -32,7 +32,7 @@ export default class OTPService {
   }
 
 
-  static async requestOTP({ user, method }: { user: User; method: OTPMethod }) {
+  static async requestOTP({ user, method }: { user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>; method: OTPMethod }) {
     if (method === OTPMethod.TOTP_APP || method === OTPMethod.PUSH_APP) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD);
     }
@@ -72,7 +72,7 @@ export default class OTPService {
     method,
     otpToken,
   }: {
-    user: User;
+    user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>;
     method: OTPMethod;
     otpToken: string;
   }) {
@@ -97,7 +97,7 @@ export default class OTPService {
   }
 
 
-  static async requestDeactivation({ user, method }: { user: User; method: OTPMethod }) {
+  static async requestDeactivation({ user, method }: { user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>; method: OTPMethod }) {
     if (!user.otpMethods.includes(method)) {
       throw new Error(`This method (${method}) is not currently active.`);
     }
@@ -140,7 +140,7 @@ export default class OTPService {
     method,
     otpToken,
   }: {
-    user: User;
+    user: Pick<User, 'userId' | 'email' | 'phone' | 'name' | 'otpMethods'>;
     method: OTPMethod;
     otpToken: string;
   }) {

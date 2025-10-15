@@ -3,7 +3,7 @@ import redis from "@/libs/redis";
 import { OTPMethod } from "@prisma/client";
 import MailService from "../NotificationService/MailService";
 import SMSService from "../NotificationService/SMSService";
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import AuthMessages from "@/messages/AuthMessages";
 import { authenticator } from "otplib";
 import {  SafeUserSession } from "@/types/UserSessionTypes";

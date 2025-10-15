@@ -1,4 +1,4 @@
-import prisma from "@/libs/prisma";
+import {prisma} from '@/libs/prisma';
 import redisInstance from "@/libs/redis";
 import { Project } from "@/types/ProjectTypes";
 import { MetadataRoute } from 'next';
