@@ -11,6 +11,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false
   },
+  experimental: {
+    cpus: 1,
+    workerThreads: false
+  },
   env: {
     APPLICATION_HOST: env.APPLICATION_HOST || 'http://localhost:3000',
     SSO_ALLOWED_PROVIDERS: env.SSO_ALLOWED_PROVIDERS || 'google,apple'
