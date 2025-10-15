@@ -110,8 +110,11 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
     controls.maxDistance = 1000;
 
     // camera movement
-    let isDragging = false
-    let previousMousePosition = { x: 0, y: 0 }
+  let isDragging = false
+  let previousMousePosition = { x: 0, y: 0 }
+  // click vs drag detection for node clicks
+  let dragStartPosition = { x: 0, y: 0 }
+  let dragMoved = false
     const cameraRotation = { x: 0, y: 0 }
     let cameraDistance = 400
     const cameraTarget = new THREE.Vector3(0, 0, 0)
@@ -196,6 +199,9 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
       if (intersects.length > 0) {
         draggedNode = { mesh: intersects[0].object as THREE.Mesh }
         nodeMap.get(draggedNode.mesh.userData.id)!.fixed = true
+        // set up click vs drag detection
+        dragStartPosition = { x: e.clientX, y: e.clientY }
+        dragMoved = false
         container.style.cursor = 'grabbing'
       } else {
         isDragging = true
@@ -207,6 +213,12 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
     const onMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect()
       if (draggedNode) {
+        // if movement since mouseDown exceeds threshold, mark as drag
+        if (!dragMoved) {
+          const dx = Math.abs(e.clientX - dragStartPosition.x)
+          const dy = Math.abs(e.clientY - dragStartPosition.y)
+          if (dx > 4 || dy > 4) dragMoved = true
+        }
         const deltaX = (e.movementX / rect.width) * cameraDistance * 2
         const deltaY = (e.movementY / rect.height) * cameraDistance * 2
         draggedNode.mesh.position.x += deltaX
@@ -254,6 +266,18 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
     const onMouseUp = () => {
       if (draggedNode) {
         const n = nodeMap.get(draggedNode.mesh.userData.id)
+        // if it was a click (no significant movement), open URL
+        if (!dragMoved && n) {
+          const nodeData = n.data || {}
+          const nodeCategory = nodeData.categorySlug || categorySlug || 'default'
+          const nodeSlug = nodeData.slug || nodeData.id
+          if (nodeSlug) {
+            const url = `/blog/${encodeURIComponent(nodeCategory)}/${encodeURIComponent(nodeSlug)}`
+            // navigate in same tab
+            window.location.href = url
+            return
+          }
+        }
         if (n) n.fixed = false
         draggedNode = null
       }

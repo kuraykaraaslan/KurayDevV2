@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
     try {
 
-        await UserSessionService.authenticateUserByRequest(request);
+        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
         // Extract query parameters
         const stats = await StatService.getAllStats();
