@@ -3,6 +3,7 @@ import LocalEmbedService from './PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
 import PostService from '@/services/PostService'
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
+import Logger from '@/libs/logger'
 
 const KEY_NODES = 'kg:nodes'
 const LINKS = (id: string) => `kg:links:${id}`
@@ -80,20 +81,18 @@ export default class KnowledgeGraphService {
       else arr.push({ id: postId, s: t.s })
       await redis.set(revKey, JSON.stringify(arr))
     }
-
-    console.log(`[KG] updated post: ${post.title}`)
   }
 
   /** Tam rebuild (eşzamanlı korumalı) */
   static async fullRebuild() {
     const locked = await this.acquireLock()
     if (!locked) {
-      console.warn('[KG] rebuild skipped — another rebuild is already in progress.')
+      Logger.info('[KG] Rebuild already in progress, skipping...')
       return
     }
 
     try {
-      console.log('[KG] full rebuild started')
+      Logger.info('[KG] Starting full rebuild...')
       await redis.hset('kg:meta', {
         status: 'running',
         startedAt: new Date().toISOString(),
@@ -143,9 +142,9 @@ export default class KnowledgeGraphService {
         postCount: ids.length,
       })
 
-      console.log(`[KG] full rebuild complete (${ids.length} posts)`)
+      Logger.info('[KG] Full rebuild completed successfully.')
     } catch (err) {
-      console.error('[KG] full rebuild failed:', err)
+      Logger.error('[KG] Full rebuild failed:', err)
       await redis.hset('kg:meta', {
         status: 'failed',
         error: String(err),

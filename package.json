@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "migrate": "npx prisma migrate dev -n \"init\"",
     "generate": "npx prisma generate",
     "postinstall": "npx prisma generate",
@@ -68,6 +71,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/ejs": "^3.1.5",
     "@types/google-libphonenumber": "^7.4.30",
+    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^20.16.13",
     "@types/nodemailer": "^6.4.16",
@@ -78,8 +82,10 @@
     "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "^15.3.0",
+    "jest": "^29.7.0",
     "prisma": "^6.0.1",
     "tailwindcss": "^3.4.1",
+    "ts-jest": "^29.4.5",
     "typescript": "^5.6.3"
   },
   "prisma": {

@@ -35,8 +35,6 @@ export async function POST(
 
     const { day, slots } = await request.json()
 
-    console.log("Received template for day:", day, "with slots:", slots);
-
     if (!day) {
         return NextResponse.json(
             { success: false, message: 'Day is required' },
@@ -44,16 +42,12 @@ export async function POST(
         )
     }
 
-    console.log("Day parameter:", day);
-
     if (!slots || !Array.isArray(slots)) {
         return NextResponse.json(
             { success: false, message: 'Slots are required and must be an array' },
             { status: 400 }
         )
     }
-
-    console.log("Slots parameter:", slots);
 
     const result = Day.safeParse(day)
 
@@ -64,20 +58,15 @@ export async function POST(
         )
     }
 
-    console.log("Day validation passed:", result.data);
-
     for (const slot of slots) {
         const result = Slot.safeParse(slot)
         if (!result.success) {
-            console.log("Slot validation failed for slot:", slot, "Issues:", result.error.issues);
             return NextResponse.json(
                 { success: false, message: 'Invalid slot', issues: result.error.issues },
                 { status: 400 }
             )
         }
     }
-
-    console.log("All slots validation passed");
 
     const slotsTemplate = await SlotTemplateService.createOrUpdateSlotTemplate(day, slots)
 

@@ -43,9 +43,6 @@ export async function POST(request: NextRequest) {
 
     const result = await AppointmentService.createAppointment(appointmentData)
 
-    console.log('Booking result:', result)
-
-
     return NextResponse.json(result)
 
     

@@ -1,3 +1,4 @@
+import Logger from '@/libs/logger'
 import redis from '@/libs/redis'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
@@ -9,8 +10,6 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   const categorySlug = new URL(request.url).searchParams.get('categorySlug')
-  console.log(`[KG] Request received${categorySlug ? ` for category ${categorySlug}` : ''}`)
-
   const now = Date.now()
 
   // Cache check
@@ -22,7 +21,7 @@ export async function GET(request: NextRequest) {
 
   // Lazy rebuild if empty
   if (!nodesRaw) {
-    console.warn('[KG] No graph found in Redis — triggering lazy rebuild...')
+    Logger.info('[KG] Knowledge graph empty, triggering lazy rebuild...')
     try {
       KnowledgeGraphService.fullRebuild().catch(err => {
         console.error('[KG] Lazy rebuild failed:', err)
@@ -35,7 +34,7 @@ export async function GET(request: NextRequest) {
         links: [],
       })
     } catch (err) {
-      console.error('[KG] Lazy rebuild trigger error:', err)
+      Logger.error('[KG] Failed to trigger lazy rebuild:', err)
       return Response.json({ ok: false, error: 'Failed to trigger rebuild.' }, { status: 500 })
     }
   }
@@ -54,7 +53,7 @@ export async function GET(request: NextRequest) {
       size: Math.max(4, Math.min(18, Math.floor(Math.log10((n.views || 0) + 10) * 6))),
     }))
 
-  console.log(`[KG] Serving ${nodes.length} nodes${categorySlug ? ` for category ${categorySlug}` : ''}`)
+  Logger.info(`[KG] Serving ${nodes.length} nodes${categorySlug ? ` for category ${categorySlug}` : ''}`)
 
   // Build links (filter both source and target)
   const links: any[] = []

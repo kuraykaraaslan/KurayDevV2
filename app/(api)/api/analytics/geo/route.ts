@@ -65,8 +65,6 @@ export async function GET() {
         //load fake data ./fakegeo.json if lat or lon is null
         if (!data.lat || !data.lon) {
 
-            console.log('fakeData', fakeData);
-
             for (const fd of fakeData) {
                 const _fd = { country: fd.country, city: fd.city, lat: "0", lon: "0" }
                 _fd.lat = fd.lat.toString()
@@ -84,6 +82,5 @@ export async function GET() {
         })
     }
 
-    console.log('results', results);
     return NextResponse.json(fakeData   )
 }

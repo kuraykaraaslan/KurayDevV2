@@ -24,11 +24,7 @@ export async function POST(
         )
     }
 
-    console.log("Applying template for 0", day, "to date", formattedDate);
-
     const SlotTemplate = await SlotTemplateService.getSlotTemplate(day);
-
-    console.log("Fetched template:", SlotTemplate);
     
     if (!SlotTemplate || SlotTemplate.slots.length === 0) {
         return NextResponse.json(
@@ -37,11 +33,7 @@ export async function POST(
         )
     }
 
-    console.log("Applying template for 1", day, "to date", formattedDate);
-
     await SlotService.emptySlotsForDate(formattedDate);
-
-    console.log("Applying template for", day, "to date", formattedDate);
 
     const createdSlots: Slot[] = [];
 

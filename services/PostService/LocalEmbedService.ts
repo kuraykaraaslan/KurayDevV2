@@ -1,12 +1,12 @@
+import Logger from '@/libs/logger'
 import { pipeline } from '@xenova/transformers'
 
-// Tek seferlik model yükle
 let embedder: any | null = null
 
 export default class LocalEmbedService {
   static async getEmbedder() {
     if (!embedder) {
-      console.log('[LocalEmbedService] Loading nomic-embed-text-v1 model...')
+      Logger.info('[Embed] Loading local embedding model...')
       embedder = await pipeline('feature-extraction', 'nomic-ai/nomic-embed-text-v1')
     }
     return embedder

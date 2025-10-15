@@ -3,20 +3,19 @@ import {prisma} from '@/libs/prisma';
 
 export default class StatService {
   static REDIS_KEY = "stats:global";
-  static CACHE_TTL_SECONDS = 320; // 5 dakika
+  static CACHE_TTL_SECONDS = 320; 
 
   /**
    * Get all stats with Redis caching
    * @returns Cached or fresh stats
    */
   static async getAllStats() {
-    // Önce Redis’te var mı kontrol et
+
     const cached = await redis.get(this.REDIS_KEY);
     if (cached) {
       return JSON.parse(cached);
     }
 
-    // Yoksa veritabanından al
     const [
       totalPosts,
       totalCategories,
@@ -39,9 +38,6 @@ export default class StatService {
       totalComments
     };
 
-    console.log("Stats:", stats);
-
-    // Redis’e yaz
     await redis.set(this.REDIS_KEY, JSON.stringify(stats), "EX", this.CACHE_TTL_SECONDS);
 
     return stats;

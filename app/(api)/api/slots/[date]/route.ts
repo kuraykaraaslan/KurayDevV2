@@ -16,8 +16,6 @@ export async function GET(
     try {
         const { date } = await params
 
-        console.log("date", date);
-
         if (!date) {
             return NextResponse.json(
                 { success: false, message: 'Date is required' },

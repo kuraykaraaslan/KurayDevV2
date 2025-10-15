@@ -5,7 +5,7 @@ export type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>;
 
 export default class FieldValidater {
     static emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    static passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    static passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._-])[A-Za-z\d@$!%*?&._-]{8,}$/;
     static tokenRegex = /^[0-9]{6}$/;
     static sqlInjectionRegex = /[\s\[\]{}()*+?.,\\^$|#]/;
     static domainRegex = /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
@@ -122,7 +122,7 @@ export default class FieldValidater {
      * @param tenantUserRole - The tenant user role string to validate.
      * @returns `true` if valid, `false` otherwise.
      * @see
-     */ 
+     */
 
     static isTenantUserRole(tenantUserRole: string | undefined | null): boolean {
         if (!tenantUserRole || typeof tenantUserRole !== "string") return false;
@@ -160,7 +160,7 @@ export default class FieldValidater {
      * @param model - The model class to validate against.
      * @returns `true` if valid, `false` otherwise.
      */
-    static validateBody(body: any = {}, Model: any): boolean {       
+    static validateBody(body: any = {}, Model: any): boolean {
 
         // Create an instance of the model to get the required and optional fields
         const orginalInstance = new Model();
@@ -184,7 +184,7 @@ export default class FieldValidater {
         if (optionalFields.some((key) => !bodyFields.includes(key))) {
             return false;
         }
-           
+
 
 
         return true; // Valid if no issues
@@ -199,7 +199,7 @@ export default class FieldValidater {
         if (!domain || typeof domain !== "string") return false;
         return this.domainRegex.test(domain);
     }
-    
+
 
     /**
      * Validates if the provided string is a valid name.
@@ -219,7 +219,7 @@ export default class FieldValidater {
      * @param tenantStatus - The tenant status string to validate.
      * @returns `true` if valid, `false` otherwise.
      * @see
-     */ 
+     */
 
     static isTenantStatus(tenantStatus: string | undefined | null): boolean {
         if (!tenantStatus || typeof tenantStatus !== "string") return false;

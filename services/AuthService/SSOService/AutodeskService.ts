@@ -41,8 +41,6 @@ export default class AutodeskService {
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
         );
 
-        console.log('Autodesk Token Response:', response.data);
-
         return { access_token: response.data.access_token, refresh_token: response.data.refresh_token };
     }
 
@@ -57,8 +55,6 @@ export default class AutodeskService {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-
-        console.log('Autodesk User Info Response:', response.data);
 
         const { userId, emailId, firstName, lastName, profileImages } = response.data;
 

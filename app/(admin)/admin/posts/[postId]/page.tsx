@@ -344,7 +344,7 @@ const SinglePost: React.FC = () => {
             <ImageLoad
               image={image}
               setImage={setImage}
-              uploadFolder="projects"
+              uploadFolder="posts"
               toast={toast}
             />
           </div>
