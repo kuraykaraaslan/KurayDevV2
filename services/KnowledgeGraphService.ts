@@ -100,7 +100,7 @@ export default class KnowledgeGraphService {
 
       const { posts } = await PostService.getAllPosts({ page: 1, pageSize: 5000 })
       if (!posts?.length) {
-        console.warn('[KG] no posts found')
+        Logger.warn('[KG] No posts found for rebuild, aborting.')
         return
       }
 
