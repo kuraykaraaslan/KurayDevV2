@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 import axiosInstance from '@/libs/axios';
 import { useParams } from 'next/navigation';
+import { string } from 'zod';
 
 export default function KnowledgeGraph3D({ className }: { className?: string }) {
 
@@ -15,7 +16,7 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
   const [data, setData] = useState<{ nodes: KnowledgeGraphNode[]; links: any[] }>({ nodes: [], links: [] })
   const [theme, setTheme] = useState<'dark' | 'light'>('light')
   
-  const [tooltip, setTooltip] = useState<{ visible: boolean; x: number; y: number; title: string }>({
+  const [tooltip, setTooltip] = useState<{ visible: boolean; x: number; y: number; title: string, image?: string }>({
     visible: false,
     x: 0,
     y: 0,
@@ -235,11 +236,13 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
           const nodeData = nodeMap.get(hoveredNode.userData.id)
           if (nodeData) hoveredNode.scale.set(1.5, 1.5, 1.5)
           container.style.cursor = 'pointer'
+        console.log(hoveredNode)
           setTooltip({
             visible: true,
             x: e.clientX - rect.left,
             y: e.clientY - rect.top,
-            title: hoveredNode.userData.title || 'Untitled'
+            title: hoveredNode.userData.title || 'Untitled',
+            image: hoveredNode.userData.image
           })
         } else {
           hoveredNode = null
@@ -385,7 +388,7 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
       {tooltip.visible && (
         <div
           ref={tooltipRef}
-          className="absolute pointer-events-none z-50 px-3 py-2 rounded-lg shadow-lg text-sm font-medium"
+          className="absolute pointer-events-none z-50 px-3 py-2 rounded-lg shadow-lg text-sm font-medium max-w-xs"
           style={{
             left: `${tooltip.x + 10}px`,
             top: `${tooltip.y + 10}px`,
@@ -394,7 +397,8 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
             border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
           }}
         >
-          {tooltip.title}
+          {tooltip.image && (<img src={tooltip.image} alt={tooltip.title} className="w-full h-auto mb-2 rounded ratio-[9/16] object-cover" />)}
+          <div>{tooltip.title.length > 60 ? tooltip.title.slice(0, 57) + '...' : tooltip.title}</div>
         </div>
       )}
     </div>

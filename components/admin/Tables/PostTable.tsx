@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@/types/BlogTypes';
+import { toast } from 'react-toastify';
 
 const PostTable = ({ category }: { category?: Category }) => {
 
@@ -14,6 +15,8 @@ const PostTable = ({ category }: { category?: Category }) => {
     const [pageSize, _setPageSize] = React.useState(10);
     const [total, setTotal] = React.useState(0);
 
+    // This toggle is to prevent multiple KG reset on initial load
+    const [alreadyResettedKG, setAlreadyResettedKG] = React.useState(false);
 
     React.useEffect(() => {
 
@@ -43,11 +46,35 @@ const PostTable = ({ category }: { category?: Category }) => {
         }
     }
 
+    const resetKnowledgeGraph = async () => {
+
+        if (alreadyResettedKG) {
+            toast.info('Knowledge graph rebuild already triggered. You need to refresh the page to trigger again.');
+            return;
+        }
+
+        setAlreadyResettedKG(true);
+
+        await axiosInstance.post('/api/knowledge-graph/rebuild').then(() => {
+            toast.success('Knowledge graph rebuild triggered.');
+        }).catch((error) => {
+            console.error(error);
+            toast.error('Failed to trigger knowledge graph rebuild.');
+            setAlreadyResettedKG(false);
+        });
+    }
+
+
     return (
         <div className="container mx-auto">
             <div className="flex justify-between md:items-center flex-col md:flex-row">
                 <h1 className="text-3xl font-bold h-16 md:items-center">{category ? category.title + " Posts" : "Posts"}</h1>
                 <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
+                    <button onClick={resetKnowledgeGraph} 
+                    disabled={alreadyResettedKG}
+                    className="btn btn-warning btn-sm h-12 disabled:bg-base-300 disabled:cursor-not-allowed">
+                        {alreadyResettedKG ? 'Rebuild Triggered' : 'Reset Knowledge Graph'}
+                    </button>
                     <input type="text" placeholder="Search" className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <Link className="btn btn-primary btn-sm h-12" href="/admin/posts/create">
                         Create Post

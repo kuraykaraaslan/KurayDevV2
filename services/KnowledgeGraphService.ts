@@ -4,15 +4,14 @@ import { cosine } from '@/helpers/Cosine'
 import PostService from '@/services/PostService'
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 import Logger from '@/libs/logger'
+import { Queue, Worker } from 'bullmq'
 
 const KEY_NODES = 'kg:nodes'
 const LINKS = (id: string) => `kg:links:${id}`
-const LOCK_KEY = 'kg:rebuild:lock'
 const TOP_K = 5
 const THRESH = 0.22
-const LOCK_TTL_MS = 1000 * 60 * 10 // 10 dakika (süre aşımı)
 
-async function loadNodes() : Promise<Record<string, KnowledgeGraphNode>> {
+async function loadNodes(): Promise<Record<string, KnowledgeGraphNode>> {
   return JSON.parse((await redis.get(KEY_NODES)) || '{}') as Record<string, KnowledgeGraphNode>
 }
 
@@ -29,23 +28,49 @@ async function embedPost(p: any) {
 }
 
 export default class KnowledgeGraphService {
-  /** 🔐 Redis tabanlı rebuild kilidi */
-  private static async acquireLock(): Promise<boolean> {
-    const result = await redis.set(LOCK_KEY, '1', 'PX', LOCK_TTL_MS, 'NX')
-    return result === 'OK' // true → kilit alındı
+  /** Queue + Worker */
+  static readonly QUEUE_NAME = 'knowledgeGraphQueue'
+  static readonly QUEUE = new Queue(KnowledgeGraphService.QUEUE_NAME, {
+    connection: redis,
+  })
+
+  static readonly WORKER = new Worker(
+    KnowledgeGraphService.QUEUE_NAME,
+    async job => {
+      const { type, postId } = job.data
+      Logger.info(`[KG-Worker] Processing job ${job.id}: ${type} ${postId || ''}`)
+      if (type === 'fullRebuild') await KnowledgeGraphService._fullRebuildInternal()
+      if (type === 'updatePost' && postId) await KnowledgeGraphService._updatePostInternal(postId)
+    },
+    { connection: redis }
+  )
+
+  static {
+    KnowledgeGraphService.WORKER.on('completed', job => {
+      Logger.info(`[KG-Worker] Job ${job.id} completed`)
+    })
+    KnowledgeGraphService.WORKER.on('failed', (job, err) => {
+      Logger.error(`[KG-Worker] Job ${job?.id} failed: ${err.message}`)
+    })
   }
 
-  private static async releaseLock() {
-    await redis.del(LOCK_KEY)
+  // --------------------- Public async triggers ---------------------
+
+  static async queueFullRebuild() {
+    await KnowledgeGraphService.QUEUE.add('fullRebuild', { type: 'fullRebuild' })
+    Logger.info('[KG] Full rebuild queued.')
   }
 
-  static async isLocked(): Promise<boolean> {
-    return !!(await redis.exists(LOCK_KEY))
+  static async queueUpdatePost(postId: string) {
+    await KnowledgeGraphService.QUEUE.add('updatePost', { type: 'updatePost', postId })
+    Logger.info(`[KG] Post update queued for ${postId}.`)
   }
 
-  /** Tek post güncelle */
-  static async updatePost(postId: string) {
-    const post = await PostService.getAllPosts({ page: 1, pageSize: 1, postId: postId }).then(r => r.posts[0])
+  // --------------------- Internal logic ---------------------
+
+  /** Tek post rebuild */
+  private static async _updatePostInternal(postId: string) {
+    const post = await PostService.getAllPosts({ page: 1, pageSize: 1, postId }).then(r => r.posts[0])
     if (!post) return
     const nodes = await loadNodes()
     const embedding = await embedPost(post)
@@ -54,25 +79,25 @@ export default class KnowledgeGraphService {
       id: post.postId,
       title: post.title,
       slug: post.slug,
+      image: post.image || undefined,
       categorySlug: post.category?.slug || 'general',
       views: post.views || 0,
-      embedding: embedding,
+      embedding,
     }
 
     await saveNodes(nodes)
 
-    // bağlantılar
     const sims: { id: string; s: number }[] = []
     for (const [id, n] of Object.entries(nodes)) {
       if (id === postId) continue
       const s = cosine(embedding, n.embedding)
       sims.push({ id, s })
     }
+
     sims.sort((a, b) => b.s - a.s)
     const top = sims.slice(0, TOP_K).filter(x => x.s >= THRESH)
     await redis.set(LINKS(postId), JSON.stringify(top))
 
-    // karşı taraflara da yansıt
     for (const t of top) {
       const revKey = LINKS(t.id)
       const arr = JSON.parse((await redis.get(revKey)) || '[]')
@@ -81,16 +106,12 @@ export default class KnowledgeGraphService {
       else arr.push({ id: postId, s: t.s })
       await redis.set(revKey, JSON.stringify(arr))
     }
+
+    Logger.info(`[KG] Post ${postId} updated.`)
   }
 
-  /** Tam rebuild (eşzamanlı korumalı) */
-  static async fullRebuild() {
-    const locked = await this.acquireLock()
-    if (!locked) {
-      Logger.info('[KG] Rebuild already in progress, skipping...')
-      return
-    }
-
+  /** Tam rebuild */
+  private static async _fullRebuildInternal() {
     try {
       Logger.info('[KG] Starting full rebuild...')
       await redis.hset('kg:meta', {
@@ -119,6 +140,7 @@ export default class KnowledgeGraphService {
           title: p.title,
           slug: p.slug,
           categorySlug: p.category?.slug || 'general',
+          image: p.image || undefined,
           group: p.category?.slug || 'general',
           views: p.views || 0,
           embedding: embeddings[i],
@@ -143,14 +165,12 @@ export default class KnowledgeGraphService {
       })
 
       Logger.info('[KG] Full rebuild completed successfully.')
-    } catch (err) {
-      Logger.error('[KG] Full rebuild failed:', err)
+    } catch (err: any) {
+      Logger.error('[KG] Full rebuild failed: ' + err.message)
       await redis.hset('kg:meta', {
         status: 'failed',
         error: String(err),
       })
-    } finally {
-      await this.releaseLock()
     }
   }
 }

@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import PostService from "@/services/PostService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import KnowledgeGraphService from "@/services/KnowledgeGraphService";
 
 /**
  * GET handler for retrieving all posts with optional pagination and search.
@@ -58,6 +59,8 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
 
         const post = await PostService.createPost(body);
+
+        await KnowledgeGraphService.queueUpdatePost(post.postId)
         
         return NextResponse.json({ post });
 
@@ -84,6 +87,8 @@ export async function PUT(request: NextRequest) {
         const data = await request.json();
  
         const post = await PostService.updatePost(data);
+
+        await KnowledgeGraphService.queueUpdatePost(post.postId)
         
         return NextResponse.json({ post });
 

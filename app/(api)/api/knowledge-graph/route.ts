@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
         nodes: [],
         links: [],
       })
-    } catch (err) {
-      Logger.error('[KG] Failed to trigger lazy rebuild:', err)
+    } catch (err: any) {
+      Logger.error('[KG] Failed to trigger lazy rebuild: ' + err.message)
       return Response.json({ ok: false, error: 'Failed to trigger rebuild.' }, { status: 500 })
     }
   }
@@ -50,8 +50,10 @@ export async function GET(request: NextRequest) {
       title: n.title,
       slug: n.slug,
       categorySlug: n.categorySlug,
+      image: n.image,
       size: Math.max(4, Math.min(18, Math.floor(Math.log10((n.views || 0) + 10) * 6))),
     }))
+
 
   Logger.info(`[KG] Serving ${nodes.length} nodes${categorySlug ? ` for category ${categorySlug}` : ''}`)
 
