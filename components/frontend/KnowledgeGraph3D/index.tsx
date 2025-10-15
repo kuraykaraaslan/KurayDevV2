@@ -5,7 +5,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 import axiosInstance from '@/libs/axios';
 import { useParams } from 'next/navigation';
-import { string } from 'zod';
 
 export default function KnowledgeGraph3D({ className }: { className?: string }) {
 

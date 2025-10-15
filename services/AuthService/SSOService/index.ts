@@ -1,4 +1,4 @@
-import prisma from '../../../libs/prisma';
+import {prisma} from '../../../libs/prisma';
 import GoogleService from './GoogleService';
 import AppleService from './AppleService';
 import FacebookService from './FacebookService';
