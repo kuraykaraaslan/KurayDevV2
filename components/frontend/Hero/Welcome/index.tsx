@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faLink } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import MyImage from "./Partials/MyImageVideo";
 import { Trans } from 'react-i18next';
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +14,11 @@ const TypingEffect = dynamic(
 );
 const BackgroundImage = dynamic(
   () => import("./Partials/BackgroundImage"),
+  { ssr: false },
+);
+
+const MyImage = dynamic(
+  () => import("./Partials/MyImageVideo"),
   { ssr: false },
 );
 

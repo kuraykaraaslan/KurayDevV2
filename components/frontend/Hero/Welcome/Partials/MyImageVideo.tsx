@@ -1,6 +1,8 @@
 import dynamic from "next/dynamic";
-const MyImageVideoDialog = dynamic(() => import("./MyImageVideoDialog"), { ssr: false });
 import Image from 'next/image';
+
+const MyImageVideoDialog = dynamic(() => import("./MyImageVideoDialog"), { ssr: false });
+
 
 const MyImage = () => {
 

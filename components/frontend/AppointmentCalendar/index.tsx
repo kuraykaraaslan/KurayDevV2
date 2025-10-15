@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import Calendar from 'react-calendar'
 import './style.css'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +9,9 @@ import { format, parseISO, differenceInMinutes } from 'date-fns'
 import type { Slot } from '@/types/CalendarTypes'
 import axios from 'axios'
 import AppointmentModal from './AppointmentModal'
+import dynamic from 'next/dynamic'
+
+const Calendar = dynamic(() => import('react-calendar'), { ssr: false })
 
 export default function AppointmentCalendar() {
   const [availableSlots, setAvailableSlots] = useState<Slot[]>([])
