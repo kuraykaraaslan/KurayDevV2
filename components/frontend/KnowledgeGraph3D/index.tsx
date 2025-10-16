@@ -5,13 +5,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
 import axiosInstance from '@/libs/axios'
 import { useParams } from 'next/navigation'
+import type * as ThreeJSTypes from 'three'
 
 /* -------------------- Helpers -------------------- */
 
 
 // ✨ Ping-pong partiküller
-function createParticles(scene: THREE.Scene, linksData: any[], nodeMap: Map<string, any>) {
-  const particles: THREE.Points[] = []
+function createParticles(scene: ThreeJSTypes.Scene, linksData: any[], nodeMap: Map<string, any>) {
+  const particles: ThreeJSTypes.Points[] = []
   linksData.forEach(link => {
     const s = nodeMap.get(link.source), t = nodeMap.get(link.target)
     if (!s || !t) return
@@ -28,7 +29,7 @@ function createParticles(scene: THREE.Scene, linksData: any[], nodeMap: Map<stri
 }
 
 // her frame’de çağrılır
-function updateParticles(particles: THREE.Points[]) {
+function updateParticles(particles: ThreeJSTypes.Points[]) {
   particles.forEach(p => {
     const { source, target, progress, direction } = p.userData
     const pos = p.geometry.attributes.position.array as Float32Array
@@ -125,7 +126,7 @@ function setupScene(container: HTMLDivElement, theme: 'dark' | 'light') {
 }
 
 // Düğümleri (node) oluşturur
-function createNodes(scene: THREE.Scene, data: KnowledgeGraphNode[], getColor: (cat: string) => string) {
+function createNodes(scene: ThreeJSTypes.Scene, data: KnowledgeGraphNode[], getColor: (cat: string) => string) {
   const nodeMap = new Map()
   data.forEach((node, i) => {
     const radius = (node.size || 6) / 10
@@ -147,7 +148,7 @@ function createNodes(scene: THREE.Scene, data: KnowledgeGraphNode[], getColor: (
 }
 
 // Bağlantıları (link) oluşturur
-function createLinks(scene: THREE.Scene, data: any[], nodeMap: Map<string, any>) {
+function createLinks(scene: ThreeJSTypes.Scene, data: any[], nodeMap: Map<string, any>) {
   const links: THREE.Line[] = []
   data.forEach(link => {
     const s = nodeMap.get(link.source)
@@ -178,12 +179,12 @@ type TooltipState = {
 // Hover tooltip
 function setupInteractions(
   container: HTMLDivElement,
-  camera: THREE.Camera,
+  camera: ThreeJSTypes.Camera,
   nodeMap: Map<string, any>,
   setTooltip: (t: any) => void
 ) {
   const ray = new THREE.Raycaster(), mouse = new THREE.Vector2()
-  let hovered: THREE.Mesh | null = null
+  let hovered: ThreeJSTypes.Mesh | null = null
   const move = (e: MouseEvent) => {
     const rect = container.getBoundingClientRect()
     mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1
@@ -192,7 +193,7 @@ function setupInteractions(
     const hits = ray.intersectObjects(Array.from(nodeMap.values()).map(n => n.mesh))
     if (hovered) hovered.scale.set(1, 1, 1)
     if (hits.length) {
-      hovered = hits[0].object as THREE.Mesh
+      hovered = hits[0].object as ThreeJSTypes.Mesh
       hovered.scale.set(1.5, 1.5, 1.5)
       const n = hovered.userData
       setTooltip({ visible: true, x: e.clientX - rect.left, y: e.clientY - rect.top, title: n.title || '', image: n.image })
