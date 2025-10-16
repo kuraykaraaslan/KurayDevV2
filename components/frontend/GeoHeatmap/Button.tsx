@@ -2,7 +2,10 @@
 import HeadlessModal, { useModal } from '@/components/common/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMap } from '@fortawesome/free-solid-svg-icons'
-import GeoHeatmap from './index'
+import dynamic from 'next/dynamic'
+import LoadingElement from '../LoadingElement'
+
+const GeoHeatmap = dynamic(() => import('./index'), { ssr: false, loading: () => <LoadingElement title="GeoHeatmap" /> })
 
 export default function GeoHeatmapButton() {
   const { open, openModal, closeModal } = useModal()

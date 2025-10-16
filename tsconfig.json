@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["DOM", "ES2022"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitAny": true,
@@ -29,7 +25,7 @@
         "./*"
       ]
     },
-    "target": "ES2017"
+    "target": "ES2022",
   },
   "include": [
     "next-env.d.ts",

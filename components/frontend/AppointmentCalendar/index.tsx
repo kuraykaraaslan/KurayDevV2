@@ -10,8 +10,9 @@ import type { Slot } from '@/types/CalendarTypes'
 import axios from 'axios'
 import AppointmentModal from './AppointmentModal'
 import dynamic from 'next/dynamic'
+import LoadingElement from '../LoadingElement'
 
-const Calendar = dynamic(() => import('react-calendar'), { ssr: false })
+const Calendar = dynamic(() => import('react-calendar'), { ssr: false, loading: () => <LoadingElement title="Calendar" /> })
 
 export default function AppointmentCalendar() {
   const [availableSlots, setAvailableSlots] = useState<Slot[]>([])

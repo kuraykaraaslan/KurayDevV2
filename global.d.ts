@@ -5,4 +5,10 @@ declare global {
     declare interface NextRequest extends OriginalNextRequest {
         user: SafeUser
     }
+
+    interface Window {
+        maplibregl?: any
+        THREE?: any
+        OrbitControls?: any
+    }
 } 

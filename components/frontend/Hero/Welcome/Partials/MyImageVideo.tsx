@@ -1,8 +1,10 @@
 import dynamic from "next/dynamic";
 import Image from 'next/image';
+import LoadingElement from '@/components/frontend/LoadingElement';
 
-const MyImageVideoDialog = dynamic(() => import("./MyImageVideoDialog"), { ssr: false });
-
+const MyImageVideoDialog = dynamic(() => import("./MyImageVideoDialog"), { ssr: false ,
+  loading: () => <LoadingElement title="Video Player" />
+});
 
 const MyImage = () => {
 

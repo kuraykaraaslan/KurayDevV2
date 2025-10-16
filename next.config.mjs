@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import { env } from 'process'
+import bundleAnalyzer from '@next/bundle-analyzer'
+
+/** @type {import('next').NextConfig} */
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true'
+})
 
 const nextConfig = {
   trailingSlash: false, // Add trailing slash to all paths
@@ -13,7 +19,9 @@ const nextConfig = {
   },
   experimental: {
     cpus: 1,
-    workerThreads: false
+    workerThreads: false,
+    optimizeCss: true,
+    optimizeImages: true
   },
   env: {
     APPLICATION_HOST: env.APPLICATION_HOST || 'http://localhost:3000',
@@ -35,7 +43,11 @@ const nextConfig = {
   },
   experimental: {
     cpus: 1,
-    workerThreads: false
+    workerThreads: false,
+    forceSwcTransforms: true
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
@@ -54,4 +66,4 @@ const nextConfig = {
   }
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)

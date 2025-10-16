@@ -1,29 +1,38 @@
 import "./globals.css";
-import { GoogleTagManager } from '@next/third-parties/google'
-
-/*
-export const metadata: Metadata = {
-  title: "Kuray Karaaslan | Software Engineer",
-  description: "Self-taught and self-motivated software developer, open-source contributor, and tech enthusiast with a diverse portfolio of independent projects.",
-};
-*/
+import Script from "next/script";
 
 const NEXT_PUBLIC_GOOGLE_TAG = process.env.NEXT_PUBLIC_GOOGLE_TAG;
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}> ) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html data-theme="dark" className="antialiased scroll-smooth focus:scroll-auto">
       <head>
-        <GoogleTagManager gtmId={NEXT_PUBLIC_GOOGLE_TAG as string} />
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
       </head>
       <body className="min-h-screen">
         {children}
+
+        <Script
+          id="gtm-script"
+          strategy="lazyOnload"
+          src={`https://www.googletagmanager.com/gtm.js?id=${NEXT_PUBLIC_GOOGLE_TAG}`}
+        />
+
+        {/* Optional noscript fallback for analytics accuracy */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${NEXT_PUBLIC_GOOGLE_TAG}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
       </body>
     </html>
   );
