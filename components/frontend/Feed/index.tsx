@@ -4,7 +4,10 @@ import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
 import { SafeUser } from '@/types/UserTypes';
 import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
-import KnowledgeGraph3DButton from '../KnowledgeGraph3D/Button';
+
+import dynamic from 'next/dynamic';
+
+const KnowledgeGraph2DButton = dynamic(() => import('../KnowledgeGraph2D/Button'), { ssr: false , loading: () => null });
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
@@ -66,7 +69,7 @@ export default function Feed(props: FeedProps) {
                                     ? `Posts by ${author.name}`
                                     : 'Latest Posts'}
                         </p>
-                        <KnowledgeGraph3DButton />
+                        <KnowledgeGraph2DButton />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">

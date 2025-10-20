@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
-import { Editor } from '@tinymce/tinymce-react';
+import Editor from '@/components/admin/Editor';
 import { toast } from 'react-toastify';
 import CategorySelect from '@/components/admin/Selects/CategorySelect';
 import UserSelect from '@/components/admin/Selects/UserSelect';
@@ -261,22 +261,8 @@ const SinglePost: React.FC = () => {
               <span className="label-text">Content</span>
             </label>
             <Editor
-              init={{
-                height: 500,
-                menubar: false,
-                plugins: [
-                  'advlist autolink lists link image charmap print preview anchor',
-                  'searchreplace visualblocks code fullscreen',
-                  'insertdatetime media table paste code help wordcount',
-                ],
-                toolbar:
-                  'undo redo | formatselect | bold italic backcolor | ' +
-                  'alignleft aligncenter alignright alignjustify | ' +
-                  'bullist numlist outdent indent | removeformat | help',
-              }}
-              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-              value={content}
-              onEditorChange={(val) => setContent(val)}
+              value={content || ''}
+              onChange={(newValue) => setContent(newValue)}
             />
           </div>
 

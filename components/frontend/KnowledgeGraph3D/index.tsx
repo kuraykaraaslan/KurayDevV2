@@ -228,7 +228,7 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
     const { scene, camera, renderer } = setupScene(container, theme)
     const getColor = useCategoryColor()
     const nodes = createNodes(scene, data.nodes, getColor)
-    const links = createLinks(scene, data.links, nodes)
+    createLinks(scene, data.links, nodes)
     const particles = createParticles(scene, data.links, nodes)
     const cleanup = setupInteractions(container, camera, nodes, setTooltip)
 

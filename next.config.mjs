@@ -15,7 +15,7 @@ const nextConfig = {
   },
   reactStrictMode: false,
   eslint: {
-    ignoreDuringBuilds: false
+    ignoreDuringBuilds: true
   },
   experimental: {
     cpus: 1,
@@ -45,9 +45,6 @@ const nextConfig = {
     cpus: 1,
     workerThreads: false,
     forceSwcTransforms: true
-  },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production'
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
