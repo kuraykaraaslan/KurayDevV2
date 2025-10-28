@@ -19,7 +19,6 @@ const nextConfig = {
   experimental: {
     cpus: 1,
     workerThreads: false,
-    optimizeCss: true,
     optimizeImages: true,
     forceSwcTransforms: true,
     allowedDevOrigins: ['kuray.dev', 'www.kuray.dev', 'https://kuray.dev', 'https://www.kuray.dev']
