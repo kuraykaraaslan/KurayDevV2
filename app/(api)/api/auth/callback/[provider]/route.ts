@@ -49,24 +49,25 @@ export async function GET(
     )
 
     // Determine if we're in a secure context (HTTPS)
+    const origin = request.headers.get('origin') || '';
     const protocol = request.headers.get('x-forwarded-proto') || request.headers.get('x-scheme') || 'http';
-    const isSecure = protocol === 'https';
+    const isSecure = origin.startsWith('https://') || protocol === 'https';
     
-    response.cookies.set('accessToken', rawAccessToken, {
+    const cookieOptions = isSecure ? {
         httpOnly: true,
-        secure: isSecure,
-        sameSite: 'lax',
+        secure: true,
+        sameSite: 'none' as const,
         path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
+        maxAge: 60 * 60 * 24 * 7,
+    } : {
+        httpOnly: true,
+        sameSite: 'lax' as const,
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+    };
     
-    response.cookies.set('refreshToken', rawRefreshToken, {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
+    response.cookies.set('accessToken', rawAccessToken, cookieOptions);
+    response.cookies.set('refreshToken', rawRefreshToken, cookieOptions);
 
     return response;
 

@@ -41,10 +41,12 @@ export async function POST(request: NextRequest) {
         });
 
         // Determine if we're in a secure context (HTTPS)
+        // Check origin header first (most reliable for HTTPS detection with proxies)
+        const origin = request.headers.get('origin') || '';
         const protocol = request.headers.get('x-forwarded-proto') || request.headers.get('x-scheme') || 'http';
-        const isSecure = protocol === 'https';
+        const isSecure = origin.startsWith('https://') || protocol === 'https';
         
-        console.log('[LOGIN] Setting cookies - isSecure:', isSecure, 'protocol:', protocol);
+        console.log('[LOGIN] Setting cookies - isSecure:', isSecure, 'protocol:', protocol, 'origin:', origin);
         console.log('[LOGIN] Request headers:', {
             host: request.headers.get('host'),
             origin: request.headers.get('origin'),
@@ -52,24 +54,24 @@ export async function POST(request: NextRequest) {
             'x-forwarded-proto': request.headers.get('x-forwarded-proto'),
         });
         
-        // Set cookies with appropriate security settings
-        response.cookies.set('accessToken', rawAccessToken, {
+        // Set cookies - Use SameSite=None with Secure for HTTPS cross-origin
+        const cookieOptions = isSecure ? {
             httpOnly: true,
-            secure: isSecure,
-            sameSite: 'lax',
+            secure: true,
+            sameSite: 'none' as const,
             path: '/',
             maxAge: 60 * 60 * 24 * 7, // 7 days
-        });
+        } : {
+            httpOnly: true,
+            sameSite: 'lax' as const,
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7, // 7 days
+        };
         
-        response.cookies.set('refreshToken', rawRefreshToken, {
-            httpOnly: true,
-            secure: isSecure,
-            sameSite: 'lax',
-            path: '/',
-            maxAge: 60 * 60 * 24 * 7, // 7 days
-        });
+        response.cookies.set('accessToken', rawAccessToken, cookieOptions);
+        response.cookies.set('refreshToken', rawRefreshToken, cookieOptions);
 
-        console.log('[LOGIN] Cookies set successfully');
+        console.log('[LOGIN] Cookies set successfully with options:', cookieOptions);
 
         return response;
 

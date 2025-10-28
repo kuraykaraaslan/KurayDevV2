@@ -462,7 +462,9 @@ export default class UserSessionService {
         throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE);
       }
 
+      console.log('[AUTH] Attempting to get session...');
       const { user, userSession } = await UserSessionService.getSession(accessToken, request);
+      console.log('[AUTH] Session retrieved - user role:', user?.userRole, 'required role:', requiredUserRole);
 
       if (!user) {
         throw new Error(AuthMessages.USER_NOT_FOUND);

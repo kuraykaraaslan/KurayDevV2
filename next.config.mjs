@@ -20,7 +20,9 @@ const nextConfig = {
     cpus: 1,
     workerThreads: false,
     optimizeCss: true,
-    optimizeImages: true
+    optimizeImages: true,
+    forceSwcTransforms: true,
+    allowedDevOrigins: ['kuray.dev', 'www.kuray.dev', 'https://kuray.dev', 'https://www.kuray.dev']
   },
   env: {
     APPLICATION_HOST: env.APPLICATION_HOST || 'http://localhost:3000',
@@ -37,13 +39,10 @@ const nextConfig = {
       '*.core.windows.net',
       'via.placeholder.com',
       'localhost',
-      'localhost.com'
+      'localhost.com',
+      'kuray.dev',
+      'www.kuray.dev'
     ]
-  },
-  experimental: {
-    cpus: 1,
-    workerThreads: false,
-    forceSwcTransforms: true
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
