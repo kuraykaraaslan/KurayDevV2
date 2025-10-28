@@ -8,7 +8,7 @@ import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 const HireMeVideo: React.FC = () => {
 
     const [playing, setPlaying] = React.useState(false);
-    const player = createRef<ReactPlayer>();
+    const player = createRef<any>();
 
     const handleOpenModal = () => {
         const modal = document.getElementById("my_modal");
@@ -21,7 +21,7 @@ const HireMeVideo: React.FC = () => {
         document.getElementById("my_modal")?.showModal();
         // wait for the modal to open
         setTimeout(() => {
-            player.current?.seekTo(0);
+            //player.current?.seekTo(0);
             setPlaying(true);
         }, 1000);
     }
@@ -33,7 +33,7 @@ const HireMeVideo: React.FC = () => {
             return;
         }
 
-        player.current?.seekTo(0);
+        //player.current?.seekTo(0);
         setPlaying(false);
         // @ts-ignore
         document.getElementById("my_modal")?.close();
@@ -49,7 +49,7 @@ const HireMeVideo: React.FC = () => {
             </button>
             <dialog id="my_modal" className="modal modal-middle" onClick={handleCloseModal}>
                 <div className="modal-box p-0">
-                    <ReactPlayer url="https://www.youtube.com/watch?v=eJO5HU_7_1w?modestbranding=1&rel=0&showinfo=0&autoplay=1" controls={true} width="100%" playing={playing} ref={player} />
+                    <ReactPlayer src="https://www.youtube.com/watch?v=eJO5HU_7_1w?modestbranding=1&rel=0&showinfo=0&autoplay=1" controls={true} width="100%" playing={playing} ref={player} />
                 </div>
             </dialog>
         </>

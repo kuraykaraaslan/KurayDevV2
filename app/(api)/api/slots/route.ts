@@ -12,6 +12,7 @@ export async function GET(
         const startDate = searchParams.get('startDate') || undefined;
         const endDate = searchParams.get('endDate') || undefined;
 
+        console.log(`Fetching slots from ${startDate} to ${endDate}`);
 
         const { slots, total } = await SlotService.getAllSlotsForDateRange({
             startDate,

@@ -64,7 +64,10 @@ const config: Config = {
         DEFAULT: '0 2px 4px var(--tw-shadow-color)',
         lg: '0 8px 16px var(--tw-shadow-color)',
       },
-    },
+      fontFamily: {
+        sans: ['Bookerly', 'system-ui', 'sans-serif']
+      }
+    }
   },
   plugins: [
     plugin(function ({ matchUtilities, theme }) {
@@ -77,9 +80,9 @@ const config: Config = {
         { values: theme('textShadow') }
       )
     }),
-    require("daisyui"), 
-    require("@tailwindcss/typography"), 
-    rotateY, 
+    require("daisyui"),
+    require("@tailwindcss/typography"),
+    rotateY,
     require('@tailwindcss/forms')],
   daisyui: {
     themes: [

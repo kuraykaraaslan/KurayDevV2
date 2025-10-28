@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar, faClock, faStopwatch, faX } from '@fortawesome/free-solid-svg-icons'
 import { format, parseISO, differenceInMinutes } from 'date-fns'
@@ -66,10 +65,9 @@ export default function AppointmentCalendar() {
     const end = new Date()
     end.setDate(start.getDate() + 14)
 
-    try {
-      const res = await axios.get(
+     await axios.get(
         `/api/slots?startDate=${formatDate(start)}&endDate=${formatDate(end)}`
-      )
+     ).then((res) => {
       const data = (res.data?.slots || []) as Slot[]
       setAvailableSlots(data)
 
@@ -78,10 +76,11 @@ export default function AppointmentCalendar() {
         const first = new Date(data[0].startTime)
         setSelectedDate(first)
       }
-    } catch (err) {
-      console.error(err)
-      toast.error('Slotlar alınamadı')
-    }
+      }).catch((err) => {
+        setAvailableSlots([])
+        console.error(err)
+      })
+    
   }
 
   useEffect(() => {

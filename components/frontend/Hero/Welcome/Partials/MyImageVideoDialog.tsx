@@ -5,14 +5,12 @@ import React, { createRef, useState } from "react";
 import dynamic from "next/dynamic";
 import LoadingElement from "@/components/frontend/LoadingElement";
 
-// ⬇️ ReactPlayer artık sadece modal açıldığında yüklenecek
-const ReactPlayer = dynamic(() => import("react-player/youtube"), {
+const ReactPlayer = dynamic(() => import("react-player"), {
   ssr: false,
   loading: () => <LoadingElement title="Video Player" />,
 });
 
-const MyImage = () => {
-  const [comingSoon] = useState(false);
+const MyImageVideoDialog = () => {
   const [playing, setPlaying] = useState(false);
   const player = createRef<any>();
 
@@ -21,7 +19,7 @@ const MyImage = () => {
     if (!modal) return;
     modal.showModal();
     setTimeout(() => {
-      player.current?.seekTo(0);
+      //player.current?.seekTo(0);
       setPlaying(true);
     }, 600);
   };
@@ -29,7 +27,7 @@ const MyImage = () => {
   const handleCloseModal = () => {
     const modal = document.getElementById("my_video") as HTMLDialogElement | null;
     if (!modal) return;
-    player.current?.seekTo(0);
+    //player.current?.seekTo(0);
     setPlaying(false);
     modal.close();
   };
@@ -40,25 +38,24 @@ const MyImage = () => {
         <FontAwesomeIcon icon={faPlayCircle} className="text-white w-16 h-16 m-auto" />
       </div>
 
-      <dialog id="my_video" className="modal modal-middle" onClick={handleCloseModal}>
-        <div className="modal-box p-0">
-          {!comingSoon ? (
+      <dialog id="my_video" className="modal" onClick={handleCloseModal}>
+        <div
+          className="modal-box max-w-5xl w-full p-0 bg-black"
+          onClick={(e) => e.stopPropagation()} 
+        >
             <ReactPlayer
-              url="https://www.youtube.com/watch?v=oJN50oOlW-c?modestbranding=1&rel=0&showinfo=0"
+              src="https://www.youtube.com/watch?v=oJN50oOlW-c?modestbranding=1&rel=0&showinfo=0"
               controls
               width="100%"
+              height="60vh"
               playing={playing}
               ref={player}
             />
-          ) : (
-            <div className="w-full h-[200px] flex flex-col">
-              <div className="m-auto text-center">A video is coming soon! Stay tuned!</div>
-            </div>
-          )}
         </div>
       </dialog>
+
     </>
   );
 };
 
-export default MyImage;
+export default MyImageVideoDialog;

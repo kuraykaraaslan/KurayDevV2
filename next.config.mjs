@@ -9,7 +9,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 const nextConfig = {
-  trailingSlash: false, // Add trailing slash to all paths
   typescript: {
     ignoreBuildErrors: false
   },
@@ -27,7 +26,7 @@ const nextConfig = {
     APPLICATION_HOST: env.APPLICATION_HOST || 'http://localhost:3000',
     SSO_ALLOWED_PROVIDERS: env.SSO_ALLOWED_PROVIDERS || 'google,apple'
   },
-  trailingSlash: true,
+  trailingSlash: false,
   images: {
     domains: [
       'raw.githubusercontent.com',
