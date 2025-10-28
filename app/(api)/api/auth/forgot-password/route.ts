@@ -23,17 +23,32 @@ export async function POST(request: NextRequest) {
 
         await PasswordService.forgotPassword({ email });
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             message: AuthMessages.FORGOT_PASSWORD_SUCCESSFUL,
         }, {
             status: 200,
-            headers: {
-                "Set-Cookie": [
-                    `accessToken=; Path=/; HttpOnly; SameSite=Strict; Secure; Max-Age=0`,
-                    `refreshToken=; Path=/; HttpOnly; SameSite=Strict; Secure; Max-Age=0`,
-                ].join(", ")
-            }
         });
+
+        // Clear cookies properly for both production and development
+        const isProduction = process.env.NODE_ENV === 'production';
+        
+        response.cookies.set('accessToken', '', {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 0,
+        });
+        
+        response.cookies.set('refreshToken', '', {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 0,
+        });
+
+        return response;
 
     }
     catch (error: any) {

@@ -31,20 +31,35 @@ export async function POST(request: NextRequest) {
 
         const { rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession(user, request);
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             user,
             accessToken: rawAccessToken,
             refreshToken: rawRefreshToken,
             otpVerifyNeeded,
         }, {
             status: 200,
-            headers: {
-                "Set-Cookie": [
-                    `accessToken=${rawAccessToken}; Path=/; HttpOnly; SameSite=Strict; Secure`,
-                    `refreshToken=${rawRefreshToken}; Path=/; HttpOnly; SameSite=Strict; Secure`,
-                ].join(", ")    
-            }
         });
+
+        // Set cookies properly for both production and development
+        const isProduction = process.env.NODE_ENV === 'production';
+        
+        response.cookies.set('accessToken', rawAccessToken, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7, // 7 days
+        });
+        
+        response.cookies.set('refreshToken', rawRefreshToken, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7, // 7 days
+        });
+
+        return response;
 
     }
     catch (error: any) {
