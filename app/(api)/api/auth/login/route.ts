@@ -40,12 +40,22 @@ export async function POST(request: NextRequest) {
             status: 200,
         });
 
-        // Set cookies properly for both production and development
-        const isProduction = process.env.NODE_ENV === 'production';
+        // Determine if we're in a secure context (HTTPS)
+        const protocol = request.headers.get('x-forwarded-proto') || request.headers.get('x-scheme') || 'http';
+        const isSecure = protocol === 'https';
         
+        console.log('[LOGIN] Setting cookies - isSecure:', isSecure, 'protocol:', protocol);
+        console.log('[LOGIN] Request headers:', {
+            host: request.headers.get('host'),
+            origin: request.headers.get('origin'),
+            'x-forwarded-host': request.headers.get('x-forwarded-host'),
+            'x-forwarded-proto': request.headers.get('x-forwarded-proto'),
+        });
+        
+        // Set cookies with appropriate security settings
         response.cookies.set('accessToken', rawAccessToken, {
             httpOnly: true,
-            secure: isProduction,
+            secure: isSecure,
             sameSite: 'lax',
             path: '/',
             maxAge: 60 * 60 * 24 * 7, // 7 days
@@ -53,11 +63,13 @@ export async function POST(request: NextRequest) {
         
         response.cookies.set('refreshToken', rawRefreshToken, {
             httpOnly: true,
-            secure: isProduction,
+            secure: isSecure,
             sameSite: 'lax',
             path: '/',
             maxAge: 60 * 60 * 24 * 7, // 7 days
         });
+
+        console.log('[LOGIN] Cookies set successfully');
 
         return response;
 

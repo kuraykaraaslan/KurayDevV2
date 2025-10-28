@@ -30,12 +30,13 @@ export async function POST(request: NextRequest) {
             status: 200,
         });
 
-        // Clear cookies properly for both production and development
-        const isProduction = process.env.NODE_ENV === 'production';
+        // Determine if we're in a secure context (HTTPS)
+        const protocol = request.headers.get('x-forwarded-proto') || request.headers.get('x-scheme') || 'http';
+        const isSecure = protocol === 'https';
         
         response.cookies.set('accessToken', '', {
             httpOnly: true,
-            secure: isProduction,
+            secure: isSecure,
             sameSite: 'lax',
             path: '/',
             maxAge: 0,
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
         
         response.cookies.set('refreshToken', '', {
             httpOnly: true,
-            secure: isProduction,
+            secure: isSecure,
             sameSite: 'lax',
             path: '/',
             maxAge: 0,

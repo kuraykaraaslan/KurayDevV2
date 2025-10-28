@@ -456,6 +456,8 @@ export default class UserSessionService {
       const accessToken = request.cookies.get("accessToken")?.value;
       const refreshToken = request.cookies.get("refreshToken")?.value;
 
+      console.log('[AUTH] Checking cookies - accessToken:', accessToken ? 'present' : 'missing', 'refreshToken:', refreshToken ? 'present' : 'missing');
+
       if (!accessToken || !refreshToken) {
         throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE);
       }
