@@ -103,7 +103,7 @@ export default class PostService {
         const now = new Date();
         // Get posts by search query
         const query = {
-            skip: (page - 1) * pageSize,
+            skip: (page) * pageSize,
             take: pageSize,
             orderBy: {
                 createdAt: 'desc',
@@ -243,11 +243,11 @@ export default class PostService {
      * @param postId - The ID of the post
      * @returns The post
      */
-    static async getPostById(postId: string): Promise<Post | null> {
+    static async getPostById(postId: string): Promise<PostWithData | null> {
         return await prisma.post.findUnique({
             where: { postId },
-        });
-
+            select: this.postWithDataSelect,
+        }) as PostWithData | null;
     }
 
     /**

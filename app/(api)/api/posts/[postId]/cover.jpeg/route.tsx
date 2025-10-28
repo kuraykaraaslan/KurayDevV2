@@ -1,85 +1,21 @@
-import React from 'react';
-import { ImageResponse } from 'next/og';
-import PostService from '@/services/PostService';
-import { NextRequest } from 'next/server';
-import { notFound } from 'next/navigation';
+import { NextRequest } from "next/server";
+import { notFound } from "next/navigation";
+import PostCoverService from "@/services/PostService/PostCoverService";
+import PostService from "@/services/PostService";
 
-export async function GET(_request: NextRequest,
-    { params }: { params: Promise<{ postId: string }> }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ postId: string }> }
+) {
+  const { postId } = await params;
+  const post = await PostService.getPostById(postId);
 
-    const { postId } = await params;
+  if (!post) return notFound();
 
-    try {
-        const post = await PostService.getPostById(postId);
+  const imageResponse = await PostCoverService.getImage(post);
+  if (!imageResponse) return notFound();
 
-        //if there is no post, return 404
-
-        if (!post) {
-            return notFound();
-        }
-
-        //if there is a image, return the image
-        if (post.image) {
-            return new ImageResponse(<img src={post.image} width={1200} height={630} alt='Post Cover Image' />, {
-                width: 1200,
-                height: 630,
-            });
-        }
-
-        const header = (
-            <div style={{
-                width: 1200,
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center', // Center horizontally
-                alignItems: 'center', // Center vertically
-                textAlign: 'center',
-                padding: '50px',
-                position: 'absolute',
-                top: 0,
-                left: '50%', // Move it to the center of the screen
-                transform: 'translateX(-50%)', // Offset it back by half its width
-                fontWeight: 'bold',
-                fontSize: post.title.length > 50 ? 40 : 60,
-            }}>
-                <h1 style={{ fontStyle: 'italic' }}>{post.title}</h1>
-            </div>
-        );
-
-
-
-        return new ImageResponse(
-            (
-
-                <div
-                    style={{
-                        fontSize: 15,
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        padding: '30px',
-                        position: 'relative',
-                        backgroundColor: '#c3c8d7',
-                    }}
-                >
-
-                    {header}
-                </div>
-            ),
-            {
-                width: 1200,
-                height: 630,
-                headers: {
-                    'Cache-Control': 'public, max-age=3600',
-                    'Content-Type': 'image/jpeg',
-                },
-            }
-        );
-
-    } catch (error: any) {
-        console.error(error.message);
-        return notFound();
-    }
+  // ImageResponse zaten doğru header'ları içerdiğinden
+  // ayrıca Response ile sarmalamaya gerek yok.
+  return imageResponse;
 }

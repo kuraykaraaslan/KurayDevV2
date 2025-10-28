@@ -22,11 +22,11 @@ export default function Feed(props: FeedProps) {
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
     const [page, setPage] = useState(0);
-    const [pageSize, _setPageSize] = useState(5);
+    const [pageSize, _setPageSize] = useState(6);
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {
-        axiosInstance.get("/api/posts" + `?page=${page + 1}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : '') + `${author ? `&authorId=${author.userId}` : ''}`)
+        axiosInstance.get("/api/posts" + `?page=${page}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : '') + `${author ? `&authorId=${author.userId}` : ''}`)
             .then(response => {
 
 

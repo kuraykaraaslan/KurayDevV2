@@ -26,7 +26,7 @@ export default async function BlogPost({ request, params }: { request: NextReque
         }
 
         const response = await PostService.getAllPosts({
-            page: 1,
+            page: 0,
             pageSize: 1,
             slug: postSlug,
             status: 'ALL',

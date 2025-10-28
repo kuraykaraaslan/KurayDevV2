@@ -61,6 +61,9 @@ const ImageLoad = ({ image, setImage, uploadFolder = 'default', toast }: ImageLo
                     <button type="button" className="h-12 p-2 rounded-lg bg-primary mr-2 text-white" onClick={uploadImage}>
                         Upload Image
                     </button>
+                    <button type="button" className="h-12 p-2 rounded-lg bg-red-600 text-white" onClick={() => setImage('')}>
+                        Remove Image
+                    </button>
                 </div>
             </div>
         </>
