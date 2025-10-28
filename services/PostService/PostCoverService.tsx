@@ -41,7 +41,7 @@ export default class PostCoverService {
 
     const cached = await redis.get(cacheKey);
     if (cached) {
-      //const buffer = Buffer.from(cached, "base64");
+      //Buffer.from(cached, "base64");
       return new ImageResponse(<img src={`data:image/png;base64,${cached}`} width={1200} height={630} />, {
         width: 1200,
         height: 630,
@@ -63,6 +63,8 @@ export default class PostCoverService {
 
     const calculateFontSize = (title: string) => {
       const length = title.length;
+      return 22;
+
       if (length > 100) return 20;
       if (length > 90) return 22;
       if (length > 80) return 24;
@@ -147,5 +149,16 @@ export default class PostCoverService {
     await redis.setex(cacheKey, this.CACHE_TTL, Buffer.from(arrayBuffer).toString("base64"));
 
     return res;
+  }
+
+
+  /**
+   * Generate All OG Images (for testing or pre-generation)
+   */
+  static async generateAllOgImages(posts: PostWithData[]) {
+    for (const post of posts) {
+      await this.getImage(post);
+    }
+    return { generated: posts.length };
   }
 }
