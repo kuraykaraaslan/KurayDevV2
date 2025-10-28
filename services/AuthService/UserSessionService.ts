@@ -484,7 +484,11 @@ export default class UserSessionService {
       const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole);
       const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole);
 
-      if (requiredUserRoleKeyIndex > userRoleKeyIndex) {
+      console.log('[AUTH] Role check - userRole:', user.userRole, 'index:', userRoleKeyIndex, 'requiredRole:', requiredUserRole, 'index:', requiredUserRoleKeyIndex, 'roleKeys:', userRoleKeys);
+
+      // User's role index must be >= required role index (ADMIN=1 >= USER=0)
+      if (userRoleKeyIndex < requiredUserRoleKeyIndex) {
+        console.log('[AUTH] Access denied - user role index too low');
         throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
       }
 
@@ -492,6 +496,7 @@ export default class UserSessionService {
 
       return user;
     } catch (error: any) {
+      console.error('[AUTH] Authentication error:', error.message, error.stack);
       if (requiredUserRole !== "GUEST") {
         throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
       }
