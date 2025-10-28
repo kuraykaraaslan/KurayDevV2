@@ -11,6 +11,8 @@ export async function GET() {
     `${BASE}/project/sitemap.xml`,
   ]);
 
+  console.log('Sitemap index generated.');
+
   return new NextResponse(xml, {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
