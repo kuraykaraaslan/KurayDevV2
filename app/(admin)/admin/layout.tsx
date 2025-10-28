@@ -16,7 +16,7 @@ const Layout = ({
     children: React.ReactNode;
 }) => {
     const router = useRouter();
-    const { user, setUser } = useGlobalStore();
+    const { setUser } = useGlobalStore();
     const [isAuthChecked, setIsAuthChecked] = useState(false);
 
     useEffect(() => {
