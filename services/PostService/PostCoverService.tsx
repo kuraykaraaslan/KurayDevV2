@@ -34,17 +34,21 @@ export default class PostCoverService {
   /**
    * OG görseli üretir veya cache'ten döner.
    */
-  static async getImage(post: PostWithData): Promise<ImageResponse | null> {
+  static async getImage(post: PostWithData): Promise<Response | null> {
     if (!post.postId) return null;
 
     const cacheKey = this.key(post.postId);
 
     const cached = await redis.get(cacheKey);
     if (cached) {
-      //Buffer.from(cached, "base64");
-      return new ImageResponse(<img src={`data:image/png;base64,${cached}`} width={1200} height={630} />, {
-        width: 1200,
-        height: 630,
+      // Cached data'yı buffer'a çevir ve direkt Response döndür
+      const buffer = Buffer.from(cached, "base64");
+      return new Response(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength), {
+        status: 200,
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "public, max-age=604800",
+        },
       });
     }
 
@@ -58,7 +62,15 @@ export default class PostCoverService {
       );
       const arrayBuffer = await res.arrayBuffer();
       await redis.setex(cacheKey, this.CACHE_TTL, Buffer.from(arrayBuffer).toString("base64"));
-      return res;
+      
+      // Cache'e kaydettikten sonra yeni bir Response döndür
+      return new Response(arrayBuffer, {
+        status: 200,
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "public, max-age=604800",
+        },
+      });
     }
 
     const calculateFontSize = (title: string) => {
@@ -141,14 +153,20 @@ export default class PostCoverService {
       {
         width: 1200,
         height: 630,
-        headers: { "Cache-Control": "public, max-age=604800" },
       }
     );
 
     const arrayBuffer = await res.arrayBuffer();
     await redis.setex(cacheKey, this.CACHE_TTL, Buffer.from(arrayBuffer).toString("base64"));
 
-    return res;
+    // ArrayBuffer'ı Response olarak döndür
+    return new Response(arrayBuffer, {
+      status: 200,
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=604800",
+      },
+    });
   }
 
 
