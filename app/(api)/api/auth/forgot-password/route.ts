@@ -30,13 +30,14 @@ export async function POST(request: NextRequest) {
         });
 
         // Determine if we're in a secure context (HTTPS)
+        const origin = request.headers.get('origin') || '';
         const protocol = request.headers.get('x-forwarded-proto') || request.headers.get('x-scheme') || 'http';
-        const isSecure = protocol === 'https';
+        const isSecure = origin.startsWith('https://') || protocol === 'https';
         
         response.cookies.set('accessToken', '', {
             httpOnly: true,
             secure: isSecure,
-            sameSite: 'lax',
+            sameSite: isSecure ? 'none' as const : 'lax' as const,
             path: '/',
             maxAge: 0,
         });
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
         response.cookies.set('refreshToken', '', {
             httpOnly: true,
             secure: isSecure,
-            sameSite: 'lax',
+            sameSite: isSecure ? 'none' as const : 'lax' as const,
             path: '/',
             maxAge: 0,
         });
