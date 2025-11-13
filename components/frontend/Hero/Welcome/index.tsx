@@ -71,7 +71,7 @@ const Welcome = () => {
             </Link>
 
             <Link href="https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view?usp=drive_link" target="_blank">
-              <p className="btn btn-ghost ml-2 lowercase">
+              <p className="btn btn-ghost ml-2 lowercase hidden">
                 <FontAwesomeIcon
                   icon={faLink}
                   className="mt-1"
