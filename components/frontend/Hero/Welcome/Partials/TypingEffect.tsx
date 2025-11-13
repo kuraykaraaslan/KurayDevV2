@@ -14,7 +14,7 @@ const TypingEffect = () => {
       t("welcome.typingEffect.text5"),
       t("welcome.typingEffect.text6"),
     ],
-    [t]
+    [i18n.language]
   );
 
   const [textsIndex, setTextsIndex] = useState(0);
