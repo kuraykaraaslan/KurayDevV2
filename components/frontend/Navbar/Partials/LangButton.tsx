@@ -17,6 +17,8 @@ const LangButton = () => {
     et: "ee",
     mt: "mt",
     th: "th",
+    nl: "nl",
+    uk: "ua",
   };
 
   const nextLanguage = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -47,6 +49,14 @@ const LangButton = () => {
 
     i18n.changeLanguage(language);
   }, [language, i18n, hasMounted]);
+
+  useEffect(() => {
+    if (!i18n.isInitialized) return; // ❗ kritik
+
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+    }
+  }, [language, i18n]);
 
   return (
     <button

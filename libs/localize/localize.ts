@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-//de, en, et, gr, mt, th, tr
+//de, en, et, gr, mt, th, tr, nl, uk
 import de from "@/dictionaries/de.json";
 import en from "@/dictionaries/en.json";
 import et from "@/dictionaries/et.json";
@@ -9,6 +9,8 @@ import gr from "@/dictionaries/gr.json";
 import mt from "@/dictionaries/mt.json";
 import th from "@/dictionaries/th.json";
 import tr from "@/dictionaries/tr.json";
+import nl from "@/dictionaries/nl.json";
+import uk from "@/dictionaries/uk.json";
 
 
 const compatibilityJSON = "v3";
@@ -35,6 +37,12 @@ const resources = {
   },
   tr: {
     translation: tr,
+  },
+  nl: {
+    translation: nl,
+  },
+  uk: {
+    translation: uk,
   },
 };
 

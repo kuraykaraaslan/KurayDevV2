@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import {SafeUser} from '@/types/UserTypes';
+import { SafeUser } from '@/types/UserTypes';
 
 type GlobalState = {
   user: SafeUser | null;
@@ -20,7 +20,7 @@ export const useGlobalStore = create<GlobalState>()(
   persist(
     (set, _get) => ({
       user: null,
-      availableLanguages: ['en', 'tr', 'de', 'gr', 'et', 'mt', 'th'],
+      availableLanguages: ['en', 'tr', 'de', 'gr', 'et', 'mt', 'th', 'nl', 'uk'],
       availableThemes: ['light', 'dark'],
       language: 'en',
       theme: 'dark',
@@ -31,8 +31,8 @@ export const useGlobalStore = create<GlobalState>()(
     }),
     {
       name: 'global-storage',
-      storage: createJSONStorage(() => sessionStorage),
-      version: 0.6,
+      storage: createJSONStorage(() => localStorage),
+      version: 0.7,
     }
   )
 );

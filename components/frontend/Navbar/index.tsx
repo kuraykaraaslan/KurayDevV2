@@ -3,14 +3,22 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from '../Menu';
-import ThemeButton from './Partials/ThemeButton';
-import LangButton from './Partials/LangButton';
 import dynamic from 'next/dynamic';
 import Logo from '@/components/common/Logo';
 import ReadingProgressBar from '../ReadingProgressBar';
 
 const AuthButton = dynamic(
     () => import('./Partials/AuthButton'),
+    { ssr: false }
+);
+
+const LanguageModal = dynamic(
+    () => import('./Partials/LangModal'),
+    { ssr: false }
+);
+
+const ThemeButton = dynamic(
+    () => import('./Partials/ThemeButton'),
     { ssr: false }
 );
 
@@ -70,7 +78,7 @@ const Navbar = () => {
 
                     <div className="items-center gap-2 ml-1">
                         <ThemeButton />
-                        <LangButton />
+                        <LanguageModal />
 
                     </div>
                 </div>

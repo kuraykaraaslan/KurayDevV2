@@ -1,4 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /api/
 
 Sitemap: https://kuraykaraaslan.com/sitemap.xml
