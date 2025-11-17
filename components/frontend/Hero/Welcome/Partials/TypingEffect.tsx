@@ -50,46 +50,13 @@ const TypingEffect = () => {
   }, [letterIndex, isDeleting, pause, textsIndex, texts]);
 
   return (
-    <span
-      className="text-3xl font-bold text-shadow-sm inline-flex items-baseline"
-      style={{
-        minHeight: "3.75rem",
-        minWidth: "24ch",
-        fontVariantLigatures: "none",
-        willChange: "contents",
-      }}
-    >
+    <span className="text-3xl font-bold text-shadow-sm pb-2">
       {t("welcome.typingEffect.prefix")}&nbsp;
-      <span
-        className="text-primary text-shadow-sm font-bold"
-        onMouseEnter={() => setPause(true)}
-        onMouseLeave={() => setPause(false)}
-        style={{
-          whiteSpace: "pre",
-          display: "inline-block",
-          overflow: "hidden",
-        }}
-      >
-        {renderedText}
-        <span
-          className="inline-block w-[1ch] text-primary"
-          style={{
-            animation: "blink 1s steps(2, start) infinite",
-          }}
-        >
-          |
-        </span>
-      </span>
-      &nbsp;{t("welcome.typingEffect.suffix")}
-      <style jsx>{`
-        @keyframes blink {
-          to {
-            visibility: hidden;
-          }
-        }
-      `}</style>
+      <span className="text-primary text-shadow-sm" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>{renderedText === "" ? " " : renderedText}</span>
+      &nbsp;
+      {t("welcome.typingEffect.suffix")}
     </span>
-  );
+  )
 };
 
 export default TypingEffect;
