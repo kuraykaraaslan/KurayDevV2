@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://kuraykaraaslan.com/sitemap.xml
+Sitemap: https://kuray.dev/sitemap.xml
