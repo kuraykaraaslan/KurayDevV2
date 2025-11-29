@@ -6,6 +6,7 @@ import Menu from '../Menu';
 import dynamic from 'next/dynamic';
 import Logo from '@/components/common/Logo';
 import ReadingProgressBar from '../ReadingProgressBar';
+import SearchButton from './Partials/SearchButton';
 
 const AuthButton = dynamic(
     () => import('./Partials/AuthButton'),
@@ -13,7 +14,7 @@ const AuthButton = dynamic(
 );
 
 const LanguageModal = dynamic(
-    () => import('./Partials/LangModal'),
+    () => import('./Partials/LanguageModal'),
     { ssr: false }
 );
 
@@ -76,9 +77,10 @@ const Navbar = () => {
                 <div className="mx-2 flex-1 px-2 text-lg font-semibold">
                     <Logo />
 
-                    <div className="items-center gap-2 ml-1">
+                    <div className="flex items-center gap-2">
                         <ThemeButton />
                         <LanguageModal />
+                        <SearchButton />
 
                     </div>
                 </div>

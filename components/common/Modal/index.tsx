@@ -178,7 +178,7 @@ export function HeadlessModal({
             // Fit to screen
             "max-w-[95vw] max-h-[90vh] overflow-auto",
             // Animation
-            "transition-all duration-200",
+            "transition-opacity transition-transform duration-200",
             open ? "opacity-100 scale-100" : "opacity-0 scale-95",
             className,
           ].join(" ")}

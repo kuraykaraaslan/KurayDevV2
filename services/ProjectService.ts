@@ -28,7 +28,7 @@ export default class ProjectService {
 
         // Get posts by search query
         const query = {
-            skip: (page - 1) * pageSize,
+            skip: (page) * pageSize,
             take: pageSize,
             select: {
                 projectId: true,
@@ -50,6 +50,21 @@ export default class ProjectService {
                     },
                     {
                         description: {
+                            contains: search || '',
+                        },
+                    },
+                    {
+                        technologies: {
+                            hasSome: search ? [search] : [],
+                        },
+                    },
+                    {
+                        platforms: {
+                            hasSome: search ? [search] : [],
+                        },
+                    },
+                    {
+                        content: {
                             contains: search || '',
                         },
                     }
