@@ -13,6 +13,8 @@ import AIPrompt from '@/components/admin/AIPrompt';
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
 const SinglePost: React.FC = () => {
+
+  const localStorageKey = 'post_drafts';
   // Route param (tek kaynak)
   const params = useParams<{ postId: string }>();
   const routePostId = params?.postId;
@@ -110,6 +112,78 @@ const SinglePost: React.FC = () => {
       cancelled = true;
     };
   }, [routePostId]);
+
+  // Auto Save Draft to LocalStorage
+  useEffect(() => {
+    if (loading) return;
+
+    const draft = {
+      title,
+      content,
+      description,
+      slug,
+      keywords,
+      authorId,
+      categoryId,
+      status,
+      image,
+    };
+
+    try {
+      const caches = localStorage.getItem(localStorageKey);
+      let parsedCaches: Record<string, any> = {};
+
+      try {
+        parsedCaches = caches ? JSON.parse(caches) : {};
+      } catch {
+        parsedCaches = {};
+      }
+
+      parsedCaches[routePostId] = draft;
+      localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches));
+    } catch (err) {
+      console.error('Draft autosave error:', err);
+    }
+  }, [
+    title,
+    content,
+    description,
+    slug,
+    keywords,
+    authorId,
+    categoryId,
+    status,
+    image,
+    loading
+  ]);
+
+
+  // Load Draft from LocalStorage
+  useEffect(() => {
+    try {
+      const caches = localStorage.getItem(localStorageKey);
+      if (!caches) return;
+
+      const parsed = JSON.parse(caches);
+      const draft = parsed[routePostId];
+      if (!draft) return;
+
+      setTitle(draft.title ?? '');
+      setContent(draft.content ?? '');
+      setDescription(draft.description ?? '');
+      setSlug(draft.slug ?? '');
+      setKeywords(draft.keywords ?? []);
+      setAuthorId(draft.authorId ?? '');
+      setCategoryId(draft.categoryId ?? '');
+      setStatus(draft.status ?? 'DRAFT');
+      setImage(draft.image ?? '');
+
+      toast.info('Draft loaded from browser');
+    } catch (err) {
+      console.error('Draft load error', err);
+    }
+  }, []);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

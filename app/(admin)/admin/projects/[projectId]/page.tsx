@@ -8,12 +8,13 @@ import ImageLoad from '@/components/common/ImageLoad';
 import TinyMCEEditor from '@/components/admin/Editor';
 
 import ProjectLinkTable from '@/components/admin/Tables/ProjectLinkTable';
-
+import { Project } from '@/types/ProjectTypes';
 
 const SingleProject = () => {
 
+    const localStorageKey = 'projectCaches';
+
     const params = useParams();
-    
 
     const mandatoryFields = ['title', 'content', 'description', 'slug', 'platforms'];
     const router = useRouter();
@@ -63,7 +64,75 @@ const SingleProject = () => {
         'other'
     ];
 
+    // Auto Save to Local Storage
+    useEffect(() => {
+        if (loading) return;
 
+        const draft = {
+            title,
+            content,
+            description,
+            slug,
+            platforms,
+            technologies,
+            status,
+            image,
+            projectLinks,
+        };
+
+        const caches = localStorage.getItem(localStorageKey);
+        let parsedCaches: Record<string, typeof draft> = {};
+
+        try {
+            parsedCaches = caches ? (JSON.parse(caches) as Record<string, typeof draft>) : {};
+        } catch (err) {
+            console.error("Cache parse error", err);
+        }
+
+        parsedCaches[params.projectId as string] = draft;
+
+        localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches));
+    }, [
+        title,
+        content,
+        description,
+        slug,
+        platforms,
+        technologies,
+        status,
+        image,
+        projectLinks,
+        loading
+    ]);
+
+
+    // Load Draft from Local Storage
+    useEffect(() => {
+        const caches = localStorage.getItem(localStorageKey);
+        if (!caches) return;
+        
+        try {
+            const parsed = JSON.parse(caches);
+            const draft = parsed[params.projectId as string];
+            if (!draft) return;
+
+            setTitle(draft.title || "");
+            setContent(draft.content || "");
+            setDescription(draft.description || "");
+            setSlug(draft.slug || "");
+            setPlatforms(draft.platforms || []);
+            setTechnologies(draft.technologies || []);
+            setStatus(draft.status || "DRAFT");
+            setImage(draft.image || "");
+            setProjectLinks(draft.projectLinks || []);
+
+            toast.info("Draft loaded from browser");
+        } catch (err) {
+            console.error("Failed to load draft", err);
+        }
+    }, []);
+
+    // Auto Slugify
     useEffect(() => {
         //if we are in edit mode and never update slug again
         if (mode === 'edit' || loading) {
@@ -156,6 +225,7 @@ const SingleProject = () => {
 
     };
 
+    // Load Project Data if in Edit Mode
     useEffect(() => {
         if (params.projectId === 'create') {
             setMode('create');
@@ -164,12 +234,11 @@ const SingleProject = () => {
             setMode('edit');
 
             axiosInstance.get(`/api/projects`, {
-                params: {
-                    projectId: params.projectId
-                }
+                params: { projectId: params.projectId }
             }).then((res) => {
                 const { projects } = res.data;
                 const project = projects[0];
+
                 setTitle(project.title);
                 setContent(project.content);
                 setDescription(project.description);
@@ -179,14 +248,15 @@ const SingleProject = () => {
                 setStatus(project.status);
                 setImage(project.image);
                 setProjectLinks(project.projectLinks);
+
+                setLoading(false); // ✔️ API bittikten sonra
             }).catch((error) => {
                 console.error(error);
+                setLoading(false);
             });
-
-            setLoading(false);
         }
-
     }, [params.projectId]);
+
 
     return (
         <>
@@ -340,7 +410,7 @@ const SingleProject = () => {
                     </div>
                 </div>
                 <button type="submit" className="btn btn-primary block w-full mt-4" onClick={handleSubmit} disabled={loading}>
-                    { loading ? 'Loading...' : mode === 'create' ? 'Create Project' : 'Update Project'}
+                    {loading ? 'Loading...' : mode === 'create' ? 'Create Project' : 'Update Project'}
                 </button>
             </div>
         </>
