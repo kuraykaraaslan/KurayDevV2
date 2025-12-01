@@ -7,7 +7,6 @@ import HeadlessModal, { useModal } from "@/components/common/Modal";
 import { ResultElement } from "./partials/ResultElement";
 import { SearchResultItemType, SearchType } from "@/types/SearchTypes";
 import axiosInstance from "@/libs/axios";
-import { SearchTypeColors } from "@/types/SearchTypes";
 
 const SearchButton = () => {
   const { open, openModal, closeModal } = useModal(false);

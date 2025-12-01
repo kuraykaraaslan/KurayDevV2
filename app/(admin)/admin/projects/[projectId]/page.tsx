@@ -8,7 +8,6 @@ import ImageLoad from '@/components/common/ImageLoad';
 import TinyMCEEditor from '@/components/admin/Editor';
 
 import ProjectLinkTable from '@/components/admin/Tables/ProjectLinkTable';
-import { Project } from '@/types/ProjectTypes';
 
 const SingleProject = () => {
 

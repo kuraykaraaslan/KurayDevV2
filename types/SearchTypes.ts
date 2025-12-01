@@ -1,12 +1,3 @@
-interface ResultElementProps {
-    item: {
-        title: string;
-        description?: string;
-        path: string;
-    };
-    index: number;
-}
-
 import { z } from "zod";
 
 export enum SearchType {
