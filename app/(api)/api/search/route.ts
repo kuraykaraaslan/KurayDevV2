@@ -29,17 +29,16 @@ export async function GET(req: Request) {
         createdAt: post.createdAt,
     }));
 
-    /*
     const projectResultsFormatted : SearchResultItemType[] = projectData.map(project => ({
         title: project.title,
         description: project.description || null,
         path: `/projects/${project.slug}`,
         type: SearchType.PROJECT,
         createdAt: project.createdAt ? project.createdAt : new Date(),
-    }));
-    */
+    })).slice(0, 0); // Projeleri arama sonuçlarına dahil etme
 
-    let results = [...blogResultsFormatted].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    let results = [...projectResultsFormatted, ...blogResultsFormatted].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     return NextResponse.json({ hits: results });
 }
