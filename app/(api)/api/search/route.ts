@@ -39,7 +39,7 @@ export async function GET(req: Request) {
 
    // console.log("Blog Results:", blogResultsFormatted);
 
-    let results = [...projectResultsFormatted, ...blogResultsFormatted].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    let results = [...blogResultsFormatted].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     return NextResponse.json({ hits: results });
 }
