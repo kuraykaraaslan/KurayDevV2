@@ -29,6 +29,7 @@ export async function GET(req: Request) {
         createdAt: post.createdAt,
     }));
 
+    /*
     const projectResultsFormatted : SearchResultItemType[] = projectData.map(project => ({
         title: project.title,
         description: project.description || null,
@@ -36,8 +37,7 @@ export async function GET(req: Request) {
         type: SearchType.PROJECT,
         createdAt: project.createdAt ? project.createdAt : new Date(),
     }));
-
-   // console.log("Blog Results:", blogResultsFormatted);
+    */
 
     let results = [...blogResultsFormatted].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
