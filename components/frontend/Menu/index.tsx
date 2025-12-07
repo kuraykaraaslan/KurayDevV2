@@ -6,9 +6,8 @@ import i18n from "@/libs/localize/localize";
 import {  IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {MenuItem} from '@/types/UITypes';
-import MenuItems from '../MenuItems';
 
-const Menu = ({isSidebar = false}) => {
+const Menu = ({isSidebar = false, menuItems}: {isSidebar?: boolean, menuItems: MenuItem[]}) => {
 
     const { t } = i18n;
 
@@ -62,7 +61,7 @@ const Menu = ({isSidebar = false}) => {
 
     return (
         <>
-            {MenuItems.map((item) => (
+            {menuItems?.map((item) => (
                 <li key={item.id}
                     style={{ display: item.onlyAdmin && !isAdmin ? 'none' : 'block', 
                         

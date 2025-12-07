@@ -4,6 +4,8 @@ import ScrollToTop from "@/components/frontend/ScrollToTop";
 import Sidebar from "@/components/frontend/Sidebar";
 import Whatsapp from "@/components/frontend/Whatsapp";
 import { Suspense } from "react";
+import MenuItems from "@/components/personal/MenuItems";
+
 /*
 export const metadata: Metadata = {
   title: "Kuray Karaaslan | Software Engineer",
@@ -25,14 +27,14 @@ export default function RootLayout({
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="relative drawer-content flex flex-col min-h-screen bg-base-200 h-full">
           {/* Navbar */}
-          <Navbar />
+          <Navbar menuItems={MenuItems} />
           {/* Page content here */}
           {children}
 
           {/* Footer */}
           <Footer />
         </div>
-        <Sidebar />
+        <Sidebar menuItems={MenuItems} />
       </div>
       <ScrollToTop />
       <Whatsapp />

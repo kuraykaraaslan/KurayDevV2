@@ -1,14 +1,16 @@
-// app/project/sitemap.xml/route.ts
+export const dynamic = "force-dynamic";
+
 import { NextResponse } from 'next/server';
-import ProjectService from '@/services/ProjectService';
+import PostService from '@/services/PostService';
 import { getBaseUrl, renderUrlSet } from '@/helpers/SitemapGenerator';
 import redisInstance from '@/libs/redis';
 import type { SitemapUrl } from '@/types/SitemapTypes';
 
-const CACHE_KEY = 'sitemap:project';
-const CACHE_TTL = 60 * 60;
+const CACHE_KEY = 'sitemap:blog';
+const CACHE_TTL = 60 * 60; // 1 saat
 
 export async function GET() {
+  // 1. Önce Redis’ten dene
   const cached = await redisInstance.get(CACHE_KEY);
   if (cached) {
     return new NextResponse(cached, {
@@ -16,17 +18,20 @@ export async function GET() {
     });
   }
 
+  // 2. Cache yoksa DB/Service’ten çek
   const BASE = getBaseUrl();
-  const projects = await ProjectService.getAllProjectSlugs();
+  const posts = await PostService.getAllPostSlugs();
 
-  const urls: SitemapUrl[] = projects.map((pr: any) => ({
-    loc: `${BASE}/project/${pr.slug}`,
-    lastmod: pr.updatedAt ? new Date(pr.updatedAt).toISOString() : undefined,
-    changefreq: 'weekly',
-    priority: 0.7,
+  const urls: SitemapUrl[] = posts.map((p: any) => ({
+    loc: `${BASE}/blog/${p.categorySlug}/${p.slug}`,
+    lastmod: p.updatedAt ? new Date(p.createdAt).toISOString() : undefined,
+    changefreq: 'daily',
+    priority: 0.8,
   }));
 
   const xml = renderUrlSet(urls);
+
+  // 3. Redis’e yaz
   await redisInstance.set(CACHE_KEY, xml, 'EX', CACHE_TTL);
 
   return new NextResponse(xml, {

@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import Logo from '@/components/common/Logo';
 import ReadingProgressBar from '../ReadingProgressBar';
 import SearchButton from './Partials/SearchButton';
+import { MenuItem } from '@/types/UITypes';
 
 const AuthButton = dynamic(
     () => import('./Partials/AuthButton'),
@@ -24,7 +25,7 @@ const ThemeButton = dynamic(
 );
 
 
-const Navbar = () => {
+const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
     const [isTopReached, setIsTopReached] = useState(true);
 
     useEffect(() => {
@@ -87,7 +88,7 @@ const Navbar = () => {
                 <div className="hidden flex-none xl:block">
                     <ul className="menu menu-horizontal gap-1 hidden lg:flex">
                         {/* Navbar menu content here */}
-                        <Menu />
+                        <Menu menuItems={menuItems} />
                     </ul>
                 </div>
                 <div className="">
@@ -96,7 +97,7 @@ const Navbar = () => {
                     </ul>
                 </div>
             </div>
-                            <ReadingProgressBar />
+            <ReadingProgressBar />
 
         </div >
     );

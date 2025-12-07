@@ -29,6 +29,8 @@ export default function Feed(props: FeedProps) {
         axiosInstance.get("/api/posts" + `?page=${page}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : '') + `${author ? `&authorId=${author.userId}` : ''}`)
             .then(response => {
 
+                console.log("Fetched posts:", response);
+
 
                 const incomingFeeds = response.data.posts.map((post: any) => {
 
@@ -51,6 +53,8 @@ export default function Feed(props: FeedProps) {
 
 
                 setIsMoreAvailable((response.data.total > (page + 1) * pageSize) && incomingFeeds.length === pageSize);
+            }).catch(error => {
+                console.error("Error fetching posts:", error);
             });
 
     }, [page]); // Make sure to include all dependencies that affect the API call
