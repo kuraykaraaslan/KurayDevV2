@@ -1,5 +1,4 @@
 import Welcome from '@/components/frontend/Hero/Welcome';
-import React from 'react';
 import Toolbox from '@/components/frontend/Hero/Toolbox';
 import Contact from '@/components/frontend/Hero/Contact';
 import ProjectsHero from '@/components/frontend/Hero/Projects';

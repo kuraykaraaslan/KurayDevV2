@@ -4,7 +4,7 @@ import ScrollToTop from "@/components/frontend/ScrollToTop";
 import Sidebar from "@/components/frontend/Sidebar";
 import Whatsapp from "@/components/frontend/Whatsapp";
 import { Suspense } from "react";
-import MenuItems from "@/components/personal/MenuItems";
+import MenuItems from "@/components/frontend/MenuItems";
 
 /*
 export const metadata: Metadata = {

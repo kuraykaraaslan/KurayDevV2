@@ -9,7 +9,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig = {
   /** Enable Turbopack explicitly */
   turbopack: {},
-
   typescript: {
     ignoreBuildErrors: false
   },
