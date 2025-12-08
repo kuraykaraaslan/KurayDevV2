@@ -266,3 +266,14 @@ model Like {
   @@index([userId])
   @@index([ipAddress, deviceFingerprint])
 }
+
+model GeoAnalytics {
+  id      String @id @default(cuid())
+  country String
+  city    String
+  lat     Float
+  lon     Float
+  count   Int    @default(0)
+
+  @@unique([country, city])
+}

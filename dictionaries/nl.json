@@ -108,5 +108,10 @@
     "past_date_warning": "U kunt geen afspraak maken in het verleden.",
     "minutes": "{{count}} minuten",
     "close": "Sluiten"
+  },
+  "geomap": {
+    "title": "Wereldwijde Bezoekers Warmtekaart",
+    "description": "Ontdek de wereldwijde verspreiding van bezoekers aan mijn portfolio via deze interactieve warmtekaart. Elk punt op de kaart vertegenwoordigt de locatie van een bezoeker en biedt inzicht in waar mijn publiek vandaan komt over de hele wereld.",
+    "visitors": "{{count}} bezoeker |||| {{count}} bezoekers"
   }
 }

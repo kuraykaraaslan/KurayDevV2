@@ -278,6 +278,15 @@ exports.Prisma.LikeScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.GeoAnalyticsScalarFieldEnum = {
+  id: 'id',
+  country: 'country',
+  city: 'city',
+  lat: 'lat',
+  lon: 'lon',
+  count: 'count'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -336,7 +345,8 @@ exports.Prisma.ModelName = {
   Setting: 'Setting',
   Project: 'Project',
   Appointment: 'Appointment',
-  Like: 'Like'
+  Like: 'Like',
+  GeoAnalytics: 'GeoAnalytics'
 };
 
 /**

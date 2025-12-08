@@ -106,5 +106,10 @@
     "available_slots": "Uygun Zamanlar",
     "book_appointment": "Randevu Al",
     "select_slot": "Lütfen randevu almak için bir zaman seçin."
+  },
+  "geomap": {
+    "title": "Küresel Ziyaretçi Isı Haritası",
+    "description": "Bu etkileşimli ısı haritası aracılığıyla portföyümü ziyaret edenlerin küresel dağılımını keşfedin. Haritadaki her nokta, bir ziyaretçinin konumunu temsil eder ve izleyicilerimin dünyanın neresinden geldiğine dair içgörüler sağlar.",
+    "visitors": "{{count}} ziyaretçi |||| {{count}} ziyaretçiler"
   }
 }

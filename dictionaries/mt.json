@@ -105,5 +105,10 @@
     "available_slots": "Ħinijiet Disponibbli",
     "book_appointment": "Ibbukkja Appuntament",
     "select_slot": "Jekk jogħġbok agħżel ħin biex tibbukkja appuntament."
+  },
+  "geomap": {
+    "title": "Mappa tas-Sħana tal-Viżitaturi Globali",
+    "description": "Esplora d-distribuzzjoni globali tal-viżitaturi għall-portafoll tiegħi permezz ta' din il-mappa tas-sħana interattiva. Kull punt fuq il-mappa jirrappreżenta l-lokazzjoni ta' viżitatur, jipprovdi għarfien dwar minn fejn ġejja l-udjenza tiegħi madwar id-dinja.",
+    "visitors": "{{count}} viżitatur |||| {{count}} viżitaturi"
   }
 }

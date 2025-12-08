@@ -78,6 +78,11 @@ export type Appointment = $Result.DefaultSelection<Prisma.$AppointmentPayload>
  * 
  */
 export type Like = $Result.DefaultSelection<Prisma.$LikePayload>
+/**
+ * Model GeoAnalytics
+ * 
+ */
+export type GeoAnalytics = $Result.DefaultSelection<Prisma.$GeoAnalyticsPayload>
 
 /**
  * Enums
@@ -396,6 +401,16 @@ export class PrismaClient<
     * ```
     */
   get like(): Prisma.LikeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.geoAnalytics`: Exposes CRUD operations for the **GeoAnalytics** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GeoAnalytics
+    * const geoAnalytics = await prisma.geoAnalytics.findMany()
+    * ```
+    */
+  get geoAnalytics(): Prisma.GeoAnalyticsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -842,7 +857,8 @@ export namespace Prisma {
     Setting: 'Setting',
     Project: 'Project',
     Appointment: 'Appointment',
-    Like: 'Like'
+    Like: 'Like',
+    GeoAnalytics: 'GeoAnalytics'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -858,7 +874,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "category" | "comment" | "contactForm" | "subscription" | "setting" | "project" | "appointment" | "like"
+      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "category" | "comment" | "contactForm" | "subscription" | "setting" | "project" | "appointment" | "like" | "geoAnalytics"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1824,6 +1840,80 @@ export namespace Prisma {
           }
         }
       }
+      GeoAnalytics: {
+        payload: Prisma.$GeoAnalyticsPayload<ExtArgs>
+        fields: Prisma.GeoAnalyticsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GeoAnalyticsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GeoAnalyticsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>
+          }
+          findFirst: {
+            args: Prisma.GeoAnalyticsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GeoAnalyticsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>
+          }
+          findMany: {
+            args: Prisma.GeoAnalyticsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>[]
+          }
+          create: {
+            args: Prisma.GeoAnalyticsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>
+          }
+          createMany: {
+            args: Prisma.GeoAnalyticsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GeoAnalyticsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>[]
+          }
+          delete: {
+            args: Prisma.GeoAnalyticsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>
+          }
+          update: {
+            args: Prisma.GeoAnalyticsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>
+          }
+          deleteMany: {
+            args: Prisma.GeoAnalyticsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GeoAnalyticsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GeoAnalyticsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>[]
+          }
+          upsert: {
+            args: Prisma.GeoAnalyticsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeoAnalyticsPayload>
+          }
+          aggregate: {
+            args: Prisma.GeoAnalyticsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGeoAnalytics>
+          }
+          groupBy: {
+            args: Prisma.GeoAnalyticsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GeoAnalyticsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GeoAnalyticsCountArgs<ExtArgs>
+            result: $Utils.Optional<GeoAnalyticsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1945,6 +2035,7 @@ export namespace Prisma {
     project?: ProjectOmit
     appointment?: AppointmentOmit
     like?: LikeOmit
+    geoAnalytics?: GeoAnalyticsOmit
   }
 
   /* Types for Logging */
@@ -16531,6 +16622,1056 @@ export namespace Prisma {
 
 
   /**
+   * Model GeoAnalytics
+   */
+
+  export type AggregateGeoAnalytics = {
+    _count: GeoAnalyticsCountAggregateOutputType | null
+    _avg: GeoAnalyticsAvgAggregateOutputType | null
+    _sum: GeoAnalyticsSumAggregateOutputType | null
+    _min: GeoAnalyticsMinAggregateOutputType | null
+    _max: GeoAnalyticsMaxAggregateOutputType | null
+  }
+
+  export type GeoAnalyticsAvgAggregateOutputType = {
+    lat: number | null
+    lon: number | null
+    count: number | null
+  }
+
+  export type GeoAnalyticsSumAggregateOutputType = {
+    lat: number | null
+    lon: number | null
+    count: number | null
+  }
+
+  export type GeoAnalyticsMinAggregateOutputType = {
+    id: string | null
+    country: string | null
+    city: string | null
+    lat: number | null
+    lon: number | null
+    count: number | null
+  }
+
+  export type GeoAnalyticsMaxAggregateOutputType = {
+    id: string | null
+    country: string | null
+    city: string | null
+    lat: number | null
+    lon: number | null
+    count: number | null
+  }
+
+  export type GeoAnalyticsCountAggregateOutputType = {
+    id: number
+    country: number
+    city: number
+    lat: number
+    lon: number
+    count: number
+    _all: number
+  }
+
+
+  export type GeoAnalyticsAvgAggregateInputType = {
+    lat?: true
+    lon?: true
+    count?: true
+  }
+
+  export type GeoAnalyticsSumAggregateInputType = {
+    lat?: true
+    lon?: true
+    count?: true
+  }
+
+  export type GeoAnalyticsMinAggregateInputType = {
+    id?: true
+    country?: true
+    city?: true
+    lat?: true
+    lon?: true
+    count?: true
+  }
+
+  export type GeoAnalyticsMaxAggregateInputType = {
+    id?: true
+    country?: true
+    city?: true
+    lat?: true
+    lon?: true
+    count?: true
+  }
+
+  export type GeoAnalyticsCountAggregateInputType = {
+    id?: true
+    country?: true
+    city?: true
+    lat?: true
+    lon?: true
+    count?: true
+    _all?: true
+  }
+
+  export type GeoAnalyticsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeoAnalytics to aggregate.
+     */
+    where?: GeoAnalyticsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeoAnalytics to fetch.
+     */
+    orderBy?: GeoAnalyticsOrderByWithRelationInput | GeoAnalyticsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GeoAnalyticsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeoAnalytics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeoAnalytics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GeoAnalytics
+    **/
+    _count?: true | GeoAnalyticsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GeoAnalyticsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GeoAnalyticsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GeoAnalyticsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GeoAnalyticsMaxAggregateInputType
+  }
+
+  export type GetGeoAnalyticsAggregateType<T extends GeoAnalyticsAggregateArgs> = {
+        [P in keyof T & keyof AggregateGeoAnalytics]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGeoAnalytics[P]>
+      : GetScalarType<T[P], AggregateGeoAnalytics[P]>
+  }
+
+
+
+
+  export type GeoAnalyticsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeoAnalyticsWhereInput
+    orderBy?: GeoAnalyticsOrderByWithAggregationInput | GeoAnalyticsOrderByWithAggregationInput[]
+    by: GeoAnalyticsScalarFieldEnum[] | GeoAnalyticsScalarFieldEnum
+    having?: GeoAnalyticsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GeoAnalyticsCountAggregateInputType | true
+    _avg?: GeoAnalyticsAvgAggregateInputType
+    _sum?: GeoAnalyticsSumAggregateInputType
+    _min?: GeoAnalyticsMinAggregateInputType
+    _max?: GeoAnalyticsMaxAggregateInputType
+  }
+
+  export type GeoAnalyticsGroupByOutputType = {
+    id: string
+    country: string
+    city: string
+    lat: number
+    lon: number
+    count: number
+    _count: GeoAnalyticsCountAggregateOutputType | null
+    _avg: GeoAnalyticsAvgAggregateOutputType | null
+    _sum: GeoAnalyticsSumAggregateOutputType | null
+    _min: GeoAnalyticsMinAggregateOutputType | null
+    _max: GeoAnalyticsMaxAggregateOutputType | null
+  }
+
+  type GetGeoAnalyticsGroupByPayload<T extends GeoAnalyticsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GeoAnalyticsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GeoAnalyticsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GeoAnalyticsGroupByOutputType[P]>
+            : GetScalarType<T[P], GeoAnalyticsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GeoAnalyticsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    country?: boolean
+    city?: boolean
+    lat?: boolean
+    lon?: boolean
+    count?: boolean
+  }, ExtArgs["result"]["geoAnalytics"]>
+
+  export type GeoAnalyticsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    country?: boolean
+    city?: boolean
+    lat?: boolean
+    lon?: boolean
+    count?: boolean
+  }, ExtArgs["result"]["geoAnalytics"]>
+
+  export type GeoAnalyticsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    country?: boolean
+    city?: boolean
+    lat?: boolean
+    lon?: boolean
+    count?: boolean
+  }, ExtArgs["result"]["geoAnalytics"]>
+
+  export type GeoAnalyticsSelectScalar = {
+    id?: boolean
+    country?: boolean
+    city?: boolean
+    lat?: boolean
+    lon?: boolean
+    count?: boolean
+  }
+
+  export type GeoAnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "country" | "city" | "lat" | "lon" | "count", ExtArgs["result"]["geoAnalytics"]>
+
+  export type $GeoAnalyticsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GeoAnalytics"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      country: string
+      city: string
+      lat: number
+      lon: number
+      count: number
+    }, ExtArgs["result"]["geoAnalytics"]>
+    composites: {}
+  }
+
+  type GeoAnalyticsGetPayload<S extends boolean | null | undefined | GeoAnalyticsDefaultArgs> = $Result.GetResult<Prisma.$GeoAnalyticsPayload, S>
+
+  type GeoAnalyticsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GeoAnalyticsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GeoAnalyticsCountAggregateInputType | true
+    }
+
+  export interface GeoAnalyticsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GeoAnalytics'], meta: { name: 'GeoAnalytics' } }
+    /**
+     * Find zero or one GeoAnalytics that matches the filter.
+     * @param {GeoAnalyticsFindUniqueArgs} args - Arguments to find a GeoAnalytics
+     * @example
+     * // Get one GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GeoAnalyticsFindUniqueArgs>(args: SelectSubset<T, GeoAnalyticsFindUniqueArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GeoAnalytics that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GeoAnalyticsFindUniqueOrThrowArgs} args - Arguments to find a GeoAnalytics
+     * @example
+     * // Get one GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GeoAnalyticsFindUniqueOrThrowArgs>(args: SelectSubset<T, GeoAnalyticsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeoAnalytics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeoAnalyticsFindFirstArgs} args - Arguments to find a GeoAnalytics
+     * @example
+     * // Get one GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GeoAnalyticsFindFirstArgs>(args?: SelectSubset<T, GeoAnalyticsFindFirstArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeoAnalytics that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeoAnalyticsFindFirstOrThrowArgs} args - Arguments to find a GeoAnalytics
+     * @example
+     * // Get one GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GeoAnalyticsFindFirstOrThrowArgs>(args?: SelectSubset<T, GeoAnalyticsFindFirstOrThrowArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GeoAnalytics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeoAnalyticsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.findMany()
+     * 
+     * // Get first 10 GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const geoAnalyticsWithIdOnly = await prisma.geoAnalytics.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GeoAnalyticsFindManyArgs>(args?: SelectSubset<T, GeoAnalyticsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GeoAnalytics.
+     * @param {GeoAnalyticsCreateArgs} args - Arguments to create a GeoAnalytics.
+     * @example
+     * // Create one GeoAnalytics
+     * const GeoAnalytics = await prisma.geoAnalytics.create({
+     *   data: {
+     *     // ... data to create a GeoAnalytics
+     *   }
+     * })
+     * 
+     */
+    create<T extends GeoAnalyticsCreateArgs>(args: SelectSubset<T, GeoAnalyticsCreateArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GeoAnalytics.
+     * @param {GeoAnalyticsCreateManyArgs} args - Arguments to create many GeoAnalytics.
+     * @example
+     * // Create many GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GeoAnalyticsCreateManyArgs>(args?: SelectSubset<T, GeoAnalyticsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GeoAnalytics and returns the data saved in the database.
+     * @param {GeoAnalyticsCreateManyAndReturnArgs} args - Arguments to create many GeoAnalytics.
+     * @example
+     * // Create many GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GeoAnalytics and only return the `id`
+     * const geoAnalyticsWithIdOnly = await prisma.geoAnalytics.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GeoAnalyticsCreateManyAndReturnArgs>(args?: SelectSubset<T, GeoAnalyticsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GeoAnalytics.
+     * @param {GeoAnalyticsDeleteArgs} args - Arguments to delete one GeoAnalytics.
+     * @example
+     * // Delete one GeoAnalytics
+     * const GeoAnalytics = await prisma.geoAnalytics.delete({
+     *   where: {
+     *     // ... filter to delete one GeoAnalytics
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GeoAnalyticsDeleteArgs>(args: SelectSubset<T, GeoAnalyticsDeleteArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GeoAnalytics.
+     * @param {GeoAnalyticsUpdateArgs} args - Arguments to update one GeoAnalytics.
+     * @example
+     * // Update one GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GeoAnalyticsUpdateArgs>(args: SelectSubset<T, GeoAnalyticsUpdateArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GeoAnalytics.
+     * @param {GeoAnalyticsDeleteManyArgs} args - Arguments to filter GeoAnalytics to delete.
+     * @example
+     * // Delete a few GeoAnalytics
+     * const { count } = await prisma.geoAnalytics.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GeoAnalyticsDeleteManyArgs>(args?: SelectSubset<T, GeoAnalyticsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeoAnalytics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeoAnalyticsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GeoAnalyticsUpdateManyArgs>(args: SelectSubset<T, GeoAnalyticsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeoAnalytics and returns the data updated in the database.
+     * @param {GeoAnalyticsUpdateManyAndReturnArgs} args - Arguments to update many GeoAnalytics.
+     * @example
+     * // Update many GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GeoAnalytics and only return the `id`
+     * const geoAnalyticsWithIdOnly = await prisma.geoAnalytics.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GeoAnalyticsUpdateManyAndReturnArgs>(args: SelectSubset<T, GeoAnalyticsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GeoAnalytics.
+     * @param {GeoAnalyticsUpsertArgs} args - Arguments to update or create a GeoAnalytics.
+     * @example
+     * // Update or create a GeoAnalytics
+     * const geoAnalytics = await prisma.geoAnalytics.upsert({
+     *   create: {
+     *     // ... data to create a GeoAnalytics
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GeoAnalytics we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GeoAnalyticsUpsertArgs>(args: SelectSubset<T, GeoAnalyticsUpsertArgs<ExtArgs>>): Prisma__GeoAnalyticsClient<$Result.GetResult<Prisma.$GeoAnalyticsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GeoAnalytics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeoAnalyticsCountArgs} args - Arguments to filter GeoAnalytics to count.
+     * @example
+     * // Count the number of GeoAnalytics
+     * const count = await prisma.geoAnalytics.count({
+     *   where: {
+     *     // ... the filter for the GeoAnalytics we want to count
+     *   }
+     * })
+    **/
+    count<T extends GeoAnalyticsCountArgs>(
+      args?: Subset<T, GeoAnalyticsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GeoAnalyticsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GeoAnalytics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeoAnalyticsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GeoAnalyticsAggregateArgs>(args: Subset<T, GeoAnalyticsAggregateArgs>): Prisma.PrismaPromise<GetGeoAnalyticsAggregateType<T>>
+
+    /**
+     * Group by GeoAnalytics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeoAnalyticsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GeoAnalyticsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GeoAnalyticsGroupByArgs['orderBy'] }
+        : { orderBy?: GeoAnalyticsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GeoAnalyticsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGeoAnalyticsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GeoAnalytics model
+   */
+  readonly fields: GeoAnalyticsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GeoAnalytics.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GeoAnalyticsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GeoAnalytics model
+   */
+  interface GeoAnalyticsFieldRefs {
+    readonly id: FieldRef<"GeoAnalytics", 'String'>
+    readonly country: FieldRef<"GeoAnalytics", 'String'>
+    readonly city: FieldRef<"GeoAnalytics", 'String'>
+    readonly lat: FieldRef<"GeoAnalytics", 'Float'>
+    readonly lon: FieldRef<"GeoAnalytics", 'Float'>
+    readonly count: FieldRef<"GeoAnalytics", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GeoAnalytics findUnique
+   */
+  export type GeoAnalyticsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * Filter, which GeoAnalytics to fetch.
+     */
+    where: GeoAnalyticsWhereUniqueInput
+  }
+
+  /**
+   * GeoAnalytics findUniqueOrThrow
+   */
+  export type GeoAnalyticsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * Filter, which GeoAnalytics to fetch.
+     */
+    where: GeoAnalyticsWhereUniqueInput
+  }
+
+  /**
+   * GeoAnalytics findFirst
+   */
+  export type GeoAnalyticsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * Filter, which GeoAnalytics to fetch.
+     */
+    where?: GeoAnalyticsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeoAnalytics to fetch.
+     */
+    orderBy?: GeoAnalyticsOrderByWithRelationInput | GeoAnalyticsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeoAnalytics.
+     */
+    cursor?: GeoAnalyticsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeoAnalytics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeoAnalytics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeoAnalytics.
+     */
+    distinct?: GeoAnalyticsScalarFieldEnum | GeoAnalyticsScalarFieldEnum[]
+  }
+
+  /**
+   * GeoAnalytics findFirstOrThrow
+   */
+  export type GeoAnalyticsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * Filter, which GeoAnalytics to fetch.
+     */
+    where?: GeoAnalyticsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeoAnalytics to fetch.
+     */
+    orderBy?: GeoAnalyticsOrderByWithRelationInput | GeoAnalyticsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeoAnalytics.
+     */
+    cursor?: GeoAnalyticsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeoAnalytics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeoAnalytics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeoAnalytics.
+     */
+    distinct?: GeoAnalyticsScalarFieldEnum | GeoAnalyticsScalarFieldEnum[]
+  }
+
+  /**
+   * GeoAnalytics findMany
+   */
+  export type GeoAnalyticsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * Filter, which GeoAnalytics to fetch.
+     */
+    where?: GeoAnalyticsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeoAnalytics to fetch.
+     */
+    orderBy?: GeoAnalyticsOrderByWithRelationInput | GeoAnalyticsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GeoAnalytics.
+     */
+    cursor?: GeoAnalyticsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeoAnalytics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeoAnalytics.
+     */
+    skip?: number
+    distinct?: GeoAnalyticsScalarFieldEnum | GeoAnalyticsScalarFieldEnum[]
+  }
+
+  /**
+   * GeoAnalytics create
+   */
+  export type GeoAnalyticsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a GeoAnalytics.
+     */
+    data: XOR<GeoAnalyticsCreateInput, GeoAnalyticsUncheckedCreateInput>
+  }
+
+  /**
+   * GeoAnalytics createMany
+   */
+  export type GeoAnalyticsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GeoAnalytics.
+     */
+    data: GeoAnalyticsCreateManyInput | GeoAnalyticsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GeoAnalytics createManyAndReturn
+   */
+  export type GeoAnalyticsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * The data used to create many GeoAnalytics.
+     */
+    data: GeoAnalyticsCreateManyInput | GeoAnalyticsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GeoAnalytics update
+   */
+  export type GeoAnalyticsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a GeoAnalytics.
+     */
+    data: XOR<GeoAnalyticsUpdateInput, GeoAnalyticsUncheckedUpdateInput>
+    /**
+     * Choose, which GeoAnalytics to update.
+     */
+    where: GeoAnalyticsWhereUniqueInput
+  }
+
+  /**
+   * GeoAnalytics updateMany
+   */
+  export type GeoAnalyticsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GeoAnalytics.
+     */
+    data: XOR<GeoAnalyticsUpdateManyMutationInput, GeoAnalyticsUncheckedUpdateManyInput>
+    /**
+     * Filter which GeoAnalytics to update
+     */
+    where?: GeoAnalyticsWhereInput
+    /**
+     * Limit how many GeoAnalytics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeoAnalytics updateManyAndReturn
+   */
+  export type GeoAnalyticsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * The data used to update GeoAnalytics.
+     */
+    data: XOR<GeoAnalyticsUpdateManyMutationInput, GeoAnalyticsUncheckedUpdateManyInput>
+    /**
+     * Filter which GeoAnalytics to update
+     */
+    where?: GeoAnalyticsWhereInput
+    /**
+     * Limit how many GeoAnalytics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeoAnalytics upsert
+   */
+  export type GeoAnalyticsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the GeoAnalytics to update in case it exists.
+     */
+    where: GeoAnalyticsWhereUniqueInput
+    /**
+     * In case the GeoAnalytics found by the `where` argument doesn't exist, create a new GeoAnalytics with this data.
+     */
+    create: XOR<GeoAnalyticsCreateInput, GeoAnalyticsUncheckedCreateInput>
+    /**
+     * In case the GeoAnalytics was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GeoAnalyticsUpdateInput, GeoAnalyticsUncheckedUpdateInput>
+  }
+
+  /**
+   * GeoAnalytics delete
+   */
+  export type GeoAnalyticsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+    /**
+     * Filter which GeoAnalytics to delete.
+     */
+    where: GeoAnalyticsWhereUniqueInput
+  }
+
+  /**
+   * GeoAnalytics deleteMany
+   */
+  export type GeoAnalyticsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeoAnalytics to delete
+     */
+    where?: GeoAnalyticsWhereInput
+    /**
+     * Limit how many GeoAnalytics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeoAnalytics without action
+   */
+  export type GeoAnalyticsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeoAnalytics
+     */
+    select?: GeoAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeoAnalytics
+     */
+    omit?: GeoAnalyticsOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -16739,6 +17880,18 @@ export namespace Prisma {
   };
 
   export type LikeScalarFieldEnum = (typeof LikeScalarFieldEnum)[keyof typeof LikeScalarFieldEnum]
+
+
+  export const GeoAnalyticsScalarFieldEnum: {
+    id: 'id',
+    country: 'country',
+    city: 'city',
+    lat: 'lat',
+    lon: 'lon',
+    count: 'count'
+  };
+
+  export type GeoAnalyticsScalarFieldEnum = (typeof GeoAnalyticsScalarFieldEnum)[keyof typeof GeoAnalyticsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -17905,6 +19058,66 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Like"> | Date | string
   }
 
+  export type GeoAnalyticsWhereInput = {
+    AND?: GeoAnalyticsWhereInput | GeoAnalyticsWhereInput[]
+    OR?: GeoAnalyticsWhereInput[]
+    NOT?: GeoAnalyticsWhereInput | GeoAnalyticsWhereInput[]
+    id?: StringFilter<"GeoAnalytics"> | string
+    country?: StringFilter<"GeoAnalytics"> | string
+    city?: StringFilter<"GeoAnalytics"> | string
+    lat?: FloatFilter<"GeoAnalytics"> | number
+    lon?: FloatFilter<"GeoAnalytics"> | number
+    count?: IntFilter<"GeoAnalytics"> | number
+  }
+
+  export type GeoAnalyticsOrderByWithRelationInput = {
+    id?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    lat?: SortOrder
+    lon?: SortOrder
+    count?: SortOrder
+  }
+
+  export type GeoAnalyticsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    country_city?: GeoAnalyticsCountryCityCompoundUniqueInput
+    AND?: GeoAnalyticsWhereInput | GeoAnalyticsWhereInput[]
+    OR?: GeoAnalyticsWhereInput[]
+    NOT?: GeoAnalyticsWhereInput | GeoAnalyticsWhereInput[]
+    country?: StringFilter<"GeoAnalytics"> | string
+    city?: StringFilter<"GeoAnalytics"> | string
+    lat?: FloatFilter<"GeoAnalytics"> | number
+    lon?: FloatFilter<"GeoAnalytics"> | number
+    count?: IntFilter<"GeoAnalytics"> | number
+  }, "id" | "country_city">
+
+  export type GeoAnalyticsOrderByWithAggregationInput = {
+    id?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    lat?: SortOrder
+    lon?: SortOrder
+    count?: SortOrder
+    _count?: GeoAnalyticsCountOrderByAggregateInput
+    _avg?: GeoAnalyticsAvgOrderByAggregateInput
+    _max?: GeoAnalyticsMaxOrderByAggregateInput
+    _min?: GeoAnalyticsMinOrderByAggregateInput
+    _sum?: GeoAnalyticsSumOrderByAggregateInput
+  }
+
+  export type GeoAnalyticsScalarWhereWithAggregatesInput = {
+    AND?: GeoAnalyticsScalarWhereWithAggregatesInput | GeoAnalyticsScalarWhereWithAggregatesInput[]
+    OR?: GeoAnalyticsScalarWhereWithAggregatesInput[]
+    NOT?: GeoAnalyticsScalarWhereWithAggregatesInput | GeoAnalyticsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GeoAnalytics"> | string
+    country?: StringWithAggregatesFilter<"GeoAnalytics"> | string
+    city?: StringWithAggregatesFilter<"GeoAnalytics"> | string
+    lat?: FloatWithAggregatesFilter<"GeoAnalytics"> | number
+    lon?: FloatWithAggregatesFilter<"GeoAnalytics"> | number
+    count?: IntWithAggregatesFilter<"GeoAnalytics"> | number
+  }
+
   export type UserCreateInput = {
     userId?: string
     email: string
@@ -19035,6 +20248,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GeoAnalyticsCreateInput = {
+    id?: string
+    country: string
+    city: string
+    lat: number
+    lon: number
+    count?: number
+  }
+
+  export type GeoAnalyticsUncheckedCreateInput = {
+    id?: string
+    country: string
+    city: string
+    lat: number
+    lon: number
+    count?: number
+  }
+
+  export type GeoAnalyticsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    lat?: FloatFieldUpdateOperationsInput | number
+    lon?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type GeoAnalyticsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    lat?: FloatFieldUpdateOperationsInput | number
+    lon?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type GeoAnalyticsCreateManyInput = {
+    id?: string
+    country: string
+    city: string
+    lat: number
+    lon: number
+    count?: number
+  }
+
+  export type GeoAnalyticsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    lat?: FloatFieldUpdateOperationsInput | number
+    lon?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type GeoAnalyticsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    lat?: FloatFieldUpdateOperationsInput | number
+    lon?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -19841,6 +21117,77 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type GeoAnalyticsCountryCityCompoundUniqueInput = {
+    country: string
+    city: string
+  }
+
+  export type GeoAnalyticsCountOrderByAggregateInput = {
+    id?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    lat?: SortOrder
+    lon?: SortOrder
+    count?: SortOrder
+  }
+
+  export type GeoAnalyticsAvgOrderByAggregateInput = {
+    lat?: SortOrder
+    lon?: SortOrder
+    count?: SortOrder
+  }
+
+  export type GeoAnalyticsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    lat?: SortOrder
+    lon?: SortOrder
+    count?: SortOrder
+  }
+
+  export type GeoAnalyticsMinOrderByAggregateInput = {
+    id?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    lat?: SortOrder
+    lon?: SortOrder
+    count?: SortOrder
+  }
+
+  export type GeoAnalyticsSumOrderByAggregateInput = {
+    lat?: SortOrder
+    lon?: SortOrder
+    count?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type UserCreateotpMethodsInput = {
     set: $Enums.OTPMethod[]
   }
@@ -20391,6 +21738,14 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLikesInput, UserUpdateWithoutLikesInput>, UserUncheckedUpdateWithoutLikesInput>
   }
 
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -20631,6 +21986,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAppointmentStatusFilter<$PrismaModel>
     _max?: NestedEnumAppointmentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type UserSessionCreateWithoutUserInput = {

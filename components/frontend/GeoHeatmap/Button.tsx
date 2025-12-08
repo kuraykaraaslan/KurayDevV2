@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMap } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
 import LoadingElement from '../LoadingElement'
+import i18n from "@/libs/localize/localize";
 
-const GeoHeatmap = dynamic(() => import('./index'), { ssr: false, loading: () => <LoadingElement title="GeoHeatmap" /> })
+const GeoHeatmap = dynamic(() => import('./index'), { ssr: false, loading: () => <LoadingElement title={i18n.t("GeoHeatmap")} /> })
 
 export default function GeoHeatmapButton() {
   const { open, openModal, closeModal } = useModal()
@@ -19,7 +20,7 @@ export default function GeoHeatmapButton() {
       <HeadlessModal
         open={open}
         onClose={closeModal}
-        title="Global Visitors Heatmap"
+        title={i18n.t("geomap.title")}
         size="lg" 
         className="!max-w-5xl" 
       >

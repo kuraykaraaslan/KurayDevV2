@@ -108,5 +108,10 @@
     "past_date_warning": "You cannot book an appointment for a past date.",
     "minutes": "{{count}} minutes",
     "close": "Close"
+  },
+  "geomap": {
+    "title": "Global Visitors Heatmap",
+    "description": "Explore the global distribution of visitors to my portfolio through this interactive heatmap. Each point on the map represents a visitor's location, providing insights into where my audience is coming from around the world.",
+    "visitors": "{{count}} visitor |||| {{count}} visitors"
   }
 }

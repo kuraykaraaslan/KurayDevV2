@@ -105,5 +105,10 @@
     "available_slots": "Verfügbare Termine",
     "book_appointment": "Termin buchen",
     "select_slot": "Bitte wählen Sie einen Termin aus, um einen Termin zu buchen."
+  },
+  "geomap": {
+    "title": "Weltweite Besucher-Wärmekarte",
+    "description": "Entdecken Sie die weltweite Verteilung der Besucher meines Portfolios durch diese interaktive Wärmekarte. Jeder Punkt auf der Karte repräsentiert den Standort eines Besuchers und bietet Einblicke darüber, woher mein Publikum weltweit kommt.",
+    "visitors": "{{count}} Besucher |||| {{count}} Besucher"
   }
 }

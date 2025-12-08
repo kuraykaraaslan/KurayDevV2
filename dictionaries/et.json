@@ -105,5 +105,10 @@
     "available_slots": "Saadaolevad ajad",
     "book_appointment": "Broneeri aeg",
     "select_slot": "Palun vali aeg, et broneerida kohtumine."
+  },
+  "geomap": {
+    "title": "Maailma külastajate soojuskaart",
+    "description": "Avasta minu portfelli külastajate ülemaailmne jaotus selle interaktiivse soojuskaardi kaudu. Iga punkt kaardil esindab külastaja asukohta, pakkudes ülevaadet sellest, kust mu publik maailmas pärineb.",
+    "visitors": "{{count}} külastaja |||| {{count}} külastajat"
   }
 }
