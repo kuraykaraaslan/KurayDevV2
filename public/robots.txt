@@ -3,3 +3,4 @@ Disallow: /admin/
 Disallow: /api/
 
 Sitemap: https://kuray.dev/sitemap.xml
+Feed: https://kuray.dev/feed.xml
