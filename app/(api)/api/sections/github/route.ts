@@ -1,4 +1,4 @@
-"use server";
+
 
 import { NextRequest, NextResponse } from "next/server";
 import GithubService from "@/services/IntegrationService/GithubService";

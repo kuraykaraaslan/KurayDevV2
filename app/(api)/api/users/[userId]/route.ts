@@ -1,4 +1,4 @@
-"use server";
+
 import { NextResponse } from "next/server";
    
 import UserService from "@/services/UserService";

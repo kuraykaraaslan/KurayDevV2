@@ -1,4 +1,4 @@
-"use server";
+
 import { NextRequest, NextResponse } from 'next/server';
 import DiscordService from '@/services/SocialMediaService/DiscordService';
 import ContactFormService from '@/services/ContactFormService';

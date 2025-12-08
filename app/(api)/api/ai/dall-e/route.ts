@@ -1,5 +1,3 @@
-"use server";
-
 import { NextResponse } from "next/server";
 import OpenAIService from "@/services/OpenAIService";
 import UserSessionService from "@/services/AuthService/UserSessionService";

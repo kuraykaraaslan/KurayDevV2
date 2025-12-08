@@ -1,7 +1,7 @@
 generator client {
   provider   = "prisma-client-js"
   accelerate = "true"
-  output   = "../generated/prisma"
+  output     = "../generated/prisma"
 }
 
 datasource db {
@@ -230,19 +230,18 @@ enum AppointmentStatus {
 }
 
 model Appointment {
-  appointmentId String   @id @default(cuid())
+  appointmentId String @id @default(cuid())
 
   startTime DateTime @db.Timestamptz
   endTime   DateTime @db.Timestamptz
 
-  name          String
-  email         String
-  phone         String
-  note          String?
+  name  String
+  email String
+  phone String
+  note  String?
 
-  status AppointmentStatus @default(PENDING)
+  status    AppointmentStatus @default(PENDING)
   createdAt DateTime          @default(now())
-
 }
 
 model Like {

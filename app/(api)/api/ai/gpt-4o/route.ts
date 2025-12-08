@@ -1,4 +1,4 @@
-"use server";
+
 
 import { NextResponse } from "next/server";
 import OpenAIService from "@/services/OpenAIService";

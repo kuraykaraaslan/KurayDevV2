@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import CategoryService from '@/services/CategoryService'
 import PostTable from '@/components/admin/Tables/PostTable'
 import { notFound, useParams } from 'next/navigation'
+import axiosInstance from '@/libs/axios'
 
 const Page = () => {
   const { categoryId } = useParams()
@@ -12,18 +12,17 @@ const Page = () => {
 
   useEffect(() => {
     const fetchCategory = async () => {
-      try {
-        const data = await CategoryService.getCategoryById(categoryId as string)
-        if (!data) {
-          notFound()
-          return
-        }
-        setCategory(data)
-      } catch (error) {
-        console.error('Failed to fetch category:', error)
-      } finally {
+  
+      await axiosInstance.get(`/api/categories/${categoryId}`).then((res => {
+        setCategory(res.data.category)
         setLoading(false)
-      }
+      })).catch((error) => {
+        console.error(error)
+        setLoading(false)
+        if (error.response && error.response.status === 404) {
+          notFound()
+        }
+      })  
     }
 
     fetchCategory()
