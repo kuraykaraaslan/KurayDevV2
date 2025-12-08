@@ -11,18 +11,18 @@ export default function GeoHeatmap() {
 
   const { t } = i18n;
 
+  const fetchGeoData = async () => {
+    await axiosInstance.get('/api/analytics/geo').then((res) => {
+      setData(res.data);
+    }).catch((err) => {
+      console.error(err);
+    });
+  };
+
   // --- 1. Fetch Geo Analytics ---
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axiosInstance.get('/api/analytics/geo')
-        setData(res.data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchData()
-  }, [])
+    fetchGeoData();
+  }, []);
 
   // --- 2. Initialize Map when data ready ---
   useEffect(() => {
