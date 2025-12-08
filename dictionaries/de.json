@@ -110,5 +110,29 @@
     "title": "Weltweite Besucher-Wärmekarte",
     "description": "Entdecken Sie die weltweite Verteilung der Besucher meines Portfolios durch diese interaktive Wärmekarte. Jeder Punkt auf der Karte repräsentiert den Standort eines Besuchers und bietet Einblicke darüber, woher mein Publikum weltweit kommt.",
     "visitors": "{{count}} Besucher |||| {{count}} Besucher"
+  },
+  "status": {
+    "title": "Systemstatus",
+    "loading": "Systemstatus wird überprüft...",
+    "response_time": "Antwortzeit: {{time}}ms",
+    "uptime": "Betriebszeit: {{time}}m",
+    "service_names": {
+      "api": "API",
+      "database": "Datenbank",
+      "auth": "Authentifizierung",
+      "payment": "Zahlungsgateway",
+      "frontend": "Frontend",
+      "redis": "Redis Cache",
+      "mail": "E-Mail-Dienst",
+      "openai": "OpenAI-Dienst",
+      "aws": "AWS-Dienste",
+      "sms": "SMS-Dienst"
+    },
+    "statuses": {
+      "operational": "Betriebsbereit",
+      "degraded_performance": "Beeinträchtigte Leistung",
+      "partial_outage": "Teilweise Ausfall",
+      "major_outage": "Großer Ausfall"
+    }
   }
 }

@@ -111,5 +111,29 @@
     "title": "Küresel Ziyaretçi Isı Haritası",
     "description": "Bu etkileşimli ısı haritası aracılığıyla portföyümü ziyaret edenlerin küresel dağılımını keşfedin. Haritadaki her nokta, bir ziyaretçinin konumunu temsil eder ve izleyicilerimin dünyanın neresinden geldiğine dair içgörüler sağlar.",
     "visitors": "{{count}} ziyaretçi |||| {{count}} ziyaretçiler"
+  },
+    "status": {
+    "title": "Sistem Durumu",
+    "loading": "Sistem durumunu kontrol ediliyor...",
+    "response_time": "Yanıt Süresi: {{time}}ms",
+    "uptime": "Açık Kalma Süresi: {{time}}m",
+    "service_names": {
+      "api": "API",
+      "database": "Veritabanı",
+      "auth": "Kimlik Doğrulama",
+      "payment": "Ödeme Geçidi",
+      "frontend": "Ön Uç",
+      "redis": "Redis Önbelleği",
+      "mail": "Mail Servisi",
+      "openai": "OpenAI Servisi",
+      "aws": "AWS Hizmetleri",
+      "sms": "SMS Servisi"
+    },
+    "statuses": {
+      "operational": "Çalışır Durumda",
+      "degraded_performance": "Düşük Performans",
+      "partial_outage": "Kısmi Kesinti",
+      "major_outage": "Büyük Kesinti"
+    }
   }
 }

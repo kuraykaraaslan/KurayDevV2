@@ -113,5 +113,29 @@
     "title": "Global Visitors Heatmap",
     "description": "Explore the global distribution of visitors to my portfolio through this interactive heatmap. Each point on the map represents a visitor's location, providing insights into where my audience is coming from around the world.",
     "visitors": "{{count}} visitor |||| {{count}} visitors"
+  },
+  "status": {
+    "title": "System Status",
+    "loading": "Checking system status...",
+    "response_time": "Response Time: {{time}}ms",
+    "uptime": "Uptime: {{time}}m",
+    "service_names": {
+      "api": "API",
+      "database": "Database",
+      "auth": "Authentication",
+      "payment": "Payment Gateway",
+      "frontend": "Frontend",
+      "redis": "Redis Cache",
+      "mail": "Mail Service",
+      "openai": "OpenAI Service",
+      "aws": "AWS Services",
+      "sms": "SMS Service"
+    },
+    "statuses": {
+      "operational": "Operational",
+      "degraded_performance": "Degraded Performance",
+      "partial_outage": "Partial Outage",
+      "major_outage": "Major Outage"
+    }
   }
 }

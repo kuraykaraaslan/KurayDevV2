@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 import LoadingElement from '../LoadingElement'
 import i18n from "@/libs/localize/localize";
 
-const GeoHeatmap = dynamic(() => import('./index'), { ssr: false, loading: () => <LoadingElement title={i18n.t("GeoHeatmap")} /> })
+const GeoHeatmap = dynamic(() => import('./content'), { ssr: false, loading: () => <LoadingElement title={i18n.t("GeoHeatmap")} /> })
 
 export default function GeoHeatmapButton() {
   const { open, openModal, closeModal } = useModal()

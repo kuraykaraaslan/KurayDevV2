@@ -110,5 +110,29 @@
     "title": "Maailma külastajate soojuskaart",
     "description": "Avasta minu portfelli külastajate ülemaailmne jaotus selle interaktiivse soojuskaardi kaudu. Iga punkt kaardil esindab külastaja asukohta, pakkudes ülevaadet sellest, kust mu publik maailmas pärineb.",
     "visitors": "{{count}} külastaja |||| {{count}} külastajat"
+  },
+  "status": {
+    "title": "Süsteemi olek",
+    "loading": "Kontrollin süsteemi olekut...",
+    "response_time": "Vastuse aeg: {{time}}ms",
+    "uptime": "Töötamise aeg: {{time}}m",
+    "service_names": {
+      "api": "API",
+      "database": "Andmebaas",
+      "auth": "Autentimine",
+      "payment": "Maksevärav",
+      "frontend": "Eesmine",
+      "redis": "Redis Cache",
+      "mail": "Postiteenus",
+      "openai": "OpenAI teenus",
+      "aws": "AWS teenused",
+      "sms": "SMS teenus"
+    },
+    "statuses": {
+      "operational": "Töötav",
+      "degraded_performance": "Kehv jõudlus",
+      "partial_outage": "Osaline katkestus",
+      "major_outage": "Suurepärane katkestus"
+    }
   }
 }

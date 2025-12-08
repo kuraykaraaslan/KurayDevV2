@@ -110,5 +110,29 @@
     "title": "Mappa tas-Sħana tal-Viżitaturi Globali",
     "description": "Esplora d-distribuzzjoni globali tal-viżitaturi għall-portafoll tiegħi permezz ta' din il-mappa tas-sħana interattiva. Kull punt fuq il-mappa jirrappreżenta l-lokazzjoni ta' viżitatur, jipprovdi għarfien dwar minn fejn ġejja l-udjenza tiegħi madwar id-dinja.",
     "visitors": "{{count}} viżitatur |||| {{count}} viżitaturi"
+  },
+    "status": {
+    "title": "Stat ta' Sistema",
+    "loading": "Qed iċċekkja l-istat tas-sistema...",
+    "response_time": "Ħin ta' Risposta: {{time}}ms",
+    "uptime": "Ħin ta' Operazzjoni: {{time}}m",
+    "service_names": {
+      "api": "API",
+      "database": "Database",
+      "auth": "Awtentikazzjoni",
+      "payment": "Gateway tal-Pagamenti",
+      "frontend": "Frontend",
+      "redis": "Cache Redis",
+      "mail": "Servizz tal-Email",
+      "openai": "Servizz OpenAI",
+      "aws": "Servizzi AWS",
+      "sms": "Servizz SMS"
+    },
+    "statuses": {
+      "operational": "Operattiv",
+      "degraded_performance": "Prestazzjoni Mnaqqsa",
+      "partial_outage": "Interruzzjoni Parzjali",
+      "major_outage": "Interruzzjoni Kbira"
+    }
   }
 }

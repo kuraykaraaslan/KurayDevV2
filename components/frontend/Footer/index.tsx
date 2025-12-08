@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import SystemStatusButton from "../SystemStatusButton";
-import GeoHeatmapButton from "../GeoHeatmap/Button";
+import GeoHeatmapButton from "../GeoHeatmapButton";
 
 const Footer = () => {
 

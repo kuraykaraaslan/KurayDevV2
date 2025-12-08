@@ -113,5 +113,29 @@
     "title": "Wereldwijde Bezoekers Warmtekaart",
     "description": "Ontdek de wereldwijde verspreiding van bezoekers aan mijn portfolio via deze interactieve warmtekaart. Elk punt op de kaart vertegenwoordigt de locatie van een bezoeker en biedt inzicht in waar mijn publiek vandaan komt over de hele wereld.",
     "visitors": "{{count}} bezoeker |||| {{count}} bezoekers"
+  },
+    "status": {
+    "title": "Systeemstatus",
+    "loading": "Systeemstatus controleren...",
+    "response_time": "Reactietijd: {{time}}ms",
+    "uptime": "Uptime: {{time}}m",
+    "service_names": {
+      "api": "API",
+      "database": "Database",
+      "auth": "Authenticatie",
+      "payment": "Betalingsgateway",
+      "frontend": "Frontend",
+      "redis": "Redis-cache",
+      "mail": "E-mailservice",
+      "openai": "OpenAI-service",
+      "aws": "AWS-diensten",
+      "sms": "SMS-service"
+    },
+    "statuses": {
+      "operational": "Operationeel",
+      "degraded_performance": "Verminderde prestaties",
+      "partial_outage": "Gedeeltige storing",
+      "major_outage": "Grote storing"
+    }
   }
 }
