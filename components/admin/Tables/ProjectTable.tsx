@@ -1,19 +1,19 @@
 'use client'
-import React from 'react';
 import {Project} from '@prisma/client';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
+import { useEffect, useState } from 'react';
 
 const ProjectTable = () => {
 
-    const [search, setSearch] = React.useState('');
-    const [projects, setProjects] = React.useState<Partial<Project>[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [pageSize, _setPageSize] = React.useState(10);
-    const [total, setTotal] = React.useState(0);
+    const [search, setSearch] = useState('');
+    const [projects, setProjects] = useState<Partial<Project>[]>([]);
+    const [page, setPage] = useState(0);
+    const [pageSize, _setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
 
-    React.useEffect(() => {
+    useEffect(() => {
 
         axiosInstance.get("/api/projects" + `?page=${page}&pageSize=${pageSize}&search=${search}&sort=desc`)
             .then((response) => {

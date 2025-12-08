@@ -1,7 +1,7 @@
 'use client';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, ReactNode, useRef, useEffect, useCallback } from 'react';
+import { useState, ReactNode, useRef, useEffect, useCallback } from 'react';
 import PostCard from './Partials/PostCard';
 import axiosInstance from '@/libs/axios';
 import { useParams } from 'next/navigation';

@@ -1,10 +1,8 @@
-import React from "react";
-
 interface LoadingElementProps {
     title?: string;
 }
 
-const LoadingElement: React.FC<LoadingElementProps> = ({ title }) => (
+const LoadingElement = ({ title }: LoadingElementProps) => (
     <div className="flex items-center justify-center h-[200px]">
         Loading {title ? title : '...'}
     </div>

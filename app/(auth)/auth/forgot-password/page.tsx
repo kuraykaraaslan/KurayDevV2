@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation';
@@ -35,7 +35,7 @@ const ForgotPasswordPage = () => {
 
     const [step, setStep] = useState(1);
 
-    async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+    async function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
 
         if (step === 1) {

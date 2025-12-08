@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import {
   faAnglesDown,
   faAnglesUp,
@@ -9,11 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimelineItems from './Partials/TimelineItems';
 import BackgroundImage from './Partials/BackgroundImage';
 import { useTranslation } from 'react-i18next';
+import { useRef, useState } from "react";
 
 const Timeline = () => {
 
-  const [expanded, setExpanded] = React.useState(false);
-  const container = React.useRef(null);
+  const [expanded, setExpanded] = useState(false);
+  const container = useRef(null);
 
   const { t } = useTranslation();
 

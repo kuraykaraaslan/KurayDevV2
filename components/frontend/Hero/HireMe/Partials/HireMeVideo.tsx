@@ -1,13 +1,13 @@
 'use client';
-import React, { createRef } from "react";
+import { createRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 
-const HireMeVideo: React.FC = () => {
+const HireMeVideo = () => {
 
-    const [playing, setPlaying] = React.useState(false);
+    const [playing, setPlaying] = useState(false);
     const player = createRef<any>();
 
     const handleOpenModal = () => {

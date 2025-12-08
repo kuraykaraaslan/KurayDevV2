@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import { Comment } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faMessage } from '@fortawesome/free-solid-svg-icons';

@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useGlobalStore } from '@/libs/zustand';
 import i18n from "@/libs/localize/localize";

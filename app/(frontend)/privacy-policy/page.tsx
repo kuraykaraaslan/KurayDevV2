@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import React from 'react';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 

@@ -5,11 +5,11 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
-import { Suspense } from 'react';
+import { ReactNode, Suspense } from 'react';
 import SSOLogin from '@/components/auth/SSOLogin';
 
 
-export default function AuthLayout({ children }: { children: React.ReactNode}) {
+export default function AuthLayout({ children }: { children: ReactNode }) {
 
   //Create a context to store the user's authentication status
 

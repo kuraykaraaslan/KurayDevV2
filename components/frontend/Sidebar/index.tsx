@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import Menu from '../Menu';
 import { MenuItem } from '@/types/UITypes';
 

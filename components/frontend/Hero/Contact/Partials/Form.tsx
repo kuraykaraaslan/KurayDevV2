@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import './styles/phoneInput.css';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';

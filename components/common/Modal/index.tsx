@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
+import { ReactNode, RefObject, useCallback, useEffect, useId, useMemo, useRef, useState, MouseEvent } from "react"
 import { createPortal } from "react-dom"
 
 /**
@@ -13,16 +13,16 @@ import { createPortal } from "react-dom"
 export type HeadlessModalProps = {
   open: boolean
   onClose: () => void
-  title?: React.ReactNode
-  description?: React.ReactNode
+  title?: ReactNode
+  description?: ReactNode
   closeOnBackdrop?: boolean
   closeOnEsc?: boolean
   showClose?: boolean
-  initialFocusRef?: React.RefObject<HTMLElement>
+  initialFocusRef?: RefObject<HTMLElement>
   size?: "sm" | "md" | "lg" | "xl" | "full"
   className?: string
   backdropClassName?: string
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export function HeadlessModal({
@@ -129,7 +129,7 @@ export function HeadlessModal({
   }, [size])
 
   const handleBackdrop = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent) => {
       if (!closeOnBackdrop) return
       if (e.target === e.currentTarget) onClose()
     },

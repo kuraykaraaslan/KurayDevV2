@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { useRef } from "react";
 import {
   faApple,
   faAndroid,
@@ -16,7 +16,7 @@ import {
 import SingleService, { Service } from "./Partials/SingleService";
 
 const Services = () => {
-  const container = React.useRef(null);
+  const container = useRef(null);
   const projects: Service[] = [
     {
       id: "1",

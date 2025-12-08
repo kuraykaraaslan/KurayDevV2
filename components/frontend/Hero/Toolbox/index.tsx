@@ -23,8 +23,6 @@ import {
   faCloud,
   faVial,
 } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
-
 import SingleTool from "./Partials/SingleTool";
 import SingleSkill from "./Partials/SingleSkill";
 import {Tool, Skill } from "@/types/SkillTypes";

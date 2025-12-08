@@ -1,4 +1,3 @@
-import React from 'react'
 import Link from 'next/link'
 import { PostWithData } from '@/types/BlogTypes'
 import PostLike from './partials/PostLike'

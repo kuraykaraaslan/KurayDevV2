@@ -1,6 +1,6 @@
 'use client';
 import i18n from "@/libs/localize/localize";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const TypingEffect = () => {
   const { t } = i18n;

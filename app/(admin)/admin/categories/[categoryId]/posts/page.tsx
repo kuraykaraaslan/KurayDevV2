@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CategoryService from '@/services/CategoryService'
 import PostTable from '@/components/admin/Tables/PostTable'
 import { notFound, useParams } from 'next/navigation'

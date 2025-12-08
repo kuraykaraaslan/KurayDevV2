@@ -1,11 +1,11 @@
 'use client'
-import React, { Suspense } from "react";
+import { Suspense, ReactNode } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
 const Layout = ({
     children,
 }: {
-    children: React.ReactNode;
+    children: ReactNode;
 }) => {
 
     return (

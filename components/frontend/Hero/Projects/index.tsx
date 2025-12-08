@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from "react";
 import {
   faAnglesDown,
   faAnglesUp,
@@ -27,16 +27,16 @@ const ProjectsHero = () => {
   const { t } = useTranslation()
   const [filter, setFilter] = useState("");
 
-  const [expanded, setExpanded] = React.useState(false);
-  const container = React.useRef(null);
+  const [expanded, setExpanded] = useState(false);
+  const container = useRef(null);
 
-  const [search, _setSearch] = React.useState('');
-  const [projects, setProjects] = React.useState<Project[]>([]);
-  const [page, _setPage] = React.useState(0);
-  const [pageSize, _setPageSize] = React.useState(100);
-  const [_total, setTotal] = React.useState(0);
+  const [search, _setSearch] = useState('');
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [page, _setPage] = useState(0);
+  const [pageSize, _setPageSize] = useState(100);
+  const [_total, setTotal] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
 
     axiosInstance.get("/api/projects" + `?page=${page}&pageSize=${pageSize}&search=${search}&sort=desc&onlyPublished=true`)
       .then((response) => {

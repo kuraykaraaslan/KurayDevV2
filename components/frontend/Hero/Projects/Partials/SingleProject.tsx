@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { Project } from "@prisma/client";
 import Image from 'next/image';

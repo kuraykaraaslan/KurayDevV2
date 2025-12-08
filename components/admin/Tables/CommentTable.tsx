@@ -1,18 +1,18 @@
 'use client'
-import React from 'react';
 import { PostWithData } from '@/types/BlogTypes';
 import axiosInstance from '@/libs/axios';
 import { CommentWithData } from '@/types/BlogTypes';
+import { useState, useEffect } from 'react';
 
 const CommentTable = ({ post }: { post?: PostWithData }) => {
 
-    const [search, setSearch] = React.useState('');
-    const [comments, setComments] = React.useState<Partial<CommentWithData>[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [pageSize, _setPageSize] = React.useState(10);
-    const [total, setTotal] = React.useState(0);
+    const [search, setSearch] = useState('');
+    const [comments, setComments] = useState<Partial<CommentWithData>[]>([]);
+    const [page, setPage] = useState(0);
+    const [pageSize, _setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
 
-    React.useEffect(() => {
+    useEffect(() => {
 
         axiosInstance.get("/api/comments" + `?page=${page + 1}&pageSize=${pageSize}&search=${search}&sort=desc&pending=true` + (post ? `&postId=${post.postId}` : ''))
             .then((response) => {

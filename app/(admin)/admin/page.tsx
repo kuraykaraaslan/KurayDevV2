@@ -1,6 +1,4 @@
-import React from "react";
 import StatsSection from "@/components/admin/StatsSection";
-
 
 const Page = () => {
     return (

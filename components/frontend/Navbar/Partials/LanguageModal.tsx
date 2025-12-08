@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { CircleFlag } from "react-circle-flags";
 import useGlobalStore from "@/libs/zustand";
 import { useTranslation } from "react-i18next";

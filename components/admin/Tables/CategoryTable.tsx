@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import { Category } from "@prisma/client";
 import axiosInstance from "@/libs/axios";
@@ -8,11 +8,11 @@ import Image from 'next/image';
 
 const CategoryTable = () => {
     const [categories, setCategories] = useState<Category[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [pageSize, _setPageSize] = React.useState(10);
-    const [total, setTotal] = React.useState(0);
+    const [page, setPage] = useState(0);
+    const [pageSize, _setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
 
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
 

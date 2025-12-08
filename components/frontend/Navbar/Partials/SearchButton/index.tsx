@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faB, faMagnifyingGlass, faP, faSpinner } from "@fortawesome/free-solid-svg-icons"; // Spinner ekledik
 import HeadlessModal, { useModal } from "@/components/common/Modal";

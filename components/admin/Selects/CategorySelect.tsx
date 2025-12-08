@@ -1,5 +1,5 @@
 import { Category } from '@prisma/client';
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
 
 const CategorySelect = ({ selectedCategoryId, setSelectedCategoryId }: { selectedCategoryId: string, setSelectedCategoryId: (categoryId: string) => void }) => {
@@ -13,7 +13,7 @@ const CategorySelect = ({ selectedCategoryId, setSelectedCategoryId }: { selecte
         });
     }, []);
 
-    function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    function onChange(e: ChangeEvent<HTMLSelectElement>) {
         const selectedCategory = categories.find((category) => category.categoryId === e.target.value);
         if (selectedCategory) {
             setSelectedCategoryId(selectedCategory.categoryId);

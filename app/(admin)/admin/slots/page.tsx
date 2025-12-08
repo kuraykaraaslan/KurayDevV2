@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import type { Day } from '@/types/CalendarTypes'
 
 import SlotTemplateBuilder from '@/components/admin/SlotTemplateBuilder'

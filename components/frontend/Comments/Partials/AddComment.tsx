@@ -1,6 +1,6 @@
 'use client';
 import axiosInstance from '@/libs/axios';
-import React, { useState } from 'react';
+import { useState , FormEvent} from 'react';
 
 const AddComment = ({ postId, parentId }: { postId: string, parentId?: string }) => {
 
@@ -9,7 +9,7 @@ const AddComment = ({ postId, parentId }: { postId: string, parentId?: string })
     const [email, setEmail] = useState('');
 
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
         // Validate

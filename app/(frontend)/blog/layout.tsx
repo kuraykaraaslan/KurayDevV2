@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useGlobalStore from "@/libs/zustand";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import i18n from "@/libs/localize/localize";
 
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: ReactNode }) => {
 
   const { language } = useGlobalStore();
   const [ languageNotifiedOnce, setLanguageNotifiedOnce ] = useState(false);

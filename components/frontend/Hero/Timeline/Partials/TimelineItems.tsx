@@ -1,8 +1,7 @@
 import { faBriefcase, faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 
-const TimelineItems: React.FC = () => {
+const TimelineItems = () => {
     return (
         <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical pt-2">
             <li>

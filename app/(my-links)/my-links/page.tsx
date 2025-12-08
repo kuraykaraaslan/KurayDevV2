@@ -2,7 +2,6 @@ import { faGithub, faInstagram, faLinkedin, faTiktok, faTwitch, faXTwitter, faYo
 import { faSnowman } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import React from 'react';
 
 const links = [
   { href: '/', title: 'Blog' , icon: faSnowman, color: 'bg-primary', textColor: 'text-white'},

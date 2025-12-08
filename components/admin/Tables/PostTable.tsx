@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { PostWithData } from '@/types/BlogTypes';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,16 +9,16 @@ import { toast } from 'react-toastify';
 
 const PostTable = ({ category }: { category?: Category }) => {
 
-    const [search, setSearch] = React.useState('');
-    const [posts, setPosts] = React.useState<Partial<PostWithData>[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [pageSize, _setPageSize] = React.useState(10);
-    const [total, setTotal] = React.useState(0);
+    const [search, setSearch] = useState('');
+    const [posts, setPosts] = useState<Partial<PostWithData>[]>([]);
+    const [page, setPage] = useState(0);
+    const [pageSize, _setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
 
     // This toggle is to prevent multiple KG reset on initial load
-    const [alreadyResettedKG, setAlreadyResettedKG] = React.useState(false);
+    const [alreadyResettedKG, setAlreadyResettedKG] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
 
         axiosInstance.get("/api/posts" + `?page=${page}&pageSize=${pageSize}&search=${search}&sort=desc&status=ALL` + (category ? `&categoryId=${category.categoryId}` : ''))
             .then((response) => {

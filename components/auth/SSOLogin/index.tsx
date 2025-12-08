@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo, useCallback } from 'react'
+import { useMemo, useCallback } from 'react'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
 
@@ -46,7 +46,7 @@ interface SSOLoginProps {
   mode?: SSOLoginMode
 }
 
-const SSOLoginContent: React.FC<SSOLoginProps> = ({ mode }) => {
+const SSOLoginContent = ({ mode }: { mode: SSOLoginMode }) => {
 
   const allowedProviders = useMemo(() => {
     return (process.env.SSO_ALLOWED_PROVIDERS || '')
@@ -102,7 +102,7 @@ const SSOLoginContent: React.FC<SSOLoginProps> = ({ mode }) => {
   )
 }
 
-const SSOLogin: React.FC<SSOLoginProps> = ({ mode = 'list' }) => {
+const SSOLogin = ({ mode = 'list' }: SSOLoginProps) => {
   if (mode === 'modal') {
     return (
       <>

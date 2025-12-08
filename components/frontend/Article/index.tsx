@@ -1,6 +1,3 @@
-//default article
-
-import React from "react";
 import { Post } from "@prisma/client";
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;

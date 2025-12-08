@@ -1,4 +1,3 @@
-import React from 'react';
 import { ImageResponse } from 'next/og';
 import PostService from '@/services/PostService';
 import { NextRequest } from 'next/server';

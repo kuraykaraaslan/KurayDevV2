@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 
 const UserTable = () => {
 
-    const [users, setUsers] = React.useState<Partial<User>[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [pageSize, _setPageSize] = React.useState(10);
-    const [total, setTotal] = React.useState(0);
+    const [users, setUsers] = useState<Partial<User>[]>([]);
+    const [page, setPage] = useState(0);
+    const [pageSize, _setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
 
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
 

@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCalendar, faClock, faStopwatch } from "@fortawesome/free-solid-svg-icons"
 import { toast } from "react-toastify"
 import axiosInstance from "@/libs/axios"
+import { FormEvent } from "react"
 
 const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot | null, preloadRange: () => Promise<void> }) => {
     
-    const handleFormSubmit = async (e: React.FormEvent) => {
+    const handleFormSubmit = async (e: FormEvent) => {
         e.preventDefault()
         if (!selectedSlot) return toast.error('Önce bir saat seçin.')
 

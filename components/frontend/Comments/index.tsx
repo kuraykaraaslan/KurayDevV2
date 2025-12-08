@@ -1,5 +1,5 @@
 'use client';
-import React , { useState , useEffect } from 'react';
+import { useState , useEffect } from 'react';
 import SingleComment from './Partials/SingleComment';
 import { Comment } from '@prisma/client';
 import crypto from 'crypto';

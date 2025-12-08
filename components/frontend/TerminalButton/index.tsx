@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faTerminal } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";

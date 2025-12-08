@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "@/libs/axios";
 import  {Weeks, GraphQLRes } from "@/types/GitTypes";
 

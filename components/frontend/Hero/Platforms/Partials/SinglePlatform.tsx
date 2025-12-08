@@ -1,4 +1,3 @@
-import React from 'react';
 import {Platform} from '@/types/PlatformsTypes';
 
 const SinglePlatform = ({ name, icon, url, bgColor, borderColor, zoom }: Platform) => {

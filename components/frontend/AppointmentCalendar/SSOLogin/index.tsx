@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import axiosInstance from '@/libs/axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -11,7 +10,7 @@ import {
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 
-const SSOLogin: React.FC = () => {
+const SSOLogin = () => {
   const router = useRouter()
 
   const handleGoogleLogin = async () => {

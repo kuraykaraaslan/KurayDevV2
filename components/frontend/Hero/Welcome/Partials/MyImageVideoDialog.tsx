@@ -1,7 +1,7 @@
 'use client';
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { createRef, useState } from "react";
+import { createRef, useState } from "react";
 import dynamic from "next/dynamic";
 import LoadingElement from "@/components/frontend/LoadingElement";
 

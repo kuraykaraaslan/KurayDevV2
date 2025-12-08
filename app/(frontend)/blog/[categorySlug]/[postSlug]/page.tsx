@@ -1,15 +1,11 @@
-import React from 'react';
 import Article from '@/components/frontend/Article';
 import PostService from '@/services/PostService';
-
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Comments from '@/components/frontend/Comments';
 import OtherPosts from '@/components/frontend/OtherPosts';
 import Newsletter from '@/components/frontend/Newsletter';
 import PostHeader from '@/components/frontend/PostHeader';
-
-
 import MetadataHelper from '@/helpers/MetadataHelper';
 import UserSessionService from '@/services/AuthService/UserSessionService';
 

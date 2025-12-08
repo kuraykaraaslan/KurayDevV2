@@ -1,5 +1,3 @@
-// AuthorHeader.tsx
-import React from "react";
 import { SafeUser } from "@/types/UserTypes";
 
 export default function AuthorHeader(author: Partial<SafeUser>) {

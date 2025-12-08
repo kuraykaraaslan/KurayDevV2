@@ -1,5 +1,3 @@
-// SingleProject.tsx
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -35,7 +33,7 @@ type SingleProjectProps = {
   service: Service;
 };
 
-const SingleProject: React.FC<SingleProjectProps> = ({ service }) => {
+const SingleProject = ({ service }: SingleProjectProps) => {
 
   if (!service) {
     return null;

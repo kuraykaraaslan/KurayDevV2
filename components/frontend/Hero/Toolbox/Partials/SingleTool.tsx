@@ -1,14 +1,13 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Tool} from "@/types/SkillTypes";
 
-const SingleTool: React.FC<Tool> = ({
+const SingleTool = ({
   icon,
   title,
   description,
   hoverBgColor,
   hoverTextColor,
-}) => {
+}: Tool) => {
   return (
     <div className="w-40 h-40 group">
       <div

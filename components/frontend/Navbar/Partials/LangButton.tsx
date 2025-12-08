@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { CircleFlag } from "react-circle-flags";
 import useGlobalStore from "@/libs/zustand";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ const LangButton = () => {
     uk: "ua",
   };
 
-  const nextLanguage = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const nextLanguage = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const currentIndex = availableLanguages.indexOf(language);

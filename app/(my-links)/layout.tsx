@@ -2,9 +2,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { ReactNode } from 'react';
 
 
-export default function LinksLayout({ children }: { children: React.ReactNode }) {
+export default function LinksLayout({ children }: { children: ReactNode }) {
 
 
   return (

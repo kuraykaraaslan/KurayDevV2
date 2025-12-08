@@ -1,7 +1,5 @@
 'use client';
-import React from 'react';
 import SinglePlatform from './Partials/SinglePlatform';
-
 
 const Platforms = () => {
 

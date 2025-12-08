@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { Editor } from '@tinymce/tinymce-react';
@@ -22,7 +22,7 @@ const CreateUser = () => {
     //image upLoad
     const [imageFile, setImageFile] = useState<File | null>(null);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
 

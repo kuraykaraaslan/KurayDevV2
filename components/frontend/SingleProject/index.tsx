@@ -1,4 +1,3 @@
-import React from "react";
 import { Project } from "@prisma/client";
 
 export default function SingleProject(post: Partial<Project>) {

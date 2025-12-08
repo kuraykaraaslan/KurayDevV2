@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ const Navbar = dynamic(() => import('@/components/admin/Navbar'), { ssr: false }
 const Layout = ({
     children,
 }: {
-    children: React.ReactNode;
+    children: ReactNode;
 }) => {
     const router = useRouter();
     const { setUser } = useGlobalStore();

@@ -1,13 +1,13 @@
 'use client';
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import StatCard from "./Partials/StatCard";
 import { faUserAlt, faBlog, faEye, faFolder, faComment} from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "@/libs/axios";
 
 const StatsSection = () => {
 
-  const [loading, setLoading] = React.useState(true);
-  const [values, setValues] = React.useState({
+  const [loading, setLoading] = useState(true);
+  const [values, setValues] = useState({
     totalPosts: 0,
     totalCategories: 0,
     totalUsers: 0,

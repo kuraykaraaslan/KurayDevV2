@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
@@ -12,7 +12,7 @@ import AIPrompt from '@/components/admin/AIPrompt';
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
-const SinglePost: React.FC = () => {
+const SinglePost = () => {
 
   const localStorageKey = 'post_drafts';
   // Route param (tek kaynak)
@@ -185,7 +185,7 @@ const SinglePost: React.FC = () => {
   }, []);
 
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     // Güvenli zorunlu alan kontrolü (eval YOK)

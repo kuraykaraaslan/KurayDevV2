@@ -5,6 +5,7 @@ import Sidebar from "@/components/frontend/Sidebar";
 import Whatsapp from "@/components/frontend/Whatsapp";
 import { Suspense } from "react";
 import MenuItems from "@/components/frontend/MenuItems";
+import { ReactNode } from "react";
 
 /*
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
 
 

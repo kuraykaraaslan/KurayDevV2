@@ -3,7 +3,7 @@ import axiosInstance from '@/libs/axios';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 import { toast } from 'react-toastify';
 
 
@@ -18,7 +18,7 @@ const RegisterPage = () => {
 
 
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         
         if (!email) {
