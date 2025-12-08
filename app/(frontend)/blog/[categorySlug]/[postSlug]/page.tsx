@@ -8,6 +8,7 @@ import Newsletter from '@/components/frontend/Newsletter';
 import PostHeader from '@/components/frontend/PostHeader';
 import MetadataHelper from '@/helpers/MetadataHelper';
 import UserSessionService from '@/services/AuthService/UserSessionService';
+import ShareButtons from '@/components/frontend/ShareButtons';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
@@ -67,6 +68,7 @@ export default async function BlogPost({ request, params }: { request: NextReque
                     <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col">
                         <PostHeader {...post} />
                         <Article {...post} />
+                        <ShareButtons title={post.title} url={`${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`} />
                         <OtherPosts />
                         <Comments postId={post.postId} />
                     </div>

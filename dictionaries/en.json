@@ -137,5 +137,13 @@
       "partial_outage": "Partial Outage",
       "major_outage": "Major Outage"
     }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "description": "Stay updated! Get all the latest and greatest posts delivered straight to your inbox",
+    "email_placeholder": "Enter your email address",
+    "subscribe": "Subscribe",
+    "success_message": "Successfully subscribed! Check your emails for confirmation.",
+    "error_message": "An error occurred while subscribing. Please try again later."
   }
 }

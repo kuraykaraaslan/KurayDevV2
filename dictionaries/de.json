@@ -134,5 +134,13 @@
       "partial_outage": "Teilweise Ausfall",
       "major_outage": "Großer Ausfall"
     }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "description": "Bleiben Sie auf dem Laufenden! Erhalten Sie alle neuesten und besten Beiträge direkt in Ihren Posteingang",
+    "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+    "subscribe": "Abonnieren",
+    "success_message": "Erfolgreich abonniert! Überprüfen Sie Ihre E-Mails zur Bestätigung.",
+    "error_message": "Beim Abonnieren ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
   }
 }

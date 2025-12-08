@@ -111,7 +111,7 @@
     "description": "Esplora d-distribuzzjoni globali tal-viżitaturi għall-portafoll tiegħi permezz ta' din il-mappa tas-sħana interattiva. Kull punt fuq il-mappa jirrappreżenta l-lokazzjoni ta' viżitatur, jipprovdi għarfien dwar minn fejn ġejja l-udjenza tiegħi madwar id-dinja.",
     "visitors": "{{count}} viżitatur |||| {{count}} viżitaturi"
   },
-    "status": {
+  "status": {
     "title": "Stat ta' Sistema",
     "loading": "Qed iċċekkja l-istat tas-sistema...",
     "response_time": "Ħin ta' Risposta: {{time}}ms",
@@ -134,5 +134,13 @@
       "partial_outage": "Interruzzjoni Parzjali",
       "major_outage": "Interruzzjoni Kbira"
     }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "description": "Ibqa' aġġornat! Irċievi l-aqwa u l-aħjar kontribuzzjonijiet direttament fil-post tiegħek",
+    "email_placeholder": "Daħħal l-indirizz tal-email tiegħek",
+    "subscribe": "Abbonati",
+    "success_message": "Abbonat b'suċċess! Iċċekkja l-email tiegħek għall-konferma.",
+    "error_message": "Seħħ żball waqt l-abbonament. Jekk jogħġbok erġa' pprova aktar tard."
   }
 }

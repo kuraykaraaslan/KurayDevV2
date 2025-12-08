@@ -134,5 +134,13 @@
       "partial_outage": "Osaline katkestus",
       "major_outage": "Suurepärane katkestus"
     }
+  },
+  "newsletter": {
+    "title": "Uudiskiri",
+    "description": "Püsige kursis! Saage kõik uusimad ja parimad postitused otse oma postkasti",
+    "email_placeholder": "Sisestage oma e-posti aadress",
+    "subscribe": "Telli",
+    "success_message": "Edukalt tellitud! Kontrollige oma e-kirju kinnitamiseks.",
+    "error_message": "Tellimise ajal tekkis viga. Palun proovige hiljem uuesti."
   }
 }

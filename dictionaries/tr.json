@@ -135,5 +135,13 @@
       "partial_outage": "Kısmi Kesinti",
       "major_outage": "Büyük Kesinti"
     }
+  },
+  "newsletter": {
+    "title": "Bülten",
+    "description": "Güncel kalın! Tüm en son ve en iyi gönderileri doğrudan gelen kutunuza alın.",
+    "email_placeholder": "E-posta adresinizi girin",
+    "subscribe": "Abone Ol",
+    "success_message": "Başarıyla abone olundu! Onay için e-postalarınızı kontrol edin.",
+    "error_message": "Abone olurken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
   }
 }

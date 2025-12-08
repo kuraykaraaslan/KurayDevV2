@@ -137,5 +137,13 @@
       "partial_outage": "Gedeeltige storing",
       "major_outage": "Grote storing"
     }
+  },
+  "newsletter": {
+    "title": "Nieuwsbrief",
+    "description": "Blijf op de hoogte! Ontvang al het nieuwste en beste nieuws rechtstreeks in uw inbox.",
+    "email_placeholder": "Voer uw e-mailadres in",
+    "subscribe": "Abonneren",
+    "success_message": "Succesvol geabonneerd! Controleer uw e-mails voor bevestiging.",
+    "error_message": "Er is een fout opgetreden bij het abonneren. Probeer het later opnieuw."
   }
 }
