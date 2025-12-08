@@ -5,11 +5,14 @@ import SingleLink from "./SingleLink";
 import SingleTag from "./SingleTag";
 
 const SingleProject = ({ project }: { project: Project }) => {
+
+  const url = project.slug.startsWith('http') ? project.slug : `/projects/${project.slug}`;
+
   return (
     <article
       className={`rounded-lg border from-base-100 to-base-300 bg-gradient-to-b shadow-lg border-base-200 text-base-900`}
     >
-      <div className="shadow-md rounded-t-lg">
+      <Link className="shadow-md rounded-t-lg" href={url} target="_blank">
         <Image
           width="1000"
           height="1000"
@@ -18,7 +21,7 @@ const SingleProject = ({ project }: { project: Project }) => {
           alt={project.title}
           className="w-full h-48 object-cover object-top rounded-t-lg"
         /> 
-      </div>
+      </Link>
       <div className="pt-6 px-6 flex items-center mb-5 text-black">
         {project.technologies.map((tag, index) => (
           <SingleTag technology={tag} key={index} />
@@ -26,7 +29,9 @@ const SingleProject = ({ project }: { project: Project }) => {
         
         </div>
       <h2 className="px-6 mb-2 text-2xl font-bold tracking-tight">
-        <Link href="">{project.title}</Link>
+        <Link href={url} target="_blank">
+          {project.title}
+        </Link>
       </h2>
       <p className="px-6 mb-5 font-light">{project?.description!.substring(0, 250)}...</p>
       <div className="px-6 pb-6 flex justify-between items-center">

@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useGlobalStore from "@/libs/zustand";
 import { toast } from "react-toastify";
 import i18n from "@/libs/localize/localize";
-import Head from "next/head"; // ⭐ RSS linki için gerekli
+import Head from "next/head"; 
 
 
 const Layout = ({ children }: { children: ReactNode }) => {

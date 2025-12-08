@@ -7,6 +7,7 @@ export default class AWSService {
     'categories',
     'users',
     'posts',
+    'projects',
     'comments',
     'images',
     'videos',

@@ -118,7 +118,7 @@ function createParticles(links: Link[]): Particle[] {
 
 function applyForces(nodes: Node[], links: Link[]) {
   const nodeMap = new Map(nodes.map(n => [n.id, n]))
-  
+
   // Repulsion between nodes
   for (let i = 0; i < nodes.length; i++) {
     for (let j = i + 1; j < nodes.length; j++) {
@@ -168,15 +168,15 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
   const [theme, setTheme] = useState<'dark' | 'light'>('light')
   const [tooltip, setTooltip] = useState<TooltipState>({ visible: false, x: 0, y: 0, title: '', image: '' })
   const [graphData, setGraphData] = useState<{ nodes: KnowledgeGraphNode[]; links: Link[] }>({ nodes: [], links: [] })
-  
+
   useEffect(() => detectTheme(setTheme), [])
 
   // Fetch data from API
   useEffect(() => {
-    const url = categorySlug 
+    const url = categorySlug
       ? `/api/knowledge-graph?categorySlug=${categorySlug}`
       : '/api/knowledge-graph'
-    
+
     fetch(url)
       .then(res => res.json())
       .then(data => setGraphData(data))
@@ -203,7 +203,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
     let nodes = createNodes(graphData.nodes, canvas.width, canvas.height, colorMap)
     const particles = createParticles(graphData.links)
     const nodeMap = new Map(nodes.map(n => [n.id, n]))
-    
+
     let hoveredNode: Node | null = null
     let isDragging = false
     let dragNode: Node | null = null
@@ -298,19 +298,41 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
       const rect = canvas.getBoundingClientRect()
       const mouseX = e.clientX - rect.left
       const mouseY = e.clientY - rect.top
-      
+
       const zoom = e.deltaY < 0 ? 1.1 : 0.9
       const newScale = Math.max(0.5, Math.min(3, scale * zoom))
-      
+
       panX = mouseX - (mouseX - panX) * (newScale / scale)
       panY = mouseY - (mouseY - panY) * (newScale / scale)
       scale = newScale
     }
 
+    const handleClick = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = (e.clientX - rect.left - panX) / scale;
+      const mouseY = (e.clientY - rect.top - panY) / scale;
+
+      for (const node of nodes) {
+        const dx = mouseX - node.x;
+        const dy = mouseY - node.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < node.radius * 1.5) {
+          // Node clicked → navigate!
+          if (node.data.slug) {
+            window.location.href = `/blog/${node.data.slug}`;
+          }
+          return;
+        }
+      }
+    };
+
+
     canvas.addEventListener('mousemove', handleMouseMove)
     canvas.addEventListener('mousedown', handleMouseDown)
     canvas.addEventListener('mouseup', handleMouseUp)
     canvas.addEventListener('wheel', handleWheel, { passive: false })
+    canvas.addEventListener('click', handleClick)
 
     // Animation loop
     let animationId: number
@@ -388,6 +410,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
       canvas.removeEventListener('mouseup', handleMouseUp)
       canvas.removeEventListener('wheel', handleWheel)
       window.removeEventListener('resize', resize)
+      canvas.removeEventListener('click', handleClick)
     }
   }, [graphData, theme])
 

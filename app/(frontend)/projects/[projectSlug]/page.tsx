@@ -4,28 +4,17 @@ import Newsletter from '@/components/frontend/Newsletter';
 import ProjectService from '@/services/ProjectService';
 import Image from 'next/image';
 import SingleProject from '@/components/frontend/SingleProject';
-
-//@ts-ignore
-const SinglePin = ({ bgColor, textColor, text }: { bgColor: string, textColor: string, text: string }) => (
-    <div className={`bg-${bgColor} text-${textColor} rounded-lg p-1`}>
-        <p className="text-center">{text}</p>
-    </div>
-);
+import SingleLink from '@/components/frontend/Hero/Projects/Partials/SingleLink';
 
 export default async function ProjectPage({ params }: { params: { projectSlug: string } }) {
 
-    // disabled
-    return notFound();
-
     try {
 
-
-        const { projectSlug } = params;
-
+        const { projectSlug } = await params;
 
         const response = await ProjectService.getAllProjects({
             projectSlug: projectSlug,
-            page: 1,
+            page: 0,
             pageSize: 1,
             onlyPublished: true
         });
@@ -41,7 +30,7 @@ export default async function ProjectPage({ params }: { params: { projectSlug: s
             <>
                 {generateMetadataElement(meta)}
                 <section className="min-h-screen pt-32 pb-8 bg-base-100" id="project">
-                    <div className="mx-auto px-4 lg:px-8 mb-8 flex justify-between md:flex-row flex-col h-full gap-2">
+                    <div className="mx-auto px-4 lg:px-8 mb-8 flex justify-between md:flex-row flex-col h-full md:gap-2">
                         <div className="flex-none flex md:min-w-80">
                             <div className="md:w-80 h-full rounded-lg bg-base-300 md:shadow-lg md:drop-shadow-lg border border-base-200">
                                 <Image
@@ -61,8 +50,14 @@ export default async function ProjectPage({ params }: { params: { projectSlug: s
                                         <span className="font-bold">Technologies:</span> {project.technologies.join(', ')}
                                     </h2>
                                     <h3 className="text-sm">
-                                        <span className="font-bold mb-2">Categories:</span> {project.platforms.join(', ')}
+                                        <span className="font-bold mb-2">Platforms:</span> {project.platforms.join(', ')}
                                     </h3>
+                                    <div className="flex space-x-2 mt-4">
+                                        {(project.projectLinks || []).map((link: string, index: number) => (
+                                            <SingleLink key={index} url={link}
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
