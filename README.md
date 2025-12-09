@@ -166,7 +166,6 @@ To provide a clearer high‑level direction, here are the **Top 10 Roadmap Goals
 7. **Browser & Desktop Notifications** — Push subscription + article update alerts.
 8. **Recurring Appointment Scheduling** — Multi‑interval booking, rescheduling UI, conflict detection.
 9. **Admin RSC Optimization** — Reduce bundle size, server‑side render isolation, performance gains.
-10. **Full Multi‑Tenant SaaS Architecture** — Tenant isolation, region routing, custom domains, billing.
 
 A constantly evolving platform — the roadmap reflects both technical expansion and creative direction.
 
