@@ -75,10 +75,10 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
                         />
                     </label>
                 </div>
-                <div className="mx-2 flex-1 px-2 text-lg font-semibold">
+                <div className="md:mx-2 flex-1 md:px-2 text-lg font-semibold">
                     <Logo />
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center md:gap-1">
                         <ThemeButton />
                         <LanguageModal />
                         <SearchButton />
@@ -92,7 +92,7 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
                     </ul>
                 </div>
                 <div className="">
-                    <ul className="menu menu-horizontal gap-1">
+                    <ul className="menu menu-horizontal gap-1 hidden lg:flex">
                         <AuthButton />
                     </ul>
                 </div>
