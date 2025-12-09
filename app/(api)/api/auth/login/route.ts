@@ -1,11 +1,12 @@
 // Original path: app/api/auth/login/route.ts
- 
+
 import { NextResponse } from "next/server";
 import AuthService from "@/services/AuthService";
 import AuthMessages from "@/messages/AuthMessages";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import RateLimiter from "@/libs/rateLimit";
 import { LoginRequest } from "@/dtos/AuthDTO";
+import MailService from "@/services/NotificationService/MailService";
 
 export async function POST(request: NextRequest) {
     try {
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
             throw new Error(AuthMessages.INVALID_CREDENTIALS);
         }
 
-        const { rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession(user, request);
+        const { userSession, rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession(user, request);
 
         const response = NextResponse.json({
             user,
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
         const origin = request.headers.get('origin') || '';
         const protocol = request.headers.get('x-forwarded-proto') || request.headers.get('x-scheme') || 'http';
         const isSecure = origin.startsWith('https://') || protocol === 'https';
-        
+
         console.log('[LOGIN] Setting cookies - isSecure:', isSecure, 'protocol:', protocol, 'origin:', origin);
         console.log('[LOGIN] Request headers:', {
             host: request.headers.get('host'),
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
             'x-forwarded-host': request.headers.get('x-forwarded-host'),
             'x-forwarded-proto': request.headers.get('x-forwarded-proto'),
         });
-        
+
         // Set cookies - Use SameSite=None with Secure for HTTPS cross-origin
         const cookieOptions = isSecure ? {
             httpOnly: true,
@@ -67,11 +68,18 @@ export async function POST(request: NextRequest) {
             path: '/',
             maxAge: 60 * 60 * 24 * 7, // 7 days
         };
-        
+
         response.cookies.set('accessToken', rawAccessToken, cookieOptions);
         response.cookies.set('refreshToken', rawRefreshToken, cookieOptions);
 
         console.log('[LOGIN] Cookies set successfully with options:', cookieOptions);
+
+
+        try {
+            await MailService.sendNewLoginEmail(user, userSession);
+        } catch (emailError) {
+            console.error('Error sending new login email:', emailError);
+        }
 
         return response;
 

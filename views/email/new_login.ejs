@@ -1,0 +1,14 @@
+<p>Hi <%= user.name %>,</p>
+
+<p>A new login to your <%= appName %> account was detected.</p>
+
+<ul>
+    <li><strong>IP:</strong> <%= ip %></li>
+    <li><strong>Device:</strong> <%= device %></li>
+    <li><strong>Location:</strong> <%= location %></li>
+    <li><strong>Time:</strong> <%= loginTime %></li>
+</ul>
+
+<p>If this wasn’t you, secure your account immediately.</p>
+
+<a class="button" href="<%= secureAccountLink %>">Secure Your Account</a>

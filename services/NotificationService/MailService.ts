@@ -2,56 +2,69 @@ import Logger from '@/libs/logger';
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 import path from 'path';
-import { User } from '@prisma/client';
-
-// Types
-import { SafeUser } from '@/types/UserTypes';
-import { SafeUserSession } from '@/types/UserSessionTypes';
-
-// Libs
 import { Queue, Worker } from 'bullmq';
 import redisInstance from '@/libs/redis';
+import { UserAgentData } from '@/types/UserSessionTypes';
 
-const MAIL_HOST = process.env.MAIL_HOST || "localhost";
-const MAIL_PORT = process.env.MAIL_PORT || 587;
-const MAIL_USER = process.env.MAIL_USER || "info@example.com";
-const MAIL_PASS = process.env.MAIL_PASS || "password";
+// Types
+import { User } from '@prisma/client';
+import { SafeUser } from '@/types/UserTypes';
+import { SafeUserSession } from '@/types/UserSessionTypes';
 
 const pwd = process.env.PWD || process.cwd();
 
 export default class MailService {
     static _initialized = false;
 
+    // Queue + Worker
     static readonly QUEUE_NAME = "mailQueue";
 
     static readonly QUEUE = new Queue(MailService.QUEUE_NAME, {
         connection: redisInstance,
     });
 
-    static readonly WORKER = new Worker(MailService.QUEUE_NAME, async job => {
-        const { to, subject, html } = job.data;
-        Logger.info(`MAIL /MailService/Worker ${job.id} processing...`);
-        await MailService._sendMail(to, subject, html);
-    }, {
-        connection: redisInstance,
-    });
+    static readonly WORKER = new Worker(
+        MailService.QUEUE_NAME,
+        async job => {
+            const { to, subject, html } = job.data;
+            Logger.info(`MAIL Worker processing job ${job.id}...`);
+            await MailService._sendMail(to, subject, html);
+        },
+        { connection: redisInstance , concurrency: 5 }
+    );
 
     static {
         if (!MailService._initialized) {
-            MailService.WORKER.on('completed', (job) => {
-                Logger.info(`MAIL /MailService/Worker ${job.id} completed`);
+            MailService.WORKER.on("completed", job => {
+                Logger.info(`MAIL Worker completed job ${job.id}`);
             });
 
-            MailService.WORKER.on('failed', (job, err) => {
-                Logger.error(`MAIL /MailService/Worker ${(job?.id ?? 'unknown')} failed: ${err.message}`);
+            MailService.WORKER.on("failed", (job, err) => {
+                Logger.error(`MAIL Worker failed job ${(job?.id ?? 'unknown')}: ${err.message}`);
             });
+
+            MailService._initialized = true;
         }
     }
 
-    static readonly TEMPLATE_PATH = path.join(pwd, 'views', 'email');
-    static readonly APPLICATION_NAME = process.env.APPLICATION_NAME || "Express Boilerplate";
-    static readonly FRONTEND_URL = process.env.FRONTEND_HOST + ":" + process.env.FRONTEND_PORT;
+    // -----------------------------
+    //   MAIL CONFIGURATION
+    // -----------------------------
 
+    static readonly MAIL_HOST = process.env.MAIL_HOST || "smtp.example.com";
+    static readonly MAIL_PORT = process.env.MAIL_PORT || "587";
+    static readonly MAIL_USER = process.env.MAIL_USER || "example@example.com";
+    static readonly MAIL_PASS = process.env.MAIL_PASS || "password";
+
+    // TEMPLATE PATHS
+    static readonly TEMPLATE_PATH = path.join(pwd, "views", "email");
+
+
+    static readonly APPLICATION_NAME = process.env.APPLICATION_NAME || "Express Boilerplate";
+    static readonly APPLICATION_HOST = process.env.APPLICATION_HOST || "http://localhost:3000";
+
+    
+    static readonly FRONTEND_URL = MailService.APPLICATION_HOST;
     static readonly FRONTEND_LOGIN_PATH = process.env.FRONTEND_LOGIN_PATH || "/auth/login";
     static readonly FRONTEND_REGISTER_PATH = process.env.FRONTEND_REGISTER_PATH || "/auth/register";
     static readonly FRONTEND_PRIVACY_PATH = process.env.FRONTEND_PRIVACY_PATH || "/privacy";
@@ -60,10 +73,11 @@ export default class MailService {
     static readonly FRONTEND_FORGOT_PASSWORD_PATH = process.env.FRONTEND_FORGOT_PASSWORD_PATH || "/auth/forgot-password";
     static readonly FRONTEND_SUPPORT_EMAIL = process.env.FRONTEND_SUPPORT_EMAIL || "support@example.com";
 
-    static readonly ADMIN_EMAIL = process.env.INFORM_MAIL || "kuraykaraaslan@gmail.com";
-    static readonly ADMIN_NAME = process.env.INFORM_NAME || "Kuray Karaaslan";
+    // Admin notify
+    static readonly INFORM_MAIL = process.env.INFORM_MAIL;
+    static readonly INFORM_NAME = process.env.INFORM_NAME;
 
-    // Tekrar eden sabit değişkenler
+    // Base template vars
     static getBaseTemplateVars() {
         return {
             appName: MailService.APPLICATION_NAME,
@@ -73,149 +87,264 @@ export default class MailService {
             termsLink: MailService.FRONTEND_URL + MailService.FRONTEND_TERMS_PATH,
             privacyLink: MailService.FRONTEND_URL + MailService.FRONTEND_PRIVACY_PATH,
             supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
+            secureAccountLink: MailService.FRONTEND_URL + MailService.FRONTEND_RESET_PASSWORD_PATH,
         };
     }
 
+    // Nodemailer transporter
     static readonly transporter = nodemailer.createTransport({
-        host: MAIL_HOST,
-        port: Number(MAIL_PORT),
-        secure: Number(MAIL_PORT) === 465,
-        auth: { user: MAIL_USER, pass: MAIL_PASS },
+        host: MailService.MAIL_HOST,
+        port: Number(MailService.MAIL_PORT),
+        secure: Number(MailService.MAIL_PORT) === 465,
+        auth: { user: MailService.MAIL_USER, pass: MailService.MAIL_PASS }
     });
 
+    // Add job to queue
     static async sendMail(to: string, subject: string, html: string) {
         try {
-            await MailService.QUEUE.add('sendMail', { to, subject, html });
+            await MailService.QUEUE.add("sendMail", { to, subject, html });
         } catch (error: any) {
-            Logger.error("MAIL /MailService/sendMail " + to + " " + subject + " " + error.message);
+            Logger.error(`MAIL sendMail ERROR: ${to} ${subject} ${error.message}`);
         }
     }
 
+    // Worker actual mail sender
     static async _sendMail(to: string, subject: string, html: string) {
         try {
             await MailService.transporter.sendMail({
-                from: `${MailService.APPLICATION_NAME} <${MAIL_USER}>`,
-                to, subject, html,
+                from: `${MailService.APPLICATION_NAME} <${MailService.MAIL_USER}>`,
+                to,
+                subject,
+                html,
             });
         } catch (error: any) {
-            Logger.error("MAIL /MailService/_sendMail " + to + " " + subject + " " + error.message);
+            Logger.error(`MAIL _sendMail ERROR: ${to} ${subject} ${error.message}`);
         }
-    };
+    }
 
-    // ---------- Emails ----------
+    // -----------------------------
+    //   EJS LAYOUT ENGINE
+    // -----------------------------
+
+    static async renderTemplate(templateName: string, data: any) {
+        const templatePath = path.join(MailService.TEMPLATE_PATH, templateName);
+
+        // 1) Render the main email content (the 'body')
+        const body = await ejs.renderFile(templatePath, data, { async: true });
+
+        // 2) Render the header and footer partials asynchronously
+        const headerPath = path.join(MailService.TEMPLATE_PATH, "partials", "email_header.ejs");
+        const footerPath = path.join(MailService.TEMPLATE_PATH, "partials", "email_footer.ejs");
+
+        // Render header and footer and await them
+        const headerHtml = await ejs.renderFile(headerPath, data, { async: true });
+        const footerHtml = await ejs.renderFile(footerPath, data, { async: true });
+
+        // 3) Render the Layout, passing the body, header, and footer HTML
+        const layoutPath = path.join(MailService.TEMPLATE_PATH, "layouts", "email_layout.ejs");
+
+        console.log("Rendering email with data:");
+        console.log(data);
+
+
+        return await ejs.renderFile(
+            layoutPath,
+            {
+                ...data,
+                body,
+                headerHtml, // Pass rendered header as a variable
+                footerHtml, // Pass rendered footer as a variable
+            },
+            { async: true }
+        );
+    }
+
+    // -----------------------------
+    //     EMAIL FUNCTIONS
+    // -----------------------------
 
     static async sendWelcomeEmail(user: User | SafeUser) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'welcome.ejs'),
+        const subject = `Welcome to ${MailService.APPLICATION_NAME}`;
+
+        const emailContent = await MailService.renderTemplate(
+            "welcome.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
+                subject,
                 user: { name: user.name || user.email }
             }
         );
-        await MailService.sendMail(user.email, 'Welcome to ' + MailService.APPLICATION_NAME, emailContent);
+
+        await MailService.sendMail(user.email, subject, emailContent);
     }
 
-    static async sendNewLoginEmail(user: User | SafeUser, _userSession?: SafeUserSession) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'new-login.ejs'),
+    static async sendNewLoginEmail(user: User | SafeUser, _session?: SafeUserSession, userAgent?: UserAgentData) {
+        const subject = "New Login Detected";
+
+        const emailContent = await MailService.renderTemplate(
+            "new_login.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
+                subject,
                 user: { name: user.name || user.email },
-                device: "Unknown",
-                ip: "Unknown",
-                location: "Unknown",
-                loginTime: new Date().toLocaleString(),
+                device: userAgent?.device || "Unknown",
+                ip: userAgent?.ip || "Unknown",
+                location: userAgent?.city ? `${userAgent.city}, ${userAgent.country}` : "Unknown",
+                loginTime: new Date().toLocaleString()
             }
         );
-        await MailService.sendMail(user.email, 'New Login Detected', emailContent);
+
+        await MailService.sendMail(user.email, subject, emailContent);
     }
 
-    static async sendForgotPasswordEmail(email: string, name?: string | null, resetToken?: string) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'forgot-password.ejs'),
+    static async sendForgotPasswordEmail(email: string, name?: string, resetToken?: string) {
+        const subject = "Reset Your Password";
+
+        const resetLink =
+            MailService.FRONTEND_URL +
+            MailService.FRONTEND_FORGOT_PASSWORD_PATH +
+            "?resetToken=" +
+            resetToken +
+            "&email=" +
+            email;
+
+        const emailContent = await MailService.renderTemplate(
+            "forgot_password.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
+                subject,
                 user: { name: name || email },
                 resetToken,
-                resetLink: MailService.FRONTEND_URL +
-                  MailService.FRONTEND_FORGOT_PASSWORD_PATH +
-                  "?resetToken=" + resetToken + "&email=" + email,
+                resetLink,
                 expiryTime: 1,
             }
         );
-        await MailService.sendMail(email, 'Reset Your Password', emailContent);
+
+        await MailService.sendMail(email, subject, emailContent);
     }
 
-    static async sendPasswordResetSuccessEmail(email: string, name?: string | null) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'password-reset.ejs'),
+    static async sendPasswordResetSuccessEmail(email: string, name?: string) {
+        const subject = "Password Reset Successful";
+
+        const emailContent = await MailService.renderTemplate(
+            "password_reset.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
-                user: { name: name || email },
+                subject,
+                user: { name: name || email }
             }
         );
-        await MailService.sendMail(email, 'Password Reset Successful', emailContent);
+
+        await MailService.sendMail(email, subject, emailContent);
     }
 
-    static async sendOTPEmail({ email, name, otpToken }: { email: string; name?: string | null; otpToken: string; }) {
+    static async sendOTPEmail({
+        email,
+        name,
+        otpToken
+    }: {
+        email: string;
+        name?: string | null;
+        otpToken: string;
+    }) {
         if (!otpToken) throw new Error("OTP token is required");
-        if (!email) throw new Error("Email is required");
 
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'otp.ejs'),
+        const subject = "Your OTP Code";
+
+        const emailContent = await MailService.renderTemplate(
+            "otp.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
+                subject,
                 user: { name: name || email },
                 otpToken,
             }
         );
-        await MailService.sendMail(email, 'Your OTP Code', emailContent);
+
+        await MailService.sendMail(email, subject, emailContent);
     }
 
     static async sendOTPEnabledEmail(email: string, name?: string) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'otp-enabled.ejs'),
+        const subject = "OTP Enabled";
+
+        const emailContent = await MailService.renderTemplate(
+            "otp_enabled.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
+                subject,
                 user: { name: name || email },
             }
         );
-        await MailService.sendMail(email, 'OTP Enabled', emailContent);
+
+        await MailService.sendMail(email, subject, emailContent);
     }
 
     static async sendOTPDisabledEmail(email: string, name?: string) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'otp-disabled.ejs'),
+        const subject = "OTP Disabled";
+
+        const emailContent = await MailService.renderTemplate(
+            "otp_disabled.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
+                subject,
                 user: { name: name || email },
             }
         );
-        await MailService.sendMail(email, 'OTP Disabled', emailContent);
+
+        await MailService.sendMail(email, subject, emailContent);
     }
 
-    static async sendContactFormAdminEmail({message, name, email, phone}: {message: string, name: string, email: string, phone: string}) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'contact-form-admin.ejs'),
+    static async sendContactFormAdminEmail({
+        message,
+        name,
+        email,
+        phone
+    }: {
+        message: string;
+        name: string;
+        email: string;
+        phone: string;
+    }) {
+        const subject = "New Contact Form Message";
+
+        const emailContent = await MailService.renderTemplate(
+            "contact_form_admin.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
+                subject,
                 message,
                 name,
                 email,
-                phone
+                phone,
             }
         );
-        await MailService.sendMail(MailService.ADMIN_EMAIL, 'New Contact Form Message', emailContent);
-    }   
 
-    static async sendContactFormUserEmail({name, email}: {name: string, email: string}) {
-        const emailContent = await ejs.renderFile(
-            path.join(MailService.TEMPLATE_PATH, 'contact-form-user.ejs'),
+        if (!MailService.INFORM_MAIL) {
+            // No admin email configured
+           return;
+        }
+
+        await MailService.sendMail(MailService.INFORM_MAIL, subject, emailContent);
+    }
+
+    static async sendContactFormUserEmail({
+        name,
+        email
+    }: {
+        name: string;
+        email: string;
+    }) {
+        const subject = "We Received Your Message";
+
+        const emailContent = await MailService.renderTemplate(
+            "contact_form_user.ejs",
             {
                 ...MailService.getBaseTemplateVars(),
-                user: { name: name || email },
+                subject,
+                user: { name },
             }
         );
-        await MailService.sendMail(email, 'We Received Your Message', emailContent);
+
+        await MailService.sendMail(email, subject, emailContent);
     }
 }

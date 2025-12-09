@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import UserSessionService from '@/services/AuthService/UserSessionService';
 import CommentService from '@/services/CommentService';
 import PostService from '@/services/PostService';
-import { pipeline, env } from "@xenova/transformers";
+import { pipeline } from "@xenova/transformers";
 import { CommentStatus } from '@prisma/client';
 
 // Bu route kesin Node.js runtime'da çalışsın:
