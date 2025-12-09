@@ -9,14 +9,18 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
  * @param request - The incoming request object
  * @returns A NextResponse containing the user data or an error message
  */
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
 
     try {
+
+        // body parameters
+        const body = await request.json();
+        const frequency = body.frequency || "all-time";
 
         await UserSessionService.authenticateUserByRequest(request, "ADMIN");
 
         // Extract query parameters
-        const stats = await StatService.getAllStats();
+        const stats = await StatService.getAllStats(frequency);
 
         const values = {
             totalPosts: stats.totalPosts || 0,

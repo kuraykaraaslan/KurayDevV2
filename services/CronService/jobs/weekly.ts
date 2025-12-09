@@ -38,7 +38,7 @@ export const weeklyJobs = [
   {
     name: "Admin Weekly Analytics Summary",
     handler: async () => {
-      const statsSummary = await StatService.getAllStats();
+      const statsSummary = await StatService.getAllStats("weekly");
       await MailService.sendWeeklyAdminAnalyticsEmail(statsSummary);
     },
   },

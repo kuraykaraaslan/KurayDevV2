@@ -6,17 +6,21 @@ import { hourlyJobs } from "./jobs/hourly";
 import { weeklyJobs } from "./jobs/weekly";
 import { monthlyJobs } from "./jobs/monthly";
 import { fiveMinJobs } from "./jobs/fiveMin";
+import { yearlyJobs } from "./jobs/yearly";
+import { StatFrequency } from "@/types/StatTypes";
 
 export default class CronService {
-  static jobMap: Record<string, any[]> = {
+  static jobMap: Record<StatFrequency, Array<{ name: string; handler: () => Promise<void> }>> = {
     daily: dailyJobs,
     hourly: hourlyJobs,
     weekly: weeklyJobs,
     monthly: monthlyJobs,
-    fiveMin: fiveMinJobs
+    yearly: yearlyJobs,
+    fiveMin: fiveMinJobs,
+    "all-time": [],
   };
 
-  static async run(frequency: string) {
+  static async run(frequency: StatFrequency) {
     Logger.info(`CRON: Trigger received → ${frequency}`);
 
     const jobs = CronService.jobMap[frequency];
