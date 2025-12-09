@@ -5,6 +5,7 @@ import path from 'path';
 import { Queue, Worker } from 'bullmq';
 import redisInstance from '@/libs/redis';
 import { UserAgentData } from '@/types/UserSessionTypes';
+import { PostWithData } from '@/types/BlogTypes';
 
 // Types
 import { User } from '@prisma/client';
@@ -144,10 +145,6 @@ export default class MailService {
 
         // 3) Render the Layout, passing the body, header, and footer HTML
         const layoutPath = path.join(MailService.TEMPLATE_PATH, "layouts", "email_layout.ejs");
-
-        console.log("Rendering email with data:");
-        console.log(data);
-
 
         return await ejs.renderFile(
             layoutPath,
@@ -469,15 +466,8 @@ export default class MailService {
 
 
     static async sendWeeklyDigestEmail(
-        user: SafeUser | User,
-        posts: {
-            title: string;
-            description: string;
-            category: { slug: string };
-            slug: string;
-            link: string;
-            image?: string | null;
-        }[]
+        mail: string,
+        posts: PostWithData[]
     ) {
         const subject = "Your Weekly Digest from Kuray.dev";
 
@@ -486,12 +476,12 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email },
+                mail,
                 posts
             }
         );
 
-        await MailService.sendMail(user.email, subject, emailContent);
+        await MailService.sendMail(mail, subject, emailContent);
     }
 
     static async sendNewCommentNotification(

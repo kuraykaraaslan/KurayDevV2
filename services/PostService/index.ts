@@ -90,6 +90,7 @@ export default class PostService {
             status?: string; //ALL, PUBLISHED, DRAFT
             postId?: string;
             slug?: string;
+            createdAfter?: Date;
         }): Promise<{ posts: PostWithData[], total: number }> {
 
         const { page, pageSize, search, categoryId, status, authorId, postId, slug } = data;
@@ -130,6 +131,7 @@ export default class PostService {
                 status: status ? status === "ALL" ? undefined : status : "PUBLISHED",
                 createdAt: {
                     lte: status === "ALL" ? undefined : now,
+                    gte: data.createdAfter ? data.createdAfter : undefined,
                 },
                 deletedAt: {
                     equals: status === "ALL" ? undefined : null,
