@@ -1,15 +1,16 @@
 import redis from "@/libs/redis";
-import {prisma} from '@/libs/prisma';
+import { prisma } from '@/libs/prisma';
+import { Stat } from "@/types/StatTypes";
 
 export default class StatService {
   static REDIS_KEY = "stats:global";
-  static CACHE_TTL_SECONDS = 320; 
+  static CACHE_TTL_SECONDS = 320;
 
   /**
    * Get all stats with Redis caching
    * @returns Cached or fresh stats
    */
-  static async getAllStats() {
+  static async getAllStats() : Promise<Stat> {
 
     const cached = await redis.get(this.REDIS_KEY);
     if (cached) {
@@ -42,4 +43,6 @@ export default class StatService {
 
     return stats;
   }
+
+
 }

@@ -6,6 +6,7 @@ import { Queue, Worker } from 'bullmq';
 import redisInstance from '@/libs/redis';
 import { UserAgentData } from '@/types/UserSessionTypes';
 import { PostWithData } from '@/types/BlogTypes';
+import { Stat } from "@/types/StatTypes";
 
 // Types
 import { User } from '@prisma/client';
@@ -569,6 +570,26 @@ export default class MailService {
         );
 
         await MailService.sendMail(appointment.email, subject, emailContent);
+    }
+
+    static async sendWeeklyAdminAnalyticsEmail(stats:Stat) {
+        if (!MailService.INFORM_MAIL) {
+            // No admin email configured
+            return;
+        }
+
+        const subject = "Weekly Analytics Summary";
+
+        const emailContent = await MailService.renderTemplate(
+            "weekly_admin_analytics.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                stats,
+            }
+        );
+
+        await MailService.sendMail(MailService.INFORM_MAIL, subject, emailContent);
     }
 
 }

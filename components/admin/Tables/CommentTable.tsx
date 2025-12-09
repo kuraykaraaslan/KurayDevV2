@@ -46,18 +46,16 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
             return;
         }
 
-        //approve
-        try {
-            await axiosInstance.put(`/api/comments`, { commentId, status: "PUBLISHED" });
+        await axiosInstance.put(`/api/comments`, { commentId, status: "PUBLISHED" }).then(() => {
             setComments(comments.map(comment => {
                 if (comment.commentId === commentId) {
                     return { ...comment, status: 'PUBLISHED' };
                 }
                 return comment;
-            }));
-        } catch (error) {
+            }));    
+        }).catch((error) => {
             console.error(error);
-        }
+        });
     }
 
     const rejectComment = async (commentId: string) => {
@@ -67,18 +65,16 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
             return;
         }
 
-        //reject
-        try {
-            await axiosInstance.put(`/api/comments`, { commentId, status: "PENDING" });
+        await axiosInstance.put(`/api/comments`, { commentId, status: "NOT_PUBLISHED" }).then(() => {
             setComments(comments.map(comment => {
                 if (comment.commentId === commentId) {
-                    return { ...comment, status: 'PUBLISHED' };
+                    return { ...comment, status: 'NOT_PUBLISHED' };
                 }
                 return comment;
-            }));
-        } catch (error) {
+            }));    
+        }).catch((error) => {
             console.error(error);
-        }
+        });
     }
 
 
