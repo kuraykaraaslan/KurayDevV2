@@ -1,0 +1,15 @@
+<p>Hi <%= user.name %>,</p>
+
+<p>You received a new comment on your blog post: <strong><%= post.title %></strong></p>
+
+<p><strong><%= comment.name %></strong> wrote:</p>
+<p style="margin: 16px; padding: 12px; border-left: 4px solid #3b82f6; background-color: #f9fafb;">
+  <%= comment.content %>
+</p>
+
+<p> Status: <%= comment.status %></p>
+
+<p>To view the comment and respond, click the button below:</p>
+<p>
+  <a href="<%= frontendUrl + '/blog/' + post.category.slug + '/' + post.slug + '#comment-' + comment.id %>" class="button">View Comment</a>
+</p>

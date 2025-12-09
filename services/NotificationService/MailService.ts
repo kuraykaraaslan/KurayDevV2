@@ -10,6 +10,7 @@ import { UserAgentData } from '@/types/UserSessionTypes';
 import { User } from '@prisma/client';
 import { SafeUser } from '@/types/UserTypes';
 import { SafeUserSession } from '@/types/UserSessionTypes';
+import { Appointment } from '@/types/CalendarTypes';
 
 const pwd = process.env.PWD || process.cwd();
 
@@ -30,7 +31,7 @@ export default class MailService {
             Logger.info(`MAIL Worker processing job ${job.id}...`);
             await MailService._sendMail(to, subject, html);
         },
-        { connection: redisInstance , concurrency: 5 }
+        { connection: redisInstance, concurrency: 5 }
     );
 
     static {
@@ -63,7 +64,7 @@ export default class MailService {
     static readonly APPLICATION_NAME = process.env.APPLICATION_NAME || "Express Boilerplate";
     static readonly APPLICATION_HOST = process.env.APPLICATION_HOST || "http://localhost:3000";
 
-    
+
     static readonly FRONTEND_URL = MailService.APPLICATION_HOST;
     static readonly FRONTEND_LOGIN_PATH = process.env.FRONTEND_LOGIN_PATH || "/auth/login";
     static readonly FRONTEND_REGISTER_PATH = process.env.FRONTEND_REGISTER_PATH || "/auth/register";
@@ -81,6 +82,7 @@ export default class MailService {
     static getBaseTemplateVars() {
         return {
             appName: MailService.APPLICATION_NAME,
+            frontendUrl: MailService.FRONTEND_URL,
             loginLink: MailService.FRONTEND_URL + MailService.FRONTEND_LOGIN_PATH,
             resetPasswordLink: MailService.FRONTEND_URL + MailService.FRONTEND_RESET_PASSWORD_PATH,
             forgotPasswordLink: MailService.FRONTEND_URL + MailService.FRONTEND_FORGOT_PASSWORD_PATH,
@@ -321,7 +323,7 @@ export default class MailService {
 
         if (!MailService.INFORM_MAIL) {
             // No admin email configured
-           return;
+            return;
         }
 
         await MailService.sendMail(MailService.INFORM_MAIL, subject, emailContent);
@@ -347,4 +349,236 @@ export default class MailService {
 
         await MailService.sendMail(email, subject, emailContent);
     }
+
+    static async sendEmailChangedEmail(user: User | SafeUser) {
+        const subject = "Your Email Was Updated";
+
+        const emailContent = await MailService.renderTemplate(
+            "email_change.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                user: { name: user.name || user.email }
+            }
+        );
+
+        await MailService.sendMail(user.email, subject, emailContent);
+    }
+
+    static async sendVerifyEmail(user: User | SafeUser, verifyToken: string) {
+        const subject = "Verify Your Email";
+
+        const verifyLink =
+            MailService.FRONTEND_URL +
+            "/auth/verify-email?token=" +
+            verifyToken +
+            "&email=" +
+            user.email;
+
+        const emailContent = await MailService.renderTemplate(
+            "verify_email.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                user: { name: user.name || user.email },
+                verifyLink
+            }
+        );
+
+        await MailService.sendMail(user.email, subject, emailContent);
+    }
+
+    static async sendNewDeviceAlertEmail({
+        user,
+        device,
+        ip,
+        location,
+        loginTime
+    }: {
+        user: User | SafeUser;
+        device: string;
+        ip: string;
+        location: string;
+        loginTime: string;
+    }) {
+        const subject = "New Device Login Detected";
+
+        const emailContent = await MailService.renderTemplate(
+            "new_device_alert.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                user: { name: user.name || user.email },
+                device,
+                ip,
+                location,
+                loginTime
+            }
+        );
+
+        await MailService.sendMail(user.email, subject, emailContent);
+    }
+
+
+    static async sendSuspiciousActivityEmail({
+        user,
+        eventType,
+        ip,
+        location,
+        attemptTime
+    }: {
+        user: User | SafeUser;
+        eventType: string;
+        ip: string;
+        location: string;
+        attemptTime: string;
+    }) {
+        const subject = "Suspicious Activity Detected";
+
+        const emailContent = await MailService.renderTemplate(
+            "suspicious_activity.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                user: { name: user.name || user.email },
+                eventType,
+                ip,
+                location,
+                attemptTime
+            }
+        );
+
+        await MailService.sendMail(user.email, subject, emailContent);
+    }
+
+
+    static async sendPasswordChangedEmail(user: User | SafeUser) {
+        const subject = "Your Password Was Changed";
+
+        const emailContent = await MailService.renderTemplate(
+            "password_changed.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                user: { name: user.name || user.email }
+            }
+        );
+
+        await MailService.sendMail(user.email, subject, emailContent);
+    }
+
+
+    static async sendWeeklyDigestEmail(
+        user: SafeUser | User,
+        posts: {
+            title: string;
+            description: string;
+            category: { slug: string };
+            slug: string;
+            link: string;
+            image?: string | null;
+        }[]
+    ) {
+        const subject = "Your Weekly Digest from Kuray.dev";
+
+        const emailContent = await MailService.renderTemplate(
+            "weekly_digest.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                user: { name: user.name || user.email },
+                posts
+            }
+        );
+
+        await MailService.sendMail(user.email, subject, emailContent);
+    }
+
+    static async sendNewCommentNotification(
+        user: User | SafeUser,
+        post: any,
+        comment: any
+    ) {
+        const subject = `New Comment on "${post.title}"`;
+
+        const emailContent = await MailService.renderTemplate(
+            "comment_notification.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                user: { name: user.name || user.email },
+                post,
+                comment
+            }
+        );
+
+        await MailService.sendMail(user.email, subject, emailContent);
+    }
+
+    static async sendAppointmentPendingEmail(appointment: any) {
+        const subject = "Your Appointment Request Was Received";
+
+        const start = new Date(appointment.startTime);
+        const end = new Date(appointment.endTime);
+
+        const formattedDate = start.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+        const formattedTime =
+            start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" }) +
+            " - " +
+            end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" }) +
+            " UTC";
+
+        const emailContent = await MailService.renderTemplate(
+            "appointment_pending.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                appointment,
+                formattedDate,
+                formattedTime
+            }
+        );
+
+        await MailService.sendMail(appointment.email, subject, emailContent);
+    }
+
+    static async sendAppointmentConfirmationEmail(appointment: Appointment) {
+        const subject = "Your Appointment is Confirmed";
+
+        const start = new Date(appointment.startTime);
+        const end = new Date(appointment.endTime);
+
+        const formattedDate = start.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+        const formattedTime =
+            start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" }) +
+            " - " +
+            end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" }) +
+            " UTC";
+
+        const emailContent = await MailService.renderTemplate(
+            "appointment_confirm.ejs",
+            {
+                ...MailService.getBaseTemplateVars(),
+                subject,
+                appointment,
+                formattedDate,
+                formattedTime,
+            }
+        );
+
+        await MailService.sendMail(appointment.email, subject, emailContent);
+    }
+
 }

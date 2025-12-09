@@ -265,6 +265,7 @@ exports.Prisma.AppointmentScalarFieldEnum = {
   email: 'email',
   phone: 'phone',
   note: 'note',
+  meetingLink: 'meetingLink',
   status: 'status',
   createdAt: 'createdAt'
 };

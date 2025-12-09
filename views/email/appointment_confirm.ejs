@@ -1,0 +1,32 @@
+<p>Hi <%= appointment.name %>,</p>
+
+<p>Your appointment has been successfully <strong>confirmed</strong>.</p>
+
+<div style="
+  margin: 24px 0;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+">
+  <h3 style="margin-top: 0; color: #111827;">Appointment Details</h3>
+
+  <p><strong>Date:</strong> <%= formattedDate %></p>
+  <p><strong>Time:</strong> <%= formattedTime %></p>
+  <p><strong>Status:</strong> <%= appointment.status %></p>
+
+  <p><strong>Name:</strong> <%= appointment.name %></p>
+  <p><strong>Email:</strong> <%= appointment.email %></p>
+
+  <% if (appointment.phone) { %>
+    <p><strong>Phone:</strong> <%= appointment.phone %></p>
+  <% } %>
+
+  <% if (appointment.note) { %>
+    <p><strong>Note:</strong> <%= appointment.note %></p>
+  <% } %>
+</div>
+
+<a href="<%= calendarLink %>" class="button">
+  Add to Calendar
+</a>

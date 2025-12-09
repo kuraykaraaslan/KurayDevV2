@@ -1,0 +1,13 @@
+<p>Hi <%= user.name %>,</p>
+
+<p>We detected suspicious activity on your account.</p>
+
+<p><strong>Activity Details:</strong></p>
+<p>Event: <%= eventType %></p>
+<p>IP: <%= ip %></p>
+<p>Location: <%= location %></p>
+<p>Time: <%= attemptTime %></p>
+
+<p>If you did not recognize this activity, please reset your password:</p>
+
+<a class="button" href="<%= resetPasswordLink %>">Reset Your Password</a>

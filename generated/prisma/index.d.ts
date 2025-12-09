@@ -14494,6 +14494,7 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     note: string | null
+    meetingLink: string | null
     status: $Enums.AppointmentStatus | null
     createdAt: Date | null
   }
@@ -14506,6 +14507,7 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     note: string | null
+    meetingLink: string | null
     status: $Enums.AppointmentStatus | null
     createdAt: Date | null
   }
@@ -14518,6 +14520,7 @@ export namespace Prisma {
     email: number
     phone: number
     note: number
+    meetingLink: number
     status: number
     createdAt: number
     _all: number
@@ -14532,6 +14535,7 @@ export namespace Prisma {
     email?: true
     phone?: true
     note?: true
+    meetingLink?: true
     status?: true
     createdAt?: true
   }
@@ -14544,6 +14548,7 @@ export namespace Prisma {
     email?: true
     phone?: true
     note?: true
+    meetingLink?: true
     status?: true
     createdAt?: true
   }
@@ -14556,6 +14561,7 @@ export namespace Prisma {
     email?: true
     phone?: true
     note?: true
+    meetingLink?: true
     status?: true
     createdAt?: true
     _all?: true
@@ -14641,6 +14647,7 @@ export namespace Prisma {
     email: string
     phone: string
     note: string | null
+    meetingLink: string | null
     status: $Enums.AppointmentStatus
     createdAt: Date
     _count: AppointmentCountAggregateOutputType | null
@@ -14670,6 +14677,7 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     note?: boolean
+    meetingLink?: boolean
     status?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["appointment"]>
@@ -14682,6 +14690,7 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     note?: boolean
+    meetingLink?: boolean
     status?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["appointment"]>
@@ -14694,6 +14703,7 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     note?: boolean
+    meetingLink?: boolean
     status?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["appointment"]>
@@ -14706,11 +14716,12 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     note?: boolean
+    meetingLink?: boolean
     status?: boolean
     createdAt?: boolean
   }
 
-  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"appointmentId" | "startTime" | "endTime" | "name" | "email" | "phone" | "note" | "status" | "createdAt", ExtArgs["result"]["appointment"]>
+  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"appointmentId" | "startTime" | "endTime" | "name" | "email" | "phone" | "note" | "meetingLink" | "status" | "createdAt", ExtArgs["result"]["appointment"]>
 
   export type $AppointmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Appointment"
@@ -14723,6 +14734,7 @@ export namespace Prisma {
       email: string
       phone: string
       note: string | null
+      meetingLink: string | null
       status: $Enums.AppointmentStatus
       createdAt: Date
     }, ExtArgs["result"]["appointment"]>
@@ -15155,6 +15167,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Appointment", 'String'>
     readonly phone: FieldRef<"Appointment", 'String'>
     readonly note: FieldRef<"Appointment", 'String'>
+    readonly meetingLink: FieldRef<"Appointment", 'String'>
     readonly status: FieldRef<"Appointment", 'AppointmentStatus'>
     readonly createdAt: FieldRef<"Appointment", 'DateTime'>
   }
@@ -17863,6 +17876,7 @@ export namespace Prisma {
     email: 'email',
     phone: 'phone',
     note: 'note',
+    meetingLink: 'meetingLink',
     status: 'status',
     createdAt: 'createdAt'
   };
@@ -18932,6 +18946,7 @@ export namespace Prisma {
     email?: StringFilter<"Appointment"> | string
     phone?: StringFilter<"Appointment"> | string
     note?: StringNullableFilter<"Appointment"> | string | null
+    meetingLink?: StringNullableFilter<"Appointment"> | string | null
     status?: EnumAppointmentStatusFilter<"Appointment"> | $Enums.AppointmentStatus
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
   }
@@ -18944,6 +18959,7 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     note?: SortOrderInput | SortOrder
+    meetingLink?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -18959,6 +18975,7 @@ export namespace Prisma {
     email?: StringFilter<"Appointment"> | string
     phone?: StringFilter<"Appointment"> | string
     note?: StringNullableFilter<"Appointment"> | string | null
+    meetingLink?: StringNullableFilter<"Appointment"> | string | null
     status?: EnumAppointmentStatusFilter<"Appointment"> | $Enums.AppointmentStatus
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
   }, "appointmentId">
@@ -18971,6 +18988,7 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     note?: SortOrderInput | SortOrder
+    meetingLink?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     _count?: AppointmentCountOrderByAggregateInput
@@ -18989,6 +19007,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Appointment"> | string
     phone?: StringWithAggregatesFilter<"Appointment"> | string
     note?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
+    meetingLink?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
     status?: EnumAppointmentStatusWithAggregatesFilter<"Appointment"> | $Enums.AppointmentStatus
     createdAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
   }
@@ -20111,6 +20130,7 @@ export namespace Prisma {
     email: string
     phone: string
     note?: string | null
+    meetingLink?: string | null
     status?: $Enums.AppointmentStatus
     createdAt?: Date | string
   }
@@ -20123,6 +20143,7 @@ export namespace Prisma {
     email: string
     phone: string
     note?: string | null
+    meetingLink?: string | null
     status?: $Enums.AppointmentStatus
     createdAt?: Date | string
   }
@@ -20135,6 +20156,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLink?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20147,6 +20169,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLink?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20159,6 +20182,7 @@ export namespace Prisma {
     email: string
     phone: string
     note?: string | null
+    meetingLink?: string | null
     status?: $Enums.AppointmentStatus
     createdAt?: Date | string
   }
@@ -20171,6 +20195,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLink?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20183,6 +20208,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLink?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21036,6 +21062,7 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     note?: SortOrder
+    meetingLink?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -21048,6 +21075,7 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     note?: SortOrder
+    meetingLink?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -21060,6 +21088,7 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     note?: SortOrder
+    meetingLink?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }

@@ -240,6 +240,8 @@ model Appointment {
   phone         String
   note          String?
 
+  meetingLink   String?
+  
   status AppointmentStatus @default(PENDING)
   createdAt DateTime          @default(now())
 

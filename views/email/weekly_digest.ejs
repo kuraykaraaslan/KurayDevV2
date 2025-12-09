@@ -1,0 +1,41 @@
+<p>Hi <%= user.name %>,</p>
+
+<p>Here's your curated weekly digest from <strong>Kuray.dev</strong>.</p>
+
+<p>This week, I published <strong><%= posts.length %></strong> new articles you may enjoy:</p>
+
+<% posts.forEach((post) => { %>
+  <div style="
+      margin: 28px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+  ">
+
+    <!-- Image Section -->
+    <% if (post.image) { %>
+      <img src="<%= post.image %>" alt="<%= post.title %>"
+        style="width: 100%; height: auto; display: block; border-bottom: 1px solid #e5e7eb;" />
+    <% } %>
+
+    <!-- Text Section -->
+    <div style="padding: 20px;">
+      <h2 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 600; color: #111827;">
+        <%= post.title %>
+      </h2>
+
+      <p style="margin: 0 0 16px 0; color: #4b5563; font-size: 15px;">
+        <%= post.description.length > 150 ? post.description.substring(0, 147) + '...' : post.description %>
+      </p>
+
+      <a href="<%= frontendUrl + '/blog/' + post.category.slug + '/' + post.slug %>" class="button" >Read More</a>
+    </div>
+  </div>
+<% }) %>
+
+<p>If you want to explore more, feel free to browse all content on Kuray.dev:</p>
+
+<p>
+  <a href="<%= frontendUrl + '/blog' %>" class="button">Browse All Articles</a>
+</p>
