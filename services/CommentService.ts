@@ -1,11 +1,11 @@
 import { Comment, CommentWithData } from "@/types/BlogTypes";
-import {prisma} from '@/libs/prisma';
+import { prisma } from '@/libs/prisma';
 
 export default class CommentService {
 
     private static sqlInjectionRegex = /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i; // SQL injection prevention
     private static emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    private static commentRegex = /^[a-zA-Z0-9\s.,!?()]+$/;
+    private static commentRegex = /^[\p{L}\p{N}\p{M}\s.,!?:;'"()\-_/]+$/u;
     private static noHTMLRegex = /<[^>]*>?/gm;
     private static noJS = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
 
@@ -44,7 +44,7 @@ export default class CommentService {
         content = content.replace(this.noHTMLRegex, '');
         content = content.replace(this.noJS, '');
 
-        
+
 
         // Validate input
         const existingComment = await prisma.comment.findFirst({
@@ -76,7 +76,7 @@ export default class CommentService {
             pending?: boolean;
         }): Promise<{ comments: CommentWithData[], total: number }> {
 
-        const { page, pageSize, search, postId , pending } = data;
+        const { page, pageSize, search, postId, pending } = data;
 
         // Validate search query
         if (search && this.sqlInjectionRegex.test(search)) {

@@ -1,39 +1,97 @@
-
+import { NextResponse } from "next/server";
 import UserSessionService from '@/services/AuthService/UserSessionService';
 import CommentService from '@/services/CommentService';
 import PostService from '@/services/PostService';
-import { NextResponse } from "next/server";
+import { pipeline, env } from "@xenova/transformers";
+import { CommentStatus } from '@prisma/client';
 
-export async function POST(request: NextRequest, _response: NextResponse) {
+// Bu route kesin Node.js runtime'da çalışsın:
+export const runtime = 'nodejs';
 
+// İstersen (zorunlu değil) model cache path'i ayarlayabilirsin
+// env.localModelPath = '/tmp/models'; // Vercel için uygun
+
+let toxicityModel: any = null;
+
+async function loadToxicityModel() {
+  if (!toxicityModel) {
+    toxicityModel = await pipeline(
+      "text-classification",
+      "Xenova/toxic-bert" // 🔴 BURASI ÖNEMLİ
+    );
+  }
+  return toxicityModel;
+}
+
+export async function POST(request: NextRequest) {
     try {
-        await UserSessionService.authenticateUserByRequest(request, "USER");
+        // Authenticate user session
+        await UserSessionService.authenticateUserByRequest(request, "GUEST");
+
+        // Determine role (ADMIN, USER, or fallback GUEST)
+        const userRole = request.user?.role || "GUEST";
 
         const { content, postId, parentId, email, name } = await request.json();
 
         if (!name || !email || !content) {
-            return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });
+            return NextResponse.json(
+                { message: "Please fill in the required fields." },
+                { status: 400 }
+            );
         }
 
-        // Check if the post exists
+        // Validate post
         const post = await PostService.getPostById(postId);
 
         if (!post) {
-            return NextResponse.json({ message: "Post not found." }, { status: 404 });
+            return NextResponse.json(
+                { message: "Post not found." },
+                { status: 404 }
+            );
         }
 
-        // Create the comment
+        let finalStatus: CommentStatus = CommentStatus.NOT_PUBLISHED;
+
+        if (userRole === "ADMIN") {
+            finalStatus = CommentStatus.PUBLISHED;
+        } else {
+            try {
+                const model = await loadToxicityModel();
+                if (!model) {
+                    console.warn("⚠ Toxicity model could not be loaded. Fallback => NOT_PUBLISHED");
+                    finalStatus = CommentStatus.NOT_PUBLISHED;
+                } else {
+                    const result = await model(content);
+                    const toxicScore = result[0].score;
+
+                    const isSafe = toxicScore < 0.45;
+                    finalStatus = isSafe ? CommentStatus.PUBLISHED : CommentStatus.SPAM;
+
+                    console.log("Toxicity score:", toxicScore, "=>", finalStatus);
+                }
+            } catch (err) {
+                console.error("⚠ AI moderation failed:", err);
+                finalStatus = CommentStatus.NOT_PUBLISHED;
+            }
+        }
+
         await CommentService.createComment({
             content,
             postId,
             parentId,
             email,
             name,
-            status: "NOT_PUBLISHED", // New comments are not published by default
-            createdAt: new Date(), // current date and time
+            status: finalStatus,
+            createdAt: new Date(),
         });
 
-        return NextResponse.json({ message: "Comment created successfully." }, { status: 201 });
+        return NextResponse.json(
+            {
+                message: "Comment created.",
+                status: finalStatus,
+            },
+            { status: 201 }
+        );
 
     } catch (error: any) {
         console.error(error.message);
@@ -42,21 +100,14 @@ export async function POST(request: NextRequest, _response: NextResponse) {
             { status: 500 }
         );
     }
-
 }
 
 
-/**
- * GET handler for retrieving all posts with optional pagination and search.
- * @param request - The incoming request object
- * @returns A NextResponse containing the posts data or an error message
- */
 export async function GET(request: NextRequest) {
     try {
 
         const { searchParams } = new URL(request.url);
 
-        // Extract query parameters
         const page = parseInt(searchParams.get('page') || '1', 10);
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const postId = searchParams.get('postId') || undefined;
@@ -64,7 +115,6 @@ export async function GET(request: NextRequest) {
         const pending = searchParams.get('pending') === 'true';
 
         if (pending) {
-            // only allow admins to view pending comments
             await UserSessionService.authenticateUserByRequest(request, "ADMIN");
         } else {
             await UserSessionService.authenticateUserByRequest(request, "GUEST");
@@ -97,9 +147,13 @@ export async function PUT(request: NextRequest, _response: NextResponse) {
 
     try {
         await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+
         const data = await request.json();
         await CommentService.updateComment(data);
+
         return NextResponse.json({ message: "Comment updated successfully." });
+
+
     } catch (error: any) {
         console.error(error.message);
         return NextResponse.json(

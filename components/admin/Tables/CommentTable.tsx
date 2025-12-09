@@ -48,7 +48,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
 
         //approve
         try {
-            await axiosInstance.put(`/api/comments`, { commentId, status: "APPROVED" });
+            await axiosInstance.put(`/api/comments`, { commentId, status: "PUBLISHED" });
             setComments(comments.map(comment => {
                 if (comment.commentId === commentId) {
                     return { ...comment, status: 'PUBLISHED' };
