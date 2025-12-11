@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-   
+
 import UserService from "@/services/UserService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import { SafeUserSchema, UpdateUserSchema } from "@/types/UserTypes";
@@ -95,9 +95,9 @@ export async function PUT(
   try {
 
     await UserSessionService.authenticateUserByRequest(request, "ADMIN");
-    
+
     const { userId } = await params
- 
+
     const data = await request.json();
 
     console.log("Received data for update:", data);
