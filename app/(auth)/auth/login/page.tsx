@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { MouseEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const LoginPage = () => {
 
@@ -19,6 +19,7 @@ const LoginPage = () => {
     const { setUser } = useGlobalStore();
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
 
     const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -65,6 +66,11 @@ const LoginPage = () => {
             const { user } = res.data;
             setUser(user);
 
+            const redirect = searchParams.get("redirect");
+            if (redirect) {
+                router.push(redirect);
+                return;
+            }
             router.push("/");
         }
         ).catch((err) => {

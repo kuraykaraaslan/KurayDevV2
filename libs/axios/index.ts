@@ -32,7 +32,8 @@ axiosInstance.interceptors.response.use(function (response) {
     if (error.response) {
         const { message } = error.response.data;
         if (message === AuthMessages.TOKEN_EXPIRED || message === AuthMessages.USER_NOT_AUTHENTICATED) {
-            window.location.href = '/auth/login';
+            const redirect = typeof window !== 'undefined' ? window.location.pathname : null;
+            window.location.href = `/auth/login${redirect ? `?redirect=${redirect}` : ''}`;
         } else {
             console.error('Response error:', error.response.data);
         }
