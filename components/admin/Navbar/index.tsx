@@ -11,6 +11,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/common/Logo";
 
+import dynamic from "next/dynamic";
+
+const NavbarAuthButton = dynamic(
+    () => import('../../common/NavbarAuthButton'),
+    { ssr: false }
+);
+
 const Navbar = () => {
 
     const router = useRouter();
@@ -59,6 +66,10 @@ const Navbar = () => {
         {
             name: "Settings",
             href: "/admin/settings",
+        },
+        {
+            name: "Logout",
+            href: "/auth/logout",
         }
     ];
 
@@ -88,11 +99,7 @@ const Navbar = () => {
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:justify-end justify-center items-center">
-                        <span className="text-sm font-semibold leading-6 text-primary px-4 py-2">{user?.name ? user?.name : email?.split('@')[0]}</span>
-                        <Link href="#" className="flex items-center justify-center border-2 border-primary rounded-full">
-                            <Image width={48} height={48}
-                                src={user?.profilePicture ? user?.profilePicture : gravitarUrl} alt="User Image" className="w-12 h-12 rounded-full" />
-                        </Link>
+                        <NavbarAuthButton />
                     </div>
                 </nav>
             </div>
@@ -121,9 +128,6 @@ const Navbar = () => {
                                     </button>
                                 ))}
                             </nav>
-                        </div>
-                        <div className="flex justify-center pb-4">
-                            <Link href="/auth/login" className="btn text-sm font-semibold leading-6 bg-primary text-base rounded-s">Log in</Link>
                         </div>
                     </div>
                 </div>

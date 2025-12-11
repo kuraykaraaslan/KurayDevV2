@@ -1,5 +1,5 @@
 import {prisma} from '@/libs/prisma';
-import { User, UserRole, SafeUser } from "@/types/UserTypes";
+import { User, UserRole, SafeUser, UpdateUser } from "@/types/UserTypes";
 
 // Libraries
 import bcrypt from "bcrypt";
@@ -165,15 +165,15 @@ export default class UserService {
      * @param data - Partial user data to update.
      * @returns The updated user details.
      */
-    static async update(data: Partial<SafeUser>): Promise<SafeUser> {
+    static async update({ userId, data }: { userId: string, data: UpdateUser }): Promise<SafeUser> {
 
-        if (!data.userId) {
+        if (!userId) {
             throw new Error(this.USER_NOT_FOUND);
         }
 
         // Get the user by ID
         const user = await prisma.user.findUnique({
-            where: { userId: data.userId },
+            where: { userId },
         });
 
         if (!user) {
@@ -182,7 +182,7 @@ export default class UserService {
 
         // Update the user in the database
         const updatedUser = await prisma.user.update({
-            where: { userId: data.userId },
+            where: { userId: userId },
             data: data as User,
         });
 

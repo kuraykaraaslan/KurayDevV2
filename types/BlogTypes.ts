@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SafeUser } from './UserTypes';
+import { SafeUserSchema } from './UserTypes';
 
 const CommentStatus = z.enum(["NOT_PUBLISHED", "PUBLISHED", "SPAM"]).default("NOT_PUBLISHED");
 const PostStatus = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED");
@@ -45,7 +45,7 @@ const Category = z.object({
 });
 
 const PostWithData = Post.extend({
-    author: SafeUser.pick({
+    author: SafeUserSchema.pick({
         userId: true,
         name: true,
         profilePicture: true,

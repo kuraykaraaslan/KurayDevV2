@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
    
 import UserService from "@/services/UserService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import { SafeUserSchema, UpdateUserSchema } from "@/types/UserTypes";
 
 /**
  * GET handler for retrieving a user by its ID.
@@ -94,19 +95,32 @@ export async function PUT(
   try {
 
     await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+    
     const { userId } = await params
-    const user = await UserService.getById(userId);
+ 
+    const data = await request.json();
 
-    if (!user) {
+    console.log("Received data for update:", data);
+
+    const user = UpdateUserSchema.safeParse(data);
+
+    if (!user.success) {
+      return NextResponse.json(
+        { message: "INVALID_USER_DATA", errors: user.error.errors },
+        { status: 400 }
+      );
+    }
+
+    const updatedUser = await UserService.update({ userId, data: user.data });
+
+    if (!updatedUser) {
       return NextResponse.json(
         { message: "USER_NOT_FOUND" },
         { status: 404 }
       );
-    } 
+    }
 
-    // TODO: add update user logic
-    
-    return NextResponse.json({ user });
+    return NextResponse.json({ user: updatedUser });
 
   }
   catch (error: any) {

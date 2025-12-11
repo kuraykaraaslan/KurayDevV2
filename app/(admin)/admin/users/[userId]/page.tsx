@@ -68,7 +68,7 @@ const UpdateUser = () => {
             name,
             email,
             role,
-            image: imageUrl,
+            profilePicture: imageUrl,
         }).then(() => {
             toast.success('User updated successfully');
             router.push('/admin/users');

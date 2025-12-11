@@ -9,8 +9,8 @@ import ReadingProgressBar from '../ReadingProgressBar';
 import SearchButton from './Partials/SearchButton';
 import { MenuItem } from '@/types/UITypes';
 
-const AuthButton = dynamic(
-    () => import('./Partials/AuthButton'),
+const NavbarAuthButton = dynamic(
+    () => import('../../common/NavbarAuthButton'),
     { ssr: false }
 );
 
@@ -93,7 +93,7 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
                 </div>
                 <div className="">
                     <ul className="menu menu-horizontal gap-1 hidden lg:flex">
-                        <AuthButton />
+                        <NavbarAuthButton />
                     </ul>
                 </div>
             </div>
