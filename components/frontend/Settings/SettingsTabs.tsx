@@ -1,26 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { SafeUser, UpdateUser, OTPMethod } from '@/types/UserTypes';
 import ProfileTab from './ProfileTab';
 import SecurityTab from './SecurityTab';
 import PreferencesTab from './PreferencesTab';
 import OTPTab from './OTPTab';
 
-interface SettingsTabsProps {
-  user: SafeUser | null;
-  onSave: (data: UpdateUser) => Promise<void>;
-}
 
 type TabType = 'profile' | 'security' | 'otp' | 'preferences';
 
-export default function SettingsTabs({ user, onSave }: SettingsTabsProps) {
+export default function SettingsTabs() {
   const [activeTab, setActiveTab] = useState<TabType>('profile');
-
-  const handleOTPSave = async (methods: OTPMethod[]) => {
-    // TODO: Implement actual OTP save API call
-    console.log('OTP methods saved:', methods);
-  };
 
   const tabs: { id: TabType; label: string; icon: string }[] = [
     {
@@ -46,31 +36,38 @@ export default function SettingsTabs({ user, onSave }: SettingsTabsProps) {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="w-full">
       {/* Tabs Navigation */}
-      <div className="tabs tabs-lifted border-b border-base-300">
+      <div className="flex gap-2 border-b border-base-300 px-4 sm:px-0">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`tab gap-2 font-semibold transition-all ${
+            className={`flex items-center gap-2 px-4 py-3 font-medium transition-all duration-200 relative ${
               activeTab === tab.id
-                ? 'tab-active bg-base-100 border-base-300 text-primary'
-                : 'bg-base-200 hover:bg-base-300'
+                ? 'text-primary'
+                : 'text-base-content/60 hover:text-base-content/80'
             }`}
           >
             <span className="text-lg">{tab.icon}</span>
-            <span className="hidden sm:inline">{tab.label}</span>
+            <span className="hidden sm:inline text-sm">{tab.label}</span>
+            
+            {/* Active indicator */}
+            {activeTab === tab.id && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-primary/70" />
+            )}
           </button>
         ))}
       </div>
 
       {/* Tab Content */}
-      <div className="bg-base-100 rounded-b-lg shadow-md p-6">
-        {activeTab === 'profile' && <ProfileTab user={user} onSave={onSave} />}
-        {activeTab === 'security' && <SecurityTab />}
-        {activeTab === 'otp' && <OTPTab initialMethods={user?.otpMethods || []} onSave={handleOTPSave} />}
-        {activeTab === 'preferences' && <PreferencesTab />}
+      <div className="mt-4">
+        <div className="animate-fade-in">
+          {activeTab === 'profile' && <ProfileTab />}
+          {activeTab === 'security' && <SecurityTab />}
+          {activeTab === 'otp' && <OTPTab />}
+          {activeTab === 'preferences' && <PreferencesTab />}
+        </div>
       </div>
     </div>
   );

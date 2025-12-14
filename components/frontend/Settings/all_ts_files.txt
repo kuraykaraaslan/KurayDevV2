@@ -1,0 +1,904 @@
+=== ./PreferencesTab.tsx ===
+'use client';
+
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import axiosInstance from '@/libs/axios';
+import useGlobalStore from '@/libs/zustand';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+
+export default function PreferencesTab() {
+  const { user, setUser } = useGlobalStore();
+
+  const [preferences, setPreferences] = useState({
+    emailNotifications: true,
+    smsNotifications: false,
+    pushNotifications: true,
+    newsletter: true,
+    darkMode: true,
+    language: 'tr',
+  });
+
+  return (
+    <div className="space-y-8">
+
+      {/* Header */}
+      <div>
+        <h2 className="text-xl font-bold">Kişisel Tercihler</h2>
+        <p className="text-sm opacity-70">
+          Bildirim ve hesap tercihlerini buradan yönetebilirsin.
+        </p>
+      </div>
+
+      {/* Card Container */}
+      <div className="bg-base-200 rounded-2xl p-6 shadow-sm border border-base-300 space-y-6">
+
+        {/* Email Notifications */}
+        <div className="flex items-center justify-between py-2 px-1 hover:bg-base-300/40 rounded-xl transition">
+          <div>
+            <p className="font-semibold">E-posta Bildirimleri</p>
+            <p className="text-xs opacity-60">Önemli gelişmeleri e-posta ile al.</p>
+          </div>
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            checked={preferences.emailNotifications}
+            onChange={(e) =>
+              setPreferences((prev) => ({
+                ...prev,
+                emailNotifications: e.target.checked,
+              }))
+            }
+          />
+        </div>
+
+        {/* SMS Notifications */}
+        <div className="flex items-center justify-between py-2 px-1 hover:bg-base-300/40 rounded-xl transition">
+          <div>
+            <p className="font-semibold">SMS Bildirimleri</p>
+            <p className="text-xs opacity-60">Acil durumlarda SMS ile bilgilendirme.</p>
+          </div>
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            checked={preferences.smsNotifications}
+            onChange={(e) =>
+              setPreferences((prev) => ({
+                ...prev,
+                smsNotifications: e.target.checked,
+              }))
+            }
+          />
+        </div>
+
+        {/* Push Notifications */}
+        <div className="flex items-center justify-between py-2 px-1 hover:bg-base-300/40 rounded-xl transition">
+          <div>
+            <p className="font-semibold">Push Bildirimleri</p>
+            <p className="text-xs opacity-60">Tarayıcı ve mobil bildirimleri aktif et.</p>
+          </div>
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            checked={preferences.pushNotifications}
+            onChange={(e) =>
+              setPreferences((prev) => ({
+                ...prev,
+                pushNotifications: e.target.checked,
+              }))
+            }
+          />
+        </div>
+
+        {/* Newsletter */}
+        <div className="flex items-center justify-between py-2 px-1 hover:bg-base-300/40 rounded-xl transition">
+          <div>
+            <p className="font-semibold">Bülten Aboneliği</p>
+            <p className="text-xs opacity-60">Haftalık içerik ve duyuruları al.</p>
+          </div>
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            checked={preferences.newsletter}
+            onChange={(e) =>
+              setPreferences((prev) => ({
+                ...prev,
+                newsletter: e.target.checked,
+              }))
+            }
+          />
+        </div>
+
+        {/* Dark Mode */}
+        <div className="flex items-center justify-between py-2 px-1 hover:bg-base-300/40 rounded-xl transition">
+          <div>
+            <p className="font-semibold">Karanlık Mod</p>
+            <p className="text-xs opacity-60">Site temasını karanlık moda al.</p>
+          </div>
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            checked={preferences.darkMode}
+            onChange={(e) =>
+              setPreferences((prev) => ({
+                ...prev,
+                darkMode: e.target.checked,
+              }))
+            }
+          />
+        </div>
+
+        {/* Language */}
+        <div className="pt-4">
+          <label className="label pb-1">
+            <span className="label-text font-semibold flex items-center gap-2">
+              <FontAwesomeIcon icon={faGlobe} className="text-primary" />
+              Dil Seçimi
+            </span>
+          </label>
+
+          <select
+            className="select select-bordered w-full"
+            value={preferences.language}
+            onChange={(e) =>
+              setPreferences((prev) => ({
+                ...prev,
+                language: e.target.value,
+              }))
+            }
+          >
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="de">Deutsch</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+
+=== ./OTPTab.tsx ===
+'use client';
+
+import { useState } from 'react';
+import { OTPMethod } from '@/types/UserTypes';
+import { toast } from 'react-toastify';
+import axiosInstance from '@/libs/axios';
+import useGlobalStore from '@/libs/zustand';
+
+interface OTPTabProps {
+  initialMethods: OTPMethod[];
+  onSave: (methods: OTPMethod[]) => Promise<void>;
+}
+
+export default function OTPTab({ initialMethods = [] }: OTPTabProps) {
+  const { setUser } = useGlobalStore();
+  const [selectedMethods, setSelectedMethods] = useState<OTPMethod[]>(initialMethods);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showTotpSetup, setShowTotpSetup] = useState(false);
+
+  const otpOptions: { method: OTPMethod; label: string; description: string; icon: string }[] = [
+    {
+      method: 'EMAIL',
+      label: 'E-mail ile OTP',
+      description: 'Gelen kutunuza gönderilen kodu kullanın',
+      icon: '📧',
+    },
+    {
+      method: 'SMS',
+      label: 'SMS ile OTP',
+      description: 'Telefonunuza gönderilen kodu kullanın',
+      icon: '📱',
+    },
+    {
+      method: 'TOTP_APP',
+      label: 'Authenticator Uygulaması',
+      description: 'Google Authenticator veya benzer uygulamaları kullanın',
+      icon: '🔐',
+    },
+    {
+      method: 'PUSH_APP',
+      label: 'Mobil Uygulama Onayı',
+      description: 'Telefonunuzdaki uygulamada onay yapın',
+      icon: '✅',
+    },
+  ];
+
+  const toggleMethod = (method: OTPMethod) => {
+    setSelectedMethods((prev) =>
+      prev.includes(method) ? prev.filter((m) => m !== method) : [...prev, method]
+    );
+    if (method === 'TOTP_APP') {
+      setShowTotpSetup(!showTotpSetup);
+    }
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    if (selectedMethods.length === 0) {
+      setErrorMessage('En az bir OTP yöntemi seçmelisiniz');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      
+      const response = await axiosInstance.put('/api/users/me', {
+        otpMethods: selectedMethods,
+      });
+      
+      setUser(response.data.user);
+      setSuccessMessage('OTP ayarları başarıyla kaydedildi!');
+      toast.success('OTP ayarları başarıyla kaydedildi!');
+      setShowTotpSetup(false);
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (error: any) {
+      const errorMsg = error?.response?.data?.message || 'OTP ayarları kaydedilirken hata oluştu';
+      setErrorMessage(errorMsg);
+      toast.error(errorMsg);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Error Message */}
+      {errorMessage && (
+        <div className="alert alert-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m2-2l2 2"
+            />
+          </svg>
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
+      {/* Success Message */}
+      {successMessage && (
+        <div className="alert alert-success">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{successMessage}</span>
+        </div>
+      )}
+
+      <form onSubmit={handleSave} className="space-y-6">
+        {/* OTP Methods Selection */}
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="font-semibold text-lg">İki Faktörlü Kimlik Doğrulama Yöntemleri</h3>
+            <p className="text-sm text-base-content/70">
+              Hesabınızı korumak için aşağıdaki yöntemlerden birini veya birkaçını kullanın
+            </p>
+          </div>
+
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+            {otpOptions.map((option) => (
+              <div
+                key={option.method}
+                className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                  selectedMethods.includes(option.method)
+                    ? 'border-primary bg-primary/5'
+                    : 'border-base-300 hover:border-primary/50 bg-base-100'
+                }`}
+                onClick={() => toggleMethod(option.method)}
+              >
+                <label className="cursor-pointer flex gap-3 items-start">
+                  <input
+                    type="checkbox"
+                    checked={selectedMethods.includes(option.method)}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      toggleMethod(option.method);
+                    }}
+                    className="checkbox checkbox-primary checkbox-sm mt-1"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">{option.icon}</span>
+                      <span className="font-semibold">{option.label}</span>
+                    </div>
+                    <p className="text-xs text-base-content/60 mt-1">{option.description}</p>
+                  </div>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* TOTP Setup Section */}
+        {showTotpSetup && selectedMethods.includes('TOTP_APP') && (
+          <div className="card bg-base-100 border border-warning/50 shadow-md">
+            <div className="card-body">
+              <h3 className="card-title text-base flex items-center gap-2">
+                <span className="text-xl">🔐</span>
+                Authenticator Uygulaması Kurulumu
+              </h3>
+              <p className="text-sm text-base-content/70">
+                QR kodunu Google Authenticator, Microsoft Authenticator veya Authy gibi bir uygulamada tarayın.
+              </p>
+
+              {/* QR Code Placeholder */}
+              <div className="flex justify-center my-4">
+                <div className="w-48 h-48 bg-base-200 rounded-lg flex items-center justify-center border-2 border-dashed border-warning/50">
+                  <div className="text-center">
+                    <p className="text-sm font-semibold">QR Kod</p>
+                    <p className="text-xs text-base-content/50 mt-1">(Burada görüntülenecek)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Manual Entry Code */}
+              <div className="space-y-2">
+                <p className="text-sm font-semibold">QR kodu okuyamadığınız durumda manuel giriş kodu:</p>
+                <div className="bg-base-200 p-3 rounded-lg flex items-center justify-between">
+                  <code className="font-mono text-sm">XXXX XXXX XXXX XXXX</code>
+                  <button type="button" className="btn btn-sm btn-ghost">
+                    📋
+                  </button>
+                </div>
+              </div>
+
+              {/* Verification Code Input */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text font-semibold">Doğrulama Kodunu Girin</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="000000"
+                  maxLength={6}
+                  className="input input-bordered w-full text-center font-mono text-2xl tracking-widest"
+                />
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-sm btn-outline btn-warning w-full"
+              >
+                Doğrulamayı Kapat
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* SMS Setup Section */}
+        {selectedMethods.includes('SMS') && (
+          <div className="card bg-base-100 border border-info/50 shadow-md">
+            <div className="card-body">
+              <h3 className="card-title text-base flex items-center gap-2">
+                <span className="text-xl">📱</span>
+                SMS Doğrulama
+              </h3>
+              <p className="text-sm text-base-content/70 mb-4">
+                SMS ile OTP alabilmek için telefon numaranızı doğrulamanız gerekir.
+              </p>
+
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text font-semibold">Telefon Numarası</span>
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+90 (500) 123-4567"
+                  className="input input-bordered w-full"
+                />
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-sm btn-outline btn-info w-full"
+              >
+                Doğrulama Kodu Gönder
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Info Box */}
+        <div className="alert alert-info">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="stroke-current shrink-0 w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>
+            İki faktörlü kimlik doğrulamayı etkinleştirerek hesabınızı daha güvenli hale getirin
+          </span>
+        </div>
+
+        {/* Save Button */}
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="btn btn-primary w-full"
+        >
+          {isLoading ? (
+            <>
+              <span className="loading loading-spinner"></span>
+              Kaydediliyor...
+            </>
+          ) : (
+            'OTP Ayarlarını Kaydet'
+          )}
+        </button>
+      </form>
+    </div>
+  );
+}
+
+
+=== ./ProfileTab.tsx ===
+'use client';
+
+import { useState } from 'react';
+import { UpdateUser } from '@/types/UserTypes';
+import ImageLoad from '@/components/common/ImageLoad';
+import { toast } from 'react-toastify';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import './styles/phoneInput.css';
+import useGlobalStore from '@/libs/zustand';
+import axiosInstance from '@/libs/axios';
+
+
+export default function ProfileTab() {
+
+    const  { user , setUser } = useGlobalStore();
+  
+
+    const [name, setName] = useState(user?.name || '');
+    const [phone, setPhone] = useState(user?.phone || '');
+    const [profilePicture, setProfilePicture] = useState(user?.profilePicture || '');
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Prepare updated user data
+        const updatedUser: UpdateUser = {
+            name,
+            phone,
+            profilePicture,
+        };
+
+        await axiosInstance.put('/api/users/me', updatedUser).then((res) => {
+            setUser(res.data.user);
+            toast.success('Profil başarıyla güncellendi');
+
+        }).catch((error) => {
+            toast.error('Profil güncellenirken hata oluştu');
+            console.error(error);
+        });
+    };
+
+
+  return (
+    <div className="space-y-6">
+ 
+         {/* Name Field */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text font-semibold">Ad</span>
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Tam adınızı girin"
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        {/* Phone Field */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text font-semibold">Telefon</span>
+          </label>
+          <PhoneInput
+            placeholder="Telefon numaranızı girin"
+            value={phone}
+            onChange={(value) => setPhone(value || '')}
+            defaultCountry="TR"
+            className="input input-bordered w-full"
+          />
+          {phone && !isValidPhoneNumber(phone) && (
+            <span className="text-sm text-error mt-1">Geçersiz telefon numarası</span>
+          )}
+        </div>
+
+        {/* Profile Picture URL */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text font-semibold">Profil Resmi</span>
+          </label>
+          <ImageLoad setImage={setProfilePicture} image={profilePicture} uploadFolder='users' toast={toast} />
+        </div>
+
+        {/* Current Email (Read-only) */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text font-semibold">E-mail Adresi</span>
+          </label>
+          <input
+            type="email"
+            value={user?.email || ''}
+            disabled
+            className="input input-bordered w-full bg-base-200"
+          />
+          <label className="label">
+            <span className="label-text-alt">E-mail adresiniz değiştirilemez</span>
+          </label>
+        </div>
+
+        {/* Save Button */}
+        <button
+          type="submit"
+            onClick={handleSubmit}
+          className="btn btn-primary w-full"
+        >
+            Profili Kaydet
+        </button>
+    </div>
+  );
+}
+
+
+=== ./SettingsTabs.tsx ===
+'use client';
+
+import { useState } from 'react';
+import { SafeUser, OTPMethod } from '@/types/UserTypes';
+import ProfileTab from './ProfileTab';
+import SecurityTab from './SecurityTab';
+import PreferencesTab from './PreferencesTab';
+import OTPTab from './OTPTab';
+
+interface SettingsTabsProps {
+  user: SafeUser | null;
+}
+
+type TabType = 'profile' | 'security' | 'otp' | 'preferences';
+
+export default function SettingsTabs({ user }: SettingsTabsProps) {
+  const [activeTab, setActiveTab] = useState<TabType>('profile');
+
+  const handleOTPSave = async (methods: OTPMethod[]) => {
+    // TODO: Implement actual OTP save API call
+    console.log('OTP methods saved:', methods);
+  };
+
+  const tabs: { id: TabType; label: string; icon: string }[] = [
+    {
+      id: 'profile',
+      label: 'Profil',
+      icon: '👤',
+    },
+    {
+      id: 'security',
+      label: 'Güvenlik',
+      icon: '🔒',
+    },
+    {
+      id: 'otp',
+      label: '2FA',
+      icon: '🔐',
+    },
+    {
+      id: 'preferences',
+      label: 'Tercihler',
+      icon: '⚙️',
+    },
+  ];
+
+  return (
+    <div className="w-full">
+      {/* Tabs Navigation */}
+      <div className="flex gap-2 border-b border-base-300 px-4 sm:px-0">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex items-center gap-2 px-4 py-3 font-medium transition-all duration-200 relative ${
+              activeTab === tab.id
+                ? 'text-primary'
+                : 'text-base-content/60 hover:text-base-content/80'
+            }`}
+          >
+            <span className="text-lg">{tab.icon}</span>
+            <span className="hidden sm:inline text-sm">{tab.label}</span>
+            
+            {/* Active indicator */}
+            {activeTab === tab.id && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-primary/70" />
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab Content */}
+      <div className="rounded-lg bg-base-100 shadow-sm border border-base-200 p-6 mt-4">
+        <div className="animate-fade-in">
+          {activeTab === 'profile' && <ProfileTab />}
+          {activeTab === 'security' && <SecurityTab />}
+          {activeTab === 'otp' && <OTPTab initialMethods={user?.otpMethods || []} onSave={handleOTPSave} />}
+          {activeTab === 'preferences' && <PreferencesTab />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+=== ./SecurityTab.tsx ===
+'use client';
+
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import axiosInstance from '@/libs/axios';
+
+export default function SecurityTab() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordSuccess, setPasswordSuccess] = useState('');
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordError('');
+    setPasswordSuccess('');
+    setIsLoading(true);
+
+    // Validation
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordError('Yeni şifreler eşleşmiyor');
+      setIsLoading(false);
+      return;
+    }
+
+    if (passwordData.newPassword.length < 8) {
+      setPasswordError('Şifre en az 8 karakter olmalıdır');
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      await axiosInstance.post('/api/users/change-password', {
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+      });
+      
+      setPasswordSuccess('Şifre başarıyla değiştirildi!');
+      toast.success('Şifre başarıyla değiştirildi!');
+      setPasswordData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+      setTimeout(() => setPasswordSuccess(''), 3000);
+    } catch (error: any) {
+      const errorMsg = error?.response?.data?.message || 'Şifre değiştirilirken bir hata oluştu';
+      setPasswordError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Change Password Section */}
+      <div className="card bg-base-100 shadow-md border border-base-300">
+        <div className="card-body">
+          <h2 className="card-title text-lg">Şifreyi Değiştir</h2>
+          <p className="text-sm text-base-content/70">
+            Hesabınızın güvenliğini korumak için düzenli olarak şifrenizi değiştirin
+          </p>
+
+          <form onSubmit={handlePasswordSubmit} className="space-y-4 mt-4">
+            {/* Error Message */}
+            {passwordError && (
+              <div className="alert alert-error">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m2-2l2 2"
+                  />
+                </svg>
+                <span>{passwordError}</span>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {passwordSuccess && (
+              <div className="alert alert-success">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{passwordSuccess}</span>
+              </div>
+            )}
+
+            {/* Current Password */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text font-semibold">Mevcut Şifre</span>
+              </label>
+              <input
+                type="password"
+                name="currentPassword"
+                value={passwordData.currentPassword}
+                onChange={handlePasswordChange}
+                placeholder="Mevcut şifrenizi girin"
+                className="input input-bordered w-full"
+                required
+              />
+            </div>
+
+            {/* New Password */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text font-semibold">Yeni Şifre</span>
+              </label>
+              <input
+                type="password"
+                name="newPassword"
+                value={passwordData.newPassword}
+                onChange={handlePasswordChange}
+                placeholder="Yeni şifrenizi girin"
+                className="input input-bordered w-full"
+                required
+              />
+              <label className="label">
+                <span className="label-text-alt">En az 8 karakter</span>
+              </label>
+            </div>
+
+            {/* Confirm Password */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text font-semibold">Şifreyi Onayla</span>
+              </label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={passwordData.confirmPassword}
+                onChange={handlePasswordChange}
+                placeholder="Yeni şifrenizi tekrar girin"
+                className="input input-bordered w-full"
+                required
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="btn btn-primary w-full"
+            >
+              {isLoading ? (
+                <>
+                  <span className="loading loading-spinner"></span>
+                  Değiştiriliyor...
+                </>
+              ) : (
+                'Şifreyi Değiştir'
+              )}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Two-Factor Authentication */}
+      <div className="card bg-base-100 shadow-md border border-base-300">
+        <div className="card-body">
+          <h2 className="card-title text-lg">İki Faktörlü Kimlik Doğrulama</h2>
+          <p className="text-sm text-base-content/70">
+            Hesabınıza ek bir güvenlik katmanı ekleyin
+          </p>
+          <div className="card-actions justify-end mt-4">
+            <button className="btn btn-outline">Etkinleştir</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Active Sessions */}
+      <div className="card bg-base-100 shadow-md border border-base-300">
+        <div className="card-body">
+          <h2 className="card-title text-lg">Aktif Oturumlar</h2>
+          <p className="text-sm text-base-content/70 mb-4">
+            Hesabınızda açık olan tüm oturumları görüntüleyin ve yönetin
+          </p>
+          <div className="divider my-2"></div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 bg-base-200 rounded-lg">
+              <div>
+                <p className="font-semibold">Chrome - Linux</p>
+                <p className="text-xs text-base-content/70">Son aktivite: Şimdi</p>
+              </div>
+              <button className="btn btn-sm btn-ghost">Kapat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+=== ./index.ts ===
+export { default as SettingsTabs } from './SettingsTabs';
+export { default as ProfileTab } from './ProfileTab';
+export { default as SecurityTab } from './SecurityTab';
+export { default as OTPTab } from './OTPTab';
+export { default as PreferencesTab } from './PreferencesTab';
+
+

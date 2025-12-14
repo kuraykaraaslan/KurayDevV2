@@ -50,20 +50,22 @@ export default class UserSessionOTPService {
     await redis.set(key, "1", "EX", this.OTP_RATE_LIMIT_SECONDS);
   }
 
-  static async storeOTP(sessionId: string, method: OTPMethod, token: string) {
+  static async storeOTP(sessionId: string, method: OTPMethod, token: string, action: string) {
     const hashed = await this.hashToken(token);
-    const key = `otp:code:${sessionId}:${method}`;
+    const key = `otp:code:${sessionId}:${method}:${action}`;
     await redis.set(key, hashed, "EX", this.OTP_EXPIRY_SECONDS);
   }
 
   static async sendOTP({
     user,
     userSession,
-    method
+    method,
+    action
   }: {
     user: SafeUser;
     userSession: SafeUserSession;
     method: OTPMethod;
+    action: string;
   }) {
     if (!userSession.otpVerifyNeeded)
       throw new Error(AuthMessages.OTP_NOT_NEEDED);
@@ -95,7 +97,7 @@ export default class UserSessionOTPService {
   
     // Generate and store new OTP
     const token = this.generateToken();
-    await this.storeOTP(sessionId, method, token);
+    await this.storeOTP(sessionId, method, token, action);
   
     // Send OTP
     switch (method) {
@@ -122,7 +124,7 @@ export default class UserSessionOTPService {
   }
   
 
-  static async validateOTP({ user, userSession, otpToken, method }: { user: SafeUser; userSession: SafeUserSession; otpToken: string; method: OTPMethod }) {
+  static async validateOTP({ user, userSession, otpToken, method, action }: { user: SafeUser; userSession: SafeUserSession; otpToken: string; method: OTPMethod; action: string; }) {
     if (!userSession.otpVerifyNeeded) throw new Error(AuthMessages.OTP_NOT_NEEDED);
     if (userSession.sessionExpiry < new Date()) throw new Error(AuthMessages.SESSION_NOT_FOUND);
 
@@ -133,7 +135,7 @@ export default class UserSessionOTPService {
       const isValid = authenticator.check(otpToken, otpSecret);
       if (!isValid) throw new Error(AuthMessages.INVALID_OTP);
     } else {
-      const key = `otp:code:${userSession.userSessionId}:${method}`;
+      const key = `otp:code:${userSession.userSessionId}:${method}:${action}`;
       const hashed = await redis.get(key);
       if (!hashed) throw new Error(AuthMessages.OTP_EXPIRED);
 
@@ -141,7 +143,7 @@ export default class UserSessionOTPService {
       if (!isValid) throw new Error(AuthMessages.INVALID_OTP);
 
       await redis.del(key);
-      await redis.del(`otp:rate:${userSession.userSessionId}:${method}`);
+      await redis.del(`otp:rate:${userSession.userSessionId}:${method}:${action}`);
     }
 
     await prisma.userSession.update({

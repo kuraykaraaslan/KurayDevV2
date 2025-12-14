@@ -449,10 +449,9 @@ export default class UserSessionService {
    * @param accessToken - The access token to authenticate.
    * @returns The authenticated user.
    */
-  static async authenticateUserByRequest(request: NextRequest, requiredUserRole = "ADMIN"): Promise<SafeUser | null> {
+  static async authenticateUserByRequest<T extends string = "ADMIN">(request: NextRequest, requiredUserRole: T = "ADMIN" as T): Promise<T extends "GUEST" ? null : { user: SafeUser, userSession: SafeUserSession } > {
 
     try {
-
       const accessToken = request.cookies.get("accessToken")?.value;
       const refreshToken = request.cookies.get("refreshToken")?.value;
 
@@ -493,15 +492,15 @@ export default class UserSessionService {
       }
 
       request.user = user;
+      return requiredUserRole === "GUEST" ? null as any : { user, userSession } as any;
 
-      return user;
     } catch (error: any) {
       console.error('[AUTH] Authentication error:', error.message, error.stack);
       if (requiredUserRole !== "GUEST") {
         throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
       }
       request.user = null; // GUEST role is allowed to not be authenticated
-      return null; // GUEST role is allowed to not be authenticated
+      return null as any;
     }
   }
 }

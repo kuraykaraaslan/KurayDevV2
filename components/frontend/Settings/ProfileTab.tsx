@@ -1,144 +1,128 @@
 'use client';
 
 import { useState } from 'react';
-import { SafeUser, UpdateUser } from '@/types/UserTypes';
+import { toast } from 'react-toastify';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import './styles/phoneInput.css';
 
-interface ProfileTabProps {
-  user: SafeUser | null;
-  onSave: (data: UpdateUser) => Promise<void>;
-}
+import axiosInstance from '@/libs/axios';
+import useGlobalStore from '@/libs/zustand';
+import ImageLoad from '@/components/common/ImageLoad';
 
-export default function ProfileTab({ user, onSave }: ProfileTabProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<UpdateUser>({
-    name: user?.name || '',
-    phone: user?.phone || '',
-    profilePicture: user?.profilePicture || '',
-  });
-  const [successMessage, setSuccessMessage] = useState('');
+export default function ProfileTab() {
+  const { user, setUser } = useGlobalStore();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value || undefined,
-    }));
-  };
+  const [name, setName] = useState(user?.name || '');
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [profilePicture, setProfilePicture] = useState(user?.profilePicture || '');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
+
     try {
-      await onSave(formData);
-      setSuccessMessage('Profil başarıyla güncellendi!');
-      setTimeout(() => setSuccessMessage(''), 3000);
-    } catch (error) {
-      console.error('Profil güncellenirken hata oluştu:', error);
+      const res = await axiosInstance.put('/api/users/me', {
+        name,
+        phone,
+        profilePicture,
+      });
+
+      setUser(res.data.user);
+      toast.success("Profil başarıyla güncellendi");
+    } catch (err) {
+      toast.error("Profil güncellenirken hata oluştu");
+      console.error(err);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Success Message */}
-        {successMessage && (
-          <div className="alert alert-success">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{successMessage}</span>
-          </div>
-        )}
+    <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
 
-        {/* Name Field */}
+      {/* Header */}
+      <div>
+        <h2 className="text-lg font-bold">Profil Bilgileri</h2>
+        <p className="text-sm text-base-content/70">
+          Buradan profil bilgilerini güncelleyebilirsin.
+        </p>
+      </div>
+
+      <form className="space-y-6" onSubmit={handleSave}>
+
+        {/* Name */}
         <div className="form-control w-full">
           <label className="label">
             <span className="label-text font-semibold">Ad</span>
           </label>
           <input
             type="text"
-            name="name"
-            value={formData.name || ''}
-            onChange={handleChange}
-            placeholder="Adınız"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Tam adınızı girin"
             className="input input-bordered w-full"
+            required
           />
         </div>
 
-        {/* Phone Field */}
+        {/* Phone */}
         <div className="form-control w-full">
           <label className="label">
             <span className="label-text font-semibold">Telefon</span>
           </label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone || ''}
-            onChange={handleChange}
-            placeholder="+90 (500) 123-4567"
+
+          <PhoneInput
+            defaultCountry="TR"
+            value={phone}
+            onChange={(v) => setPhone(v || '')}
             className="input input-bordered w-full"
+            placeholder="+90 5XX XXX XX XX"
           />
+
+          {phone && !isValidPhoneNumber(phone) && (
+            <p className="text-error text-sm mt-1">Geçersiz telefon numarası</p>
+          )}
         </div>
 
-        {/* Profile Picture URL */}
+        {/* Profile Image */}
         <div className="form-control w-full">
           <label className="label">
-            <span className="label-text font-semibold">Profil Resmi URL'si</span>
+            <span className="label-text font-semibold">Profil Fotoğrafı</span>
           </label>
-          <input
-            type="url"
-            name="profilePicture"
-            value={formData.profilePicture || ''}
-            onChange={handleChange}
-            placeholder="https://example.com/profile.jpg"
-            className="input input-bordered w-full"
+
+          <ImageLoad
+            setImage={setProfilePicture}
+            image={profilePicture}
+            uploadFolder="users"
+            toast={toast}
           />
         </div>
 
-        {/* Current Email (Read-only) */}
+        {/* Email (Read-only) */}
         <div className="form-control w-full">
           <label className="label">
             <span className="label-text font-semibold">E-mail Adresi</span>
           </label>
+
           <input
             type="email"
             value={user?.email || ''}
             disabled
-            className="input input-bordered w-full bg-base-200"
+            className="input input-bordered w-full bg-base-200 opacity-70"
           />
+
           <label className="label">
-            <span className="label-text-alt">E-mail adresiniz değiştirilemez</span>
+            <span className="label-text-alt">E-mail adresi değiştirilemez</span>
           </label>
         </div>
 
         {/* Save Button */}
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="btn btn-primary w-full"
-        >
-          {isLoading ? (
-            <>
-              <span className="loading loading-spinner"></span>
-              Kaydediliyor...
-            </>
-          ) : (
-            'Değişiklikleri Kaydet'
-          )}
+        <button disabled={loading} className="btn btn-primary w-full">
+          {loading ? "Kaydediliyor..." : "Profili Kaydet"}
         </button>
       </form>
+
     </div>
   );
 }
