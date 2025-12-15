@@ -2290,17 +2290,12 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     password: string | null
-    name: string | null
-    lastName: string | null
     userRole: $Enums.UserRole | null
     userStatus: $Enums.UserStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    profilePicture: string | null
     otpSecret: string | null
-    userNationalityId: string | null
-    userNationalityCountry: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2308,17 +2303,12 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     password: string | null
-    name: string | null
-    lastName: string | null
     userRole: $Enums.UserRole | null
     userStatus: $Enums.UserStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    profilePicture: string | null
     otpSecret: string | null
-    userNationalityId: string | null
-    userNationalityCountry: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2326,18 +2316,16 @@ export namespace Prisma {
     email: number
     phone: number
     password: number
-    name: number
-    lastName: number
     userRole: number
     userStatus: number
     createdAt: number
     updatedAt: number
     deletedAt: number
-    profilePicture: number
     otpMethods: number
     otpSecret: number
-    userNationalityId: number
-    userNationalityCountry: number
+    userSecurity: number
+    userPreferences: number
+    userProfile: number
     _all: number
   }
 
@@ -2347,17 +2335,12 @@ export namespace Prisma {
     email?: true
     phone?: true
     password?: true
-    name?: true
-    lastName?: true
     userRole?: true
     userStatus?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    profilePicture?: true
     otpSecret?: true
-    userNationalityId?: true
-    userNationalityCountry?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2365,17 +2348,12 @@ export namespace Prisma {
     email?: true
     phone?: true
     password?: true
-    name?: true
-    lastName?: true
     userRole?: true
     userStatus?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    profilePicture?: true
     otpSecret?: true
-    userNationalityId?: true
-    userNationalityCountry?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2383,18 +2361,16 @@ export namespace Prisma {
     email?: true
     phone?: true
     password?: true
-    name?: true
-    lastName?: true
     userRole?: true
     userStatus?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    profilePicture?: true
     otpMethods?: true
     otpSecret?: true
-    userNationalityId?: true
-    userNationalityCountry?: true
+    userSecurity?: true
+    userPreferences?: true
+    userProfile?: true
     _all?: true
   }
 
@@ -2475,18 +2451,16 @@ export namespace Prisma {
     email: string
     phone: string | null
     password: string
-    name: string | null
-    lastName: string | null
     userRole: $Enums.UserRole
     userStatus: $Enums.UserStatus
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
-    profilePicture: string | null
     otpMethods: $Enums.OTPMethod[]
     otpSecret: string | null
-    userNationalityId: string | null
-    userNationalityCountry: string | null
+    userSecurity: JsonValue | null
+    userPreferences: JsonValue | null
+    userProfile: JsonValue | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2511,18 +2485,16 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    name?: boolean
-    lastName?: boolean
     userRole?: boolean
     userStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    profilePicture?: boolean
     otpMethods?: boolean
     otpSecret?: boolean
-    userNationalityId?: boolean
-    userNationalityCountry?: boolean
+    userSecurity?: boolean
+    userPreferences?: boolean
+    userProfile?: boolean
     userSessions?: boolean | User$userSessionsArgs<ExtArgs>
     userSocialAccounts?: boolean | User$userSocialAccountsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -2535,18 +2507,16 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    name?: boolean
-    lastName?: boolean
     userRole?: boolean
     userStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    profilePicture?: boolean
     otpMethods?: boolean
     otpSecret?: boolean
-    userNationalityId?: boolean
-    userNationalityCountry?: boolean
+    userSecurity?: boolean
+    userPreferences?: boolean
+    userProfile?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2554,18 +2524,16 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    name?: boolean
-    lastName?: boolean
     userRole?: boolean
     userStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    profilePicture?: boolean
     otpMethods?: boolean
     otpSecret?: boolean
-    userNationalityId?: boolean
-    userNationalityCountry?: boolean
+    userSecurity?: boolean
+    userPreferences?: boolean
+    userProfile?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2573,21 +2541,19 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     password?: boolean
-    name?: boolean
-    lastName?: boolean
     userRole?: boolean
     userStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    profilePicture?: boolean
     otpMethods?: boolean
     otpSecret?: boolean
-    userNationalityId?: boolean
-    userNationalityCountry?: boolean
+    userSecurity?: boolean
+    userPreferences?: boolean
+    userProfile?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "email" | "phone" | "password" | "name" | "lastName" | "userRole" | "userStatus" | "createdAt" | "updatedAt" | "deletedAt" | "profilePicture" | "otpMethods" | "otpSecret" | "userNationalityId" | "userNationalityCountry", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "email" | "phone" | "password" | "userRole" | "userStatus" | "createdAt" | "updatedAt" | "deletedAt" | "otpMethods" | "otpSecret" | "userSecurity" | "userPreferences" | "userProfile", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userSessions?: boolean | User$userSessionsArgs<ExtArgs>
     userSocialAccounts?: boolean | User$userSocialAccountsArgs<ExtArgs>
@@ -2611,18 +2577,16 @@ export namespace Prisma {
       email: string
       phone: string | null
       password: string
-      name: string | null
-      lastName: string | null
       userRole: $Enums.UserRole
       userStatus: $Enums.UserStatus
       createdAt: Date
       updatedAt: Date
       deletedAt: Date | null
-      profilePicture: string | null
       otpMethods: $Enums.OTPMethod[]
       otpSecret: string | null
-      userNationalityId: string | null
-      userNationalityCountry: string | null
+      userSecurity: Prisma.JsonValue | null
+      userPreferences: Prisma.JsonValue | null
+      userProfile: Prisma.JsonValue | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3054,18 +3018,16 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
-    readonly name: FieldRef<"User", 'String'>
-    readonly lastName: FieldRef<"User", 'String'>
     readonly userRole: FieldRef<"User", 'UserRole'>
     readonly userStatus: FieldRef<"User", 'UserStatus'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
-    readonly profilePicture: FieldRef<"User", 'String'>
     readonly otpMethods: FieldRef<"User", 'OTPMethod[]'>
     readonly otpSecret: FieldRef<"User", 'String'>
-    readonly userNationalityId: FieldRef<"User", 'String'>
-    readonly userNationalityCountry: FieldRef<"User", 'String'>
+    readonly userSecurity: FieldRef<"User", 'Json'>
+    readonly userPreferences: FieldRef<"User", 'Json'>
+    readonly userProfile: FieldRef<"User", 'Json'>
   }
     
 
@@ -17703,18 +17665,16 @@ export namespace Prisma {
     email: 'email',
     phone: 'phone',
     password: 'password',
-    name: 'name',
-    lastName: 'lastName',
     userRole: 'userRole',
     userStatus: 'userStatus',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
-    profilePicture: 'profilePicture',
     otpMethods: 'otpMethods',
     otpSecret: 'otpSecret',
-    userNationalityId: 'userNationalityId',
-    userNationalityCountry: 'userNationalityCountry'
+    userSecurity: 'userSecurity',
+    userPreferences: 'userPreferences',
+    userProfile: 'userProfile'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -17916,12 +17876,29 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   export const NullsOrder: {
@@ -18008,6 +17985,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -18081,18 +18072,16 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     phone?: StringNullableFilter<"User"> | string | null
     password?: StringFilter<"User"> | string
-    name?: StringNullableFilter<"User"> | string | null
-    lastName?: StringNullableFilter<"User"> | string | null
     userRole?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     userStatus?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    profilePicture?: StringNullableFilter<"User"> | string | null
     otpMethods?: EnumOTPMethodNullableListFilter<"User">
     otpSecret?: StringNullableFilter<"User"> | string | null
-    userNationalityId?: StringNullableFilter<"User"> | string | null
-    userNationalityCountry?: StringNullableFilter<"User"> | string | null
+    userSecurity?: JsonNullableFilter<"User">
+    userPreferences?: JsonNullableFilter<"User">
+    userProfile?: JsonNullableFilter<"User">
     userSessions?: UserSessionListRelationFilter
     userSocialAccounts?: UserSocialAccountListRelationFilter
     posts?: PostListRelationFilter
@@ -18104,18 +18093,16 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrderInput | SortOrder
     password?: SortOrder
-    name?: SortOrderInput | SortOrder
-    lastName?: SortOrderInput | SortOrder
     userRole?: SortOrder
     userStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    profilePicture?: SortOrderInput | SortOrder
     otpMethods?: SortOrder
     otpSecret?: SortOrderInput | SortOrder
-    userNationalityId?: SortOrderInput | SortOrder
-    userNationalityCountry?: SortOrderInput | SortOrder
+    userSecurity?: SortOrderInput | SortOrder
+    userPreferences?: SortOrderInput | SortOrder
+    userProfile?: SortOrderInput | SortOrder
     userSessions?: UserSessionOrderByRelationAggregateInput
     userSocialAccounts?: UserSocialAccountOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
@@ -18130,18 +18117,16 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
-    name?: StringNullableFilter<"User"> | string | null
-    lastName?: StringNullableFilter<"User"> | string | null
     userRole?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     userStatus?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    profilePicture?: StringNullableFilter<"User"> | string | null
     otpMethods?: EnumOTPMethodNullableListFilter<"User">
     otpSecret?: StringNullableFilter<"User"> | string | null
-    userNationalityId?: StringNullableFilter<"User"> | string | null
-    userNationalityCountry?: StringNullableFilter<"User"> | string | null
+    userSecurity?: JsonNullableFilter<"User">
+    userPreferences?: JsonNullableFilter<"User">
+    userProfile?: JsonNullableFilter<"User">
     userSessions?: UserSessionListRelationFilter
     userSocialAccounts?: UserSocialAccountListRelationFilter
     posts?: PostListRelationFilter
@@ -18153,18 +18138,16 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrderInput | SortOrder
     password?: SortOrder
-    name?: SortOrderInput | SortOrder
-    lastName?: SortOrderInput | SortOrder
     userRole?: SortOrder
     userStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    profilePicture?: SortOrderInput | SortOrder
     otpMethods?: SortOrder
     otpSecret?: SortOrderInput | SortOrder
-    userNationalityId?: SortOrderInput | SortOrder
-    userNationalityCountry?: SortOrderInput | SortOrder
+    userSecurity?: SortOrderInput | SortOrder
+    userPreferences?: SortOrderInput | SortOrder
+    userProfile?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -18178,18 +18161,16 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringWithAggregatesFilter<"User"> | string
-    name?: StringNullableWithAggregatesFilter<"User"> | string | null
-    lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
     userRole?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     userStatus?: EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    profilePicture?: StringNullableWithAggregatesFilter<"User"> | string | null
     otpMethods?: EnumOTPMethodNullableListFilter<"User">
     otpSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
-    userNationalityId?: StringNullableWithAggregatesFilter<"User"> | string | null
-    userNationalityCountry?: StringNullableWithAggregatesFilter<"User"> | string | null
+    userSecurity?: JsonNullableWithAggregatesFilter<"User">
+    userPreferences?: JsonNullableWithAggregatesFilter<"User">
+    userProfile?: JsonNullableWithAggregatesFilter<"User">
   }
 
   export type UserSessionWhereInput = {
@@ -19142,18 +19123,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionCreateNestedManyWithoutUserInput
     userSocialAccounts?: UserSocialAccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -19165,18 +19144,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
     userSocialAccounts?: UserSocialAccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -19188,18 +19165,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUpdateManyWithoutUserNestedInput
     userSocialAccounts?: UserSocialAccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -19211,18 +19186,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
     userSocialAccounts?: UserSocialAccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -19234,18 +19207,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserUpdateManyMutationInput = {
@@ -19253,18 +19224,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -19272,18 +19241,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserSessionCreateInput = {
@@ -20410,6 +20377,29 @@ export namespace Prisma {
     hasSome?: $Enums.OTPMethod[] | ListEnumOTPMethodFieldRefInput<$PrismaModel>
     isEmpty?: boolean
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type UserSessionListRelationFilter = {
     every?: UserSessionWhereInput
@@ -20461,18 +20451,16 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    name?: SortOrder
-    lastName?: SortOrder
     userRole?: SortOrder
     userStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    profilePicture?: SortOrder
     otpMethods?: SortOrder
     otpSecret?: SortOrder
-    userNationalityId?: SortOrder
-    userNationalityCountry?: SortOrder
+    userSecurity?: SortOrder
+    userPreferences?: SortOrder
+    userProfile?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -20480,17 +20468,12 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    name?: SortOrder
-    lastName?: SortOrder
     userRole?: SortOrder
     userStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    profilePicture?: SortOrder
     otpSecret?: SortOrder
-    userNationalityId?: SortOrder
-    userNationalityCountry?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -20498,17 +20481,12 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     password?: SortOrder
-    name?: SortOrder
-    lastName?: SortOrder
     userRole?: SortOrder
     userStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    profilePicture?: SortOrder
     otpSecret?: SortOrder
-    userNationalityId?: SortOrder
-    userNationalityCountry?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -20593,6 +20571,32 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -21942,6 +21946,29 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
@@ -22330,18 +22357,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSocialAccounts?: UserSocialAccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     likes?: LikeCreateNestedManyWithoutUserInput
@@ -22352,18 +22377,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSocialAccounts?: UserSocialAccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
@@ -22390,18 +22413,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSocialAccounts?: UserSocialAccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
@@ -22412,18 +22433,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSocialAccounts?: UserSocialAccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -22434,18 +22453,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     likes?: LikeCreateNestedManyWithoutUserInput
@@ -22456,18 +22473,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
@@ -22494,18 +22509,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
@@ -22516,18 +22529,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -22570,18 +22581,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionCreateNestedManyWithoutUserInput
     userSocialAccounts?: UserSocialAccountCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
@@ -22592,18 +22601,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
     userSocialAccounts?: UserSocialAccountUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
@@ -22713,18 +22720,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUpdateManyWithoutUserNestedInput
     userSocialAccounts?: UserSocialAccountUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
@@ -22735,18 +22740,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
     userSocialAccounts?: UserSocialAccountUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -23097,18 +23100,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionCreateNestedManyWithoutUserInput
     userSocialAccounts?: UserSocialAccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
@@ -23119,18 +23120,16 @@ export namespace Prisma {
     email: string
     phone?: string | null
     password: string
-    name?: string | null
-    lastName?: string | null
     userRole?: $Enums.UserRole
     userStatus?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    profilePicture?: string | null
     otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: string | null
-    userNationalityId?: string | null
-    userNationalityCountry?: string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
     userSocialAccounts?: UserSocialAccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -23202,18 +23201,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUpdateManyWithoutUserNestedInput
     userSocialAccounts?: UserSocialAccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
@@ -23224,18 +23221,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     userStatus?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
     otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityId?: NullableStringFieldUpdateOperationsInput | string | null
-    userNationalityCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    userSecurity?: NullableJsonNullValueInput | InputJsonValue
+    userPreferences?: NullableJsonNullValueInput | InputJsonValue
+    userProfile?: NullableJsonNullValueInput | InputJsonValue
     userSessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
     userSocialAccounts?: UserSocialAccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput

@@ -40,10 +40,10 @@ export default async function AuthorPage({ params }: { params: Promise<{ userId:
             description: user.name ? `Posts by ${user.name}` : 'Author page',
             openGraph: {
                 title: `${user.name} | kuray.dev`,
-                description: user.biography || "No biography available",
+                description: user.userProfile.biography ? user.userProfile.biography : 'Author page',
                 type: 'profile',
                 url: `${APPLICATION_HOST}/author/${user.userId}`,
-                images: [ user.profilePicture ? user.profilePicture : `${APPLICATION_HOST}/assets/img/og.png` ],
+                images: [ user.userProfile.profilePicture ? user.userProfile.profilePicture : `${APPLICATION_HOST}/assets/img/og.png` ],
             },
         }
 

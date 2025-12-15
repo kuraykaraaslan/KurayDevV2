@@ -53,7 +53,7 @@ const NavbarAuthButton = () => {
                 <Image
                     width={32}
                     height={32}
-                    src={user.profilePicture || gravatarUrl}
+                    src={user.userProfile.profilePicture || gravatarUrl}
                     alt="User"
                     className="w-8 h-8 rounded-full"
                 />
@@ -72,7 +72,7 @@ const NavbarAuthButton = () => {
                     </Link>
                     )}
                     <Link
-                        href="/auth/settings"
+                        href="/settings"
                         className="px-3 py-2 rounded-md hover:bg-base-200 text-sm border-b border-base-300"
                         onClick={() => setOpen(false)}
                     >

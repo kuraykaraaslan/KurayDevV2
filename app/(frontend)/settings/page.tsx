@@ -1,6 +1,5 @@
 'use client';
 
-import {useState } from 'react';
 import SettingsTabs from '@/components/frontend/Settings/SettingsTabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +7,10 @@ import useGlobalStore from '@/libs/zustand';
 
 export default function SettingsPage() {
   const { user } = useGlobalStore();
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-base-200 py-8 px-4 pt-32">
@@ -24,9 +27,9 @@ export default function SettingsPage() {
         <div className="card bg-base-100 shadow-lg border border-base-200 mb-6">
           <div className="card-body">
             <div className="flex items-center gap-4">
-              {user?.profilePicture ? (
+              {user.userProfile.profilePicture ? (
                 <img
-                  src={user.profilePicture}
+                  src={user.userProfile.profilePicture}
                   alt={user.name || 'Profil'}
                   className="w-16 h-16 rounded-full object-cover border-2 border-base-200"
                 />

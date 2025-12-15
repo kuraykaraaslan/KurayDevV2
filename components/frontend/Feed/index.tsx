@@ -13,7 +13,7 @@ const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 interface FeedProps {
     category?: Pick<Category, 'categoryId' | 'title'>;
-    author?: Pick<SafeUser, 'userId' | 'name' | 'profilePicture'>;
+    author?: Pick<SafeUser, 'userId' | 'name' | 'userProfile'>;
 }
 
 export default function Feed(props: FeedProps) {
@@ -70,7 +70,7 @@ export default function Feed(props: FeedProps) {
                             {category
                                 ? category.title
                                 : author
-                                    ? `Posts by ${author.name}`
+                                    ? `Posts by ${author.userProfile.name}`
                                     : 'Latest Posts'}
                         </p>
                         <KnowledgeGraph2DButton />

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import UserService from "@/services/UserService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
-import { SafeUserSchema, UpdateUserSchema } from "@/types/UserTypes";
+import { UpdateUserSchema } from "@/types/UserTypes";
 
 /**
  * GET handler for retrieving a user by its ID.

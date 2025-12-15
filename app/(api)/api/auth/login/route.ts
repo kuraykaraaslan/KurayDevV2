@@ -24,13 +24,18 @@ export async function POST(request: NextRequest) {
 
         const { email, password } = parsedData.data;
 
-        const user = await AuthService.login({ email, password });
+        const {user, userSecurity} = await AuthService.login({ email, password });
 
         if (!user) {
             throw new Error(AuthMessages.INVALID_CREDENTIALS);
         }
 
-        const { userSession, rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession(user, request);
+        const { userSession, rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession({
+            user,
+            request,
+            userSecurity,
+            otpIgnore: false,
+        });
 
         const response = NextResponse.json({
             user,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { OTPMethod } from '@/types/UserTypes';
+import { OTPMethod, OTPMethodEnum } from '@/types/UserSecurityTypes';
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
 import { toast } from 'react-toastify';
@@ -17,12 +17,6 @@ export default function OTPTab({ initialMethods = [] }) {
   const [verifying, setVerifying] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const otpOptions = [
-    { method: 'EMAIL', label: "E-mail OTP", icon: "📧" },
-    { method: 'SMS', label: "SMS OTP", icon: "📱" },
-    { method: 'TOTP_APP', label: "Authenticator", icon: "🔐" },
-    { method: 'PUSH_APP', label: "Mobil Onay", icon: "✅" }
-  ];
 
   const toggle = (m: OTPMethod) =>
     setSelected(prev =>
@@ -94,19 +88,18 @@ export default function OTPTab({ initialMethods = [] }) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {otpOptions.map(o => (
+          {Object.values(OTPMethodEnum).map((o) => (
             <div
-              key={o.method}
-              onClick={() => toggle(o.method)}
+              key={o}
+              onClick={() => toggle(o)}
               className={`p-4 rounded-lg border cursor-pointer transition 
-              ${selected.includes(o.method)
+              ${selected.includes(o)
                 ? "border-primary bg-primary/10"
                 : "border-base-300 hover:bg-base-200"
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{o.icon}</span>
-                <span className="font-semibold">{o.label}</span>
+                <span className="font-semibold">{o}</span>
               </div>
             </div>
           ))}
@@ -127,7 +120,6 @@ export default function OTPTab({ initialMethods = [] }) {
         onClose={() => setModalOpen(false)}
         title="Değişikliği Doğrula"
         description="Güvenlik nedeniyle bir doğrulama kodu girmeniz gerekiyor."
-        initialFocusRef={inputRef}
         size="sm"
       >
         <div className="space-y-4">

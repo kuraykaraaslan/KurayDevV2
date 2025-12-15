@@ -1,5 +1,5 @@
 import {prisma} from '@/libs/prisma';
-import { User, UserRole, SafeUser, UpdateUser } from "@/types/UserTypes";
+import { User, UserRole, SafeUser, UpdateUser, SafeUserSchema, UserProfileDefault, UserPreferencesDefault, UserSchema } from "@/types/UserTypes";
 
 // Libraries
 import bcrypt from "bcrypt";
@@ -20,27 +20,6 @@ export default class UserService {
     static EMAIL_ALREADY_EXISTS = "EMAIL_ALREADY_EXISTS";
 
 
-    /**
-     * Omit sensitive fields from the user object.
-     * @param user - The user object.
-     * @returns The user object without the password, resetToken, and resetTokenExpiry.
-     */
-    static omitSensitiveFields(user: User): SafeUser {
-        const omitted: SafeUser = {
-            userId: user.userId,
-            email: user.email,
-            phone: user.phone,
-            name: user.name,
-            userRole: user.userRole,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-            profilePicture: user.profilePicture,
-            otpMethods: user.otpMethods,
-        };
-
-        return omitted;
-
-    }
 
 
     /**
@@ -77,20 +56,33 @@ export default class UserService {
 
         // Hash the password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
+        
+        // Create Default User Profile
+        const userProfile = {
+            ...UserProfileDefault,
+            name: name || null,
+        };
+
+        // Create Default User Preferences
+        const userPreferences = {
+            ...UserPreferencesDefault,
+        };
 
         // Create the user in the database
         const user = await prisma.user.create({
             data: {
                 email,
                 password: hashedPassword, // Store the hashed password
-                name,
                 phone,
                 userRole: userRole ? userRole as UserRole : "USER", // Default to 'USER' role if not provided
+                userStatus: "ACTIVE",
+                userProfile: userProfile,
+                userPreferences: userPreferences,
             }
         });
 
         // Exclude sensitive fields from the response
-        return this.omitSensitiveFields(user);
+        return SafeUserSchema.parse(user);
 
     }
 
@@ -123,7 +115,7 @@ export default class UserService {
                 userId: userId ? userId : undefined,
                 OR: [
                     { email: { contains: search ? search : '' } },
-                    { name: { contains: search ? search : '' } },
+                    { userProfile: { path: ['name'], string_contains: search ? search : '' } },
                 ],
             }
         };
@@ -135,7 +127,7 @@ export default class UserService {
         ]);
 
         // Exclude sensitive fields from the response
-        const usersWithoutPassword = users.map((user) => this.omitSensitiveFields(user));
+        const usersWithoutPassword = users.map((user) => SafeUserSchema.parse(user));
 
         return { users: usersWithoutPassword, total };
     }
@@ -156,7 +148,7 @@ export default class UserService {
             throw new Error(this.USER_NOT_FOUND);
         }
 
-        return this.omitSensitiveFields(user);
+        return SafeUserSchema.parse(user);
     }
 
     /**
@@ -187,8 +179,7 @@ export default class UserService {
         });
 
         // Exclude sensitive fields from the response
-        return this.omitSensitiveFields(updatedUser);
-
+        return SafeUserSchema.parse(updatedUser);
     }
 
     /**
@@ -222,9 +213,13 @@ export default class UserService {
      * @returns The user details.
      */
     static async getByEmail(email: string): Promise<User | null> {
-        return prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: { email },
         });
+
+        console.log(UserSchema.parse(user));
+
+        return user ? UserSchema.parse(user) : null;
     }
 
 }

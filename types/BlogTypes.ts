@@ -48,7 +48,7 @@ const PostWithData = Post.extend({
     author: SafeUserSchema.pick({
         userId: true,
         name: true,
-        profilePicture: true,
+        userProfile: true,
     }),
     category: Category.pick({
         categoryId: true,
@@ -79,6 +79,23 @@ const PostLike = z.object({
   deviceFingerprint: z.string().nullable().optional(),
   createdAt: z.date(),
 });
+
+
+export const KnowledgeGraphNodeSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  slug: z.string(),
+  categorySlug: z.string(),
+  image: z.string().nullable().optional(),
+  views: z.number(),
+  embedding: z.array(z.number()),
+  size: z.number().nullable().optional(),
+});
+
+export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>;
+
+
+
 
 export type Comment = z.infer<typeof Comment>;
 export type Post = z.infer<typeof Post>;

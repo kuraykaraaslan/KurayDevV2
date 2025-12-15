@@ -14,7 +14,7 @@ export default function ProfileTab() {
 
   const [name, setName] = useState(user?.name || '');
   const [phone, setPhone] = useState(user?.phone || '');
-  const [profilePicture, setProfilePicture] = useState(user?.profilePicture || '');
+  const [profilePicture, setProfilePicture] = useState(user?.userProfile.profilePicture || '');
   const [loading, setLoading] = useState(false);
 
   const handleSave = async (e: React.FormEvent) => {

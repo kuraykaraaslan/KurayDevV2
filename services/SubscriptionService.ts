@@ -2,8 +2,8 @@
 
 import { Subscription } from "@/types/SubscriptionTypes";
 import {prisma} from '@/libs/prisma';
-import PostService from "./PostService";
-import MailService from "./NotificationService/MailService";
+//import PostService from "./PostService";
+//import MailService from "./NotificationService/MailService";
 
 export default class SubscriptionService {
 

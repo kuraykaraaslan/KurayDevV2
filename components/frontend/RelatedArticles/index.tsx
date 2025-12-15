@@ -34,7 +34,10 @@ const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
             author: {
                 userId: "1",
                 name: "Author 1",
-                profilePicture: null
+                userProfile: {
+                    profilePicture: null,
+                    name: '',
+                },
             },
         }
     ];

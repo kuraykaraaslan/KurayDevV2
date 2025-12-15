@@ -1,17 +1,16 @@
 import { UserSession, UserRole } from "@prisma/client";
 import {prisma} from '@/libs/prisma';
 
-// Other Services
-import UserService from "../UserService";
 // Utils
 import { SafeUserSession } from "@/types/UserSessionTypes";
-import { SafeUser } from "@/types/UserTypes";
+import { SafeUser, SafeUserSchema } from "@/types/UserTypes";
 import jwt from 'jsonwebtoken';
 import crypto from "crypto";
 import AuthMessages from "@/messages/AuthMessages";
 
 import { v4 as uuidv4 } from "uuid";
 import redisInstance from "@/libs/redis";
+import { UserSecurity } from "@/types/UserSecurityTypes";
 
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; // Burada bir varsayılan değer belirleyebilirsiniz
@@ -193,7 +192,7 @@ export default class UserSessionService {
    * @param userId - The user ID.
    * @returns The created session.
    */
-  static async createSession(user: SafeUser, request: NextRequest, otpIgnore: boolean = false): Promise<
+  static async createSession({ user, request, userSecurity, otpIgnore = false }: { user: SafeUser, request: NextRequest, userSecurity: UserSecurity, otpIgnore?: boolean }): Promise<
     {
       userSession: SafeUserSession,
       otpVerifyNeeded: boolean,
@@ -215,7 +214,9 @@ export default class UserSessionService {
     const rawRefreshToken = UserSessionService.generateRefreshToken(user.userId, userSessionId, deviceFingerprint);
     const hashedRefreshToken = UserSessionService.hashToken(rawRefreshToken);
 
-    const otpVerifyNeeded = !otpIgnore && user.otpMethods && user.otpMethods.length > 0;
+    console.log(userSecurity);
+
+    const otpVerifyNeeded = !otpIgnore && userSecurity.otpMethods.length > 0;
 
     const userSession = await prisma.userSession.create({
       data: {
@@ -281,7 +282,7 @@ export default class UserSessionService {
     const user = await prisma.user.findUnique({ where: { userId: userSession.userId } });
     if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
 
-    const safeUser = UserService.omitSensitiveFields(user);
+    const safeUser = SafeUserSchema.parse(user);
     const safeSession = UserSessionService.omitSensitiveFields(userSession);
 
     // 3️⃣ Cache result in Redis

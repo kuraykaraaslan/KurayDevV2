@@ -1,7 +1,7 @@
 import Logger from '@/libs/logger'
 import redis from '@/libs/redis'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
-import { KnowledgeGraphNode } from '@/types/KnowledgeGraphTypes'
+import { KnowledgeGraphNode } from '@/types/BlogTypes'
 import { NextRequest } from 'next/server'
 
 let cache: { data: any; expiresAt: number } | null = null

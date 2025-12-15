@@ -14,7 +14,8 @@ import AutodeskService from './AutodeskService';
 
 import { SSOMessages } from '@/messages/SSOMessages';
 import { AuthMessages } from '@/messages/AuthMessages';
-import { SafeUser } from '@/types/UserTypes';
+import { SafeUser, UserSchema } from '@/types/UserTypes';
+import { UserSecurity, UserSecuritySchema } from '@/types/UserSecurityTypes';
 
 
 interface SSOProviderService {
@@ -80,7 +81,9 @@ export default class SSOService {
         const user = await prisma.user.create({
             data: {
                 email: profile.email,
-                name: profile.name,
+                userProfile: {
+                    name: profile.name,
+                },
                 password: await this.hashPassword(profile.sub + new Date().toISOString()),
             },
         });
@@ -107,7 +110,9 @@ export default class SSOService {
         await prisma.user.update({
             where: { userId },
             data: {
-                name: profile.name,
+                userProfile: {
+                    name: profile.name,
+                },
             },
         });
 
@@ -170,7 +175,7 @@ export default class SSOService {
     static async authCallback(
         provider: string,
         code: string
-    ): Promise<{ user: SafeUser; newUser: boolean }> {
+    ): Promise<{ user: SafeUser; userSecurity: UserSecurity; newUser: boolean }> {
         if (!code) {
             throw new Error(SSOMessages.CODE_NOT_FOUND);
         }
@@ -206,7 +211,8 @@ export default class SSOService {
                 throw new Error(SSOMessages.OAUTH_ERROR);
             }
             
-            return { user, newUser };
+            return { user : UserSchema.parse(user), userSecurity: UserSecuritySchema.parse(user.userSecurity), newUser };
+            
         } catch (error) {
             throw new Error(SSOMessages.OAUTH_ERROR);
         }

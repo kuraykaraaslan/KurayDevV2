@@ -7,23 +7,11 @@ import SMSService from "../NotificationService/SMSService";
 import MailService from "../NotificationService/MailService";
 
 // Utils
-import { SafeUser } from "@/types/UserTypes";
+import { SafeUser, SafeUserSchema, UserPreferencesSchema, UserProfileSchema } from "@/types/UserTypes";
 import  AuthMessages from "@/messages/AuthMessages";
+import { UserSecurity, UserSecuritySchema } from '@/types/UserSecurityTypes';
 
 export default class AuthService {
-
-    static readonly SafeUserSelect = {
-        userId: true,
-        email: true,
-        name: true,
-        phone: true,
-        userRole: true,
-        otpEnabled: true,
-        createdAt: true,
-        updatedAt: true,
-    };
-
-
 
     /**
      * Token Generation
@@ -50,7 +38,7 @@ export default class AuthService {
      * @param password - The user's password.
      * @returns The authenticated user.
      */
-    static async login({ email, password } : { email: string, password: string }): Promise<SafeUser> {
+    static async login({ email, password } : { email: string, password: string }): Promise<{ user: SafeUser, userSecurity: UserSecurity }> {
 
         // Get the user by email
         const user = await prisma.user.findUnique({
@@ -69,7 +57,13 @@ export default class AuthService {
             throw new Error(AuthMessages.INVALID_EMAIL_OR_PASSWORD);
         }
         
-        return UserService.omitSensitiveFields(user);
+        const userSecurity = UserSecuritySchema.parse(user.userSecurity);
+
+        console.log(userSecurity);
+        return {
+            user: SafeUserSchema.parse(user),
+            userSecurity: UserSecuritySchema.parse(user.userSecurity),
+        };
     }
 
     /**
@@ -111,25 +105,34 @@ export default class AuthService {
             throw new Error(AuthMessages.EMAIL_ALREADY_EXISTS);
         }
 
+        // Create default profile
+        const userProfile = UserProfileSchema.parse({
+            name: name,
+        });
+
+        // Create default preferences
+        const userPreferences = UserPreferencesSchema.parse({});
+
         // Create the user
         const createdUser = await prisma.user.create({
             data: {
-                name,
                 phone,
                 email: email.toLowerCase(),
                 password: await AuthService.hashPassword(password),
+                userProfile,
+                userPreferences,
             },
         });
 
-        // Send a welcome email
-        await MailService.sendWelcomeEmail(createdUser);
+        const parsedUser = SafeUserSchema.parse(createdUser);
+
+        await MailService.sendWelcomeEmail(parsedUser);
         await SMSService.sendShortMessage({
-            to: createdUser.phone!,
-            body: `Welcome ${createdUser.name || createdUser.email}! Your account has been created successfully.`,
+            to: parsedUser.phone!,
+            body: `Welcome ${parsedUser?.userProfile?.name || parsedUser.email}! Your account has been created successfully.`,
         });
 
-        // Create a session for the user
-        return UserService.omitSensitiveFields(createdUser);
+        return parsedUser;
     }
 
     /**

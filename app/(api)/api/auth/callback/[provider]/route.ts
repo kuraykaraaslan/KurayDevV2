@@ -1,6 +1,6 @@
 // Original path: app/api/auth/callback/route.ts
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import SSOService from "@/services/AuthService/SSOService";
 import MailService from "@/services/NotificationService/MailService";
@@ -23,7 +23,7 @@ export async function GET(
         NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
     }
 
-    const { user, newUser } = await SSOService.authCallback(provider, code as string);
+    const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
@@ -31,7 +31,7 @@ export async function GET(
 
     }
 
-    const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession(user, request as any);
+    const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession({ user, userSecurity, request });
 
     if (newUser) {
         await MailService.sendWelcomeEmail(user);
@@ -90,14 +90,14 @@ export async function POST(
         NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
     }
 
-    const { user, newUser } = await SSOService.authCallback(provider, code as string);
+    const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
-
+        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=Failed to authenticate user`);
     }
 
-    const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession(user, request as any);
+    const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession({ user, userSecurity, request });
 
     if (newUser) {
         await MailService.sendWelcomeEmail(user);

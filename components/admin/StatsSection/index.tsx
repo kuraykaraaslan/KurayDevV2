@@ -9,7 +9,6 @@ const StatsSection = () => {
 
   const [frequency, setFrequency] = useState<StatFrequency>("all-time");
   
-  const [loading, setLoading] = useState(true);
   const [values, setValues] = useState({
     totalPosts: 0,
     totalCategories: 0,
@@ -28,9 +27,7 @@ const StatsSection = () => {
   }
 
   useEffect(() => {
-    setLoading(true);
     getStats().finally(() => {
-      setLoading(false);
     });
   }, [frequency]);
 

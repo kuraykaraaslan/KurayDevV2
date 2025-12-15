@@ -5,9 +5,7 @@ import redisInstance from '@/libs/redis';
 
 export default class PostService {
     private static CACHE_KEY = 'sitemap:blog';
-
     private static sqlInjectionRegex = /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i; // SQL injection prevention
-
 
     private static postWithDataSelect = {
         postId: true,
@@ -34,8 +32,7 @@ export default class PostService {
         author: {
             select: {
                 userId: true,
-                name: true,
-                profilePicture: true,
+                userProfile: true
             },
         },
     };

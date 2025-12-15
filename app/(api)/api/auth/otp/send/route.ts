@@ -1,9 +1,8 @@
 import {  NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserSessionOTPService from "@/services/AuthService/UserSessionOTPService";
-import { OTPMethodEnum, OTPActionEnum } from "@/types/OTPTypes";
+import { OTPMethodEnum, OTPActionEnum } from "@/types/UserSecurityTypes";
 import AuthMessages from "@/messages/AuthMessages";
-import { OTPMethod } from "@prisma/client";
 
 export async function POST(request: NextRequest) {
 
@@ -12,14 +11,14 @@ export async function POST(request: NextRequest) {
     const { user, userSession } = await UserSessionService.authenticateUserByRequest(request, "USER");
     const { method, action } = await request.json();
 
-    if (!method || !Object.values(OTPMethodEnum.Enum).includes(method)) {
+    if (!Object.values(OTPMethodEnum.Values).includes(method)) {
       return NextResponse.json(
         { message: AuthMessages.INVALID_OTP_METHOD },
         { status: 400 }
       );
     }
 
-    if (!action || !Object.values(OTPActionEnum.Enum).includes(action)) {
+    if (!Object.values(OTPActionEnum.Enum).includes(action)) {
       return NextResponse.json(
         { message: AuthMessages.INVALID_OTP_ACTION },
         { status: 400 }

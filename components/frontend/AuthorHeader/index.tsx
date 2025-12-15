@@ -1,11 +1,13 @@
 import { SafeUser } from "@/types/UserTypes";
 
-export default function AuthorHeader(author: Partial<SafeUser>) {
-  const coverImage = author.headerImage
-    ? author.headerImage
+export default function AuthorHeader(author: SafeUser) {
+
+
+  const coverImage = author.userProfile.headerImage
+    ? author.userProfile.headerImage
     : "/assets/img/heros/welcome4.webp";
-  const profilePicture = author.profilePicture
-    ? author.profilePicture
+  const profilePicture = author.userProfile.profilePicture
+    ? author.userProfile.profilePicture
     : "/assets/img/emptyuser.png";
 
   return (

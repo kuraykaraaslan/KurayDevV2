@@ -5,6 +5,7 @@ import {prisma} from '@/libs/prisma';
 import AuthMessages from "@/messages/AuthMessages";
 import MailService from "../NotificationService/MailService";
 import SMSService from "../NotificationService/SMSService";
+import UserService from "../UserService";
 
 export default class PasswordService {
   static RESET_TOKEN_EXPIRY_SECONDS = parseInt(process.env.RESET_TOKEN_EXPIRY_SECONDS || "3600"); // 1 saat
@@ -29,7 +30,7 @@ export default class PasswordService {
   }
 
   static async forgotPassword({ email }: { email: string }): Promise<void> {
-    const user = await prisma.user.findUnique({ where: { email: email } });
+    const user = await UserService.getByEmail(email);
     if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
   
     const emailKey = user.email.toLowerCase();
@@ -57,12 +58,12 @@ export default class PasswordService {
     await redis.set(emailTokenKey, hashedEmailToken, "EX", this.RESET_TOKEN_EXPIRY_SECONDS);
   
     // Send email
-    await MailService.sendForgotPasswordEmail(user.email, user.name || undefined, emailToken);
+    await MailService.sendForgotPasswordEmail(user.email, user.userProfile.name || undefined, emailToken);
   }
   
 
   static async resetPassword({ email, resetToken, password }: { email: string; resetToken: string; password: string }): Promise<void> {
-    const user = await prisma.user.findFirst({ where: { email: email } });
+    const user = await UserService.getByEmail(email);
     if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
 
     const key = this.getRedisKey(user.email);
@@ -83,7 +84,7 @@ export default class PasswordService {
 
     await redis.del(key); // one-time usage
 
-    await MailService.sendPasswordResetSuccessEmail(user.email, user.name || undefined);
+    await MailService.sendPasswordResetSuccessEmail(user.email, user.userProfile.name || undefined);
 
     if (user.phone) {
       await SMSService.sendShortMessage({

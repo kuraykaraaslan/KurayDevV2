@@ -27,13 +27,11 @@ enum UserStatus {
 }
 
 model User {
-  userId   String  @id @default(cuid())
+  userId String @id @default(cuid())
+
   email    String  @unique
   phone    String? @unique
   password String
-
-  name     String?
-  lastName String?
 
   userRole   UserRole   @default(USER)
   userStatus UserStatus @default(ACTIVE)
@@ -43,9 +41,6 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  //Profile
-  profilePicture String?
-
   //OTP verification
   otpMethods OTPMethod[] @default([])
   otpSecret  String?
@@ -53,9 +48,10 @@ model User {
   userSessions       UserSession[]
   userSocialAccounts UserSocialAccount[]
 
-  //User Nationalty
-  userNationalityId      String?
-  userNationalityCountry String?
+  // JSON Fields
+  userSecurity    Json?
+  userPreferences Json?
+  userProfile     Json?
 
   // Relations
   posts Post[]
