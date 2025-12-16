@@ -4,6 +4,8 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserService from "@/services/UserService";
 import RateLimiter from "@/libs/rateLimit";
 import { UserPreferencesSchema } from "@/types/UserTypes";
+import { UserProfileSchema } from "@/types/UserProfileTypes";
+import { use } from "react";
 
 // NextRequest is declared globally in global.d.ts
 
@@ -24,13 +26,13 @@ export async function PUT(request: NextRequest) {
         const body = await request.json();
         
         // Validate preferences data
-        const preferencesValidation = UserPreferencesSchema.safeParse(body.userPreferences);
+        const profilesValidation = UserProfileSchema.safeParse(body.userProfile);
 
-        if (!preferencesValidation.success) {
+        if (!profilesValidation.success) {
             return NextResponse.json(
                 { 
-                    message: "Invalid preferences",
-                    errors: preferencesValidation.error.errors
+                    message: "Invalid profile",
+                    errors: profilesValidation.error.errors
                 },
                 { status: 400 }
             );
@@ -40,14 +42,14 @@ export async function PUT(request: NextRequest) {
         const updatedUser = await UserService.update({
             userId,
             data: {
-                userPreferences: preferencesValidation.data
+                userProfile: profilesValidation.data
             }
         });
 
         return NextResponse.json(
             { 
                 message: "Preferences updated successfully",
-                userPreferences: updatedUser.userPreferences
+                userProfile: updatedUser.userProfile
             },
             { status: 200 }
         );
@@ -72,10 +74,10 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const {userPreferences} = await UserService.getById(userId);
+        const {userProfile} = await UserService.getById(userId);
         
         return NextResponse.json(
-            { userPreferences: userPreferences},
+            { userProfile },
             { status: 200 }
         );
     } catch (error: any) {

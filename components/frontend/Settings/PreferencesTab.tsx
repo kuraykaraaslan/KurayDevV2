@@ -31,17 +31,31 @@ const UserPreferencesSchema = z.object({
 
 
 export default function PreferencesTab() {
-  const { setUser } = useGlobalStore();
-  const [preferences, setPrefs] = useState<UserPreferences>(UserPreferencesDefault);
+   const { user, setUser } = useGlobalStore();
+
+  const [userPreferences, setUserPreferences] = useState<UserPreferences>(user?.userPreferences || UserPreferencesDefault);
+  const [saving, setSaving] = useState(false);
 
   const handleSave = async () => {
-    try {
-      const res = await axiosInstance.put('/api/users/me', { preferences });
-      setUser(res.data.user);
-      toast.success('Tercihler güncellendi');
-    } catch {
-      toast.error('Bir hata oluştu');
-    }
+    if (!user || saving) return;
+
+    setSaving(true);
+
+    await axiosInstance.put('/api/auth/me/preferences', {
+        userPreferences,
+      }).then((res) => {
+      setUser({
+        ...user,
+        userPreferences: res.data.userPreferences,
+      });
+      toast.success("Tercihler başarıyla güncellendi");
+    }).catch((err) => {
+      toast.error("Tercihler güncellenirken hata oluştu");
+      console.error(err);
+    }).finally(() => {
+      setSaving(false);
+    }); 
+
   };
 
   return (
@@ -66,9 +80,9 @@ export default function PreferencesTab() {
 
         <select
           className="select select-bordered select-primary w-full"
-          value={preferences.language}
+          value={userPreferences.language}
           onChange={(e) =>
-            setPrefs({ ...preferences, language: e.target.value as any })
+            setUserPreferences({ ...userPreferences, language: e.target.value as any })
           }
         >
           {LanguageEnum.options.map((lang) => (
@@ -90,9 +104,9 @@ export default function PreferencesTab() {
 
         <select
           className="select select-bordered select-primary w-full"
-          value={preferences.theme}
+          value={userPreferences.theme}
           onChange={(e) =>
-            setPrefs({ ...preferences, theme: e.target.value as any })
+            setUserPreferences({ ...userPreferences, theme: e.target.value as any })
           }
         >
           {ThemeEnum.options.map((theme) => (
@@ -111,9 +125,9 @@ export default function PreferencesTab() {
         </label>
         <select
           className="select select-bordered select-primary w-full"
-          value={preferences.timezone}
+          value={userPreferences.timezone}
           onChange={(e) =>
-            setPrefs({ ...preferences, timezone: e.target.value })
+            setUserPreferences({ ...userPreferences, timezone: e.target.value })
           }
         >
           {Object.entries(countriesAndTimezones.getAllTimezones()).map(
@@ -134,9 +148,9 @@ export default function PreferencesTab() {
 
         <select
           className="select select-bordered select-primary w-full"
-          value={preferences.dateFormat}
+          value={userPreferences.dateFormat}
           onChange={(e) =>
-            setPrefs({ ...preferences, dateFormat: e.target.value as any })
+            setUserPreferences({ ...userPreferences, dateFormat: e.target.value as any })
           }
         >
           <option value="DD/MM/YYYY">DD/MM/YYYY</option>
@@ -152,9 +166,9 @@ export default function PreferencesTab() {
 
         <select
           className="select select-bordered select-primary w-full"
-          value={preferences.timeFormat}
+          value={userPreferences.timeFormat}
           onChange={(e) =>
-            setPrefs({ ...preferences, timeFormat: e.target.value as any })
+            setUserPreferences({ ...userPreferences, timeFormat: e.target.value as any })
           }
         >
           <option value="24H">24 Saat</option>
@@ -170,9 +184,9 @@ export default function PreferencesTab() {
 
         <select
           className="select select-bordered select-primary w-full"
-          value={preferences.firstDayOfWeek}
+          value={userPreferences.firstDayOfWeek}
           onChange={(e) =>
-            setPrefs({ ...preferences, firstDayOfWeek: e.target.value as any })
+            setUserPreferences({ ...userPreferences, firstDayOfWeek: e.target.value as any })
           }
         >
           <option value="MON">Pazartesi</option>

@@ -25,7 +25,6 @@ export default function BasicTab() {
     try {
       const res = await axiosInstance.put('/api/auth/me/basic', {
         phone,
-        email, 
       });
 
       setUser(res.data.user);

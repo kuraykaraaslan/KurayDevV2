@@ -29,8 +29,8 @@ export default function SettingsPage() {
             <div className="flex items-center gap-4">
               {user.userProfile.profilePicture ? (
                 <img
-                  src={user.userProfile.profilePicture}
-                  alt={user.name || 'Profil'}
+                  src={user?.userProfile.profilePicture}
+                  alt={user?.userProfile.name || 'Profil'}
                   className="w-16 h-16 rounded-full object-cover border-2 border-base-200"
                 />
               ) : (
@@ -39,7 +39,7 @@ export default function SettingsPage() {
                 </div>
               )}
               <div>
-                <h2 className="card-title text-xl text-base-content">{user?.name || 'Kullanıcı'}</h2>
+                <h2 className="card-title text-xl text-base-content">{user.userProfile.name || 'Kullanıcı'}</h2>
                 <p className="text-sm text-base-content/70">{user?.email}</p>
                 <p className="text-xs text-base-content/60 mt-1">
                   Üyelik Tarihi: {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('tr-TR') : '-'}

@@ -16,25 +16,25 @@ export default function SecurityTab() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (data.newPassword !== data.confirmPassword)
-      return toast.error("Yeni şifreler eşleşmiyor");
+    if (data.newPassword !== data.confirmPassword) return toast.error("Yeni şifreler eşleşmiyor");
 
-    try {
-      setLoading(true);
-      const res = await axiosInstance.post('/api/users/change-password', {
+    setLoading(true);
+
+    await axiosInstance.post('/api/auth/me/change-password', {
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
+      }).then((res) => {
+        toast.success("Şifre başarıyla değiştirildi");
+        setUser(res.data.user);
+        setData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message || "Şifre değiştirilemedi");
+      })
+      .finally(() => {
+        setLoading(false);
       });
 
-      toast.success("Şifre değiştirildi");
-      setUser(res.data.user);
-      setData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message ?? "Hata oluştu");
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -45,30 +45,59 @@ export default function SecurityTab() {
         <p className="text-sm text-base-content/70">Hesap güvenliğini artır.</p>
       </div>
 
-      <form className="space-y-4" onSubmit={submit}>
-        {["currentPassword", "newPassword", "confirmPassword"].map(field => (
-          <div key={field} className="form-control">
+          <div className="form-control">
             <label className="label">
               <span className="label-text font-semibold">
-                {field === "currentPassword" ? "Mevcut Şifre" :
-                 field === "newPassword" ? "Yeni Şifre" : "Yeni Şifre Tekrar"}
+                Mevcut Şifre
               </span>
             </label>
             <input
               type="password"
-              name={field}
-              value={(data as any)[field]}
+              name="currentPassword"
+              value={data.currentPassword}
               onChange={update}
-              className="input input-bordered"
+              className="input input-bordered w-full"
+              placeholder="Mevcut şifrenizi girin"
               required
             />
           </div>
-        ))}
 
-        <button disabled={loading} className="btn btn-primary w-full">
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text font-semibold">
+                Yeni Şifre
+              </span>
+            </label>
+            <input
+              type="password"
+              name="newPassword"
+              value={data.newPassword}
+              onChange={update}
+              className="input input-bordered w-full"
+              placeholder="Yeni şifrenizi girin"
+              required
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text font-semibold">
+                Yeni Şifre (Tekrar)
+              </span>
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={data.confirmPassword}
+              onChange={update}
+              className="input input-bordered w-full"
+              placeholder="Yeni şifrenizi tekrar girin"
+              required
+            />
+          </div>
+        <button disabled={loading} className="btn btn-primary w-full" onClick={submit}>
           {loading ? "Değiştiriliyor..." : "Şifreyi Değiştir"}
         </button>
-      </form>
     </div>
   );
 }

@@ -6,37 +6,35 @@ import { toast } from 'react-toastify';
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
 import ImageLoad from '@/components/common/ImageLoad';
-import { SocialLinks } from '@/types/UserProfileTypes';
+import { SocialLinks, UserProfile, UserProfileDefault } from '@/types/UserProfileTypes';
 import SocialLinksInput from './partials/SocialLinksInput';
 
 export default function ProfileTab() {
   const { user, setUser } = useGlobalStore();
 
-  const [name, setName] = useState(user?.name || '');
-  const [biography, setBiography] = useState(user?.userProfile.biography || '');
-  const [socialLinks, setSocialLinks] = useState<SocialLinks>(user?.userProfile.socialLinks || []);
-  const [profilePicture, setProfilePicture] = useState(user?.userProfile.profilePicture || '');
-  const [headerImage, setHeaderImage] = useState(user?.userProfile.headerImage || '');
-  const [loading, setLoading] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile>(user?.userProfile || UserProfileDefault);
+  const [saving, setSaving] = useState(false);
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleSave = async () => {
+    if (!user || saving) return;
 
-    try {
-      const res = await axiosInstance.put('/api/users/me', {
-        name,
-        profilePicture,
+    setSaving(true);
+
+    await axiosInstance.put('/api/auth/me/profile', {
+        userProfile,
+    }).then((res) => {
+      setUser({
+        ...user,
+        userProfile: res.data.userProfile
       });
-
-      setUser(res.data.user);
-      toast.success("Profil başarıyla güncellendi");
-    } catch (err) {
-      toast.error("Profil güncellenirken hata oluştu");
+      toast.success("Tercihler başarıyla güncellendi");
+    }).catch((err) => {
+      toast.error("Tercihler güncellenirken hata oluştu");
       console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    }).finally(() => {
+      setSaving(false);
+    });
+
   };
 
   return (
@@ -50,76 +48,76 @@ export default function ProfileTab() {
         </p>
       </div>
 
-      <form className="space-y-6" onSubmit={handleSave}>
-
-        {/* Name */}
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">Ad</span>
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="Tam adınızı girin"
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
-        {/* Biography */}
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">Biyografi</span>
-          </label>
-          <textarea
-            value={biography}
-            onChange={e => setBiography(e.target.value)}
-            placeholder="Kendiniz hakkında kısa bir bilgi yazın"
-            className="textarea textarea-bordered w-full"
-            rows={4}
-          />
-        </div>
-
-        { /* Social Links */}
-        <SocialLinksInput
-          value={socialLinks}
-          onChange={setSocialLinks}
+      {/* Name */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text font-semibold">Ad</span>
+        </label>
+        <input
+          type="text"
+          value={userProfile.name || ''}
+          onChange={e => setUserProfile({ ...userProfile, name: e.target.value })}
+          placeholder="Tam adınızı girin"
+          className="input input-bordered w-full"
+          required
         />
+      </div>
+      {/* Biography */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text font-semibold">Biyografi</span>
+        </label>
+        <textarea
+          value={userProfile.biography || ''}
+          onChange={e => setUserProfile({ ...userProfile, biography: e.target.value })}
+          placeholder="Kendiniz hakkında kısa bir bilgi yazın"
+          className="textarea textarea-bordered w-full"
+          rows={4}
+        />
+      </div>
 
-        {/* Profile Image */}
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">Profil Fotoğrafı</span>
-          </label>
+      { /* Social Links */}
+      <SocialLinksInput
+        value={userProfile.socialLinks || []}
+        onChange={(newLinks: SocialLinks) => setUserProfile({ ...userProfile, socialLinks: newLinks })}
+      />
 
-          <ImageLoad
-            setImage={setProfilePicture}
-            image={profilePicture}
-            uploadFolder="users"
-            toast={toast}
-          />
-        </div>
+      {/* Profile Image */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text font-semibold">Profil Fotoğrafı</span>
+        </label>
 
-        {/* Header Image */}
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">Başlık Resmi</span>
-          </label>
+        <ImageLoad
+          setImage={(imgUrl: string) => setUserProfile({ ...userProfile, profilePicture: imgUrl })} 
+          image={userProfile.profilePicture || ''}
+          uploadFolder="users"
+          toast={toast}
+        />
+      </div>
 
-          <ImageLoad
-            setImage={setHeaderImage}
-            image={headerImage}
-            uploadFolder="users"
-            toast={toast}
-          />
-        </div>
+      {/* Header Image */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text font-semibold">Başlık Resmi</span>
+        </label>
 
-        {/* Save Button */}
-        <button disabled={loading} className="btn btn-primary w-full">
-          {loading ? "Kaydediliyor..." : "Profili Kaydet"}
-        </button>
-      </form>
+        <ImageLoad
+          setImage={(imgUrl: string) => setUserProfile({ ...userProfile, headerImage: imgUrl })}
+          image={userProfile.headerImage || ''}
+          uploadFolder="users"
+          toast={toast}
+        />
+      </div>
 
+      {/* Save Button */}
+      <button
+        onClick={handleSave}
+        disabled={saving}
+        className="btn btn-primary w-full"
+      >
+        {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+      </button>
     </div>
   );
 }

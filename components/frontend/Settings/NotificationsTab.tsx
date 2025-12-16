@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
@@ -8,29 +8,13 @@ import {
   UserPreferences,
   UserPreferencesDefault,
 } from '@/types/UserTypes';
-import { set } from 'date-fns';
 
 export default function NotificationsTab() {
   const { user, setUser } = useGlobalStore();
 
-  const [preferences, setPrefs] = useState<UserPreferences>(UserPreferencesDefault);
+  const [preferences, setPrefs] = useState<UserPreferences>(user?.userPreferences || UserPreferencesDefault);
   const [saving, setSaving] = useState(false);
 
-  // --------------------------------------------------
-  // Hydrate preferences when user loads / changes
-  // --------------------------------------------------
-  useEffect(() => {
-    if (!user?.userPreferences) return;
-
-    setPrefs(prev => ({
-      ...prev,
-      ...user.userPreferences,
-    }));
-  }, [user?.userPreferences]);
-
-  // --------------------------------------------------
-  // Save
-  // --------------------------------------------------
   const handleSave = async () => {
     if (!user || saving) return;
 
