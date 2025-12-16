@@ -1,43 +1,61 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGlobe, faMoon } from '@fortawesome/free-solid-svg-icons';
 import {
   UserPreferences,
-  ThemeEnum,
-  LanguageEnum,
   UserPreferencesDefault,
 } from '@/types/UserTypes';
-
-/*
-const UserPreferencesSchema = z.object({
-  theme: ThemeEnum.optional().default('SYSTEM'),
-  language: LanguageEnum.optional().default('EN'),
-  emailNotifications: z.boolean().optional().default(true),
-  smsNotifications: z.boolean().optional().default(false),
-  pushNotifications: z.boolean().optional().default(true),
-  newsletter: z.boolean().optional().default(true),
-});*/
-
+import { set } from 'date-fns';
 
 export default function NotificationsTab() {
-  const { setUser } = useGlobalStore();
-  const [preferences, setPrefs] = useState<UserPreferences>(UserPreferencesDefault);
+  const { user, setUser } = useGlobalStore();
 
+  const [preferences, setPrefs] = useState<UserPreferences>(UserPreferencesDefault);
+  const [saving, setSaving] = useState(false);
+
+  // --------------------------------------------------
+  // Hydrate preferences when user loads / changes
+  // --------------------------------------------------
+  useEffect(() => {
+    if (!user?.userPreferences) return;
+
+    setPrefs(prev => ({
+      ...prev,
+      ...user.userPreferences,
+    }));
+  }, [user?.userPreferences]);
+
+  // --------------------------------------------------
+  // Save
+  // --------------------------------------------------
   const handleSave = async () => {
-    try {
-      const res = await axiosInstance.put('/api/users/me', { preferences });
-      setUser(res.data.user);
-      toast.success('Tercihler güncellendi');
-    } catch {
-      toast.error('Bir hata oluştu');
-    }
+    if (!user || saving) return;
+
+    setSaving(true);
+
+    await axiosInstance.put('/api/auth/me/preferences', {
+        preferences,
+      }).then((res) => {
+      setUser({
+        ...user,
+        userPreferences: res.data.userPreferences,
+      });
+      toast.success("Tercihler başarıyla güncellendi");
+    }).catch((err) => {
+      toast.error("Tercihler güncellenirken hata oluştu");
+      console.error(err);
+    }).finally(() => {
+      setSaving(false);
+    }); 
+
   };
 
+  // --------------------------------------------------
+  // Render
+  // --------------------------------------------------
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
 
@@ -49,7 +67,7 @@ export default function NotificationsTab() {
         </p>
       </div>
 
-      { /* Notification toggles */ }
+      {/* Email */}
       <div className="form-control">
         <label className="cursor-pointer label">
           <span className="label-text font-semibold">E-posta Bildirimleri</span>
@@ -57,13 +75,14 @@ export default function NotificationsTab() {
             type="checkbox"
             className="toggle toggle-primary"
             checked={preferences.emailNotifications}
-            onChange={(e) =>
-              setPrefs({ ...preferences, emailNotifications: e.target.checked })
+            onChange={e =>
+              setPrefs(p => ({ ...p, emailNotifications: e.target.checked }))
             }
           />
         </label>
       </div>
 
+      {/* SMS */}
       <div className="form-control">
         <label className="cursor-pointer label">
           <span className="label-text font-semibold">SMS Bildirimleri</span>
@@ -71,13 +90,14 @@ export default function NotificationsTab() {
             type="checkbox"
             className="toggle toggle-primary"
             checked={preferences.smsNotifications}
-            onChange={(e) =>
-              setPrefs({ ...preferences, smsNotifications: e.target.checked })
+            onChange={e =>
+              setPrefs(p => ({ ...p, smsNotifications: e.target.checked }))
             }
           />
         </label>
       </div>
 
+      {/* Push */}
       <div className="form-control">
         <label className="cursor-pointer label">
           <span className="label-text font-semibold">Push Bildirimleri</span>
@@ -85,13 +105,14 @@ export default function NotificationsTab() {
             type="checkbox"
             className="toggle toggle-primary"
             checked={preferences.pushNotifications}
-            onChange={(e) =>
-              setPrefs({ ...preferences, pushNotifications: e.target.checked })
+            onChange={e =>
+              setPrefs(p => ({ ...p, pushNotifications: e.target.checked }))
             }
           />
         </label>
       </div>
 
+      {/* Newsletter */}
       <div className="form-control">
         <label className="cursor-pointer label">
           <span className="label-text font-semibold">Bülten Aboneliği</span>
@@ -99,15 +120,19 @@ export default function NotificationsTab() {
             type="checkbox"
             className="toggle toggle-primary"
             checked={preferences.newsletter}
-            onChange={(e) =>
-              setPrefs({ ...preferences, newsletter: e.target.checked })
+            onChange={e =>
+              setPrefs(p => ({ ...p, newsletter: e.target.checked }))
             }
           />
         </label>
       </div>
 
-      <button onClick={handleSave} className="btn btn-primary w-full">
-        Kaydet
+      <button
+        onClick={handleSave}
+        disabled={saving}
+        className="btn btn-primary w-full"
+      >
+        {saving ? 'Kaydediliyor…' : 'Kaydet'}
       </button>
     </div>
   );
