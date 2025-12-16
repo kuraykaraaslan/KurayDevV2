@@ -7,7 +7,8 @@ import SMSService from "../NotificationService/SMSService";
 import MailService from "../NotificationService/MailService";
 
 // Utils
-import { SafeUser, SafeUserSchema, UserPreferencesSchema, UserProfileSchema } from "@/types/UserTypes";
+import { SafeUser, SafeUserSchema, UserPreferencesSchema } from "@/types/UserTypes";
+import { UserProfileSchema } from "@/types/UserProfileTypes";
 import  AuthMessages from "@/messages/AuthMessages";
 import { UserSecurity, UserSecuritySchema } from '@/types/UserSecurityTypes';
 

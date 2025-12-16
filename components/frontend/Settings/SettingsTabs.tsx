@@ -5,33 +5,60 @@ import ProfileTab from './ProfileTab';
 import SecurityTab from './SecurityTab';
 import PreferencesTab from './PreferencesTab';
 import OTPTab from './OTPTab';
+import BasicTab from './BasicTab';
+import NotificationsTab from './NotificationsTab';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faGear, faLock, faNoteSticky, faRing, faSms, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-type TabType = 'profile' | 'security' | 'otp' | 'preferences';
+interface Tab {
+  id: string;
+  label: string;
+  icon: IconDefinition;
+  content: React.ReactNode;
+}
+
 
 export default function SettingsTabs() {
-  const [activeTab, setActiveTab] = useState<TabType>('profile');
+  const [activeTab, setActiveTab] = useState<Tab['id']>('profile');
 
-  const tabs: { id: TabType; label: string; icon: string }[] = [
+  const tabs: Tab[] = [
+    {
+      id: 'basic',
+      label: 'Temel',
+      icon: faNoteSticky,
+      content: <BasicTab />,
+    },
     {
       id: 'profile',
       label: 'Profil',
-      icon: '👤',
+      icon: faUser,
+      content: <ProfileTab />,
     },
     {
       id: 'security',
       label: 'Güvenlik',
-      icon: '🔒',
+      icon: faLock,
+      content: <SecurityTab />,
     },
     {
       id: 'otp',
       label: '2FA',
-      icon: '🔐',
+      icon: faSms,
+      content: <OTPTab />,
     },
     {
       id: 'preferences',
       label: 'Tercihler',
-      icon: '⚙️',
+      icon: faGear,
+      content: <PreferencesTab />,
+    },
+    {
+      id: 'notifications',
+      label: 'Bildirimler',
+      icon: faRing,
+      content: <NotificationsTab />,
     },
   ];
 
@@ -49,7 +76,7 @@ export default function SettingsTabs() {
                 : 'text-base-content/60 hover:text-base-content/80'
             }`}
           >
-            <span className="text-lg">{tab.icon}</span>
+            <span className="text-lg"><FontAwesomeIcon icon={tab.icon} size='lg' /></span>
             <span className="hidden sm:inline text-sm">{tab.label}</span>
             
             {/* Active indicator */}
@@ -63,10 +90,7 @@ export default function SettingsTabs() {
       {/* Tab Content */}
       <div className="mt-4">
         <div className="animate-fade-in">
-          {activeTab === 'profile' && <ProfileTab />}
-          {activeTab === 'security' && <SecurityTab />}
-          {activeTab === 'otp' && <OTPTab />}
-          {activeTab === 'preferences' && <PreferencesTab />}
+          {tabs.find((tab) => tab.id === activeTab)?.content}
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import {prisma} from '@/libs/prisma';
-import { User, UserRole, SafeUser, UpdateUser, SafeUserSchema, UserProfileDefault, UserPreferencesDefault, UserSchema } from "@/types/UserTypes";
+import { User, UserRole, SafeUser, UpdateUser, SafeUserSchema, UserPreferencesDefault, UserSchema } from "@/types/UserTypes";
+import { UserProfileDefault } from "@/types/UserProfileTypes";
 
 // Libraries
 import bcrypt from "bcrypt";

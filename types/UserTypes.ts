@@ -1,6 +1,7 @@
 
 import { z } from 'zod';
 import { OTPMethodEnum, UserSecuritySchema, UserSecurityDefault } from './UserSecurityTypes';
+import { UserProfileSchema, UserProfileDefault } from './UserProfileTypes';
 
 const UserRoleEnum = z.enum(['ADMIN', 'USER']).default('USER');
 const UserStatusEnum = z.enum(['ACTIVE', 'INACTIVE', 'BANNED']).default('ACTIVE');
@@ -12,36 +13,31 @@ const LanguageEnum = z.enum(['EN', 'ES', 'FR', 'DE', 'CN', 'JP']);
 export const LanguageSchema = LanguageEnum.default("EN");
 
 const UserPreferencesSchema = z.object({
-  theme: ThemeEnum.optional().default('SYSTEM'),
-  language: LanguageEnum.optional().default('EN'),
-  emailNotifications: z.boolean().optional().default(true),
-  smsNotifications: z.boolean().optional().default(false),
-  pushNotifications: z.boolean().optional().default(true),
-  newsletter: z.boolean().optional().default(true),
+    theme: ThemeEnum.optional().default('SYSTEM'),
+    language: LanguageEnum.optional().default('EN'),
+    emailNotifications: z.boolean().optional().default(true),
+    smsNotifications: z.boolean().optional().default(false),
+    pushNotifications: z.boolean().optional().default(true),
+    newsletter: z.boolean().optional().default(true),
+    timezone: z.string().default("UTC"),
+    dateFormat: z.enum(['DD/MM/YYYY', 'MM/DD/YYYY']).default('DD/MM/YYYY'),
+    timeFormat: z.enum(['24H', '12H']).default('24H'),
+    firstDayOfWeek: z.enum(['MON', 'SUN']).default('MON'),
 });
 
-const UserPreferencesDefault : z.infer<typeof UserPreferencesSchema> = {
+const UserPreferencesDefault: z.infer<typeof UserPreferencesSchema> = {
     theme: ThemeEnum.enum.SYSTEM,
     language: LanguageEnum.enum.EN,
     emailNotifications: true,
     smsNotifications: false,
     pushNotifications: true,
     newsletter: true,
+    timezone: "UTC",
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24H',
+    firstDayOfWeek: 'MON',
 };
 
-const UserProfileSchema = z.object({
-    name: z.string().nullable().optional(),
-    biography: z.string().nullable().optional(),
-    profilePicture: z.string().nullable().optional(),
-    headerImage: z.string().nullable().optional(),
-});
-
-const UserProfileDefault : z.infer<typeof UserProfileSchema> = {
-    name: null,
-    biography: null,
-    profilePicture: null,
-    headerImage: null,
-};
 
 const UserSchema = z.object({
     userId: z.string(),
@@ -49,7 +45,7 @@ const UserSchema = z.object({
     email: z.string().email(),
     phone: z.string().nullable().optional(),
     password: z.string().min(8, "Password must be at least 8 characters long"),
-    
+
     userRole: UserRoleEnum.default('USER'),
     userStatus: UserStatusEnum.default('ACTIVE'),
 
@@ -101,4 +97,4 @@ export type UpdateUser = z.infer<typeof UpdateUserSchema>;
 export type UserRole = z.infer<typeof UserRoleEnum>;
 export type UserStatus = z.infer<typeof UserStatusEnum>;
 export type UserPreferences = z.infer<typeof UserPreferencesSchema>;
-export { SafeUserSchema, UserSchema, UserRoleEnum, OTPMethodEnum, UserStatusEnum, ThemeEnum, LanguageEnum, UpdateUserSchema, UserPreferencesSchema, UserPreferencesDefault, UserProfileSchema, UserProfileDefault };
+export { SafeUserSchema, UserSchema, UserRoleEnum, OTPMethodEnum, UserStatusEnum, ThemeEnum, LanguageEnum, UpdateUserSchema, UserPreferencesSchema, UserPreferencesDefault };

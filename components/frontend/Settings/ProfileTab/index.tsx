@@ -2,19 +2,21 @@
 
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-import './styles/phoneInput.css';
 
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
 import ImageLoad from '@/components/common/ImageLoad';
+import { SocialLinks } from '@/types/UserProfileTypes';
+import SocialLinksInput from './partials/SocialLinksInput';
 
 export default function ProfileTab() {
   const { user, setUser } = useGlobalStore();
 
   const [name, setName] = useState(user?.name || '');
-  const [phone, setPhone] = useState(user?.phone || '');
+  const [biography, setBiography] = useState(user?.userProfile.biography || '');
+  const [socialLinks, setSocialLinks] = useState<SocialLinks>(user?.userProfile.socialLinks || []);
   const [profilePicture, setProfilePicture] = useState(user?.userProfile.profilePicture || '');
+  const [headerImage, setHeaderImage] = useState(user?.userProfile.headerImage || '');
   const [loading, setLoading] = useState(false);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -24,7 +26,6 @@ export default function ProfileTab() {
     try {
       const res = await axiosInstance.put('/api/users/me', {
         name,
-        phone,
         profilePicture,
       });
 
@@ -65,25 +66,25 @@ export default function ProfileTab() {
             required
           />
         </div>
-
-        {/* Phone */}
+        {/* Biography */}
         <div className="form-control w-full">
           <label className="label">
-            <span className="label-text font-semibold">Telefon</span>
+            <span className="label-text font-semibold">Biyografi</span>
           </label>
-
-          <PhoneInput
-            defaultCountry="TR"
-            value={phone}
-            onChange={(v) => setPhone(v || '')}
-            className="input input-bordered w-full"
-            placeholder="+90 5XX XXX XX XX"
+          <textarea
+            value={biography}
+            onChange={e => setBiography(e.target.value)}
+            placeholder="Kendiniz hakkında kısa bir bilgi yazın"
+            className="textarea textarea-bordered w-full"
+            rows={4}
           />
-
-          {phone && !isValidPhoneNumber(phone) && (
-            <p className="text-error text-sm mt-1">Geçersiz telefon numarası</p>
-          )}
         </div>
+
+        { /* Social Links */}
+        <SocialLinksInput
+          value={socialLinks}
+          onChange={setSocialLinks}
+        />
 
         {/* Profile Image */}
         <div className="form-control w-full">
@@ -99,22 +100,18 @@ export default function ProfileTab() {
           />
         </div>
 
-        {/* Email (Read-only) */}
+        {/* Header Image */}
         <div className="form-control w-full">
           <label className="label">
-            <span className="label-text font-semibold">E-mail Adresi</span>
+            <span className="label-text font-semibold">Başlık Resmi</span>
           </label>
 
-          <input
-            type="email"
-            value={user?.email || ''}
-            disabled
-            className="input input-bordered w-full bg-base-200 opacity-70"
+          <ImageLoad
+            setImage={setHeaderImage}
+            image={headerImage}
+            uploadFolder="users"
+            toast={toast}
           />
-
-          <label className="label">
-            <span className="label-text-alt">E-mail adresi değiştirilemez</span>
-          </label>
         </div>
 
         {/* Save Button */}
