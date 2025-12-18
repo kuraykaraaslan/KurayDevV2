@@ -243,10 +243,15 @@ export default class UserSessionService {
    * @param accessToken - The session token.
    * @returns The user session.
    */
-  static async getSessionDangerously(
-    accessToken: string,
-    request: NextRequest
-  ): Promise<{ user: SafeUser; userSession: SafeUserSession }> {
+  static async getSessionDangerously({
+    accessToken,
+    request,
+    otpVerifyBypass = false,
+  }: {
+    accessToken: string;
+    request: NextRequest;
+    otpVerifyBypass?: boolean;
+  }): Promise<{ user: SafeUser; userSession: SafeUserSession }> {
     const deviceFingerprint = await UserSessionService.generateDeviceFingerprint(request);
     const { userId } = await UserSessionService.verifyAccessToken(accessToken, deviceFingerprint);
 
@@ -272,7 +277,7 @@ export default class UserSessionService {
 
     if (!userSession || userSession.userId !== userId)
       throw new Error(AuthMessages.SESSION_NOT_FOUND);
-    if (userSession.otpVerifyNeeded)
+    if (userSession.otpVerifyNeeded && !otpVerifyBypass)
       throw new Error(AuthMessages.OTP_NEEDED);
     if (userSession.deviceFingerprint !== deviceFingerprint)
       throw new Error(AuthMessages.DEVICE_FINGERPRINT_NOT_MATCH);
@@ -295,9 +300,18 @@ export default class UserSessionService {
    * @param session - The user session.
    * @returns The user session without sensitive fields.
    */
-  static async getSession(accessToken: string, request: NextRequest): Promise<{ user: SafeUser, userSession: SafeUserSession }> {
+  static async getSession({
+    accessToken,
+    request,
+    otpVerifyBypass = false,
+  }: {
+    accessToken: string;
+    request: NextRequest;
+    otpVerifyBypass?: boolean;
+  }): Promise<{ user: SafeUser; userSession: SafeUserSession }> {
+  
     // Get the session using the provided access token
-    const { user, userSession } = await UserSessionService.getSessionDangerously(accessToken, request);
+    const { user, userSession } = await UserSessionService.getSessionDangerously({ accessToken, request, otpVerifyBypass });
 
     // Check if the session is expired
     return {
@@ -453,9 +467,11 @@ export default class UserSessionService {
   >({
     request,
     requiredUserRole = "ADMIN" as T,
+    otpVerifyBypass = false,
   }: {
     request: NextRequest;
     requiredUserRole?: T;
+    otpVerifyBypass?: boolean;
   }): Promise<
     T extends "GUEST"
     ? null
@@ -472,15 +488,18 @@ export default class UserSessionService {
         throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE);
       }
 
-      console.log('[AUTH] Attempting to get session...');
-      const { user, userSession } = await UserSessionService.getSession(accessToken, request);
+      const { user, userSession } = await UserSessionService.getSession({
+        accessToken,
+        request,
+        otpVerifyBypass,
+      });
       console.log('[AUTH] Session retrieved - user role:', user?.userRole, 'required role:', requiredUserRole);
 
       if (!user) {
         throw new Error(AuthMessages.USER_NOT_FOUND);
       }
 
-      if (userSession.otpVerifyNeeded) {
+      if (userSession.otpVerifyNeeded && !otpVerifyBypass) {
         throw new Error(AuthMessages.OTP_NEEDED);
       }
 
@@ -582,6 +601,20 @@ export default class UserSessionService {
       rawAccessToken: newAccessToken,
       rawRefreshToken: newRefreshToken,
     };
+  }
+
+  static async updateSession(userSessionId: string, data: Partial<UserSession>): Promise<SafeUserSession> {
+    const updatedSession = await prisma.userSession.update({
+      where: { userSessionId },
+      data,
+    });
+
+    // Invalidate related cache entries
+    const pattern = `session:${updatedSession.userId}:*`;
+    const keys = await redisInstance.keys(pattern);
+    if (keys.length > 0) await redisInstance.del(...keys);
+
+    return UserSessionService.omitSensitiveFields(updatedSession);
   }
 
 }

@@ -3,6 +3,7 @@ import redis from "@/libs/redis";
 import AuthMessages from "@/messages/AuthMessages";
 import { SafeUser } from "@/types/UserTypes";
 import { OTPAction } from "@/types/UserSecurityTypes";
+import { SafeUserSession } from "@/types/UserSessionTypes";
 
 export default class OTPService {
   static OTP_EXPIRY_SECONDS = parseInt(process.env.OTP_EXPIRY_SECONDS || "600");
@@ -14,23 +15,23 @@ export default class OTPService {
     return Math.floor(min + Math.random() * (max - min)).toString().padStart(length, "0");
   }
 
-  static getRedisKey({ userId, method , action }: { userId: string; method: OTPMethod; action: OTPAction | "rate" }): string {
-    return `otp:${action}:${userId}:${method}`;
+  static getRedisKey({ userSessionId, method , action }: { userSessionId: string; method: OTPMethod; action: OTPAction | "rate" }): string {
+    return `otp:${action}:${userSessionId}:${method}`;
   }
 
 
-  static async requestOTP({ user, method, action }: { user: SafeUser, method: OTPMethod, action: OTPAction }) : Promise<{ otpToken: string }> {
+  static async requestOTP({ user, userSession, method, action }: { user: SafeUser, userSession: SafeUserSession, method: OTPMethod, action: OTPAction }) : Promise<{ otpToken: string }> {
     if (method === OTPMethod.TOTP_APP || method === OTPMethod.PUSH_APP) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD);
     }
 
-    const rateKey = this.getRedisKey({ userId: user.userId, method, action: "rate" });
+    const rateKey = this.getRedisKey({ userSessionId: userSession.userSessionId, method, action: "rate" });
     if (await redis.get(rateKey)) {
       throw new Error(AuthMessages.OTP_ALREADY_SENT);
-    }
+    } 
 
     const otpToken = this.generateToken();
-    const redisKey = this.getRedisKey({ userId: user.userId, method, action });
+    const redisKey = this.getRedisKey({ userSessionId: userSession.userSessionId, method, action });
     await redis.set(redisKey, otpToken, "EX", this.OTP_EXPIRY_SECONDS);
     await redis.set(rateKey, "1", "EX", 60);
 
@@ -40,16 +41,18 @@ export default class OTPService {
 
   static async verifyOTP({
     user,
+    userSession,
     method,
     action,
     otpToken,
   }: {
     user: SafeUser;
+    userSession: SafeUserSession;
     method: OTPMethod;
     action: OTPAction;
     otpToken: string;
   }) {
-    const redisKey = this.getRedisKey({ userId: user.userId, method, action });
+    const redisKey = this.getRedisKey({ userSessionId: userSession.userSessionId, method, action });
     const storedToken = await redis.get(redisKey);
 
     if (!storedToken || storedToken !== otpToken) {
@@ -57,7 +60,7 @@ export default class OTPService {
     }
 
     await redis.del(redisKey);
-    await redis.del(this.getRedisKey({ userId: user.userId, method, action: "rate" }));
+    await redis.del(this.getRedisKey({ userSessionId: userSession.userSessionId, method, action: "rate" }));
   }
 
 

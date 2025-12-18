@@ -7,7 +7,7 @@ import { MouseEvent, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { OTPMethod } from '@/types/UserSecurityTypes';
+import { OTPActionEnum, OTPMethod, OTPMethodEnum } from '@/types/UserSecurityTypes';
 import OTPConfirmModal from '@/components/frontend/Settings/OTPTab/partials/OTPConfirmModal';
 
 const LoginPage = () => {
@@ -105,8 +105,9 @@ const LoginPage = () => {
 
         try {
             setSendingOtp(true);
-            await axiosInstance.post('/api/auth/otp/send', {
+            await axiosInstance.post('/api/auth/login/send', {
                 method: selectedMethod,
+                action: OTPActionEnum.Enum.authenticate,
             });
             setOtpSent(true);
             toast.success('OTP gönderildi');
@@ -124,15 +125,17 @@ const LoginPage = () => {
         try {
             setVerifyingOtp(true);
 
-            const res = await axiosInstance.post('/api/auth/otp/verify', {
+            console.log('Verifying OTP with method:', selectedMethod, 'and code:', otpCode);
+
+            await axiosInstance.post('/api/auth/login/verify', {
                 method: selectedMethod,
                 otpToken: otpCode,
+                action: OTPActionEnum.Enum.authenticate,
+            }).then(() => {
+                toast.success('OTP doğrulandı');
+                router.push(searchParams.get('redirect') || '/');
             });
 
-            setUser(res.data.user);
-            toast.success('Giriş başarılı');
-            setOtpModalOpen(false);
-            router.push('/');
         } catch (err: any) {
             toast.error(err?.response?.data?.message || 'OTP doğrulanamadı');
         } finally {

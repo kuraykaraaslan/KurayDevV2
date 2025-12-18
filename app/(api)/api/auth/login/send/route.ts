@@ -10,19 +10,20 @@ import SMSService from "@/services/NotificationService/SMSService";
 export async function POST(request: NextRequest) {
   try {
     // Authenticate the user
-    const { user, userSession } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
+    const { user, userSession } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER", otpVerifyBypass: true });
 
     const { method, action } = await request.json();
 
-    // Validate method
+    // Validate method = authentication method
     if (!Object.values(OTPMethodEnum.Enum).includes(method)) {
+      console.log("Invalid OTP method:", method);
       return NextResponse.json(
         { message: AuthMessages.INVALID_OTP_METHOD },
         { status: 400 }
       );
     }
 
-    if (!Object.values(OTPActionEnum.Enum).includes(action)) {
+    if (!Object.values(OTPActionEnum.Enum).includes(action) && action === OTPActionEnum.Enum.authenticate) {
       console.log("Invalid OTP action:", action);
       return NextResponse.json(
         { message: AuthMessages.INVALID_OTP_ACTION },
@@ -31,27 +32,18 @@ export async function POST(request: NextRequest) {
     }
 
     const { userSecurity } = await AuthService.getUserSecurity(user.userId);
- 
 
-    const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action });
-
-    const userOTPMethods = userSecurity.otpMethods;
-
-    if (action === OTPActionEnum.Enum.enable && userOTPMethods.includes(method)) {
-      console.log("OTP method already enabled:", method);
-      return NextResponse.json(
-        { message: "OTP method is already enabled" },
-        { status: 400 }
-      );
-    }
-
-    if (action === OTPActionEnum.Enum.disable && !userOTPMethods.includes(method)) {
+    // check if method is enabled
+    if (!userSecurity.otpMethods.includes(method)) {
       console.log("OTP method not enabled:", method);
       return NextResponse.json(
         { message: "OTP method is not enabled" },
         { status: 400 }
       );
     }
+
+    const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action });
+
 
     if (method === OTPMethodEnum.Enum.EMAIL) {
       console.log("Sending OTP via Email to:", user.email);
