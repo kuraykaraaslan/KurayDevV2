@@ -8,7 +8,7 @@ import { UpdateUserSchema } from "@/types/UserTypes";
  */
 export async function GET(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest(request, "USER");
+    const { user } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
     return NextResponse.json({ user });
   } catch (error: any) {
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
  */
 export async function PUT(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest(request, "USER");
+    const { user } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
     const data = await request.json();
 

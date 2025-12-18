@@ -11,7 +11,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
  */
 export async function POST(request: NextRequest) {
     try {
-        await UserSessionService.authenticateUserByRequest(request);
+        await UserSessionService.authenticateUserByRequest({ request });
         const { prompt } = await request.json();
         const text = await OpenAIService.generateText(prompt);
         return NextResponse.json({ text });

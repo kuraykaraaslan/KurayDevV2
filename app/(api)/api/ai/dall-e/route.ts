@@ -8,7 +8,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
  */
 export async function POST(request: NextRequest) {
     try {
-        await UserSessionService.authenticateUserByRequest(request);
+        await UserSessionService.authenticateUserByRequest({ request });
         const { prompt } = await request.json();
         const url = await OpenAIService.generateImage(prompt);
         return NextResponse.json({ url });

@@ -10,7 +10,7 @@ import SMSService from "@/services/NotificationService/SMSService";
 export async function POST(request: NextRequest) {
   try {
     // Authenticate the user
-    const { user } = await UserSessionService.authenticateUserByRequest(request, "USER");
+    const { user } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
     const { method, action } = await request.json();
 

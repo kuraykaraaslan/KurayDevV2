@@ -43,7 +43,7 @@ export default async function BlogPost({ request, params }: { request: NextReque
 
         if (post.status !== 'PUBLISHED') {
             // Check if the user is authenticated and has the required role
-            await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+            await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
         }
 
         await PostService.incrementViewCount(post.postId);

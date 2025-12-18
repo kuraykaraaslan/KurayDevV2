@@ -38,7 +38,7 @@ export async function GET(request: Request) {
 export async function POST(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest(request);
+        await UserSessionService.authenticateUserByRequest({ request });
 
         const body = await request.json();
 

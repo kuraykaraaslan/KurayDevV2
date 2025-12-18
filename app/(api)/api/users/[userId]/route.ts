@@ -21,7 +21,7 @@ export async function GET(
 
     const { userId } = await params
 
-    await UserSessionService.authenticateUserByRequest(request, "USER");
+    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
     const user = await UserService.getById(userId);
 
@@ -55,7 +55,7 @@ export async function DELETE(
 ) {
   try {
 
-    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
     const { userId } = await params
 
@@ -94,7 +94,7 @@ export async function PUT(
 ) {
   try {
 
-    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
     const { userId } = await params
 

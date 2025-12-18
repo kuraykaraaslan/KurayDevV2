@@ -47,7 +47,7 @@ export async function DELETE(
 ) {
   try {
 
-    await UserSessionService.authenticateUserByRequest(request);
+    await UserSessionService.authenticateUserByRequest({ request });
 
 
     const { categoryId } = await params;
@@ -86,7 +86,7 @@ export async function PUT(
 ) {
   try {
 
-    await UserSessionService.authenticateUserByRequest(request);
+    await UserSessionService.authenticateUserByRequest({ request });
 
     const { categoryId } = await params;
     const post = await CategoryService.getCategoryById(categoryId);

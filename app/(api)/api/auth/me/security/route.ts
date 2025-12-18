@@ -5,7 +5,7 @@ import AuthService from "@/services/AuthService";
 export async function GET(request: NextRequest) {
   try {
     // Authenticate the user
-    const { user } = await UserSessionService.authenticateUserByRequest(request, "USER");
+    const { user } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
     const { userSecurity } = await AuthService.getUserSecurity(user.userId);
 

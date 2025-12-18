@@ -448,7 +448,19 @@ export default class UserSessionService {
    * @param accessToken - The access token to authenticate.
    * @returns The authenticated user.
    */
-  static async authenticateUserByRequest<T extends string = "ADMIN">(request: NextRequest, requiredUserRole: T = "ADMIN" as T): Promise<T extends "GUEST" ? null : { user: SafeUser, userSession: SafeUserSession }> {
+  static async authenticateUserByRequest<
+    T extends string = "ADMIN"
+  >({
+    request,
+    requiredUserRole = "ADMIN" as T,
+  }: {
+    request: NextRequest;
+    requiredUserRole?: T;
+  }): Promise<
+    T extends "GUEST"
+    ? null
+    : { user: SafeUser; userSession: SafeUserSession }
+  > {
 
     try {
       const accessToken = request.cookies.get("accessToken")?.value;

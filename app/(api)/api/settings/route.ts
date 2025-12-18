@@ -34,7 +34,7 @@ export async function GET(_request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest(request, "ADMIN");        
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });        
         const { settings } = await request.json();
         const result = await SettingService.updateSettings(settings);
 

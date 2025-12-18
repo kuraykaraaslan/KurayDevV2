@@ -8,7 +8,7 @@ import { AppointmentStatus } from '@/types/CalendarTypes'
 export async function POST(request: NextRequest) {
   try {
     // gerekirse auth:
-    // await UserSessionService.authenticateUserByRequest(request, "USER")
+    // await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" })
 
     const body = await request.json()
     const { date, time , name, email, phone, note } = body || {}

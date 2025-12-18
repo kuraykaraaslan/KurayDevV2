@@ -6,7 +6,7 @@ import { AppointmentStatus } from '@/types/CalendarTypes';
 export async function GET(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         const { searchParams } = new URL(request.url);
         // Extract query parameters

@@ -12,7 +12,7 @@ import UserSessionService from '@/services/AuthService/UserSessionService'
 export async function POST(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest(request);
+        await UserSessionService.authenticateUserByRequest({ request });
         
         const formData = await request.formData();
 

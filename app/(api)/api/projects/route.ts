@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         const data = await request.json() as Omit<Project, 'projectId'>;
         const project = await ProjectService.createProject(data) as Project;
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         const data = await request.json() as Project;
         const project = await ProjectService.updateProject(data);

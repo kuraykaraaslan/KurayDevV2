@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const frequency = body.frequency || "all-time";
 
-        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         // Extract query parameters
         const stats = await StatService.getAllStats(frequency);

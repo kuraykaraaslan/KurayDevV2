@@ -5,7 +5,7 @@ import CommentService from '@/services/CommentService';
 export async function DELETE(request: NextRequest, { params }: { params: { commentId: string } }) {
     try {
         // Authenticate user session
-        await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         const { commentId } = await params;
 

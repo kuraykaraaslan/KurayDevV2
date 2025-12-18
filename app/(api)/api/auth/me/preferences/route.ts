@@ -11,7 +11,7 @@ export async function PUT(request: NextRequest) {
     try {
 
         await RateLimiter.checkRateLimit(request);
-        await UserSessionService.authenticateUserByRequest(request, "USER");
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
         const userId = request.user?.userId;
         if (!userId) {
@@ -62,7 +62,7 @@ export async function PUT(request: NextRequest) {
 export async function GET(request: NextRequest) {
     try {
         await RateLimiter.checkRateLimit(request);
-        await UserSessionService.authenticateUserByRequest(request, "USER");
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
         const userId = request.user?.userId;
         if (!userId) {

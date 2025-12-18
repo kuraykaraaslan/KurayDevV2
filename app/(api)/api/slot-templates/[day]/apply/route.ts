@@ -12,7 +12,7 @@ export async function POST(
     { params }: { params: Promise<{ day: Day }> }
 ) {
 
-    await UserSessionService.authenticateUserByRequest(request, "ADMIN");
+    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
     const { formattedDate } = await request.json();
     const { day } = await params
