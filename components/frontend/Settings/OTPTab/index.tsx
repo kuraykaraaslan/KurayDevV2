@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { OTPMethodEnum, OTPMethod } from '@/types/UserSecurityTypes';
+import { OTPMethodEnum, OTPMethod, OTPAction } from '@/types/UserSecurityTypes';
 import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/UserSecurityTypes';
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
@@ -20,9 +20,7 @@ export default function OTPTab() {
   );
 
   const [pendingMethod, setPendingMethod] = useState<OTPMethod | null>(null);
-  const [pendingAction, setPendingAction] =
-    useState<'enable' | 'disable' | null>(null);
-
+  const [pendingAction, setPendingAction] = useState<OTPAction | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [otpCode, setOtpCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
@@ -138,8 +136,6 @@ export default function OTPTab() {
 
       <OTPConfirmModal
         open={modalOpen}
-        method={pendingMethod ?? undefined}
-        action={pendingAction ?? undefined}
         otpSent={otpSent}
         otpCode={otpCode}
         sendingOtp={sendingOtp}

@@ -1,9 +1,8 @@
 import HeadlessModal from '@/components/common/Modal';
+import { OTPAction } from '@/types/UserSecurityTypes';
 
 type Props = {
   open: boolean;
-  method?: string;
-  action?: 'enable' | 'disable';
   otpSent: boolean;
   otpCode: string;
   sendingOtp: boolean;
@@ -18,8 +17,6 @@ type Props = {
 export default function OTPConfirmModal(props: Props) {
   const {
     open,
-    method,
-    action,
     otpSent,
     otpCode,
     sendingOtp,

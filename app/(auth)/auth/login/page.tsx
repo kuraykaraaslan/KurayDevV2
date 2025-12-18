@@ -3,11 +3,12 @@ import axiosInstance from '@/libs/axios';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
-import OTPMethodCard from '@/components/frontend/Settings/OTPTab/partials/OTPMethodCard';
+import { OTPMethod } from '@/types/UserSecurityTypes';
+import OTPConfirmModal from '@/components/frontend/Settings/OTPTab/partials/OTPConfirmModal';
 
 const LoginPage = () => {
 
@@ -21,6 +22,19 @@ const LoginPage = () => {
 
     const router = useRouter();
     const searchParams = useSearchParams();
+
+    const [otpRequired, setOtpRequired] = useState(false);
+    const [availableMethods, setAvailableMethods] = useState<OTPMethod[]>([]);
+    const [selectedMethod, setSelectedMethod] = useState<OTPMethod | null>(null);
+
+    const [otpModalOpen, setOtpModalOpen] = useState(false);
+    const [otpCode, setOtpCode] = useState('');
+    const [otpSent, setOtpSent] = useState(false);
+    const [sendingOtp, setSendingOtp] = useState(false);
+    const [verifyingOtp, setVerifyingOtp] = useState(false);
+
+
+    const otpInputRef = useRef<HTMLInputElement>(null);
 
 
 
@@ -56,27 +70,74 @@ const LoginPage = () => {
         }
 
         await axiosInstance.post(`/api/auth/login`, {
-            email: email,
-            password: password
+            email,
+            password,
         }).then(async (res) => {
-            if (res.data.error) {
-                toast.error(res.data.error);
-            } else {
-                toast.success(res.data.message);
-            }
+
+            const userSecurity = res.data.userSecurity;
+
+            console.log('userSecurity', userSecurity);
 
             const { user } = res.data;
             setUser(user);
 
-            console.log("Login successful:", res.data);
-        }
-        ).catch((err) => {
-            console.error(err);
-            toast.error(err.response.data.error);
+            if (userSecurity.otpMethods.length > 0) {
+                setOtpRequired(true);
+                setAvailableMethods(userSecurity.otpMethods);
+                setSelectedMethod(userSecurity.otpMethods[0]);
+                setOtpModalOpen(true);
+                return;
+            }
+            toast.success('Login successful');
+            router.push('/');
+
+        }).catch((err) => {
+            toast.error(err.response?.data?.error || 'Login failed');
         });
 
 
 
+
+    }
+
+    const onSentOtp = async () => {
+        if (!selectedMethod) return;
+
+        try {
+            setSendingOtp(true);
+            await axiosInstance.post('/api/auth/otp/send', {
+                method: selectedMethod,
+            });
+            setOtpSent(true);
+            toast.success('OTP gönderildi');
+            setTimeout(() => otpInputRef.current?.focus(), 100);
+        } catch {
+            toast.error('OTP gönderilemedi');
+        } finally {
+            setSendingOtp(false);
+        }
+    }
+
+    const onVerifyOtp = async () => {
+        if (!selectedMethod) return;
+
+        try {
+            setVerifyingOtp(true);
+
+            const res = await axiosInstance.post('/api/auth/otp/verify', {
+                method: selectedMethod,
+                otpToken: otpCode,
+            });
+
+            setUser(res.data.user);
+            toast.success('Giriş başarılı');
+            setOtpModalOpen(false);
+            router.push('/');
+        } catch (err: any) {
+            toast.error(err?.response?.data?.message || 'OTP doğrulanamadı');
+        } finally {
+            setVerifyingOtp(false);
+        }
     }
 
     return (
@@ -150,12 +211,22 @@ const LoginPage = () => {
 
             </div>
 
-            <OTPMethodCard
-                otpMethods={}
-                enabled={true}
-                onClick={() => { }}
+            <OTPConfirmModal
+                open={otpModalOpen}
+                otpSent={otpSent}
+                otpCode={otpCode}
+                sendingOtp={sendingOtp}
+                verifying={verifyingOtp}
+                otpInputRef={otpInputRef as React.RefObject<HTMLInputElement>}
+
+                onSendOtp={onSentOtp}
+                onVerify={onVerifyOtp}
+                onChangeCode={setOtpCode}
+                onClose={() => setOtpModalOpen(false)}
+
             />
-            
+
+
         </>
     );
 };
