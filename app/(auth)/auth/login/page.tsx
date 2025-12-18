@@ -7,6 +7,7 @@ import { MouseEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
+import OTPMethodCard from '@/components/frontend/Settings/OTPTab/partials/OTPMethodCard';
 
 const LoginPage = () => {
 
@@ -20,6 +21,7 @@ const LoginPage = () => {
 
     const router = useRouter();
     const searchParams = useSearchParams();
+
 
 
     const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -66,12 +68,7 @@ const LoginPage = () => {
             const { user } = res.data;
             setUser(user);
 
-            const redirect = searchParams.get("redirect");
-            if (redirect) {
-                router.push(redirect);
-                return;
-            }
-            router.push("/");
+            console.log("Login successful:", res.data);
         }
         ).catch((err) => {
             console.error(err);
@@ -152,6 +149,13 @@ const LoginPage = () => {
                 </div>
 
             </div>
+
+            <OTPMethodCard
+                otpMethods={}
+                enabled={true}
+                onClick={() => { }}
+            />
+            
         </>
     );
 };

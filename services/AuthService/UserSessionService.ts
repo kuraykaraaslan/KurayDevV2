@@ -10,7 +10,7 @@ import AuthMessages from "@/messages/AuthMessages";
 
 import { v4 as uuidv4 } from "uuid";
 import redisInstance from "@/libs/redis";
-import { UserSecurity } from "@/types/UserSecurityTypes";
+import { SafeUserSecurity, UserSecurity } from "@/types/UserSecurityTypes";
 
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; // Burada bir varsayılan değer belirleyebilirsiniz
@@ -192,10 +192,9 @@ export default class UserSessionService {
    * @param userId - The user ID.
    * @returns The created session.
    */
-  static async createSession({ user, request, userSecurity, otpIgnore = false }: { user: SafeUser, request: NextRequest, userSecurity: UserSecurity, otpIgnore?: boolean }): Promise<
+  static async createSession({ user, request, userSecurity, otpIgnore = false }: { user: SafeUser, request: NextRequest, userSecurity: SafeUserSecurity, otpIgnore?: boolean }): Promise<
     {
       userSession: SafeUserSession,
-      otpVerifyNeeded: boolean,
       rawAccessToken: string,
       rawRefreshToken: string
     }> {
@@ -233,7 +232,6 @@ export default class UserSessionService {
 
     return {
       userSession: UserSessionService.omitSensitiveFields(userSession),
-      otpVerifyNeeded: userSession.otpVerifyNeeded,
       rawAccessToken,
       rawRefreshToken,
     };

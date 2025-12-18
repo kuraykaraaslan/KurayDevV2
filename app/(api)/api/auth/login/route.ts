@@ -7,6 +7,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
 import RateLimiter from "@/libs/rateLimit";
 import { LoginRequest } from "@/dtos/AuthDTO";
 import MailService from "@/services/NotificationService/MailService";
+import { SafeUserSecuritySchema } from "@/types/UserSecurityTypes";
 
 export async function POST(request: NextRequest) {
     try {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
             throw new Error(AuthMessages.INVALID_CREDENTIALS);
         }
 
-        const { userSession, rawAccessToken, rawRefreshToken, otpVerifyNeeded } = await UserSessionService.createSession({
+        const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession({
             user,
             request,
             userSecurity,
@@ -39,9 +40,7 @@ export async function POST(request: NextRequest) {
 
         const response = NextResponse.json({
             user,
-            accessToken: rawAccessToken,
-            refreshToken: rawRefreshToken,
-            otpVerifyNeeded,
+            userSecurity: SafeUserSecuritySchema.parse(userSecurity),
         }, {
             status: 200,
         });

@@ -1,3 +1,4 @@
+=== ./index.tsx ===
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
@@ -153,3 +154,116 @@ export default function OTPTab() {
     </>
   );
 }
+
+
+=== ./partials/OTPConfirmModal.tsx ===
+import HeadlessModal from '@/components/common/Modal';
+
+type Props = {
+  open: boolean;
+  method?: string;
+  action?: 'enable' | 'disable';
+  otpSent: boolean;
+  otpCode: string;
+  sendingOtp: boolean;
+  verifying: boolean;
+  otpInputRef: React.RefObject<HTMLInputElement>;
+  onSendOtp: () => void;
+  onVerify: () => void;
+  onChangeCode: (v: string) => void;
+  onClose: () => void;
+};
+
+export default function OTPConfirmModal(props: Props) {
+  const {
+    open,
+    method,
+    action,
+    otpSent,
+    otpCode,
+    sendingOtp,
+    verifying,
+    otpInputRef,
+    onSendOtp,
+    onVerify,
+    onChangeCode,
+    onClose,
+  } = props;
+
+  return (
+    <HeadlessModal
+      open={open}
+      onClose={onClose}
+      title="Güvenlik Doğrulaması"
+      size="sm"
+      closeOnBackdrop={false}
+      closeOnEsc={false}
+    >
+      <div className="space-y-4">
+        {!otpSent && (
+          <button
+            onClick={onSendOtp}
+            disabled={sendingOtp}
+            className="btn btn-primary w-full"
+          >
+            {sendingOtp ? 'Kod Gönderiliyor…' : 'Doğrulama Kodu Gönder'}
+          </button>
+        )}
+
+        {otpSent && (
+          <>
+            <input
+              ref={otpInputRef}
+              maxLength={6}
+              value={otpCode}
+              onChange={e => onChangeCode(e.target.value)}
+              className="input input-bordered w-full text-center text-2xl tracking-widest font-mono"
+              placeholder="123456"
+            />
+
+            <button
+              onClick={onVerify}
+              disabled={verifying || otpCode.length !== 6}
+              className="btn btn-primary w-full"
+            >
+              {verifying ? 'Doğrulanıyor…' : 'Doğrula'}
+            </button>
+          </>
+        )}
+      </div>
+    </HeadlessModal>
+  );
+}
+
+
+=== ./partials/OTPMethodCard.tsx ===
+import { OTPMethod } from '@/types/UserSecurityTypes';
+
+type Props = {
+  method: OTPMethod;
+  enabled: boolean;
+  onClick: () => void;
+};
+
+export default function OTPMethodCard({ method, enabled, onClick }: Props) {
+  return (
+    <div
+      onClick={onClick}
+      className={`p-4 rounded-lg border cursor-pointer transition
+        ${enabled
+          ? 'border-primary bg-primary/10'
+          : 'border-base-300 hover:bg-base-200'
+        }
+      `}
+    >
+      <div className="flex justify-between items-center">
+        <span className="font-semibold">{method}</span>
+        <span className={`text-sm ${enabled ? 'text-primary' : 'text-base-content/60'}`}>
+          {enabled ? 'Aktif' : 'Kapalı'}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+

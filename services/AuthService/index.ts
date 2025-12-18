@@ -10,7 +10,7 @@ import MailService from "../NotificationService/MailService";
 import { SafeUser, SafeUserSchema, UserPreferencesSchema } from "@/types/UserTypes";
 import { UserProfileSchema } from "@/types/UserProfileTypes";
 import  AuthMessages from "@/messages/AuthMessages";
-import { UserSecurity, UserSecurityDefault, UserSecuritySchema } from '@/types/UserSecurityTypes';
+import { SafeUserSecurity, UserSecurity, UserSecurityDefault, UserSecuritySchema } from '@/types/UserSecurityTypes';
 
 export default class AuthService {
 
@@ -39,7 +39,7 @@ export default class AuthService {
      * @param password - The user's password.
      * @returns The authenticated user.
      */
-    static async login({ email, password } : { email: string, password: string }): Promise<{ user: SafeUser, userSecurity: UserSecurity }> {
+    static async login({ email, password } : { email: string, password: string }): Promise<{ user: SafeUser, userSecurity: SafeUserSecurity }> {
 
         // Get the user by email
         const user = await prisma.user.findUnique({
