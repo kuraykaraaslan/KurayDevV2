@@ -28,7 +28,25 @@ const UserSecuritySchema = z.object({
     lastLoginDevice: z.string().nullable().optional(),
     failedLoginAttempts: z.number().default(0),
     lockedUntil: z.date().nullable().optional(),
-}).nullable().transform((sec) => sec || UserSecurityDefault);
+});
+
+const SafeUserSecuritySchema = UserSecuritySchema.omit({
+    otpSecret: true,
+    otpBackupCodes: true,
+});
+
+export type SafeUserSecurity = z.infer<typeof SafeUserSecuritySchema>;
+
+const SafeUserSecurityDefault = {
+    otpMethods: [] as z.infer<typeof OTPMethodEnum>[],
+    lastLoginAt: null as Date | null,
+    lastLoginIp: null as string | null,
+    lastLoginDevice: null as string | null,
+    failedLoginAttempts: 0 as number,
+    lockedUntil: null as Date | null,
+};
+
+export { SafeUserSecuritySchema, SafeUserSecurityDefault };
 
 export type UserSecurity = z.infer<typeof UserSecuritySchema>;
 export { UserSecuritySchema, UserSecurityDefault };

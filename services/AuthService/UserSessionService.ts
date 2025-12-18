@@ -1,9 +1,9 @@
 import { UserSession, UserRole } from "@prisma/client";
-import {prisma} from '@/libs/prisma';
+import { prisma } from '@/libs/prisma';
 
 // Utils
 import { SafeUserSession } from "@/types/UserSessionTypes";
-import { SafeUser, SafeUserSchema } from "@/types/UserTypes";
+import { SafeUser, SafeUserSchema, UserPreferences } from "@/types/UserTypes";
 import jwt from 'jsonwebtoken';
 import crypto from "crypto";
 import AuthMessages from "@/messages/AuthMessages";
@@ -450,7 +450,7 @@ export default class UserSessionService {
    * @param accessToken - The access token to authenticate.
    * @returns The authenticated user.
    */
-  static async authenticateUserByRequest<T extends string = "ADMIN">(request: NextRequest, requiredUserRole: T = "ADMIN" as T): Promise<T extends "GUEST" ? null : { user: SafeUser, userSession: SafeUserSession } > {
+  static async authenticateUserByRequest<T extends string = "ADMIN">(request: NextRequest, requiredUserRole: T = "ADMIN" as T): Promise<T extends "GUEST" ? null : { user: SafeUser, userSession: SafeUserSession }> {
 
     try {
       const accessToken = request.cookies.get("accessToken")?.value;
@@ -504,6 +504,76 @@ export default class UserSessionService {
       return null as any;
     }
   }
+
+  /**
+   * Rotate tokens for a session.
+   * @param currentRefreshToken - The current refresh token.
+   * @returns The new tokens.
+   */
+  static async rotateTokens(currentRefreshToken: string) {
+    const decoded = await UserSessionService.verifyRefreshToken(currentRefreshToken);
+    const hashedRefreshToken = UserSessionService.hashToken(currentRefreshToken);
+
+    const session = await prisma.userSession.findFirst({
+      where: {
+        refreshToken: hashedRefreshToken,
+        userId: decoded.userId,
+        sessionExpiry: { gte: new Date() },
+      },
+    });
+
+    if (!session) {
+      throw new Error(AuthMessages.SESSION_NOT_FOUND);
+    }
+
+    //dont allow if otp is needed
+    if (session.otpVerifyNeeded) {
+      throw new Error(AuthMessages.OTP_NEEDED);
+    }
+
+    // dont allow if refresh token is reused
+
+    if (session.refreshToken !== hashedRefreshToken) {
+      await prisma.userSession.deleteMany({
+        where: { userId: decoded.userId },
+      });
+
+      const keys = await redisInstance.keys(`session:${decoded.userId}:*`);
+      if (keys.length) await redisInstance.del(...keys);
+
+      throw new Error(AuthMessages.REFRESH_TOKEN_REUSED);
+    }
+
+    const newAccessToken = this.generateAccessToken(
+      session.userId,
+      session.userSessionId,
+      session.deviceFingerprint!
+    );
+
+    const newRefreshToken = this.generateRefreshToken(
+      session.userId,
+      session.userSessionId,
+      session.deviceFingerprint!
+    );
+
+    await prisma.userSession.update({
+      where: { userSessionId: session.userSessionId },
+      data: {
+        accessToken: this.hashToken(newAccessToken),
+        refreshToken: this.hashToken(newRefreshToken),
+        sessionExpiry: new Date(Date.now() + SESSION_EXPIRY_MS),
+      },
+    });
+
+    const keys = await redisInstance.keys(`session:${session.userId}:*`);
+    if (keys.length) await redisInstance.del(...keys);
+
+    return {
+      rawAccessToken: newAccessToken,
+      rawRefreshToken: newRefreshToken,
+    };
+  }
+
 }
 
 

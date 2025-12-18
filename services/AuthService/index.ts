@@ -10,7 +10,7 @@ import MailService from "../NotificationService/MailService";
 import { SafeUser, SafeUserSchema, UserPreferencesSchema } from "@/types/UserTypes";
 import { UserProfileSchema } from "@/types/UserProfileTypes";
 import  AuthMessages from "@/messages/AuthMessages";
-import { UserSecurity, UserSecuritySchema } from '@/types/UserSecurityTypes';
+import { UserSecurity, UserSecurityDefault, UserSecuritySchema } from '@/types/UserSecurityTypes';
 
 export default class AuthService {
 
@@ -158,6 +158,43 @@ export default class AuthService {
     }
 
 
+    public static async getUserSecurity(userId: string): Promise<{ userSecurity: UserSecurity }> {
+        const user = await prisma.user.findUnique({
+            where: { userId },
+        });
+
+        if (!user) {
+            throw new Error(AuthMessages.USER_NOT_FOUND);
+        }
+
+        console.log("Fetched User Security:", user.userSecurity);
+
+        return {
+            userSecurity: UserSecuritySchema.parse(user.userSecurity ? user.userSecurity : UserSecurityDefault),
+        };
+    }
+
+    public static async updateUserSecurity(userId: string, updates: Partial<UserSecurity>): Promise<void> {
+        const user = await prisma.user.findUnique({
+            where: { userId },
+        });
+
+        if (!user) {
+            throw new Error(AuthMessages.USER_NOT_FOUND);
+        }
+
+        const updatedSecurity = {
+            ...UserSecuritySchema.parse(user.userSecurity ? user.userSecurity : UserSecurityDefault),
+            ...updates,
+        };
+
+        await prisma.user.update({
+            where: { userId },
+            data: {
+                userSecurity: updatedSecurity,
+            },
+        });
+    }
 
 }
 

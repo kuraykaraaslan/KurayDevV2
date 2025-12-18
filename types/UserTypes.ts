@@ -86,6 +86,8 @@ const UpdateUserSchema = z.object({
     userRole: UserRoleEnum.optional(),
     userStatus: UserStatusEnum.optional(),
 
+    otpMethods: z.array(OTPMethodEnum).optional(),
+
     userPreferences: UserPreferencesSchema.partial().optional(),
     userProfile: UserProfileSchema.partial().optional(),
 });

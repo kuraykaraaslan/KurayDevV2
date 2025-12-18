@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { OTPMethodEnum, OTPMethod } from '@/types/UserSecurityTypes';
+import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/UserSecurityTypes';
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
 import { toast } from 'react-toastify';
@@ -10,10 +11,13 @@ import OTPMethodCard from './partials/OTPMethodCard';
 import OTPConfirmModal from './partials/OTPConfirmModal';
 
 export default function OTPTab() {
-  const { setUser } = useGlobalStore();
+
+  const { user, setUser } = useGlobalStore();
 
   /* ---------------- STATE ---------------- */
-  const [methods, setMethods] = useState<OTPMethod[]>([]);
+  const [userSecurity, setUserSecurity] = useState<SafeUserSecurity>(
+    SafeUserSecurityDefault
+  );
 
   const [pendingMethod, setPendingMethod] = useState<OTPMethod | null>(null);
   const [pendingAction, setPendingAction] =
@@ -28,9 +32,23 @@ export default function OTPTab() {
 
   const otpInputRef = useRef<HTMLInputElement>(null);
 
+  /* ---------------- FETCH USER SECURITY ---------------- */
+  useEffect(() => {
+    const fetchUserSecurity = async () => {
+      try {
+        const res = await axiosInstance.get('/api/auth/me/security');
+        setUserSecurity(res.data.userSecurity);
+      } catch (err) {
+        console.error('Kullanıcı güvenliği alınamadı', err);
+      }
+    };
+
+    fetchUserSecurity();
+  }, []);
+
   /* ---------------- OPEN MODAL ---------------- */
   const openModalForMethod = (method: OTPMethod) => {
-    const enabled = methods.includes(method);
+    const enabled = userSecurity.otpMethods.includes(method);
 
     setPendingMethod(method);
     setPendingAction(enabled ? 'disable' : 'enable');
@@ -46,10 +64,9 @@ export default function OTPTab() {
     try {
       setSendingOtp(true);
 
-      await axiosInstance.post('/api/auth/send-otp', {
-        reason: 'otp-method-change',
+      await axiosInstance.post('/api/auth/me/security/send', {
         method: pendingMethod,
-        action: pendingAction,
+        action: pendingAction
       });
 
       setOtpSent(true);
@@ -70,11 +87,10 @@ export default function OTPTab() {
     try {
       setVerifying(true);
 
-      const verifyRes = await axiosInstance.post('/api/auth/verify-otp', {
-        code: otpCode,
-        reason: 'otp-method-change',
+      const verifyRes = await axiosInstance.post('/api/auth/me/security/verify', { 
+        otpToken: otpCode,
         method: pendingMethod,
-        action: pendingAction,
+        action: pendingAction
       });
 
       if (!verifyRes.data?.success) {
@@ -84,20 +100,21 @@ export default function OTPTab() {
 
       const updated =
         pendingAction === 'enable'
-          ? [...new Set([...methods, pendingMethod])]
-          : methods.filter(m => m !== pendingMethod);
+          ? [...new Set([...userSecurity.otpMethods, pendingMethod])]
+          : userSecurity.otpMethods.filter(m => m !== pendingMethod);
 
       const userRes = await axiosInstance.put('/api/users/me', {
         otpMethods: updated,
       });
 
-      setMethods(updated);
+      setUserSecurity(prev => ({ ...prev, otpMethods: updated }));
       setUser(userRes.data.user);
 
       toast.success('2FA ayarı güncellendi');
       setModalOpen(false);
-    } catch {
-      toast.error('Doğrulama başarısız');
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.response?.data?.message || 'Doğrulama başarısız');
     } finally {
       setVerifying(false);
     }
@@ -114,7 +131,7 @@ export default function OTPTab() {
             <OTPMethodCard
               key={method}
               method={method}
-              enabled={methods.includes(method)}
+              enabled={userSecurity.otpMethods.includes(method)}
               onClick={() => openModalForMethod(method)}
             />
           ))}
