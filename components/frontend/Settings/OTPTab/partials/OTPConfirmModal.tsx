@@ -1,5 +1,4 @@
 import HeadlessModal from '@/components/common/Modal';
-import { OTPAction } from '@/types/UserSecurityTypes';
 
 type Props = {
   open: boolean;
