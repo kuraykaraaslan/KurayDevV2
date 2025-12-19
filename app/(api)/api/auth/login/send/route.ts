@@ -42,22 +42,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action });
+    if (method === OTPMethodEnum.Enum.TOTP_APP) {
+      console.log("TOTP method selected; no send needed.");
+      return NextResponse.json({ success: true, message: "Use your authenticator app to generate the code" });
+    }
 
-
-    if (method === OTPMethodEnum.Enum.EMAIL) {
-      console.log("Sending OTP via Email to:", user.email);
+    else if (method === OTPMethodEnum.Enum.EMAIL) {
+      const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action });
       await MailService.sendOTPEmail({
         email: user.email,
         name: user.userProfile?.name,
         otpToken,
       });
-    } else if (method === OTPMethodEnum.Enum.SMS) {
-      console.log("Sending OTP via SMS to:", user.phone);
+    } 
+   
+    else if (method === OTPMethodEnum.Enum.SMS) {
+      const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action });
       await SMSService.sendShortMessage({
         to: user.phone!,
         body: "Your OTP code for " + action + " " + method + " is: " + otpToken
       });
+    }
+    
+    else {
+      return NextResponse.json(
+        { message: AuthMessages.INVALID_OTP_METHOD },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json({ success: true, message: "OTP sent successfully" });

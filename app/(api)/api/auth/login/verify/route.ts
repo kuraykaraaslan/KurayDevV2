@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import OTPService from "@/services/AuthService/OTPService";
+import TOTPService from "@/services/AuthService/TOTPService";
 import { OTPMethodEnum, OTPActionEnum } from "@/types/UserSecurityTypes";
 import AuthMessages from "@/messages/AuthMessages";
 import AuthService from "@/services/AuthService";
@@ -28,9 +29,25 @@ export async function POST(request: NextRequest) {
       );
     } 
 
-    await OTPService.verifyOTP({ user, userSession, method, action, otpToken });
-
+      if (method === OTPMethodEnum.Enum.TOTP_APP) {
+        await TOTPService.verifyAuthenticateOrBackup({ user, otpToken });
+    } 
     
+    else if (method === OTPMethodEnum.Enum.EMAIL) {
+      await OTPService.verifyOTP({ user, userSession, method, action, otpToken });
+    }
+
+    else if (method === OTPMethodEnum.Enum.SMS) {
+      await OTPService.verifyOTP({ user, userSession, method, action, otpToken });
+    }
+    
+    else {
+      return NextResponse.json(
+        { message: AuthMessages.INVALID_OTP_METHOD },
+        { status: 400 }
+      );
+    }
+
     await UserSessionService.updateSession(userSession.userSessionId, { otpVerifyNeeded: false });
 
     return NextResponse.json({ success: true, message: "OTP verified successfully" });

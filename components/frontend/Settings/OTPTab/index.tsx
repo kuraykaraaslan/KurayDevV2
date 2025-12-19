@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 
 import OTPMethodCard from './partials/OTPMethodCard';
 import OTPConfirmModal from './partials/OTPConfirmModal';
+import TOTPSetupModal from './partials/TOTPSetupModal';
 
 export default function OTPTab() {
 
@@ -21,14 +22,21 @@ export default function OTPTab() {
 
   const [pendingMethod, setPendingMethod] = useState<OTPMethod | null>(null);
   const [pendingAction, setPendingAction] = useState<OTPAction | null>(null);
+
+  // Email/SMS modal
   const [modalOpen, setModalOpen] = useState(false);
   const [otpCode, setOtpCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-
   const [sendingOtp, setSendingOtp] = useState(false);
   const [verifying, setVerifying] = useState(false);
-
   const otpInputRef = useRef<HTMLInputElement>(null);
+
+  // TOTP setup modal
+  const [totpModalOpen, setTotpModalOpen] = useState(false);
+  const [totpOtpauthUrl, setTotpOtpauthUrl] = useState<string | null>(null);
+  const [totpCode, setTotpCode] = useState('');
+  const [totpLoadingSetup, setTotpLoadingSetup] = useState(false);
+  const [totpVerifying, setTotpVerifying] = useState(false);
 
   useEffect(() => {
     const fetchUserSecurity = async () => {
@@ -44,10 +52,21 @@ export default function OTPTab() {
   }, []);
 
 
-  const openModalForMethod = (method: OTPMethod) => {
+  const openModalForMethod = async (method: OTPMethod) => {
     const enabled = userSecurity.otpMethods.includes(method);
     setPendingMethod(method);
     setPendingAction(enabled ? 'disable' : 'enable');
+
+    // For TOTP enable, use dedicated setup modal
+    if (method === OTPMethodEnum.Enum.TOTP_APP && !enabled) {
+      setTotpModalOpen(true);
+      setTotpCode('');
+      setTotpOtpauthUrl(null);
+      await startTotpSetup();
+      return;
+    }
+
+    // Default flow for EMAIL/SMS
     setOtpCode('');
     setOtpSent(false);
     setModalOpen(true);
@@ -56,6 +75,9 @@ export default function OTPTab() {
   /* ---------------- SEND OTP ---------------- */
   const sendOtp = async () => {
     if (!pendingMethod || !pendingAction) return;
+
+    // TOTP has no send step in setup; handled separately
+    if (pendingMethod === OTPMethodEnum.Enum.TOTP_APP) return;
 
     try {
       setSendingOtp(true);
@@ -79,6 +101,11 @@ export default function OTPTab() {
   /* ---------------- VERIFY + APPLY ---------------- */
   const verifyAndApply = async () => {
     if (!pendingMethod || !pendingAction) return;
+
+    // TOTP enable is verified via different endpoint
+    if (pendingMethod === OTPMethodEnum.Enum.TOTP_APP && pendingAction === 'enable') {
+      return verifyTotpEnable();
+    }
 
     try {
       setVerifying(true);
@@ -116,6 +143,47 @@ export default function OTPTab() {
     }
   };
 
+  /* ---------------- TOTP SETUP ---------------- */
+  const startTotpSetup = async () => {
+    try {
+      setTotpLoadingSetup(true);
+      const res = await axiosInstance.post('/api/auth/totp/setup');
+      setTotpOtpauthUrl(res.data.otpauthUrl);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.response?.data?.message || 'TOTP kurulumu başlatılamadı');
+    } finally {
+      setTotpLoadingSetup(false);
+    }
+  };
+
+  const verifyTotpEnable = async () => {
+    try {
+      setTotpVerifying(true);
+      const verifyRes = await axiosInstance.post('/api/auth/totp/enable', { otpToken: totpCode });
+      if (!verifyRes.data?.success) {
+        toast.error('TOTP doğrulanamadı');
+        return;
+      }
+      const updated = [...new Set([...userSecurity.otpMethods, OTPMethodEnum.Enum.TOTP_APP])];
+
+      const userRes = await axiosInstance.put('/api/users/me', {
+        otpMethods: updated,
+      });
+
+      setUserSecurity(prev => ({ ...prev, otpMethods: updated }));
+      setUser(userRes.data.user);
+
+      toast.success('TOTP etkinleştirildi');
+      setTotpModalOpen(false);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.response?.data?.message || 'TOTP etkinleştirilemedi');
+    } finally {
+      setTotpVerifying(false);
+    }
+  };
+
   /* ---------------- RENDER ---------------- */
   return (
     <>
@@ -145,6 +213,18 @@ export default function OTPTab() {
         onVerify={verifyAndApply}
         onChangeCode={setOtpCode}
         onClose={() => setModalOpen(false)}
+      />
+
+      <TOTPSetupModal
+        open={totpModalOpen}
+        otpauthUrl={totpOtpauthUrl}
+        code={totpCode}
+        loadingSetup={totpLoadingSetup}
+        verifying={totpVerifying}
+        onStartSetup={startTotpSetup}
+        onVerify={verifyTotpEnable}
+        onChangeCode={setTotpCode}
+        onClose={() => setTotpModalOpen(false)}
       />
     </>
   );
