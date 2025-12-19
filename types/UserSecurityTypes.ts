@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const OTPMethodEnum = z.enum(['EMAIL', 'SMS', 'TOTP_APP', 'PUSH_APP']);
+const OTPMethodEnum = z.enum(['EMAIL', 'SMS', 'TOTP_APP']);
 const OTPActionEnum = z.enum(['enable', 'disable', 'authenticate']);
 
 export { OTPMethodEnum, OTPActionEnum };

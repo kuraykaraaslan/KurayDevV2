@@ -71,14 +71,27 @@ export default class TOTPService {
 
     const newMethods = Array.from(new Set([...(userSecurity.otpMethods || []), 'TOTP_APP']));
 
+    // Generate backup codes
+    const codes: string[] = [];
+    const charset = '0123456789';
+    const makeCode = () => {
+      let raw = '';
+      for (let i = 0; i < 8; i++) raw += charset[Math.floor(Math.random() * charset.length)];
+      return `${raw.slice(0,4)}-${raw.slice(4,8)}`;
+    };
+
+    for (let i = 0; i < 4; i++) codes.push(makeCode());
+    const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, 10)));
+
     await AuthService.updateUserSecurity(user.userId, {
       otpSecret: tempSecret,
       otpMethods: newMethods as any,
+      otpBackupCodes: hashed as any,
     });
 
     await redis.del(setupKey);
 
-    return { enabled: true };
+    return { enabled: true, backupCodes: codes };
   }
 
   // Verify a login/authenticate action using persisted secret
@@ -111,8 +124,18 @@ export default class TOTPService {
     }
   }
 
-  static async disable({ user }: { user: SafeUser }) {
+  static async disable({ user, otpToken }: { user: SafeUser; otpToken: string }) {
     const { userSecurity } = await AuthService.getUserSecurity(user.userId);
+
+    if (!userSecurity.otpMethods.includes('TOTP_APP' as any) || !userSecurity.otpSecret) {
+      throw new Error(AuthMessages.INVALID_OTP_METHOD);
+    }
+
+    const ok = TOTPService.verifyTokenWithSecret(otpToken, userSecurity.otpSecret);
+    if (!ok) {
+      throw new Error(AuthMessages.INVALID_OTP);
+    }
+
     const newMethods = (userSecurity.otpMethods || []).filter(m => m !== 'TOTP_APP');
     await AuthService.updateUserSecurity(user.userId, {
       otpSecret: null,
@@ -123,14 +146,14 @@ export default class TOTPService {
   }
 
   // Generate backup codes, store hashed; return plaintext codes to the user
-  static async generateBackupCodes({ user, count = 10 }: { user: SafeUser; count?: number }) {
+  static async generateBackupCodes({ user, count = 4 }: { user: SafeUser; count?: number }) {
     const { userSecurity } = await AuthService.getUserSecurity(user.userId);
     if (!userSecurity.otpMethods.includes('TOTP_APP' as any) || !userSecurity.otpSecret) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD);
     }
 
     const codes: string[] = [];
-    const charset = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const charset = '0123456789';
     const makeCode = () => {
       let raw = '';
       for (let i = 0; i < 8; i++) raw += charset[Math.floor(Math.random() * charset.length)];

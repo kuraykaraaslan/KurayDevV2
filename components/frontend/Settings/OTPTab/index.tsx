@@ -38,8 +38,8 @@ export default function OTPTab() {
       if (!enabled) {
         await totp.openTotpSetup();
       } else {
-        // Handle TOTP disable here if needed
-        await totp.disableTOTP();
+        // Open disable modal to verify TOTP code
+        totp.openTotpDisableModal();
       }
       return;
     }
@@ -84,10 +84,24 @@ export default function OTPTab() {
         code={totp.totpCode}
         loadingSetup={totp.totpLoadingSetup}
         verifying={totp.totpVerifying}
+        backupCodes={totp.totpBackupCodes}
         onStartSetup={totp.startTotpSetup}
         onVerify={totp.verifyTotpEnable}
         onChangeCode={totp.setTotpCode}
         onClose={totp.closeTotpModal}
+      />
+
+      <OTPConfirmModal
+        open={totp.totpDisableModalOpen}
+        otpSent={true}
+        otpCode={totp.totpDisableCode}
+        sendingOtp={false}
+        verifying={totp.totpVerifying}
+        otpInputRef={undefined as any}
+        onSendOtp={() => {}}
+        onVerify={totp.disableTOTP}
+        onChangeCode={totp.setTotpDisableCode}
+        onClose={totp.closeTotpDisableModal}
       />
     </>
   );

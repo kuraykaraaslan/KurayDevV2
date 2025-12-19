@@ -12,6 +12,9 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
   const [totpCode, setTotpCode] = useState('');
   const [totpLoadingSetup, setTotpLoadingSetup] = useState(false);
   const [totpVerifying, setTotpVerifying] = useState(false);
+  const [totpDisableModalOpen, setTotpDisableModalOpen] = useState(false);
+  const [totpDisableCode, setTotpDisableCode] = useState('');
+  const [totpBackupCodes, setTotpBackupCodes] = useState<string[]>([]);
 
   /* ============ TOTP HANDLERS ============ */
   const openTotpSetup = async () => {
@@ -23,6 +26,16 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
 
   const closeTotpModal = () => {
     setTotpModalOpen(false);
+  };
+
+  const openTotpDisableModal = () => {
+    setTotpDisableModalOpen(true);
+    setTotpDisableCode('');
+  };
+
+  const closeTotpDisableModal = () => {
+    setTotpDisableModalOpen(false);
+    setTotpDisableCode('');
   };
 
   const startTotpSetup = async () => {
@@ -51,6 +64,11 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
         return;
       }
 
+      // Store backup codes for display
+      if (verifyRes.data?.backupCodes) {
+        setTotpBackupCodes(verifyRes.data.backupCodes);
+      }
+
       const updated = {
         ...userSecurity,
         otpMethods: [...new Set([...userSecurity.otpMethods, OTPMethodEnum.Enum.TOTP_APP])],
@@ -59,7 +77,7 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
       onUserSecurityUpdate(updated);
 
       toast.success('TOTP etkinleştirildi');
-      closeTotpModal();
+      // Don't close modal yet - show backup codes
     } catch (err: any) {
       console.error(err);
       toast.error(err?.response?.data?.message || 'TOTP etkinleştirilemedi');
@@ -72,6 +90,8 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
     try {
       setTotpVerifying(true);
 
+      await axiosInstance.post('/api/auth/totp/disable', { otpToken: totpDisableCode });
+
       const updated = {
         ...userSecurity,
         otpMethods: userSecurity.otpMethods.filter(m => m !== OTPMethodEnum.Enum.TOTP_APP),
@@ -80,6 +100,7 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
       onUserSecurityUpdate(updated);
 
       toast.success('TOTP devre dışı bırakıldı');
+      closeTotpDisableModal();
     } catch (err: any) {
       console.error(err);
       toast.error(err?.response?.data?.message || 'TOTP devre dışı bırakılamadı');
@@ -95,6 +116,9 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
     totpCode,
     totpLoadingSetup,
     totpVerifying,
+    totpDisableModalOpen,
+    totpDisableCode,
+    totpBackupCodes,
 
     // Handlers
     openTotpSetup,
@@ -103,5 +127,8 @@ export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (u
     verifyTotpEnable,
     disableTOTP,
     setTotpCode,
+    openTotpDisableModal,
+    closeTotpDisableModal,
+    setTotpDisableCode,
   };
 }

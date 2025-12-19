@@ -5,18 +5,18 @@ import AuthMessages from "@/messages/AuthMessages";
 
 export async function POST(request: NextRequest) {
   try {
-    const { user, userSession } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
+    const { user } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
     const { otpToken } = await request.json();
     if (!otpToken) {
       return NextResponse.json({ success: false, message: AuthMessages.INVALID_OTP }, { status: 400 });
     }
 
-    const result = await TOTPService.verifyAndEnable({ user, userSession, otpToken });
+    await TOTPService.disable({ user, otpToken });
 
-    return NextResponse.json({ success: true, message: "TOTP enabled successfully", backupCodes: result.backupCodes });
+    return NextResponse.json({ success: true, message: "TOTP disabled successfully" });
   } catch (err: any) {
-    console.error("TOTP Enable Error:", err);
-    return NextResponse.json({ success: false, message: err.message || "TOTP could not be enabled" }, { status: 400 });
+    console.error("TOTP Disable Error:", err);
+    return NextResponse.json({ success: false, message: err.message || "TOTP could not be disabled" }, { status: 400 });
   }
 }
