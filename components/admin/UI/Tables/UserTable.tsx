@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
-import { User } from '@prisma/client';
+import { SafeUser, SafeUserSchema } from '@/types/user';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 
 const UserTable = () => {
     const { t } = useTranslation();
 
-    const [users, setUsers] = useState<Partial<User>[]>([]);
+    const [users, setUsers] = useState<SafeUser[]>([]);
     const [page, setPage] = useState(0);
     const [pageSize, _setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
@@ -77,13 +77,13 @@ const UserTable = () => {
                         {users.map((user, index) => (
                             <tr key={index} className="h-12 hover:bg-primary hover:bg-opacity-10">
                                 <td>
-                                    {user.profilePicture ?
-                                        <Image width={32} height={32} src={user.profilePicture} className="h-8 w-8 rounded-full" alt={user.name as string} />
+                                    {user.userProfile.profilePicture ?
+                                        <Image width={32} height={32} src={user.userProfile!.profilePicture} className="h-8 w-8 rounded-full" alt={user.userProfile.name as string} />
                                         :
                                         <div className="h-8 w-8 bg-base-300 rounded-full"></div>
                                     }
                                 </td>
-                                <td>{user.name}</td>
+                                <td>{user.userProfile?.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.userRole}</td>
                                 <td>{user.userStatus}</td>

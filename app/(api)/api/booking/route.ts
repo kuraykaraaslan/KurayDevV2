@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const slot = await SlotService.getSlot(date, time)
     if (!slot) {
       return NextResponse.json(
-        { success: false, message: AppointmentMessages.SLOT_NOT_FOUND },
+        { message: AppointmentMessages.SLOT_NOT_FOUND },
         { status: 404 }
       )
     }
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
   } catch (err: any) {
     Logger.error('API/booking POST: ' + err.message)
     return NextResponse.json(
-      { success: false, message: 'Internal server error' },
+      { message: 'Internal server error' },
       { status: 500 }
     )
   }

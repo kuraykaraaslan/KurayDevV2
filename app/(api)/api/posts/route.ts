@@ -5,7 +5,6 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
 import KnowledgeGraphService from "@/services/KnowledgeGraphService";
 import PostCoverService from "@/services/PostService/PostCoverService";
 import { CreatePostRequestSchema, UpdatePostRequestSchema } from "@/dtos/PostDTO";
-import PostMessages from "@/messages/PostMessages";
 
 /**
  * GET handler for retrieving all posts with optional pagination and search.

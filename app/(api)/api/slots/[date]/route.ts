@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
-import { Slot } from '@/types/features'
 import UserSessionService from '@/services/AuthService/UserSessionService'
+import { SlotSchema } from '@/types'
 
 /**
  * [day] → MONDAY..SUNDAY
@@ -18,7 +18,7 @@ export async function GET(
 
         if (!date) {
             return NextResponse.json(
-                { success: false, message: 'Date is required' },
+                { message: 'Date is required' },
                 { status: 400 }
             )
         }
@@ -43,10 +43,10 @@ export async function POST(
 
     const body = await request.json()
 
-    const result = Slot.safeParse(body)
+    const result = SlotSchema.safeParse(body)
     if (!result.success) {
         return NextResponse.json(
-            { success: false, message: 'Invalid slot data', issues: result.error.issues },
+            { message: 'Invalid slot data', issues: result.error.issues },
             { status: 400 }
         )
     }
@@ -55,6 +55,6 @@ export async function POST(
 
     const createdSlot = await SlotService.createSlot(slotData)
 
-    return NextResponse.json({ success: true, slot: createdSlot })
+    return NextResponse.json({  slot: createdSlot })
 }
 

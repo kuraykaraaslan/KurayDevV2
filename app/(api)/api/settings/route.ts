@@ -14,12 +14,12 @@ export async function GET(_request: NextRequest) {
 
         const settings = await SettingService.getSettings();
 
-        return NextResponse.json({ success: true, settings });
+        return NextResponse.json({  settings });
 
     }
     catch (error: any) {
         return NextResponse.json(
-            { success: false, message: error.message },
+            { message: error.message },
             { status: 500 }
         );
     }
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         
         if (!parsedData.success) {
           return NextResponse.json({
-            success: false,
+            
             message: parsedData.error.errors.map(err => err.message).join(", ")
           }, { status: 400 });
         }
@@ -50,12 +50,12 @@ export async function POST(request: NextRequest) {
         const { settings } = parsedData.data;
         const result = await SettingService.updateSettings(settings);
 
-        return NextResponse.json({ success: true, settings: result });
+        return NextResponse.json({  settings: result });
 
     }
     catch (error: any) {
         return NextResponse.json(
-            { success: false, message: error.message },
+            { message: error.message },
             { status: 500 }
         );
     }

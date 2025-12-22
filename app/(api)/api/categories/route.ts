@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import { CreateCategoryRequestSchema } from "@/dtos/CategoryDTO";
-import CategoryMessages from "@/messages/CategoryMessages";   
 
 
 /**

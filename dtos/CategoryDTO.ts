@@ -10,9 +10,9 @@ export const GetCategoriesRequestSchema = z.object({
 
 export const CreateCategoryRequestSchema = z.object({
     title: z.string().min(1, CategoryMessages.TITLE_REQUIRED),
-    description: z.string().optional(),
+    description: z.string(),
     slug: z.string().min(1, CategoryMessages.SLUG_REQUIRED),
-    image: z.string().optional(),
+    image: z.string(),
 });
 
 export const UpdateCategoryRequestSchema = CreateCategoryRequestSchema.extend({

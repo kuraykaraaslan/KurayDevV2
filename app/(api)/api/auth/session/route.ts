@@ -7,15 +7,17 @@ import AuthMessages from "@/messages/AuthMessages";
 export async function GET(request: NextRequest) {
     try {
         await RateLimiter.checkRateLimit(request);
+
         await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
+
         return NextResponse.json({ 
-            success: true,
             user: request.user,
             message: AuthMessages.SESSION_RETRIEVED_SUCCESSFULLY
         }, { status: 200 });
+
     } catch (error: any) {
         return NextResponse.json(
-            { success: false, message: error.message },
+            { message: error.message },
             { status: 500 }
         );
     }

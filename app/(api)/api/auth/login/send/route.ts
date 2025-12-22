@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     if (!parsedData.success) {
       return NextResponse.json(
-        { success: false, message: parsedData.error.errors.map(err => err.message).join(", ") },
+        { message: parsedData.error.errors.map(err => err.message).join(", ") },
         { status: 400 }
       );
     }
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     if (!userSecurity.otpMethods.includes(method)) {
       console.log("OTP method not enabled:", method);
       return NextResponse.json(
-        { success: false, message: AuthMessages.OTP_METHOD_NOT_ENABLED },
+        { message: AuthMessages.OTP_METHOD_NOT_ENABLED },
         { status: 400 }
       );
     }
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     if (method === 'TOTP_APP') {
       console.log("TOTP method selected; no send needed.");
       return NextResponse.json({ 
-        success: true, 
+         
         message: AuthMessages.USE_AUTHENTICATOR_APP 
       });
     }
@@ -64,13 +64,13 @@ export async function POST(request: NextRequest) {
     
     else {
       return NextResponse.json(
-        { success: false, message: AuthMessages.INVALID_OTP_METHOD },
+        { message: AuthMessages.INVALID_OTP_METHOD },
         { status: 400 }
       );
     }
 
     return NextResponse.json({ 
-      success: true, 
+       
       message: AuthMessages.OTP_SENT_SUCCESSFULLY 
     });
 
@@ -79,7 +79,6 @@ export async function POST(request: NextRequest) {
     console.error("Send OTP Error:", err);
     return NextResponse.json(
       {
-        success: false,
         message: err.message || AuthMessages.OTP_SEND_FAILED,
       },
       { status: 500 }

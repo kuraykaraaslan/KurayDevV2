@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
         
         if (!parsedData.success) {
           return NextResponse.json({
-            success: false,
+            
             message: parsedData.error.errors.map(err => err.message).join(", ")
           }, { status: 400 });
         }
@@ -40,20 +40,14 @@ export async function POST(request: NextRequest) {
         };
         
         return NextResponse.json({ 
-            success: true,
-            message: 'Statistics retrieved successfully',
-            totalPosts: values.totalPosts,
-            totalCategories: values.totalCategories,
-            totalUsers: values.totalUsers,
-            totalViews: values.totalViews,
-            totalComments: values.totalComments,
+            values
         });
 
     }
     catch (error: any) {
         console.error("Error in POST /api/stats:", error);
         return NextResponse.json({
-            success: false,
+            
             message: error.message 
         }, { status: 500 });
     }

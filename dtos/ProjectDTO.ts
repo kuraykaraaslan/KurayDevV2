@@ -10,18 +10,17 @@ export const GetProjectsRequestSchema = z.object({
 });
 
 export const CreateProjectRequestSchema = z.object({
-    title: z.string().min(1, ProjectMessages.TITLE_REQUIRED),
-    description: z.string().optional(),
-    slug: z.string().min(1, ProjectMessages.SLUG_REQUIRED),
-    image: z.string().optional(),
-    content: z.string().optional(),
-    status: z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']).default('DRAFT'),
-    tags: z.array(z.string()).optional(),
-    links: z.array(z.object({
-        label: z.string(),
-        url: z.string().url(ProjectMessages.INVALID_LINK_URL),
-    })).optional(),
-    technologies: z.array(z.string()).optional(),
+    title: z.string(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    image: z.string().nullable(),
+    status: z.string().default("PUBLISHED"),
+    platforms: z.array(z.string()).default([]),
+    technologies: z.array(z.string()).default([]),
+    content: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date().nullable(),
+    projectLinks: z.array(z.string()).default([]),
 });
 
 export const UpdateProjectRequestSchema = CreateProjectRequestSchema.extend({
@@ -39,16 +38,13 @@ export const ProjectResponseSchema = z.object({
     description: z.string().nullable(),
     slug: z.string(),
     image: z.string().nullable(),
-    content: z.string().nullable(),
-    status: z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']),
-    tags: z.array(z.string()).optional(),
-    links: z.array(z.object({
-        label: z.string(),
-        url: z.string(),
-    })).optional(),
-    technologies: z.array(z.string()).optional(),
+    status: z.string().default("PUBLISHED"),
+    platforms: z.array(z.string()).default([]),
+    technologies: z.array(z.string()).default([]),
+    content: z.string(),
     createdAt: z.date(),
-    updatedAt: z.date(),
+    updatedAt: z.date().nullable(),
+    projectLinks: z.array(z.string()).default([]),
 });
 
 export const ProjectListResponseSchema = z.object({

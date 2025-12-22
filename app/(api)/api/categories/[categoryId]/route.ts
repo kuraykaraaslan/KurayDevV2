@@ -20,12 +20,12 @@ export async function GET(
 
     if (!category) {
       return NextResponse.json(
-        { message: "Category not found." },
+        { message: CategoryMessages.CATEGORY_NOT_FOUND },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ category });
+    return NextResponse.json({  message: CategoryMessages.CATEGORY_RETRIEVED, category });
 
   }
   catch (error: any) {
@@ -64,7 +64,7 @@ export async function DELETE(
     await CategoryService.deleteCategory(category.categoryId);
 
     return NextResponse.json(
-      { message: "Category deleted successfully." }
+      {  message: CategoryMessages.CATEGORY_DELETED_SUCCESSFULLY }
     );
   }
   catch (error: any) {

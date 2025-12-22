@@ -17,7 +17,7 @@ export async function GET(_request: NextRequest, _response: NextResponse<Respons
         }
     ]
 
-    return NextResponse.json({ message: "mails fetched successfully", mails });
+    return NextResponse.json({  message: "Contact mails retrieved successfully", mails });
 }
 //
 

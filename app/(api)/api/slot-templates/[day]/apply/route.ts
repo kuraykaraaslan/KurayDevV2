@@ -19,7 +19,7 @@ export async function POST(
     
     if (!parsedData.success) {
       return NextResponse.json({
-        success: false,
+        
         message: parsedData.error.errors.map(err => err.message).join(", ")
       }, { status: 400 });
     }
@@ -29,7 +29,7 @@ export async function POST(
 
     if (!day) {
         return NextResponse.json(
-            { success: false, message: SlotMessages.DAY_REQUIRED },
+            { message: SlotMessages.DAY_REQUIRED },
             { status: 400 }
         )
     }
@@ -38,7 +38,7 @@ export async function POST(
     
     if (!SlotTemplate || SlotTemplate.slots.length === 0) {
         return NextResponse.json(
-            { success: false, message: SlotMessages.SLOT_TEMPLATE_NOT_FOUND },
+            { message: SlotMessages.SLOT_TEMPLATE_NOT_FOUND },
             { status: 404 }
         )
     }
@@ -57,7 +57,7 @@ export async function POST(
         createdSlots.push(createdSlot);
     }
 
-    return NextResponse.json({ success: true, slots: createdSlots })
+    return NextResponse.json({  slots: createdSlots })
 }
 
 

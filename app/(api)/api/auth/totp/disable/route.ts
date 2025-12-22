@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     
     if (!parsedData.success) {
       return NextResponse.json({
-        success: false,
+        
         message: parsedData.error.errors.map(err => err.message).join(", ")
       }, { status: 400 });
     }
@@ -23,9 +23,9 @@ export async function POST(request: NextRequest) {
 
     await TOTPService.disable({ user, otpToken });
 
-    return NextResponse.json({ success: true, message: AuthMessages.TOTP_DISABLED_SUCCESSFULLY });
+    return NextResponse.json({  message: AuthMessages.TOTP_DISABLED_SUCCESSFULLY });
   } catch (err: any) {
     console.error("TOTP Disable Error:", err);
-    return NextResponse.json({ success: false, message: err.message || "TOTP could not be disabled" }, { status: 400 });
+    return NextResponse.json({ message: err.message || AuthMessages.TOTP_DISABLE_FAILED }, { status: 500 });
   }
 }

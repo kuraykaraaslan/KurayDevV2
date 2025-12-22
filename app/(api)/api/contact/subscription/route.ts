@@ -2,13 +2,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import SubscriptionService from '@/services/SubscriptionService';
 import { SubscriptionRequestSchema } from '@/dtos/AIAndServicesDTO';
-import ContactMessages from '@/messages/ContactMessages';
+import { SubscriptionMessages } from '@/messages/SubscriptionMessages';
 
-type ResponseData = {
-    message: string;
-};
 
-export async function POST(request: NextRequest, _response: NextResponse<ResponseData>) {
+export async function POST(request: NextRequest) {
 
     const body = await request.json();
     
@@ -25,16 +22,15 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
 
     try {
         await SubscriptionService.createSubscription(email);  
-        return NextResponse.json({ message: "You have been successfully subscribed." });
+        return NextResponse.json({ message: SubscriptionMessages.SUBSCRIPTION_SUCCESS });
 
     } catch (error) { 
 
-        return NextResponse.json({ message: "An error occurred while trying to subscribe." }, { status: 500 });
-
+        return NextResponse.json({ message: SubscriptionMessages.SUBSCRIPTION_ERROR }, { status: 500 });
     }
 }
 
-export async function DELETE(request: NextRequest, _response: NextResponse<ResponseData>) {
+export async function DELETE(request: NextRequest) {
 
     const body = await request.json();
     
@@ -50,9 +46,9 @@ export async function DELETE(request: NextRequest, _response: NextResponse<Respo
 
     try {
         await SubscriptionService.deleteSubscription(email);
-        return NextResponse.json({ message: "You have been successfully unsubscribed." });
+        return NextResponse.json({ message: SubscriptionMessages.UNSUBSCRIPTION_SUCCESS });
     } catch (error) {
-        return NextResponse.json({ message: "An error occurred while trying to unsubscribe." }, { status: 500 });
+        return NextResponse.json({ message: SubscriptionMessages.UNSUBSCRIPTION_ERROR }, { status: 500 });
     }
 
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import AuthService from "@/services/AuthService";
+import AuthMessages from "@/messages/AuthMessages";
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,18 +12,17 @@ export async function GET(request: NextRequest) {
 
     console.log("User Security:", userSecurity);
 
-    return NextResponse.json({ userSecurity });
+    return NextResponse.json({ 
+       
+      message: AuthMessages.SECURITY_SETTINGS_RETRIEVED, 
+      userSecurity 
+    });
 
   } catch (err: any) {
-
-    console.error("Send OTP Error:", err);
+    console.error("Get Security Error:", err);
     
-    return NextResponse.json(
-      {
-        success: false,
-        message: err.message || "OTP could not be sent",
-      },
-      { status: 400 }
-    );
+    return NextResponse.json({
+      message: err.message || AuthMessages.SECURITY_SETTINGS_RETRIEVED
+    }, { status: 500 });
   }
 }

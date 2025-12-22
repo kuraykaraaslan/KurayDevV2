@@ -112,7 +112,7 @@ const parsedData = RequestSchema.safeParse(body);
 
 if (!parsedData.success) {
   return NextResponse.json({
-    success: false,
+    
     message: parsedData.error.errors.map(err => err.message).join(", ")
   }, { status: 400 });
 }
@@ -125,7 +125,7 @@ const result = await Service.doSomething(field1, field2);
 
 // 5. Return standardized response with message enum
 return NextResponse.json({
-  success: true,
+  
   message: Messages.SUCCESS_OPERATION,
   data: result
 });

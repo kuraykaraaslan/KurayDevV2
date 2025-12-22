@@ -69,7 +69,7 @@ export async function GET() {
   const end = performance.now()
   const uptimeSec = process.uptime()
   const finalResponse = {
-    success: true,
+    
     timestamp: new Date().toISOString(),
     uptimeSec,
     responseTimeMs: Math.round(end - start),

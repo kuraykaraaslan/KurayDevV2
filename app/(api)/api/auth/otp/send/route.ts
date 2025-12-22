@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
 
     const { userSecurity } = await AuthService.getUserSecurity(user.userId);
  
-
     const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action });
 
     const userOTPMethods = userSecurity.otpMethods;
@@ -62,15 +61,14 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({ success: true, message: AuthMessages.OTP_SENT_SUCCESSFULLY });
+    return NextResponse.json({  message: AuthMessages.OTP_SENT_SUCCESSFULLY });
 
 
   } catch (err: any) {
     console.error("Send OTP Error:", err);
     return NextResponse.json(
       {
-        success: false,
-        message: err.message || "OTP could not be sent",
+        message: err.message || AuthMessages.OTP_SEND_FAILED,
       },
       { status: 400 }
     );

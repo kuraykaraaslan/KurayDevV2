@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import GeoAnalyticsService from "@/services/GeoAnalyticsService";
 import DBGeoService from "@/services/DBGeoService";
 import { GetGeoAnalyticsRequestSchema } from "@/dtos/AnalyticsDTO";
+import GEOAnalyticsMessages from "@/messages/GEOAnalyticsMessages";
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,16 +14,15 @@ export async function GET(request: NextRequest) {
     await GeoAnalyticsService.process(ip);
     const data = await DBGeoService.getAll();
     
-    const parsedResponse = GetGeoAnalyticsRequestSchema.safeParse({});
+    GetGeoAnalyticsRequestSchema.safeParse({});
     
     return NextResponse.json({
-      success: true,
-      message: 'Geo analytics retrieved successfully',
+      message: GEOAnalyticsMessages.GEO_ANALYTICS_RETRIEVED,
       data: data
     });
+    
   } catch (error: any) {
     return NextResponse.json({
-      success: false,
       message: error.message
     }, { status: 500 });
   }

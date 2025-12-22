@@ -1,5 +1,6 @@
 import { z } from "zod";
 import UserMessages from "@/messages/UserMessages";
+import { UserRoleEnum } from "@/types";
 
 // Request DTOs
 export const GetUsersRequestSchema = z.object({
@@ -14,14 +15,15 @@ export const CreateUserRequestSchema = z.object({
     name: z.string().min(1, UserMessages.NAME_REQUIRED),
     phone: z.string().optional(),
     image: z.string().optional(),
+    userRole: UserRoleEnum.default('USER'),
 });
 
 export const UpdateUserRequestSchema = CreateUserRequestSchema.partial().extend({
-    userId: z.string().min(1, "User ID is required"),
+    userId: z.string().min(1, UserMessages.USER_ID_REQUIRED),
 });
 
 export const GetUserByIdRequestSchema = z.object({
-    userId: z.string().min(1, "User ID is required"),
+    userId: z.string().min(1, UserMessages.USER_ID_REQUIRED),
 });
 
 // Response DTOs
@@ -31,7 +33,7 @@ export const UserResponseSchema = z.object({
     name: z.string(),
     phone: z.string().nullable(),
     image: z.string().nullable(),
-    role: z.enum(['ADMIN', 'USER', 'GUEST']),
+    userRole: UserRoleEnum,
     createdAt: z.date(),
     updatedAt: z.date(),
 });

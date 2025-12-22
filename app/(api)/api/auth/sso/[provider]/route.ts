@@ -25,8 +25,11 @@ export async function GET(
     const url = await SSOService.generateAuthUrl(provider);
 
     return NextResponse.json({ url });
+
   } catch (error: any) {
+
     console.error(`Error generating SSO link for ${provider}:`, error);
+    
     return NextResponse.json(
       { message: AuthMessages.SSO_GENERATION_FAILED },
       { status: 500 }

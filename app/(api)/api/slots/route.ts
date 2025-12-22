@@ -1,8 +1,6 @@
 import SlotService from "@/services/AppointmentService/SlotService";
 import { NextResponse } from "next/server";
 import { GetSlotsRequestSchema } from "@/dtos/SlotDTO";
-import SlotMessages from "@/messages/SlotMessages";
-
 
 export async function GET(
     req: Request

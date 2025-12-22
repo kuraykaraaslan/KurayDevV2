@@ -1,13 +1,14 @@
 // Original path: app/api/auth/logout/route.ts
 
  
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import AuthMessages from "@/messages/AuthMessages";
 
 export async function POST(request: NextRequest) {
     try {
 
         const response = NextResponse.json({
+            
             message: AuthMessages.LOGGED_OUT_SUCCESSFULLY,
         }, {
             status: 200,
@@ -39,6 +40,9 @@ export async function POST(request: NextRequest) {
     }
     catch (error: any) {
         console.error(error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ 
+            
+            message: error.message || AuthMessages.LOGOUT_FAILED 
+        }, { status: 500 });
     }
 }

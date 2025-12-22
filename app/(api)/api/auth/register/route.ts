@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
 
         await RateLimiter.checkRateLimit(request);
 
-
         const parsedData = RegisterRequestSchema.safeParse(await request.json());
 
         if (!parsedData.success) {

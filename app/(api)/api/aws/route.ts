@@ -3,7 +3,6 @@
 import { NextResponse } from 'next/server'
 import AWSService from '@/services/StorageService/AWSService'
 import UserSessionService from '@/services/AuthService/UserSessionService'
-import { AWSUploadRequestSchema } from '@/dtos/AIAndServicesDTO'
 import AIMessages from '@/messages/AIMessages';
 
 /**

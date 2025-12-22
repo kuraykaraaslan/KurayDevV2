@@ -44,13 +44,12 @@ export async function POST(request: NextRequest) {
 
     await UserSessionService.updateSession(userSession.userSessionId, { otpVerifyNeeded: false });
 
-    return NextResponse.json({ success: true, message: AuthMessages.OTP_VERIFIED_SUCCESSFULLY });
+    return NextResponse.json({  message: AuthMessages.OTP_VERIFIED_SUCCESSFULLY });
 
   } catch (err: any) {
     console.error("Send OTP Error:", err);
     return NextResponse.json(
       {
-        success: false,
         message: err.message || "OTP could not be sent",
       },
       { status: 400 }

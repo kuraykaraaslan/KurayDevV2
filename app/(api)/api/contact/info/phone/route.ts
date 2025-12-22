@@ -16,13 +16,6 @@ export async function GET(_request: NextRequest, _response: NextResponse<Respons
 
     const phones = [
         {
-            "CountryCode": "gb",
-            "PhoneNumber": "+44 7456 373554",
-            "noSpacePhoneNumber": "+447456373554",
-            "hasWhatsapp": false,
-            "hasTelegram": false
-        },
-        {
             "CountryCode": "tr",
             "PhoneNumber": "+90 545 922 3554",
             "noSpacePhoneNumber": "+905459223554",
@@ -31,7 +24,7 @@ export async function GET(_request: NextRequest, _response: NextResponse<Respons
         }
     ]
 
-    return NextResponse.json({ message: "phones fetched successfully", phones });
+    return NextResponse.json({  message: "Contact phones retrieved successfully", phones });
 }
 //
 

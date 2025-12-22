@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   try {
     const { rawAccessToken, rawRefreshToken } = await UserSessionService.rotateTokens(refreshToken);
 
-    const response = NextResponse.json({ ok: true });
+    const response = NextResponse.json({ message: AuthMessages.TOKENS_REFRESHED_SUCCESSFULLY });
 
     response.cookies.set("accessToken", rawAccessToken, {
       httpOnly: true,
@@ -43,6 +43,6 @@ export async function POST(request: NextRequest) {
     return response;
 
   } catch (e: any) {
-    return NextResponse.json({ message: e.message }, { status: 401 });
+    return NextResponse.json({ message: e.message || AuthMessages.INVALID_TOKEN }, { status: 500 });
   }
 }

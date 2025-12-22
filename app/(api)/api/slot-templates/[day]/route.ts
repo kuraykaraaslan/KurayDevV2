@@ -12,17 +12,17 @@ export async function GET(
     const { day } = await params
     if (!day) {
         return NextResponse.json(
-            { success: false, message: SlotMessages.DAY_REQUIRED },
+            { message: SlotMessages.DAY_REQUIRED },
             { status: 400 }
         )
     }
     const slotsTemplate = await SlotTemplateService.getSlotTemplate(day)
 
-    return NextResponse.json(slotsTemplate)
+    return NextResponse.json({  message: SlotMessages.SLOT_TEMPLATE_RETRIEVED, data: slotsTemplate })
     } catch (error: any) {
         console.error(error.message);
         return NextResponse.json(
-            { message: error.message },
+            { message: error.message || SlotMessages.OPERATION_FAILED },
             { status: 500 }
         );
     }
@@ -38,14 +38,14 @@ export async function POST(
 
     if (!day) {
         return NextResponse.json(
-            { success: false, message: SlotMessages.DAY_REQUIRED },
+            { message: SlotMessages.DAY_REQUIRED },
             { status: 400 }
         )
     }
 
     if (!slots || !Array.isArray(slots)) {
         return NextResponse.json(
-            { success: false, message: SlotMessages.SLOTS_REQUIRED },
+            { message: SlotMessages.SLOTS_REQUIRED },
             { status: 400 }
         )
     }
@@ -54,7 +54,7 @@ export async function POST(
 
     if (!result.success) {
         return NextResponse.json(
-            { success: false, message: 'Invalid day', issues: result.error.issues },
+            { message: 'Invalid day', issues: result.error.issues },
             { status: 400 }
         )
     }
@@ -63,7 +63,7 @@ export async function POST(
         const result = SlotSchema.safeParse(slot)
         if (!result.success) {
             return NextResponse.json(
-                { success: false, message: 'Invalid slot', issues: result.error.issues },
+                { message: 'Invalid slot', issues: result.error.issues },
                 { status: 400 }
             )
         }

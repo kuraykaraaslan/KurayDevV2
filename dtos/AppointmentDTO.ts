@@ -13,16 +13,14 @@ export const GetAppointmentsRequestSchema = z.object({
 });
 
 export const CreateAppointmentRequestSchema = z.object({
-    title: z.string().min(1, AppointmentMessages.TITLE_REQUIRED),
-    description: z.string().optional(),
-    startTime: z.string().min(1, AppointmentMessages.START_TIME_REQUIRED),
-    endTime: z.string().min(1, AppointmentMessages.END_TIME_REQUIRED),
-    attendeeEmail: z.string().email(AppointmentMessages.INVALID_EMAIL),
-    attendeeName: z.string().min(1, AppointmentMessages.NAME_REQUIRED),
-    attendeePhone: z.string().optional(),
+    date: z.string().min(1, AppointmentMessages.DATE_REQUIRED),
+    time: z.string().min(1, AppointmentMessages.TIME_REQUIRED),
+    email: z.string().email(AppointmentMessages.INVALID_EMAIL),
+    name: z.string().min(1, AppointmentMessages.NAME_REQUIRED),
+    phone: z.string().min(1, AppointmentMessages.INVALID_PHONE_NUMBER),
     location: z.string().optional(),
     status: z.enum(['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED']).default('PENDING'),
-    notes: z.string().optional(),
+    note: z.string().optional(),
 });
 
 export const BookAppointmentRequestSchema = z.object({

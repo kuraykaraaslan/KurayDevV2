@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import UserService from "@/services/UserService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import { CreateUserRequestSchema } from "@/dtos/UserDTO";
-import UserMessages from "@/messages/UserMessages";
+import { User } from "@/types";
 
 /**
  * GET handler for retrieving all users.
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
             users.forEach((user: any) => {
                 delete user.email;
                 delete user.password;
-                delete user.role;
+                delete user.userRole;
                 delete user.image;
                 delete user.phone;
             });

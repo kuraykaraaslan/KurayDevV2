@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import SSOService from "@/services/AuthService/SSOService";
 import MailService from "@/services/NotificationService/MailService";
+import { SSOMessages } from "@/messages/SSOMessages";
 
 // @ts-ignore
 export async function GET(
@@ -20,14 +21,14 @@ export async function GET(
 
     if (!code) {
         //redirect to frontend
-        NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
+        NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.CODE_NOT_FOUND}`);
     }
 
     const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=Failed to authenticate user`);
+        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
 
     }
 
@@ -41,7 +42,7 @@ export async function GET(
 
     if (!userSession) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=Failed to create session`);
+        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
     }
 
     const response = NextResponse.redirect(
@@ -87,14 +88,14 @@ export async function POST(
 
     if (!code) {
         //redirect to frontend
-        NextResponse.redirect(process.env.APPLICATION_HOST + '/auth/login?error=Missing code');
+        NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.CODE_NOT_FOUND}`);
     }
 
     const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=Failed to authenticate user`);
+        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
     }
 
     const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession({ user, userSecurity, request });
@@ -107,7 +108,7 @@ export async function POST(
 
     if (!userSession) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=Failed to create session`);
+        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
     }
 
     //redirect to frontend

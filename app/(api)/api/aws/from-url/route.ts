@@ -18,19 +18,19 @@ export async function POST(request: NextRequest) {
 
         if (!url) {
             return NextResponse.json(
-                { message: 'No URL provided' },
+                { message: 'URL parameter is required' },
                 { status: 400 }
             );
         }
 
         const urlReloaded = await AWSService.uploadFromUrl(url, folder);
 
-        return NextResponse.json({ url: urlReloaded });
+        return NextResponse.json({  message: 'File uploaded successfully', url: urlReloaded });
 
     }
     catch (error: any) {
         return NextResponse.json(
-            { message: error.message },
+            { message: error.message || 'Failed to upload file' },
             { status: 500 }
         );
     }

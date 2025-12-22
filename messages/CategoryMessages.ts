@@ -16,6 +16,7 @@ export enum CategoryMessages {
     INVALID_IMAGE_URL = "INVALID_IMAGE_URL",
     CATEGORY_IN_USE = "CATEGORY_IN_USE",
     CANNOT_DELETE_CATEGORY = "CANNOT_DELETE_CATEGORY",
+    CATEGORY_RETRIEVED = "CATEGORY_RETRIEVED",
 }
 
 export default CategoryMessages;

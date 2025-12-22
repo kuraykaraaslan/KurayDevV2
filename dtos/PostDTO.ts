@@ -1,5 +1,6 @@
 import { z } from "zod";
 import PostMessages from "@/messages/PostMessages";
+import { PostStatus } from "@/types";
 
 // Request DTOs
 export const GetPostsRequestSchema = z.object({
@@ -7,24 +8,24 @@ export const GetPostsRequestSchema = z.object({
     pageSize: z.number().int().default(10),
     postId: z.string().optional(),
     authorId: z.string().optional(),
-    status: z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']).default('PUBLISHED'),
+    status: PostStatus.default("PUBLISHED"),
     categoryId: z.string().optional(),
     search: z.string().optional(),
 });
 
 export const CreatePostRequestSchema = z.object({
     title: z.string().min(1, PostMessages.TITLE_REQUIRED),
-    description: z.string().optional(),
     content: z.string().min(1, PostMessages.CONTENT_REQUIRED),
+    authorId: z.string().min(1, PostMessages.AUTHOR_ID_REQUIRED),
+    description: z.string().min(1, PostMessages.DESCRIPTION_REQUIRED),
     slug: z.string().min(1, PostMessages.SLUG_REQUIRED),
-    image: z.string().optional(),
-    status: z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']).default('DRAFT'),
-    categoryId: z.string().min(1, PostMessages.CATEGORY_REQUIRED),
-    authorId: z.string().min(1, PostMessages.AUTHOR_REQUIRED),
-    tags: z.array(z.string()).optional(),
-    seoTitle: z.string().optional(),
-    seoDescription: z.string().optional(),
-    seoKeywords: z.array(z.string()).optional(),
+    keywords: z.array(z.string()).min(1, PostMessages.KEYWORDS_REQUIRED),
+    createdAt: z.date(),
+    categoryId: z.string(),
+    image: z.string().nullable(),
+    status: z.string().default("PUBLISHED"),
+    views: z.number().default(0),
+    deletedAt: z.date().nullable().optional(),
 });
 
 export const UpdatePostRequestSchema = CreatePostRequestSchema.extend({
@@ -35,19 +36,17 @@ export const UpdatePostRequestSchema = CreatePostRequestSchema.extend({
 export const PostResponseSchema = z.object({
     postId: z.string(),
     title: z.string(),
-    description: z.string().nullable(),
     content: z.string(),
-    slug: z.string(),
-    image: z.string().nullable(),
-    status: z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']),
-    categoryId: z.string(),
     authorId: z.string(),
-    tags: z.array(z.string()).optional(),
-    seoTitle: z.string().nullable(),
-    seoDescription: z.string().nullable(),
-    seoKeywords: z.array(z.string()).optional(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    keywords: z.array(z.string()),
     createdAt: z.date(),
-    updatedAt: z.date(),
+    categoryId: z.string(),
+    image: z.string().nullable(),
+    status: z.string().default("PUBLISHED"),
+    views: z.number().default(0),
+    deletedAt: z.date().nullable().optional(),
 });
 
 export const PostListResponseSchema = z.object({
