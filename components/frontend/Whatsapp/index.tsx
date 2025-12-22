@@ -5,7 +5,6 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { useTranslation } from "react-i18next";
 
 const Whatsapp = () => {
-
     const { t } = useTranslation();
 
     const [ count, setCount ] = useState(0);

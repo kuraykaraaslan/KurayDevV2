@@ -4,6 +4,7 @@ import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
 import { SafeUser } from '@/types/UserTypes';
 import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
+import { useTranslation } from 'react-i18next';
 
 import dynamic from 'next/dynamic';
 
@@ -19,6 +20,7 @@ interface FeedProps {
 export default function Feed(props: FeedProps) {
 
     const { category, author } = props;
+    const { t } = useTranslation();
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
     const [page, setPage] = useState(0);
@@ -70,8 +72,8 @@ export default function Feed(props: FeedProps) {
                             {category
                                 ? category.title
                                 : author
-                                    ? `Posts by ${author.userProfile.name}`
-                                    : 'Latest Posts'}
+                                    ? `${t('frontend.posts_by')} ${author.userProfile.name}`
+                                    : t('frontend.latest_posts')}
                         </p>
                         <KnowledgeGraph2DButton />
                     </div>
@@ -103,7 +105,7 @@ export default function Feed(props: FeedProps) {
                             className="btn btn-primary"
                             onClick={() => setPage(page + 1)}
                         >
-                            Load More
+                            {t('frontend.load_more')}
                         </button>
                     </div>
                 ) : (

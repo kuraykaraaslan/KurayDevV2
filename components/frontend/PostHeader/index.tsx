@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { PostWithData } from '@/types/BlogTypes'
 import PostLike from './partials/PostLike'
+import { useTranslation } from 'react-i18next'
 
 const PostHeader = (post: PostWithData) => {
+  const { t } = useTranslation()
   const readTime = Math.ceil(post.content.split(' ').length / 200)
 
   return (
@@ -15,20 +17,20 @@ const PostHeader = (post: PostWithData) => {
         <span>
           {post.createdAt
             ? new Date(post.createdAt).toLocaleDateString()
-            : 'No Date'}
+            : t('frontend.no_date')}
         </span>
         <Link href={'/blog/' + post.category.slug} className='text-primary'>
           {post.category.title}
         </Link>
         <span className='text-primary hidden md:inline'>•</span>
-        <span className='hidden md:inline'>{post.views} views</span>
+        <span className='hidden md:inline'>{post.views} {t('frontend.views')}</span>
         <span className='text-primary'>•</span>
-        <span>{readTime} min read</span>
+        <span>{readTime} {t('frontend.min_read')}</span>
         <span className='text-primary hidden md:inline'>•</span>
         <span className='hidden md:inline'>
-          by{' '}
+          {t('frontend.by')}{' '}
           <Link href={'/blog/user/' + post.authorId} className='text-primary'>
-            {post.author.userProfile?.name || 'Unknown Author'}
+            {post.author.userProfile?.name || t('frontend.unknown_author')}
           </Link>
         </span>
       </div>

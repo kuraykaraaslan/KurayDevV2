@@ -1,8 +1,10 @@
 'use client';
 import SingleArticle from './Partials/SingleArticle';
 import { PostWithData } from '@/types/BlogTypes';
+import { useTranslation } from 'react-i18next';
 
 const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
+    const { t } = useTranslation();
 
     if (!categoryId) {
         return null;
@@ -50,7 +52,7 @@ const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
             >
                 <div className="mx-auto text-start lg:mb-8 -mt-8 lg:mt-0 ">
                     <h4 className="mb-8 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
-                        Related Articles
+                        {t('frontend.related_articles')}
                     </h4>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">

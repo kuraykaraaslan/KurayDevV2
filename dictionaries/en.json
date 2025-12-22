@@ -328,6 +328,70 @@
     "loading": "Loading...",
     "modal": {
       "close_dialog": "Close dialog"
-    }
-  }
+    }  },
+  "frontend": {
+    "comments": {
+      "comments_count": "Comments",
+      "name_placeholder": "Name",
+      "email_placeholder": "Email",
+      "comment_placeholder": "Write a comment...",
+      "submit_button": "Comment",
+      "fill_all_fields": "Please fill all fields",
+      "invalid_email": "Please enter a valid email",
+      "name_length_error": "Name should be at least 3 characters and max 50 characters",
+      "content_length_error": "Content should be at least 5 characters",
+      "posted_successfully": "Comment posted successfully",
+      "error": "An error occurred",
+      "reply": "Reply",
+      "delete": "Delete",
+      "anonymous": "Anonymous"
+    },
+    "other_posts": "Other Posts",
+    "related_articles": "Related Articles",
+    "categories": "Categories",
+    "latest_posts": "Latest Posts",
+    "posts_by": "Posts by",
+    "load_more": "Load more posts",
+    "min_read": "min read",
+    "views": "views",
+    "by": "by",
+    "no_date": "No Date",
+    "unknown_author": "Unknown Author",
+    "footer": {
+      "all_rights_reserved": "All rights reserved"
+    },
+    "newsletter": {
+      "title": "Subscribe to Newsletter",
+      "description": "Get the latest updates and news delivered to your inbox",
+      "email_placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    },
+    "offline": {
+      "online": "You are back online!",
+      "offline": "You are offline!"
+    },
+    "terminal_button": "Terminal",
+    "scroll_to_top": "Scroll to top",
+    "scroll_to_bottom": "Scroll to bottom",
+    "whatsapp": {
+      "contact": "Contact via WhatsApp"
+    },
+    "system_status": {
+      "title": "System Status"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D Knowledge Graph",
+      "title_3d": "3D Knowledge Graph"
+    },
+    "geomap": {
+      "title": "Geographic Heatmap"
+    },
+    "settings": {
+      "basic": "Basic",
+      "profile": "Profile",
+      "security": "Security",
+      "otp": "2FA",
+      "preferences": "Preferences",
+      "notifications": "Notifications"
+    }  }
 }

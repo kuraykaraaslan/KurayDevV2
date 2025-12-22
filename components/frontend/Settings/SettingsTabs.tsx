@@ -10,6 +10,7 @@ import NotificationsTab from './NotificationsTab';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faGear, faLock, faNoteSticky, faRing, faSms, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 
 
 interface Tab {
@@ -21,42 +22,43 @@ interface Tab {
 
 
 export default function SettingsTabs() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<Tab['id']>('profile');
 
   const tabs: Tab[] = [
     {
       id: 'basic',
-      label: 'Temel',
+      label: t('frontend.settings.basic'),
       icon: faNoteSticky,
       content: <BasicTab />,
     },
     {
       id: 'profile',
-      label: 'Profil',
+      label: t('frontend.settings.profile'),
       icon: faUser,
       content: <ProfileTab />,
     },
     {
       id: 'security',
-      label: 'Güvenlik',
+      label: t('frontend.settings.security'),
       icon: faLock,
       content: <SecurityTab />,
     },
     {
       id: 'otp',
-      label: '2FA',
+      label: t('frontend.settings.otp'),
       icon: faSms,
       content: <OTPTab />,
     },
     {
       id: 'preferences',
-      label: 'Tercihler',
+      label: t('frontend.settings.preferences'),
       icon: faGear,
       content: <PreferencesTab />,
     },
     {
       id: 'notifications',
-      label: 'Bildirimler',
+      label: t('frontend.settings.notifications'),
       icon: faRing,
       content: <NotificationsTab />,
     },

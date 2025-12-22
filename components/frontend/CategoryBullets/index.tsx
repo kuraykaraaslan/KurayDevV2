@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 export default function CategoryBullets() {
-
+    const { t } = useTranslation();
     const [categories, setCategories] = useState<Category[]>([]);
     const [page, _setPage] = useState(0);
 
@@ -24,7 +25,7 @@ export default function CategoryBullets() {
             >
                 <div className="mx-auto text-center">
                     <h2 className="mb-8 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
-                        Categories
+                        {t('frontend.categories')}
                     </h2>
                 </div>
                 <div className="flex flex-wrap justify-center">

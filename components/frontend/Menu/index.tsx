@@ -5,10 +5,12 @@ import i18n from "@/libs/localize/localize";
 import {  IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {MenuItem} from '@/types/UITypes';
+import { useTranslation } from 'react-i18next';
 
 const Menu = ({isSidebar = false, menuItems}: {isSidebar?: boolean, menuItems: MenuItem[]}) => {
 
-    const { t } = i18n;
+    const { t: tGlobal } = i18n;
+    const { t } = useTranslation();
 
     const router = useRouter();
     const { user } = useGlobalStore();

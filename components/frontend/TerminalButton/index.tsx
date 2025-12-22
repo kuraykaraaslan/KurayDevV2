@@ -3,9 +3,10 @@ import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faTerminal } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const TerminalButton = () => {
-
+    const { t } = useTranslation();
     const router = useRouter();
 
     useEffect(() => {

@@ -5,9 +5,11 @@ import { Comment } from '@prisma/client';
 import crypto from 'crypto';
 import AddComment from './Partials/AddComment';
 import axiosInstance from '@/libs/axios';
+import { useTranslation } from 'react-i18next';
 
 
 const Comments = ({ postId }: { postId: string }) => {
+    const { t } = useTranslation();
     
 
     const [comments, setComments] = useState<Comment[]>([]);
@@ -34,7 +36,7 @@ const Comments = ({ postId }: { postId: string }) => {
         <section className="antialiased">
             <div className="mx-auto">
                 <div className="flex justify-between items-center mb-6">
-                <h4 className="text-3xl font-bold text-left mt-4 mb-4">Comments ({comments.length})</h4>
+                <h4 className="text-3xl font-bold text-left mt-4 mb-4">{t('frontend.comments.comments_count')} ({comments.length})</h4>
                 </div>
                 <div className="mb-6">
                     <AddComment  postId={postId} />

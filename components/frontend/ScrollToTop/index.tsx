@@ -2,8 +2,10 @@
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 const ScrollToTop = () => {
+    const { t } = useTranslation();
 
     useEffect(() => {
         const scrollToTopBtn = document.getElementById(
