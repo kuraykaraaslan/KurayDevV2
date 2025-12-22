@@ -3,6 +3,7 @@ import redis from '@/libs/redis'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import { KnowledgeGraphNode } from '@/types/content'
 import { NextRequest } from 'next/server'
+import { UpdateKnowledgeGraphRequestSchema } from '@/dtos/KnowledgeGraphDTO'
 
 let cache: { data: any; expiresAt: number } | null = null
 
@@ -82,4 +83,36 @@ export async function GET(request: NextRequest) {
 
   cache = { data, expiresAt: now + 5000 }
   return Response.json(data)
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    
+    const parsedData = UpdateKnowledgeGraphRequestSchema.safeParse(body);
+    
+    if (!parsedData.success) {
+      return Response.json({
+        ok: false,
+        message: parsedData.error.errors.map(err => err.message).join(", ")
+      }, { status: 400 });
+    }
+
+    const { postId } = parsedData.data;
+    
+    await KnowledgeGraphService.queueUpdatePost(postId);
+    
+    cache = null; // Invalidate cache
+    
+    return Response.json({ 
+      ok: true, 
+      message: 'Knowledge graph updated for post.' 
+    });
+  } catch (err: any) {
+    console.error('[KG] update failed:', err);
+    return Response.json({ 
+      ok: false, 
+      error: err.message 
+    }, { status: 500 });
+  }
 }

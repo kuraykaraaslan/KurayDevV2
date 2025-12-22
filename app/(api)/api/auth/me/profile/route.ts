@@ -4,6 +4,8 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserService from "@/services/UserService";
 import RateLimiter from "@/libs/rateLimit";
 import { UserProfileSchema } from '@/types/user/UserProfileTypes';
+import { UpdateProfileRequestSchema } from "@/dtos/AuthDTO";
+import AuthMessages from "@/messages/AuthMessages";
 
 // NextRequest is declared globally in global.d.ts
 
@@ -14,23 +16,22 @@ export async function PUT(request: NextRequest) {
         await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
         const userId = request.user?.userId;
+        
         if (!userId) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: AuthMessages.USER_NOT_AUTHENTICATED },
                 { status: 401 }
             );
         }
 
         const body = await request.json();
         
-        // Validate preferences data
-        const profilesValidation = UserProfileSchema.safeParse(body.userProfile);
+        const parsedData = UpdateProfileRequestSchema.safeParse(body);
 
-        if (!profilesValidation.success) {
+        if (!parsedData.success) {
             return NextResponse.json(
                 { 
-                    message: "Invalid profile",
-                    errors: profilesValidation.error.errors
+                    message: parsedData.error.errors.map(err => err.message).join(", ")
                 },
                 { status: 400 }
             );
@@ -39,14 +40,12 @@ export async function PUT(request: NextRequest) {
         // Update user preferences
         const updatedUser = await UserService.update({
             userId,
-            data: {
-                userProfile: profilesValidation.data
-            }
+            data: parsedData.data
         });
 
         return NextResponse.json(
             { 
-                message: "Preferences updated successfully",
+                message: AuthMessages.PROFILE_UPDATED_SUCCESSFULLY,
                 userProfile: updatedUser.userProfile
             },
             { status: 200 }

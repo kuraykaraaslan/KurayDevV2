@@ -1,9 +1,9 @@
 
 
 import { NextResponse } from "next/server";
-   
 import SettingService from "@/services/SettingService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import { UpdateSettingsRequestSchema } from "@/dtos/SettingsDTO";
 /**
  * GET handler for retrieving all settings.
  * @param request - The incoming request object
@@ -14,12 +14,12 @@ export async function GET(_request: NextRequest) {
 
         const settings = await SettingService.getSettings();
 
-        return NextResponse.json({ settings });
+        return NextResponse.json({ success: true, settings });
 
     }
     catch (error: any) {
         return NextResponse.json(
-            { message: error.message },
+            { success: false, message: error.message },
             { status: 500 }
         );
     }
@@ -34,16 +34,28 @@ export async function GET(_request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });        
-        const { settings } = await request.json();
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
+        
+        const body = await request.json();
+        
+        const parsedData = UpdateSettingsRequestSchema.safeParse(body);
+        
+        if (!parsedData.success) {
+          return NextResponse.json({
+            success: false,
+            message: parsedData.error.errors.map(err => err.message).join(", ")
+          }, { status: 400 });
+        }
+        
+        const { settings } = parsedData.data;
         const result = await SettingService.updateSettings(settings);
 
-        return NextResponse.json({ settings: result });
+        return NextResponse.json({ success: true, settings: result });
 
     }
     catch (error: any) {
         return NextResponse.json(
-            { message: error.message },
+            { success: false, message: error.message },
             { status: 500 }
         );
     }

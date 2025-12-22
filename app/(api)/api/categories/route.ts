@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
-import UserSessionService from "@/services/AuthService/UserSessionService";   
+import UserSessionService from "@/services/AuthService/UserSessionService";
+import { CreateCategoryRequestSchema } from "@/dtos/CategoryDTO";
+import CategoryMessages from "@/messages/CategoryMessages";   
 
 
 /**
@@ -41,8 +43,16 @@ export async function POST(request: NextRequest) {
         await UserSessionService.authenticateUserByRequest({ request });
 
         const body = await request.json();
+        
+        const parsedData = CreateCategoryRequestSchema.safeParse(body);
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
 
-        const { title, description, slug, image } = body;
+        const { title, description, slug, image } = parsedData.data;
 
         const data = {
             title,

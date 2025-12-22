@@ -3,6 +3,7 @@ import redisInstance from '@/libs/redis'
 import MailService from '@/services/NotificationService/MailService'
 import SMSService from '@/services/NotificationService/SMSService'
 import OpenAIService from '@/services/OpenAIService'
+import { HealthCheckResponseSchema } from '@/dtos/StatusDTO'
 
 export const dynamic = 'force-dynamic'
 

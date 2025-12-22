@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import UserSessionService from '@/services/AuthService/UserSessionService';
 import CommentService from '@/services/CommentService';
 import PostService from '@/services/PostService';
+import { CreateCommentRequestSchema } from '@/dtos/CommentDTO';
+import CommentMessages from '@/messages/CommentMessages';
 import { pipeline } from "@xenova/transformers";
 import { CommentStatus } from '@prisma/client';
 
@@ -31,21 +33,24 @@ export async function POST(request: NextRequest) {
         // Determine role (ADMIN, USER, or fallback GUEST)
         const userRole = request.user?.role || "GUEST";
 
-        const { content, postId, parentId, email, name } = await request.json();
-
-        if (!name || !email || !content) {
-            return NextResponse.json(
-                { message: "Please fill in the required fields." },
-                { status: 400 }
-            );
+        const body = await request.json();
+        
+        const parsedData = CreateCommentRequestSchema.safeParse(body);
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
         }
+
+        const { content, postId, parentId, email, name } = parsedData.data;
 
         // Validate post
         const post = await PostService.getPostById(postId);
 
         if (!post) {
             return NextResponse.json(
-                { message: "Post not found." },
+                { message: CommentMessages.POST_NOT_FOUND },
                 { status: 404 }
             );
         }

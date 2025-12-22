@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import AuthMessages from "@/messages/AuthMessages";
+import { RefreshTokenRequestSchema } from "@/dtos/AuthDTO";
 
 export async function POST(request: NextRequest) {
 
@@ -10,6 +11,14 @@ export async function POST(request: NextRequest) {
 
   if (!refreshToken) {
     return NextResponse.json({ message: AuthMessages.INVALID_TOKEN }, { status: 401 });
+  }
+  
+  const parsedData = RefreshTokenRequestSchema.safeParse({ refreshToken });
+  
+  if (!parsedData.success) {
+    return NextResponse.json({
+      message: parsedData.error.errors.map(err => err.message).join(", ")
+    }, { status: 400 });
   }
 
   try {

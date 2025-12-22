@@ -1,9 +1,10 @@
 
 
 import { NextResponse } from "next/server";
-   
 import UserService from "@/services/UserService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import { CreateUserRequestSchema } from "@/dtos/UserDTO";
+import UserMessages from "@/messages/UserMessages";
 
 /**
  * GET handler for retrieving all users.
@@ -63,7 +64,17 @@ export async function POST(request: NextRequest) {
 
         await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
-        const { email, password, name , phone, userRole } = await request.json();
+        const body = await request.json();
+        
+        const parsedData = CreateUserRequestSchema.safeParse(body);
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
+
+        const { email, password, name, phone, userRole } = parsedData.data;
 
         const user = await UserService.create({
             email,

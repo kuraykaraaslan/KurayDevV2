@@ -2,9 +2,9 @@
 
 import { NextResponse } from "next/server";
 import RateLimiter from "@/libs/rateLimit";
-
 import AuthService from "@/services/AuthService";
-import { RegisterRequest } from "@/dtos/AuthDTO";
+import { RegisterRequestSchema } from "@/dtos/AuthDTO";
+import AuthMessages from "@/messages/AuthMessages";
 
 export async function POST(request: NextRequest) {
     try {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
         await RateLimiter.checkRateLimit(request);
 
 
-        const parsedData = RegisterRequest.safeParse(await request.json());
+        const parsedData = RegisterRequestSchema.safeParse(await request.json());
 
         if (!parsedData.success) {
             return NextResponse.json({
@@ -30,10 +30,10 @@ export async function POST(request: NextRequest) {
         });
 
         if (!user) {
-            return NextResponse.json({ error: "Something went wrong." }, { status: 400 });
+            return NextResponse.json({ error: AuthMessages.REGISTRATION_FAILED }, { status: 400 });
         }
 
-        return NextResponse.json({ message: "User registered successfully." }, { status: 201 });
+        return NextResponse.json({ message: AuthMessages.REGISTRATION_SUCCESSFUL }, { status: 201 });
     }
 
     catch (error: any) {

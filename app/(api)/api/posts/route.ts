@@ -4,6 +4,8 @@ import PostService from "@/services/PostService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import KnowledgeGraphService from "@/services/KnowledgeGraphService";
 import PostCoverService from "@/services/PostService/PostCoverService";
+import { CreatePostRequestSchema, UpdatePostRequestSchema } from "@/dtos/PostDTO";
+import PostMessages from "@/messages/PostMessages";
 
 /**
  * GET handler for retrieving all posts with optional pagination and search.
@@ -58,8 +60,16 @@ export async function POST(request: NextRequest) {
         UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         const body = await request.json();
+        
+        const parsedData = CreatePostRequestSchema.safeParse(body);
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
 
-        const post = await PostService.createPost(body);
+        const post = await PostService.createPost(parsedData.data);
 
         await KnowledgeGraphService.queueUpdatePost(post.postId)
 
@@ -91,8 +101,16 @@ export async function PUT(request: NextRequest) {
         await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         const data = await request.json();
+        
+        const parsedData = UpdatePostRequestSchema.safeParse(data);
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
 
-        const post = await PostService.updatePost(data);
+        const post = await PostService.updatePost(parsedData.data);
 
         await KnowledgeGraphService.queueUpdatePost(post.postId)
 

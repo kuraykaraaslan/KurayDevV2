@@ -5,7 +5,7 @@ import AuthService from "@/services/AuthService";
 import AuthMessages from "@/messages/AuthMessages";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import RateLimiter from "@/libs/rateLimit";
-import { LoginRequest } from "@/dtos/AuthDTO";
+import { LoginRequestSchema } from "@/dtos/AuthDTO";
 import MailService from "@/services/NotificationService/MailService";
 import { SafeUserSecuritySchema } from '@/types/user/UserSecurityTypes';
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
         await RateLimiter.checkRateLimit(request);
 
 
-        const parsedData = LoginRequest.safeParse(await request.json());
+        const parsedData = LoginRequestSchema.safeParse(await request.json());
 
         if (!parsedData.success) {
             return NextResponse.json({

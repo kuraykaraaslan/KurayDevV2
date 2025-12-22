@@ -3,7 +3,8 @@ import AppointmentService from '@/services/AppointmentService'
 import Logger from '@/libs/logger'
 import SlotService from '@/services/AppointmentService/SlotService'
 import { AppointmentStatus } from '@/types/features'
-// gerekirse: import UserSessionService from '@/services/AuthService/UserSessionService'
+import { CreateAppointmentRequestSchema } from '@/dtos/AppointmentDTO'
+import AppointmentMessages from '@/messages/AppointmentMessages'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,20 +12,22 @@ export async function POST(request: NextRequest) {
     // await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" })
 
     const body = await request.json()
-    const { date, time , name, email, phone, note } = body || {}
-
-    if (!!name || !email || !phone) {
-      return NextResponse.json(
-        { success: false, message: 'Missing required fields' },
-        { status: 400 }
-      )
+    
+    const parsedData = CreateAppointmentRequestSchema.safeParse(body);
+    
+    if (!parsedData.success) {
+      return NextResponse.json({
+        message: parsedData.error.errors.map(err => err.message).join(", ")
+      }, { status: 400 });
     }
+
+    const { date, time, name, email, phone, note } = parsedData.data;
 
     // Assume slotId refers to a slot with date and time; fetch slot details
     const slot = await SlotService.getSlot(date, time)
     if (!slot) {
       return NextResponse.json(
-        { success: false, message: 'Slot not found' },
+        { success: false, message: AppointmentMessages.SLOT_NOT_FOUND },
         { status: 404 }
       )
     }

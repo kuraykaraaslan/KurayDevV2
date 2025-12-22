@@ -4,6 +4,8 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserService from "@/services/UserService";
 import RateLimiter from "@/libs/rateLimit";
 import { UserPreferencesSchema } from '@/types/user/UserTypes';
+import { UpdatePreferencesRequestSchema } from "@/dtos/AuthDTO";
+import AuthMessages from "@/messages/AuthMessages";
 
 // NextRequest is declared globally in global.d.ts
 
@@ -16,21 +18,19 @@ export async function PUT(request: NextRequest) {
         const userId = request.user?.userId;
         if (!userId) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: AuthMessages.USER_NOT_AUTHENTICATED },
                 { status: 401 }
             );
         }
 
         const body = await request.json();
         
-        // Validate preferences data
-        const preferencesValidation = UserPreferencesSchema.safeParse(body.userPreferences);
+        const parsedData = UpdatePreferencesRequestSchema.safeParse(body);
 
-        if (!preferencesValidation.success) {
+        if (!parsedData.success) {
             return NextResponse.json(
                 { 
-                    message: "Invalid preferences",
-                    errors: preferencesValidation.error.errors
+                    message: parsedData.error.errors.map(err => err.message).join(", ")
                 },
                 { status: 400 }
             );
@@ -39,14 +39,12 @@ export async function PUT(request: NextRequest) {
         // Update user preferences
         const updatedUser = await UserService.update({
             userId,
-            data: {
-                userPreferences: preferencesValidation.data
-            }
+            data: parsedData.data
         });
 
         return NextResponse.json(
             { 
-                message: "Preferences updated successfully",
+                message: AuthMessages.PREFERENCES_UPDATED_SUCCESSFULLY,
                 userPreferences: updatedUser.userPreferences
             },
             { status: 200 }

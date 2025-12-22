@@ -4,6 +4,8 @@ import DiscordService from '@/services/SocialMediaService/DiscordService';
 import ContactFormService from '@/services/ContactFormService';
 import MailService from '@/services/NotificationService/MailService';
 import SMSService from '@/services/NotificationService/SMSService';
+import { ContactFormRequestSchema } from '@/dtos/AIAndServicesDTO';
+import ContactMessages from '@/messages/ContactMessages';
 
 type ResponseData = {
     message: string;
@@ -12,11 +14,17 @@ type ResponseData = {
 
 export async function POST(request: NextRequest, _response: NextResponse<ResponseData>) {
 
-    const { name, email, phone, message } = await request.json();
-
-    if (!name || !email || !phone || !message) {
-        return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });
+    const body = await request.json();
+    
+    const parsedData = ContactFormRequestSchema.safeParse(body);
+    
+    if (!parsedData.success) {
+        return NextResponse.json({
+            message: parsedData.error.errors.map(err => err.message).join(", ")
+        }, { status: 400 });
     }
+
+    const { name, email, phone, message } = parsedData.data;
 
     //find recent contact form entries
     const recentEntries = await ContactFormService.getRecentContactFormEntriesByPhoneOrEmail(phone, email);

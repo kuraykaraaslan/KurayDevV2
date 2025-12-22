@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import UserSessionService from '@/services/AuthService/UserSessionService';
 import CommentService from '@/services/CommentService';
+import CommentMessages from '@/messages/CommentMessages';
 
 export async function DELETE(request: NextRequest, { params }: { params: { commentId: string } }) {
     try {
@@ -14,13 +15,13 @@ export async function DELETE(request: NextRequest, { params }: { params: { comme
 
         if (!deleted) {
             return NextResponse.json(
-                { message: "Comment not found." },
+                { message: CommentMessages.COMMENT_NOT_FOUND },
                 { status: 404 }
             );
         }
 
         return NextResponse.json(
-            { message: "Comment deleted successfully." },
+            { message: CommentMessages.COMMENT_DELETED_SUCCESSFULLY },
             { status: 200 }
         );
     } catch (error) {

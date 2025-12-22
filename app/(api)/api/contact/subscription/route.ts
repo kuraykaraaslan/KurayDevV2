@@ -1,6 +1,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import SubscriptionService from '@/services/SubscriptionService';
+import { SubscriptionRequestSchema } from '@/dtos/AIAndServicesDTO';
+import ContactMessages from '@/messages/ContactMessages';
 
 type ResponseData = {
     message: string;
@@ -8,11 +10,17 @@ type ResponseData = {
 
 export async function POST(request: NextRequest, _response: NextResponse<ResponseData>) {
 
-    const { email } = await request.json();
-
-    if (!email) {
-        return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });
+    const body = await request.json();
+    
+    const parsedData = SubscriptionRequestSchema.safeParse(body);
+    
+    if (!parsedData.success) {
+        return NextResponse.json({
+            message: parsedData.error.errors.map(err => err.message).join(", ")
+        }, { status: 400 });
     }
+
+    const { email } = parsedData.data;
 
 
     try {
@@ -28,11 +36,17 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
 
 export async function DELETE(request: NextRequest, _response: NextResponse<ResponseData>) {
 
-    const { email } = await request.json();
-
-    if (!email) {
-        return NextResponse.json({ message: "Please fill in the required fields." }, { status: 400 });
+    const body = await request.json();
+    
+    const parsedData = SubscriptionRequestSchema.safeParse(body);
+    
+    if (!parsedData.success) {
+        return NextResponse.json({
+            message: parsedData.error.errors.map(err => err.message).join(", ")
+        }, { status: 400 });
     }
+
+    const { email } = parsedData.data;
 
     try {
         await SubscriptionService.deleteSubscription(email);

@@ -4,12 +4,22 @@ import PostService from "@/services/PostService";
 import ProjectService from "@/services/ProjectService";
 import { PostWithData } from '@/types/content';
 import { Project } from '@/types/content';
+import { SearchRequestSchema } from "@/dtos/AIAndServicesDTO";
+import AIMessages from "@/messages/AIMessages";
 
 export const revalidate = 60; // 1 dakika cache
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const q = (searchParams.get("q") || "").toLowerCase();
+    
+    const parsedData = SearchRequestSchema.safeParse({ query: q });
+    
+    if (!parsedData.success) {
+        return NextResponse.json({
+            message: parsedData.error.errors.map(err => err.message).join(", ")
+        }, { status: 400 });
+    }
 
     const blogResults = PostService.getAllPosts({ page: 0, pageSize: 4, search: q }).then(res => {
         return res.posts;

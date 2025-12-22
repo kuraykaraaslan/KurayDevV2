@@ -3,6 +3,7 @@
 import { NextResponse } from "next/server";
 import StatService from "@/services/StatService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import { GetStatsRequestSchema } from "@/dtos/StatsDTO";
 
 /**
  * GET handler for retrieving all users.
@@ -13,13 +14,21 @@ export async function POST(request: NextRequest) {
 
     try {
 
-        // body parameters
         const body = await request.json();
-        const frequency = body.frequency || "all-time";
+        
+        const parsedData = GetStatsRequestSchema.safeParse(body);
+        
+        if (!parsedData.success) {
+          return NextResponse.json({
+            success: false,
+            message: parsedData.error.errors.map(err => err.message).join(", ")
+          }, { status: 400 });
+        }
 
         await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
-        // Extract query parameters
+        const { frequency } = parsedData.data;
+        
         const stats = await StatService.getAllStats(frequency);
 
         const values = {
@@ -30,14 +39,22 @@ export async function POST(request: NextRequest) {
             totalComments: stats.totalComments || 0,
         };
         
-        return NextResponse.json({ values });
+        return NextResponse.json({ 
+            success: true,
+            message: 'Statistics retrieved successfully',
+            totalPosts: values.totalPosts,
+            totalCategories: values.totalCategories,
+            totalUsers: values.totalUsers,
+            totalViews: values.totalViews,
+            totalComments: values.totalComments,
+        });
 
     }
     catch (error: any) {
-        console.error("Error in GET /api/stats:", error);
-        return NextResponse.json(
-            { message: error.message },
-            { status: 500 }
-        );
+        console.error("Error in POST /api/stats:", error);
+        return NextResponse.json({
+            success: false,
+            message: error.message 
+        }, { status: 500 });
     }
 }

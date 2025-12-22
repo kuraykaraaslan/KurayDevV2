@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import AuthMessages from "@/messages/AuthMessages";
 import RateLimiter from "@/libs/rateLimit";
 import PasswordService from "@/services/AuthService/PasswordService";
-import { ResetPasswordRequest } from "@/dtos/AuthDTO";
+import { ResetPasswordRequestSchema } from "@/dtos/AuthDTO";
 
 export async function POST(request: NextRequest) {
     try {
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
         const { email , resetToken, password } = await request.json();
 
-        const parsedData = ResetPasswordRequest.safeParse({ email, resetToken, password });
+        const parsedData = ResetPasswordRequestSchema.safeParse({ email, resetToken, password });
 
         if (!parsedData.success) {
             return NextResponse.json({

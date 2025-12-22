@@ -1,9 +1,9 @@
 
 import { NextResponse } from "next/server";
-
 import UserService from "@/services/UserService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
-import { UpdateUserSchema } from '@/types/user/UserTypes';
+import { UpdateUserRequestSchema } from "@/dtos/UserDTO";
+import UserMessages from "@/messages/UserMessages";
 
 /**
  * GET handler for retrieving a user by its ID.
@@ -63,7 +63,7 @@ export async function DELETE(
 
     if (!user) {
       return NextResponse.json(
-        { message: "USER_NOT_FOUND" },
+        { message: UserMessages.USER_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -71,7 +71,7 @@ export async function DELETE(
     await UserService.delete(userId);
 
     return NextResponse.json(
-      { message: "USER_DELETED" },
+      { message: UserMessages.USER_DELETED_SUCCESSFULLY },
     );
   }
   catch (error: any) {
@@ -102,20 +102,20 @@ export async function PUT(
 
     console.log("Received data for update:", data);
 
-    const user = UpdateUserSchema.safeParse(data);
+    const parsedData = UpdateUserRequestSchema.safeParse(data);
 
-    if (!user.success) {
+    if (!parsedData.success) {
       return NextResponse.json(
-        { message: "INVALID_USER_DATA", errors: user.error.errors },
+        { message: parsedData.error.errors.map(err => err.message).join(", ") },
         { status: 400 }
       );
     }
 
-    const updatedUser = await UserService.update({ userId, data: user.data });
+    const updatedUser = await UserService.update({ userId, data: parsedData.data });
 
     if (!updatedUser) {
       return NextResponse.json(
-        { message: "USER_NOT_FOUND" },
+        { message: UserMessages.USER_NOT_FOUND },
         { status: 404 }
       );
     }

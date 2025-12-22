@@ -3,7 +3,8 @@ import SlotService from '@/services/AppointmentService/SlotService'
 import { Day, Slot } from '@/types/features'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService';
-import { date } from 'zod';
+import { ApplySlotTemplateRequestSchema } from '@/dtos/SlotDTO';
+import SlotMessages from '@/messages/SlotMessages';
 
 export async function POST(
     request: NextRequest,
@@ -12,12 +13,23 @@ export async function POST(
 
     await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
-    const { formattedDate } = await request.json();
+    const body = await request.json();
+    
+    const parsedData = ApplySlotTemplateRequestSchema.safeParse(body);
+    
+    if (!parsedData.success) {
+      return NextResponse.json({
+        success: false,
+        message: parsedData.error.errors.map(err => err.message).join(", ")
+      }, { status: 400 });
+    }
+
+    const { formattedDate } = parsedData.data;
     const { day } = await params
 
-    if (!date) {
+    if (!day) {
         return NextResponse.json(
-            { success: false, message: 'Date is required' },
+            { success: false, message: SlotMessages.DAY_REQUIRED },
             { status: 400 }
         )
     }
@@ -26,12 +38,12 @@ export async function POST(
     
     if (!SlotTemplate || SlotTemplate.slots.length === 0) {
         return NextResponse.json(
-            { success: false, message: 'No slot template found for the specified day' },
+            { success: false, message: SlotMessages.SLOT_TEMPLATE_NOT_FOUND },
             { status: 404 }
         )
     }
 
-    await SlotService.emptySlotsForDate(formattedDate);
+    await SlotService.emptySlotsForDate(new Date(formattedDate));
 
     const createdSlots: Slot[] = [];
 

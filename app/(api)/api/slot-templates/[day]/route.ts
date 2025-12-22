@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService'
 import { Day, DayEnum, SlotSchema } from '@/types/features/CalendarTypes'
 import UserSessionService from '@/services/AuthService/UserSessionService'
+import SlotMessages from '@/messages/SlotMessages'
 
 export async function GET(
     _request: NextRequest,
@@ -11,7 +12,7 @@ export async function GET(
     const { day } = await params
     if (!day) {
         return NextResponse.json(
-            { success: false, message: 'Day is required' },
+            { success: false, message: SlotMessages.DAY_REQUIRED },
             { status: 400 }
         )
     }
@@ -37,14 +38,14 @@ export async function POST(
 
     if (!day) {
         return NextResponse.json(
-            { success: false, message: 'Day is required' },
+            { success: false, message: SlotMessages.DAY_REQUIRED },
             { status: 400 }
         )
     }
 
     if (!slots || !Array.isArray(slots)) {
         return NextResponse.json(
-            { success: false, message: 'Slots are required and must be an array' },
+            { success: false, message: SlotMessages.SLOTS_REQUIRED },
             { status: 400 }
         )
     }

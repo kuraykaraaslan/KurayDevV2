@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import PostLikeService from '@/services/PostService/LikeService';
 import UserSessionService from '@/services/AuthService/UserSessionService';
+import PostMessages from '@/messages/PostMessages';
 
 export async function POST(request: NextRequest, { params }: { params: { postId: string } }) {
   try {
@@ -20,6 +21,6 @@ export async function POST(request: NextRequest, { params }: { params: { postId:
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('Error liking post:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    return NextResponse.json({ success: false, error: PostMessages.OPERATION_FAILED }, { status: 400 });
   }
 }

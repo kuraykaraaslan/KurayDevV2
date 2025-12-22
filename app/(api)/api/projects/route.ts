@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { Project } from "@prisma/client";
 import ProjectService from "@/services/ProjectService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import { CreateProjectRequestSchema, UpdateProjectRequestSchema } from "@/dtos/ProjectDTO";
+import ProjectMessages from "@/messages/ProjectMessages";
 
 /**
  * GET handler for retrieving all projects with optional pagination and search.
@@ -49,8 +51,17 @@ export async function POST(request: NextRequest) {
 
         await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
-        const data = await request.json() as Omit<Project, 'projectId'>;
-        const project = await ProjectService.createProject(data) as Project;
+        const data = await request.json();
+        
+        const parsedData = CreateProjectRequestSchema.safeParse(data);
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
+        
+        const project = await ProjectService.createProject(parsedData.data) as Project;
         
         return NextResponse.json({ project });
 
@@ -76,8 +87,17 @@ export async function PUT(request: NextRequest) {
 
         await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
-        const data = await request.json() as Project;
-        const project = await ProjectService.updateProject(data);
+        const data = await request.json();
+        
+        const parsedData = UpdateProjectRequestSchema.safeParse(data);
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
+        
+        const project = await ProjectService.updateProject(parsedData.data as Project);
         
         return NextResponse.json({ project });
 

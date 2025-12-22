@@ -1,34 +1,28 @@
 import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import OTPService from "@/services/AuthService/OTPService";
-import { OTPMethodEnum, OTPActionEnum } from '@/types/user/UserSecurityTypes';
 import AuthMessages from "@/messages/AuthMessages";
 import AuthService from "@/services/AuthService";
 import MailService from "@/services/NotificationService/MailService";
 import SMSService from "@/services/NotificationService/SMSService";
+import { OTPSendRequestSchema } from "@/dtos/AuthDTO";
 
 export async function POST(request: NextRequest) {
   try {
     // Authenticate the user
     const { user, userSession } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" });
 
-    const { method, action } = await request.json();
-
-    // Validate method
-    if (!Object.values(OTPMethodEnum.Enum).includes(method)) {
-      return NextResponse.json(
-        { message: AuthMessages.INVALID_OTP_METHOD },
-        { status: 400 }
-      );
+    const body = await request.json();
+    
+    const parsedData = OTPSendRequestSchema.safeParse(body);
+    
+    if (!parsedData.success) {
+      return NextResponse.json({
+        message: parsedData.error.errors.map(err => err.message).join(", ")
+      }, { status: 400 });
     }
 
-    if (!Object.values(OTPActionEnum.Enum).includes(action)) {
-      console.log("Invalid OTP action:", action);
-      return NextResponse.json(
-        { message: AuthMessages.INVALID_OTP_ACTION },
-        { status: 400 }
-      );
-    }
+    const { method, action } = parsedData.data;
 
     const { userSecurity } = await AuthService.getUserSecurity(user.userId);
  
@@ -37,30 +31,30 @@ export async function POST(request: NextRequest) {
 
     const userOTPMethods = userSecurity.otpMethods;
 
-    if (action === OTPActionEnum.Enum.enable && userOTPMethods.includes(method)) {
+    if (action === "enable" && userOTPMethods.includes(method)) {
       console.log("OTP method already enabled:", method);
       return NextResponse.json(
-        { message: "OTP method is already enabled" },
+        { message: AuthMessages.OTP_METHOD_ALREADY_ENABLED },
         { status: 400 }
       );
     }
 
-    if (action === OTPActionEnum.Enum.disable && !userOTPMethods.includes(method)) {
+    if (action === "disable" && !userOTPMethods.includes(method)) {
       console.log("OTP method not enabled:", method);
       return NextResponse.json(
-        { message: "OTP method is not enabled" },
+        { message: AuthMessages.OTP_METHOD_NOT_ENABLED },
         { status: 400 }
       );
     }
 
-    if (method === OTPMethodEnum.Enum.EMAIL) {
+    if (method === "EMAIL") {
       console.log("Sending OTP via Email to:", user.email);
       await MailService.sendOTPEmail({
         email: user.email,
         name: user.userProfile?.name,
         otpToken,
       });
-    } else if (method === OTPMethodEnum.Enum.SMS) {
+    } else if (method === "SMS") {
       console.log("Sending OTP via SMS to:", user.phone);
       await SMSService.sendShortMessage({
         to: user.phone!,
@@ -68,7 +62,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({ success: true, message: "OTP sent successfully" });
+    return NextResponse.json({ success: true, message: AuthMessages.OTP_SENT_SUCCESSFULLY });
 
 
   } catch (err: any) {

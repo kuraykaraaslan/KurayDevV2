@@ -1,5 +1,7 @@
 import SlotService from "@/services/AppointmentService/SlotService";
 import { NextResponse } from "next/server";
+import { GetSlotsRequestSchema } from "@/dtos/SlotDTO";
+import SlotMessages from "@/messages/SlotMessages";
 
 
 export async function GET(
@@ -11,6 +13,14 @@ export async function GET(
         const { searchParams } = new URL(req.url);
         const startDate = searchParams.get('startDate') || undefined;
         const endDate = searchParams.get('endDate') || undefined;
+        
+        const parsedData = GetSlotsRequestSchema.safeParse({ startDate, endDate });
+        
+        if (!parsedData.success) {
+            return NextResponse.json({
+                message: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
 
         console.log(`Fetching slots from ${startDate} to ${endDate}`);
 

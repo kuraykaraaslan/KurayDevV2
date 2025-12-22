@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
+import CategoryMessages from "@/messages/CategoryMessages";
 
 /**
  * GET handler for retrieving a category by its Id.
@@ -55,7 +56,7 @@ export async function DELETE(
 
     if (!category) {
       return NextResponse.json(
-        { message: "Category not found." },
+        { message: CategoryMessages.CATEGORY_NOT_FOUND },
         { status: 404 }
       );
     }

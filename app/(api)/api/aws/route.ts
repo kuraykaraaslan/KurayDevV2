@@ -3,6 +3,8 @@
 import { NextResponse } from 'next/server'
 import AWSService from '@/services/StorageService/AWSService'
 import UserSessionService from '@/services/AuthService/UserSessionService'
+import { AWSUploadRequestSchema } from '@/dtos/AIAndServicesDTO'
+import AIMessages from '@/messages/AIMessages';
 
 /**
  * POST handler for uploading a file to an S3 bucket.
@@ -21,7 +23,7 @@ export async function POST(request: NextRequest) {
 
         if (!file) {
             return NextResponse.json(
-                { message: 'No file provided' },
+                { message: AIMessages.FILE_REQUIRED },
                 { status: 400 }
             );
         }
