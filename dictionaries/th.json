@@ -42,17 +42,19 @@
     "toolbox": {
       "title": "ความคิดสร้างสรรค์ต้องการเครื่องมือมากมาย",
       "description": "ฉันมีเครื่องมือมากมายในกล่องเครื่องมือ และยังคงเรียนรู้สิ่งใหม่ ๆ อยู่เสมอ",
+      "frontend": "ส่วนหน้า",
+      "backend": "ส่วนหลัง",
       "skills": {
         "clean_code": "โค้ดที่สะอาด",
-        "authentication_security": "การตรวจสอบและความปลอดภัย",
+        "authentication_security": "การยืนยันตัวตนและความปลอดภัย",
         "rest_api_design": "การออกแบบ REST API",
         "sql_data_modeling": "SQL และการสร้างแบบจำลองข้อมูล",
         "multi_tenant_saas": "Multi-Tenant SaaS",
-        "caching_redis": "แคชกับ Redis",
+        "caching_redis": "แคชด้วย Redis",
         "payment_systems": "ระบบการชำระเงิน",
         "testing_cicd": "การทดสอบและ CI/CD",
-        "performance_optimization": "การเพิ่มประสิทธิภาพ",
-        "cloud_infrastructure": "โครงสร้างพื้นฐานของคลาวด์ (AWS)",
+        "performance_optimization": "การเพิ่มประสิทธิภาพประสิทธิภาพ",
+        "cloud_infrastructure": "โครงสร้างพื้นฐานคลาวด์ (AWS)",
         "event_driven_architecture": "สถาปัตยกรรมที่ขับเคลื่อนด้วยเหตุการณ์",
         "domain_driven_design": "การออกแบบที่ขับเคลื่อนด้วยโดเมน"
       }
@@ -129,7 +131,28 @@
       "description": "นัดหมายกับฉัน",
       "available_slots": "ช่วงเวลาที่ว่าง",
       "book_appointment": "จองนัดหมาย",
-      "select_slot": "กรุณาเลือกช่วงเวลาเพื่อจองนัดหมาย"
+      "select_slot": "กรุณาเลือกช่วงเวลาเพื่อจองนัดหมาย",
+      "past_date_warning": "คุณไม่สามารถจองนัดหมายย้อนหลังได้",
+      "minutes": "{{count}} นาที",
+      "close": "ปิด",
+      "appointment_title": "การนัดหมาย",
+      "appointment_subtitle": "เลือกวันที่และเวลาที่เหมาะสม",
+      "available_times": "ช่วงเวลาที่ว่าง",
+      "selected_time": "เวลาที่เลือก",
+      "no_slots_for_day": "ไม่มีเวลาว่างสำหรับวันที่เลือก",
+      "book_now": "จองตอนนี้",
+      "minutes_abbr": "นาที",
+      "appointment_info": "ข้อมูลการนัดหมาย",
+      "full_name": "ชื่อ-นามสกุล",
+      "email_label": "อีเมล",
+      "phone_label": "เบอร์โทร",
+      "note_label": "บันทึก",
+      "create_appointment": "สร้างการนัดหมาย",
+      "close_modal": "ปิด",
+      "select_slot_first": "กรุณาเลือกช่วงเวลาก่อน",
+      "appointment_created": "สร้างการนัดหมายเรียบร้อยแล้ว",
+      "appointment_error": "ไม่สามารถสร้างการนัดหมายได้",
+      "error_occurred": "เกิดข้อผิดพลาด"
     },
     "geomap": {
       "title": "แผนที่ความร้อนของผู้เยี่ยมชมทั่วโลก",
@@ -161,8 +184,277 @@
       }
     }
   },
-  "admin": {},
-  "auth": {},
-  "common": {},
-  "frontend": {}
+  "admin": {
+    "stats": {
+      "title": "สถิติ",
+      "users": "ผู้ใช้",
+      "posts": "โพสต์",
+      "views": "จำนวนการเข้าชม",
+      "categories": "หมวดหมู่",
+      "comments": "ความคิดเห็น",
+      "total_users": "ผู้ใช้ทั้งหมด",
+      "total_posts": "โพสต์ทั้งหมด",
+      "total_views": "การเข้าชมทั้งหมด",
+      "total_categories": "หมวดหมู่ทั้งหมด",
+      "total_comments": "ความคิดเห็นทั้งหมด",
+      "frequency": "ความถี่",
+      "last_5_minutes": "5 นาทีที่ผ่านมา",
+      "last_hour": "ชั่วโมงที่ผ่านมา",
+      "daily": "รายวัน",
+      "weekly": "รายสัปดาห์",
+      "monthly": "รายเดือน",
+      "yearly": "รายปี",
+      "all_time": "ตลอดเวลา"
+    },
+    "categories": {
+      "title": "หมวดหมู่",
+      "search_placeholder": "ค้นหา",
+      "create_category": "สร้างหมวดหมู่",
+      "image": "รูปภาพ",
+      "slug": "Slug",
+      "action": "การกระทำ",
+      "edit": "แก้ไข",
+      "view": "ดู",
+      "posts": "โพสต์",
+      "delete": "ลบ",
+      "showing": "แสดง {{count}} จาก {{total}} หมวดหมู่",
+      "previous": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "confirm_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?"
+    },
+    "posts": {
+      "title": "โพสต์",
+      "search_placeholder": "ค้นหา",
+      "create_post": "สร้างโพสต์",
+      "reset_knowledge_graph": "รีเซ็ตกราฟความรู้",
+      "rebuild_triggered": "เริ่มการสร้างใหม่แล้ว",
+      "rebuild_triggered_message": "ได้เริ่มการสร้างกราฟความรู้ใหม่แล้ว คุณต้องรีเฟรชหน้าเพื่อเริ่มอีกครั้ง",
+      "rebuild_success": "เริ่มสร้างกราฟความรู้ใหม่เรียบร้อยแล้ว",
+      "rebuild_failed": "ไม่สามารถเริ่มสร้างกราฟความรู้ใหม่ได้",
+      "category": "หมวดหมู่",
+      "status": "สถานะ",
+      "action": "การกระทำ",
+      "edit": "แก้ไข",
+      "view": "ดู",
+      "delete": "ลบ",
+      "showing": "แสดง {{count}} จาก {{total}} โพสต์",
+      "previous": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "confirm_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?"
+    },
+    "users": {
+      "title": "ผู้ใช้",
+      "search_placeholder": "ค้นหา",
+      "create_user": "สร้างผู้ใช้",
+      "name": "ชื่อ",
+      "email": "อีเมล",
+      "role": "บทบาท",
+      "status": "สถานะ",
+      "action": "การกระทำ",
+      "edit": "แก้ไข",
+      "delete": "ลบ",
+      "showing": "แสดง {{count}} จาก {{total}} ผู้ใช้",
+      "previous": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "confirm_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้คนนี้?",
+      "delete_success": "ลบผู้ใช้เรียบร้อยแล้ว",
+      "delete_failed": "ไม่สามารถลบผู้ใช้ได้"
+    },
+    "comments": {
+      "title": "ความคิดเห็น",
+      "search_placeholder": "ค้นหา",
+      "post": "โพสต์",
+      "contact": "การติดต่อ",
+      "content": "เนื้อหา",
+      "action": "การกระทำ",
+      "delete": "ลบ",
+      "approve": "อนุมัติ",
+      "reject": "ปฏิเสธ",
+      "showing": "แสดง {{count}} จาก {{total}} ความคิดเห็น",
+      "previous": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "confirm_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบความคิดเห็นนี้?",
+      "confirm_approve": "คุณแน่ใจหรือไม่ว่าต้องการอนุมัติความคิดเห็นนี้?",
+      "confirm_reject": "คุณแน่ใจหรือไม่ว่าต้องการปฏิเสธความคิดเห็นนี้?"
+    },
+    "projects": {
+      "title": "โปรเจกต์",
+      "search_placeholder": "ค้นหา",
+      "create_project": "สร้างโปรเจกต์",
+      "tech_stack": "เทคโนโลยีที่ใช้",
+      "action": "การกระทำ",
+      "edit": "แก้ไข",
+      "view": "ดู",
+      "delete": "ลบ",
+      "showing": "แสดง {{count}} จาก {{total}} โปรเจกต์",
+      "previous": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "confirm_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์นี้?"
+    },
+    "project_links": {
+      "url": "URL",
+      "action": "การกระทำ",
+      "delete": "ลบ"
+    },
+    "slots": {
+      "template_builder": "ตัวสร้างเทมเพลต",
+      "create_and_manage": "สร้างและจัดการเทมเพลตช่วงเวลาสำหรับแต่ละวันในสัปดาห์",
+      "select_day": "เลือกวัน",
+      "interval": "ช่วงเวลา (นาที)",
+      "start_time": "เวลาเริ่มต้น",
+      "end_time": "เวลาสิ้นสุด",
+      "generate": "สร้าง",
+      "generated_slots": "สร้าง {{count}} ช่วงเวลาแล้ว",
+      "add_manual_slot": "เพิ่มช่วงเวลาด้วยตนเอง",
+      "select_time": "เลือกเวลา",
+      "add": "เพิ่ม",
+      "remove_all": "ลบทั้งหมด",
+      "save_template": "บันทึกเทมเพลต",
+      "apply_template_date": "ใช้เทมเพลตกับวันที่",
+      "apply_template_week": "ใช้เทมเพลตกับสัปดาห์",
+      "template_saved": "บันทึกเทมเพลตเรียบร้อยแล้ว",
+      "template_failed": "ไม่สามารถบันทึกเทมเพลตได้",
+      "no_slots": "ไม่มีช่วงเวลาให้ใช้",
+      "apply_confirm": "ใช้เทมเพลตของ {{day}} กับ {{date}} หรือไม่? การดำเนินการนี้จะเขียนทับช่วงเวลาเดิม",
+      "week_confirm": "การดำเนินการนี้จะเขียนทับช่วงเวลาทั้งสัปดาห์ที่เริ่มจาก {{date}} ต้องการดำเนินการต่อหรือไม่?",
+      "apply_success": "ใช้เทมเพลตกับ {{date}} แล้ว",
+      "apply_week_success": "ใช้เทมเพลตกับทั้งสัปดาห์เรียบร้อยแล้ว",
+      "apply_failed": "ไม่สามารถใช้เทมเพลตได้",
+      "fetch_failed": "ไม่สามารถดึงช่วงเวลาของเทมเพลตได้",
+      "loading": "กำลังโหลด...",
+      "saving": "กำลังบันทึก...",
+      "no_slots_day": "ไม่มีช่วงเวลาสำหรับวันนี้",
+      "save_changes": "บันทึกการเปลี่ยนแปลง",
+      "slots_updated": "อัปเดตช่วงเวลาเรียบร้อยแล้ว",
+      "slots_failed": "ไม่สามารถอัปเดตช่วงเวลาได้",
+      "please_select_time": "กรุณาเลือกเวลา",
+      "slot_exists": "มีช่วงเวลานี้อยู่แล้ว",
+      "capacity": "ความจุ",
+      "start_earlier_error": "เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด"
+    },
+    "ai_prompt": {
+      "generate_post": "OpenAI GPT-4 - สร้างโพสต์",
+      "close": "ปิด"
+    },
+    "selects": {
+      "select_user": "เลือกผู้ใช้",
+      "select_category": "เลือกหมวดหมู่"
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "เข้าสู่ระบบด้วยโซเชียลมีเดีย",
+      "no_providers": "ยังไม่ได้กำหนดผู้ให้บริการ SSO",
+      "provider_not_allowed": "ไม่อนุญาตให้เข้าสู่ระบบ SSO สำหรับ {{provider}}",
+      "redirect_error": "เกิดข้อผิดพลาดในการเปลี่ยนเส้นทาง SSO",
+      "button_label": "เข้าสู่ระบบด้วย {{provider}}",
+      "modal_button": "เข้าสู่ระบบด้วยโซเชียลมีเดีย",
+      "modal_title": "เข้าสู่ระบบด้วยโซเชียลมีเดีย",
+      "close": "ปิด"
+    }
+  },
+  "common": {
+    "navbar_auth": {
+      "admin_dashboard": "แดชบอร์ดผู้ดูแลระบบ",
+      "user_settings": "การตั้งค่าผู้ใช้",
+      "logout": "ออกจากระบบ"
+    },
+    "image_load": {
+      "success": "อัปโหลดรูปภาพเรียบร้อยแล้ว",
+      "error": "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ"
+    },
+    "loading": "กำลังโหลด...",
+    "modal": {
+      "close_dialog": "ปิดหน้าต่าง"
+    }
+  },
+  "frontend": {
+    "comments": {
+      "comments_count": "ความคิดเห็น",
+      "name_placeholder": "ชื่อ",
+      "email_placeholder": "อีเมล",
+      "comment_placeholder": "เขียนความคิดเห็น...",
+      "submit_button": "แสดงความคิดเห็น",
+      "fill_all_fields": "กรุณากรอกข้อมูลให้ครบทุกช่อง",
+      "invalid_email": "กรุณากรอกอีเมลที่ถูกต้อง",
+      "name_length_error": "ชื่อควรมีอย่างน้อย 3 ตัวอักษรและไม่เกิน 50 ตัวอักษร",
+      "content_length_error": "เนื้อหาควรมีอย่างน้อย 5 ตัวอักษร",
+      "posted_successfully": "โพสต์ความคิดเห็นเรียบร้อยแล้ว",
+      "error": "เกิดข้อผิดพลาด",
+      "reply": "ตอบกลับ",
+      "delete": "ลบ",
+      "anonymous": "ไม่ระบุชื่อ"
+    },
+    "other_posts": "โพสต์อื่น ๆ",
+    "related_articles": "บทความที่เกี่ยวข้อง",
+    "categories": "หมวดหมู่",
+    "latest_posts": "โพสต์ล่าสุด",
+    "posts_by": "โพสต์โดย",
+    "load_more": "โหลดโพสต์เพิ่มเติม",
+    "no_more_posts": "ไม่มีโพสต์เพิ่มเติม",
+    "min_read": "นาทีในการอ่าน",
+    "views": "ครั้ง",
+    "by": "โดย",
+    "no_date": "ไม่มีวันที่",
+    "unknown_author": "ไม่ทราบผู้เขียน",
+    "post_header": {
+      "no_date": "ไม่มีวันที่",
+      "views_count": "{{count}} ครั้ง",
+      "read_time": "{{count}} นาทีในการอ่าน",
+      "by": "โดย",
+      "unknown_author": "ไม่ทราบผู้เขียน"
+    },
+    "days_ago": "{{count}} วันที่แล้ว",
+    "yesterday": "เมื่อวานนี้",
+    "hours_ago": "{{count}} ชั่วโมงที่แล้ว",
+    "an_hour_ago": "เมื่อชั่วโมงที่แล้ว",
+    "minutes_ago": "{{count}} นาทีที่แล้ว",
+    "a_minute_ago": "นาทีที่แล้ว",
+    "just_now": "เมื่อสักครู่",
+    "views_count": "{{count}} ครั้ง",
+    "today": "วันนี้",
+    "read_more": "อ่านต่อ",
+    "offline": {
+      "online": "คุณกลับมาออนไลน์แล้ว!",
+      "offline": "คุณออฟไลน์อยู่!"
+    },
+    "terminal_button": "เทอร์มินัล",
+    "scroll_to_top": "เลื่อนไปด้านบน",
+    "scroll_to_bottom": "เลื่อนไปด้านล่าง",
+    "knowledge_graph": {
+      "title_2d": "กราฟความรู้ 2D",
+      "title_3d": "กราฟความรู้ 3D"
+    },
+    "settings": {
+      "basic": "พื้นฐาน",
+      "profile": "โปรไฟล์",
+      "security": "ความปลอดภัย",
+      "otp": "ยืนยันตัวตนสองขั้นตอน",
+      "preferences": "การตั้งค่าตามต้องการ",
+      "notifications": "การแจ้งเตือน",
+      "otp_method_card": {
+        "active": "เปิดใช้งาน",
+        "inactive": "ปิดใช้งาน"
+      },
+      "otp_confirm": {
+        "title": "การยืนยันความปลอดภัย",
+        "send_code": "ส่งรหัสยืนยัน",
+        "sending": "กำลังส่งรหัส...",
+        "code_placeholder": "123456",
+        "verify": "ยืนยัน",
+        "verifying": "กำลังยืนยัน..."
+      },
+      "totp_setup": {
+        "title": "ตั้งค่า TOTP",
+        "backup_codes_title": "โค้ดสำรอง",
+        "warning": "กรุณาเก็บโค้ดสำรองของคุณไว้ในที่ปลอดภัย คุณสามารถใช้โค้ดเหล่านี้เพื่อเข้าถึงบัญชีได้หากคุณไม่สามารถเข้าถึงแอปยืนยันตัวตนได้",
+        "copy_codes": "คัดลอกโค้ด",
+        "download_codes": "ดาวน์โหลดโค้ด",
+        "i_have_saved": "ฉันได้เก็บโค้ดสำรองไว้แล้ว",
+        "start_setup": "เริ่มการตั้งค่า",
+        "enter_code": "กรอกรหัสจากแอปยืนยันตัวตนของคุณ",
+        "confirm_setup": "ยืนยันการตั้งค่า"
+      }
+    }
+  }
 }

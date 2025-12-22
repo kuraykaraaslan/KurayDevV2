@@ -42,6 +42,8 @@
     "toolbox": {
       "title": "Creativiteit heeft veel tools nodig",
       "description": "Ik heb veel tools in mijn toolbox en ik blijf altijd nieuwe leren.",
+      "frontend": "Frontend",
+      "backend": "Backend",
       "skills": {
         "clean_code": "Schone Code",
         "authentication_security": "Authenticatie & Beveiliging",
@@ -132,7 +134,25 @@
       "select_slot": "Selecteer een tijdslot om een afspraak te maken.",
       "past_date_warning": "U kunt geen afspraak maken in het verleden.",
       "minutes": "{{count}} minuten",
-      "close": "Sluiten"
+      "close": "Sluiten",
+      "appointment_title": "Afspraak",
+      "appointment_subtitle": "Kies een geschikte dag en tijd",
+      "available_times": "Beschikbare tijden",
+      "selected_time": "Geselecteerde tijd",
+      "no_slots_for_day": "Geen beschikbare tijden voor de geselecteerde dag",
+      "book_now": "Plan afspraak",
+      "minutes_abbr": "min",
+      "appointment_info": "Afspraakinformatie",
+      "full_name": "Volledige naam",
+      "email_label": "E-mail",
+      "phone_label": "Telefoon",
+      "note_label": "Notitie",
+      "create_appointment": "Maak afspraak",
+      "close_modal": "Sluiten",
+      "select_slot_first": "Selecteer eerst een tijdslot",
+      "appointment_created": "Uw afspraak is gemaakt",
+      "appointment_error": "Afspraak kon niet worden gemaakt",
+      "error_occurred": "Er is een fout opgetreden"
     },
     "geomap": {
       "title": "Wereldwijde Bezoekers Warmtekaart",
@@ -164,8 +184,277 @@
       }
     }
   },
-  "admin": {},
-  "auth": {},
-  "common": {},
-  "frontend": {}
+  "admin": {
+    "stats": {
+      "title": "Statistieken",
+      "users": "Gebruikers",
+      "posts": "Berichten",
+      "views": "Weergaven",
+      "categories": "Categorieën",
+      "comments": "Reacties",
+      "total_users": "Totaal aantal gebruikers",
+      "total_posts": "Totaal aantal berichten",
+      "total_views": "Totaal aantal weergaven",
+      "total_categories": "Totaal aantal categorieën",
+      "total_comments": "Totaal aantal reacties",
+      "frequency": "Frequentie",
+      "last_5_minutes": "Laatste 5 minuten",
+      "last_hour": "Laatste uur",
+      "daily": "Dagelijks",
+      "weekly": "Wekelijks",
+      "monthly": "Maandelijks",
+      "yearly": "Jaarlijks",
+      "all_time": "Altijd"
+    },
+    "categories": {
+      "title": "Categorieën",
+      "search_placeholder": "Zoeken",
+      "create_category": "Categorie aanmaken",
+      "image": "Afbeelding",
+      "slug": "Slug",
+      "action": "Actie",
+      "edit": "Bewerken",
+      "view": "Bekijken",
+      "posts": "Berichten",
+      "delete": "Verwijderen",
+      "showing": "Toont {{count}} van {{total}} categorieën",
+      "previous": "Vorige",
+      "next": "Volgende",
+      "confirm_delete": "Weet u zeker dat u deze categorie wilt verwijderen?"
+    },
+    "posts": {
+      "title": "Berichten",
+      "search_placeholder": "Zoeken",
+      "create_post": "Bericht aanmaken",
+      "reset_knowledge_graph": "Knowledge Graph resetten",
+      "rebuild_triggered": "Heropbouw gestart",
+      "rebuild_triggered_message": "Heropbouw van de knowledge graph is al gestart. Vernieuw de pagina om opnieuw te starten.",
+      "rebuild_success": "Heropbouw van de knowledge graph gestart.",
+      "rebuild_failed": "Heropbouw van de knowledge graph starten is mislukt.",
+      "category": "Categorie",
+      "status": "Status",
+      "action": "Actie",
+      "edit": "Bewerken",
+      "view": "Bekijken",
+      "delete": "Verwijderen",
+      "showing": "Toont {{count}} van {{total}} berichten",
+      "previous": "Vorige",
+      "next": "Volgende",
+      "confirm_delete": "Weet u zeker dat u dit bericht wilt verwijderen?"
+    },
+    "users": {
+      "title": "Gebruikers",
+      "search_placeholder": "Zoeken",
+      "create_user": "Gebruiker aanmaken",
+      "name": "Naam",
+      "email": "E-mail",
+      "role": "Rol",
+      "status": "Status",
+      "action": "Actie",
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "showing": "Toont {{count}} van {{total}} gebruikers",
+      "previous": "Vorige",
+      "next": "Volgende",
+      "confirm_delete": "Weet u zeker dat u deze gebruiker wilt verwijderen?",
+      "delete_success": "Gebruiker succesvol verwijderd.",
+      "delete_failed": "Verwijderen van gebruiker mislukt."
+    },
+    "comments": {
+      "title": "Reacties",
+      "search_placeholder": "Zoeken",
+      "post": "Bericht",
+      "contact": "Contact",
+      "content": "Inhoud",
+      "action": "Actie",
+      "delete": "Verwijderen",
+      "approve": "Goedkeuren",
+      "reject": "Afwijzen",
+      "showing": "Toont {{count}} van {{total}} reacties",
+      "previous": "Vorige",
+      "next": "Volgende",
+      "confirm_delete": "Weet u zeker dat u dit bericht wilt verwijderen?",
+      "confirm_approve": "Weet u zeker dat u dit bericht wilt goedkeuren?",
+      "confirm_reject": "Weet u zeker dat u dit bericht wilt afwijzen?"
+    },
+    "projects": {
+      "title": "Projecten",
+      "search_placeholder": "Zoeken",
+      "create_project": "Project aanmaken",
+      "tech_stack": "Technische stack",
+      "action": "Actie",
+      "edit": "Bewerken",
+      "view": "Bekijken",
+      "delete": "Verwijderen",
+      "showing": "Toont {{count}} van {{total}} projecten",
+      "previous": "Vorige",
+      "next": "Volgende",
+      "confirm_delete": "Weet u zeker dat u dit project wilt verwijderen?"
+    },
+    "project_links": {
+      "url": "URL",
+      "action": "Actie",
+      "delete": "Verwijderen"
+    },
+    "slots": {
+      "template_builder": "Templates voor tijdsloten",
+      "create_and_manage": "Maak en beheer templates voor tijdsloten voor elke dag van de week.",
+      "select_day": "Selecteer dag",
+      "interval": "Interval (minuten)",
+      "start_time": "Starttijd",
+      "end_time": "Eindtijd",
+      "generate": "Genereren",
+      "generated_slots": "{{count}} tijdsloten gegenereerd",
+      "add_manual_slot": "Handmatig tijdslot toevoegen",
+      "select_time": "Selecteer tijd",
+      "add": "Toevoegen",
+      "remove_all": "Alles verwijderen",
+      "save_template": "Template opslaan",
+      "apply_template_date": "Template toepassen op datum",
+      "apply_template_week": "Template toepassen op week",
+      "template_saved": "Template succesvol opgeslagen",
+      "template_failed": "Template opslaan mislukt",
+      "no_slots": "Geen tijdsloten om toe te passen",
+      "apply_confirm": "Template van {{day}} toepassen op {{date}}? Dit overschrijft bestaande tijdsloten.",
+      "week_confirm": "Dit overschrijft bestaande tijdsloten voor de week die begint op {{date}}. Doorgaan?",
+      "apply_success": "Template toegepast op {{date}}",
+      "apply_week_success": "Templates succesvol toegepast op de hele week",
+      "apply_failed": "Template toepassen mislukt",
+      "fetch_failed": "Ophalen van template-tijdsloten mislukt",
+      "loading": "Laden...",
+      "saving": "Opslaan...",
+      "no_slots_day": "Geen tijdsloten voor deze dag",
+      "save_changes": "Wijzigingen opslaan",
+      "slots_updated": "Tijdsloten succesvol bijgewerkt",
+      "slots_failed": "Bijwerken van tijdsloten mislukt",
+      "please_select_time": "Selecteer een tijd",
+      "slot_exists": "Tijdslot bestaat al",
+      "capacity": "Capaciteit",
+      "start_earlier_error": "Starttijd moet eerder zijn dan eindtijd"
+    },
+    "ai_prompt": {
+      "generate_post": "OpenAI GPT-4 - Bericht genereren",
+      "close": "Sluiten"
+    },
+    "selects": {
+      "select_user": "Gebruiker selecteren",
+      "select_category": "Categorie selecteren"
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "Inloggen met Social Media",
+      "no_providers": "Er zijn geen SSO-providers geconfigureerd.",
+      "provider_not_allowed": "SSO-inloggen voor {{provider}} is niet toegestaan.",
+      "redirect_error": "SSO-omleidingsfout.",
+      "button_label": "Inloggen met {{provider}}",
+      "modal_button": "Inloggen met Social Media",
+      "modal_title": "Inloggen met Social Media",
+      "close": "Sluiten"
+    }
+  },
+  "common": {
+    "navbar_auth": {
+      "admin_dashboard": "Admin Dashboard",
+      "user_settings": "Gebruikersinstellingen",
+      "logout": "Uitloggen"
+    },
+    "image_load": {
+      "success": "Afbeelding succesvol geüpload",
+      "error": "Fout bij uploaden van afbeelding"
+    },
+    "loading": "Laden...",
+    "modal": {
+      "close_dialog": "Dialoog sluiten"
+    }
+  },
+  "frontend": {
+    "comments": {
+      "comments_count": "Reacties",
+      "name_placeholder": "Naam",
+      "email_placeholder": "E-mail",
+      "comment_placeholder": "Schrijf een reactie...",
+      "submit_button": "Reageren",
+      "fill_all_fields": "Vul alstublieft alle velden in",
+      "invalid_email": "Voer een geldig e-mailadres in",
+      "name_length_error": "Naam moet minimaal 3 en maximaal 50 tekens bevatten",
+      "content_length_error": "Inhoud moet minimaal 5 tekens bevatten",
+      "posted_successfully": "Reactie succesvol geplaatst",
+      "error": "Er is een fout opgetreden",
+      "reply": "Antwoorden",
+      "delete": "Verwijderen",
+      "anonymous": "Anoniem"
+    },
+    "other_posts": "Andere berichten",
+    "related_articles": "Gerelateerde artikelen",
+    "categories": "Categorieën",
+    "latest_posts": "Laatste berichten",
+    "posts_by": "Berichten door",
+    "load_more": "Meer berichten laden",
+    "no_more_posts": "Geen extra berichten beschikbaar",
+    "min_read": "min leestijd",
+    "views": "weergaven",
+    "by": "door",
+    "no_date": "Geen datum",
+    "unknown_author": "Onbekende auteur",
+    "post_header": {
+      "no_date": "Geen datum",
+      "views_count": "{{count}} weergaven",
+      "read_time": "{{count}} min leestijd",
+      "by": "door",
+      "unknown_author": "Onbekende auteur"
+    },
+    "days_ago": "{{count}} dagen geleden",
+    "yesterday": "Gisteren",
+    "hours_ago": "{{count}} uur geleden",
+    "an_hour_ago": "Een uur geleden",
+    "minutes_ago": "{{count}} minuten geleden",
+    "a_minute_ago": "Een minuut geleden",
+    "just_now": "Zojuist",
+    "views_count": "{{count}} weergaven",
+    "today": "Vandaag",
+    "read_more": "Lees meer",
+    "offline": {
+      "online": "Je bent weer online!",
+      "offline": "Je bent offline!"
+    },
+    "terminal_button": "Terminal",
+    "scroll_to_top": "Scroll naar boven",
+    "scroll_to_bottom": "Scroll naar beneden",
+    "knowledge_graph": {
+      "title_2d": "2D Knowledge Graph",
+      "title_3d": "3D Knowledge Graph"
+    },
+    "settings": {
+      "basic": "Basis",
+      "profile": "Profiel",
+      "security": "Beveiliging",
+      "otp": "2FA",
+      "preferences": "Voorkeuren",
+      "notifications": "Meldingen",
+      "otp_method_card": {
+        "active": "Actief",
+        "inactive": "Inactief"
+      },
+      "otp_confirm": {
+        "title": "Beveiligingsverificatie",
+        "send_code": "Verificatiecode verzenden",
+        "sending": "Code verzenden...",
+        "code_placeholder": "123456",
+        "verify": "Verifiëren",
+        "verifying": "Verifiëren..."
+      },
+      "totp_setup": {
+        "title": "TOTP-instelling",
+        "backup_codes_title": "Back-upcodes",
+        "warning": "Bewaar uw back-upcodes op een veilige plaats. U kunt ze gebruiken om weer toegang te krijgen tot uw account als u de toegang tot uw authenticatie-app verliest.",
+        "copy_codes": "Codes kopiëren",
+        "download_codes": "Codes downloaden",
+        "i_have_saved": "Ik heb mijn back-upcodes opgeslagen",
+        "start_setup": "Instelling starten",
+        "enter_code": "Voer de code uit uw authenticatie-app in",
+        "confirm_setup": "Instelling bevestigen"
+      }
+    }
+  }
 }

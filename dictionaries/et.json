@@ -34,7 +34,7 @@
         "text3": "lahendusi välja töötama",
         "text4": "muutust looma",
         "text5": "väljakutseid vastu võtma",
-        "text6": "freelance tööt tegema"
+        "text6": "freelance tööd tegema"
       },
       "contact_me": "Võta minuga ühendust",
       "resume": "CV"
@@ -42,13 +42,15 @@
     "toolbox": {
       "title": "Loovus vajab palju tööriistu",
       "description": "Mul on palju tööriistu tööriistakastis ja õpin pidevalt uusi.",
+      "frontend": "Esiliides",
+      "backend": "Taustaprogramm",
       "skills": {
         "clean_code": "Puhas kood",
         "authentication_security": "Autentimine ja turvalisus",
         "rest_api_design": "REST API kujundamine",
         "sql_data_modeling": "SQL ja andmete modelleerimine",
         "multi_tenant_saas": "Multi-Tenant SaaS",
-        "caching_redis": "Vahemälueerimine Redis-iga",
+        "caching_redis": "Vahemälustamine Redis-iga",
         "payment_systems": "Maksesüsteemid",
         "testing_cicd": "Testimine ja CI/CD",
         "performance_optimization": "Jõudluse optimeerimine",
@@ -129,7 +131,28 @@
       "description": "Broneeri aeg minuga.",
       "available_slots": "Saadaolevad ajad",
       "book_appointment": "Broneeri aeg",
-      "select_slot": "Palun vali aeg, et broneerida kohtumine."
+      "select_slot": "Palun vali aeg, et broneerida kohtumine.",
+      "past_date_warning": "Sa ei saa broneerida aega minevikukuupäevale.",
+      "minutes": "{{count}} minutit",
+      "close": "Sulge",
+      "appointment_title": "Kohtumine",
+      "appointment_subtitle": "Vali sobiv päev ja kellaaeg",
+      "available_times": "Saadaolevad kellaajad",
+      "selected_time": "Valitud kellaaeg",
+      "no_slots_for_day": "Valitud päeval pole vabu aegu",
+      "book_now": "Broneeri aeg",
+      "minutes_abbr": "min",
+      "appointment_info": "Kohtumise info",
+      "full_name": "Täisnimi",
+      "email_label": "E-post",
+      "phone_label": "Telefon",
+      "note_label": "Märkus",
+      "create_appointment": "Loo kohtumine",
+      "close_modal": "Sulge",
+      "select_slot_first": "Palun vali esmalt kellaaeg",
+      "appointment_created": "Sinu kohtumine on loodud",
+      "appointment_error": "Kohtumist ei õnnestunud luua",
+      "error_occurred": "Tekkis viga"
     },
     "geomap": {
       "title": "Maailma külastajate soojuskaart",
@@ -146,8 +169,8 @@
         "database": "Andmebaas",
         "auth": "Autentimine",
         "payment": "Maksevärav",
-        "frontend": "Eesmine",
-        "redis": "Redis Cache",
+        "frontend": "Eesliides",
+        "redis": "Redis vahemälu",
         "mail": "Postiteenus",
         "openai": "OpenAI teenus",
         "aws": "AWS teenused",
@@ -155,14 +178,283 @@
       },
       "statuses": {
         "operational": "Töötav",
-        "degraded_performance": "Kehv jõudlus",
+        "degraded_performance": "Vähenenud jõudlus",
         "partial_outage": "Osaline katkestus",
-        "major_outage": "Suurepärane katkestus"
+        "major_outage": "Tõsine katkestus"
       }
     }
   },
-  "admin": {},
-  "auth": {},
-  "common": {},
-  "frontend": {}
+  "admin": {
+    "stats": {
+      "title": "Statistika",
+      "users": "Kasutajad",
+      "posts": "Postitused",
+      "views": "Vaatamised",
+      "categories": "Kategooriad",
+      "comments": "Kommentaarid",
+      "total_users": "Kokku kasutajaid",
+      "total_posts": "Kokku postitusi",
+      "total_views": "Kokku vaatamisi",
+      "total_categories": "Kokku kategooriaid",
+      "total_comments": "Kokku kommentaare",
+      "frequency": "Sagedus",
+      "last_5_minutes": "Viimased 5 minutit",
+      "last_hour": "Viimane tund",
+      "daily": "Päevane",
+      "weekly": "Nädalane",
+      "monthly": "Kuu",
+      "yearly": "Aasta",
+      "all_time": "Kogu aeg"
+    },
+    "categories": {
+      "title": "Kategooriad",
+      "search_placeholder": "Otsi",
+      "create_category": "Loo kategooria",
+      "image": "Pilt",
+      "slug": "Püsiviide",
+      "action": "Tegevus",
+      "edit": "Muuda",
+      "view": "Vaata",
+      "posts": "Postitused",
+      "delete": "Kustuta",
+      "showing": "Kuvatakse {{count}} / {{total}} kategooriat",
+      "previous": "Eelmine",
+      "next": "Järgmine",
+      "confirm_delete": "Kas oled kindel, et soovid selle kategooria kustutada?"
+    },
+    "posts": {
+      "title": "Postitused",
+      "search_placeholder": "Otsi",
+      "create_post": "Loo postitus",
+      "reset_knowledge_graph": "Lähtesta teadmiste graaf",
+      "rebuild_triggered": "Ümbeleiitamine käivitatud",
+      "rebuild_triggered_message": "Teadmiste graafi ümbeleiitamine on juba käivitatud. Uuesti käivitamiseks värskenda lehte.",
+      "rebuild_success": "Teadmiste graafi ümbeleiitamine käivitatud.",
+      "rebuild_failed": "Teadmiste graafi ümbeleiitamise käivitamine ebaõnnestus.",
+      "category": "Kategooria",
+      "status": "Olek",
+      "action": "Tegevus",
+      "edit": "Muuda",
+      "view": "Vaata",
+      "delete": "Kustuta",
+      "showing": "Kuvatakse {{count}} / {{total}} postitust",
+      "previous": "Eelmine",
+      "next": "Järgmine",
+      "confirm_delete": "Kas oled kindel, et soovid selle postituse kustutada?"
+    },
+    "users": {
+      "title": "Kasutajad",
+      "search_placeholder": "Otsi",
+      "create_user": "Loo kasutaja",
+      "name": "Nimi",
+      "email": "E-post",
+      "role": "Roll",
+      "status": "Olek",
+      "action": "Tegevus",
+      "edit": "Muuda",
+      "delete": "Kustuta",
+      "showing": "Kuvatakse {{count}} / {{total}} kasutajat",
+      "previous": "Eelmine",
+      "next": "Järgmine",
+      "confirm_delete": "Kas oled kindel, et soovid selle kasutaja kustutada?",
+      "delete_success": "Kasutaja on edukalt kustutatud.",
+      "delete_failed": "Kasutaja kustutamine ebaõnnestus."
+    },
+    "comments": {
+      "title": "Kommentaarid",
+      "search_placeholder": "Otsi",
+      "post": "Postitus",
+      "contact": "Kontakt",
+      "content": "Sisu",
+      "action": "Tegevus",
+      "delete": "Kustuta",
+      "approve": "Kinnita",
+      "reject": "Lükka tagasi",
+      "showing": "Kuvatakse {{count}} / {{total}} kommentaari",
+      "previous": "Eelmine",
+      "next": "Järgmine",
+      "confirm_delete": "Kas oled kindel, et soovid selle postituse kustutada?",
+      "confirm_approve": "Kas oled kindel, et soovid selle postituse kinnitada?",
+      "confirm_reject": "Kas oled kindel, et soovid selle postituse tagasi lükata?"
+    },
+    "projects": {
+      "title": "Projektid",
+      "search_placeholder": "Otsi",
+      "create_project": "Loo projekt",
+      "tech_stack": "Tehnoloogiapakk",
+      "action": "Tegevus",
+      "edit": "Muuda",
+      "view": "Vaata",
+      "delete": "Kustuta",
+      "showing": "Kuvatakse {{count}} / {{total}} projekti",
+      "previous": "Eelmine",
+      "next": "Järgmine",
+      "confirm_delete": "Kas oled kindel, et soovid selle projekti kustutada?"
+    },
+    "project_links": {
+      "url": "URL",
+      "action": "Tegevus",
+      "delete": "Kustuta"
+    },
+    "slots": {
+      "template_builder": "Ajaplaani mallide koostaja",
+      "create_and_manage": "Loo ja halda ajaplaani malle iga nädala päeva jaoks.",
+      "select_day": "Vali päev",
+      "interval": "Intervall (minutites)",
+      "start_time": "Algusaeg",
+      "end_time": "Lõppaeg",
+      "generate": "Genereeri",
+      "generated_slots": "Genereeriti {{count}} aega",
+      "add_manual_slot": "Lisa aeg käsitsi",
+      "select_time": "Vali kellaaeg",
+      "add": "Lisa",
+      "remove_all": "Eemalda kõik",
+      "save_template": "Salvesta mall",
+      "apply_template_date": "Rakenda mall kuupäevale",
+      "apply_template_week": "Rakenda mall nädalale",
+      "template_saved": "Mall salvestati edukalt",
+      "template_failed": "Malli salvestamine ebaõnnestus",
+      "no_slots": "Pole aegu, mida rakendada",
+      "apply_confirm": "Rakendada {{day}} mall kuupäevale {{date}}? See kirjutab olemasolevad ajad üle.",
+      "week_confirm": "See kirjutab üle kõik nädalas alates {{date}} olemasolevad ajad. Jätkata?",
+      "apply_success": "Mall rakendati kuupäevale {{date}}",
+      "apply_week_success": "Mallid rakendati edukalt kogu nädalale",
+      "apply_failed": "Malli rakendamine ebaõnnestus",
+      "fetch_failed": "Malli aegade laadimine ebaõnnestus",
+      "loading": "Laadin...",
+      "saving": "Salvestan...",
+      "no_slots_day": "Sellel päeval pole aegu",
+      "save_changes": "Salvesta muudatused",
+      "slots_updated": "Ajad uuendati edukalt",
+      "slots_failed": "Aegade uuendamine ebaõnnestus",
+      "please_select_time": "Palun vali kellaaeg",
+      "slot_exists": "Aeg on juba olemas",
+      "capacity": "Mahutavus",
+      "start_earlier_error": "Algusaeg peab olema varasem kui lõppaeg"
+    },
+    "ai_prompt": {
+      "generate_post": "OpenAI GPT-4 - Loo postitus",
+      "close": "Sulge"
+    },
+    "selects": {
+      "select_user": "Vali kasutaja",
+      "select_category": "Vali kategooria"
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "Logi sisse sotsiaalmeediaga",
+      "no_providers": "Ühtegi SSO teenusepakkujat pole seadistatud.",
+      "provider_not_allowed": "SSO sisselogimine teenusega {{provider}} ei ole lubatud.",
+      "redirect_error": "SSO ümbersuunamise viga.",
+      "button_label": "Logi sisse teenusega {{provider}}",
+      "modal_button": "Logi sisse sotsiaalmeediaga",
+      "modal_title": "Logi sisse sotsiaalmeediaga",
+      "close": "Sulge"
+    }
+  },
+  "common": {
+    "navbar_auth": {
+      "admin_dashboard": "Admin paneel",
+      "user_settings": "Kasutaja seaded",
+      "logout": "Logi välja"
+    },
+    "image_load": {
+      "success": "Pilt on edukalt üles laetud",
+      "error": "Pildi üleslaadimisel tekkis viga"
+    },
+    "loading": "Laadin...",
+    "modal": {
+      "close_dialog": "Sulge dialoog"
+    }
+  },
+  "frontend": {
+    "comments": {
+      "comments_count": "Kommentaarid",
+      "name_placeholder": "Nimi",
+      "email_placeholder": "E-post",
+      "comment_placeholder": "Kirjuta kommentaar...",
+      "submit_button": "Kommenteeri",
+      "fill_all_fields": "Palun täida kõik väljad",
+      "invalid_email": "Palun sisesta kehtiv e-posti aadress",
+      "name_length_error": "Nimi peab olema vähemalt 3 ja kuni 50 märki pikk",
+      "content_length_error": "Sisu peab olema vähemalt 5 märki pikk",
+      "posted_successfully": "Kommentaar on edukalt postitatud",
+      "error": "Tekkis viga",
+      "reply": "Vasta",
+      "delete": "Kustuta",
+      "anonymous": "Anonüümne"
+    },
+    "other_posts": "Teised postitused",
+    "related_articles": "Seotud artiklid",
+    "categories": "Kategooriad",
+    "latest_posts": "Viimased postitused",
+    "posts_by": "Postitused autorilt",
+    "load_more": "Laadi rohkem postitusi",
+    "no_more_posts": "Rohkem postitusi pole saadaval",
+    "min_read": "min lugemist",
+    "views": "vaatamist",
+    "by": "autor",
+    "no_date": "Kuupäev puudub",
+    "unknown_author": "Tundmatu autor",
+    "post_header": {
+      "no_date": "Kuupäev puudub",
+      "views_count": "{{count}} vaatamist",
+      "read_time": "{{count}} min lugemist",
+      "by": "autor",
+      "unknown_author": "Tundmatu autor"
+    },
+    "days_ago": "{{count}} päeva tagasi",
+    "yesterday": "Eile",
+    "hours_ago": "{{count}} tundi tagasi",
+    "an_hour_ago": "Tund tagasi",
+    "minutes_ago": "{{count}} minutit tagasi",
+    "a_minute_ago": "Minut tagasi",
+    "just_now": "Just praegu",
+    "views_count": "{{count}} vaatamist",
+    "today": "Täna",
+    "read_more": "Loe edasi",
+    "offline": {
+      "online": "Oled taas võrgus!",
+      "offline": "Oled võrguühenduseta!"
+    },
+    "terminal_button": "Terminal",
+    "scroll_to_top": "Keri üles",
+    "scroll_to_bottom": "Keri alla",
+    "knowledge_graph": {
+      "title_2d": "2D teadmiste graaf",
+      "title_3d": "3D teadmiste graaf"
+    },
+    "settings": {
+      "basic": "Põhiandmed",
+      "profile": "Profiil",
+      "security": "Turvalisus",
+      "otp": "2FA",
+      "preferences": "Eelistused",
+      "notifications": "Teavitused",
+      "otp_method_card": {
+        "active": "Aktiivne",
+        "inactive": "Mitteaktiivne"
+      },
+      "otp_confirm": {
+        "title": "Turvakontroll",
+        "send_code": "Saada kinnituskood",
+        "sending": "Saadan koodi...",
+        "code_placeholder": "123456",
+        "verify": "Kinnita",
+        "verifying": "Kinnitan..."
+      },
+      "totp_setup": {
+        "title": "TOTP seadistamine",
+        "backup_codes_title": "Varukoodid",
+        "warning": "Hoia oma varukoode turvalises kohas. Saad neid kasutada, kui kaotad juurdepääsu autentimisrakendusele.",
+        "copy_codes": "Kopeeri koodid",
+        "download_codes": "Laadi koodid alla",
+        "i_have_saved": "Olen oma varukoodid salvestanud",
+        "start_setup": "Alusta seadistamist",
+        "enter_code": "Sisesta kood oma autentimisrakendusest",
+        "confirm_setup": "Kinnita seadistus"
+      }
+    }
+  }
 }
