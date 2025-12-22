@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import AppointmentService from '@/services/AppointmentService'
 import Logger from '@/libs/logger'
 import SlotService from '@/services/AppointmentService/SlotService'
-import { AppointmentStatus } from '@/types/CalendarTypes'
+import { AppointmentStatus } from '@/types/features'
 // gerekirse: import UserSessionService from '@/services/AuthService/UserSessionService'
 
 export async function POST(request: NextRequest) {

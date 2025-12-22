@@ -1,7 +1,7 @@
 'use client'
-import { PostWithData } from '@/types/BlogTypes';
+import { PostWithData } from '@/types/content';
 import axiosInstance from '@/libs/axios';
-import { CommentWithData } from '@/types/BlogTypes';
+import { CommentWithData } from '@/types/content';
 import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 

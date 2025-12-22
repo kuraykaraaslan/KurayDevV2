@@ -3,9 +3,9 @@ import bcrypt from 'bcrypt';
 import redis from '@/libs/redis';
 import AuthMessages from '@/messages/AuthMessages';
 import AuthService from '@/services/AuthService';
-import { SafeUser } from '@/types/UserTypes';
-import { SafeUserSession } from '@/types/UserSessionTypes';
-import { OTPAction } from '@/types/UserSecurityTypes';
+import { SafeUser } from '@/types/user/UserTypes';
+import { SafeUserSession } from '@/types/user/UserSessionTypes';
+import { OTPAction } from '@/types/user/UserSecurityTypes';
 
 export default class TOTPService {
   static TOTP_STEP_SECONDS = parseInt(process.env.TOTP_STEP_SECONDS || '30');

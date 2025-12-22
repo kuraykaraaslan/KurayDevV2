@@ -1,6 +1,6 @@
 'use client';
 import Menu from '../Menu';
-import { MenuItem } from '@/types/UITypes';
+import { MenuItem } from '@/types/ui';
 
 const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
   return (

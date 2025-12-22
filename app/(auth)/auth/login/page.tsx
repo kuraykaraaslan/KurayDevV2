@@ -7,7 +7,7 @@ import { MouseEvent, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { OTPActionEnum, OTPMethod } from '@/types/UserSecurityTypes';
+import { OTPActionEnum, OTPMethod } from '@/types/user/UserSecurityTypes';
 import OTPConfirmModal from '@/components/frontend/Features/Settings/Tabs/OTPTab/partials/OTPConfirmModal';
 
 const LoginPage = () => {

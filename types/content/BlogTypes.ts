@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { SafeUserSchema } from './UserTypes';
+import { SafeUserSchema } from '../user/UserTypes';
 
 const CommentStatus = z.enum(["NOT_PUBLISHED", "PUBLISHED", "SPAM"]).default("NOT_PUBLISHED");
 const PostStatus = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED");
 
 
-const Comment = z.object({
+const CommentSchema = z.object({
     commentId: z.string(),
     content: z.string(),
     createdAt: z.date(),
@@ -17,7 +17,7 @@ const Comment = z.object({
 });
 
 
-const Post = z.object({
+const PostSchema = z.object({
     postId: z.string(),
     title: z.string(),
     content: z.string(),
@@ -33,7 +33,7 @@ const Post = z.object({
     deletedAt: z.date().nullable().optional(),
 });
 
-const Category = z.object({
+const CategorySchema = z.object({
     categoryId: z.string(),
     title: z.string(),
     description: z.string().nullable(),
@@ -44,13 +44,13 @@ const Category = z.object({
     keywords: z.array(z.string()).optional(),
 });
 
-const PostWithData = Post.extend({
+const PostWithDataSchema = PostSchema.extend({
     author: SafeUserSchema.pick({
         userId: true,
         name: true,
         userProfile: true,
     }),
-    category: Category.pick({
+    category: CategorySchema.pick({
         categoryId: true,
         title: true,
         slug: true,
@@ -63,15 +63,15 @@ const PostWithData = Post.extend({
 });
 
 
-const CommentWithData = Comment.extend({
-    post: Post.pick({
+const CommentWithDataSchema = CommentSchema.extend({
+    post: PostSchema.pick({
         postId: true,
         title: true,
         slug: true,
     }),
 });
 
-const PostLike = z.object({
+const PostLikeSchema = z.object({
   postLikeId: z.string(),
   postId: z.string(),
   userId: z.string().nullable().optional(),
@@ -97,10 +97,10 @@ export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>;
 
 
 
-export type Comment = z.infer<typeof Comment>;
-export type Post = z.infer<typeof Post>;
-export type Category = z.infer<typeof Category>;
-export type PostWithData = z.infer<typeof PostWithData>;
-export type CommentWithData = z.infer<typeof CommentWithData>;
-export type PostLike = z.infer<typeof PostLike>;
-export { Comment, Post, Category, PostWithData, CommentWithData , PostLike, CommentStatus, PostStatus };
+export type Comment = z.infer<typeof CommentSchema>;
+export type Post = z.infer<typeof PostSchema>;
+export type Category = z.infer<typeof CategorySchema>;
+export type PostWithData = z.infer<typeof PostWithDataSchema>;
+export type CommentWithData = z.infer<typeof CommentWithDataSchema>;
+export type PostLike = z.infer<typeof PostLikeSchema>;
+export { CommentSchema, PostSchema, CategorySchema, PostWithDataSchema, CommentWithDataSchema, PostLikeSchema, CommentStatus, PostStatus };

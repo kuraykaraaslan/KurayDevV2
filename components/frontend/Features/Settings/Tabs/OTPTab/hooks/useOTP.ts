@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import { OTPMethodEnum, OTPMethod, OTPAction } from '@/types/UserSecurityTypes';
-import { SafeUserSecurity } from '@/types/UserSecurityTypes';
+import { OTPMethodEnum, OTPMethod, OTPAction } from '@/types/user/UserSecurityTypes';
+import { SafeUserSecurity } from '@/types/user/UserSecurityTypes';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
 

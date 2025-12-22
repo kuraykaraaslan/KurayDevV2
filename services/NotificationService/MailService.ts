@@ -4,15 +4,15 @@ import ejs from 'ejs';
 import path from 'path';
 import { Queue, Worker } from 'bullmq';
 import redisInstance from '@/libs/redis';
-import { UserAgentData } from '@/types/UserSessionTypes';
-import { PostWithData } from '@/types/BlogTypes';
-import { Stat } from "@/types/StatTypes";
+import { UserAgentData } from '@/types/user/UserSessionTypes';
+import { PostWithData } from '@/types/content';
+import { Stat } from '@/types/common';
 
 // Types
 import { User } from '@prisma/client';
-import { SafeUser } from '@/types/UserTypes';
-import { SafeUserSession } from '@/types/UserSessionTypes';
-import { Appointment } from '@/types/CalendarTypes';
+import { SafeUser } from '@/types/user/UserTypes';
+import { SafeUserSession } from '@/types/user/UserSessionTypes';
+import { Appointment } from '@/types/features';
 
 const pwd = process.env.PWD || process.cwd();
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { SSOProfileResponse } from '@/types/SSOTypes';
+import { SSOProfileResponse } from '@/types/common';
 
 export default class AppleService {
 

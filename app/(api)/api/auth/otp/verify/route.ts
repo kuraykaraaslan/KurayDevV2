@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import OTPService from "@/services/AuthService/OTPService";
-import { OTPMethodEnum, OTPActionEnum } from "@/types/UserSecurityTypes";
+import { OTPMethodEnum, OTPActionEnum } from '@/types/user/UserSecurityTypes';
 import AuthMessages from "@/messages/AuthMessages";
 import AuthService from "@/services/AuthService";
 

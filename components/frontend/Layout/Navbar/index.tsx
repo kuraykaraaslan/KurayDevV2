@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 import Logo from '@/components/common/Layout/Logo';
 import ReadingProgressBar from '@/components/frontend/UI/Progress/ReadingProgressBar';
 import SearchButton from './Partials/SearchButton';
-import { MenuItem } from '@/types/UITypes';
+import { MenuItem } from '@/types/ui';
 
 const NavbarAuthButton = dynamic(
     () => import('@/components/common/UI/Navigation/NavbarAuthButton/index'),

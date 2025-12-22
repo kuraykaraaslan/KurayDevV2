@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import redis from "@/libs/redis";
-import { PostWithData } from "@/types/BlogTypes";
+import { PostWithData } from '@/types/content';
 
 export default class PostCoverService {
   private static readonly CACHE_TTL = 60 * 60 * 24 * 7; // 7 gün

@@ -25,7 +25,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import SingleTool from "./Partials/SingleTool";
 import SingleSkill from "./Partials/SingleSkill";
-import {Tool, Skill } from "@/types/SkillTypes";
+import {Tool, Skill } from '@/types/ui';
 import { useTranslation } from "react-i18next";
 
 const Toolbox = () => {

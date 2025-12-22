@@ -2,7 +2,7 @@ import redis from '@/libs/redis'
 import LocalEmbedService from './PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
 import PostService from '@/services/PostService'
-import { KnowledgeGraphNode } from '@/types/BlogTypes'
+import { KnowledgeGraphNode } from '@/types/content'
 import Logger from '@/libs/logger'
 import { Queue, Worker } from 'bullmq'
 

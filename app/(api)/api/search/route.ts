@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { SearchResultItemType, SearchType } from "@/types/SearchTypes";
+import { SearchResultItemType, SearchType } from '@/types/content';
 import PostService from "@/services/PostService";
 import ProjectService from "@/services/ProjectService";
-import { PostWithData } from "@/types/BlogTypes";
-import { Project } from "@/types/ProjectTypes";
+import { PostWithData } from '@/types/content';
+import { Project } from '@/types/content';
 
 export const revalidate = 60; // 1 dakika cache
 

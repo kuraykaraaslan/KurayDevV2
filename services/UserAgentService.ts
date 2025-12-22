@@ -1,20 +1,20 @@
 import axios from "axios";
 import crypto from "crypto";
 import { NextRequest } from "next/server"; 
-import { UserAgentData } from "@/types/UserSessionTypes";
 import redis from "@/libs/redis"; 
-import { GeoLocation, OSPattern, OSName, DeviceType, BrowserName } from "@/types/UserAgent";
+import { GeoLocation, OSPattern, OSName, DeviceType, BrowserNameEnum, BrowserName, OSNameEnum, DeviceTypeEnum } from '@/types/user/UserAgent';
+import { UserAgentData } from "@/types";
 
 
 export default class UserAgentService {
   private static readonly osPatterns: OSPattern[] = [
-    { pattern: /Windows NT/i, name: OSName.Windows },
-    { pattern: /Mac OS X/i, name: OSName.macOS },
-    { pattern: /Android/i, name: OSName.Android },
-    { pattern: /(iPhone|iPad|iPod)/i, name: OSName.iOS },
-    { pattern: /CrOS/i, name: OSName.ChromeOS },
-    { pattern: /Linux/i, name: OSName.Linux },
-    { pattern: /X11/i, name: OSName.Unix }
+    { pattern: /Windows NT/i, name: OSNameEnum.Enum.Windows },
+    { pattern: /Mac OS X/i, name: OSNameEnum.Enum.macOS },
+    { pattern: /Android/i, name: OSNameEnum.Enum.Android },
+    { pattern: /(iPhone|iPad|iPod)/i, name: OSNameEnum.Enum.iOS },
+    { pattern: /CrOS/i, name: OSNameEnum.Enum["Chrome OS"] },
+    { pattern: /Linux/i, name: OSNameEnum.Enum.Linux },
+    { pattern: /X11/i, name: OSNameEnum.Enum.Unix }
   ];
 
   static async getGeoLocationFromMaxMind(ip: string): Promise<GeoLocation> {
@@ -73,17 +73,16 @@ export default class UserAgentService {
     for (const { pattern, name } of UserAgentService.osPatterns) {
       if (pattern.test(userAgent)) return name;
     }
-    return OSName.Unknown;
+    return OSNameEnum.Enum.Unknown;
   }
 
   public static getDeviceType(userAgent: string): DeviceType {
-    if (/iPad/i.test(userAgent)) return DeviceType.Tablet;
-    if (/Android/i.test(userAgent) && !/Mobile/i.test(userAgent)) return DeviceType.Tablet;
+    if (/iPad/i.test(userAgent)) return DeviceTypeEnum.enum.Tablet;
+    if (/Android/i.test(userAgent) && !/Mobile/i.test(userAgent)) return DeviceTypeEnum.enum.Tablet;
 
     const mobilePattern = /(iPhone|iPod|Mobile|Android.*Mobile|BlackBerry|Windows Phone)/i;
-    if (mobilePattern.test(userAgent)) return DeviceType.Mobile;
-
-    return DeviceType.Desktop;
+    if (mobilePattern.test(userAgent)) return DeviceTypeEnum.enum.Mobile;
+    return DeviceTypeEnum.enum.Desktop;
   }
 
   public static async getGeoLocation(ip: string): Promise<GeoLocation> {
@@ -91,14 +90,14 @@ export default class UserAgentService {
   }
 
   public static getBrowser(userAgent: string): BrowserName {
-    if (/Edg/i.test(userAgent)) return BrowserName.Edge;
-    if (/OPR/i.test(userAgent)) return BrowserName.Opera;
-    if (/Chrome/i.test(userAgent)) return BrowserName.Chrome;
-    if (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) return BrowserName.Safari;
-    if (/Firefox/i.test(userAgent)) return BrowserName.Firefox;
-    if (/MSIE|Trident/i.test(userAgent)) return BrowserName.IE;
-    if (/Postman/i.test(userAgent)) return BrowserName.Postman;
-    return BrowserName.Unknown;
+    if (/Edg/i.test(userAgent)) return BrowserNameEnum.Enum.Edge;
+    if (/OPR/i.test(userAgent)) return BrowserNameEnum.Enum.Opera;
+    if (/Chrome/i.test(userAgent)) return BrowserNameEnum.Enum.Chrome;
+    if (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) return BrowserNameEnum.Enum.Safari;
+    if (/Firefox/i.test(userAgent)) return BrowserNameEnum.Enum.Firefox;
+    if (/MSIE|Trident/i.test(userAgent)) return BrowserNameEnum.Enum.IE;
+    if (/Postman/i.test(userAgent)) return BrowserNameEnum.Enum.Postman;
+    return BrowserNameEnum.Enum.Unknown;
   }
 
   public static async generateDeviceFingerprint(ip: string, userAgent: string, acceptLanguage: string): Promise<string> {
@@ -124,13 +123,13 @@ export default class UserAgentService {
     const geo = ip ? await UserAgentService.getGeoLocation(ip) : null;
 
     return {
-      os: userAgent ? UserAgentService.getOS(userAgent) : OSName.Unknown,
-      device: userAgent ? UserAgentService.getDeviceType(userAgent) : DeviceType.Desktop,
+      os: userAgent ? UserAgentService.getOS(userAgent) : OSNameEnum.Enum.Unknown,
+      device: userAgent ? UserAgentService.getDeviceType(userAgent) : DeviceTypeEnum.enum.Desktop,
       city: geo?.city ?? "Unknown",
       state: geo?.state ?? "Unknown",
       country: geo?.country ?? "Unknown",
       ip: ip ?? "Unknown",
-      browser: userAgent ? UserAgentService.getBrowser(userAgent) : BrowserName.Unknown,
+      browser: userAgent ? UserAgentService.getBrowser(userAgent) : BrowserNameEnum.Enum.Unknown,
       deviceFingerprint: userAgent && ip
         ? crypto.createHash("sha256").update(`${ip}|${userAgent}`).digest("hex")
         : null

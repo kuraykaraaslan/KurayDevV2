@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PostWithData } from '@/types/BlogTypes'
+import { PostWithData } from '@/types/content'
 import PostLike from './partials/PostLike'
 import { useTranslation } from 'react-i18next'
 

@@ -1,4 +1,4 @@
-import { OTPMethod } from '@/types/UserSecurityTypes';
+import { OTPMethod } from '@/types/user/UserSecurityTypes';
 import { useTranslation } from 'react-i18next';
 
 type Props = {

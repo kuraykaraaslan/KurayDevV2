@@ -1,4 +1,4 @@
-import {Platform} from '@/types/PlatformsTypes';
+import {Platform} from '@/types/ui';
 
 const SinglePlatform = ({ name, icon, url, bgColor, borderColor, zoom }: Platform) => {
 

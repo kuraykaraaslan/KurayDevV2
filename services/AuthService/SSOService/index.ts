@@ -9,13 +9,13 @@ import TwitterService from './TwitterService';
 
 import bcrypt from 'bcrypt';
 import SettingService from '../../SettingService';
-import { SSOProfileResponse } from '@/types/SSOTypes';
+import { SSOProfileResponse } from '@/types/common';
 import AutodeskService from './AutodeskService';
 
 import { SSOMessages } from '@/messages/SSOMessages';
 import { AuthMessages } from '@/messages/AuthMessages';
-import { SafeUser, UserSchema } from '@/types/UserTypes';
-import { UserSecurity, UserSecuritySchema } from '@/types/UserSecurityTypes';
+import { SafeUser, UserSchema } from '@/types/user/UserTypes';
+import { UserSecurity, UserSecuritySchema } from '@/types/user/UserSecurityTypes';
 
 
 interface SSOProviderService {

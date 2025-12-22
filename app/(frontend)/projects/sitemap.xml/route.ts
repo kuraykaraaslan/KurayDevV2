@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import ProjectService from '@/services/ProjectService';
 import { getBaseUrl, renderUrlSet } from '@/helpers/SitemapGenerator';
 import redisInstance from '@/libs/redis';
-import type { SitemapUrl } from '@/types/SitemapTypes';
+import type { SitemapUrl } from '@/types/common';
 
 const CACHE_KEY = 'sitemap:project';
 const CACHE_TTL = 60 * 60;

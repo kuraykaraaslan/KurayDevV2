@@ -1,4 +1,3 @@
-
 import { z } from 'zod';
 import { OTPMethodEnum, UserSecuritySchema, UserSecurityDefault } from './UserSecurityTypes';
 import { UserProfileSchema, UserProfileDefault } from './UserProfileTypes';

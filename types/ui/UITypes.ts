@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const MenuItem = z.object({
+const MenuItemSchema = z.object({
     id: z.string().nullable(),
     page: z.string(),
     name: z.string(),
@@ -12,5 +12,5 @@ const MenuItem = z.object({
     hideTextOnDesktop: z.boolean().default(false),
 });
 
-export type MenuItem = z.infer<typeof MenuItem>;
-export { MenuItem };
+export type MenuItem = z.infer<typeof MenuItemSchema>;
+export { MenuItemSchema };

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import axiosInstance from '@/libs/axios';
 import useGlobalStore from '@/libs/zustand';
 import ImageLoad from '@/components/common/UI/Images/ImageLoad';
-import { SocialLinks, UserProfile, UserProfileDefault } from '@/types/UserProfileTypes';
+import { SocialLinks, UserProfile, UserProfileDefault } from '@/types/user/UserProfileTypes';
 import SocialLinksInput from './partials/SocialLinksInput';
 
 export default function ProfileTab() {

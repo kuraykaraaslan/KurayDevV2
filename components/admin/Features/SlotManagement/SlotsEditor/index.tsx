@@ -1,4 +1,4 @@
-import { Day, Slot } from "@/types/CalendarTypes"
+import { Day, Slot } from '@/types/features'
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import Calendar from 'react-calendar';

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@prisma/client';
-import { SafeUser } from '@/types/UserTypes';
+import { SafeUser } from '@/types/user/UserTypes';
 import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
 import { useTranslation } from 'react-i18next';
 

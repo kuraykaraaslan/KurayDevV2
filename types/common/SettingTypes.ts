@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const Setting = z.object({
+const SettingSchema = z.object({
   key: z.string(),
   value: z.string(),
   createdAt: z.date(),
@@ -9,5 +9,5 @@ const Setting = z.object({
   type: z.string().default("string"),
 });
 
-export type Setting = z.infer<typeof Setting>;
-export { Setting };
+export type Setting = z.infer<typeof SettingSchema>;
+export { SettingSchema };

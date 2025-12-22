@@ -7,7 +7,7 @@ import useGlobalStore from '@/libs/zustand';
 import {
   UserPreferences,
   UserPreferencesDefault,
-} from '@/types/UserTypes';
+} from '@/types/user/UserTypes';
 
 export default function NotificationsTab() {
   const { user, setUser } = useGlobalStore();

@@ -1,6 +1,6 @@
 import {prisma} from '@/libs/prisma';
 import redisInstance from "@/libs/redis";
-import { Project } from "@/types/ProjectTypes";
+import { Project } from '@/types/content';
 import { MetadataRoute } from 'next';
 
 export default class ProjectService {

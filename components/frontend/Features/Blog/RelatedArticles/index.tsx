@@ -1,6 +1,6 @@
 'use client';
 import SingleArticle from './Partials/SingleArticle';
-import { PostWithData } from '@/types/BlogTypes';
+import { PostWithData } from '@/types/content';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 

@@ -7,7 +7,7 @@ import { weeklyJobs } from "./jobs/weekly";
 import { monthlyJobs } from "./jobs/monthly";
 import { fiveMinJobs } from "./jobs/fiveMin";
 import { yearlyJobs } from "./jobs/yearly";
-import { StatFrequency } from "@/types/StatTypes";
+import { StatFrequency } from '@/types/common';
 
 export default class CronService {
   static jobMap: Record<StatFrequency, Array<{ name: string; handler: () => Promise<void> }>> = {

@@ -1,4 +1,4 @@
-import {Testimonial} from "@/types/TestimonialTypes";
+import {Testimonial} from '@/types/ui';
 
 const SingleTestimonial = ({ testimonial }: { testimonial: Testimonial }) => {
     return (

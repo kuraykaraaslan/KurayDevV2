@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
-import { Day, Slot } from '@/types/CalendarTypes'
+import { Day, Slot } from '@/types/features'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService';
 import { date } from 'zod';
-
-
 
 export async function POST(
     request: NextRequest,

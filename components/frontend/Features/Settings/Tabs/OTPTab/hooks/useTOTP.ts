@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
-import { OTPMethodEnum } from '@/types/UserSecurityTypes';
-import { SafeUserSecurity } from '@/types/UserSecurityTypes';
+import { OTPMethodEnum } from '@/types/user/UserSecurityTypes';
+import { SafeUserSecurity } from '@/types/user/UserSecurityTypes';
 
 export function useTOTP(userSecurity: SafeUserSecurity, onUserSecurityUpdate: (updated: SafeUserSecurity) => void) {
   

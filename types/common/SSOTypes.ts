@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const SSOProfileResponse = z.object({
+export const SSOProfileResponseSchema = z.object({
     sub: z.string(),
     name: z.string().optional(),
     email: z.string(),
@@ -8,5 +8,5 @@ export const SSOProfileResponse = z.object({
     provider: z.string(),
 });
 
-export type SSOProfileResponse = z.infer<typeof SSOProfileResponse>;
+export type SSOProfileResponse = z.infer<typeof SSOProfileResponseSchema>;
 

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import type { Day } from '@/types/CalendarTypes'
+import type { Day } from '@/types/features'
 
 import SlotTemplateBuilder from '@/components/admin/Features/SlotManagement/SlotTemplateBuilder'
 import SlotsEditor from '@/components/admin/Features/SlotManagement/SlotsEditor'

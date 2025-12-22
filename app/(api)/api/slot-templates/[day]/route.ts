@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService'
-import { Day, Slot } from '@/types/CalendarTypes'
+import { Day, DayEnum, SlotSchema } from '@/types/features/CalendarTypes'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 
 export async function GET(
@@ -49,7 +49,7 @@ export async function POST(
         )
     }
 
-    const result = Day.safeParse(day)
+    const result = DayEnum.safeParse(day)
 
     if (!result.success) {
         return NextResponse.json(
@@ -59,7 +59,7 @@ export async function POST(
     }
 
     for (const slot of slots) {
-        const result = Slot.safeParse(slot)
+        const result = SlotSchema.safeParse(slot)
         if (!result.success) {
             return NextResponse.json(
                 { success: false, message: 'Invalid slot', issues: result.error.issues },

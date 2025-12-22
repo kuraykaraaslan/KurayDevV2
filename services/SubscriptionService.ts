@@ -1,6 +1,6 @@
 //SubscriptionService
 
-import { Subscription } from "@/types/SubscriptionTypes";
+import { Subscription } from '@/types/common';
 import {prisma} from '@/libs/prisma';
 //import PostService from "./PostService";
 //import MailService from "./NotificationService/MailService";

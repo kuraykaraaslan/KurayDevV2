@@ -1,5 +1,5 @@
 import redisInstance from '@/libs/redis'
-import { Slot } from '@/types/CalendarTypes'
+import { Slot } from '@/types/features'
 import { format, parse } from 'date-fns'
 import { separateDateTimeWithTimeZone } from '@/helpers/TimeHelper'
 

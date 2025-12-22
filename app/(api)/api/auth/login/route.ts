@@ -7,7 +7,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
 import RateLimiter from "@/libs/rateLimit";
 import { LoginRequest } from "@/dtos/AuthDTO";
 import MailService from "@/services/NotificationService/MailService";
-import { SafeUserSecuritySchema } from "@/types/UserSecurityTypes";
+import { SafeUserSecuritySchema } from '@/types/user/UserSecurityTypes';
 
 export async function POST(request: NextRequest) {
     try {

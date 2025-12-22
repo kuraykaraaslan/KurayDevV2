@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { OTPMethodEnum } from '@/types/UserSecurityTypes';
-import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/UserSecurityTypes';
+import { OTPMethodEnum } from '@/types/user/UserSecurityTypes';
+import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/user/UserSecurityTypes';
 import axiosInstance from '@/libs/axios';
 import { useTranslation } from 'react-i18next';
 

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
-import { Slot } from '@/types/CalendarTypes'
+import { Slot } from '@/types/features'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 
 /**

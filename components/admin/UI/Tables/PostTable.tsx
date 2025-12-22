@@ -1,10 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { PostWithData } from '@/types/BlogTypes';
+import { PostWithData } from '@/types/content';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
-import { Category } from '@/types/BlogTypes';
+import { Category } from '@/types/content';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 

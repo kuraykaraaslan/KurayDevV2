@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ContactForm = z.object({
+const ContactFormSchema = z.object({
   contactId: z.string().nullable(),
   name: z.string(),
   email: z.string().email(),
@@ -9,5 +9,5 @@ const ContactForm = z.object({
   createdAt: z.date().optional(),
 });
 
-export type ContactForm = z.infer<typeof ContactForm>;
-export { ContactForm };
+export type ContactForm = z.infer<typeof ContactFormSchema>;
+export { ContactFormSchema };

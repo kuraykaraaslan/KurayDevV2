@@ -18,7 +18,7 @@ import {
   SocialLinks,
   SocialLinkItem,
   SingleSocialLinkEnum,
-} from '@/types/UserProfileTypes';
+} from '@/types/user/UserProfileTypes';
 
 /* ------------------------------------------------
    Sortable Row

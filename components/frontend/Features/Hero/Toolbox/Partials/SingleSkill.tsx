@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {Skill} from "@/types/SkillTypes";
+import {Skill} from '@/types/ui';
 
 const SingleSkill = ({ title, icon, bgColor, textColor }: Partial<Skill>) => {
 

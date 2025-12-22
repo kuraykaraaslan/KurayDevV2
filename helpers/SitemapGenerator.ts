@@ -1,5 +1,5 @@
 // helpers/SitemapGenerator.ts
-import { SitemapUrl } from '@/types/SitemapTypes';
+import { SitemapUrl } from '@/types/common';
 
 export type ChangeFreq =
   | 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';

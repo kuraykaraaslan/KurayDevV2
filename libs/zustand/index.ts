@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { SafeUser } from '@/types/UserTypes';
+import { SafeUser } from '@/types/user/UserTypes';
 
 type GlobalState = {
   user: SafeUser | null;

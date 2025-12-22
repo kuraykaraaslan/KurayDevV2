@@ -2,15 +2,15 @@ import { UserSession, UserRole } from "@prisma/client";
 import { prisma } from '@/libs/prisma';
 
 // Utils
-import { SafeUserSession } from "@/types/UserSessionTypes";
-import { SafeUser, SafeUserSchema } from "@/types/UserTypes";
+import { SafeUserSession } from '@/types/user/UserSessionTypes';
+import { SafeUser, SafeUserSchema } from '@/types/user/UserTypes';
 import jwt from 'jsonwebtoken';
 import crypto from "crypto";
 import AuthMessages from "@/messages/AuthMessages";
 
 import { v4 as uuidv4 } from "uuid";
 import redisInstance from "@/libs/redis";
-import { SafeUserSecurity } from "@/types/UserSecurityTypes";
+import { SafeUserSecurity } from '@/types/user/UserSecurityTypes';
 
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; // Burada bir varsayılan değer belirleyebilirsiniz

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 
-const Url = z.object({
+const UrlSchema = z.object({
     type: z.enum(["GitHub", "Demo", "Other"]).optional(),
     title: z.string().optional(),
     icon: z.any().optional(), // IconDefinition is not directly supported by Zod
@@ -9,7 +9,7 @@ const Url = z.object({
 });
 
 
-const Tag = z.object({
+const TagSchema = z.object({
     name: z.string(),
     color: z.string(),
     icon: z.any(), // IconDefinition is not directly supported by Zod
@@ -17,7 +17,7 @@ const Tag = z.object({
 
 
 
-const Project = z.object({
+const ProjectSchema = z.object({
     projectId: z.string(),
     title: z.string(),
     description: z.string().nullable(),
@@ -32,7 +32,7 @@ const Project = z.object({
     projectLinks: z.array(z.string()).default([]),
 });
 
-const Platform = z.object({
+const PlatformSchema = z.object({
     name: z.string(),
     icon: z.string(),
     url: z.string().url().optional(),
@@ -42,23 +42,23 @@ const Platform = z.object({
 });
 
 
-const Service = z.object({
+const ServiceSchema = z.object({
   id: z.string(),
   image: z.string(),
   title: z.string(),
   description: z.string(),
-  urls: z.array(Url),
-  tags: z.array(Tag),
+  urls: z.array(UrlSchema),
+  tags: z.array(TagSchema),
   bgColor: z.string().optional(),
   borderColor: z.string().optional(),
   textColor: z.string().optional(),
 });
 
 
-export type Project = z.infer<typeof Project>;
-export type Platform = z.infer<typeof Platform>;
-export type Tag = z.infer<typeof Tag>;
-export type Service = z.infer<typeof Service>;
-export type Url = z.infer<typeof Url>;
+export type Project = z.infer<typeof ProjectSchema>;
+export type Platform = z.infer<typeof PlatformSchema>;
+export type Tag = z.infer<typeof TagSchema>;
+export type Service = z.infer<typeof ServiceSchema>;
+export type Url = z.infer<typeof UrlSchema>;
 
-export { Project, Platform, Tag, Service, Url };
+export { ProjectSchema, PlatformSchema, TagSchema, ServiceSchema, UrlSchema };

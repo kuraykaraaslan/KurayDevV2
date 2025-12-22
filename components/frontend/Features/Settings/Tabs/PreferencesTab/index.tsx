@@ -11,7 +11,7 @@ import {
   ThemeEnum,
   LanguageEnum,
   UserPreferencesDefault,
-} from '@/types/UserTypes';
+} from '@/types/user/UserTypes';
 import * as countriesAndTimezones from 'countries-and-timezones';
 
 /*

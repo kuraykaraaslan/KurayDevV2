@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const Day = z.enum([
+export const DayEnum = z.enum([
   'monday',
   'tuesday',
   'wednesday',
@@ -10,10 +10,10 @@ export const Day = z.enum([
   'sunday',
 ])
 
-export type Day = z.infer<typeof Day>
+export type Day = z.infer<typeof DayEnum>
 
  
-export const Slot = z.object({
+export const SlotSchema = z.object({
   startTime: z.preprocess(
     (val) => (typeof val === "string" ? new Date(val) : val),
     z.date()
@@ -27,17 +27,17 @@ export const Slot = z.object({
 })
 
 
-export const SlotTemplate = z.object({
-  day: Day,
-  slots: Slot.array(),
+export const SlotTemplateSchema = z.object({
+  day: DayEnum,
+  slots: SlotSchema.array(),
 })
 
 
-export const AppointmentStatus = z.enum(['PENDING', 'BOOKED', 'CANCELLED', 'COMPLETED'])
-export type AppointmentStatus = z.infer<typeof AppointmentStatus>
+export const AppointmentStatusEnum = z.enum(['PENDING', 'BOOKED', 'CANCELLED', 'COMPLETED'])
+export type AppointmentStatus = z.infer<typeof AppointmentStatusEnum>
 
 
-export const Appointment = z.object({
+export const AppointmentSchema = z.object({
   appointmentId: z.string(),
 
   startTime: z.date(),  // YYYY-MM-DDTHH:mm UTC format
@@ -48,10 +48,10 @@ export const Appointment = z.object({
   phone: z.string(),
   note: z.string().nullable().optional(),
 
-  status: AppointmentStatus.default('PENDING'),
+  status: AppointmentStatusEnum.default('PENDING'),
   createdAt: z.date(),
 })
 
-export type Appointment = z.infer<typeof Appointment>
-export type Slot = z.infer<typeof Slot>
-export type SlotTemplate = z.infer<typeof SlotTemplate>
+export type Appointment = z.infer<typeof AppointmentSchema>
+export type Slot = z.infer<typeof SlotSchema>
+export type SlotTemplate = z.infer<typeof SlotTemplateSchema>

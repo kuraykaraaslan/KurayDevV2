@@ -1,7 +1,7 @@
 import AppointmentService from '@/services/AppointmentService'
 import { NextResponse } from 'next/server'
 import UserSessionService from '@/services/AuthService/UserSessionService'
-import { AppointmentStatus } from '@/types/CalendarTypes';
+import { AppointmentStatus } from '@/types/features';
 
 export async function GET(request: NextRequest) {
     try {

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserService from "@/services/UserService";
-import { UpdateUserSchema } from "@/types/UserTypes";
+import { UpdateUserSchema } from '@/types/user/UserTypes';
 
 /**
  * GET handler for retrieving current user profile.

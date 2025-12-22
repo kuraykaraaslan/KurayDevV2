@@ -1,9 +1,9 @@
 import { OTPMethod, User } from "@prisma/client";
 import redis from "@/libs/redis";
 import AuthMessages from "@/messages/AuthMessages";
-import { SafeUser } from "@/types/UserTypes";
-import { OTPAction } from "@/types/UserSecurityTypes";
-import { SafeUserSession } from "@/types/UserSessionTypes";
+import { SafeUser } from '@/types/user/UserTypes';
+import { OTPAction } from '@/types/user/UserSecurityTypes';
+import { SafeUserSession } from '@/types/user/UserSessionTypes';
 
 export default class OTPService {
   static OTP_EXPIRY_SECONDS = parseInt(process.env.OTP_EXPIRY_SECONDS || "600");

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {Tool} from "@/types/SkillTypes";
+import {Tool} from '@/types/ui';
 
 const SingleTool = ({
   icon,

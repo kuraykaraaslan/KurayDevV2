@@ -5,7 +5,7 @@ export enum SearchType {
     PROJECT = "PROJECT",
 }
 
-export const SearchResultItem = z.object({
+export const SearchResultItemSchema = z.object({
     title: z.string(),
     description: z.string().nullable().optional(),
     path: z.string(),
@@ -13,9 +13,9 @@ export const SearchResultItem = z.object({
     createdAt: z.date(),
 });
 
+export type SearchResultItemType = z.infer<typeof SearchResultItemSchema>;
 
 export enum SearchTypeColors {
     BLOG = "bg-blue-100 text-blue-800 border-blue-200",
     PROJECT = "bg-green-100 text-green-800 border-green-200",
 }
-export type SearchResultItemType = z.infer<typeof SearchResultItem>;
