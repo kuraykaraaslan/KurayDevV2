@@ -12,7 +12,7 @@ const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot |
     
     const handleFormSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        if (!selectedSlot) return toast.error(t('calendar.select_slot_first'))
+        if (!selectedSlot) return toast.error(t('shared.calendar.select_slot_first'))
 
         const data = new FormData(e.currentTarget as HTMLFormElement)
         const name = data.get('name') as string
@@ -30,15 +30,15 @@ const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot |
                 note,
             })
             if (res.data?.success) {
-                toast.success(t('calendar.appointment_created'))
+                toast.success(t('shared.calendar.appointment_created'))
                 await preloadRange()
                     ; (document.getElementById('appt_modal') as HTMLDialogElement)?.close()
             } else {
-                toast.error(res.data?.message || t('calendar.appointment_error'))
+                toast.error(res.data?.message || t('shared.calendar.appointment_error'))
             }
         } catch (err) {
             console.error(err)
-            toast.error(t('calendar.error_occurred'))
+            toast.error(t('shared.calendar.error_occurred'))
         }
     }
 
@@ -46,7 +46,7 @@ const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot |
     return (
         <dialog id="appt_modal" className="modal">
             <div className="modal-box">
-                <h3 className="font-bold text-lg mb-4">{t('calendar.appointment_info')}</h3>
+                <h3 className="font-bold text-lg mb-4">{t('shared.calendar.appointment_info')}</h3>
                 {selectedSlot && (
                     <p className="text-sm space-x-2 mb-4">
                         <span className="font-semibold">
@@ -64,40 +64,40 @@ const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot |
                                 new Date(selectedSlot.endTime),
                                 new Date(selectedSlot.startTime)
                             )}{' '}
-                            {t('calendar.minutes_abbr')}
+                            {t('shared.calendar.minutes_abbr')}
                         </span>
                     </p>
                 )}
 
                 <form onSubmit={handleFormSubmit} className="space-y-3">
                     <label className="label">
-                        <span className="label-text">{t('calendar.full_name')}</span>
+                        <span className="label-text">{t('shared.calendar.full_name')}</span>
                     </label>
                     <input type="text" name="name" required className="input input-bordered w-full" />
 
                     <label className="label">
-                        <span className="label-text">{t('calendar.email_label')}</span>
+                        <span className="label-text">{t('shared.calendar.email_label')}</span>
                     </label>
                     <input type="email" name="email" required className="input input-bordered w-full" />
 
                     <label className="label">
-                        <span className="label-text">{t('calendar.phone_label')}</span>
+                        <span className="label-text">{t('shared.calendar.phone_label')}</span>
                     </label>
                     <input type="tel" name="phone" required className="input input-bordered w-full" />
 
                     <label className="label">
-                        <span className="label-text">{t('calendar.note_label')}</span>
+                        <span className="label-text">{t('shared.calendar.note_label')}</span>
                     </label>
                     <textarea name="note" rows={3} className="textarea textarea-bordered w-full" />
 
                     <button type="submit" className="btn btn-primary w-full">
-                        {t('calendar.create_appointment')}
+                        {t('shared.calendar.create_appointment')}
                     </button>
                 </form>
 
                 <div className="modal-action">
                     <form method="dialog" className="w-full">
-                        <button className="btn btn-secondary btn-block">{t('calendar.close_modal')}</button>
+                        <button className="btn btn-secondary btn-block">{t('shared.calendar.close_modal')}</button>
                     </form>
                 </div>
             </div>

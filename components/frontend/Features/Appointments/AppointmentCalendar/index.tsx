@@ -94,9 +94,9 @@ export default function AppointmentCalendar() {
       <div className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm text-center -mt-8 lg:mt-0">
           <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-            {t('calendar.appointment_title')}
+            {t('shared.calendar.appointment_title')}
           </h2>
-          <p className="font-light sm:text-xl">{t('calendar.appointment_subtitle')}</p>
+          <p className="font-light sm:text-xl">{t('shared.calendar.appointment_subtitle')}</p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-4 mb-8 mt-3">
@@ -114,7 +114,7 @@ export default function AppointmentCalendar() {
           <div className="w-1/2 sm:w-1/3 md:w-1/4">
             {slotsOf(selectedDate).length > 0 ? (
               <div>
-                <h3 className="text-lg font-semibold mb-2">{t('calendar.available_times')}</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('shared.calendar.available_times')}</h3>
                 <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-2">
                   {slotsOf(selectedDate).map((slot, idx) => {
                     const start = new Date(slot.startTime)
@@ -135,19 +135,19 @@ export default function AppointmentCalendar() {
                         onClick={() => handleTimeSelect(slot)}
                       >
                         <FontAwesomeIcon icon={slot.capacity <= 0 ? faX : faClock} className="mr-2" />
-                        {label} ({length} {t('calendar.minutes_abbr')})
+                        {label} ({length} {t('shared.calendar.minutes_abbr')})
                       </button>
                     )
                   })}
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-gray-500">{t('calendar.no_slots_for_day')}</p>
+              <p className="text-sm text-gray-500">{t('shared.calendar.no_slots_for_day')}</p>
             )}
 
             {selectedSlot && (
               <div className="mt-4">
-                <h3 className="text-lg font-semibold mb-2">{t('calendar.selected_time')}</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('shared.calendar.selected_time')}</h3>
                 <p className="text-sm space-x-2">
                   <span className="font-semibold">
                     <FontAwesomeIcon icon={faCalendar} className="mr-2" />
@@ -164,7 +164,7 @@ export default function AppointmentCalendar() {
                       new Date(selectedSlot.endTime),
                       new Date(selectedSlot.startTime)
                     )}{' '}
-                    {t('calendar.minutes_abbr')}
+                    {t('shared.calendar.minutes_abbr')}
                   </span>
                 </p>
                 <button
@@ -173,7 +173,7 @@ export default function AppointmentCalendar() {
                     (document.getElementById('appt_modal') as HTMLDialogElement)?.showModal()
                   }
                 >
-                  {t('calendar.book_now')}
+                  {t('shared.calendar.book_now')}
                 </button>
               </div>
             )}
