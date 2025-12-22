@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { PostWithData } from '@/types/BlogTypes';
+import { useTranslation } from 'react-i18next';
 
 const PostCard = ({post}: { post: PostWithData }) => {
-
+    const { t } = useTranslation();
     const { title, slug, createdAt, category, image } = post;
 
     const [dateText, setDateText] = useState("");
@@ -18,7 +19,7 @@ const PostCard = ({post}: { post: PostWithData }) => {
         }
 
         if (isNaN(new Date(createdAt).getTime())) {
-            setDateText("N/a");
+            setDateText(t('frontend.no_date'));
             return;
         }
 
@@ -35,28 +36,28 @@ const PostCard = ({post}: { post: PostWithData }) => {
             console.log(typeof createdAt, createdAt, new Date(createdAt).toDateString(), diffDays);
 
             if (diffDays > 365) {
-                setDateText(createdAt ? new Date(createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : "N/A");
+                setDateText(createdAt ? new Date(createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : t('frontend.no_date'));
             } else if (diffDays > 7 && diffDays <= 365) {
-                setDateText(createdAt ? new Date(createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : "N/A");
+                setDateText(createdAt ? new Date(createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : t('frontend.no_date'));
             } else if (diffDays > 1) {
-                setDateText(`${Math.floor(diffDays)} days ago`);
+                setDateText(t('frontend.days_ago', { count: Math.floor(diffDays) }));
             } else if (diffDays === 1) {
-                setDateText("Yesterday");
+                setDateText(t('frontend.yesterday'));
             } else if (diffHours > 1) {
-                setDateText(`${Math.floor(diffHours)} hours ago`);
+                setDateText(t('frontend.hours_ago', { count: Math.floor(diffHours) }));
             } else if (diffHours === 1) {
-                setDateText("An hour ago");
+                setDateText(t('frontend.an_hour_ago'));
             } else if (diffMinutes > 1) {
-                setDateText(`${Math.floor(diffMinutes)} minutes ago`);
+                setDateText(t('frontend.minutes_ago', { count: Math.floor(diffMinutes) }));
             } else if (diffMinutes === 1) {
-                setDateText("A minute ago");
+                setDateText(t('frontend.a_minute_ago'));
             } else {
-                setDateText("Just now");
+                setDateText(t('frontend.just_now'));
             }
        
         } catch (error) {
             console.error(error);
-            setDateText("N/A");
+            setDateText(t('frontend.no_date'));
         }
     }, [createdAt]);
 
@@ -86,7 +87,7 @@ const PostCard = ({post}: { post: PostWithData }) => {
                     <FontAwesomeIcon icon={faCalendar} className="w-4" />
                     <span>{dateText}</span>
                     <span className="text-primary">•</span>
-                    <span className="text-primary">{post.views} views</span>
+                    <span className="text-primary">{t('frontend.views_count', { count: post.views })}</span>
                 </div>
             </div>
         </div>

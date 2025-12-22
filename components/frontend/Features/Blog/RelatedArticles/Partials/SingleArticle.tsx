@@ -5,10 +5,11 @@ import { faCalendar, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { PostWithData } from '@/types/BlogTypes';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 
 const SingleArticle = (props: PostWithData) => {
-
+    const { t } = useTranslation();
     const [dateText, setDateText] = useState("");
     const [image, setImage] = useState("");
 
@@ -21,7 +22,7 @@ const SingleArticle = (props: PostWithData) => {
 
             const today = new Date();
             if (props.createdAt.toDateString() === today.toDateString()) {
-                setDateText("Today");
+                setDateText(t('frontend.today'));
                 return;
             }
             const diff = today.getTime() - new Date(props.createdAt).getTime();
@@ -34,28 +35,28 @@ const SingleArticle = (props: PostWithData) => {
                 setDateText(props.createdAt.toDateString());
                 return;
             } else if (days > 1) {
-                setDateText(`${days} days ago`);
+                setDateText(t('frontend.days_ago', { count: days }));
                 return;
             } else if (days === 1) {
-                setDateText("Yesterday");
+                setDateText(t('frontend.yesterday'));
                 return;
             } else if (hours > 1) {
-                setDateText(`${hours} hours ago`);
+                setDateText(t('frontend.hours_ago', { count: hours }));
                 return;
             } else if (hours === 1) {
-                setDateText("An hour ago");
+                setDateText(t('frontend.an_hour_ago'));
                 return;
             } else if (minutes > 1) {
-                setDateText(`${minutes} minutes ago`);
+                setDateText(t('frontend.minutes_ago', { count: minutes }));
                 return;
             } else if (minutes === 1) {
-                setDateText("A minute ago");
+                setDateText(t('frontend.a_minute_ago'));
                 return;
             }
-            setDateText("Just now");
+            setDateText(t('frontend.just_now'));
         } catch (error) {
             console.error(error);
-            setDateText("Just now");
+            setDateText(t('frontend.just_now'));
         }
     }
 
@@ -93,7 +94,7 @@ const SingleArticle = (props: PostWithData) => {
                 </div>
                 <div className="flex items-center gap-1">
                     <Link href={"/blog/" + props.category.slug + "/" + props.slug}
-                        className="text-primary">Read More
+                        className="text-primary">{t('frontend.read_more')}
                     <FontAwesomeIcon icon={faCaretRight} className="text-primary mt-1" style={{ height: '1rem', width: '1rem' }} />
                     </Link>
                 </div>

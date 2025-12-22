@@ -17,20 +17,20 @@ const PostHeader = (post: PostWithData) => {
         <span>
           {post.createdAt
             ? new Date(post.createdAt).toLocaleDateString()
-            : t('frontend.no_date')}
+            : t('frontend.post_header.no_date')}
         </span>
         <Link href={'/blog/' + post.category.slug} className='text-primary'>
           {post.category.title}
         </Link>
         <span className='text-primary hidden md:inline'>•</span>
-        <span className='hidden md:inline'>{post.views} {t('frontend.views')}</span>
+        <span className='hidden md:inline'>{t('frontend.post_header.views_count', { count: post.views })}</span>
         <span className='text-primary'>•</span>
-        <span>{readTime} {t('frontend.min_read')}</span>
+        <span>{t('frontend.post_header.read_time', { count: readTime })}</span>
         <span className='text-primary hidden md:inline'>•</span>
         <span className='hidden md:inline'>
-          {t('frontend.by')}{' '}
+          {t('frontend.post_header.by')}{' '}
           <Link href={'/blog/user/' + post.authorId} className='text-primary'>
-            {post.author.userProfile?.name || t('frontend.unknown_author')}
+            {post.author.userProfile?.name || t('frontend.post_header.unknown_author')}
           </Link>
         </span>
       </div>

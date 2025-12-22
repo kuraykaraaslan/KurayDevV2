@@ -398,6 +398,23 @@
     "by": "by",
     "no_date": "No Date",
     "unknown_author": "Unknown Author",
+    "post_header": {
+      "no_date": "No Date",
+      "views_count": "{{count}} views",
+      "read_time": "{{count}} min read",
+      "by": "by",
+      "unknown_author": "Unknown Author"
+    },
+    "days_ago": "{{count}} days ago",
+    "yesterday": "Yesterday",
+    "hours_ago": "{{count}} hours ago",
+    "an_hour_ago": "An hour ago",
+    "minutes_ago": "{{count}} minutes ago",
+    "a_minute_ago": "A minute ago",
+    "just_now": "Just now",
+    "views_count": "{{count}} views",
+    "today": "Today",
+    "read_more": "Read More",
     "offline": {
       "online": "You are back online!",
       "offline": "You are offline!"
