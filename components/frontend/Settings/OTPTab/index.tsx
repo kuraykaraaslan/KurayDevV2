@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { OTPMethodEnum } from '@/types/UserSecurityTypes';
 import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/UserSecurityTypes';
 import axiosInstance from '@/libs/axios';
+import { useTranslation } from 'react-i18next';
 
 import OTPMethodCard from './partials/OTPMethodCard';
 import OTPConfirmModal from './partials/OTPConfirmModal';
@@ -12,7 +13,7 @@ import { useOTP } from './hooks/useOTP';
 import { useTOTP } from './hooks/useTOTP';
 
 export default function OTPTab() {
-
+  const { t } = useTranslation();
   const [userSecurity, setUserSecurity] = useState<SafeUserSecurity>(SafeUserSecurityDefault);
 
   /* ============ FETCH USER SECURITY ============ */
@@ -51,7 +52,7 @@ export default function OTPTab() {
   return (
     <>
       <div className="bg-base-100 rounded-xl p-6 space-y-6">
-        <h2 className="text-lg font-bold">İki Faktörlü Doğrulama</h2>
+        <h2 className="text-lg font-bold">{t('frontend.settings.otp')}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.values(OTPMethodEnum.Enum).map(method => (
