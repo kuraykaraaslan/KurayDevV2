@@ -55,7 +55,7 @@ const SingleComment = ({comment, gravatarUrl} : {comment: Comment, gravatarUrl: 
                     <button type="button"
                         className="flex items-center text-sm font-medium">
                         <FontAwesomeIcon icon={faMessage} className='w-4 h-4' />
-                        <span className="ml-1">Reply</span>
+                        <span className="ml-1">{t('frontend.comments.reply')}</span>
                     </button>
                 </div>
             </div>
