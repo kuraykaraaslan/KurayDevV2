@@ -5,6 +5,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import axiosInstance from "@/libs/axios";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const SlotsEditor = (
     {
@@ -17,6 +18,7 @@ const SlotsEditor = (
         setSelectedDate: (date: Date) => void
     }
 ) => {
+    const { t } = useTranslation();
 
     const [dailySlots, setDailySlots] = useState<Slot[]>([])
     const [loading, setLoading] = useState(false)
@@ -30,7 +32,7 @@ const SlotsEditor = (
             const res = await axiosInstance.get(`/api/slots/${date}`)
             setDailySlots(res.data.slots || [])
         } catch {
-            toast.error('Failed to fetch daily slots')
+            toast.error(t('admin.slots.fetch_failed'))
         } finally {
             setLoading(false)
         }
@@ -46,10 +48,10 @@ const SlotsEditor = (
         setLoading(true)
         axiosInstance.put(`/api/slots/${formattedDate}`, { slots: dailySlots })
             .then(() => {
-                toast.success('Slots updated successfully')
+                toast.success(t('admin.slots.slots_updated'))
             })
             .catch(() => {
-                toast.error('Failed to update slots')
+                toast.error(t('admin.slots.slots_failed'))
             })
             .finally(() => {
                 setLoading(false)
@@ -82,9 +84,9 @@ const SlotsEditor = (
             </h2>
 
             {loading ? (
-                <div className="text-center py-10 text-gray-500">Loading...</div>
+                <div className="text-center py-10 text-gray-500">{t('admin.slots.loading')}</div>
             ) : dailySlots.length === 0 ? (
-                <div className="text-center py-10 text-gray-500">No slots for this day</div>
+                <div className="text-center py-10 text-gray-500">{t('admin.slots.no_slots_day')}</div>
             ) : (
                 <div className="overflow-y-auto max-h-[250px]">
                     {dailySlots.map((slot, i) => (
@@ -104,7 +106,7 @@ const SlotsEditor = (
                     onClick={updateDailySlots}
                     disabled={loading}
                 >
-                    {loading ? 'Saving...' : 'Save Changes'}
+                    {loading ? t('admin.slots.saving') : t('admin.slots.save_changes')}
                 </button>
             </div>
         </div>
@@ -118,6 +120,7 @@ export function SingleSlot({
     index: number,
     removeSlot: (index: number) => void
 }) {
+    const { t } = useTranslation();
 
     return (
         <div
@@ -128,7 +131,7 @@ export function SingleSlot({
                 {format(new Date(slot.startTime), 'HH:mm')} - {format(new Date(slot.endTime), 'HH:mm')}
             </span>
             <span className="text-sm text-gray-500">
-                Capacity: {slot.capacity}
+                {t('admin.slots.capacity')}: {slot.capacity}
             </span>
             <button
                 className="btn btn-xs btn-error text-white"

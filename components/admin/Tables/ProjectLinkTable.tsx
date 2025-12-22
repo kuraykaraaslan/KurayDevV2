@@ -1,5 +1,8 @@
 'use client'
+import { useTranslation } from "react-i18next";
+
 const ProjectLinkTable = ({ projectLinks, setProjectLinks }: { projectLinks: string[], setProjectLinks: (value: string[]) => void }) => {
+    const { t } = useTranslation();
 
 
     return (
@@ -7,8 +10,8 @@ const ProjectLinkTable = ({ projectLinks, setProjectLinks }: { projectLinks: str
             <table className="table w-full">
                 <thead>
                     <tr>
-                        <th>URL</th>
-                        <th>Action</th>
+                        <th>{t('admin.project_links.url')}</th>
+                        <th>{t('admin.project_links.action')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,7 +29,7 @@ const ProjectLinkTable = ({ projectLinks, setProjectLinks }: { projectLinks: str
                                 <td>
                                     <button onClick={() => {
                                         setProjectLinks([...projectLinks.slice(0, index), ...projectLinks.slice(index + 1)]);
-                                    }} className="btn btn-sm btn-error">Delete</button>
+                                    }} className="btn btn-sm btn-error">{t('admin.project_links.delete')}</button>
                                 </td>
                             </tr>
                         );

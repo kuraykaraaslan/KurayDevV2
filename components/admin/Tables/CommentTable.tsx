@@ -3,8 +3,10 @@ import { PostWithData } from '@/types/BlogTypes';
 import axiosInstance from '@/libs/axios';
 import { CommentWithData } from '@/types/BlogTypes';
 import { useState, useEffect } from 'react';
+import { useTranslation } from "react-i18next";
 
 const CommentTable = ({ post }: { post?: PostWithData }) => {
+    const { t } = useTranslation();
 
     const [search, setSearch] = useState('');
     const [comments, setComments] = useState<Partial<CommentWithData>[]>([]);
@@ -27,7 +29,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
 
     const deleteComment = async (commentId: string) => {
         //confirm
-        if (!confirm('Are you sure you want to delete this post?')) {
+        if (!confirm(t('admin.comments.confirm_delete'))) {
             return;
         }
 
@@ -42,7 +44,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
 
     const approveComment = async (commentId: string) => {
         //confirm
-        if (!confirm('Are you sure you want to approve this post?')) {
+        if (!confirm(t('admin.comments.confirm_approve'))) {
             return;
         }
 
@@ -61,7 +63,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
     const rejectComment = async (commentId: string) => {
 
         //confirm
-        if (!confirm('Are you sure you want to reject this post?')) {
+        if (!confirm(t('admin.comments.confirm_reject'))) {
             return;
         }
 
@@ -81,9 +83,9 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
     return (
         <div className="container mx-auto">
             <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{post ? post.title + " Comments" : "Comments"}</h1>
+                <h1 className="text-3xl font-bold h-16 md:items-center">{post ? post.title + " " + t('admin.comments.title') : t('admin.comments.title')}</h1>
                 <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <input type="text" placeholder="Search" className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <input type="text" placeholder={t('admin.comments.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
             </div>
 
@@ -93,16 +95,16 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
                     <thead className="bg-base-300 h-12">
                         <tr className="h-12">
                             <th className="grid-cols-2">
-                                Post
+                                {t('admin.comments.post')}
                             </th>
                             <th className="grid-cols-1">
-                                <p>Contact</p>
+                                <p>{t('admin.comments.contact')}</p>
                             </th>
                             <th className="max-w-16">
-                                Content
+                                {t('admin.comments.content')}
                             </th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{t('admin.comments.status')}</th>
+                            <th>{t('admin.comments.action')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,12 +122,12 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
                                     {comment.status}
                                 </td>
                                 <td className="flex gap-2 max-w-16">
-                                    <button onClick={() => deleteComment(comment.commentId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">Delete</button>
+                                    <button onClick={() => deleteComment(comment.commentId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">{t('admin.comments.delete')}</button>
 
                                     {comment.status === 'NOT_PUBLISHED' ? (
-                                        <button onClick={() => approveComment(comment.commentId as string)} className="btn btn-sm bg-green-500 text-white hidden md:flex">Approve</button>
+                                        <button onClick={() => approveComment(comment.commentId as string)} className="btn btn-sm bg-green-500 text-white hidden md:flex">{t('admin.comments.approve')}</button>
                                     ) : (
-                                        <button onClick={() => rejectComment(comment.commentId as string)} className="btn btn-sm bg-yellow-500 text-white hidden md:flex">Reject</button>
+                                        <button onClick={() => rejectComment(comment.commentId as string)} className="btn btn-sm bg-yellow-500 text-white hidden md:flex">{t('admin.comments.reject')}</button>
                                     )}
                                 </td>
                             </tr>
@@ -136,11 +138,11 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
 
             <div className="flex justify-between items-center mt-4">
                 <div>
-                    <span>Showing {comments.length} of {total} comments</span>
+                    <span>{t('admin.comments.showing', { count: comments.length, total: total })}</span>
                 </div>
                 <div className="flex gap-2">
-                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">Previous</button>
-                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">Next</button>
+                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">{t('admin.comments.previous')}</button>
+                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">{t('admin.comments.next')}</button>
                 </div>
             </div>
         </div>

@@ -4,8 +4,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
 import { useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 const ProjectTable = () => {
+    const { t } = useTranslation();
 
     const [search, setSearch] = useState('');
     const [projects, setProjects] = useState<Partial<Project>[]>([]);
@@ -28,7 +30,7 @@ const ProjectTable = () => {
 
     const deleteProject = async (projectId: string) => {
         //confirm
-        if (!confirm('Are you sure you want to delete this project?')) {
+        if (!confirm(t('admin.projects.confirm_delete'))) {
             return;
         }
 
@@ -44,11 +46,11 @@ const ProjectTable = () => {
     return (
         <div className="container mx-auto">
             <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{"Projects"}</h1>
+                <h1 className="text-3xl font-bold h-16 md:items-center">{t('admin.projects.title')}</h1>
                 <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <input type="text" placeholder="Search" className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <input type="text" placeholder={t('admin.projects.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <Link className="btn btn-primary btn-sm h-12" href="/admin/projects/create">
-                        Create Project
+                        {t('admin.projects.create_project')}
                     </Link>
                 </div>
             </div>
@@ -64,12 +66,12 @@ const ProjectTable = () => {
                                 Title
                             </th>
                             <th className="max-w-20">
-                                Tech Stack
+                                {t('admin.projects.tech_stack')}
                             </th>
                             <th className="max-w-16">
-                                Slug</th>
+                                {t('admin.projects.slug')}</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>{t('admin.projects.action')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,9 +89,9 @@ const ProjectTable = () => {
                                 <td>{project.slug}</td>
                                 <td>{project.status}</td>
                                 <td className="flex gap-2">
-                                    <Link href={`/admin/projects/${project.projectId}`} className="btn btn-sm btn-primary">Edit</Link>
-                                    <Link href={`/project/${project.slug}`} className="btn btn-sm btn-secondary">View</Link>
-                                    <button onClick={() => deleteProject(project.projectId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">Delete</button>
+                                    <Link href={`/admin/projects/${project.projectId}`} className="btn btn-sm btn-primary">{t('admin.projects.edit')}</Link>
+                                    <Link href={`/project/${project.slug}`} className="btn btn-sm btn-secondary">{t('admin.projects.view')}</Link>
+                                    <button onClick={() => deleteProject(project.projectId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">{t('admin.projects.delete')}</button>
                                 </td>
                             </tr>
                         ))}
@@ -99,11 +101,11 @@ const ProjectTable = () => {
 
             <div className="flex justify-between items-center mt-4">
                 <div>
-                    <span>Showing {projects.length} of {total} projects</span>
+                    <span>{t('admin.projects.showing', { count: projects.length, total: total })}</span>
                 </div>
                 <div className="flex gap-2">
-                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">Previous</button>
-                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">Next</button>
+                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">{t('admin.projects.previous')}</button>
+                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">{t('admin.projects.next')}</button>
                 </div>
             </div>
         </div>

@@ -1,8 +1,10 @@
 import axiosInstance from '@/libs/axios';
 import { User } from '@prisma/client';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 const UserSelect = ({ selectedUserId, setSelectedUserId }: { selectedUserId: string, setSelectedUserId: (userId: string) => void }) => {
+    const { t } = useTranslation();
 
     const [users, setUsers] = useState<User[]>([]);
 
@@ -23,7 +25,7 @@ const UserSelect = ({ selectedUserId, setSelectedUserId }: { selectedUserId: str
     return (
         <div>
             <select value={selectedUserId} onChange={onChange} className="select select-bordered w-full">
-                <option value="">Select User</option>
+                <option value="">{t('admin.selects.select_user')}</option>
                 {users.map((user) => (
                     <option key={user.userId} value={user.userId}>
                         {user.name}

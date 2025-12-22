@@ -6,8 +6,10 @@ import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
 import { Category } from '@/types/BlogTypes';
 import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 const PostTable = ({ category }: { category?: Category }) => {
+    const { t } = useTranslation();
 
     const [search, setSearch] = useState('');
     const [posts, setPosts] = useState<Partial<PostWithData>[]>([]);
@@ -33,7 +35,7 @@ const PostTable = ({ category }: { category?: Category }) => {
 
     const deletePost = async (postId: string) => {
         //confirm
-        if (!confirm('Are you sure you want to delete this post?')) {
+        if (!confirm(t('admin.posts.confirm_delete'))) {
             return;
         }
 
@@ -49,17 +51,17 @@ const PostTable = ({ category }: { category?: Category }) => {
     const resetKnowledgeGraph = async () => {
 
         if (alreadyResettedKG) {
-            toast.info('Knowledge graph rebuild already triggered. You need to refresh the page to trigger again.');
+            toast.info(t('admin.posts.rebuild_triggered_message'));
             return;
         }
 
         setAlreadyResettedKG(true);
 
         await axiosInstance.post('/api/knowledge-graph/rebuild').then(() => {
-            toast.success('Knowledge graph rebuild triggered.');
+            toast.success(t('admin.posts.rebuild_success'));
         }).catch((error) => {
             console.error(error);
-            toast.error('Failed to trigger knowledge graph rebuild.');
+            toast.error(t('admin.posts.rebuild_failed'));
             setAlreadyResettedKG(false);
         });
     }
@@ -68,16 +70,16 @@ const PostTable = ({ category }: { category?: Category }) => {
     return (
         <div className="container mx-auto">
             <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{category ? category.title + " Posts" : "Posts"}</h1>
+                <h1 className="text-3xl font-bold h-16 md:items-center">{category ? category.title + " " + t('admin.posts.title') : t('admin.posts.title')}</h1>
                 <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
                     <button onClick={resetKnowledgeGraph} 
                     disabled={alreadyResettedKG}
                     className="btn btn-warning btn-sm h-12 disabled:bg-base-300 disabled:cursor-not-allowed">
-                        {alreadyResettedKG ? 'Rebuild Triggered' : 'Reset Knowledge Graph'}
+                        {alreadyResettedKG ? t('admin.posts.rebuild_triggered') : t('admin.posts.reset_knowledge_graph')}
                     </button>
-                    <input type="text" placeholder="Search" className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <input type="text" placeholder={t('admin.posts.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <Link className="btn btn-primary btn-sm h-12" href="/admin/posts/create">
-                        Create Post
+                        {t('admin.posts.create_post')}
                     </Link>
                 </div>
             </div>
@@ -93,11 +95,11 @@ const PostTable = ({ category }: { category?: Category }) => {
                                 Title
                             </th>
                             <th className="max-w-20">
-                                Category</th>
+                                {t('admin.posts.category')}</th>
                             <th className="max-w-16">
-                                Slug</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                                {t('admin.posts.slug')}</th>
+                            <th>{t('admin.posts.status')}</th>
+                            <th>{t('admin.posts.action')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,9 +117,9 @@ const PostTable = ({ category }: { category?: Category }) => {
                                 <td>{post.slug}</td>
                                 <td>{post.status}</td>
                                 <td className="flex gap-2">
-                                    <Link href={`/admin/posts/${post.postId}`} className="btn btn-sm btn-primary">Edit</Link>
-                                    <Link href={`/blog/${post.category?.slug}/${post.slug}`} className="btn btn-sm btn-secondary">View</Link>
-                                    <button onClick={() => deletePost(post.postId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">Delete</button>
+                                    <Link href={`/admin/posts/${post.postId}`} className="btn btn-sm btn-primary">{t('admin.posts.edit')}</Link>
+                                    <Link href={`/blog/${post.category?.slug}/${post.slug}`} className="btn btn-sm btn-secondary">{t('admin.posts.view')}</Link>
+                                    <button onClick={() => deletePost(post.postId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">{t('admin.posts.delete')}</button>
                                 </td>
                             </tr>
                         ))}
@@ -127,11 +129,11 @@ const PostTable = ({ category }: { category?: Category }) => {
 
             <div className="flex justify-between items-center mt-4">
                 <div>
-                    <span>Showing {posts.length} of {total} posts</span>
+                    <span>{t('admin.posts.showing', { count: posts.length, total: total })}</span>
                 </div>
                 <div className="flex gap-2">
-                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">Previous</button>
-                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">Next</button>
+                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">{t('admin.posts.previous')}</button>
+                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">{t('admin.posts.next')}</button>
                 </div>
             </div>
         </div>

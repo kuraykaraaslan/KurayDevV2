@@ -4,8 +4,10 @@ import StatCard from "./Partials/StatCard";
 import { faUserAlt, faBlog, faEye, faFolder, faComment} from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "@/libs/axios";
 import { StatFrequency } from "@/types/StatTypes";
+import { useTranslation } from "react-i18next";
 
 const StatsSection = () => {
+  const { t } = useTranslation();
 
   const [frequency, setFrequency] = useState<StatFrequency>("all-time");
   
@@ -36,33 +38,33 @@ const StatsSection = () => {
   const stats = [
     {
       icon: faUserAlt,
-      title: "Users",
+      title: t('admin.stats.users'),
       value: values.totalUsers,
-      description: "Total users"
+      description: t('admin.stats.total_users')
     },
     {
       icon: faBlog,
-      title: "Posts",
+      title: t('admin.stats.posts'),
       value: values.totalPosts,
-      description: "Total posts"
+      description: t('admin.stats.total_posts')
     },
     {
       icon: faEye,
-      title: "Views",
+      title: t('admin.stats.views'),
       value: values.totalViews,
-      description: "Total views"
+      description: t('admin.stats.total_views')
     },
     {
       icon: faFolder,
-      title: "Categories",
+      title: t('admin.stats.categories'),
       value: values.totalCategories,
-      description: "Total categories"
+      description: t('admin.stats.total_categories')
     },
     {
       icon: faComment,
-      title: "Comments",
+      title: t('admin.stats.comments'),
       value: values.totalComments,
-      description: "Total comments"
+      description: t('admin.stats.total_comments')
     }
   ];
 
@@ -75,13 +77,13 @@ const StatsSection = () => {
           onChange={(e) => setFrequency(e.target.value as StatFrequency)}
           className="p-2 border border-primary rounded"
         >
-          <option value="fiveMin">Last 5 Minutes</option>
-          <option value="hourly">Last Hour</option>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-          <option value="all-time">All Time</option>
+          <option value="fiveMin">{t('admin.stats.last_5_minutes')}</option>
+          <option value="hourly">{t('admin.stats.last_hour')}</option>
+          <option value="daily">{t('admin.stats.daily')}</option>
+          <option value="weekly">{t('admin.stats.weekly')}</option>
+          <option value="monthly">{t('admin.stats.monthly')}</option>
+          <option value="yearly">{t('admin.stats.yearly')}</option>
+          <option value="all-time">{t('admin.stats.all_time')}</option>
         </select>
       </div>
       {stats.map((stat, index) => (

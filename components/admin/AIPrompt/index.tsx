@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from "react-i18next";
 
 const AIPrompt = ({
     setTitle,
@@ -20,6 +21,7 @@ const AIPrompt = ({
     setCreatedAt: (createdAt: Date) => void,
     toast: any
 }) => {
+    const { t } = useTranslation();
 
     const [internalContent, setInternalContent] = useState('');
 
@@ -85,21 +87,21 @@ const AIPrompt = ({
         <>
             <dialog id="my_modal_4" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
-                    <h3 className="font-bold text-lg">OpenAI GPT-4 Post Generator</h3>
+                    <h3 className="font-bold text-lg">{t('admin.ai_prompt.generate_post')}</h3>
                     <div className="modal-body w-full">
                         <textarea className="textarea h-64 w-full mt-4" value={internalContent} onChange={(e) => setInternalContent(e.target.value)}></textarea>
-                        <button className="btn btn-primary mt-2" onClick={generatePost}>Generate Post</button>
+                        <button className="btn btn-primary mt-2" onClick={generatePost}>{t('admin.ai_prompt.generate_post')}</button>
                     </div>
                     <div className="modal-action">
                         <form method="dialog">
                             {/* if there is a button, it will close the modal */}
-                            <button className="btn">Close</button>
+                            <button className="btn">{t('admin.ai_prompt.close')}</button>
                         </form>
                     </div>
                 </div>
             </dialog>
             <button className="btn bg-yellow-400" onClick={openModal}>
-                <FontAwesomeIcon icon={faRobot} className="mr-2" /> AI Prompt
+                <FontAwesomeIcon icon={faRobot} className="mr-2" /> {t('admin.ai_prompt.generate_post')}
             </button>
         </>
     );

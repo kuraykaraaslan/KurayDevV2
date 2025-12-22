@@ -5,8 +5,10 @@ import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
 import { User } from '@prisma/client';
 import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 const UserTable = () => {
+    const { t } = useTranslation();
 
     const [users, setUsers] = useState<Partial<User>[]>([]);
     const [page, setPage] = useState(0);
@@ -30,15 +32,15 @@ const UserTable = () => {
 
     const deleteUser = async (userId: string) => {
         //confirm
-        if (!confirm('Are you sure you want to delete this user?')) {
+        if (!confirm(t('admin.users.confirm_delete'))) {
             return;
         }
         //delete
         await axiosInstance.delete(`/api/users/${userId}`).then((response) => {
-            toast.success(response.data.message || 'User deleted successfully.');
+            toast.success(response.data.message || t('admin.users.delete_success'));
             setUsers(users.filter(user => user.userId !== userId));
         }).catch((error) => {
-            toast.error(error.response.data.message || 'Failed to delete user.');
+            toast.error(error.response.data.message || t('admin.users.delete_failed'));
         }
         );
 
@@ -48,11 +50,11 @@ const UserTable = () => {
     return (
         <div className="container mx-auto">
             <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">Users</h1>
+                <h1 className="text-3xl font-bold h-16 md:items-center">{t('admin.users.title')}</h1>
                 <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <input type="text" placeholder="Search" className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <input type="text" placeholder={t('admin.users.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <Link className="btn btn-primary btn-sm h-12" href="/admin/users/create">
-                        Create User
+                        {t('admin.users.create_user')}
                     </Link>
                 </div>
             </div>
@@ -64,11 +66,11 @@ const UserTable = () => {
                     <thead className="bg-base-300 h-12">
                         <tr className="h-12">
                             <th>Image</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{t('admin.users.name')}</th>
+                            <th>{t('admin.users.email')}</th>
+                            <th>{t('admin.users.role')}</th>
+                            <th>{t('admin.users.status')}</th>
+                            <th>{t('admin.users.action')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,8 +88,8 @@ const UserTable = () => {
                                 <td>{user.userRole}</td>
                                 <td>{user.userStatus}</td>
                                 <td className="flex gap-2">
-                                    <Link href={`/admin/users/${user.userId}`} className="btn btn-sm btn-primary">Edit</Link>
-                                    <button onClick={() => deleteUser(user.userId as string)} className="btn btn-sm btn-warning hidden md:flex">Delete</button>
+                                    <Link href={`/admin/users/${user.userId}`} className="btn btn-sm btn-primary">{t('admin.users.edit')}</Link>
+                                    <button onClick={() => deleteUser(user.userId as string)} className="btn btn-sm btn-warning hidden md:flex">{t('admin.users.delete')}</button>
                                 </td>
                             </tr>
                         ))}
@@ -97,11 +99,11 @@ const UserTable = () => {
 
             <div className="flex justify-between items-center mt-4">
                 <div>
-                    <span>Showing {users.length} of {total} users</span>
+                    <span>{t('admin.users.showing', { count: users.length, total: total })}</span>
                 </div>
                 <div className="flex gap-2">
-                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">Previous</button>
-                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">Next</button>
+                    <button onClick={() => setPage(page - 1)} disabled={page === 0} className="btn btn-sm btn-secondary h-12">{t('admin.users.previous')}</button>
+                    <button onClick={() => setPage(page + 1)} disabled={(page + 1) * pageSize >= total} className="btn btn-sm btn-secondary h-12">{t('admin.users.next')}</button>
                 </div>
             </div>
         </div>

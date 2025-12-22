@@ -1,8 +1,10 @@
 import { Category } from '@prisma/client';
 import { ChangeEvent, useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
+import { useTranslation } from "react-i18next";
 
 const CategorySelect = ({ selectedCategoryId, setSelectedCategoryId }: { selectedCategoryId: string, setSelectedCategoryId: (categoryId: string) => void }) => {
+    const { t } = useTranslation();
     
     const [categories, setCategories] = useState<Category[]>([]);
 
@@ -23,7 +25,7 @@ const CategorySelect = ({ selectedCategoryId, setSelectedCategoryId }: { selecte
     return (
         <div>
             <select value={selectedCategoryId} onChange={onChange} className="select select-bordered w-full">
-                <option value="">Select Category</option>
+                <option value="">{t('admin.selects.select_category')}</option>
                 {categories.map((category) => (
                     <option key={category.categoryId} value={category.categoryId}>
                         {category.title}

@@ -5,6 +5,7 @@ import { Day, Slot, SlotTemplate } from '@/types/CalendarTypes'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { format, parse, startOfWeek, addDays } from 'date-fns'
+import { useTranslation } from "react-i18next"
 
 interface SlotTemplateBuilderProps {
     selectedDay: Day
@@ -21,6 +22,7 @@ export default function SlotTemplateBuilder({
     TIME_INTERVALS,
     setSelectedDay,
 }: SlotTemplateBuilderProps) {
+    const { t } = useTranslation()
 
     const [templateSlots, setTemplateSlots] = useState<Slot[]>([])
     const [interval, setInterval] = useState<number>(30)
@@ -44,7 +46,7 @@ export default function SlotTemplateBuilder({
             )
         } catch (err) {
             console.error(err)
-            toast.error('Failed to fetch template slots')
+            toast.error(t('admin.slots.fetch_failed'))
         }
     }
 
@@ -60,7 +62,7 @@ export default function SlotTemplateBuilder({
         const endMinutes = eh * 60 + em
 
         if (startMinutes >= endMinutes)
-            return toast.error('Start time must be earlier than end time')
+            return toast.error(t('admin.slots.start_earlier_error'))
 
         const generated: Slot[] = []
         let current = startMinutes
@@ -89,18 +91,18 @@ export default function SlotTemplateBuilder({
         }
 
         setTemplateSlots(generated)
-        toast.info(`Generated ${generated.length} slots`)
+        toast.info(t('admin.slots.generated_slots', { count: generated.length }))
     }
 
     /** Add manual slot */
     const addTemplateSlot = () => {
-        if (!newTime) return toast.warn('Please select a time')
+        if (!newTime) return toast.warn(t('admin.slots.please_select_time'))
 
         const start = parse(`${formattedDate} ${newTime}`, 'yyyy-MM-dd HH:mm', new Date())
         const end = new Date(start.getTime() + interval * 60 * 1000)
 
         if (templateSlots.some((s) => s.startTime.getTime() === start.getTime()))
-            return toast.warn('Slot already exists')
+            return toast.warn(t('admin.slots.slot_exists'))
 
         const newSlot: Slot = { startTime: start, endTime: end, capacity: 1 }
         setTemplateSlots((prev) => [...prev, newSlot].sort((a, b) => a.startTime.getTime() - b.startTime.getTime()))
@@ -121,10 +123,10 @@ export default function SlotTemplateBuilder({
                 slots: templateSlots
             }
             await axiosInstance.post(`/api/slot-templates/${selectedDay}`, payload)
-            toast.success('Template saved successfully')
+            toast.success(t('admin.slots.template_saved'))
         } catch (e) {
             console.error(e)
-            toast.error('Failed to save template')
+            toast.error(t('admin.slots.template_failed'))
         } finally {
             setSaving(false)
         }
@@ -133,25 +135,25 @@ export default function SlotTemplateBuilder({
     /** Apply Template to Date */
     const applyTemplateToDate = async () => {
 
-        if (!confirm(`Apply ${selectedDay} template to ${formattedDate}? This will overwrite existing slots.`)) return
-        if (templateSlots.length === 0) return toast.warn('No slots to apply')
+        if (!confirm(t('admin.slots.apply_confirm', { day: selectedDay, date: formattedDate }))) return
+        if (templateSlots.length === 0) return toast.warn(t('admin.slots.no_slots'))
 
         try {
             const payload = {
                 formattedDate: formattedDate,
             }
             await axiosInstance.post('/api/slot-templates/' + selectedDay + '/apply', payload)
-            toast.success(`Template applied to ${formattedDate}`)
+            toast.success(t('admin.slots.apply_success', { date: formattedDate }))
         } catch (err) {
             console.error(err)
-            toast.error('Failed to apply template')
+            toast.error(t('admin.slots.apply_failed'))
         }
     }
 
     /** Apply all templates to current week (Mon–Sun) */
     const applyAllTemplateToWeek = async () => {
 
-        if (!confirm(`This will overwrite existing slots for the week that start from the ${format(startOfWeek(selectedDate, { weekStartsOn: 1 }), 'dd MMM yyyy')}. Continue?`)) return
+        if (!confirm(t('admin.slots.week_confirm', { date: format(startOfWeek(selectedDate, { weekStartsOn: 1 }), 'dd MMM yyyy') }))) return
 
         try {
             const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 }) // Monday
@@ -182,19 +184,19 @@ export default function SlotTemplateBuilder({
                 }
             }
 
-            toast.success('Templates applied to all week successfully')
+            toast.success(t('admin.slots.apply_week_success'))
         } catch (err) {
             console.error(err)
-            toast.error('Failed to apply templates to week')
+            toast.error(t('admin.slots.apply_failed'))
         }
     }
 
     return (
         <div className="card bg-base-100 shadow-xl border border-base-200">
             <div className="card-body">
-                <h2 className="text-2xl font-semibold mb-2">Template Builder</h2>
+                <h2 className="text-2xl font-semibold mb-2">{t('admin.slots.template_builder')}</h2>
                 <div className="text-sm text-gray-500 mb-4">
-                    Create and manage slot templates for each day of the week.
+                    {t('admin.slots.create_and_manage')}
                 </div>
 
                 {/* Day Selector */}
@@ -216,7 +218,7 @@ export default function SlotTemplateBuilder({
                 {/* Generator */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
                     <div>
-                        <label className="text-xs text-gray-600">Start</label>
+                        <label className="text-xs text-gray-600">{t('admin.slots.start_time')}</label>
                         <input
                             type="time"
                             value={startTime}
@@ -225,7 +227,7 @@ export default function SlotTemplateBuilder({
                         />
                     </div>
                     <div>
-                        <label className="text-xs text-gray-600">End</label>
+                        <label className="text-xs text-gray-600">{t('admin.slots.end_time')}</label>
                         <input
                             type="time"
                             value={endTime}
@@ -234,7 +236,7 @@ export default function SlotTemplateBuilder({
                         />
                     </div>
                     <div>
-                        <label className="text-xs text-gray-600">Interval</label>
+                        <label className="text-xs text-gray-600">{t('admin.slots.interval')}</label>
                         <select
                             value={interval}
                             onChange={(e) => setInterval(Number(e.target.value))}
@@ -249,7 +251,7 @@ export default function SlotTemplateBuilder({
                     </div>
                     <div className="flex items-end">
                         <button onClick={generateTemplateSlots} className="btn btn-outline w-full">
-                            Generate
+                            {t('admin.slots.generate')}
                         </button>
                     </div>
                 </div>
@@ -263,7 +265,7 @@ export default function SlotTemplateBuilder({
                         className="input input-bordered w-full"
                     />
                     <button className="btn btn-outline" onClick={addTemplateSlot}>
-                        Add
+                        {t('admin.slots.add')}
                     </button>
                 </div>
 
@@ -274,25 +276,25 @@ export default function SlotTemplateBuilder({
                         disabled={saving}
                         className="btn btn-primary text-white"
                     >
-                        {saving ? 'Saving...' : 'Save'}
+                        {saving ? t('admin.slots.saving') : t('admin.slots.save_template')}
                     </button>
                     <button onClick={applyTemplateToDate} className="btn btn-accent text-white">
-                        Apply to {formattedDate}
+                        {t('admin.slots.apply_template_date')}
                     </button>
                     <button onClick={applyAllTemplateToWeek} className="btn btn-secondary text-white">
-                        Apply to Week of {format(startOfWeek(selectedDate, { weekStartsOn: 1 }), 'dd MMM')}
+                        {t('admin.slots.apply_template_week')}
                     </button>
                 </div>
 
                 {/* Remove All */}
                 <button onClick={removeAllTemplateSlots} className="btn btn-outline w-full mb-3">
-                    Remove All Slots
+                    {t('admin.slots.remove_all')}
                 </button>
 
                 {/* Slot List */}
                 <div className="bg-base-200 rounded-lg max-h-[300px] overflow-y-auto p-2">
                     {templateSlots.length === 0 ? (
-                        <p className="text-gray-500 text-center py-6">No slots yet</p>
+                        <p className="text-gray-500 text-center py-6">{t('admin.slots.no_slots')}</p>
                     ) : (
                         templateSlots.map((slot, i) => (
                             <SingleTemplateSlot
