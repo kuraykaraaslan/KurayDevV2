@@ -302,5 +302,17 @@
       "select_user": "Select User",
       "select_category": "Select Category"
     }
+  },
+  "auth": {
+    "sso": {
+      "title": "Login with Social Media",
+      "no_providers": "No SSO providers configured.",
+      "provider_not_allowed": "SSO login for {{provider}} is not allowed.",
+      "redirect_error": "SSO redirect error.",
+      "button_label": "Login with {{provider}}",
+      "modal_button": "Login with Social Media",
+      "modal_title": "Login with Social Media",
+      "close": "Close"
+    }
   }
 }
