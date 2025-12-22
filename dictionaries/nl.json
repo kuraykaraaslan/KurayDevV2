@@ -11,139 +11,161 @@
     "resume": "CV",
     "backend": "Backend"
   },
-  "error": {
-    "404": {
-      "title": "Er is iets misgegaan",
-      "description": "Sorry, we kunnen die pagina niet vinden. Op de homepagina vind je genoeg om te ontdekken.",
-      "button": "Ga terug naar home"
+  "pages": {
+    "error": {
+      "404": {
+        "title": "Er is iets misgegaan",
+        "description": "Sorry, we kunnen die pagina niet vinden. Op de homepagina vind je genoeg om te ontdekken.",
+        "button": "Ga terug naar home"
+      },
+      "500": {
+        "title": "Interne Serverfout",
+        "description": "Er is een fout op de server opgetreden.",
+        "button": "Ga terug naar home"
+      }
     },
-    "500": {
-      "title": "Interne Serverfout",
-      "description": "Er is een fout op de server opgetreden.",
-      "button": "Ga terug naar home"
+    "welcome": {
+      "description": "<bold>Productgerichte Full-Stack Developer</bold> met <bold>3+ jaar ervaring</bold> in het leveren van robuuste, schaalbare softwareoplossingen op het gebied van <bold>frontend, backend en mobile binnen BIM- en IoT-domeinen.</bold> Gespecialiseerd in <bold>Java Spring Boot, React, Next.js, Node.js en PostgreSQL</bold>. Bedreven in het ontwerpen van <bold>multi-tenant SaaS-platformen, real-time systemen en betalingsintegraties.</bold> Combineert sterke technische basis met <bold>creatief probleemoplossen</bold> en een <bold>schone, systematische codeerstijl.</bold>",
+      "typingEffect": {
+        "prefix": "Ik ben klaar om",
+        "suffix": "",
+        "text1": "problemen op te lossen",
+        "text2": "producten te bouwen",
+        "text3": "oplossingen te creëren",
+        "text4": "een verschil te maken",
+        "text5": "uitdagingen aan te gaan",
+        "text6": "freelancen"
+      },
+      "contact_me": "Neem contact op",
+      "resume": "CV"
+    },
+    "toolbox": {
+      "title": "Creativiteit heeft veel tools nodig",
+      "description": "Ik heb veel tools in mijn toolbox en ik blijf altijd nieuwe leren.",
+      "skills": {
+        "clean_code": "Schone Code",
+        "authentication_security": "Authenticatie & Beveiliging",
+        "rest_api_design": "REST API-ontwerp",
+        "sql_data_modeling": "SQL & Gegevensmodellering",
+        "multi_tenant_saas": "Multi-Tenant SaaS",
+        "caching_redis": "Caching met Redis",
+        "payment_systems": "Betalingssystemen",
+        "testing_cicd": "Testen & CI/CD",
+        "performance_optimization": "Prestatie-optimalisatie",
+        "cloud_infrastructure": "Cloud-infrastructuur (AWS)",
+        "event_driven_architecture": "Event-Driven Architecture",
+        "domain_driven_design": "Domain-Driven Design"
+      }
+    },
+    "timeline": {
+      "title": "Mijn Reis",
+      "description": "Mijn overgang van bouwkundig ingenieur naar softwareontwikkelaar is een reis geweest van leren, groeien en transformeren. Hier is een momentopname van mijn professionele pad tot nu toe."
+    },
+    "projects": {
+      "title": "Portfolio",
+      "description": "Mijn professionele portfolio's waaraan ik heb gewerkt."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Goede dingen gebeuren wanneer we praten.",
+      "phone_and_mail": "Telefoon en E-mail",
+      "social_media": "Sociale Media",
+      "send_a_message": "Stuur een bericht",
+      "reveal_mail": "Klik om e-mail te tonen",
+      "reveal_phone": "Klik om telefoonnummer te tonen",
+      "can_not_verify_that_you_are_not_a_robot": "Kan niet verifiëren dat u geen robot bent. Probeer het later opnieuw.",
+      "form": {
+        "name": "Naam",
+        "enter_your_name": "Voer uw naam in",
+        "email": "E-mail",
+        "enter_your_email": "Voer uw e-mail in",
+        "phone": "Telefoon",
+        "enter_your_phone": "Voer uw telefoonnummer in",
+        "message": "Bericht",
+        "enter_your_message": "Voer uw bericht in. U kunt uw project, behoeften of andere informatie beschrijven.",
+        "send": "Versturen",
+        "success": "Uw bericht is succesvol verzonden. Ik neem zo snel mogelijk contact met u op.",
+        "error": "Er is een fout opgetreden bij het verzenden van uw bericht. Probeer het later opnieuw.",
+        "please_fill_in_all_fields": "Vul alstublieft alle velden in.",
+        "loading": "Uw bericht wordt verzonden..."
+      }
     }
   },
-  "alert": {
-    "this_blog_is_available_in_only_english": "Deze blog is alleen in het Engels beschikbaar",
-    "error": "Er is een fout opgetreden",
-    "success": "Succes",
-    "warning": "Waarschuwing",
-    "info": "Informatie"
-  },
-  "welcome": {
-    "description": "<bold>Productgerichte Full-Stack Developer</bold> met <bold>3+ jaar ervaring</bold> in het leveren van robuuste, schaalbare softwareoplossingen op het gebied van <bold>frontend, backend en mobile binnen BIM- en IoT-domeinen.</bold> Gespecialiseerd in <bold>Java Spring Boot, React, Next.js, Node.js en PostgreSQL</bold>. Bedreven in het ontwerpen van <bold>multi-tenant SaaS-platformen, real-time systemen en betalingsintegraties.</bold> Combineert sterke technische basis met <bold>creatief probleemoplossen</bold> en een <bold>schone, systematische codeerstijl.</bold>",
-    "typingEffect": {
-      "prefix": "Ik ben klaar om",
-      "suffix": "",
-      "text1": "problemen op te lossen",
-      "text2": "producten te bouwen",
-      "text3": "oplossingen te creëren",
-      "text4": "een verschil te maken",
-      "text5": "uitdagingen aan te gaan",
-      "text6": "freelancen"
+  "shared": {
+    "alert": {
+      "this_blog_is_available_in_only_english": "Deze blog is alleen in het Engels beschikbaar",
+      "error": "Er is een fout opgetreden",
+      "success": "Succes",
+      "warning": "Waarschuwing",
+      "info": "Informatie"
     },
-    "contact_me": "Neem contact op",
-    "resume": "CV"
-  },
-  "toolbox": {
-    "title": "Creativiteit heeft veel tools nodig",
-    "description": "Ik heb veel tools in mijn toolbox en ik blijf altijd nieuwe leren."
-  },
-  "timeline": {
-    "title": "Mijn Reis",
-    "description": "Mijn overgang van bouwkundig ingenieur naar softwareontwikkelaar is een reis geweest van leren, groeien en transformeren. Hier is een momentopname van mijn professionele pad tot nu toe."
-  },
-  "projects": {
-    "title": "Portfolio",
-    "description": "Mijn professionele portfolio's waaraan ik heb gewerkt."
-  },
-  "contact": {
-    "title": "Contact",
-    "description": "Goede dingen gebeuren wanneer we praten.",
-    "phone_and_mail": "Telefoon en E-mail",
-    "social_media": "Sociale Media",
-    "send_a_message": "Stuur een bericht",
-    "reveal_mail": "Klik om e-mail te tonen",
-    "reveal_phone": "Klik om telefoonnummer te tonen",
-    "can_not_verify_that_you_are_not_a_robot": "Kan niet verifiëren dat u geen robot bent. Probeer het later opnieuw.",
-    "form": {
-      "name": "Naam",
-      "enter_your_name": "Voer uw naam in",
-      "email": "E-mail",
-      "enter_your_email": "Voer uw e-mail in",
-      "phone": "Telefoon",
-      "enter_your_phone": "Voer uw telefoonnummer in",
-      "message": "Bericht",
-      "enter_your_message": "Voer uw bericht in. U kunt uw project, behoeften of andere informatie beschrijven.",
-      "send": "Versturen",
-      "success": "Uw bericht is succesvol verzonden. Ik neem zo snel mogelijk contact met u op.",
-      "error": "Er is een fout opgetreden bij het verzenden van uw bericht. Probeer het later opnieuw.",
-      "please_fill_in_all_fields": "Vul alstublieft alle velden in.",
-      "loading": "Uw bericht wordt verzonden..."
-    }
-  },
-  "footer": {
-    "all_rights_reserved": "Alle rechten voorbehouden."
-  },
-  "whatsapp": {
-    "message": "Hallo! Ik ben Kuray Karaaslan, hoe kan ik u helpen?"
-  },
-  "calendar": {
-    "title": "Agenda",
-    "name_placeholder": "Voer uw naam in",
-    "email_placeholder": "Voer uw e-mail in",
-    "phone_placeholder": "Voer uw telefoonnummer in",
-    "note_placeholder": "Voer uw notitie in",
-    "booked": "Geboekt",
-    "cancelled": "Geannuleerd",
-    "available": "Beschikbaar",
-    "no_available_slots": "Geen beschikbare tijdsloten",
-    "name": "Uw naam",
-    "email": "Uw e-mail",
-    "phone": "Uw telefoonnummer",
-    "description": "Plan een afspraak met mij.",
-    "available_slots": "Beschikbare tijdsloten",
-    "book_appointment": "Afspraak maken",
-    "select_slot": "Selecteer een tijdslot om een afspraak te maken.",
-    "past_date_warning": "U kunt geen afspraak maken in het verleden.",
-    "minutes": "{{count}} minuten",
-    "close": "Sluiten"
-  },
-  "geomap": {
-    "title": "Wereldwijde Bezoekers Warmtekaart",
-    "description": "Ontdek de wereldwijde verspreiding van bezoekers aan mijn portfolio via deze interactieve warmtekaart. Elk punt op de kaart vertegenwoordigt de locatie van een bezoeker en biedt inzicht in waar mijn publiek vandaan komt over de hele wereld.",
-    "visitors": "{{count}} bezoeker |||| {{count}} bezoekers"
-  },
+    "footer": {
+      "all_rights_reserved": "Alle rechten voorbehouden."
+    },
+    "newsletter": {
+      "title": "Nieuwsbrief",
+      "description": "Blijf op de hoogte! Ontvang al het nieuwste en beste nieuws rechtstreeks in uw inbox.",
+      "email_placeholder": "Voer uw e-mailadres in",
+      "subscribe": "Abonneren",
+      "success_message": "Succesvol geabonneerd! Controleer uw e-mails voor bevestiging.",
+      "error_message": "Er is een fout opgetreden bij het abonneren. Probeer het later opnieuw."
+    },
+    "whatsapp": {
+      "message": "Hallo! Ik ben Kuray Karaaslan, hoe kan ik u helpen?"
+    },
+    "calendar": {
+      "title": "Agenda",
+      "name_placeholder": "Voer uw naam in",
+      "email_placeholder": "Voer uw e-mail in",
+      "phone_placeholder": "Voer uw telefoonnummer in",
+      "note_placeholder": "Voer uw notitie in",
+      "booked": "Geboekt",
+      "cancelled": "Geannuleerd",
+      "available": "Beschikbaar",
+      "no_available_slots": "Geen beschikbare tijdsloten",
+      "name": "Uw naam",
+      "email": "Uw e-mail",
+      "phone": "Uw telefoonnummer",
+      "description": "Plan een afspraak met mij.",
+      "available_slots": "Beschikbare tijdsloten",
+      "book_appointment": "Afspraak maken",
+      "select_slot": "Selecteer een tijdslot om een afspraak te maken.",
+      "past_date_warning": "U kunt geen afspraak maken in het verleden.",
+      "minutes": "{{count}} minuten",
+      "close": "Sluiten"
+    },
+    "geomap": {
+      "title": "Wereldwijde Bezoekers Warmtekaart",
+      "description": "Ontdek de wereldwijde verspreiding van bezoekers aan mijn portfolio via deze interactieve warmtekaart. Elk punt op de kaart vertegenwoordigt de locatie van een bezoeker en biedt inzicht in waar mijn publiek vandaan komt over de hele wereld.",
+      "visitors": "{{count}} bezoeker |||| {{count}} bezoekers"
+    },
     "status": {
-    "title": "Systeemstatus",
-    "loading": "Systeemstatus controleren...",
-    "response_time": "Reactietijd: {{time}}ms",
-    "uptime": "Uptime: {{time}}m",
-    "service_names": {
-      "api": "API",
-      "database": "Database",
-      "auth": "Authenticatie",
-      "payment": "Betalingsgateway",
-      "frontend": "Frontend",
-      "redis": "Redis-cache",
-      "mail": "E-mailservice",
-      "openai": "OpenAI-service",
-      "aws": "AWS-diensten",
-      "sms": "SMS-service"
-    },
-    "statuses": {
-      "operational": "Operationeel",
-      "degraded_performance": "Verminderde prestaties",
-      "partial_outage": "Gedeeltige storing",
-      "major_outage": "Grote storing"
+      "title": "Systeemstatus",
+      "loading": "Systeemstatus controleren...",
+      "response_time": "Reactietijd: {{time}}ms",
+      "uptime": "Uptime: {{time}}m",
+      "service_names": {
+        "api": "API",
+        "database": "Database",
+        "auth": "Authenticatie",
+        "payment": "Betalingsgateway",
+        "frontend": "Frontend",
+        "redis": "Redis-cache",
+        "mail": "E-mailservice",
+        "openai": "OpenAI-service",
+        "aws": "AWS-diensten",
+        "sms": "SMS-service"
+      },
+      "statuses": {
+        "operational": "Operationeel",
+        "degraded_performance": "Verminderde prestaties",
+        "partial_outage": "Gedeeltige storing",
+        "major_outage": "Grote storing"
+      }
     }
   },
-  "newsletter": {
-    "title": "Nieuwsbrief",
-    "description": "Blijf op de hoogte! Ontvang al het nieuwste en beste nieuws rechtstreeks in uw inbox.",
-    "email_placeholder": "Voer uw e-mailadres in",
-    "subscribe": "Abonneren",
-    "success_message": "Succesvol geabonneerd! Controleer uw e-mails voor bevestiging.",
-    "error_message": "Er is een fout opgetreden bij het abonneren. Probeer het later opnieuw."
-  }
+  "admin": {},
+  "auth": {},
+  "common": {},
+  "frontend": {}
 }

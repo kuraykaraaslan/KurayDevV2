@@ -10,13 +10,13 @@ export default function SystemStatusButton() {
   const modal = useModal(false)
 
   return (
-    <div>
+    <>
       <button onClick={modal.openModal}>
         <FontAwesomeIcon
           icon={faCircle}
           className={`text-[8px] mr-1 text-gray-300`} // renk içerikten geliyor
         />
-        <span className="text-sm">{i18n.t("status.title")}</span>
+        <span className="text-sm">{i18n.t("shared.status.title")}</span>
       </button>
 
       <HeadlessModal
@@ -24,10 +24,10 @@ export default function SystemStatusButton() {
         onClose={modal.closeModal}
         size="md"
         className="!max-w-md"
-        title={i18n.t("status.title")}
+        title={i18n.t("shared.status.title")}
       >
         <SystemStatusModalContent />
       </HeadlessModal>
-    </div>
+    </>
   )
 }

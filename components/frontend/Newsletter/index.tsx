@@ -49,15 +49,15 @@ const Newsletter = ({ backgroundColor }: { backgroundColor?: string }) => {
     return (
         <div className={"py-16 px-6" + (backgroundColor ? " " + backgroundColor : " bg-base-200")}>
             <div className="max-w-5xl mx-auto text-center">
-                <h2 className="text-5xl font-bold mb-6">{t("newsletter.title")}</h2>
-                <p className="text-base">{t("newsletter.description")}</p>
+                <h2 className="text-5xl font-bold mb-6">{t("shared.newsletter.title")}</h2>
+                <p className="text-base">{t("shared.newsletter.description")}</p>
 
                 <div className="mt-12 flex items-center overflow-hidden rounded-md max-w-xl mx-auto">
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         type="email"
-                        placeholder={t("newsletter.email_placeholder")}
+                        placeholder={t("shared.newsletter.email_placeholder")}
                         className="w-full bg-transparent py-3.5 px-4 text-base focus:outline-none bg-base-100 border border-primary rounded"
                     />
 
@@ -66,7 +66,7 @@ const Newsletter = ({ backgroundColor }: { backgroundColor?: string }) => {
                         onClick={subscribe}
                         className="button bg-primary text-white text-base font-bold rounded-r-md h-12 px-6 border-primary border-l-0"
                     >
-                        {t("newsletter.subscribe")}
+                        {t("shared.newsletter.subscribe")}
                     </button>
                 </div>
             </div>

@@ -11,140 +11,160 @@
     "resume": "Resume",
     "backend": "Backend"
   },
-  "error": {
-    "404": {
-      "title": "Something went wrong",
-      "description": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
-      "button": "Go back home"
+  "pages": {
+    "error": {
+      "404": {
+        "title": "Something went wrong",
+        "description": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+        "button": "Go back home"
+      },
+      "500": {
+        "title": "Internal Server Error",
+        "description": "An error occurred on the server.",
+        "button": "Go back home"
+      }
     },
-    "500": {
-      "title": "Internal Server Error",
-      "description": "An error occurred on the server.",
-      "button": "Go back home"
-    }
-  },
-  "alert": {
-    "this_blog_is_available_in_only_english": "This blog is only available in English",
-    "error": "An error occurred",
-    "success": "Success",
-    "warning": "Warning",
-    "info": "Info"
-  },
-  "welcome": {
-    "description": "<bold>Product-focused Full-Stack Developer</bold> with <bold>3+ years of experience</bold> delivering robust, scalable software solutions across <bold>frontend, backend, mobile in BIM and IoT domains.</bold> Specialized in <bold>Java Spring Boot, React, Next.js, Node.js, and PostgreSQL</bold>. Adept at architecting <bold>multi-tenant SaaS platforms, real-time systems, and payment integrations.</bold> Combines strong engineering fundamentals with <bold>creative problem-solving</bold> and a <bold>clean, systematic coding approach.</bold>",
-    "typingEffect": {
-      "prefix": "I'm ready to",
-      "suffix": "",
-      "text1": "solve problems",
-      "text2": "build products",
-      "text3": "create solutions",
-      "text4": "make a difference",
-      "text5": "be challenged",
-      "text6": "freelance"
+    "welcome": {
+      "description": "<bold>Product-focused Full-Stack Developer</bold> with <bold>3+ years of experience</bold> delivering robust, scalable software solutions across <bold>frontend, backend, mobile in BIM and IoT domains.</bold> Specialized in <bold>Java Spring Boot, React, Next.js, Node.js, and PostgreSQL</bold>. Adept at architecting <bold>multi-tenant SaaS platforms, real-time systems, and payment integrations.</bold> Combines strong engineering fundamentals with <bold>creative problem-solving</bold> and a <bold>clean, systematic coding approach.</bold>",
+      "typingEffect": {
+        "prefix": "I'm ready to",
+        "suffix": "",
+        "text1": "solve problems",
+        "text2": "build products",
+        "text3": "create solutions",
+        "text4": "make a difference",
+        "text5": "be challenged",
+        "text6": "freelance"
+      },
+      "contact_me": "Contact me",
+      "resume": "Resume"
     },
-    "contact_me": "Contact me",
-    "resume": "Resume"
-  },
-  "toolbox": {
-    "title": "Creativity needs a lot of tools",
-    "description": "Have a lot of tools in my toolbox, and i'm always learning new ones."
-  },
-  "timeline": {
-    "title": "My Journey",
-    "description": "My transition from a Structural Engineer to a Software Developer has been a journey of learning, growth, and transformation. Here's a snapshot of my professional journey so far."
-  },
-  "projects": {
-    "title": "Portfolio",
-    "description": "My professional portfolios that I have worked on."
-  },
-  "contact": {
-    "title": "Contact",
-    "description": "Good things happen when we talk.",
-    "phone_and_mail": "Phone and Email",
-    "social_media": "Social Media",
-    "send_a_message": "Send a message",
-    "reveal_mail": "Click to reveal email",
-    "reveal_phone": "Click to reveal phone",
-    "can_not_verify_that_you_are_not_a_robot": "Can not verify that you are not a robot. Please try again later.",
-    "form": {
-      "name": "Name",
-      "enter_your_name": "Enter your name",
-      "email": "Email",
-      "enter_your_email": "Enter your email",
-      "phone": "Phone",
-      "enter_your_phone": "Enter your phone",
-      "message": "Message",
-      "enter_your_message": "Enter your message, you can describe your project, your needs, or any other information you want to share.",
-      "send": "Send",
-      "success": "Your message has been sent successfully. I will get back to you as soon as possible.",
-      "error": "An error occurred while sending your message. Please try again later.",
-      "please_fill_in_all_fields": "Please fill in all fields.",
-      "loading": "Sending your message..."
-    }
-  },
-  "footer": {
-    "all_rights_reserved": "All rights reserved."
-  },
-  "whatsapp": {
-    "message": "Hello! I am Kuray Karaaslan, how can I help you?"
-  },
-  "calendar": {
-    "title": "Calendar",
-    "name_placeholder": "Enter your name",
-    "email_placeholder": "Enter your email",
-    "phone_placeholder": "Enter your phone",
-    "note_placeholder": "Enter your note",
-    "booked": "Booked",
-    "cancelled": "Cancelled",
-    "available": "Available",
-    "no_available_slots": "No available slots",
-    "name": "Your Name",
-    "email": "Your Email",
-    "phone": "Your Phone",
-    "description": "Book an appointment with me.",
-    "available_slots": "Available Slots",
-    "book_appointment": "Book Appointment",
-    "select_slot": "Please select a slot to book an appointment.",
-    "past_date_warning": "You cannot book an appointment for a past date.",
-    "minutes": "{{count}} minutes",
-    "close": "Close"
-  },
-  "geomap": {
-    "title": "Global Visitors Heatmap",
-    "description": "Explore the global distribution of visitors to my portfolio through this interactive heatmap. Each point on the map represents a visitor's location, providing insights into where my audience is coming from around the world.",
-    "visitors": "{{count}} visitor |||| {{count}} visitors"
-  },
-  "status": {
-    "title": "System Status",
-    "loading": "Checking system status...",
-    "response_time": "Response Time: {{time}}ms",
-    "uptime": "Uptime: {{time}}m",
-    "service_names": {
-      "api": "API",
-      "database": "Database",
-      "auth": "Authentication",
-      "payment": "Payment Gateway",
+    "toolbox": {
+      "title": "Creativity needs a lot of tools",
+      "description": "Have a lot of tools in my toolbox, and i'm always learning new ones.",
       "frontend": "Frontend",
-      "redis": "Redis Cache",
-      "mail": "Mail Service",
-      "openai": "OpenAI Service",
-      "aws": "AWS Services",
-      "sms": "SMS Service"
+      "backend": "Backend",
+      "skills": {
+        "clean_code": "Clean Code",
+        "authentication_security": "Authentication & Security",
+        "rest_api_design": "REST API Design",
+        "sql_data_modeling": "SQL & Data Modeling",
+        "multi_tenant_saas": "Multi-Tenant SaaS",
+        "caching_redis": "Caching with Redis",
+        "payment_systems": "Payment Systems",
+        "testing_cicd": "Testing & CI/CD",
+        "performance_optimization": "Performance Optimization",
+        "cloud_infrastructure": "Cloud Infrastructure (AWS)",
+        "event_driven_architecture": "Event-Driven Architecture",
+        "domain_driven_design": "Domain-Driven Design"
+      }
     },
-    "statuses": {
-      "operational": "Operational",
-      "degraded_performance": "Degraded Performance",
-      "partial_outage": "Partial Outage",
-      "major_outage": "Major Outage"
+    "timeline": {
+      "title": "My Journey",
+      "description": "My transition from a Structural Engineer to a Software Developer has been a journey of learning, growth, and transformation. Here's a snapshot of my professional journey so far."
+    },
+    "projects": {
+      "title": "Portfolio",
+      "description": "My professional portfolios that I have worked on."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Good things happen when we talk.",
+      "phone_and_mail": "Phone and Email",
+      "social_media": "Social Media",
+      "send_a_message": "Send a message",
+      "reveal_mail": "Click to reveal email",
+      "reveal_phone": "Click to reveal phone",
+      "can_not_verify_that_you_are_not_a_robot": "Can not verify that you are not a robot. Please try again later.",
+      "form": {
+        "name": "Name",
+        "enter_your_name": "Enter your name",
+        "email": "Email",
+        "enter_your_email": "Enter your email",
+        "phone": "Phone",
+        "enter_your_phone": "Enter your phone",
+        "message": "Message",
+        "enter_your_message": "Enter your message, you can describe your project, your needs, or any other information you want to share.",
+        "send": "Send",
+        "success": "Your message has been sent successfully. I will get back to you as soon as possible.",
+        "error": "An error occurred while sending your message. Please try again later.",
+        "please_fill_in_all_fields": "Please fill in all fields.",
+        "loading": "Sending your message..."
+      }
     }
   },
-  "newsletter": {
-    "title": "Newsletter",
-    "description": "Stay updated! Get all the latest and greatest posts delivered straight to your inbox",
-    "email_placeholder": "Enter your email address",
-    "subscribe": "Subscribe",
-    "success_message": "Successfully subscribed! Check your emails for confirmation.",
-    "error_message": "An error occurred while subscribing. Please try again later."
+  "shared": {
+    "alert": {
+      "this_blog_is_available_in_only_english": "This blog is only available in English",
+      "error": "An error occurred",
+      "success": "Success",
+      "warning": "Warning",
+      "info": "Info"
+    },
+    "footer": {
+      "all_rights_reserved": "All rights reserved."
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Stay updated! Get all the latest and greatest posts delivered straight to your inbox",
+      "email_placeholder": "Enter your email address",
+      "subscribe": "Subscribe",
+      "success_message": "Successfully subscribed! Check your emails for confirmation.",
+      "error_message": "An error occurred while subscribing. Please try again later."
+    },
+    "whatsapp": {
+      "message": "Hello! I am Kuray Karaaslan, how can I help you?"
+    },
+    "calendar": {
+      "title": "Calendar",
+      "name_placeholder": "Enter your name",
+      "email_placeholder": "Enter your email",
+      "phone_placeholder": "Enter your phone",
+      "note_placeholder": "Enter your note",
+      "booked": "Booked",
+      "cancelled": "Cancelled",
+      "available": "Available",
+      "no_available_slots": "No available slots",
+      "name": "Your Name",
+      "email": "Your Email",
+      "phone": "Your Phone",
+      "description": "Book an appointment with me.",
+      "available_slots": "Available Slots",
+      "book_appointment": "Book Appointment",
+      "select_slot": "Please select a slot to book an appointment.",
+      "past_date_warning": "You cannot book an appointment for a past date.",
+      "minutes": "{{count}} minutes",
+      "close": "Close"
+    },
+    "geomap": {
+      "title": "Global Visitors Heatmap",
+      "description": "Explore the global distribution of visitors to my portfolio through this interactive heatmap. Each point on the map represents a visitor's location, providing insights into where my audience is coming from around the world.",
+      "visitors": "{{count}} visitor |||| {{count}} visitors"
+    },
+    "status": {
+      "title": "System Status",
+      "loading": "Checking system status...",
+      "response_time": "Response Time: {{time}}ms",
+      "uptime": "Uptime: {{time}}m",
+      "service_names": {
+        "api": "API",
+        "database": "Database",
+        "auth": "Authentication",
+        "payment": "Payment Gateway",
+        "frontend": "Frontend",
+        "redis": "Redis Cache",
+        "mail": "Mail Service",
+        "openai": "OpenAI Service",
+        "aws": "AWS Services",
+        "sms": "SMS Service"
+      },
+      "statuses": {
+        "operational": "Operational",
+        "degraded_performance": "Degraded Performance",
+        "partial_outage": "Partial Outage",
+        "major_outage": "Major Outage"
+      }
+    }
   },
   "admin": {
     "stats": {
@@ -328,7 +348,8 @@
     "loading": "Loading...",
     "modal": {
       "close_dialog": "Close dialog"
-    }  },
+    }
+  },
   "frontend": {
     "comments": {
       "comments_count": "Comments",
@@ -357,15 +378,6 @@
     "by": "by",
     "no_date": "No Date",
     "unknown_author": "Unknown Author",
-    "footer": {
-      "all_rights_reserved": "All rights reserved"
-    },
-    "newsletter": {
-      "title": "Subscribe to Newsletter",
-      "description": "Get the latest updates and news delivered to your inbox",
-      "email_placeholder": "Enter your email",
-      "subscribe": "Subscribe"
-    },
     "offline": {
       "online": "You are back online!",
       "offline": "You are offline!"
@@ -373,18 +385,9 @@
     "terminal_button": "Terminal",
     "scroll_to_top": "Scroll to top",
     "scroll_to_bottom": "Scroll to bottom",
-    "whatsapp": {
-      "contact": "Contact via WhatsApp"
-    },
-    "system_status": {
-      "title": "System Status"
-    },
     "knowledge_graph": {
       "title_2d": "2D Knowledge Graph",
       "title_3d": "3D Knowledge Graph"
-    },
-    "geomap": {
-      "title": "Geographic Heatmap"
     },
     "settings": {
       "basic": "Basic",

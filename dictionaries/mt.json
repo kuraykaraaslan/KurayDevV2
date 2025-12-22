@@ -11,136 +11,158 @@
     "resume": "Curriculum Vitae",
     "backend": "Backend"
   },
-  "error": {
-    "404": {
-      "title": "Xi ħaġa marret ħażin",
-      "description": "Jiddispjaċina, ma nistgħux insibu dik il-paġna. Tista' ssib ħafna affarijiet interessanti fuq il-paġna ewlenija.",
-      "button": "Mur lura għall-paġna ewlenija"
+  "pages": {
+    "error": {
+      "404": {
+        "title": "Xi ħaġa marret ħażin",
+        "description": "Jiddispjaċina, ma nistgħux insibu dik il-paġna. Tista' ssib ħafna affarijiet interessanti fuq il-paġna ewlenija.",
+        "button": "Mur lura għall-paġna ewlenija"
+      },
+      "500": {
+        "title": "Żball Intern fis-Server",
+        "description": "Seħħ żball fis-server.",
+        "button": "Mur lura għall-paġna ewlenija"
+      }
     },
-    "500": {
-      "title": "Żball Intern fis-Server",
-      "description": "Seħħ żball fis-server.",
-      "button": "Mur lura għall-paġna ewlenija"
+    "welcome": {
+      "description": "<bold>Full-Stack Developer iffukat fuq il-prodott</bold> b’<bold>aktar minn 3 snin esperjenza</bold> fil-ħolqien ta’ soluzzjonijiet ta’ softwer robusti u skalabbli fil-<bold>frontend, backend u mobile fid-dominji BIM u IoT.</bold> Speċjalizzat f’<bold>Java Spring Boot, React, Next.js, Node.js u PostgreSQL</bold>. Abli fil-bini ta’ <bold>pjattaformi SaaS multi-tenant, sistemi real-time, u integrazzjonijiet tal-pagamenti.</bold> Jgħaqqad <bold>bażi soda ta' inġinerija</bold> ma’ <bold>ħila kreattiva fit-tiftix ta' soluzzjonijiet</bold> u <bold>approċċ nadif u sistematiku għall-kodifikazzjoni.</bold>",
+      "typingEffect": {
+        "prefix": "Jien lest biex",
+        "suffix": "",
+        "text1": "insolvi problemi",
+        "text2": "nibni prodotti",
+        "text3": "noħloq soluzzjonijiet",
+        "text4": "nagħmel differenza",
+        "text5": "naċċetta sfidi",
+        "text6": "naħdem bħala freelance"
+      },
+      "contact_me": "Ikkuntattjani",
+      "resume": "Curriculum Vitae"
+    },
+    "toolbox": {
+      "title": "Il-kreattività teħtieġ ħafna għodod",
+      "description": "Għandi ħafna għodod fil-kaxxa tal-għodod tiegħi, u dejjem qiegħed nitgħallem oħrajn ġodda.",
+      "skills": {
+        "clean_code": "Kodiċi Nadif",
+        "authentication_security": "Awtorentikazzjoni & Sigurtà",
+        "rest_api_design": "Disinn REST API",
+        "sql_data_modeling": "Immudellar ta' Data",
+        "multi_tenant_saas": "Multi-Tenant SaaS",
+        "caching_redis": "Ħafnija ma' Redis",
+        "payment_systems": "Sistemi ta' Pagament",
+        "testing_cicd": "Ittestjar & CI/CD",
+        "performance_optimization": "Ottimizzazzjoni tal-Prestazzjoni",
+        "cloud_infrastructure": "Infrastruttura Cloud (AWS)",
+        "event_driven_architecture": "Arkitettura Driven mill-Event",
+        "domain_driven_design": "Disinn Driven mill-Domain"
+      }
+    },
+    "timeline": {
+      "title": "Il-Vjaġġ Tiegħi",
+      "description": "It-trasformazzjoni tiegħi minn Inġinier Strutturali għal Żviluppatur tas-Softwer kienet vjaġġ ta’ tagħlim, tkabbir u trasformazzjoni. Hawn snapshot tal-vjaġġ professjonali tiegħi s'issa."
+    },
+    "projects": {
+      "title": "Portafoll",
+      "description": "Il-proġetti professjonali li ħdimt fuqhom."
+    },
+    "contact": {
+      "title": "Kuntatt",
+      "description": "Affarijiet tajbin jiġru meta nitkellmu.",
+      "phone_and_mail": "Telefon u Email",
+      "social_media": "Midja Soċjali",
+      "send_a_message": "Ibgħat messaġġ",
+      "reveal_mail": "Ikklikkja biex tara l-email",
+      "reveal_phone": "Ikklikkja biex tara n-numru tat-telefon",
+      "can_not_verify_that_you_are_not_a_robot": "Ma nistgħux nikkonfermaw li m'intix robot. Jekk jogħġbok erġa' pprova aktar tard.",
+      "form": {
+        "name": "Isem",
+        "enter_your_name": "Daħħal ismek",
+        "email": "Email",
+        "enter_your_email": "Daħħal l-email tiegħek",
+        "phone": "Telefon",
+        "enter_your_phone": "Daħħal in-numru tat-telefon tiegħek",
+        "message": "Messaġġ",
+        "enter_your_message": "Daħħal il-messaġġ tiegħek, tista' tiddeskrivi l-proġett tiegħek, il-bżonnijiet tiegħek, jew kwalunkwe informazzjoni oħra li tixtieq taqsam.",
+        "send": "Ibgħat",
+        "success": "Il-messaġġ tiegħek intbagħat b’suċċess. Se nikkuntattjak kemm jista’ jkun malajr.",
+        "error": "Seħħ żball waqt it-tentattiv biex tibgħat il-messaġġ. Jekk jogħġbok erġa' pprova aktar tard.",
+        "please_fill_in_all_fields": "Jekk jogħġbok imla l-oqsma kollha.",
+        "loading": "Qed nibgħat il-messaġġ tiegħek..."
+      }
     }
   },
-  "alert": {
-    "this_blog_is_available_in_only_english": "Dan il-blog huwa disponibbli biss bl-Ingliż",
-    "error": "Seħħ żball",
-    "success": "Suċċess",
-    "warning": "Twissija",
-    "info": "Informazzjoni"
-  },
-  "welcome": {
-    "description": "<bold>Full-Stack Developer iffukat fuq il-prodott</bold> b’<bold>aktar minn 3 snin esperjenza</bold> fil-ħolqien ta’ soluzzjonijiet ta’ softwer robusti u skalabbli fil-<bold>frontend, backend u mobile fid-dominji BIM u IoT.</bold> Speċjalizzat f’<bold>Java Spring Boot, React, Next.js, Node.js u PostgreSQL</bold>. Abli fil-bini ta’ <bold>pjattaformi SaaS multi-tenant, sistemi real-time, u integrazzjonijiet tal-pagamenti.</bold> Jgħaqqad <bold>bażi soda ta' inġinerija</bold> ma’ <bold>ħila kreattiva fit-tiftix ta' soluzzjonijiet</bold> u <bold>approċċ nadif u sistematiku għall-kodifikazzjoni.</bold>",
-    "typingEffect": {
-      "prefix": "Jien lest biex",
-      "suffix": "",
-      "text1": "insolvi problemi",
-      "text2": "nibni prodotti",
-      "text3": "noħloq soluzzjonijiet",
-      "text4": "nagħmel differenza",
-      "text5": "naċċetta sfidi",
-      "text6": "naħdem bħala freelance"
+  "shared": {
+    "alert": {
+      "this_blog_is_available_in_only_english": "Dan il-blog huwa disponibbli biss bl-Ingliż",
+      "error": "Seħħ żball",
+      "success": "Suċċess",
+      "warning": "Twissija",
+      "info": "Informazzjoni"
     },
-    "contact_me": "Ikkuntattjani",
-    "resume": "Curriculum Vitae"
-  },
-  "toolbox": {
-    "title": "Il-kreattività teħtieġ ħafna għodod",
-    "description": "Għandi ħafna għodod fil-kaxxa tal-għodod tiegħi, u dejjem qiegħed nitgħallem oħrajn ġodda."
-  },
-  "timeline": {
-    "title": "Il-Vjaġġ Tiegħi",
-    "description": "It-trasformazzjoni tiegħi minn Inġinier Strutturali għal Żviluppatur tas-Softwer kienet vjaġġ ta’ tagħlim, tkabbir u trasformazzjoni. Hawn snapshot tal-vjaġġ professjonali tiegħi s'issa."
-  },
-  "projects": {
-    "title": "Portafoll",
-    "description": "Il-proġetti professjonali li ħdimt fuqhom."
-  },
-  "contact": {
-    "title": "Kuntatt",
-    "description": "Affarijiet tajbin jiġru meta nitkellmu.",
-    "phone_and_mail": "Telefon u Email",
-    "social_media": "Midja Soċjali",
-    "send_a_message": "Ibgħat messaġġ",
-    "reveal_mail": "Ikklikkja biex tara l-email",
-    "reveal_phone": "Ikklikkja biex tara n-numru tat-telefon",
-    "can_not_verify_that_you_are_not_a_robot": "Ma nistgħux nikkonfermaw li m'intix robot. Jekk jogħġbok erġa' pprova aktar tard.",
-    "form": {
-      "name": "Isem",
-      "enter_your_name": "Daħħal ismek",
-      "email": "Email",
-      "enter_your_email": "Daħħal l-email tiegħek",
-      "phone": "Telefon",
-      "enter_your_phone": "Daħħal in-numru tat-telefon tiegħek",
-      "message": "Messaġġ",
-      "enter_your_message": "Daħħal il-messaġġ tiegħek, tista' tiddeskrivi l-proġett tiegħek, il-bżonnijiet tiegħek, jew kwalunkwe informazzjoni oħra li tixtieq taqsam.",
-      "send": "Ibgħat",
-      "success": "Il-messaġġ tiegħek intbagħat b’suċċess. Se nikkuntattjak kemm jista’ jkun malajr.",
-      "error": "Seħħ żball waqt it-tentattiv biex tibgħat il-messaġġ. Jekk jogħġbok erġa' pprova aktar tard.",
-      "please_fill_in_all_fields": "Jekk jogħġbok imla l-oqsma kollha.",
-      "loading": "Qed nibgħat il-messaġġ tiegħek..."
+    "footer": {
+      "all_rights_reserved": "Id-drittijiet kollha riservati."
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Ibqa' aġġornat! Irċievi l-aqwa u l-aħjar kontribuzzjonijiet direttament fil-post tiegħek",
+      "email_placeholder": "Daħħal l-indirizz tal-email tiegħek",
+      "subscribe": "Abbonati",
+      "success_message": "Abbonat b'suċċess! Iċċekkja l-email tiegħek għall-konferma.",
+      "error_message": "Seħħ żball waqt l-abbonament. Jekk jogħġbok erġa' pprova aktar tard."
+    },
+    "whatsapp": {
+      "message": "Bongu! Jien Kuray Karaaslan, kif nista' ngħinek?"
+    },
+    "calendar": {
+      "title": "Kalendarju",
+      "name_placeholder": "Daħħal ismek",
+      "email_placeholder": "Daħħal l-email tiegħek",
+      "phone_placeholder": "Daħħal in-numru tat-telefon tiegħek",
+      "note_placeholder": "Daħħal in-nota tiegħek",
+      "booked": "Riżervat",
+      "cancelled": "Ikkanċellat",
+      "available": "Disponibbli",
+      "no_available_slots": "L-ebda ħin disponibbli",
+      "name": "Ismek",
+      "email": "L-email tiegħek",
+      "phone": "In-numru tat-telefon tiegħek",
+      "description": "Ibbukkja appuntament miegħi.",
+      "available_slots": "Ħinijiet Disponibbli",
+      "book_appointment": "Ibbukkja Appuntament",
+      "select_slot": "Jekk jogħġbok agħżel ħin biex tibbukkja appuntament."
+    },
+    "geomap": {
+      "title": "Mappa tas-Sħana tal-Viżitaturi Globali",
+      "description": "Esplora d-distribuzzjoni globali tal-viżitaturi għall-portafoll tiegħi permezz ta' din il-mappa tas-sħana interattiva. Kull punt fuq il-mappa jirrappreżenta l-lokazzjoni ta' viżitatur, jipprovdi għarfien dwar minn fejn ġejja l-udjenza tiegħi madwar id-dinja.",
+      "visitors": "{{count}} viżitatur |||| {{count}} viżitaturi"
+    },
+    "status": {
+      "title": "Stat ta' Sistema",
+      "loading": "Qed iċċekkja l-istat tas-sistema...",
+      "response_time": "Ħin ta' Risposta: {{time}}ms",
+      "uptime": "Ħin ta' Operazzjoni: {{time}}m",
+      "service_names": {
+        "api": "API",
+        "database": "Database",
+        "auth": "Awtentikazzjoni",
+        "payment": "Gateway tal-Pagamenti",
+        "frontend": "Frontend",
+        "redis": "Cache Redis",
+        "mail": "Servizz tal-Email",
+        "openai": "Servizz OpenAI",
+        "aws": "Servizzi AWS",
+        "sms": "Servizz SMS"
+      },
+      "statuses": {
+        "operational": "Operattiv",
+        "degraded_performance": "Prestazzjoni Mnaqqsa",
+        "partial_outage": "Interruzzjoni Parzjali",
+        "major_outage": "Interruzzjoni Kbira"
+      }
     }
   },
-  "footer": {
-    "all_rights_reserved": "Id-drittijiet kollha riservati."
-  },
-  "whatsapp": {
-    "message": "Bongu! Jien Kuray Karaaslan, kif nista' ngħinek?"
-  },
-  "calendar": {
-    "title": "Kalendarju",
-    "name_placeholder": "Daħħal ismek",
-    "email_placeholder": "Daħħal l-email tiegħek",
-    "phone_placeholder": "Daħħal in-numru tat-telefon tiegħek",
-    "note_placeholder": "Daħħal in-nota tiegħek",
-    "booked": "Riżervat",
-    "cancelled": "Ikkanċellat",
-    "available": "Disponibbli",
-    "no_available_slots": "L-ebda ħin disponibbli",
-    "name": "Ismek",
-    "email": "L-email tiegħek",
-    "phone": "In-numru tat-telefon tiegħek",
-    "description": "Ibbukkja appuntament miegħi.",
-    "available_slots": "Ħinijiet Disponibbli",
-    "book_appointment": "Ibbukkja Appuntament",
-    "select_slot": "Jekk jogħġbok agħżel ħin biex tibbukkja appuntament."
-  },
-  "geomap": {
-    "title": "Mappa tas-Sħana tal-Viżitaturi Globali",
-    "description": "Esplora d-distribuzzjoni globali tal-viżitaturi għall-portafoll tiegħi permezz ta' din il-mappa tas-sħana interattiva. Kull punt fuq il-mappa jirrappreżenta l-lokazzjoni ta' viżitatur, jipprovdi għarfien dwar minn fejn ġejja l-udjenza tiegħi madwar id-dinja.",
-    "visitors": "{{count}} viżitatur |||| {{count}} viżitaturi"
-  },
-  "status": {
-    "title": "Stat ta' Sistema",
-    "loading": "Qed iċċekkja l-istat tas-sistema...",
-    "response_time": "Ħin ta' Risposta: {{time}}ms",
-    "uptime": "Ħin ta' Operazzjoni: {{time}}m",
-    "service_names": {
-      "api": "API",
-      "database": "Database",
-      "auth": "Awtentikazzjoni",
-      "payment": "Gateway tal-Pagamenti",
-      "frontend": "Frontend",
-      "redis": "Cache Redis",
-      "mail": "Servizz tal-Email",
-      "openai": "Servizz OpenAI",
-      "aws": "Servizzi AWS",
-      "sms": "Servizz SMS"
-    },
-    "statuses": {
-      "operational": "Operattiv",
-      "degraded_performance": "Prestazzjoni Mnaqqsa",
-      "partial_outage": "Interruzzjoni Parzjali",
-      "major_outage": "Interruzzjoni Kbira"
-    }
-  },
-  "newsletter": {
-    "title": "Newsletter",
-    "description": "Ibqa' aġġornat! Irċievi l-aqwa u l-aħjar kontribuzzjonijiet direttament fil-post tiegħek",
-    "email_placeholder": "Daħħal l-indirizz tal-email tiegħek",
-    "subscribe": "Abbonati",
-    "success_message": "Abbonat b'suċċess! Iċċekkja l-email tiegħek għall-konferma.",
-    "error_message": "Seħħ żball waqt l-abbonament. Jekk jogħġbok erġa' pprova aktar tard."
-  }
+  "admin": {},
+  "auth": {},
+  "common": {},
+  "frontend": {}
 }

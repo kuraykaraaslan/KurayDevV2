@@ -94,12 +94,12 @@ const ContactForm = (props: { className?: string; token: string }) => {
     setIsMessageValid(isMessageOk);
 
     if (!token) {
-      alert(t("contact.can_not_verify_that_you_are_not_a_robot"));
+      alert(t("shared.alert.can_not_verify_that_you_are_not_a_robot"));
       return;
     }
 
     if (!isNameOk || !isEmailOk || !isPhoneOk || !isMessageOk) {
-      alert(t("contact.form.please_fill_in_all_fields"));
+      alert(t("pages.contact.form.please_fill_in_all_fields"));
       return;
     }
 
@@ -121,10 +121,10 @@ const ContactForm = (props: { className?: string; token: string }) => {
       });
 
       setIsSending(false);
-      alert(t("contact.form.success"));
+      alert(t("pages.contact.form.success"));
     } catch (error) {
       setIsSending(false);
-      alert(t("contact.form.error"));
+      alert(t("pages.contact.form.error"));
     }
   }
 
@@ -141,38 +141,38 @@ const ContactForm = (props: { className?: string; token: string }) => {
     <div className={claases}>
       <div className="mt-2">
         <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-          {t("contact.form.name")}
+          {t("pages.contact.form.name")}
         </label>
         <input
           type="text"
           id="name"
           className={"block p-3 w-full text-sm rounded-lg border border-1 border-gray-500 bg-gray-200 text-black " + (isNameValid ? "" : "text-red-500")}
-          placeholder={t("contact.form.enter_your_name")}
+          placeholder={t("pages.contact.form.enter_your_name")}
           required
           onChange={onNameChange}
         />
       </div>
       <div className="mt-2">
         <label htmlFor="email" className="block mb-2 text-sm font-medium">
-          {t("contact.form.email")}
+          {t("pages.contact.form.email")}
         </label>
         <input
           type="email"
           id="email"
           className={"block p-3 w-full text-sm rounded-lg border border-1 bg-gray-200 text-black " + (isEmailValid ? "" : "text-red-500")}
-          placeholder={t("contact.form.enter_your_email")}
+          placeholder={t("pages.contact.form.enter_your_email")}
           required
           onChange={onEmailChange}
         />
       </div>
       <div className="mt-2">
         <label htmlFor="phone" className="block mb-2 text-sm font-medium">
-          {t("contact.form.phone")}
+          {t("pages.contact.form.phone")}
         </label>
         <PhoneInput
           international
           className={"block pl-3 w-full text-sm rounded-lg border border-1 border-gray-500 bg-gray-200 text-black " + (isPhoneValid ? "" : "text-red-500")}
-          placeholder={t("contact.form.enter_your_phone")}
+          placeholder={t("pages.contact.form.enter_your_phone")}
           required
           // @ts-ignore
           defaultCountry={defaultCountry ? defaultCountry as string : "TR"}
@@ -181,13 +181,13 @@ const ContactForm = (props: { className?: string; token: string }) => {
       </div>
       <div className="mt-2">
         <label htmlFor="message" className="block mb-2 text-sm font-medium">
-          {t("contact.form.message")}
+          {t("pages.contact.form.message")}
         </label>
         {/* @ts-ignore */}
         <textarea
           id="message"
           className={"block p-2.5 w-full text-sm rounded-lg border border-1 border-gray-500 min-h-[150px] bg-gray-200 resize-none text-black " + (isMessageValid ? "" : "text-red-500")}
-          placeholder={t("contact.form.enter_your_message")}
+          placeholder={t("pages.contact.form.enter_your_message")}
           required
           onChange={onMessageChange}
         ></textarea>
@@ -199,7 +199,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
           className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus:outline-none focus:bg-primary-600 border border-1 border-gray-500 light:placeholder-black"
         >
           <FontAwesomeIcon icon={faHourglass} spin className="w-3 h-3 mr-2" />
-          {t("contact.form.loading")}
+          {t("pages.contact.form.loading")}
         </button>
         : <button
           type="submit"
@@ -207,7 +207,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
           onClick={formSubmit}
         >
           <FontAwesomeIcon icon={faMessage} className="w-3 h-3 mr-2" />
-          {t("contact.form.send")}
+          {t("pages.contact.form.send")}
         </button>
       }
     </div>

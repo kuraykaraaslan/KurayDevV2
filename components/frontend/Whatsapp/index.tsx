@@ -94,7 +94,7 @@ const Whatsapp = () => {
                 onMouseEnter={() => setResetted(true)}
                 onClick={() => setResetted(true)}
                 >
-                    <p>{t("whatsapp.message")}</p>
+                    <p>{t("shared.whatsapp.message")}</p>
                 </div>
                 }
 

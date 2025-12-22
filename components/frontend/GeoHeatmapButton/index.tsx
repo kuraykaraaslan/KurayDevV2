@@ -20,7 +20,7 @@ export default function GeoHeatmapButton() {
       <HeadlessModal
         open={open}
         onClose={closeModal}
-        title={i18n.t("geomap.title")}
+        title={i18n.t("shared.geomap.title")}
         size="lg" 
         className="!max-w-5xl" 
       >

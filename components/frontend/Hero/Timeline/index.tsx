@@ -42,10 +42,10 @@ const Timeline = () => {
         >
           <div className="mx-auto max-w-screen-sm text-center lg:mb-8 -mt-8 lg:mt-0 ">
             <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-              {t("timeline.title")}
+              {t("pages.timeline.title")}
             </h2>
             <p className="font-light sm:text-xl">
-              {t("timeline.description")}
+              {t("pages.timeline.description")}
             </p>
           </div>
           <div className="grid gap-8 lg:grid-cols-1">

@@ -11,136 +11,158 @@
     "resume": "CV",
     "backend": "Taustaprogramm"
   },
-  "error": {
-    "404": {
-      "title": "Midagi läks valesti",
-      "description": "Vabandust, me ei leia seda lehte. Avalehelt leiad palju huvitavat.",
-      "button": "Mine avalehele"
+  "pages": {
+    "error": {
+      "404": {
+        "title": "Midagi läks valesti",
+        "description": "Vabandust, me ei leia seda lehte. Avalehelt leiad palju huvitavat.",
+        "button": "Mine avalehele"
+      },
+      "500": {
+        "title": "Sisemine serveri viga",
+        "description": "Serveril tekkis viga.",
+        "button": "Mine avalehele"
+      }
     },
-    "500": {
-      "title": "Sisemine serveri viga",
-      "description": "Serveril tekkis viga.",
-      "button": "Mine avalehele"
+    "welcome": {
+      "description": "<bold>Tootele orienteeritud täisstack arendaja</bold> üle <bold>3-aastase kogemusega</bold>, pakkudes tugevaid ja skaleeritavaid tarkvaralahendusi <bold>ees-, taga- ja mobiilseadmete arenduses BIM ja IoT valdkondades.</bold> Spetsialiseerunud <bold>Java Spring Boot, React, Next.js, Node.js ja PostgreSQL</bold> tehnoloogiatele. Kogenud <bold>mitme rentniku SaaS platvormide, reaalajasüsteemide ja makselahenduste</bold> arhitektuuris. Ühendab tugeva insenerialuse <bold>loova probleemilahenduse</bold> ja <bold>puhta, süsteemse kodeerimisviisiga.</bold>",
+      "typingEffect": {
+        "prefix": "Olen valmis",
+        "suffix": "",
+        "text1": "probleeme lahendama",
+        "text2": "tooteid looma",
+        "text3": "lahendusi välja töötama",
+        "text4": "muutust looma",
+        "text5": "väljakutseid vastu võtma",
+        "text6": "freelance tööt tegema"
+      },
+      "contact_me": "Võta minuga ühendust",
+      "resume": "CV"
+    },
+    "toolbox": {
+      "title": "Loovus vajab palju tööriistu",
+      "description": "Mul on palju tööriistu tööriistakastis ja õpin pidevalt uusi.",
+      "skills": {
+        "clean_code": "Puhas kood",
+        "authentication_security": "Autentimine ja turvalisus",
+        "rest_api_design": "REST API kujundamine",
+        "sql_data_modeling": "SQL ja andmete modelleerimine",
+        "multi_tenant_saas": "Multi-Tenant SaaS",
+        "caching_redis": "Vahemälueerimine Redis-iga",
+        "payment_systems": "Maksesüsteemid",
+        "testing_cicd": "Testimine ja CI/CD",
+        "performance_optimization": "Jõudluse optimeerimine",
+        "cloud_infrastructure": "Pilveteenuse infrastruktuur (AWS)",
+        "event_driven_architecture": "Sündmusest juhitud arhitektuur",
+        "domain_driven_design": "Domeenist juhitud kujundamine"
+      }
+    },
+    "timeline": {
+      "title": "Minu teekond",
+      "description": "Minu üleminek ehitusinsenerist tarkvaraarendajaks on olnud õppimise, kasvu ja muutuste teekond. Siin on hetkepilt minu senisest professionaalsest teekonnast."
+    },
+    "projects": {
+      "title": "Portfell",
+      "description": "Minu professionaalsed portfelliprojektid, mille kallal olen töötanud."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "description": "Häid asju juhtub siis, kui me suhtleme.",
+      "phone_and_mail": "Telefon ja e-post",
+      "social_media": "Sotsiaalmeedia",
+      "send_a_message": "Saada sõnum",
+      "reveal_mail": "Klõpsa, et näha e-posti",
+      "reveal_phone": "Klõpsa, et näha telefoninumbrit",
+      "can_not_verify_that_you_are_not_a_robot": "Ei saa kinnitada, et sa pole robot. Palun proovi hiljem uuesti.",
+      "form": {
+        "name": "Nimi",
+        "enter_your_name": "Sisesta oma nimi",
+        "email": "E-post",
+        "enter_your_email": "Sisesta oma e-posti aadress",
+        "phone": "Telefon",
+        "enter_your_phone": "Sisesta oma telefoninumber",
+        "message": "Sõnum",
+        "enter_your_message": "Sisesta oma sõnum, võid kirjeldada oma projekti, vajadusi või muud olulist teavet.",
+        "send": "Saada",
+        "success": "Sõnum saadeti edukalt. Võtan sinuga peagi ühendust.",
+        "error": "Sõnumi saatmisel tekkis viga. Palun proovi hiljem uuesti.",
+        "please_fill_in_all_fields": "Palun täida kõik väljad.",
+        "loading": "Sõnumi saatmine..."
+      }
     }
   },
-  "alert": {
-    "this_blog_is_available_in_only_english": "See blogi on saadaval ainult inglise keeles",
-    "error": "Tekkis viga",
-    "success": "Edu",
-    "warning": "Hoiatus",
-    "info": "Teave"
-  },
-  "welcome": {
-    "description": "<bold>Tootele orienteeritud täisstack arendaja</bold> üle <bold>3-aastase kogemusega</bold>, pakkudes tugevaid ja skaleeritavaid tarkvaralahendusi <bold>ees-, taga- ja mobiilseadmete arenduses BIM ja IoT valdkondades.</bold> Spetsialiseerunud <bold>Java Spring Boot, React, Next.js, Node.js ja PostgreSQL</bold> tehnoloogiatele. Kogenud <bold>mitme rentniku SaaS platvormide, reaalajasüsteemide ja makselahenduste</bold> arhitektuuris. Ühendab tugeva insenerialuse <bold>loova probleemilahenduse</bold> ja <bold>puhta, süsteemse kodeerimisviisiga.</bold>",
-    "typingEffect": {
-      "prefix": "Olen valmis",
-      "suffix": "",
-      "text1": "probleeme lahendama",
-      "text2": "tooteid looma",
-      "text3": "lahendusi välja töötama",
-      "text4": "muutust looma",
-      "text5": "väljakutseid vastu võtma",
-      "text6": "freelance tööt tegema"
+  "shared": {
+    "alert": {
+      "this_blog_is_available_in_only_english": "See blogi on saadaval ainult inglise keeles",
+      "error": "Tekkis viga",
+      "success": "Edu",
+      "warning": "Hoiatus",
+      "info": "Teave"
     },
-    "contact_me": "Võta minuga ühendust",
-    "resume": "CV"
-  },
-  "toolbox": {
-    "title": "Loovus vajab palju tööriistu",
-    "description": "Mul on palju tööriistu tööriistakastis ja õpin pidevalt uusi."
-  },
-  "timeline": {
-    "title": "Minu teekond",
-    "description": "Minu üleminek ehitusinsenerist tarkvaraarendajaks on olnud õppimise, kasvu ja muutuste teekond. Siin on hetkepilt minu senisest professionaalsest teekonnast."
-  },
-  "projects": {
-    "title": "Portfell",
-    "description": "Minu professionaalsed portfelliprojektid, mille kallal olen töötanud."
-  },
-  "contact": {
-    "title": "Kontakt",
-    "description": "Häid asju juhtub siis, kui me suhtleme.",
-    "phone_and_mail": "Telefon ja e-post",
-    "social_media": "Sotsiaalmeedia",
-    "send_a_message": "Saada sõnum",
-    "reveal_mail": "Klõpsa, et näha e-posti",
-    "reveal_phone": "Klõpsa, et näha telefoninumbrit",
-    "can_not_verify_that_you_are_not_a_robot": "Ei saa kinnitada, et sa pole robot. Palun proovi hiljem uuesti.",
-    "form": {
-      "name": "Nimi",
-      "enter_your_name": "Sisesta oma nimi",
-      "email": "E-post",
-      "enter_your_email": "Sisesta oma e-posti aadress",
-      "phone": "Telefon",
-      "enter_your_phone": "Sisesta oma telefoninumber",
-      "message": "Sõnum",
-      "enter_your_message": "Sisesta oma sõnum, võid kirjeldada oma projekti, vajadusi või muud olulist teavet.",
-      "send": "Saada",
-      "success": "Sõnum saadeti edukalt. Võtan sinuga peagi ühendust.",
-      "error": "Sõnumi saatmisel tekkis viga. Palun proovi hiljem uuesti.",
-      "please_fill_in_all_fields": "Palun täida kõik väljad.",
-      "loading": "Sõnumi saatmine..."
+    "footer": {
+      "all_rights_reserved": "Kõik õigused kaitstud."
+    },
+    "newsletter": {
+      "title": "Uudiskiri",
+      "description": "Püsige kursis! Saage kõik uusimad ja parimad postitused otse oma postkasti",
+      "email_placeholder": "Sisestage oma e-posti aadress",
+      "subscribe": "Telli",
+      "success_message": "Edukalt tellitud! Kontrollige oma e-kirju kinnitamiseks.",
+      "error_message": "Tellimise ajal tekkis viga. Palun proovige hiljem uuesti."
+    },
+    "whatsapp": {
+      "message": "Tere! Olen Kuray Karaaslan, kuidas saan teid aidata?"
+    },
+    "calendar": {
+      "title": "Kalender",
+      "name_placeholder": "Sisesta oma nimi",
+      "email_placeholder": "Sisesta oma e-post",
+      "phone_placeholder": "Sisesta oma telefon",
+      "note_placeholder": "Sisesta oma märkus",
+      "booked": "Broneeritud",
+      "cancelled": "Tühistatud",
+      "available": "Saadaval",
+      "no_available_slots": "Vabu aegu pole saadaval",
+      "name": "Sinu nimi",
+      "email": "Sinu e-post",
+      "phone": "Sinu telefon",
+      "description": "Broneeri aeg minuga.",
+      "available_slots": "Saadaolevad ajad",
+      "book_appointment": "Broneeri aeg",
+      "select_slot": "Palun vali aeg, et broneerida kohtumine."
+    },
+    "geomap": {
+      "title": "Maailma külastajate soojuskaart",
+      "description": "Avasta minu portfelli külastajate ülemaailmne jaotus selle interaktiivse soojuskaardi kaudu. Iga punkt kaardil esindab külastaja asukohta, pakkudes ülevaadet sellest, kust mu publik maailmas pärineb.",
+      "visitors": "{{count}} külastaja |||| {{count}} külastajat"
+    },
+    "status": {
+      "title": "Süsteemi olek",
+      "loading": "Kontrollin süsteemi olekut...",
+      "response_time": "Vastuse aeg: {{time}}ms",
+      "uptime": "Töötamise aeg: {{time}}m",
+      "service_names": {
+        "api": "API",
+        "database": "Andmebaas",
+        "auth": "Autentimine",
+        "payment": "Maksevärav",
+        "frontend": "Eesmine",
+        "redis": "Redis Cache",
+        "mail": "Postiteenus",
+        "openai": "OpenAI teenus",
+        "aws": "AWS teenused",
+        "sms": "SMS teenus"
+      },
+      "statuses": {
+        "operational": "Töötav",
+        "degraded_performance": "Kehv jõudlus",
+        "partial_outage": "Osaline katkestus",
+        "major_outage": "Suurepärane katkestus"
+      }
     }
   },
-  "footer": {
-    "all_rights_reserved": "Kõik õigused kaitstud."
-  },
-  "whatsapp": {
-    "message": "Tere! Olen Kuray Karaaslan, kuidas saan teid aidata?"
-  },
-  "calendar": {
-    "title": "Kalender",
-    "name_placeholder": "Sisesta oma nimi",
-    "email_placeholder": "Sisesta oma e-post",
-    "phone_placeholder": "Sisesta oma telefon",
-    "note_placeholder": "Sisesta oma märkus",
-    "booked": "Broneeritud",
-    "cancelled": "Tühistatud",
-    "available": "Saadaval",
-    "no_available_slots": "Vabu aegu pole saadaval",
-    "name": "Sinu nimi",
-    "email": "Sinu e-post",
-    "phone": "Sinu telefon",
-    "description": "Broneeri aeg minuga.",
-    "available_slots": "Saadaolevad ajad",
-    "book_appointment": "Broneeri aeg",
-    "select_slot": "Palun vali aeg, et broneerida kohtumine."
-  },
-  "geomap": {
-    "title": "Maailma külastajate soojuskaart",
-    "description": "Avasta minu portfelli külastajate ülemaailmne jaotus selle interaktiivse soojuskaardi kaudu. Iga punkt kaardil esindab külastaja asukohta, pakkudes ülevaadet sellest, kust mu publik maailmas pärineb.",
-    "visitors": "{{count}} külastaja |||| {{count}} külastajat"
-  },
-  "status": {
-    "title": "Süsteemi olek",
-    "loading": "Kontrollin süsteemi olekut...",
-    "response_time": "Vastuse aeg: {{time}}ms",
-    "uptime": "Töötamise aeg: {{time}}m",
-    "service_names": {
-      "api": "API",
-      "database": "Andmebaas",
-      "auth": "Autentimine",
-      "payment": "Maksevärav",
-      "frontend": "Eesmine",
-      "redis": "Redis Cache",
-      "mail": "Postiteenus",
-      "openai": "OpenAI teenus",
-      "aws": "AWS teenused",
-      "sms": "SMS teenus"
-    },
-    "statuses": {
-      "operational": "Töötav",
-      "degraded_performance": "Kehv jõudlus",
-      "partial_outage": "Osaline katkestus",
-      "major_outage": "Suurepärane katkestus"
-    }
-  },
-  "newsletter": {
-    "title": "Uudiskiri",
-    "description": "Püsige kursis! Saage kõik uusimad ja parimad postitused otse oma postkasti",
-    "email_placeholder": "Sisestage oma e-posti aadress",
-    "subscribe": "Telli",
-    "success_message": "Edukalt tellitud! Kontrollige oma e-kirju kinnitamiseks.",
-    "error_message": "Tellimise ajal tekkis viga. Palun proovige hiljem uuesti."
-  }
+  "admin": {},
+  "auth": {},
+  "common": {},
+  "frontend": {}
 }

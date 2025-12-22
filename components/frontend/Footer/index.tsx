@@ -20,7 +20,7 @@ const Footer = () => {
       <footer className="footer grid grid-cols-1 lg:grid-cols-2 gap-4 bg-base-300 p-4 min-w-full shadow-lg">
         <div className="col-span-1 flex flex-row flex-wrap justify-start">
           <p>
-              © {new Date().getFullYear()} Kuray Karaaslan. {t("footer.all_rights_reserved")}
+              © {new Date().getFullYear()} Kuray Karaaslan. {t("shared.footer.all_rights_reserved")}
           </p>
           <SystemStatusButton />
           <GeoHeatmapButton />

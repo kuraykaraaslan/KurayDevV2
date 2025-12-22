@@ -11,137 +11,159 @@
     "resume": "Özgeçmiş",
     "backend": "Backend"
   },
-  "error": {
-    "404": {
-      "title": "Bir şeyler ters gitti",
-      "description": "Üzgünüz, bu sayfayı bulamıyoruz. Anasayfada keşfedilecek çok şey var.",
-      "button": "Anasayfaya dön"
+  "pages": {
+    "error": {
+      "404": {
+        "title": "Bir şeyler ters gitti",
+        "description": "Üzgünüz, bu sayfayı bulamıyoruz. Anasayfada keşfedilecek çok şey var.",
+        "button": "Anasayfaya dön"
+      },
+      "500": {
+        "title": "Sunucu Hatası",
+        "description": "Sunucuda bir hata oluştu.",
+        "button": "Anasayfaya dön"
+      }
     },
-    "500": {
-      "title": "Sunucu Hatası",
-      "description": "Sunucuda bir hata oluştu.",
-      "button": "Anasayfaya dön"
+    "welcome": {
+      "description": "<bold>Ürün odaklı bir Full-Stack Geliştirici</bold> olarak, <bold>3+ yıllık deneyimimle</bold> BIM ve IoT alanlarında <bold>ön yüz, arka yüz ve mobil platformlar</bold> için sağlam ve ölçeklenebilir yazılım çözümleri geliştiriyorum. <bold>Java Spring Boot, React, Next.js, Node.js ve PostgreSQL</bold> teknolojilerinde uzmanım. <bold>SaaS platformları</bold>, <bold>gerçek zamanlı sistemler</bold> ve <bold>ödeme entegrasyonları</bold> mimarileri üzerinde deneyim sahibiyim. <bold>Güçlü mühendislik temelleri</bold> ile <bold>yaratıcı problem çözme becerisini</bold> ve <bold>temiz, sistematik bir kod yaklaşımını</bold> bir araya getiriyorum.",
+      "typingEffect": {
+        "prefix": "Ben",
+        "suffix": "hazırım.",
+        "text1": "sorunları çözmeye",
+        "text2": "ürünler geliştirmeye",
+        "text3": "çözümler üretmeye",
+        "text4": "fark yaratmaya",
+        "text5": "imkansızı başarmaya",
+        "text6": "freelance çalışmaya"
+      },
+      "contact_me": "Benimle iletişime geç",
+      "resume": "Özgeçmiş"
+    },
+    "toolbox": {
+      "title": "Yaratıcılık çok fazla araç ister",
+      "description": "Araç kutumda birçok araç var ve her zaman yenilerini öğreniyorum.",
+      "skills": {
+        "clean_code": "Temiz Kod",
+        "authentication_security": "Kimlik Doğrulama & Güvenlik",
+        "rest_api_design": "REST API Tasarımı",
+        "sql_data_modeling": "SQL & Veri Modelleme",
+        "multi_tenant_saas": "Multi-Tenant SaaS",
+        "caching_redis": "Redis ile Önbellekleme",
+        "payment_systems": "Ödeme Sistemleri",
+        "testing_cicd": "Test & CI/CD",
+        "performance_optimization": "Performans Optimizasyonu",
+        "cloud_infrastructure": "Bulut Altyapısı (AWS)",
+        "event_driven_architecture": "Olay Tabanlı Mimari",
+        "domain_driven_design": "Alan Tabanlı Tasarım"
+      }
+    },
+    "timeline": {
+      "title": "Kariyer Yolculuğum",
+      "description": "Bir Yapı Mühendisinden Yazılım Geliştiriciye geçiş sürecim, öğrenme, gelişim ve dönüşüm yolculuğu oldu. İşte profesyonel yolculuğumun bir özeti."
+    },
+    "projects": {
+      "title": "Portföy",
+      "description": "Üzerinde çalıştığım profesyonel portföy projelerim."
+    },
+    "contact": {
+      "title": "İletişim",
+      "description": "Güzel şeyler konuşunca başlar.",
+      "phone_and_mail": "Telefon ve E-posta",
+      "social_media": "Sosyal Medya",
+      "send_a_message": "Mesaj gönder",
+      "reveal_mail": "E-postayı görmek için tıklayın",
+      "reveal_phone": "Telefonu görmek için tıklayın",
+      "can_not_verify_that_you_are_not_a_robot": "Robot olmadığınızı doğrulayamıyoruz. Lütfen daha sonra tekrar deneyin.",
+      "form": {
+        "name": "İsim",
+        "enter_your_name": "İsminizi girin",
+        "email": "E-posta",
+        "enter_your_email": "E-posta adresinizi girin",
+        "phone": "Telefon",
+        "enter_your_phone": "Telefon numaranızı girin",
+        "message": "Mesaj",
+        "enter_your_message": "Projenizi, ihtiyaçlarınızı veya paylaşmak istediğiniz diğer bilgileri yazabilirsiniz.",
+        "send": "Gönder",
+        "success": "Mesajınız başarıyla gönderildi. En kısa sürede size geri döneceğim.",
+        "error": "Mesaj gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+        "please_fill_in_all_fields": "Lütfen tüm alanları doldurun.",
+        "loading": "Mesajınız gönderiliyor..."
+      }
     }
   },
-  "alert": {
-    "this_blog_is_available_in_only_english": "Bu blog yalnızca İngilizce olarak mevcuttur",
-    "error": "Bir hata oluştu",
-    "success": "Başarılı",
-    "warning": "Uyarı",
-    "info": "Bilgi"
-  },
-  "welcome": {
-    "description": "<bold>Ürün odaklı bir Full-Stack Geliştirici</bold> olarak, <bold>3+ yıllık deneyimimle</bold> BIM ve IoT alanlarında <bold>ön yüz, arka yüz ve mobil platformlar</bold> için sağlam ve ölçeklenebilir yazılım çözümleri geliştiriyorum. <bold>Java Spring Boot, React, Next.js, Node.js ve PostgreSQL</bold> teknolojilerinde uzmanım. <bold>SaaS platformları</bold>, <bold>gerçek zamanlı sistemler</bold> ve <bold>ödeme entegrasyonları</bold> mimarileri üzerinde deneyim sahibiyim. <bold>Güçlü mühendislik temelleri</bold> ile <bold>yaratıcı problem çözme becerisini</bold> ve <bold>temiz, sistematik bir kod yaklaşımını</bold> bir araya getiriyorum.",
-    "typingEffect": {
-      "prefix": "Ben",
-      "suffix": "hazırım.",
-      "text1": "sorunları çözmeye",
-      "text2": "ürünler geliştirmeye",
-      "text3": "çözümler üretmeye",
-      "text4": "fark yaratmaya",
-      "text5": "imkansızı başarmaya",
-      "text6": "freelance çalışmaya"
+  "shared": {
+    "alert": {
+      "this_blog_is_available_in_only_english": "Bu blog yalnızca İngilizce olarak mevcuttur",
+      "error": "Bir hata oluştu",
+      "success": "Başarılı",
+      "warning": "Uyarı",
+      "info": "Bilgi"
     },
-    "contact_me": "Benimle iletişime geç",
-    "resume": "Özgeçmiş"
-  },
-  "toolbox": {
-    "title": "Yaratıcılık çok fazla araç ister",
-    "description": "Araç kutumda birçok araç var ve her zaman yenilerini öğreniyorum."
-  },
-  "timeline": {
-    "title": "Kariyer Yolculuğum",
-    "description": "Bir Yapı Mühendisinden Yazılım Geliştiriciye geçiş sürecim, öğrenme, gelişim ve dönüşüm yolculuğu oldu. İşte profesyonel yolculuğumun bir özeti."
-  },
-  "projects": {
-    "title": "Portföy",
-    "description": "Üzerinde çalıştığım profesyonel portföy projelerim."
-  },
-  "contact": {
-    "title": "İletişim",
-    "description": "Güzel şeyler konuşunca başlar.",
-    "phone_and_mail": "Telefon ve E-posta",
-    "social_media": "Sosyal Medya",
-    "send_a_message": "Mesaj gönder",
-    "reveal_mail": "E-postayı görmek için tıklayın",
-    "reveal_phone": "Telefonu görmek için tıklayın",
-    "can_not_verify_that_you_are_not_a_robot": "Robot olmadığınızı doğrulayamıyoruz. Lütfen daha sonra tekrar deneyin.",
-    "form": {
-      "name": "İsim",
-      "enter_your_name": "İsminizi girin",
-      "email": "E-posta",
-      "enter_your_email": "E-posta adresinizi girin",
-      "phone": "Telefon",
-      "enter_your_phone": "Telefon numaranızı girin",
-      "message": "Mesaj",
-      "enter_your_message": "Projenizi, ihtiyaçlarınızı veya paylaşmak istediğiniz diğer bilgileri yazabilirsiniz.",
-      "send": "Gönder",
-      "success": "Mesajınız başarıyla gönderildi. En kısa sürede size geri döneceğim.",
-      "error": "Mesaj gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
-      "please_fill_in_all_fields": "Lütfen tüm alanları doldurun.",
-      "loading": "Mesajınız gönderiliyor..."
-    }
-  },
-  "footer": {
-    "all_rights_reserved": "Tüm hakları saklıdır."
-  },
-  "whatsapp": {
-    "title": "WhatsApp ile iletişime geçin",
-    "message": "Hızlı bir yanıt için WhatsApp üzerinden benimle iletişime geçin."
-  },
-  "calendar": {
-    "title": "Takvim",
-    "name_placeholder": "Adınızı girin",
-    "email_placeholder": "E-posta adresinizi girin",
-    "phone_placeholder": "Telefon numaranızı girin",
-    "note_placeholder": "Notunuzu girin",
-    "booked": "Rezerve Edildi",
-    "cancelled": "İptal Edildi",
-    "available": "Uygun",
-    "no_available_slots": "Uygun zaman yok",
-    "name": "Adınız",
-    "email": "E-posta Adresiniz",
-    "phone": "Telefon Numaranız",
-    "description": "Benimle bir randevu ayarlayın.",
-    "available_slots": "Uygun Zamanlar",
-    "book_appointment": "Randevu Al",
-    "select_slot": "Lütfen randevu almak için bir zaman seçin."
-  },
-  "geomap": {
-    "title": "Küresel Ziyaretçi Isı Haritası",
-    "description": "Bu etkileşimli ısı haritası aracılığıyla portföyümü ziyaret edenlerin küresel dağılımını keşfedin. Haritadaki her nokta, bir ziyaretçinin konumunu temsil eder ve izleyicilerimin dünyanın neresinden geldiğine dair içgörüler sağlar.",
-    "visitors": "{{count}} ziyaretçi |||| {{count}} ziyaretçiler"
-  },
+    "footer": {
+      "all_rights_reserved": "Tüm hakları saklıdır."
+    },
+    "newsletter": {
+      "title": "Bülten",
+      "description": "Güncel kalın! Tüm en son ve en iyi gönderileri doğrudan gelen kutunuza alın.",
+      "email_placeholder": "E-posta adresinizi girin",
+      "subscribe": "Abone Ol",
+      "success_message": "Başarıyla abone olundu! Onay için e-postalarınızı kontrol edin.",
+      "error_message": "Abone olurken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+    },
+    "whatsapp": {
+      "title": "WhatsApp ile iletişime geçin",
+      "message": "Hızlı bir yanıt için WhatsApp üzerinden benimle iletişime geçin."
+    },
+    "calendar": {
+      "title": "Takvim",
+      "name_placeholder": "Adınızı girin",
+      "email_placeholder": "E-posta adresinizi girin",
+      "phone_placeholder": "Telefon numaranızı girin",
+      "note_placeholder": "Notunuzu girin",
+      "booked": "Rezerve Edildi",
+      "cancelled": "İptal Edildi",
+      "available": "Uygun",
+      "no_available_slots": "Uygun zaman yok",
+      "name": "Adınız",
+      "email": "E-posta Adresiniz",
+      "phone": "Telefon Numaranız",
+      "description": "Benimle bir randevu ayarlayın.",
+      "available_slots": "Uygun Zamanlar",
+      "book_appointment": "Randevu Al",
+      "select_slot": "Lütfen randevu almak için bir zaman seçin."
+    },
+    "geomap": {
+      "title": "Küresel Ziyaretçi Isı Haritası",
+      "description": "Bu etkileşimli ısı haritası aracılığıyla portföyümü ziyaret edenlerin küresel dağılımını keşfedin. Haritadaki her nokta, bir ziyaretçinin konumunu temsil eder ve izleyicilerimin dünyanın neresinden geldiğine dair içgörüler sağlar.",
+      "visitors": "{{count}} ziyaretçi |||| {{count}} ziyaretçiler"
+    },
     "status": {
-    "title": "Sistem Durumu",
-    "loading": "Sistem durumunu kontrol ediliyor...",
-    "response_time": "Yanıt Süresi: {{time}}ms",
-    "uptime": "Açık Kalma Süresi: {{time}}m",
-    "service_names": {
-      "api": "API",
-      "database": "Veritabanı",
-      "auth": "Kimlik Doğrulama",
-      "payment": "Ödeme Geçidi",
-      "frontend": "Ön Uç",
-      "redis": "Redis Önbelleği",
-      "mail": "Mail Servisi",
-      "openai": "OpenAI Servisi",
-      "aws": "AWS Hizmetleri",
-      "sms": "SMS Servisi"
-    },
-    "statuses": {
-      "operational": "Çalışır Durumda",
-      "degraded_performance": "Düşük Performans",
-      "partial_outage": "Kısmi Kesinti",
-      "major_outage": "Büyük Kesinti"
+      "title": "Sistem Durumu",
+      "loading": "Sistem durumunu kontrol ediliyor...",
+      "response_time": "Yanıt Süresi: {{time}}ms",
+      "uptime": "Açık Kalma Süresi: {{time}}m",
+      "service_names": {
+        "api": "API",
+        "database": "Veritabanı",
+        "auth": "Kimlik Doğrulama",
+        "payment": "Ödeme Geçidi",
+        "frontend": "Ön Uç",
+        "redis": "Redis Önbelleği",
+        "mail": "Mail Servisi",
+        "openai": "OpenAI Servisi",
+        "aws": "AWS Hizmetleri",
+        "sms": "SMS Servisi"
+      },
+      "statuses": {
+        "operational": "Çalışır Durumda",
+        "degraded_performance": "Düşük Performans",
+        "partial_outage": "Kısmi Kesinti",
+        "major_outage": "Büyük Kesinti"
+      }
     }
   },
-  "newsletter": {
-    "title": "Bülten",
-    "description": "Güncel kalın! Tüm en son ve en iyi gönderileri doğrudan gelen kutunuza alın.",
-    "email_placeholder": "E-posta adresinizi girin",
-    "subscribe": "Abone Ol",
-    "success_message": "Başarıyla abone olundu! Onay için e-postalarınızı kontrol edin.",
-    "error_message": "Abone olurken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
-  }
+  "admin": {},
+  "auth": {},
+  "common": {},
+  "frontend": {}
 }

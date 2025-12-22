@@ -7,12 +7,12 @@ const TypingEffect = () => {
 
   const texts = useMemo(
     () => [
-      t("welcome.typingEffect.text1"),
-      t("welcome.typingEffect.text2"),
-      t("welcome.typingEffect.text3"),
-      t("welcome.typingEffect.text4"),
-      t("welcome.typingEffect.text5"),
-      t("welcome.typingEffect.text6"),
+      t("pages.welcome.typingEffect.text1"),
+      t("pages.welcome.typingEffect.text2"),
+      t("pages.welcome.typingEffect.text3"),
+      t("pages.welcome.typingEffect.text4"),
+      t("pages.welcome.typingEffect.text5"),
+      t("pages.welcome.typingEffect.text6"),
     ],
     [i18n.language]
   );
@@ -51,10 +51,10 @@ const TypingEffect = () => {
 
   return (
     <span className="text-3xl font-bold text-shadow-sm pb-2">
-      {t("welcome.typingEffect.prefix")}&nbsp;
+      {t("pages.welcome.typingEffect.prefix")}&nbsp;
       <span className="text-primary text-shadow-sm" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>{renderedText === "" ? " " : renderedText}</span>
       &nbsp;
-      {t("welcome.typingEffect.suffix")}
+      {t("pages.welcome.typingEffect.suffix")}
     </span>
   )
 };

@@ -99,10 +99,10 @@ const ProjectsHero = () => {
         >
           <div className="mx-auto max-w-screen-sm text-center lg:mb-8 -mt-8 lg:mt-0 ">
             <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-              {t("projects.title")}
+              {t("pages.projects.title")}
             </h2>
             <p className="font-light sm:text-xl">
-              {t("projects.description")}
+              {t("pages.projects.description")}
             </p>
           </div>
 

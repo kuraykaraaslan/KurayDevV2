@@ -75,7 +75,7 @@ const Contact = (props: ContactProps) => {
   const getPhoneNumbers = async () => {
 
     if (token === "") {
-      alert(t("alert.can_not_verify_that_you_are_not_a_robot"));
+      alert(t("shared.alert.can_not_verify_that_you_are_not_a_robot"));
       return;
     }
 
@@ -92,7 +92,7 @@ const Contact = (props: ContactProps) => {
   function getMails() {
 
     if (token === "") {
-      alert(t("alert.can_not_verify_that_you_are_not_a_robot"));
+      alert(t("shared.alert.can_not_verify_that_you_are_not_a_robot"));
       return;
     }
 
@@ -118,15 +118,15 @@ const Contact = (props: ContactProps) => {
             <div className="grid max-w-6xl grid-cols-1 px-6 mx-auto lg:px-8 md:grid-cols-2 md:divide-x pt-12 pb-12 mb-2">
               <div className="py-6 md:py-0 md:px-6">
                 <h1 className="text-4xl font-bold">
-                  {t("contact.title")}
+                  {t("pages.contact.title")}
                 </h1>
 
                 <p className="pt-2 pb-4">
-                  {t("contact.description")}
+                  {t("pages.contact.description")}
                 </p>
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold">
-                    {t("contact.phone_and_mail")}
+                    {t("pages.contact.phone_and_mail")}
                   </h3>
 
                   {token !== "" ?
@@ -137,7 +137,7 @@ const Contact = (props: ContactProps) => {
                             icon={faEnvelope}
                             className="w-5 h-5 mr-2 sm:mr-6"
                           />
-                          <span>{t("contact.reveal_mail")}</span>
+                          <span>{t("pages.contact.reveal_mail")}</span>
                         </button>
                       }
 
@@ -163,7 +163,7 @@ const Contact = (props: ContactProps) => {
                             icon={faPhone}
                             className="w-5 h-5 mr-2 sm:mr-6"
                           />
-                          <span>{t("contact.reveal_phone")}</span>
+                          <span>{t("pages.contact.reveal_phone")}</span>
                         </button>
                       }
 
@@ -218,7 +218,7 @@ const Contact = (props: ContactProps) => {
 
                 <div className="space-y-4 mt-4">
                   <h3 className="text-xl font-bold">
-                    {t("contact.social_media")}
+                    {t("pages.contact.social_media")}
                   </h3>
 
                   <p className="flex items-center text-green-500 animate-pulse">
@@ -306,7 +306,7 @@ const Contact = (props: ContactProps) => {
               </div>
               <div className="flex flex-col py-6 space-y-6 md:py-0 md:px-6">
                 <h1 className="text-4xl font-bold">
-                  {t("contact.send_a_message")}
+                  {t("pages.contact.send_a_message")}
                 </h1>
                 <Form token={token} />
               </div>

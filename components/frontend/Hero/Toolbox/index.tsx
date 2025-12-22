@@ -140,62 +140,62 @@ const Toolbox = () => {
   const professionalSkills: Skill[] = [
     {
       icon: faCode,
-      title: "Clean Code",
+      title: t("pages.toolbox.skills.clean_code"),
       ...skillGroupColors.fundamentals,
     },
     {
       icon: faKey,
-      title: "Authentication & Security",
+      title: t("pages.toolbox.skills.authentication_security"),
       ...skillGroupColors.fundamentals,
     },
     {
       icon: faCogs,
-      title: "REST API Design",
+      title: t("pages.toolbox.skills.rest_api_design"),
       ...skillGroupColors.backend,
     },
     {
       icon: faDatabase,
-      title: "SQL & Data Modeling",
+      title: t("pages.toolbox.skills.sql_data_modeling"),
       ...skillGroupColors.backend,
     },
     {
       icon: faProjectDiagram,
-      title: "Multi-Tenant SaaS",
+      title: t("pages.toolbox.skills.multi_tenant_saas"),
       ...skillGroupColors.backend,
     },
     {
       icon: customRedisIcon,
-      title: "Caching with Redis",
+      title: t("pages.toolbox.skills.caching_redis"),
       ...skillGroupColors.backend,
     },
     {
       icon: faMoneyBill,
-      title: "Payment Systems",
+      title: t("pages.toolbox.skills.payment_systems"),
       ...skillGroupColors.backend,
     },
     {
       icon: faVial,
-      title: "Testing & CI/CD",
+      title: t("pages.toolbox.skills.testing_cicd"),
       ...skillGroupColors.advanced,
     },
     {
       icon: faRocket,
-      title: "Performance Optimization",
+      title: t("pages.toolbox.skills.performance_optimization"),
       ...skillGroupColors.advanced,
     },
     {
       icon: faCloud,
-      title: "Cloud Infrastructure (AWS)",
+      title: t("pages.toolbox.skills.cloud_infrastructure"),
       ...skillGroupColors.advanced,
     },
     {
       icon: faStream,
-      title: "Event-Driven Architecture",
+      title: t("pages.toolbox.skills.event_driven_architecture"),
       ...skillGroupColors.advanced,
     },
     {
       icon: faArchway,
-      title: "Domain-Driven Design",
+      title: t("pages.toolbox.skills.domain_driven_design"),
       ...skillGroupColors.advanced,
     }
   ];
@@ -209,12 +209,12 @@ const Toolbox = () => {
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4 ">
             <div className="col-span-2 md:col-span-1 md:col-start-3 overflow-hidden">
               <h1 className="text-4xl lg:text-3xl font-bold mt-6 text-center md:text-right">
-                {t("toolbox.title")}
+                {t("pages.toolbox.title")}
               </h1>
             </div>
             <div className="col-span-1 md:col-start-4 invisible md:visible hidden md:block">
               <p className="mt-6 pr-4">
-                {t("toolbox.description")}
+                {t("pages.toolbox.description")}
               </p>
             </div>
           </div>
@@ -223,7 +223,7 @@ const Toolbox = () => {
             <div className="flex flex-col lg:flex-row-reverse md:mx-12 mx-auto">
               <div className="flex-1 pl-4 select-none hidden lg:block">
                 <h1 className="text-3xl font-bold  relative overflow-hidden animate-shake pb-4">
-                  Frontend
+                  {t("pages.toolbox.frontend")}
                 </h1>
               </div>
               <div className="group flex-none grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
@@ -235,7 +235,7 @@ const Toolbox = () => {
             <div className="group flex flex-col lg:flex-row md:mx-12 mx-auto pt-4">
               <div className="flex-0 lg:pl-0 select-none hidden lg:block pr-4">
                 <h1 className="text-3xl font-bold  relative overflow-hidden animate-shake pb-4">
-                  Backend
+                  {t("pages.toolbox.backend")}
                 </h1>
               </div>
               <div className="flex-none grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">

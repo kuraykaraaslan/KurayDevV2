@@ -74,17 +74,17 @@ export default function SystemStatusModalContent() {
     return (
         <div className="space-y-3 text-sm">
 
-            {loading && <div className="text-center py-4 opacity-70">{t("status.loading")}</div>}
+            {loading && <div className="text-center py-4 opacity-70">{t("shared.status.loading")}</div>}
             {error && <div className="text-error text-center py-4">{error}</div>}
 
             {!loading && data && (
                 <>
                     {Object.entries(data.services || {}).map(([key, value]: any) => (
                         <div key={key} className="flex justify-between items-center">
-                            <span className="capitalize">{t("status.service_names." + key)}</span>
+                            <span className="capitalize">{t("shared.status.service_names." + key)}</span>
                             <span className={`flex items-center gap-1 ${getColor(value.status)}`}>
                                 <FontAwesomeIcon icon={faCircle} className="text-[8px]" />
-                                {t("status.statuses." + value.status)}
+                                {t("shared.status.statuses." + value.status)}
                             </span>
                         </div>
                     ))}
@@ -93,7 +93,7 @@ export default function SystemStatusModalContent() {
 
                     <div className="flex justify-between text-xs opacity-70">
                         <span>
-                            {t("status.response_time", { time: data.responseTimeMs })} • {t("status.uptime", { time: Math.floor(data.uptimeSec / 60) })}    
+                            {t("shared.status.response_time", { time: data.responseTimeMs })} • {t("shared.status.uptime", { time: Math.floor(data.uptimeSec / 60) })}    
                         </span>
                         <span>
                             {new Date(data.timestamp).toLocaleTimeString([], {

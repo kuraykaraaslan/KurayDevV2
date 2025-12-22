@@ -51,7 +51,7 @@ const Welcome = () => {
             <h2 className="py-3 pb-6 leading-7 text-shadow-sm">
               <p>
                 <Trans
-                  i18nKey="welcome.description"
+                  i18nKey="pages.welcome.description"
                   lang={i18n.language}
                   components={{
                     bold: <span className="font-bold" />
@@ -66,7 +66,7 @@ const Welcome = () => {
                 className="mt-1"
                 style={{ width: "1rem" }}
               />
-              {t("welcome.contact_me")}
+              {t("pages.welcome.contact_me")}
             </Link>
 
             <Link href="https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view?usp=drive_link" target="_blank">
@@ -76,7 +76,7 @@ const Welcome = () => {
                   className="mt-1"
                   style={{ width: "1rem" }}
                 />
-                {t("welcome.resume")}
+                {t("pages.welcome.resume")}
               </p>
             </Link>
           </div>

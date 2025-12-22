@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     if (languageNotifiedOnce) return;
 
     if (language !== "en") {
-      toast.info(t("alert.this_blog_is_available_in_only_english"));
+      toast.info(t("shared.alert.this_blog_is_available_in_only_english"));
       setLanguageNotifiedOnce(true);
     }
   }, [language]);

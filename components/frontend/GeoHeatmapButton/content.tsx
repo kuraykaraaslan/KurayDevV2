@@ -140,7 +140,7 @@ export default function GeoHeatmap() {
             .setHTML(`
               <div style="font-family:sans-serif; min-width:150px">
                 <strong>${city}, ${country}</strong><br/>
-                <span>${count} ${t("geomap.visitors", { count: count })}</span>
+                <span>${count} ${t("shared.geomap.visitors", { count: count })}</span></span>
               </div>
             `)
             .addTo(map)
