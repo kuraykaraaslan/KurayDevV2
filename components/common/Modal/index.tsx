@@ -1,5 +1,6 @@
 import { ReactNode, RefObject, useCallback, useEffect, useId, useMemo, useRef, useState, MouseEvent } from "react"
 import { createPortal } from "react-dom"
+import { useTranslation } from 'react-i18next'
 
 /**
  * HeadlessModal (Tailwind + daisyUI friendly)
@@ -39,6 +40,7 @@ export function HeadlessModal({
   backdropClassName = "",
   children,
 }: HeadlessModalProps) {
+  const { t } = useTranslation()
   const [mounted, setMounted] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
   const lastActiveRef = useRef<HTMLElement | null>(null)
@@ -198,7 +200,7 @@ export function HeadlessModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  aria-label="Close dialog"
+                  aria-label={t('common.modal.close_dialog')}
                   className="btn btn-ghost btn-sm"
                 >
                   ✕

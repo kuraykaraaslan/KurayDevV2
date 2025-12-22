@@ -314,5 +314,20 @@
       "modal_title": "Login with Social Media",
       "close": "Close"
     }
+  },
+  "common": {
+    "navbar_auth": {
+      "admin_dashboard": "Admin Dashboard",
+      "user_settings": "User Settings",
+      "logout": "Logout"
+    },
+    "image_load": {
+      "success": "Image uploaded successfully",
+      "error": "Error uploading image"
+    },
+    "loading": "Loading...",
+    "modal": {
+      "close_dialog": "Close dialog"
+    }
   }
 }

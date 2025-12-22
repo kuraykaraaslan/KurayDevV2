@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import axiosInstance from '@/libs/axios';
+import { useTranslation } from 'react-i18next';
+
 interface ImageLoadProps {
     image: string;
     setImage: (value: string) => void;
@@ -9,6 +11,7 @@ interface ImageLoadProps {
 }
 
 const ImageLoad = ({ image, setImage, uploadFolder = 'default', toast }: ImageLoadProps) => {
+    const { t } = useTranslation();
 
     const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -28,10 +31,10 @@ const ImageLoad = ({ image, setImage, uploadFolder = 'default', toast }: ImageLo
         }).then((res) => {
 
             setImage(res.data.url);
-            if (toast) { toast.success('Image uploaded successfully'); }
+            if (toast) { toast.success(t('common.image_load.success')); }
 
         }).catch((error) => {
-            if (toast) { toast.error('Error uploading image'); } else { console.error(error); }
+            if (toast) { toast.error(t('common.image_load.error')); } else { console.error(error); }
         });
     }
 

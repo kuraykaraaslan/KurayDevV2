@@ -7,8 +7,10 @@ import { createHash } from "crypto";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const NavbarAuthButton = () => {
+    const { t } = useTranslation();
     const { user } = useGlobalStore();
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -68,7 +70,7 @@ const NavbarAuthButton = () => {
                         className="px-3 py-2 rounded-md hover:bg-base-200 text-sm"
                         onClick={() => setOpen(false)}
                     >
-                        Admin Dashboard
+                        {t('common.navbar_auth.admin_dashboard')}
                     </Link>
                     )}
                     <Link
@@ -76,7 +78,7 @@ const NavbarAuthButton = () => {
                         className="px-3 py-2 rounded-md hover:bg-base-200 text-sm border-b border-base-300"
                         onClick={() => setOpen(false)}
                     >
-                        User Settings
+                        {t('common.navbar_auth.user_settings')}
                     </Link>
 
                     <Link
@@ -84,7 +86,7 @@ const NavbarAuthButton = () => {
                         className="px-3 py-2 rounded-md hover:bg-base-200 text-sm text-red-500"
                         onClick={() => setOpen(false)}
                     >
-                        Logout
+                        {t('common.navbar_auth.logout')}
                     </Link>
                 </div>
             )}
