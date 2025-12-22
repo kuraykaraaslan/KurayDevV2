@@ -10,10 +10,12 @@ import axios from 'axios'
 import AppointmentModal from './AppointmentModal'
 import dynamic from 'next/dynamic'
 import LoadingElement from '@/components/frontend/UI/Content/LoadingElement'
+import { useTranslation } from 'react-i18next'
 
 const Calendar = dynamic(() => import('react-calendar'), { ssr: false, loading: () => <LoadingElement title="Calendar" /> })
 
 export default function AppointmentCalendar() {
+  const { t } = useTranslation()
   const [availableSlots, setAvailableSlots] = useState<Slot[]>([])
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null)
@@ -92,9 +94,9 @@ export default function AppointmentCalendar() {
       <div className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm text-center -mt-8 lg:mt-0">
           <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-            Randevu
+            {t('calendar.appointment_title')}
           </h2>
-          <p className="font-light sm:text-xl">Uygun bir günü ve saati seçin</p>
+          <p className="font-light sm:text-xl">{t('calendar.appointment_subtitle')}</p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-4 mb-8 mt-3">
@@ -112,7 +114,7 @@ export default function AppointmentCalendar() {
           <div className="w-1/2 sm:w-1/3 md:w-1/4">
             {slotsOf(selectedDate).length > 0 ? (
               <div>
-                <h3 className="text-lg font-semibold mb-2">Mevcut Saatler</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('calendar.available_times')}</h3>
                 <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-2">
                   {slotsOf(selectedDate).map((slot, idx) => {
                     const start = new Date(slot.startTime)
@@ -127,24 +129,25 @@ export default function AppointmentCalendar() {
                       <button
                         key={idx}
                         disabled={slot.capacity <= 0}
-                        className={`btn btn-outline btn-sm btn-block text-left h-16 ${isSelected ? 'btn-primary' : ''
-                          } ${slot.capacity <= 0 ? 'btn-disabled cursor-not-allowed' : ''}`}
+                        className={`btn btn-outline btn-sm btn-block text-left h-16 ${
+                          isSelected ? 'btn-primary' : ''
+                        } ${slot.capacity <= 0 ? 'btn-disabled cursor-not-allowed' : ''}`}
                         onClick={() => handleTimeSelect(slot)}
                       >
                         <FontAwesomeIcon icon={slot.capacity <= 0 ? faX : faClock} className="mr-2" />
-                        {label} ({length} dk)
+                        {label} ({length} {t('calendar.minutes_abbr')})
                       </button>
                     )
                   })}
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-gray-500">Seçilen gün için müsait saat yok.</p>
+              <p className="text-sm text-gray-500">{t('calendar.no_slots_for_day')}</p>
             )}
 
             {selectedSlot && (
               <div className="mt-4">
-                <h3 className="text-lg font-semibold mb-2">Seçilen Saat</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('calendar.selected_time')}</h3>
                 <p className="text-sm space-x-2">
                   <span className="font-semibold">
                     <FontAwesomeIcon icon={faCalendar} className="mr-2" />
@@ -161,7 +164,7 @@ export default function AppointmentCalendar() {
                       new Date(selectedSlot.endTime),
                       new Date(selectedSlot.startTime)
                     )}{' '}
-                    dk
+                    {t('calendar.minutes_abbr')}
                   </span>
                 </p>
                 <button
@@ -170,7 +173,7 @@ export default function AppointmentCalendar() {
                     (document.getElementById('appt_modal') as HTMLDialogElement)?.showModal()
                   }
                 >
-                  Randevu Al
+                  {t('calendar.book_now')}
                 </button>
               </div>
             )}

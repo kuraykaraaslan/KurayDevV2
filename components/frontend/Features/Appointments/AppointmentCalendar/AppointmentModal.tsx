@@ -5,12 +5,14 @@ import { faCalendar, faClock, faStopwatch } from "@fortawesome/free-solid-svg-ic
 import { toast } from "react-toastify"
 import axiosInstance from "@/libs/axios"
 import { FormEvent } from "react"
+import { useTranslation } from "react-i18next"
 
 const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot | null, preloadRange: () => Promise<void> }) => {
+    const { t } = useTranslation()
     
     const handleFormSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        if (!selectedSlot) return toast.error('Önce bir saat seçin.')
+        if (!selectedSlot) return toast.error(t('calendar.select_slot_first'))
 
         const data = new FormData(e.currentTarget as HTMLFormElement)
         const name = data.get('name') as string
@@ -28,15 +30,15 @@ const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot |
                 note,
             })
             if (res.data?.success) {
-                toast.success('Randevunuz oluşturuldu.')
+                toast.success(t('calendar.appointment_created'))
                 await preloadRange()
                     ; (document.getElementById('appt_modal') as HTMLDialogElement)?.close()
             } else {
-                toast.error(res.data?.message || 'Randevu alınamadı')
+                toast.error(res.data?.message || t('calendar.appointment_error'))
             }
         } catch (err) {
             console.error(err)
-            toast.error('Bir hata oluştu')
+            toast.error(t('calendar.error_occurred'))
         }
     }
 
@@ -44,7 +46,7 @@ const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot |
     return (
         <dialog id="appt_modal" className="modal">
             <div className="modal-box">
-                <h3 className="font-bold text-lg mb-4">Randevu Bilgileri</h3>
+                <h3 className="font-bold text-lg mb-4">{t('calendar.appointment_info')}</h3>
                 {selectedSlot && (
                     <p className="text-sm space-x-2 mb-4">
                         <span className="font-semibold">
@@ -62,40 +64,40 @@ const AppointmentModal = ({ selectedSlot , preloadRange}: { selectedSlot: Slot |
                                 new Date(selectedSlot.endTime),
                                 new Date(selectedSlot.startTime)
                             )}{' '}
-                            dk
+                            {t('calendar.minutes_abbr')}
                         </span>
                     </p>
                 )}
 
                 <form onSubmit={handleFormSubmit} className="space-y-3">
                     <label className="label">
-                        <span className="label-text">Ad Soyad</span>
+                        <span className="label-text">{t('calendar.full_name')}</span>
                     </label>
                     <input type="text" name="name" required className="input input-bordered w-full" />
 
                     <label className="label">
-                        <span className="label-text">E-posta</span>
+                        <span className="label-text">{t('calendar.email_label')}</span>
                     </label>
                     <input type="email" name="email" required className="input input-bordered w-full" />
 
                     <label className="label">
-                        <span className="label-text">Telefon</span>
+                        <span className="label-text">{t('calendar.phone_label')}</span>
                     </label>
                     <input type="tel" name="phone" required className="input input-bordered w-full" />
 
                     <label className="label">
-                        <span className="label-text">Not</span>
+                        <span className="label-text">{t('calendar.note_label')}</span>
                     </label>
                     <textarea name="note" rows={3} className="textarea textarea-bordered w-full" />
 
                     <button type="submit" className="btn btn-primary w-full">
-                        Randevuyu Oluştur
+                        {t('calendar.create_appointment')}
                     </button>
                 </form>
 
                 <div className="modal-action">
                     <form method="dialog" className="w-full">
-                        <button className="btn btn-secondary btn-block">Kapat</button>
+                        <button className="btn btn-secondary btn-block">{t('calendar.close_modal')}</button>
                     </form>
                 </div>
             </div>
