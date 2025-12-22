@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import HeadlessModal from '@/components/common/Modal';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   open: boolean;
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export default function TOTPSetupModal(props: Props) {
+  const { t } = useTranslation();
   const {
     open,
     otpauthUrl,
@@ -67,7 +69,7 @@ export default function TOTPSetupModal(props: Props) {
     <HeadlessModal
       open={open}
       onClose={onClose}
-      title={isShowingBackupCodes ? 'Yedek Kodlar' : 'TOTP Kurulumu'}
+      title={isShowingBackupCodes ? t('frontend.settings.totp_setup.backup_codes_title') : t('frontend.settings.totp_setup.title')}
       size={isShowingBackupCodes ? 'md' : 'sm'}
       closeOnBackdrop={false}
       closeOnEsc={false}
@@ -78,8 +80,7 @@ export default function TOTPSetupModal(props: Props) {
           <>
             <div className="alert alert-warning">
               <span>
-                Bu kodları güvenli bir yere kaydedin. Authenticator erişiminizi
-                kaybettiğinizde bu kodlar <b>tek kurtarma yoludur</b>.
+                {t('frontend.settings.totp_setup.warning')}
               </span>
             </div>
 
@@ -99,14 +100,14 @@ export default function TOTPSetupModal(props: Props) {
                 onClick={handleCopy}
                 className="btn btn-outline w-full"
               >
-                Kodları Kopyala
+                {t('frontend.settings.totp_setup.copy_codes')}
               </button>
 
               <button
                 onClick={handleDownload}
                 className="btn btn-outline w-full"
               >
-                TXT Olarak İndir
+                {t('frontend.settings.totp_setup.download_codes')}
               </button>
             </div>
 
@@ -118,7 +119,7 @@ export default function TOTPSetupModal(props: Props) {
                 onChange={e => setAcknowledged(e.target.checked)}
               />
               <span className="text-sm">
-                Yedek kodları güvenli bir yerde sakladım
+                {t('frontend.settings.totp_setup.i_have_saved')}
               </span>
             </label>
 
@@ -127,7 +128,7 @@ export default function TOTPSetupModal(props: Props) {
               disabled={!acknowledged}
               className="btn btn-primary w-full"
             >
-              Tamam
+              OK
             </button>
           </>
         ) : (
@@ -139,7 +140,7 @@ export default function TOTPSetupModal(props: Props) {
                 disabled={loadingSetup}
                 className="btn btn-primary w-full"
               >
-                {loadingSetup ? 'Hazırlanıyor…' : 'Kurulumu Başlat'}
+                {loadingSetup ? t('frontend.loading') : t('frontend.settings.totp_setup.start_setup')}
               </button>
             )}
 
@@ -157,8 +158,7 @@ export default function TOTPSetupModal(props: Props) {
                   )}
 
                   <p className="text-sm text-base-content/70 text-center">
-                    Authenticator uygulamasıyla QR kodu tarayın veya aşağıdaki
-                    bağlantıyı elle ekleyin.
+                    {t('frontend.settings.totp_setup.enter_code')}
                   </p>
 
                   <div className="textarea textarea-bordered w-full text-xs break-all select-all">
@@ -175,7 +175,7 @@ export default function TOTPSetupModal(props: Props) {
                   value={code}
                   onChange={e => onChangeCode(e.target.value)}
                   className="input input-bordered w-full text-center text-2xl tracking-widest font-mono"
-                  placeholder="123456"
+                  placeholder={t('frontend.settings.otp_confirm.code_placeholder')}
                 />
 
                 <button
@@ -183,7 +183,7 @@ export default function TOTPSetupModal(props: Props) {
                   disabled={verifying || code.length !== 6}
                   className="btn btn-primary w-full"
                 >
-                  {verifying ? 'Doğrulanıyor…' : 'Etkinleştir'}
+                  {verifying ? t('frontend.settings.otp_confirm.verifying') : t('frontend.settings.totp_setup.confirm_setup')}
                 </button>
               </>
             )}

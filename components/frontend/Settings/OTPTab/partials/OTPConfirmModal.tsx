@@ -1,4 +1,5 @@
 import HeadlessModal from '@/components/common/Modal';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   open: boolean;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export default function OTPConfirmModal(props: Props) {
+  const { t } = useTranslation();
   const {
     open,
     otpSent,
@@ -31,7 +33,7 @@ export default function OTPConfirmModal(props: Props) {
     <HeadlessModal
       open={open}
       onClose={onClose}
-      title="Güvenlik Doğrulaması"
+      title={t('frontend.settings.otp_confirm.title')}
       size="sm"
       closeOnBackdrop={false}
       closeOnEsc={false}
@@ -43,7 +45,7 @@ export default function OTPConfirmModal(props: Props) {
             disabled={sendingOtp}
             className="btn btn-primary w-full"
           >
-            {sendingOtp ? 'Kod Gönderiliyor…' : 'Doğrulama Kodu Gönder'}
+            {sendingOtp ? t('frontend.settings.otp_confirm.sending') : t('frontend.settings.otp_confirm.send_code')}
           </button>
         )}
 
@@ -55,7 +57,7 @@ export default function OTPConfirmModal(props: Props) {
               value={otpCode}
               onChange={e => onChangeCode(e.target.value)}
               className="input input-bordered w-full text-center text-2xl tracking-widest font-mono"
-              placeholder="123456"
+              placeholder={t('frontend.settings.otp_confirm.code_placeholder')}
             />
 
             <button
@@ -63,7 +65,7 @@ export default function OTPConfirmModal(props: Props) {
               disabled={verifying || otpCode.length !== 6}
               className="btn btn-primary w-full"
             >
-              {verifying ? 'Doğrulanıyor…' : 'Doğrula'}
+              {verifying ? t('frontend.settings.otp_confirm.verifying') : t('frontend.settings.otp_confirm.verify')}
             </button>
           </>
         )}

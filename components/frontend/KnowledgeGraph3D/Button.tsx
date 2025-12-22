@@ -3,8 +3,10 @@ import HeadlessModal, { useModal } from '@/components/common/Modal'
 import KnowledgeGraph3D from './index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
+import { useTranslation } from 'react-i18next'
 
 export default function KnowledgeGraph3DButton() {
+  const { t } = useTranslation()
   const { open, openModal, closeModal } = useModal()
 
   return (
@@ -16,9 +18,9 @@ export default function KnowledgeGraph3DButton() {
       <HeadlessModal
         open={open}
         onClose={closeModal}
-        title="3D Knowledge Graph"
-        size="lg" // modal boyutu daha kontrollü
-        className="!max-w-5xl" // genişlik sınırlı
+        title={t('frontend.knowledge_graph.title_3d')}
+        size="lg"
+        className="!max-w-5xl"
       >
         <div className="flex items-center justify-center w-full h-[70vh] bg-base-200 rounded-box">
           <KnowledgeGraph3D className="w-full h-full" />

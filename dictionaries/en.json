@@ -392,6 +392,30 @@
       "security": "Security",
       "otp": "2FA",
       "preferences": "Preferences",
-      "notifications": "Notifications"
-    }  }
+      "notifications": "Notifications",
+      "otp_method_card": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "otp_confirm": {
+        "title": "Security Verification",
+        "send_code": "Send Verification Code",
+        "sending": "Sending Code...",
+        "code_placeholder": "123456",
+        "verify": "Verify",
+        "verifying": "Verifying..."
+      },
+      "totp_setup": {
+        "title": "TOTP Setup",
+        "backup_codes_title": "Backup Codes",
+        "warning": "Store your backup codes in a safe place. You can use them to regain access to your account if you lose access to your authenticator app.",
+        "copy_codes": "Copy codes",
+        "download_codes": "Download codes",
+        "i_have_saved": "I have saved my backup codes",
+        "start_setup": "Start Setup",
+        "enter_code": "Enter the code from your authenticator app",
+        "confirm_setup": "Confirm Setup"
+      }
+    }
+  }
 }

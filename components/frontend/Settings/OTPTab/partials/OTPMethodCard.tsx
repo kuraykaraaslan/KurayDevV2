@@ -1,4 +1,5 @@
 import { OTPMethod } from '@/types/UserSecurityTypes';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   method: OTPMethod;
@@ -7,6 +8,7 @@ type Props = {
 };
 
 export default function OTPMethodCard({ method, enabled, onClick }: Props) {
+  const { t } = useTranslation();
   return (
     <div
       onClick={onClick}
@@ -20,7 +22,7 @@ export default function OTPMethodCard({ method, enabled, onClick }: Props) {
       <div className="flex justify-between items-center">
         <span className="font-semibold">{method}</span>
         <span className={`text-sm ${enabled ? 'text-primary' : 'text-base-content/60'}`}>
-          {enabled ? 'Aktif' : 'Kapalı'}
+          {enabled ? t('frontend.settings.otp_method_card.active') : t('frontend.settings.otp_method_card.inactive')}
         </span>
       </div>
     </div>
