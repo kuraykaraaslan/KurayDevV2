@@ -5,11 +5,12 @@ import { useState, ReactNode, useRef, useEffect, useCallback } from 'react';
 import PostCard from './Partials/PostCard';
 import axiosInstance from '@/libs/axios';
 import { useParams } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 const OtherPosts = () => {
-
+    const { t } = useTranslation();
     const { categoryId } = useParams();
     const [children, setChildren] = useState<ReactNode[]>([]);
 
@@ -93,7 +94,7 @@ const OtherPosts = () => {
     return (
         <div className="container mb-8">
             <div className='flex justify-between items-center'>
-                <h2 className="text-3xl font-bold text-left mt-4 mb-4">Related Posts</h2>
+                <h2 className="text-3xl font-bold text-left mt-4 mb-4">{t('frontend.related_articles')}</h2>
                 <div className='flex items-center transition-all duration-300 ease-in-out scroll-smooth	' style={{ width: 'fit-content' }}>
                     <button className='mr-2' onClick={handleLeft}>
                         <FontAwesomeIcon icon={faCaretLeft} style={{ height: '1rem', width: '1rem' }} /></button>
