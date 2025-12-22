@@ -1,4 +1,4 @@
-import ProjectTable from '@/components/admin/Tables/ProjectTable';
+import ProjectTable from '@/components/admin/UI/Tables/ProjectTable';
 
 const Page = () => {
 

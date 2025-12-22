@@ -21,6 +21,11 @@ export default class OTPService {
 
 
   static async requestOTP({ user, userSession, method, action }: { user: SafeUser, userSession: SafeUserSession, method: OTPMethod, action: OTPAction }) : Promise<{ otpToken: string }> {
+    
+    if (!user) {
+      throw new Error(AuthMessages.USER_NOT_FOUND);
+    }
+    
     if (method === OTPMethod.TOTP_APP || method === OTPMethod.PUSH_APP) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD);
     }
@@ -54,6 +59,10 @@ export default class OTPService {
   }) {
     const redisKey = this.getRedisKey({ userSessionId: userSession.userSessionId, method, action });
     const storedToken = await redis.get(redisKey);
+
+    if (!user) {
+      throw new Error(AuthMessages.USER_NOT_FOUND);
+    }
 
     if (!storedToken || storedToken !== otpToken) {
       throw new Error(AuthMessages.INVALID_OTP);

@@ -1,13 +1,13 @@
-import Welcome from '@/components/frontend/Hero/Welcome';
-import Toolbox from '@/components/frontend/Hero/Toolbox';
-import Contact from '@/components/frontend/Hero/Contact';
-import ProjectsHero from '@/components/frontend/Hero/Projects';
+import Welcome from '@/components/frontend/Features/Hero/Welcome';
+import Toolbox from '@/components/frontend/Features/Hero/Toolbox';
+import Contact from '@/components/frontend/Features/Hero/Contact';
+import ProjectsHero from '@/components/frontend/Features/Hero/Projects';
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
-import AppointmentCalendar from '@/components/frontend/AppointmentCalendar';
+import AppointmentCalendar from '@/components/frontend/Features/Appointments/AppointmentCalendar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import OfflineIndicator from '@/components/frontend/OfflineIndicator';
+import OfflineIndicator from '@/components/common/UI/Indicators/OfflineIndicator';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 

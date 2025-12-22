@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Newsletter from '@/components/frontend/Newsletter';
+import Newsletter from '@/components/frontend/Features/Newsletter';
 import ProjectService from '@/services/ProjectService';
 import Image from 'next/image';
-import SingleProject from '@/components/frontend/SingleProject';
-import SingleLink from '@/components/frontend/Hero/Projects/Partials/SingleLink';
+import SingleProject from '@/components/frontend/Features/SingleProject';
+import SingleLink from '@/components/frontend/Features/Hero/Projects/Partials/SingleLink';
 
 export default async function ProjectPage({ params }: { params: { projectSlug: string } }) {
 

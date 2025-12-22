@@ -4,10 +4,10 @@ import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
-import ImageLoad from '@/components/common/ImageLoad';
-import TinyMCEEditor from '@/components/admin/Editor';
+import ImageLoad from '@/components/common/UI/Images/ImageLoad';
+import TinyMCEEditor from '@/components/admin/UI/Forms/Editor';
 
-import ProjectLinkTable from '@/components/admin/Tables/ProjectLinkTable';
+import ProjectLinkTable from '@/components/admin/UI/Tables/ProjectLinkTable';
 
 const SingleProject = () => {
 

@@ -4,8 +4,6 @@ import OTPService from "@/services/AuthService/OTPService";
 import { OTPMethodEnum, OTPActionEnum } from "@/types/UserSecurityTypes";
 import AuthMessages from "@/messages/AuthMessages";
 import AuthService from "@/services/AuthService";
-import MailService from "@/services/NotificationService/MailService";
-import SMSService from "@/services/NotificationService/SMSService";
 
 export async function POST(request: NextRequest) {
   try {
@@ -47,8 +45,8 @@ export async function POST(request: NextRequest) {
         const updatedMethods = userOTPMethods.filter(m => m !== method);
         await AuthService.updateUserSecurity(user.userId, { otpMethods: updatedMethods });
     }
-    
-    return NextResponse.json({ success: true, message: "OTP sent successfully" });
+
+    return NextResponse.json({ success: true, message: "OTP verified successfully" }, { status: 200 });
 
 
   } catch (err: any) {

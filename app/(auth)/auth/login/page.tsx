@@ -7,8 +7,8 @@ import { MouseEvent, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGlobalStore } from '@/libs/zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { OTPActionEnum, OTPMethod, OTPMethodEnum } from '@/types/UserSecurityTypes';
-import OTPConfirmModal from '@/components/frontend/Settings/OTPTab/partials/OTPConfirmModal';
+import { OTPActionEnum, OTPMethod } from '@/types/UserSecurityTypes';
+import OTPConfirmModal from '@/components/frontend/Features/Settings/Tabs/OTPTab/partials/OTPConfirmModal';
 
 const LoginPage = () => {
 
@@ -23,8 +23,7 @@ const LoginPage = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const [otpRequired, setOtpRequired] = useState(false);
-    const [availableMethods, setAvailableMethods] = useState<OTPMethod[]>([]);
+    const [_availableMethods, setAvailableMethods] = useState<OTPMethod[]>([]);
     const [selectedMethod, setSelectedMethod] = useState<OTPMethod | null>(null);
 
     const [otpModalOpen, setOtpModalOpen] = useState(false);
@@ -82,7 +81,6 @@ const LoginPage = () => {
             setUser(user);
 
             if (userSecurity.otpMethods.length > 0) {
-                setOtpRequired(true);
                 setAvailableMethods(userSecurity.otpMethods);
                 setSelectedMethod(userSecurity.otpMethods[0]);
                 setOtpModalOpen(true);

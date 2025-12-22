@@ -1,5 +1,5 @@
 'use client'
-import PostTable from '@/components/admin/Tables/PostTable';
+import PostTable from '@/components/admin/UI/Tables/PostTable';
 
 const Page = () => {
 

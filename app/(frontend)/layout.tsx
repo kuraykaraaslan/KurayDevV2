@@ -1,10 +1,10 @@
-import Footer from "@/components/frontend/Footer";
-import Navbar from "@/components/frontend/Navbar";
-import ScrollToTop from "@/components/frontend/ScrollToTop";
-import Sidebar from "@/components/frontend/Sidebar";
-import Whatsapp from "@/components/frontend/Whatsapp";
+import Footer from "@/components/frontend/Layout/Footer";
+import Navbar from "@/components/frontend/Layout/Navbar";
+import ScrollToTop from "@/components/frontend/UI/Buttons/ScrollToTop";
+import Sidebar from "@/components/frontend/Layout/Sidebar";
+import Whatsapp from "@/components/frontend/Features/Social/Whatsapp";
 import { Suspense } from "react";
-import MenuItems from "@/components/frontend/MenuItems";
+import MenuItems from "@/components/frontend/Layout/MenuItems";
 import { ReactNode } from "react";
 
 /*

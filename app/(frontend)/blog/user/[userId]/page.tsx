@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Newsletter from '@/components/frontend/Newsletter';
+import Newsletter from '@/components/frontend/Features/Newsletter';
 import MetadataHelper from '@/helpers/MetadataHelper';
 import UserService from '@/services/UserService';
 import { ToastContainer } from 'react-toastify';
-import Feed from '@/components/frontend/Feed';
+import Feed from '@/components/frontend/Features/Blog/Feed';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 

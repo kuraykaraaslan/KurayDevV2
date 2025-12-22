@@ -1,18 +1,17 @@
-import Article from '@/components/frontend/Article';
+import Article from '@/components/frontend/Features/Blog/Article';
 import PostService from '@/services/PostService';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Comments from '@/components/frontend/Comments';
-import OtherPosts from '@/components/frontend/OtherPosts';
-import Newsletter from '@/components/frontend/Newsletter';
-import PostHeader from '@/components/frontend/PostHeader';
+import Comments from '@/components/frontend/Features/Blog/Comments';
+import OtherPosts from '@/components/frontend/Features/Blog/OtherPosts';
+import Newsletter from '@/components/frontend/Features/Newsletter';
+import PostHeader from '@/components/frontend/Features/Blog/PostHeader';
 import MetadataHelper from '@/helpers/MetadataHelper';
-import UserSessionService from '@/services/AuthService/UserSessionService';
-import ShareButtons from '@/components/frontend/ShareButtons';
+import ShareButtons from '@/components/frontend/Features/Blog/ShareButtons';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-export default async function BlogPost({ request, params }: { request: NextRequest, params: { categorySlug: string, postSlug: string } }) {
+export default async function BlogPost({ params }: { params: { categorySlug: string, postSlug: string } }) {
     try {
 
         const { postSlug } = await params;
@@ -43,7 +42,7 @@ export default async function BlogPost({ request, params }: { request: NextReque
 
         if (post.status !== 'PUBLISHED') {
             // Check if the user is authenticated and has the required role
-            await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
+            notFound();
         }
 
         await PostService.incrementViewCount(post.postId);

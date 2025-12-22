@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { ReactNode, Suspense } from 'react';
-import SSOLogin from '@/components/auth/SSOLogin';
+import SSOLogin from '@/components/frontend/Integrations/Appointments/SSOLogin';
 
 
 export default function AuthLayout({ children }: { children: ReactNode }) {

@@ -5,7 +5,7 @@ import UserSessionService from '@/services/AuthService/UserSessionService';
 export async function POST(request: NextRequest, { params }: { params: { postId: string } }) {
   try {
 
-    await UserSessionService.authenticateUserByRequest(request, 'GUEST' );
+    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "GUEST" });
     
     const { postId } = await params;
     const userId = request?.user?.userId || null;

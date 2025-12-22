@@ -2,8 +2,8 @@
 import { useState } from 'react'
 import type { Day } from '@/types/CalendarTypes'
 
-import SlotTemplateBuilder from '@/components/admin/SlotTemplateBuilder'
-import SlotsEditor from '@/components/admin/SlotsEditor'
+import SlotTemplateBuilder from '@/components/admin/Features/SlotManagement/SlotTemplateBuilder'
+import SlotsEditor from '@/components/admin/Features/SlotManagement/SlotsEditor'
 
 export default function SlotTemplatesPage() {
     const [selectedDay, setSelectedDay] = useState<Day>('monday')

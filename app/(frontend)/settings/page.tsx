@@ -1,6 +1,6 @@
 'use client';
 
-import SettingsTabs from '@/components/frontend/Settings/SettingsTabs';
+import SettingsTabs from '@/components/frontend/Features/Settings/SettingsTabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import useGlobalStore from '@/libs/zustand';

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import PostTable from '@/components/admin/Tables/PostTable'
+import PostTable from '@/components/admin/UI/Tables/PostTable'
 import { notFound, useParams } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 

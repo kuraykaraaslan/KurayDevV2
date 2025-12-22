@@ -3,12 +3,12 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
-import Editor from '@/components/admin/Editor';
+import Editor from '@/components/admin/UI/Forms/Editor';
 import { toast } from 'react-toastify';
-import CategorySelect from '@/components/admin/Selects/CategorySelect';
-import UserSelect from '@/components/admin/Selects/UserSelect';
-import ImageLoad from '@/components/common/ImageLoad';
-import AIPrompt from '@/components/admin/AIPrompt';
+import CategorySelect from '@/components/admin/UI/Forms/Selects/CategorySelect';
+import UserSelect from '@/components/admin/UI/Forms/Selects/UserSelect';
+import ImageLoad from '@/components/common/UI/Images/ImageLoad';
+import AIPrompt from '@/components/admin/Features/AIPrompt';
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 

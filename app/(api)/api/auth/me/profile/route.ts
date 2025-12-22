@@ -3,9 +3,7 @@ import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserService from "@/services/UserService";
 import RateLimiter from "@/libs/rateLimit";
-import { UserPreferencesSchema } from "@/types/UserTypes";
 import { UserProfileSchema } from "@/types/UserProfileTypes";
-import { use } from "react";
 
 // NextRequest is declared globally in global.d.ts
 

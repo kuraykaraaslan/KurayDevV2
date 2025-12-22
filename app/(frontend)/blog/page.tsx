@@ -1,6 +1,6 @@
-import Newsletter from '@/components/frontend/Newsletter';
-import Feed from '@/components/frontend/Feed';
-import CategoryBullets from '@/components/frontend/CategoryBullets';
+import Newsletter from '@/components/frontend/Features/Newsletter';
+import Feed from '@/components/frontend/Features/Blog/Feed';
+import CategoryBullets from '@/components/frontend/Features/CategoryBullets';
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
 
