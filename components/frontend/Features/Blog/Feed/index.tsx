@@ -111,7 +111,7 @@ export default function Feed(props: FeedProps) {
                 ) : (
                     <div className="flex justify-center mb-3">
                         <span className="text-base opacity-50 select-none">
-                            No more posts available
+                            {t('frontend.no_more_posts')}
                         </span>
                     </div>
                 )}
