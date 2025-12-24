@@ -16,6 +16,8 @@ export enum ContactMessages {
     ALREADY_SUBSCRIBED = "ALREADY_SUBSCRIBED",
     NOT_SUBSCRIBED = "NOT_SUBSCRIBED",
     INVALID_EMAIL_ADDRESS = "INVALID_EMAIL_ADDRESS",
+    MESSAGE_SENT_SUCCESSFULLY = "Your message has been sent successfully.",
+    TOO_MANY_REQUESTS = "You have already submitted a message recently. Please wait before sending another message.",
 }
 
 export default ContactMessages;

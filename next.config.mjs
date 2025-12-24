@@ -24,6 +24,10 @@ const nextConfig = {
     SSO_ALLOWED_PROVIDERS: env.SSO_ALLOWED_PROVIDERS || 'google,apple'
   },
 
+  experimental: {
+        nodeMiddleware: true, // Enable Node.js middleware
+  },
+
   trailingSlash: false,
 
   async headers() {

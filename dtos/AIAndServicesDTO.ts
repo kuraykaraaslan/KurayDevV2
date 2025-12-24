@@ -33,6 +33,10 @@ export const ContactFormRequestSchema = z.object({
     email: z.string().email(ContactMessages.INVALID_EMAIL),
     phone: z.string().min(1, ContactMessages.PHONE_REQUIRED),
     message: z.string().min(1, ContactMessages.MESSAGE_REQUIRED),
+    // Honeypot field - should be empty for real users
+    website: z.string().optional(),
+    // Form load timestamp for timing check
+    _formLoadTime: z.number().optional(),
 });
 
 export const ContactFormResponseSchema = z.object({

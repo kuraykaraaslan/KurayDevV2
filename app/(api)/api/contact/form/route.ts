@@ -6,6 +6,8 @@ import MailService from '@/services/NotificationService/MailService';
 import SMSService from '@/services/NotificationService/SMSService';
 import { ContactFormRequestSchema } from '@/dtos/AIAndServicesDTO';
 import ContactMessages from '@/messages/ContactMessages';
+import { checkForSpam } from '@/helpers/SpamProtection';
+import Logger from '@/libs/logger';
 
 type ResponseData = {
     message: string;
@@ -24,13 +26,26 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
         }, { status: 400 });
     }
 
-    const { name, email, phone, message } = parsedData.data;
+    const { name, email, phone, message, website, _formLoadTime } = parsedData.data;
+
+    // Spam protection checks
+    const spamCheck = checkForSpam({
+        honeypot: website,
+        formLoadTime: _formLoadTime,
+        message,
+    });
+
+    if (spamCheck.isSpam) {
+        Logger.warn(`[ContactForm] Spam detected: ${spamCheck.reason} - Email: ${email}`);
+        // Return success to not reveal detection to bots
+        return NextResponse.json({ message: ContactMessages.MESSAGE_SENT_SUCCESSFULLY });
+    }
 
     //find recent contact form entries
     const recentEntries = await ContactFormService.getRecentContactFormEntriesByPhoneOrEmail(phone, email);
 
     if (recentEntries.length > 2) {
-        return NextResponse.json({ message: "You have already submitted a message recently. Please wait before sending another message." }, { status: 429 });
+        return NextResponse.json({ message: ContactMessages.TOO_MANY_REQUESTS }, { status: 429 });
     }
 
     try {
@@ -43,17 +58,17 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
 
         await ContactFormService.createContactForm(data);
 
-    } catch (error) { console.error(error); }
+    } catch (error) { Logger.error('[ContactForm] DB Error:', error); }
 
 
-    try { await MailService.sendContactFormAdminEmail({ name, email, phone, message }); } catch (error) { console.error(error); }
+    try { await MailService.sendContactFormAdminEmail({ name, email, phone, message }); } catch (error) { Logger.error('[ContactForm] Admin Email Error:', error); }
 
-    try { await MailService.sendContactFormUserEmail({ name, email }); } catch (error) { console.error(error); }
+    try { await MailService.sendContactFormUserEmail({ name, email }); } catch (error) { Logger.error('[ContactForm] User Email Error:', error); }
 
     try {
         const discordMessage = `A new message has been received from the contact form.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
         await DiscordService.sendWebhookMessage(discordMessage);
-    } catch (error) { console.error(error); }
+    } catch (error) { Logger.error('[ContactForm] Discord Error:', error); }
 
     try {
 
@@ -64,9 +79,9 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
 
         await SMSService.sendShortMessage({ to: phone, body: userSMSBody });
 
-    } catch (error) { console.error(error); }
+    } catch (error) { Logger.error('[ContactForm] SMS Error:', error); }
 
-    return NextResponse.json({ message: "Your message has been sent successfully." });
+    return NextResponse.json({ message: ContactMessages.MESSAGE_SENT_SUCCESSFULLY });
 }
 
 

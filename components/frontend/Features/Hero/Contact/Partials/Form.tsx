@@ -19,6 +19,11 @@ const ContactForm = (props: { className?: string; token: string }) => {
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<any>("");
   const [message, setMessage] = useState<string>("");
+  
+  // Honeypot field - bots will fill this, humans won't see it
+  const [honeypot, setHoneypot] = useState<string>("");
+  // Form load time for timing-based spam detection
+  const [formLoadTime] = useState<number>(Date.now());
 
   //Validation states
 
@@ -111,6 +116,9 @@ const ContactForm = (props: { className?: string; token: string }) => {
       phone,
       message,
       date,
+      // Spam protection fields
+      website: honeypot,
+      _formLoadTime: formLoadTime,
     };
 
     try {
@@ -139,6 +147,20 @@ const ContactForm = (props: { className?: string; token: string }) => {
 
   return (
     <div className={claases}>
+      {/* Honeypot field - hidden from real users, bots will fill it */}
+      <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          type="text"
+          id="website"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
+      
       <div className="mt-2">
         <label htmlFor="name" className="block mb-2 text-sm font-medium ">
           {t("pages.contact.form.name")}
