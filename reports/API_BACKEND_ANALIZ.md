@@ -430,7 +430,7 @@ function handleError(error: unknown): NextResponse {
 | Kontrol                    | Durum | Detay                               |
 | -------------------------- | ----- | ----------------------------------- |
 | **CORS**                   | ✅    | Origin whitelist var                |
-| **CSRF**                   | ❌    | CSRF token yok                      |
+| **CSRF**                   | ✅    | Double Submit Cookie Pattern + HMAC |
 | **XSS Prevention**         | ⚠️    | Kısmi (HTML sanitization var)       |
 | **SQL Injection**          | ✅    | Prisma ORM kullanımı                |
 | **Rate Limiting**          | ⚠️    | Sadece auth route'larda             |
@@ -438,7 +438,7 @@ function handleError(error: unknown): NextResponse {
 | **Password Hashing**       | ✅    | bcrypt (10 rounds)                  |
 | **JWT Security**           | ✅    | Signed, expiry, audience            |
 | **Secure Cookies**         | ✅    | HttpOnly, Secure, SameSite          |
-| **Security Headers**       | ❌    | CSP, X-Frame-Options eksik          |
+| **Security Headers**       | ✅    | CSP, HSTS, X-Frame-Options, etc.    |
 | **File Upload Validation** | ✅    | MIME type ve extension kontrolü     |
 | **Secrets Management**     | ⚠️    | Env variables, ama validation eksik |
 
