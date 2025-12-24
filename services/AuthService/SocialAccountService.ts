@@ -1,4 +1,4 @@
-import { UserSocialAccount } from "@prisma/client";
+import { UserSocialAccount } from "@/generated/prisma";
 import {prisma} from '@/libs/prisma';
 
 // Other Services

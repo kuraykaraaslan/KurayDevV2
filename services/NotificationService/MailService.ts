@@ -9,7 +9,7 @@ import { PostWithData } from '@/types/content';
 import { Stat } from '@/types/common';
 
 // Types
-import { User } from '@prisma/client';
+import { User } from '@/generated/prisma';
 import { SafeUser } from '@/types/user/UserTypes';
 import { SafeUserSession } from '@/types/user/UserSessionTypes';
 import { Appointment } from '@/types/features';

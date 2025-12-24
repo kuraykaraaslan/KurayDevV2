@@ -1,11 +1,14 @@
 // Original path: app/api/auth/logout/route.ts
 
  
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import AuthMessages from "@/messages/AuthMessages";
+import UserSessionService from "@/services/AuthService/UserSessionService";
 
 export async function POST(request: NextRequest) {
     try {
+
+        const { userSession } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER", otpVerifyBypass: true });
 
         const response = NextResponse.json({
             
@@ -34,6 +37,8 @@ export async function POST(request: NextRequest) {
             path: '/',
             maxAge: 0,
         });
+
+        await UserSessionService.deleteSession(userSession);
 
         return response;
 

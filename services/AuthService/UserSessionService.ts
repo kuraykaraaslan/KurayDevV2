@@ -1,4 +1,3 @@
-import { UserSession, UserRole } from "@prisma/client";
 import { prisma } from '@/libs/prisma';
 
 // Utils
@@ -11,8 +10,10 @@ import AuthMessages from "@/messages/AuthMessages";
 import { v4 as uuidv4 } from "uuid";
 import redisInstance from "@/libs/redis";
 import { SafeUserSecurity } from '@/types/user/UserSecurityTypes';
+import { UserRole, UserSession } from '@/generated/prisma';
 
 
+const APPLICATION_DOMAIN = process.env.APPLICATION_DOMAIN || "kuray.dev";
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET; // Burada bir varsayılan değer belirleyebilirsiniz
 const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || '1h'; // veya '1h' gibi
 
@@ -68,7 +69,7 @@ export default class UserSessionService {
       ACCESS_TOKEN_SECRET,
       {
         subject: userId,                // sub: userId
-        issuer: 'relatia.kuray.dev',    // iss
+        issuer: APPLICATION_DOMAIN,    // iss
         audience: 'web',                // aud
         expiresIn: ACCESS_TOKEN_EXPIRES_IN, // exp
       }
@@ -94,7 +95,7 @@ export default class UserSessionService {
       REFRESH_TOKEN_SECRET as string,
       {
         subject: userId,
-        issuer: 'relatia.kuray.dev',
+        issuer: APPLICATION_DOMAIN,
         audience: 'web',
         expiresIn: REFRESH_TOKEN_EXPIRES_IN,
         notBefore: 5, // 5 saniye sonra geçerli
@@ -118,7 +119,7 @@ export default class UserSessionService {
     try {
 
       const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET, {
-        issuer: 'relatia.kuray.dev',
+        issuer: APPLICATION_DOMAIN,
         audience: 'web',
       }) as { userId: string, deviceFingerprint: string, userSessionId: string };
 
@@ -149,7 +150,7 @@ export default class UserSessionService {
 
     try {
       const decoded = jwt.verify(token, REFRESH_TOKEN_SECRET, {
-        issuer: 'relatia.kuray.dev',
+        issuer: APPLICATION_DOMAIN,
         audience: 'web',
       }) as { userId: string };
 
@@ -444,18 +445,19 @@ export default class UserSessionService {
    * @param data - The user session data to delete.
    */
 
-  static async deleteSession(data: SafeUserSession): Promise<void> {
+  static async deleteSession(userSession: Pick<UserSession, 'userSessionId' | 'userId'>): Promise<void> {
+    
+    const { userSessionId, userId } = userSession;
+    
     await prisma.userSession.deleteMany({
-      where: { userSessionId: data.userSessionId },
+      where: { userSessionId: userSessionId },
     });
 
     // 🧹 Remove related cache entries
-    const pattern = `session:${data.userId}:*`;
+    const pattern = `session:${userId}:${userSessionId}`;
     const keys = await redisInstance.keys(pattern);
     if (keys.length > 0) await redisInstance.del(...keys);
   }
-
-
 
   /**
    * Authenticate a user by access token.

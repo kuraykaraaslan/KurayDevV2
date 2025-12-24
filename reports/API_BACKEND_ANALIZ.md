@@ -8,14 +8,14 @@
 
 ## 📊 Genel Değerlendirme Özeti
 
-| Kategori | Puan | Durum |
-|----------|------|-------|
-| **Error Handling** | 5/10 | ⚠️ Orta |
-| **Authentication & Authorization** | 8/10 | ✅ İyi |
-| **Middleware** | 6/10 | ⚠️ Orta |
-| **Güvenlik** | 6.5/10 | ⚠️ Orta |
-| **Kod Organizasyonu** | 7/10 | ✅ İyi |
-| **Production Readiness** | 6/10 | ⚠️ Orta |
+| Kategori                           | Puan   | Durum   |
+| ---------------------------------- | ------ | ------- |
+| **Error Handling**                 | 5/10   | ⚠️ Orta |
+| **Authentication & Authorization** | 8/10   | ✅ İyi  |
+| **Middleware**                     | 6/10   | ⚠️ Orta |
+| **Güvenlik**                       | 6.5/10 | ⚠️ Orta |
+| **Kod Organizasyonu**              | 7/10   | ✅ İyi  |
+| **Production Readiness**           | 6/10   | ⚠️ Orta |
 
 **Genel Puan: 6.4/10** - Temel yapı sağlam ancak production için iyileştirmeler gerekli
 
@@ -81,15 +81,17 @@ app/(api)/api/
 ```
 
 ### ✅ Güçlü Yönler
+
 - **Route Groups kullanımı:** `(api)` gruplandırması ile temiz yapı
 - **RESTful tasarım:** CRUD operasyonları standart HTTP metodlarıyla
 - **Modüler yapı:** Her domain kendi klasöründe
 - **Dynamic routes:** `[postId]`, `[userId]`, `[provider]` gibi parametrik rotalar
 
 ### ❌ Zayıf Yönler
-- **API versiyonlama yok:** `/api/v1/...` yapısı eksik
-- **Tutarsız isimlendirme:** `slot-templates` (kebab-case) vs `knowledge-graph` (kebab-case) - tutarlı ama bazı yerlerde `camelCase` de kullanılıyor
-- **Yardımcı dosyalar eksik:** Her route için ortak `types.ts`, `schema.ts` dosyaları yok
+
+- **API versiyonlama yok:** `/api/v1/...` yapısı eksik TERCİH EDİLEN
+- **Tutarsız isimlendirme:** `slot-templates` (kebab-case) vs `knowledge-graph` (kebab-case) - tutarlı ama bazı yerlerde `camelCase` de kullanılıyor ÇÖZÜLDÜ
+- **Yardımcı dosyalar eksik:** Her route için ortak `types.ts`, `schema.ts` dosyaları yok ÇÖZÜLDÜ
 
 ---
 
@@ -106,26 +108,39 @@ export default class UserSessionService {
   static generateRefreshToken(userId, userSessionId, deviceFingerprint): string
   static verifyAccessToken(token, deviceFingerprint): Promise<{ userId }>
   static verifyRefreshToken(token): any
-  
+
   // Session yönetimi
-  static createSession({ user, request, userSecurity, otpIgnore }): Promise<SessionResult>
-  static getSession({ accessToken, request, otpVerifyBypass }): Promise<{ user, userSession }>
+  static createSession({
+    user,
+    request,
+    userSecurity,
+    otpIgnore
+  }): Promise<SessionResult>
+  static getSession({
+    accessToken,
+    request,
+    otpVerifyBypass
+  }): Promise<{ user; userSession }>
   static deleteSession(data): Promise<void>
-  
+
   // Auth middleware
-  static authenticateUserByRequest({ request, requiredUserRole, otpVerifyBypass }): Promise<AuthResult>
+  static authenticateUserByRequest({
+    request,
+    requiredUserRole,
+    otpVerifyBypass
+  }): Promise<AuthResult>
 }
 ```
 
 ### 2.2 Token Stratejisi
 
-| Özellik | Durum | Açıklama |
-|---------|-------|----------|
-| **Access Token** | ✅ | JWT, 1 saat geçerlilik |
-| **Refresh Token** | ✅ | JWT, 7 gün geçerlilik, rotation var |
-| **Token Hash** | ✅ | SHA-256 ile DB'de hash olarak saklanıyor |
-| **Device Fingerprint** | ✅ | IP + User-Agent + Accept-Language |
-| **Secure Cookies** | ✅ | HttpOnly, Secure, SameSite |
+| Özellik                | Durum | Açıklama                                 |
+| ---------------------- | ----- | ---------------------------------------- |
+| **Access Token**       | ✅    | JWT, 1 saat geçerlilik                   |
+| **Refresh Token**      | ✅    | JWT, 7 gün geçerlilik, rotation var      |
+| **Token Hash**         | ✅    | SHA-256 ile DB'de hash olarak saklanıyor |
+| **Device Fingerprint** | ✅    | IP + User-Agent + Accept-Language        |
+| **Secure Cookies**     | ✅    | HttpOnly, Secure, SameSite               |
 
 ### 2.3 Role-Based Access Control (RBAC)
 
@@ -133,13 +148,13 @@ export default class UserSessionService {
 // UserSessionService.authenticateUserByRequest()
 
 // Role hierarchy: ADMIN > USER > GUEST
-const userRoleKeys = Object.keys(UserRole); // ["USER", "ADMIN"]
-const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole);
-const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole);
+const userRoleKeys = Object.keys(UserRole) // ["USER", "ADMIN"]
+const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole)
+const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole)
 
 // User's role index must be >= required role index
 if (userRoleKeyIndex < requiredUserRoleKeyIndex) {
-  throw new Error(AuthMessages.USER_NOT_AUTHENTICATED);
+  throw new Error(AuthMessages.USER_NOT_AUTHENTICATED)
 }
 ```
 
@@ -157,6 +172,7 @@ type OTPMethod = 'EMAIL' | 'SMS' | 'TOTP_APP'
 ```
 
 ### ✅ Auth Güçlü Yönler
+
 - **Refresh token rotation:** Her refresh'te yeni token
 - **Token reuse detection:** Tekrar kullanım tespiti ve tüm sessionları silme
 - **Redis cache:** Session'lar Redis'te cache'leniyor (30 dk)
@@ -164,17 +180,20 @@ type OTPMethod = 'EMAIL' | 'SMS' | 'TOTP_APP'
 - **OTP desteği:** Email, SMS ve TOTP (Authenticator app)
 
 ### ❌ Auth Zayıf Yönler
-- **`@ts-expect-error` kullanımı:** JWT sign metodunda tip hataları bastırılmış
-- **Hardcoded issuer:** `relatia.kuray.dev` hardcoded
-- **Missing token blacklist:** Logout'ta token blacklist yok (sadece cookie silme)
+
+- **`@ts-expect-error` kullanımı:** JWT sign metodunda tip hataları bastırılmış TERCİH EDİLEN
+- **Hardcoded issuer:** `relatia.kuray.dev` hardcoded ÇÖZÜLDÜ
+- **Missing token blacklist:** Logout'ta token blacklist yok (sadece cookie silme) TERCİH EDİLEN
 
 ```typescript
 // ❌ Logout'ta sadece cookie siliniyor, token hala valid
 export async function POST(request: NextRequest) {
-  const response = NextResponse.json({ message: AuthMessages.LOGGED_OUT_SUCCESSFULLY });
-  response.cookies.set('accessToken', '', { maxAge: 0 });
-  response.cookies.set('refreshToken', '', { maxAge: 0 });
-  return response;
+  const response = NextResponse.json({
+    message: AuthMessages.LOGGED_OUT_SUCCESSFULLY
+  })
+  response.cookies.set('accessToken', '', { maxAge: 0 })
+  response.cookies.set('refreshToken', '', { maxAge: 0 })
+  return response
 }
 
 // ✅ Olması gereken: Token'ı blacklist'e ekle veya session'ı sil
@@ -190,17 +209,17 @@ export async function POST(request: NextRequest) {
 // middleware.ts
 
 export function middleware(request: NextRequest) {
-  const origin = request.headers.get('origin');
-  
+  const origin = request.headers.get('origin')
+
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001',
     'https://kuray.dev',
     'https://www.kuray.dev',
-    'http://127.0.0.1:3000',
-  ];
+    'http://127.0.0.1:3000'
+  ]
 
-  const isAllowedOrigin = allowedOrigins.includes(origin || '');
+  const isAllowedOrigin = allowedOrigins.includes(origin || '')
 
   // CORS preflight
   if (request.method === 'OPTIONS') {
@@ -208,42 +227,45 @@ export function middleware(request: NextRequest) {
       status: 200,
       headers: {
         'Access-Control-Allow-Origin': isAllowedOrigin ? origin || '*' : '',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+        'Access-Control-Allow-Methods':
+          'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers':
+          'Content-Type, Authorization, X-Requested-With',
         'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Max-Age': '86400',
-      },
-    });
+        'Access-Control-Max-Age': '86400'
+      }
+    })
   }
 
   // Add CORS headers to response
-  const response = NextResponse.next();
+  const response = NextResponse.next()
   if (isAllowedOrigin) {
-    response.headers.set('Access-Control-Allow-Origin', origin || '');
+    response.headers.set('Access-Control-Allow-Origin', origin || '')
     // ...
   }
-  return response;
+  return response
 }
 
 export const config = {
-  matcher: '/api/:path*',
-};
+  matcher: '/api/:path*'
+}
 ```
 
 ### ✅ Middleware Güçlü Yönler
+
 - **CORS yapılandırması:** Origin whitelist ile
 - **Preflight handling:** OPTIONS request'ler doğru handle ediliyor
 - **Credentials support:** `Access-Control-Allow-Credentials: true`
 
 ### ❌ Middleware Eksikleri
 
-| Eksik | Önem | Açıklama |
-|-------|------|----------|
-| **Rate Limiting** | 🔴 Kritik | Global rate limit middleware'de yok |
-| **Request Logging** | 🟡 Orta | Access log yok |
-| **Security Headers** | 🔴 Kritik | CSP, X-Frame-Options, etc. eksik |
-| **Request Validation** | 🟡 Orta | Body size limit yok |
-| **Auth Middleware** | 🟡 Orta | Her route'ta manuel auth çağrısı |
+| Eksik                  | Önem      | Açıklama                            |
+| ---------------------- | --------- | ----------------------------------- | --- |
+| **Rate Limiting**      | 🔴 Kritik | Global rate limit middleware'de yok | VAR |
+| **Request Logging**    | 🟡 Orta   | Access log yok                      |
+| **Security Headers**   | 🔴 Kritik | CSP, X-Frame-Options, etc. eksik    |
+| **Request Validation** | 🟡 Orta   | Body size limit yok                 |
+| **Auth Middleware**    | 🟡 Orta   | Her route'ta manuel auth çağrısı    |
 
 ---
 
@@ -257,14 +279,10 @@ export const config = {
 export async function POST(request: NextRequest) {
   try {
     // ... iş mantığı
-    return NextResponse.json({ data });
-  }
-  catch (error: any) {
-    console.error(error.message);
-    return NextResponse.json(
-      { message: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ data })
+  } catch (error: any) {
+    console.error(error.message)
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }
 ```
@@ -272,6 +290,7 @@ export async function POST(request: NextRequest) {
 ### 4.2 Error Handling Sorunları
 
 #### ❌ Problem 1: Generic 500 Status
+
 ```typescript
 // ❌ Tüm hatalar 500 dönüyor
 catch (error: any) {
@@ -294,35 +313,47 @@ catch (error) {
 ```
 
 #### ❌ Problem 2: Error Message Exposure
+
 ```typescript
 // ❌ İç hata mesajları client'a gönderiliyor
-return NextResponse.json({ message: error.message }, { status: 500 });
+return NextResponse.json({ message: error.message }, { status: 500 })
 
 // ✅ Olması gereken: Production'da generic mesaj
-const isProduction = process.env.NODE_ENV === 'production';
-return NextResponse.json({
-  message: isProduction ? 'Internal Server Error' : error.message,
-  ...(isProduction ? {} : { stack: error.stack })
-}, { status: 500 });
+const isProduction = process.env.NODE_ENV === 'production'
+return NextResponse.json(
+  {
+    message: isProduction ? 'Internal Server Error' : error.message,
+    ...(isProduction ? {} : { stack: error.stack })
+  },
+  { status: 500 }
+)
 ```
 
 #### ❌ Problem 3: Console.log Kullanımı
+
 ```typescript
 // ❌ 50+ yerde console.log/error kullanımı
-console.error(error.message);
-console.log('[LOGIN] Setting cookies...');
+console.error(error.message)
+console.log('[LOGIN] Setting cookies...')
 
 // ✅ Logger servisi var ama kullanılmıyor
 // libs/logger/index.ts mevcut ama API route'larda kullanılmamış
-Logger.error(`API Error: ${error.message}`);
+Logger.error(`API Error: ${error.message}`)
 ```
 
 #### ❌ Problem 4: Inconsistent Error Response Format
+
 ```typescript
 // Farklı route'larda farklı formatlar:
-{ message: error.message }    // posts/route.ts
-{ error: error.message }      // auth/login/route.ts
-{ error: "..." }              // validation errors
+{
+  message: error.message
+} // posts/route.ts
+{
+  error: error.message
+} // auth/login/route.ts
+{
+  error: '...'
+} // validation errors
 ```
 
 ### 4.3 Önerilen Error Handling Yapısı
@@ -335,19 +366,19 @@ export class AppError extends Error {
     public statusCode: number = 500,
     public code: string = 'INTERNAL_ERROR'
   ) {
-    super(message);
+    super(message)
   }
 }
 
 export class ValidationError extends AppError {
   constructor(message: string) {
-    super(message, 400, 'VALIDATION_ERROR');
+    super(message, 400, 'VALIDATION_ERROR')
   }
 }
 
 export class AuthError extends AppError {
   constructor(message: string) {
-    super(message, 401, 'AUTH_ERROR');
+    super(message, 401, 'AUTH_ERROR')
   }
 }
 
@@ -355,32 +386,38 @@ export class AuthError extends AppError {
 export function withErrorHandler(handler: Function) {
   return async (request: NextRequest, context?: any) => {
     try {
-      return await handler(request, context);
+      return await handler(request, context)
     } catch (error) {
-      return handleError(error);
+      return handleError(error)
     }
-  };
+  }
 }
 
 function handleError(error: unknown): NextResponse {
   if (error instanceof AppError) {
-    return NextResponse.json({
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: error.code,
+          message: error.message
+        }
+      },
+      { status: error.statusCode }
+    )
+  }
+
+  Logger.error(`Unhandled error: ${error}`)
+  return NextResponse.json(
+    {
       success: false,
       error: {
-        code: error.code,
-        message: error.message
+        code: 'INTERNAL_ERROR',
+        message: 'An unexpected error occurred'
       }
-    }, { status: error.statusCode });
-  }
-  
-  Logger.error(`Unhandled error: ${error}`);
-  return NextResponse.json({
-    success: false,
-    error: {
-      code: 'INTERNAL_ERROR',
-      message: 'An unexpected error occurred'
-    }
-  }, { status: 500 });
+    },
+    { status: 500 }
+  )
 }
 ```
 
@@ -390,27 +427,27 @@ function handleError(error: unknown): NextResponse {
 
 ### 5.1 Güvenlik Kontrol Listesi
 
-| Kontrol | Durum | Detay |
-|---------|-------|-------|
-| **CORS** | ✅ | Origin whitelist var |
-| **CSRF** | ❌ | CSRF token yok |
-| **XSS Prevention** | ⚠️ | Kısmi (HTML sanitization var) |
-| **SQL Injection** | ✅ | Prisma ORM kullanımı |
-| **Rate Limiting** | ⚠️ | Sadece auth route'larda |
-| **Input Validation** | ✅ | Zod ile validation |
-| **Password Hashing** | ✅ | bcrypt (10 rounds) |
-| **JWT Security** | ✅ | Signed, expiry, audience |
-| **Secure Cookies** | ✅ | HttpOnly, Secure, SameSite |
-| **Security Headers** | ❌ | CSP, X-Frame-Options eksik |
-| **File Upload Validation** | ✅ | MIME type ve extension kontrolü |
-| **Secrets Management** | ⚠️ | Env variables, ama validation eksik |
+| Kontrol                    | Durum | Detay                               |
+| -------------------------- | ----- | ----------------------------------- |
+| **CORS**                   | ✅    | Origin whitelist var                |
+| **CSRF**                   | ❌    | CSRF token yok                      |
+| **XSS Prevention**         | ⚠️    | Kısmi (HTML sanitization var)       |
+| **SQL Injection**          | ✅    | Prisma ORM kullanımı                |
+| **Rate Limiting**          | ⚠️    | Sadece auth route'larda             |
+| **Input Validation**       | ✅    | Zod ile validation                  |
+| **Password Hashing**       | ✅    | bcrypt (10 rounds)                  |
+| **JWT Security**           | ✅    | Signed, expiry, audience            |
+| **Secure Cookies**         | ✅    | HttpOnly, Secure, SameSite          |
+| **Security Headers**       | ❌    | CSP, X-Frame-Options eksik          |
+| **File Upload Validation** | ✅    | MIME type ve extension kontrolü     |
+| **Secrets Management**     | ⚠️    | Env variables, ama validation eksik |
 
 ### 5.2 Rate Limiting
 
 ```typescript
 // libs/rateLimit/index.ts
-const RATE_LIMIT = 10;        // 10 request
-const RATE_DURATION = 60;     // per 60 seconds
+const RATE_LIMIT = 10 // 10 request
+const RATE_DURATION = 60 // per 60 seconds
 
 // Kullanıldığı yerler (sadece auth):
 // - /api/auth/login
@@ -436,21 +473,26 @@ const RATE_DURATION = 60;     // per 60 seconds
 // dtos/AuthDTO.ts
 
 const LoginRequest = z.object({
-  email: z.string().email().refine(
-    (email) => email.length > 0,
-    { message: AuthMessages.INVALID_EMAIL_ADDRESS }
-  ),
+  email: z
+    .string()
+    .email()
+    .refine(email => email.length > 0, {
+      message: AuthMessages.INVALID_EMAIL_ADDRESS
+    }),
   password: z.string().min(8, {
-    message: AuthMessages.INVALID_PASSWORD,
-  }),
-});
+    message: AuthMessages.INVALID_PASSWORD
+  })
+})
 
 // API route'da kullanım
-const parsedData = LoginRequestSchema.safeParse(await request.json());
+const parsedData = LoginRequestSchema.safeParse(await request.json())
 if (!parsedData.success) {
-  return NextResponse.json({
-    error: parsedData.error.errors.map(err => err.message).join(", ")
-  }, { status: 400 });
+  return NextResponse.json(
+    {
+      error: parsedData.error.errors.map(err => err.message).join(', ')
+    },
+    { status: 400 }
+  )
 }
 ```
 
@@ -484,21 +526,23 @@ content = content.replace(this.noJS, '');
 ### 5.6 Güvenlik Açıkları
 
 #### 🔴 Kritik: CRON Endpoint Secret Validation
+
 ```typescript
 // ✅ İyi: Secret header kontrolü var
-const CRON_SECRET = process.env.CRON_SECRET || "";
+const CRON_SECRET = process.env.CRON_SECRET || ''
 
 if (secret !== CRON_SECRET) {
-  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 }
 
 // ⚠️ Ama: Boş string varsayılan değer riskli
-const CRON_SECRET = process.env.CRON_SECRET || "";  // ❌
-const CRON_SECRET = process.env.CRON_SECRET;        // ✅
-if (!CRON_SECRET) throw new Error("CRON_SECRET required");
+const CRON_SECRET = process.env.CRON_SECRET || '' // ❌
+const CRON_SECRET = process.env.CRON_SECRET // ✅
+if (!CRON_SECRET) throw new Error('CRON_SECRET required')
 ```
 
 #### 🔴 Kritik: Contact Form Spam
+
 ```typescript
 // /api/contact/form/route.ts
 // ⚠️ Sadece recent entries kontrolü var (max 2)
@@ -508,6 +552,7 @@ if (!CRON_SECRET) throw new Error("CRON_SECRET required");
 ```
 
 #### 🟡 Orta: File Upload
+
 ```typescript
 // ✅ MIME type ve extension kontrolü var
 // ✅ Allowed folders whitelist var
@@ -555,11 +600,11 @@ services/
 ```typescript
 // Tipik service yapısı - Static metodlar
 export default class PostService {
-  static async getAllPosts(params): Promise<{ posts, total }> { }
-  static async getPostById(postId): Promise<Post | null> { }
-  static async createPost(data): Promise<Post> { }
-  static async updatePost(postId, data): Promise<Post> { }
-  static async deletePost(postId): Promise<void> { }
+  static async getAllPosts(params): Promise<{ posts; total }> {}
+  static async getPostById(postId): Promise<Post | null> {}
+  static async createPost(data): Promise<Post> {}
+  static async updatePost(postId, data): Promise<Post> {}
+  static async deletePost(postId): Promise<void> {}
 }
 
 // ✅ Avantajlar:
@@ -578,24 +623,29 @@ export default class PostService {
 ```typescript
 // ✅ İyi tasarlanmış queue sistemi
 export default class MailService {
-  static readonly QUEUE = new Queue("mailQueue", { connection: redisInstance });
-  
+  static readonly QUEUE = new Queue('mailQueue', { connection: redisInstance })
+
   static readonly WORKER = new Worker(
-    "mailQueue",
+    'mailQueue',
     async job => {
-      const { to, subject, html } = job.data;
-      await MailService._sendMail(to, subject, html);
+      const { to, subject, html } = job.data
+      await MailService._sendMail(to, subject, html)
     },
     { connection: redisInstance, concurrency: 5 }
-  );
+  )
 
   // Template-based email
   static async sendOTPEmail({ email, name, otpToken }) {
-    const html = await ejs.renderFile(
-      path.join(TEMPLATE_PATH, "otp.ejs"),
-      { name, otpToken, ...getBaseTemplateVars() }
-    );
-    await this.QUEUE.add("otp-email", { to: email, subject: "Your OTP Code", html });
+    const html = await ejs.renderFile(path.join(TEMPLATE_PATH, 'otp.ejs'), {
+      name,
+      otpToken,
+      ...getBaseTemplateVars()
+    })
+    await this.QUEUE.add('otp-email', {
+      to: email,
+      subject: 'Your OTP Code',
+      html
+    })
   }
 }
 ```
@@ -629,24 +679,24 @@ export default class MailService {
 ```typescript
 // Başarılı response
 interface ApiSuccessResponse<T> {
-  success: true;
-  data: T;
+  success: true
+  data: T
   meta?: {
-    page?: number;
-    pageSize?: number;
-    total?: number;
-    totalPages?: number;
-  };
+    page?: number
+    pageSize?: number
+    total?: number
+    totalPages?: number
+  }
 }
 
 // Hata response
 interface ApiErrorResponse {
-  success: false;
+  success: false
   error: {
-    code: string;
-    message: string;
-    details?: Record<string, string[]>;
-  };
+    code: string
+    message: string
+    details?: Record<string, string[]>
+  }
 }
 
 // Örnek kullanım
@@ -654,7 +704,7 @@ return NextResponse.json({
   success: true,
   data: { posts },
   meta: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) }
-});
+})
 ```
 
 ---
@@ -665,12 +715,12 @@ return NextResponse.json({
 
 ```typescript
 // ✅ Redis cache - Session için
-const cacheKey = `session:${userId}:${hashedToken}`;
-const cached = await redisInstance.get(cacheKey);
-await redisInstance.setex(cacheKey, ttlSeconds, JSON.stringify(data));
+const cacheKey = `session:${userId}:${hashedToken}`
+const cached = await redisInstance.get(cacheKey)
+await redisInstance.setex(cacheKey, ttlSeconds, JSON.stringify(data))
 
 // ✅ Next.js revalidate - Search route
-export const revalidate = 60; // 1 dakika cache
+export const revalidate = 60 // 1 dakika cache
 
 // ❌ Eksikler:
 // - Posts için cache yok
@@ -682,16 +732,16 @@ export const revalidate = 60; // 1 dakika cache
 
 ```typescript
 // API routes için ISR
-export const revalidate = 60;  // Posts listesi
-export const revalidate = 300; // Categories
-export const revalidate = 3600; // Static content
+export const revalidate = 60 // Posts listesi
+export const revalidate = 300 // Categories
+export const revalidate = 3600 // Static content
 
 // Dynamic cache invalidation
-import { revalidateTag, revalidatePath } from 'next/cache';
+import { revalidateTag, revalidatePath } from 'next/cache'
 
 // Post güncelleme sonrası
-revalidateTag('posts');
-revalidatePath('/blog');
+revalidateTag('posts')
+revalidatePath('/blog')
 ```
 
 ---
@@ -709,12 +759,12 @@ tests/
 
 ### 9.2 Test Coverage
 
-| Kategori | Coverage | Durum |
-|----------|----------|-------|
-| **Services** | ~5% | ⚠️ Çok düşük |
-| **API Routes** | 0% | ❌ Yok |
-| **Utils** | 0% | ❌ Yok |
-| **Integration** | 0% | ❌ Yok |
+| Kategori        | Coverage | Durum        |
+| --------------- | -------- | ------------ |
+| **Services**    | ~5%      | ⚠️ Çok düşük |
+| **API Routes**  | 0%       | ❌ Yok       |
+| **Utils**       | 0%       | ❌ Yok       |
+| **Integration** | 0%       | ❌ Yok       |
 
 ### 9.3 Önerilen Test Yapısı
 
@@ -722,17 +772,19 @@ tests/
 // __tests__/api/auth/login.test.ts
 describe('POST /api/auth/login', () => {
   it('should return 400 for invalid email', async () => {
-    const response = await POST(createMockRequest({
-      body: { email: 'invalid', password: 'Test123!' }
-    }));
-    expect(response.status).toBe(400);
-  });
+    const response = await POST(
+      createMockRequest({
+        body: { email: 'invalid', password: 'Test123!' }
+      })
+    )
+    expect(response.status).toBe(400)
+  })
 
-  it('should return 401 for wrong password', async () => { });
-  it('should return 200 with tokens for valid credentials', async () => { });
-  it('should set httpOnly cookies', async () => { });
-  it('should trigger rate limit after 10 attempts', async () => { });
-});
+  it('should return 401 for wrong password', async () => {})
+  it('should return 200 with tokens for valid credentials', async () => {})
+  it('should set httpOnly cookies', async () => {})
+  it('should trigger rate limit after 10 attempts', async () => {})
+})
 ```
 
 ---
@@ -813,13 +865,13 @@ describe('POST /api/auth/login', () => {
 
 Bu proje **kişisel/portfolyo projesi için yeterli** bir backend yapısına sahip. Authentication sistemi özellikle iyi düşünülmüş. Ancak **production-grade bir uygulama için** aşağıdaki iyileştirmeler gerekli:
 
-| Alan | Mevcut | Hedef | Öncelik |
-|------|--------|-------|---------|
-| Security | 6.5/10 | 9/10 | 🔴 Yüksek |
-| Error Handling | 5/10 | 8/10 | 🔴 Yüksek |
-| API Consistency | 6/10 | 9/10 | 🟡 Orta |
-| Testing | 1/10 | 7/10 | 🟡 Orta |
-| Documentation | 3/10 | 8/10 | 🟢 Düşük |
+| Alan            | Mevcut | Hedef | Öncelik   |
+| --------------- | ------ | ----- | --------- |
+| Security        | 6.5/10 | 9/10  | 🔴 Yüksek |
+| Error Handling  | 5/10   | 8/10  | 🔴 Yüksek |
+| API Consistency | 6/10   | 9/10  | 🟡 Orta   |
+| Testing         | 1/10   | 7/10  | 🟡 Orta   |
+| Documentation   | 3/10   | 8/10  | 🟢 Düşük  |
 
 ### Toplam Değerlendirme: **6.4/10**
 
@@ -827,4 +879,4 @@ Bu proje **kişisel/portfolyo projesi için yeterli** bir backend yapısına sah
 
 ---
 
-*Bu analiz 24 Aralık 2024 tarihinde oluşturulmuştur.*
+_Bu analiz 24 Aralık 2024 tarihinde oluşturulmuştur._

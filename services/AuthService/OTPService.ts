@@ -1,4 +1,4 @@
-import { OTPMethod, User } from "@prisma/client";
+import { OTPMethod, User } from "@/generated/prisma";
 import redis from "@/libs/redis";
 import AuthMessages from "@/messages/AuthMessages";
 import { SafeUser } from '@/types/user/UserTypes';

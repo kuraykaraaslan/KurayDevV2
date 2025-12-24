@@ -1,5 +1,5 @@
 import OTPService from '@/services/AuthService/OTPService'
-import { OTPMethod } from '@prisma/client'
+import { OTPMethod } from '@/generated/prisma'
 import AuthMessages from '@/messages/AuthMessages'
 
 // --- Mocklar ---

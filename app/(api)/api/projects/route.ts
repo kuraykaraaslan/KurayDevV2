@@ -1,7 +1,7 @@
 
 
 import { NextResponse } from "next/server";
-import { Project } from "@prisma/client";
+import { Project } from "@/generated/prisma";
 import ProjectService from "@/services/ProjectService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import { CreateProjectRequestSchema, UpdateProjectRequestSchema } from "@/dtos/ProjectDTO";

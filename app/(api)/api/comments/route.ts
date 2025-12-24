@@ -5,7 +5,7 @@ import PostService from '@/services/PostService';
 import { CreateCommentRequestSchema } from '@/dtos/CommentDTO';
 import CommentMessages from '@/messages/CommentMessages';
 import { pipeline } from "@xenova/transformers";
-import { CommentStatus } from '@prisma/client';
+import { CommentStatus } from '@/generated/prisma';
 
 // Bu route kesin Node.js runtime'da çalışsın:
 export const runtime = 'nodejs';
