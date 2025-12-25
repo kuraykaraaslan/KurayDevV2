@@ -7,6 +7,7 @@ export interface ColumnDef<T> {
     header: string;
     accessor: (item: T, index?: number) => ReactNode;
     className?: string;
+    onClick?: (item: T, index?: number) => void;
 }
 
 export interface ActionButton<T> {

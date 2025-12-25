@@ -44,7 +44,7 @@ function TableBody({ className = '', emptyText }: TableBodyProps) {
                         data.map((item: any, index: number) => (
                             <tr key={String(item[idKey]) || index} className="h-12 hover:bg-primary hover:bg-opacity-10">
                                 {columns.map((col: ColumnDef<any>) => (
-                                    <td key={col.key} className={col.className}>
+                                    <td key={col.key} className={col.className} onClick={() => col.onClick ? col.onClick(item, index) : undefined} style={{ cursor: col.onClick ? 'pointer' : 'default' }}>
                                         {col.accessor(item, index)}
                                     </td>
                                 ))}

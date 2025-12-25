@@ -8,7 +8,7 @@ import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import TinyMCEEditor from '@/components/admin/UI/Forms/Editor';
 
 import ProjectLinkTable from '@/components/admin/UI/Tables/ProjectLinkTable';
-import { TableBody, TableProvider } from '@/components/admin/UI/Tables/DynamicTable';
+import { TableBody, TableFooter, TableHeader, TableProvider } from '@/components/admin/UI/Tables/DynamicTable';
 
 const SingleProject = () => {
 
@@ -110,7 +110,7 @@ const SingleProject = () => {
     useEffect(() => {
         const caches = localStorage.getItem(localStorageKey);
         if (!caches) return;
-        
+
         try {
             const parsed = JSON.parse(caches);
             const draft = parsed[params.projectId as string];
@@ -270,26 +270,26 @@ const SingleProject = () => {
                     </div>
                 </div>
 
-                <div className="bg-base-200 p-6 rounded-lg shadow-md mb-4">
-                    <div className="form-control">
+                <div className="bg-base-200 p-6 rounded-lg shadow-md mt-4 gap-4 flex flex-col">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text">Title</span>
                         </label>
                         <input
                             type="text"
                             placeholder="Title"
-                            className="input input-bordered"
+                            className="input input-bordered w-full"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
 
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text">Status</span>
                         </label>
                         <select
-                            className="select select-bordered"
+                            className="select select-bordered w-full"
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}
                         >
@@ -299,7 +299,7 @@ const SingleProject = () => {
                         </select>
                     </div>
 
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text">Content</span>
                         </label>
@@ -309,32 +309,32 @@ const SingleProject = () => {
                         />
                     </div>
 
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text">Description</span>
                         </label>
                         <textarea
                             placeholder="Description"
-                            className="textarea textarea-bordered"
+                            className="textarea textarea-bordered w-full"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </div>
 
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text">Slug</span>
                         </label>
                         <input
                             type="text"
                             placeholder="Slug"
-                            className="input input-bordered"
+                            className="input input-bordered w-full"
                             value={slug}
                             onChange={(e) => setSlug(e.target.value)}
                         />
                     </div>
 
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text">Platforms</span>
                         </label>
@@ -361,7 +361,7 @@ const SingleProject = () => {
 
                         </div>
                     </div>
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text">Technologies</span>
                         </label>
@@ -387,53 +387,52 @@ const SingleProject = () => {
                         </div>
                     </div>
 
-                    <div className="form-control mb-4 mt-4">
-                        <label className="label">
-                            <span className="label-text">Links</span>
-                            <button className="btn btn-sm btn-primary" onClick={() => setProjectLinks([...projectLinks, ''])}>
-                                Add Link
-                            </button>
-                        </label>
-                        <TableProvider<{ id: number; link: string }>
-                            localData={projectLinks.map((link, i) => ({ id: i, link }))}
-                            idKey="id"
-                            columns={[
-                                {
-                                    key: 'link',
-                                    header: 'Link',
-                                    accessor: (item) => (
-                                        <input
-                                            type="text"
-                                            placeholder="Project Link"
-                                            className="input input-bordered w-full"
-                                            value={item.link}
-                                            onChange={(e) => {
-                                                const newLinks = [...projectLinks];
-                                                newLinks[item.id] = e.target.value;
-                                                setProjectLinks(newLinks);
-                                            }}
-                                        />
-                                    ),
+                    <TableProvider<{ id: number; link: string }>
+                        localData={projectLinks.map((link, i) => ({ id: i, link }))}
+                        idKey="id"
+                        columns={[
+                            {
+                                key: 'link',
+                                header: 'Link',
+                                accessor: (item) => (
+                                    <input
+                                        type="text"
+                                        placeholder="Project Link"
+                                        className="input input-bordered w-full"
+                                        value={item.link}
+                                        onChange={(e) => {
+                                            const newLinks = [...projectLinks];
+                                            newLinks[item.id] = e.target.value;
+                                            setProjectLinks(newLinks);
+                                        }}
+                                    />
+                                ),
+                            },
+                        ]}
+                        actions={[
+                            {
+                                label: 'Delete',
+                                onClick: (item) => {
+                                    const newLinks = projectLinks.filter((_, i) => i !== item.id);
+                                    setProjectLinks(newLinks);
                                 },
-                            ]}
-                            actions={[
-                                {
-                                    label: 'Delete',
-                                    onClick: (item) => {
-                                        const newLinks = projectLinks.filter((_, i) => i !== item.id);
-                                        setProjectLinks(newLinks);
-                                    },
-                                    className: 'btn-error',
-                                    hideOnMobile: true,
-                                },
-                            ]}
-                        >
-                            <TableBody
-                                emptyText="No links added yet."
-                            />
-                        </TableProvider>
-
-                    </div>
+                                className: 'btn-error',
+                                hideOnMobile: true,
+                            },
+                        ]}
+                    >
+                        <TableHeader
+                            className='p-2 -mb-8 rounded-t-lg'
+                            title="Project Links"
+                            actionButtonText='Add Link'
+                            actionButtonEvent={() => setProjectLinks([...projectLinks, ''])}
+                            titleTextClassName="text-sm font-normal"
+                            searchClassName="hidden"
+                        />
+                        <TableBody
+                            emptyText="No links added yet."
+                        />
+                    </TableProvider>
 
                     <div className="form-control mb-4 mt-4">
                         <label className="label">
