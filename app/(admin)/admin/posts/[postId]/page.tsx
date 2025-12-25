@@ -9,6 +9,7 @@ import CategorySelect from '@/components/admin/UI/Forms/Selects/CategorySelect';
 import UserSelect from '@/components/admin/UI/Forms/Selects/UserSelect';
 import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import AIPrompt from '@/components/admin/Features/AIPrompt';
+import DynamicSelect from '@/components/admin/UI/Forms/Selects/DynamicSelect';
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
@@ -265,26 +266,26 @@ const SinglePost = () => {
           </div>
         </div>
 
-        <form className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
-          <div className="form-control">
+        <form className="bg-base-200 p-6 rounded-lg shadow-md gap-3 flex flex-col">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Title</span>
             </label>
             <input
               type="text"
               placeholder="Title"
-              className="input input-bordered"
+              className="input input-bordered w-full"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Status</span>
             </label>
             <select
-              className="select select-bordered"
+              className="select select-bordered w-full"
               value={status}
               onChange={(e) => setStatus(e.target.value as PostStatus)}
             >
@@ -294,43 +295,48 @@ const SinglePost = () => {
             </select>
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Category</span>
             </label>
-            <CategorySelect
-              setSelectedCategoryId={setCategoryId}
-              selectedCategoryId={categoryId}
+            <DynamicSelect
+              endpoint="/api/categories"
+              dataKey="categories"
+              valueKey="categoryId"
+              labelKey="title"
+              selectedValue={categoryId}
+              onValueChange={setCategoryId}
+              placeholder="Kategori Seçin"
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Created At</span>
             </label>
             <input
               type="date"
               placeholder="Created At"
-              className="input input-bordered"
+              className="input input-bordered w-full"
               value={isNaN(createdAt.getTime()) ? '' : createdAt.toISOString().split('T')[0]}
               onChange={(e) => setCreatedAt(new Date(e.target.value))}
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Views</span>
             </label>
             <input
               type="number"
               placeholder="Views"
-              className="input input-bordered"
+              className="input input-bordered w-full"
               value={views}
               onChange={(e) => setViews(Number(e.target.value))}
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Content</span>
             </label>
@@ -340,39 +346,39 @@ const SinglePost = () => {
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Description</span>
             </label>
             <textarea
               placeholder="Description"
-              className="textarea textarea-bordered"
+              className="textarea textarea-bordered w-full"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Slug</span>
             </label>
             <input
               type="text"
               placeholder="Slug"
-              className="input input-bordered"
+              className="input input-bordered w-full"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Keywords</span>
             </label>
             <input
               type="text"
               placeholder="Keywords (comma separated)"
-              className="input input-bordered"
+              className="input input-bordered w-full"
               value={keywords.join(',')}
               onChange={(e) =>
                 setKeywords(
@@ -385,7 +391,7 @@ const SinglePost = () => {
             />
           </div>
 
-          <div className="form-control">
+          <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Author</span>
             </label>
@@ -409,7 +415,7 @@ const SinglePost = () => {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary block w-full mt-4" disabled={loading}>
+          <button type="submit" className="btn btn-primary block w-full mt-4" disabled={loading} onClick={handleSubmit}>
             {loading ? 'Loading...' : mode === 'create' ? 'Create Post' : 'Update Post'}
           </button>
         </form>
