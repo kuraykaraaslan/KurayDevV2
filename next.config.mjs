@@ -25,12 +25,12 @@ const nextConfig = {
   },
 
   experimental: {
-        nodeMiddleware: true, // Enable Node.js middleware
+    nodeMiddleware: true // Enable Node.js middleware
   },
 
   trailingSlash: false,
 
-  async headers() {
+  async headers () {
     return [
       {
         source: '/:path*',
@@ -61,7 +61,8 @@ const nextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()'
+            value:
+              'camera=(), microphone=(), geolocation=(self), interest-cohort=()'
           },
           {
             key: 'Content-Security-Policy',
@@ -71,7 +72,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https: data:",
               "img-src 'self' data: blob: https: http: *",
               "font-src 'self' data: https: *",
-              "connect-src 'self' https: wss: ws: http://localhost:* http://127.0.0.1:*",
+              "connect-src 'self' https: wss: ws: blob: http://localhost:* http://127.0.0.1:*",
               "media-src 'self' https: blob: data:",
               "worker-src 'self' blob:",
               "child-src 'self' blob:",

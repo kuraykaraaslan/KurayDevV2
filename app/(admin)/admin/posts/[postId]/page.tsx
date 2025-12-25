@@ -5,11 +5,9 @@ import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import Editor from '@/components/admin/UI/Forms/Editor';
 import { toast } from 'react-toastify';
-import CategorySelect from '@/components/admin/UI/Forms/Selects/CategorySelect';
-import UserSelect from '@/components/admin/UI/Forms/Selects/UserSelect';
 import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import AIPrompt from '@/components/admin/Features/AIPrompt';
-import DynamicSelect from '@/components/admin/UI/Forms/Selects/DynamicSelect';
+import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect';
 import useGlobalStore from '@/libs/zustand';
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
@@ -269,7 +267,7 @@ const SinglePost = () => {
           </div>
         </div>
 
-        <form className="bg-base-200 p-6 rounded-lg shadow-md gap-3 flex flex-col">
+        <div className="bg-base-200 p-6 rounded-lg shadow-md gap-3 flex flex-col">
           <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Title</span>
@@ -433,7 +431,7 @@ const SinglePost = () => {
           <button type="submit" className="btn btn-primary block w-full mt-4" disabled={loading} onClick={handleSubmit}>
             {loading ? 'Loading...' : mode === 'create' ? 'Create Post' : 'Update Post'}
           </button>
-        </form>
+        </div>
       </div>
     </>
   );
