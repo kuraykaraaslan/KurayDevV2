@@ -10,10 +10,13 @@ import UserSelect from '@/components/admin/UI/Forms/Selects/UserSelect';
 import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import AIPrompt from '@/components/admin/Features/AIPrompt';
 import DynamicSelect from '@/components/admin/UI/Forms/Selects/DynamicSelect';
+import useGlobalStore from '@/libs/zustand';
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
 const SinglePost = () => {
+
+  const { user } = useGlobalStore();
 
   const localStorageKey = 'post_drafts';
   // Route param (tek kaynak)
@@ -304,9 +307,12 @@ const SinglePost = () => {
               dataKey="categories"
               valueKey="categoryId"
               labelKey="title"
+              searchKey="search"
               selectedValue={categoryId}
               onValueChange={setCategoryId}
               placeholder="Kategori Seçin"
+              searchPlaceholder="Kategori ara..."
+              debounceMs={400}
             />
           </div>
 
@@ -395,11 +401,20 @@ const SinglePost = () => {
             <label className="label">
               <span className="label-text">Author</span>
             </label>
-            {/* key ekleyerek param değişiminde remount sağlıyoruz */}
-            <UserSelect
-              key={routePostId}
-              setSelectedUserId={setAuthorId}
-              selectedUserId={authorId}
+            <DynamicSelect
+              key={routePostId + '_author_select'}
+              endpoint="/api/users"
+              dataKey="users"
+              valueKey="userId"
+              labelKey={["userProfile.name", "email"]}
+              searchKey="search"
+              selectedValue={authorId}
+              onValueChange={setAuthorId}
+              placeholder="Select Author"
+              searchPlaceholder="Search users..."
+              debounceMs={400}
+              disabled={user?.userRole !== 'ADMIN'}
+              disabledError="You can only change if you are admin"
             />
           </div>
 
