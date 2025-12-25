@@ -94,7 +94,7 @@ export default class CommentService {
             orderBy: {
                 createdAt: 'desc',
             },
-            skip: (page - 1) * pageSize,
+            skip: (page) * pageSize,
             take: pageSize,
             select: {
                 commentId: true,

@@ -71,7 +71,7 @@ export default class CategoryService {
 
         const categories = await prisma.category.findMany({
             where,
-            skip: (page - 1) * pageSize,
+            skip: (page) * pageSize,
             take: pageSize,
         });
 

@@ -71,8 +71,8 @@ const Menu = ({isSidebar = false, menuItems = []}: {isSidebar?: boolean, menuIte
                     onClick={() => scrollOrRedirect(item)}
 
                     className={(item.textColour ? item.textColour : "text-base-content") + " " + (item.backgroundColour ? item.backgroundColour : " ") + " rounded-md"}>
-                    <div className="flex items-center gap-2">
-                        {item.icon && <FontAwesomeIcon icon={item.icon as IconDefinition} className="w-4 h-4" />}
+                    <div className="flex items-center gap-2 h-8">
+                        {item.icon && <FontAwesomeIcon icon={item.icon as IconDefinition} className="w-6 h-6" />}
                         <span className={(item.hideTextOnDesktop && !isSidebar ? 'hidden' : 'block')} suppressHydrationWarning>
                             {t(`navigation.${item.name}`)}
                         </span>

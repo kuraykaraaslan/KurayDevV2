@@ -1,10 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react';
 import Link from "next/link";
-import { Category } from "@prisma/client";
+import { Category } from "@/types/content/BlogTypes";
 import axiosInstance from "@/libs/axios";
 import Image from 'next/image';
 import { useTranslation } from "react-i18next";
+import TableHeader from './TableHeader';
 
 
 const CategoryTable = () => {
@@ -48,16 +49,14 @@ const CategoryTable = () => {
 
     return (
         <div className="container mx-auto">
-            <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{t('admin.categories.title')}</h1>
-                <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <input type="text" placeholder={t('admin.categories.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
-                    <Link className="btn btn-primary btn-sm h-12" href="/admin/categories/create">
-                        {t('admin.categories.create_category')}
-                    </Link>
-                </div>
-            </div>
-
+            <TableHeader
+                title="admin.categories.title"
+                searchPlaceholder="admin.categories.search_placeholder"
+                search={search}
+                setSearch={setSearch}
+                buttonText="admin.categories.create_category"
+                buttonLink="/admin/categories/create"
+            />
 
             <div className="overflow-x-auto w-full bg-base-200 mt-4 rounded-lg min-h-[400px]">
                 <table className="table">

@@ -6,6 +6,7 @@ import axiosInstance from '@/libs/axios';
 import { SafeUser, SafeUserSchema } from '@/types/user';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
+import TableHeader from './TableHeader';
 
 const UserTable = () => {
     const { t } = useTranslation();
@@ -49,16 +50,14 @@ const UserTable = () => {
 
     return (
         <div className="container mx-auto">
-            <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{t('admin.users.title')}</h1>
-                <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <input type="text" placeholder={t('admin.users.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
-                    <Link className="btn btn-primary btn-sm h-12" href="/admin/users/create">
-                        {t('admin.users.create_user')}
-                    </Link>
-                </div>
-            </div>
-
+            <TableHeader
+                title="admin.users.title"
+                searchPlaceholder="admin.users.search_placeholder"
+                search={search}
+                setSearch={setSearch}
+                buttonText="admin.users.create_user"
+                buttonLink="/admin/users/create"
+            />
 
             <div className="overflow-x-auto w-full bg-base-200 mt-4 rounded-lg min-h-[400px]">
                 <table className="table">

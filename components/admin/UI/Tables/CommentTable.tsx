@@ -4,6 +4,7 @@ import axiosInstance from '@/libs/axios';
 import { CommentWithData } from '@/types/content';
 import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
+import TableHeader from './TableHeader';
 
 const CommentTable = ({ post }: { post?: PostWithData }) => {
     const { t } = useTranslation();
@@ -82,12 +83,14 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
 
     return (
         <div className="container mx-auto">
-            <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{post ? post.title + " " + t('admin.comments.title') : t('admin.comments.title')}</h1>
-                <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <input type="text" placeholder={t('admin.comments.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
-                </div>
-            </div>
+              <TableHeader
+                title={post ? post.title + " " + t('admin.comments.title') : t('admin.comments.title')}
+                searchPlaceholder="admin.comments.search_placeholder"
+                search={search}
+                setSearch={setSearch}
+                buttonText="admin.comments.create_comment"
+                buttonLink="/admin/comments/create"
+            />
 
             <div className="overflow-x-auto w-full bg-base-200 mt-4 rounded-lg min-h-[400px]">
                 <table className="table">
@@ -122,7 +125,7 @@ const CommentTable = ({ post }: { post?: PostWithData }) => {
                                     {comment.status}
                                 </td>
                                 <td className="flex gap-2 max-w-16">
-                                    <button onClick={() => deleteComment(comment.commentId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">{t('admin.comments.delete')}</button>
+                                    <button onClick={() => deleteComment(comment.commentId as string)} className="btn btn-sm text-white hidden md:flex">{t('admin.comments.delete')}</button>
 
                                     {comment.status === 'NOT_PUBLISHED' ? (
                                         <button onClick={() => approveComment(comment.commentId as string)} className="btn btn-sm bg-green-500 text-white hidden md:flex">{t('admin.comments.approve')}</button>

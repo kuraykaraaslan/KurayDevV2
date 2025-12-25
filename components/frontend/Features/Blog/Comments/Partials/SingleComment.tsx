@@ -1,5 +1,5 @@
 'use client';
-import { Comment } from '@prisma/client';
+import { Comment } from '@/types/content/BlogTypes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faMessage } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '@/libs/axios';

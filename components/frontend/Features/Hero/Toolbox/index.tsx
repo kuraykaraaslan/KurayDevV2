@@ -244,7 +244,6 @@ const Toolbox = () => {
                 ))}
               </div>
             </div>
-            <div className="w-50 h-50 group border-gray-500 border-t w-40 mt-8"></div>
 
             <div className="group flex-none grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-8 mt-4">
               {professionalSkills.map((skill, index) => {

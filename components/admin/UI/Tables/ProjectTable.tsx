@@ -1,10 +1,11 @@
 'use client'
-import {Project} from '@prisma/client';
+import {Project} from '@/types/content/ProjectTypes';
 import Link from 'next/link';
 import Image from 'next/image';
 import axiosInstance from '@/libs/axios';
 import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
+import TableHeader from './TableHeader';
 
 const ProjectTable = () => {
     const { t } = useTranslation();
@@ -44,16 +45,13 @@ const ProjectTable = () => {
     }
 
     return (
-        <div className="container mx-auto">
-            <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{t('admin.projects.title')}</h1>
-                <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <input type="text" placeholder={t('admin.projects.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
-                    <Link className="btn btn-primary btn-sm h-12" href="/admin/projects/create">
-                        {t('admin.projects.create_project')}
-                    </Link>
-                </div>
-            </div>
+        <div className="container mx-auto max-w-9xl p-4">
+            <TableHeader
+                title="admin.projects.title"
+                searchPlaceholder="admin.projects.search_placeholder"
+                search={search}
+                setSearch={setSearch}
+            />
 
             <div className="overflow-x-auto w-full bg-base-200 mt-4 rounded-lg min-h-[400px]">
                 <table className="table">
@@ -63,14 +61,14 @@ const ProjectTable = () => {
                             <th className="w-16">
                             </th>
                             <th>
-                                Title
+                                {t('admin.projects.project_name')}
                             </th>
                             <th className="max-w-20">
                                 {t('admin.projects.tech_stack')}
                             </th>
                             <th className="max-w-16">
                                 {t('admin.projects.slug')}</th>
-                            <th>Status</th>
+                            <th>{t('admin.projects.status')}</th>
                             <th>{t('admin.projects.action')}</th>
                         </tr>
                     </thead>
@@ -91,7 +89,7 @@ const ProjectTable = () => {
                                 <td className="flex gap-2">
                                     <Link href={`/admin/projects/${project.projectId}`} className="btn btn-sm btn-primary">{t('admin.projects.edit')}</Link>
                                     <Link href={`/project/${project.slug}`} className="btn btn-sm btn-secondary">{t('admin.projects.view')}</Link>
-                                    <button onClick={() => deleteProject(project.projectId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">{t('admin.projects.delete')}</button>
+                                    <button onClick={() => deleteProject(project.projectId as string)} className="btn btn-sm text-white hidden md:flex">{t('admin.projects.delete')}</button>
                                 </td>
                             </tr>
                         ))}

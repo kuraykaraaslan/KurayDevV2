@@ -4,7 +4,7 @@ import Contact from '@/components/frontend/Features/Hero/Contact';
 import ProjectsHero from '@/components/frontend/Features/Hero/Projects';
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
-import AppointmentCalendar from '@/components/frontend/Features/Appointments/AppointmentCalendar';
+//import AppointmentCalendar from '@/components/frontend/Features/Appointments/AppointmentCalendar'; // Uncomment this line to enable the Appointment Calendar feature
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OfflineIndicator from '@/components/common/UI/Indicators/OfflineIndicator';
@@ -33,7 +33,6 @@ const HomePage = () => {
       <Welcome />
       <Toolbox />
       <ProjectsHero />
-      <AppointmentCalendar />
       <Contact />
       <ToastContainer />
       <OfflineIndicator />

@@ -66,10 +66,10 @@ const AddComment = ({ postId, parentId }: { postId: string, parentId?: string })
         <>
             <div className="mb-4">
                 <div className="flex flex-col md:flex-row mb-4 md:space-x-4 space-y-4 md:space-y-0">
-                    <input type="text" className="w-full text-sm bg-base-100  rounded-lg rounded-t-lg border border-primary h-12"
+                    <input type="text" className="w-full text-sm bg-base-100  rounded-lg rounded-t-lg border border-primary h-12 p-4"
                         value={name} onChange={(e) => setName(e.target.value)}
                         placeholder={t('frontend.comments.name_placeholder')} required />
-                    <input type="email" className="w-full text-sm bg-base-100  rounded-lg rounded-t-lg border border-primary h-12"
+                    <input type="email" className="w-full text-sm bg-base-100  rounded-lg rounded-t-lg border border-primary h-12 p-4"
                         value={email} onChange={(e) => setEmail(e.target.value)}
                         placeholder={t('frontend.comments.email_placeholder')} required />
                 </div>

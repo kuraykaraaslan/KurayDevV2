@@ -193,7 +193,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
         </label>
         <PhoneInput
           international
-          className={"block pl-3 w-full text-sm rounded-lg border border-1 border-gray-500 bg-gray-200 text-black " + (isPhoneValid ? "" : "text-red-500")}
+          className={"block pl-3 w-full text-sm rounded-lg border border-1 border-gray-500 bg-gray-200 p-3 text-black " + (isPhoneValid ? "" : "text-red-500")}
           placeholder={t("pages.contact.form.enter_your_phone")}
           required
           // @ts-ignore

@@ -76,9 +76,8 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
                     </label>
                 </div>
                 <div className="md:mx-2 flex-1 md:px-2 text-lg font-semibold">
-                    <Logo />
-
                     <div className="flex items-center md:gap-1">
+                        <Logo />
                         <ThemeButton />
                         <LanguageModal />
                         <SearchButton />

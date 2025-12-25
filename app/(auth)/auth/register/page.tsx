@@ -107,7 +107,7 @@ const RegisterPage = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
                             placeholder="Email address"
-                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12"}
+                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4"}
                         />
                     </div>
                 </div>
@@ -127,7 +127,7 @@ const RegisterPage = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             autoComplete="current-password"
                             placeholder="Password"
-                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12"}
+                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4"}
                         />
                     </div>
                 </div>
@@ -145,7 +145,7 @@ const RegisterPage = () => {
                             onChange={(e) => setConfirmpassword(e.target.value)}
                             autoComplete="current-password"
                             placeholder="Confirm Password"
-                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12"}
+                            className={"block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4"}
                         />
                     </div>
                 </div>

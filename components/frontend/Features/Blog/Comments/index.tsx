@@ -1,7 +1,7 @@
 'use client';
 import { useState , useEffect } from 'react';
 import SingleComment from './Partials/SingleComment';
-import { Comment } from '@prisma/client';
+import { Comment } from '@/types/content/BlogTypes';
 import crypto from 'crypto';
 import AddComment from './Partials/AddComment';
 import axiosInstance from '@/libs/axios';

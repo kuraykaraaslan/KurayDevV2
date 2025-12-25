@@ -8,6 +8,7 @@ import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import TinyMCEEditor from '@/components/admin/UI/Forms/Editor';
 
 import ProjectLinkTable from '@/components/admin/UI/Tables/ProjectLinkTable';
+import { TableBody, TableProvider } from '@/components/admin/UI/Tables/DynamicTable';
 
 const SingleProject = () => {
 
@@ -393,7 +394,45 @@ const SingleProject = () => {
                                 Add Link
                             </button>
                         </label>
-                        <ProjectLinkTable projectLinks={projectLinks} setProjectLinks={setProjectLinks} />
+                        <TableProvider<{ id: number; link: string }>
+                            localData={projectLinks.map((link, i) => ({ id: i, link }))}
+                            idKey="id"
+                            columns={[
+                                {
+                                    key: 'link',
+                                    header: 'Link',
+                                    accessor: (_link, index) => (
+                                        <input
+                                            type="text"
+                                            placeholder="Project Link"
+                                            className="input input-bordered w-full"
+                                            value={projectLinks[index!]}
+                                            onChange={(e) => {
+                                                const newLinks = [...projectLinks];
+                                                newLinks[index!] = e.target.value;
+                                                setProjectLinks(newLinks);
+                                            }}
+                                        />
+                                    ),
+                                },
+                            ]}
+                            actions={[
+                                {
+                                    label: 'Delete',
+                                    onClick: (_link, index) => {
+                                        const newLinks = projectLinks.filter((_, i) => i !== index);
+                                        setProjectLinks(newLinks);
+                                    },
+                                    className: 'btn-error',
+                                    hideOnMobile: true,
+                                },
+                            ]}
+                        >
+                            <TableBody
+                                emptyText="No links added yet."
+                            />
+                        </TableProvider>
+
                     </div>
 
                     <div className="form-control mb-4 mt-4">

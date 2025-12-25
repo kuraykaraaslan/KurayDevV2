@@ -110,7 +110,7 @@ export default class UserService {
 
 
         const queryOptions = {
-            skip: (page - 1) * pageSize,
+            skip: (page) * pageSize,
             take: pageSize,
             where: {
                 userId: userId ? userId : undefined,

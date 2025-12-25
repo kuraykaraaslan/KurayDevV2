@@ -7,6 +7,7 @@ import axiosInstance from '@/libs/axios';
 import { Category } from '@/types/content';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
+import TableHeader from './TableHeader';
 
 const PostTable = ({ category }: { category?: Category }) => {
     const { t } = useTranslation();
@@ -69,20 +70,16 @@ const PostTable = ({ category }: { category?: Category }) => {
 
     return (
         <div className="container mx-auto">
-            <div className="flex justify-between md:items-center flex-col md:flex-row">
-                <h1 className="text-3xl font-bold h-16 md:items-center">{category ? category.title + " " + t('admin.posts.title') : t('admin.posts.title')}</h1>
-                <div className="flex gap-2 h-16 w-full md:w-auto md:flex-none">
-                    <button onClick={resetKnowledgeGraph} 
-                    disabled={alreadyResettedKG}
-                    className="btn btn-warning btn-sm h-12 disabled:bg-base-300 disabled:cursor-not-allowed">
-                        {alreadyResettedKG ? t('admin.posts.rebuild_triggered') : t('admin.posts.reset_knowledge_graph')}
-                    </button>
-                    <input type="text" placeholder={t('admin.posts.search_placeholder')} className="input input-bordered flex-1 md:flex-none" value={search} onChange={(e) => setSearch(e.target.value)} />
-                    <Link className="btn btn-primary btn-sm h-12" href="/admin/posts/create">
-                        {t('admin.posts.create_post')}
-                    </Link>
-                </div>
-            </div>
+              <TableHeader
+                title={category ? category.title + " " + t('admin.posts.title') : t('admin.posts.title')}
+                searchPlaceholder="admin.posts.search_placeholder"
+                search={search}
+                setSearch={setSearch}
+                buttonText="admin.posts.create_post"
+                buttonLink="/admin/posts/create"
+                actionButtonText={alreadyResettedKG ? 'admin.posts.rebuild_triggered' : 'admin.posts.reset_knowledge_graph'}
+                actionButtonEvent={resetKnowledgeGraph}
+            />
 
             <div className="overflow-x-auto w-full bg-base-200 mt-4 rounded-lg min-h-[400px]">
                 <table className="table">
@@ -119,7 +116,7 @@ const PostTable = ({ category }: { category?: Category }) => {
                                 <td className="flex gap-2">
                                     <Link href={`/admin/posts/${post.postId}`} className="btn btn-sm btn-primary">{t('admin.posts.edit')}</Link>
                                     <Link href={`/blog/${post.category?.slug}/${post.slug}`} className="btn btn-sm btn-secondary">{t('admin.posts.view')}</Link>
-                                    <button onClick={() => deletePost(post.postId as string)} className="btn btn-sm bg-red-500 text-white hidden md:flex">{t('admin.posts.delete')}</button>
+                                    <button onClick={() => deletePost(post.postId as string)} className="btn btn-sm text-white hidden md:flex">{t('admin.posts.delete')}</button>
                                 </td>
                             </tr>
                         ))}

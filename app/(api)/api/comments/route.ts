@@ -113,8 +113,8 @@ export async function GET(request: NextRequest) {
 
         const { searchParams } = new URL(request.url);
 
-        const page = parseInt(searchParams.get('page') || '1', 10);
-        const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+        const page = searchParams.get('page') ? parseInt(searchParams.get('page') || '0', 10) : 0;
+        const pageSize = searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize') || '10', 10) : 10;
         const postId = searchParams.get('postId') || undefined;
         const search = searchParams.get('search') || undefined;
         const pending = searchParams.get('pending') === 'true';
