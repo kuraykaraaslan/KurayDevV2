@@ -1,5 +1,5 @@
 import axiosInstance from '@/libs/axios';
-import { User } from '@prisma/client';
+import { User } from '@/types/user/UserTypes';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 
@@ -28,7 +28,7 @@ const UserSelect = ({ selectedUserId, setSelectedUserId }: { selectedUserId: str
                 <option value="">{t('admin.selects.select_user')}</option>
                 {users.map((user) => (
                     <option key={user.userId} value={user.userId}>
-                        {user.name}
+                        {user.userProfile?.name || user.email}
                     </option>
                 ))}
 

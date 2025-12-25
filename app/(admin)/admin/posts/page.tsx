@@ -7,7 +7,7 @@ import Table, {
     ImageCell,
     ColumnDef,
     ActionButton
-} from '@/components/admin/UI/Tables/DynamicTable';
+} from '@/components/admin/UI/DynamicTable';
 import { Post } from '@/types/content/BlogTypes';
 import axiosInstance from '@/libs/axios';
 import { useTranslation } from 'react-i18next';

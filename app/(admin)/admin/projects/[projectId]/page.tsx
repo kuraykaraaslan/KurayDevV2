@@ -8,7 +8,7 @@ import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import TinyMCEEditor from '@/components/admin/UI/Forms/Editor';
 
 import ProjectLinkTable from '@/components/admin/UI/Tables/ProjectLinkTable';
-import { TableBody, TableFooter, TableHeader, TableProvider } from '@/components/admin/UI/Tables/DynamicTable';
+import { TableBody, TableFooter, TableHeader, TableProvider } from '@/components/admin/UI/DynamicTable';
 
 const SingleProject = () => {
 

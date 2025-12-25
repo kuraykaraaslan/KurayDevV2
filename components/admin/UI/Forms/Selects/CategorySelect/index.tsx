@@ -1,4 +1,4 @@
-import { Category } from '@prisma/client';
+import { Category } from '@/types/content/BlogTypes';
 import { ChangeEvent, useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import { useTranslation } from "react-i18next";
