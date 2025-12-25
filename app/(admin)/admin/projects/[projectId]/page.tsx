@@ -401,15 +401,15 @@ const SingleProject = () => {
                                 {
                                     key: 'link',
                                     header: 'Link',
-                                    accessor: (_link, index) => (
+                                    accessor: (item) => (
                                         <input
                                             type="text"
                                             placeholder="Project Link"
                                             className="input input-bordered w-full"
-                                            value={projectLinks[index!]}
+                                            value={item.link}
                                             onChange={(e) => {
                                                 const newLinks = [...projectLinks];
-                                                newLinks[index!] = e.target.value;
+                                                newLinks[item.id] = e.target.value;
                                                 setProjectLinks(newLinks);
                                             }}
                                         />
@@ -419,8 +419,8 @@ const SingleProject = () => {
                             actions={[
                                 {
                                     label: 'Delete',
-                                    onClick: (_link, index) => {
-                                        const newLinks = projectLinks.filter((_, i) => i !== index);
+                                    onClick: (item) => {
+                                        const newLinks = projectLinks.filter((_, i) => i !== item.id);
                                         setProjectLinks(newLinks);
                                     },
                                     className: 'btn-error',
