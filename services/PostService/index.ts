@@ -166,6 +166,8 @@ export default class PostService {
 
         const { postId, title, content, description, slug, keywords, authorId, categoryId } = data;
 
+        console.log("Updating post:", postId);
+
         // Validate input
         if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
             throw new Error('All fields are required.');
@@ -174,6 +176,8 @@ export default class PostService {
         if (keywords && typeof keywords === 'string') {
             data.keywords = (keywords as string).split(',');
         }
+
+        console.log("Validated data for post:", postId);
 
         // Update the post
         const post = await prisma.post.update({

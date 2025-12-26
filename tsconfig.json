@@ -37,7 +37,7 @@
     ".next/types/**/*.ts",
     "build/types/**/*.ts",
     "prisma/seed.js",
-    "app/not-found.js",
+    "app/not-found.tsx",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

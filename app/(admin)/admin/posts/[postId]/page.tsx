@@ -1,7 +1,6 @@
 'use client';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import Editor from '@/components/admin/UI/Forms/Editor';
 import { toast } from 'react-toastify';
@@ -9,6 +8,11 @@ import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import AIPrompt from '@/components/admin/Features/AIPrompt';
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect';
 import useGlobalStore from '@/libs/zustand';
+import FormHeader from '@/components/admin/UI/Forms/FormHeader';
+import DynamicText from '@/components/admin/UI/Forms/DynamicText';
+import DynamicDate from '@/components/admin/UI/Forms/DynamicDate';
+import GenericElement from '@/components/admin/UI/Forms/GenericElement';
+import Form from '@/components/admin/UI/Forms/Form';
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
@@ -187,10 +191,8 @@ const SinglePost = () => {
   }, []);
 
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
 
-    // Güvenli zorunlu alan kontrolü (eval YOK)
     const errors: string[] = [];
     const required: Record<string, unknown> = {
       title,
@@ -235,7 +237,7 @@ const SinglePost = () => {
         await axiosInstance.post('/api/posts', body);
         toast.success('Post created successfully');
       } else {
-        await axiosInstance.put('/api/posts', body); // trailing slash kaldırıldı
+        await axiosInstance.put('/api/posts/', body);
         toast.success('Post updated successfully');
       }
       router.push('/admin/posts');
@@ -245,195 +247,160 @@ const SinglePost = () => {
   };
 
   return (
-    <>
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center flex-row">
-          <h1 className="text-3xl font-bold h-16 items-center">
-            {mode === 'create' ? 'Create Post' : 'Edit Post'}
-          </h1>
-          <div className="flex gap-2 h-16">
-            <AIPrompt
-              setTitle={setTitle}
-              setContent={setContent}
-              setDescription={setDescription}
-              setKeywords={setKeywords}
-              setSlug={setSlug}
-              setCreatedAt={setCreatedAt}
-              toast={toast}
-            />
-            <Link className="btn btn-primary btn-sm h-12" href="/admin/posts">
-              Back to Posts
-            </Link>
-          </div>
-        </div>
+    <Form
+      className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-7xl"
+      actions={[
+        {
+          label: 'Save',
+          onClick: handleSubmit,
+          className: 'btn-primary',
+        },
+        {
+          label: 'Cancel',
+          onClick: () => router.push('/admin/posts'),
+          className: 'btn-secondary',
+        },
+      ]}
+    >
+      <FormHeader
+        title={mode === 'create' ? 'Create Post' : 'Edit Post'}
+        className="my-4"
+        actionButtons={[
+          {
+            element: (
+              <AIPrompt
+                setTitle={setTitle}
+                setContent={setContent}
+                setDescription={setDescription}
+                setKeywords={setKeywords}
+                setSlug={setSlug}
+                setCreatedAt={setCreatedAt}
+                toast={toast}
+              />
+            ),
+          },
+          {
+            text: 'Back to Posts',
+            className: 'btn-sm btn-primary',
+            onClick: () => router.push('/admin/posts'),
 
-        <div className="bg-base-200 p-6 rounded-lg shadow-md gap-3 flex flex-col">
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Title</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Title"
-              className="input input-bordered w-full"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
+          },
+        ]}
+      />
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Status</span>
-            </label>
-            <select
-              className="select select-bordered w-full"
-              value={status}
-              onChange={(e) => setStatus(e.target.value as PostStatus)}
-            >
-              <option value="DRAFT">Draft</option>
-              <option value="PUBLISHED">Published</option>
-              <option value="ARCHIVED">Archived</option>
-            </select>
-          </div>
+      <DynamicText
+        label='Title'
+        placeholder='Title'
+        value={title}
+        setValue={setTitle}
+        size="md"
+      />
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Category</span>
-            </label>
-            <DynamicSelect
-              endpoint="/api/categories"
-              dataKey="categories"
-              valueKey="categoryId"
-              labelKey="title"
-              searchKey="search"
-              selectedValue={categoryId}
-              onValueChange={setCategoryId}
-              placeholder="Kategori Seçin"
-              searchPlaceholder="Kategori ara..."
-              debounceMs={400}
-            />
-          </div>
+      <DynamicSelect
+        label="Status"
+        selectedValue={status}
+        onValueChange={(value) => setStatus(value as PostStatus)}
+        options={[
+          { value: 'DRAFT', label: 'Draft' },
+          { value: 'PUBLISHED', label: 'Published' },
+          { value: 'ARCHIVED', label: 'Archived' },
+        ]}
+      />
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Created At</span>
-            </label>
-            <input
-              type="date"
-              placeholder="Created At"
-              className="input input-bordered w-full"
-              value={isNaN(createdAt.getTime()) ? '' : createdAt.toISOString().split('T')[0]}
-              onChange={(e) => setCreatedAt(new Date(e.target.value))}
-            />
-          </div>
+      <DynamicSelect
+        label="Category"
+        endpoint="/api/categories"
+        dataKey="categories"
+        valueKey="categoryId"
+        labelKey="title"
+        searchKey="search"
+        selectedValue={categoryId}
+        onValueChange={setCategoryId}
+        placeholder="Kategori Seçin"
+        searchPlaceholder="Kategori ara..."
+        debounceMs={400}
+      />
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Views</span>
-            </label>
-            <input
-              type="number"
-              placeholder="Views"
-              className="input input-bordered w-full"
-              value={views}
-              onChange={(e) => setViews(Number(e.target.value))}
-            />
-          </div>
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Content</span>
-            </label>
-            <Editor
-              value={content || ''}
-              onChange={(newValue) => setContent(newValue)}
-            />
-          </div>
+      <DynamicDate
+        label="Created At"
+        value={createdAt}
+        onChange={setCreatedAt}
+      />
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Description</span>
-            </label>
-            <textarea
-              placeholder="Description"
-              className="textarea textarea-bordered w-full"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+      <DynamicText
+        label='Views'
+        placeholder='Views'
+        value={String(views)}
+        setValue={(val) => setViews(Number(val))}
+        size="md"
+      />
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Slug</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Slug"
-              className="input input-bordered w-full"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-            />
-          </div>
+      <GenericElement label="Content">
+        <Editor
+          value={content || ''}
+          onChange={(newValue) => setContent(newValue)}
+        />
+      </GenericElement>
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Keywords</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Keywords (comma separated)"
-              className="input input-bordered w-full"
-              value={keywords.join(',')}
-              onChange={(e) =>
-                setKeywords(
-                  e.target.value
-                    .split(',')
-                    .map((s) => s.trim())
-                    .filter((s) => s.length > 0)
-                )
-              }
-            />
-          </div>
+      <DynamicText
+        label='Description'
+        placeholder='Description'
+        value={description}
+        setValue={setDescription}
+        size="md"
+        isTextarea={true}
+      />
 
-          <div className="form-control flex flex-col">
-            <label className="label">
-              <span className="label-text">Author</span>
-            </label>
-            <DynamicSelect
-              key={routePostId + '_author_select'}
-              endpoint="/api/users"
-              dataKey="users"
-              valueKey="userId"
-              labelKey={["userProfile.name", "email"]}
-              searchKey="search"
-              selectedValue={authorId}
-              onValueChange={setAuthorId}
-              placeholder="Select Author"
-              searchPlaceholder="Search users..."
-              debounceMs={400}
-              disabled={user?.userRole !== 'ADMIN'}
-              disabledError="You can only change if you are admin"
-            />
-          </div>
+      <DynamicText
+        label='Slug'
+        placeholder='Slug'
+        value={slug}
+        setValue={setSlug}
+        size="md"
+      />
 
-          <div className="form-control mb-4 mt-4">
-            <label className="label">
-              <span className="label-text">Image</span>
-            </label>
-            <ImageLoad
-              image={image}
-              setImage={setImage}
-              uploadFolder="posts"
-              toast={toast}
-            />
-          </div>
+      <DynamicText
+        label='Keywords'
+        placeholder='Keywords'
+        value={keywords.join(',')}
+        setValue={(val) =>
+          setKeywords(
+            val
+              .split(',')
+              .map((s) => s.trim())
+              .filter((s) => s.length > 0)
+          )
+        }
+        size="md"
+      />
 
-          <button type="submit" className="btn btn-primary block w-full mt-4" disabled={loading} onClick={handleSubmit}>
-            {loading ? 'Loading...' : mode === 'create' ? 'Create Post' : 'Update Post'}
-          </button>
-        </div>
-      </div>
-    </>
+      <DynamicSelect
+        label="Author"
+        key={routePostId + '_author_select'}
+        endpoint="/api/users"
+        dataKey="users"
+        valueKey="userId"
+        labelKey={["userProfile.name", "email"]}
+        searchKey="search"
+        selectedValue={authorId}
+        onValueChange={setAuthorId}
+        placeholder="Select Author"
+        searchPlaceholder="Search users..."
+        debounceMs={400}
+        disabled={user?.userRole !== 'ADMIN'}
+        disabledError="You can only change if you are admin"
+      />
+
+      <GenericElement label="Image">
+        <ImageLoad
+          image={image}
+          setImage={setImage}
+          uploadFolder="posts"
+          toast={toast}
+        />
+      </GenericElement>
+    </Form>
   );
 };
 

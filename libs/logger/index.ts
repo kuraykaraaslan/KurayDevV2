@@ -3,7 +3,7 @@ import winston from 'winston';
 const { combine, timestamp, json, printf } = winston.format;
 const timestampFormat = 'MMM-DD-YYYY HH:mm:ss';
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const NODE_ENV : string = process.env.NODE_ENV || 'development' || 'vercel';
 
 export default class Logger {
   private static infoLogger = winston.createLogger({
@@ -15,7 +15,6 @@ export default class Logger {
         return `[${timestamp}] [${level}]: ${message}`;
       })
     ),
-    // @ts-ignore
     transports: (NODE_ENV === 'vercel' || NODE_ENV === 'development') ? [
       new winston.transports.Console(), // Add a console transport to log information to console
     ] : [
@@ -35,7 +34,7 @@ export default class Logger {
         return `[${timestamp}] [${level}]: ${message}`;
       })
     ),
-    // @ts-ignore
+
     transports: (NODE_ENV === 'vercel' || NODE_ENV === 'development') ? [
       new winston.transports.Console(), // Add a console transport to log information to console
     ] : [
@@ -55,7 +54,6 @@ export default class Logger {
         return `[${timestamp}] [${level}]: ${message}`;
       })
     ),
-    // @ts-ignore
     transports: (NODE_ENV === 'vercel' || NODE_ENV === 'development') ? [
       new winston.transports.Console(), // Add a console transport to log information to console
     ] : [

@@ -19,17 +19,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 1. CORS Preflight
+  /* 1. CORS Preflight
   const corsResponse = corsPreflightMiddleware(request);
   if (corsResponse) return corsResponse;
+  */
 
   // 2. Rate Limiting
   const rateLimitResponse = await rateLimitMiddleware(request);
   if (rateLimitResponse) return rateLimitResponse;
 
-  // 3. CSRF Validation
+  /* 3. CSRF Validation
   const csrfResponse = csrfMiddleware(request);
   if (csrfResponse) return csrfResponse;
+  */
 
   // 4. Build response with headers
   const response = NextResponse.next();

@@ -125,7 +125,6 @@ export default class CommentService {
             },
         });
 
-        // @ts-ignore
         return { comments, total };
     }
 

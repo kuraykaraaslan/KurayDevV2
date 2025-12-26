@@ -23,7 +23,6 @@ const Footer = () => {
               © {new Date().getFullYear()} Kuray Karaaslan. {t("shared.footer.all_rights_reserved")}
           </p>
           <SystemStatusButton />
-          <GeoHeatmapButton />
         </div>
         <div className="col-span-1 flex flex-row flex-wrap justify-start">
 

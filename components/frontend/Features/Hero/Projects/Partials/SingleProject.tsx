@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Project } from "@prisma/client";
+import { Project } from "@/types/content/ProjectTypes";
 import Image from 'next/image';
 import SingleLink from "./SingleLink";
 import SingleTag from "./SingleTag";

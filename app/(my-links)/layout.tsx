@@ -1,4 +1,3 @@
-'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link';
 import { faCode } from '@fortawesome/free-solid-svg-icons';

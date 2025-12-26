@@ -20,7 +20,7 @@ export const CreatePostRequestSchema = z.object({
     description: z.string().min(1, PostMessages.DESCRIPTION_REQUIRED),
     slug: z.string().min(1, PostMessages.SLUG_REQUIRED),
     keywords: z.array(z.string()).min(1, PostMessages.KEYWORDS_REQUIRED),
-    createdAt: z.date(),
+    createdAt: z.coerce.date(),
     categoryId: z.string(),
     image: z.string().nullable(),
     status: z.string().default("PUBLISHED"),

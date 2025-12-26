@@ -30,6 +30,8 @@ const nextConfig = {
 
   trailingSlash: false,
 
+  
+  /*
   async headers () {
     return [
       {
@@ -87,6 +89,7 @@ const nextConfig = {
       }
     ]
   },
+  */
 
   images: {
     remotePatterns: [

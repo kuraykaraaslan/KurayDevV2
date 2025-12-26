@@ -6,13 +6,10 @@ import KnowledgeGraphService from "@/services/KnowledgeGraphService";
 import PostCoverService from "@/services/PostService/PostCoverService";
 import { CreatePostRequestSchema, UpdatePostRequestSchema } from "@/dtos/PostDTO";
 
-/**
- * GET handler for retrieving all posts with optional pagination and search.
- * @param request - The incoming request object
- * @returns A NextResponse containing the posts data or an error message
- */
 export async function GET(request: NextRequest) {
     try {
+
+        console.log("GET /api/posts called");
 
         const { searchParams } = new URL(request.url);
 
@@ -104,11 +101,13 @@ export async function PUT(request: NextRequest) {
         const parsedData = UpdatePostRequestSchema.safeParse(data);
         
         if (!parsedData.success) {
+            console.log("Validation errors:", parsedData.error.errors);
             return NextResponse.json({
                 error: parsedData.error.errors.map(err => err.message).join(", ")
             }, { status: 400 });
         }
 
+        console.log("Updating post:", parsedData.data.postId);
         const post = await PostService.updatePost(parsedData.data);
 
         await KnowledgeGraphService.queueUpdatePost(post.postId)
@@ -121,7 +120,7 @@ export async function PUT(request: NextRequest) {
 
     }
     catch (error: any) {
-        console.error(error.message);
+        console.error(error);
         return NextResponse.json(
             { message: error.message },
             { status: 500 }

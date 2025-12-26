@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
-import { Category } from '@prisma/client';
+import { Category } from '@/types/content/BlogTypes';
 import { SafeUser } from '@/types/user/UserTypes';
 import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,7 @@ export default function Feed(props: FeedProps) {
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {
+        console.log("Fetching posts for feed...", { category, author });
         axiosInstance.get("/api/posts" + `?page=${page}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : '') + `${author ? `&authorId=${author.userId}` : ''}`)
             .then(response => {
 

@@ -14,12 +14,18 @@ const APPLICATION_HOST = process.env.APPLICATION_HOST;
 export default async function BlogPost({ params }: { params: { categorySlug: string, postSlug: string } }) {
     try {
 
-        const { postSlug } = await params;
+        const { postSlug, categorySlug } = await params;
 
 
         if (!postSlug) {
             notFound();
         }
+
+        if (!categorySlug) {
+            notFound();
+        }
+
+        console.log("Fetching post:", postSlug, "in category:", categorySlug);
 
         const response = await PostService.getAllPosts({
             page: 0,

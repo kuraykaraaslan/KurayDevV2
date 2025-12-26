@@ -1,4 +1,6 @@
 import openai from '@/libs/openai';
+import { ImageGenerateParams } from 'openai/resources/images.mjs';
+
 
 export default class OpenAIService {
 
@@ -15,9 +17,7 @@ export default class OpenAIService {
                 model: 'dall-e-3',
                 prompt: prompt,
                 n: 1,
-
-                // @ts-ignore
-                size: `${width}x${height}`,
+                size: `${width}x${height}` as ImageGenerateParams['size'],
                 response_format: 'url',
             });
 

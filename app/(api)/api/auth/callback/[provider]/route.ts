@@ -6,7 +6,6 @@ import SSOService from "@/services/AuthService/SSOService";
 import MailService from "@/services/NotificationService/MailService";
 import { SSOMessages } from "@/messages/SSOMessages";
 
-// @ts-ignore
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ provider: string }> }
@@ -16,8 +15,7 @@ export async function GET(
     const searchParams = request.nextUrl.searchParams;
 
     const code = searchParams.get('code');
-    // @ts-ignore
-    const state = searchParams.get('state');
+    //const state = searchParams.get('state');
 
     if (!code) {
         //redirect to frontend
@@ -75,16 +73,13 @@ export async function GET(
 }
 
 
-
-// @ts-ignore
 export async function POST(
     request: NextRequest,
     { params }: { params: Promise<{ provider: string }> }
 ) {
     const { provider } = await params;
 
-    // @ts-ignore
-    const { code, state } = await request.json();
+    const { code } = await request.json();
 
     if (!code) {
         //redirect to frontend

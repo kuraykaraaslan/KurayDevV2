@@ -100,7 +100,7 @@ const AIPrompt = ({
                     </div>
                 </div>
             </dialog>
-            <button className="btn bg-yellow-400" onClick={openModal}>
+            <button className="btn bg-yellow-400 h-12" onClick={openModal}>
                 <FontAwesomeIcon icon={faRobot} className="mr-2" /> {t('admin.ai_prompt.generate_post')}
             </button>
         </>
