@@ -2,11 +2,11 @@
 @plugin "daisyui";
 
 @font-face {
-  font-family: 'Bookerly';
-  src: url('https://fonts.cdnfonts.com/s/22056/Bookerly.woff2') format('woff2');
+  font-family: 'Gill Sans';
+  src: url('https://fonts.cdnfonts.com/s/17981/GillSans.woff2') format('woff2');
   font-display: swap;
 }
 
 html {
-  font-family: 'Bookerly', system-ui, sans-serif;
+  font-family: 'Gill Sans', system-ui, sans-serif;
 }
