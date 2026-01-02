@@ -27,8 +27,8 @@ export default class GoogleService {
             redirect_uri: `${this.APPLICATION_HOST}${this.GOOGLE_CALLBACK_PATH}`,
             response_type: 'code',
             scope: 'profile email', // Request access to profile and email
-            access_type: 'offline', // Request a refresh token
-            prompt: 'consent', // Force consent screen
+            //access_type: 'offline', // Request a refresh token
+            //prompt: 'consent', // Force consent screen
         };
 
         return `${this.GOOGLE_AUTH_URL}?${new URLSearchParams(params).toString()}`;

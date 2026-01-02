@@ -20,6 +20,8 @@ export default function ProfileTab() {
 
     setSaving(true);
 
+    console.log('Saving profile:', userProfile);
+
     await axiosInstance.put('/api/auth/me/profile', {
         userProfile,
     }).then((res) => {

@@ -14,8 +14,9 @@ import AutodeskService from './AutodeskService';
 
 import { SSOMessages } from '@/messages/SSOMessages';
 import { AuthMessages } from '@/messages/AuthMessages';
-import { SafeUser, UserSchema } from '@/types/user/UserTypes';
+import { SafeUser, User, UserSchema } from '@/types/user/UserTypes';
 import { UserSecurity, UserSecuritySchema } from '@/types/user/UserSecurityTypes';
+import { User as PrismaUser} from '@/generated/prisma';
 
 
 interface SSOProviderService {
@@ -102,24 +103,16 @@ export default class SSOService {
     }
 
     private static async updateUserFromSSOProfile(
-        userId: string,
+        user: PrismaUser,
         profile: SSOProfileResponse,
         accessToken: string,
         refreshToken?: string
     ) {
-        await prisma.user.update({
-            where: { userId },
-            data: {
-                userProfile: {
-                    name: profile.name,
-                },
-            },
-        });
 
         const socialAccount = await prisma.userSocialAccount.findFirst({
             where: {
                 provider: profile.provider,
-                userId,
+                userId: user.userId,
             },
         });
 
@@ -139,12 +132,12 @@ export default class SSOService {
                     providerId: profile.sub,
                     accessToken,
                     refreshToken,
-                    userId,
+                    userId: user.userId,
                 },
             });
         }
 
-        return prisma.user.findUnique({ where: { userId } });
+        return prisma.user.findUnique({ where: { userId: user.userId } });
     }
 
     /*
@@ -204,7 +197,7 @@ export default class SSOService {
                 newUser = true;
                 user = await this.createUserFromSSOProfile(profile, access_token, refresh_token);
             } else {
-                user = await this.updateUserFromSSOProfile(user.userId, profile, access_token, refresh_token);
+                user = await this.updateUserFromSSOProfile(user, profile, access_token, refresh_token);
             }
 
             if (!user) {

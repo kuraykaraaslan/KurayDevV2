@@ -41,10 +41,6 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  //OTP verification
-  otpMethods OTPMethod[] @default([])
-  otpSecret  String?
-
   userSessions       UserSession[]
   userSocialAccounts UserSocialAccount[]
 

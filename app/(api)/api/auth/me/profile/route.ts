@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserService from "@/services/UserService";
 import RateLimiter from "@/libs/rateLimit";
-import { UserProfileSchema } from '@/types/user/UserProfileTypes';
 import { UpdateProfileRequestSchema } from "@/dtos/AuthDTO";
 import AuthMessages from "@/messages/AuthMessages";
 
@@ -24,9 +23,12 @@ export async function PUT(request: NextRequest) {
             );
         }
 
-        const body = await request.json();
+        const { userProfile } = await request.json();
+
+        console.log('Received userProfile:', userProfile);
         
-        const parsedData = UpdateProfileRequestSchema.safeParse(body);
+        const parsedData = UpdateProfileRequestSchema.safeParse(userProfile);
+        console.log('Parsed data:', parsedData);
 
         if (!parsedData.success) {
             return NextResponse.json(
@@ -40,8 +42,9 @@ export async function PUT(request: NextRequest) {
         // Update user preferences
         const updatedUser = await UserService.update({
             userId,
-            data: parsedData.data
+            data: { userProfile: parsedData.data }
         });
+
 
         return NextResponse.json(
             { 

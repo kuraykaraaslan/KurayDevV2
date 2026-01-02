@@ -80,13 +80,8 @@ const SafeUserSchema = z.object({
 const UpdateUserSchema = z.object({
     email: z.string().email().optional(),
     phone: z.string().nullable().optional(),
-    name: z.string().nullable().optional(),
-
     userRole: UserRoleEnum.optional(),
     userStatus: UserStatusEnum.optional(),
-
-    otpMethods: z.array(OTPMethodEnum).optional(),
-
     userPreferences: UserPreferencesSchema.partial().optional(),
     userProfile: UserProfileSchema.partial().optional(),
 });

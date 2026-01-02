@@ -2295,7 +2295,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    otpSecret: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2308,7 +2307,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    otpSecret: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2321,8 +2319,6 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     deletedAt: number
-    otpMethods: number
-    otpSecret: number
     userSecurity: number
     userPreferences: number
     userProfile: number
@@ -2340,7 +2336,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    otpSecret?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2353,7 +2348,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    otpSecret?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2366,8 +2360,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    otpMethods?: true
-    otpSecret?: true
     userSecurity?: true
     userPreferences?: true
     userProfile?: true
@@ -2456,8 +2448,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
-    otpMethods: $Enums.OTPMethod[]
-    otpSecret: string | null
     userSecurity: JsonValue | null
     userPreferences: JsonValue | null
     userProfile: JsonValue | null
@@ -2490,8 +2480,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    otpMethods?: boolean
-    otpSecret?: boolean
     userSecurity?: boolean
     userPreferences?: boolean
     userProfile?: boolean
@@ -2512,8 +2500,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    otpMethods?: boolean
-    otpSecret?: boolean
     userSecurity?: boolean
     userPreferences?: boolean
     userProfile?: boolean
@@ -2529,8 +2515,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    otpMethods?: boolean
-    otpSecret?: boolean
     userSecurity?: boolean
     userPreferences?: boolean
     userProfile?: boolean
@@ -2546,14 +2530,12 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    otpMethods?: boolean
-    otpSecret?: boolean
     userSecurity?: boolean
     userPreferences?: boolean
     userProfile?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "email" | "phone" | "password" | "userRole" | "userStatus" | "createdAt" | "updatedAt" | "deletedAt" | "otpMethods" | "otpSecret" | "userSecurity" | "userPreferences" | "userProfile", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "email" | "phone" | "password" | "userRole" | "userStatus" | "createdAt" | "updatedAt" | "deletedAt" | "userSecurity" | "userPreferences" | "userProfile", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userSessions?: boolean | User$userSessionsArgs<ExtArgs>
     userSocialAccounts?: boolean | User$userSocialAccountsArgs<ExtArgs>
@@ -2582,8 +2564,6 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       deletedAt: Date | null
-      otpMethods: $Enums.OTPMethod[]
-      otpSecret: string | null
       userSecurity: Prisma.JsonValue | null
       userPreferences: Prisma.JsonValue | null
       userProfile: Prisma.JsonValue | null
@@ -3023,8 +3003,6 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
-    readonly otpMethods: FieldRef<"User", 'OTPMethod[]'>
-    readonly otpSecret: FieldRef<"User", 'String'>
     readonly userSecurity: FieldRef<"User", 'Json'>
     readonly userPreferences: FieldRef<"User", 'Json'>
     readonly userProfile: FieldRef<"User", 'Json'>
@@ -17670,8 +17648,6 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
-    otpMethods: 'otpMethods',
-    otpSecret: 'otpSecret',
     userSecurity: 'userSecurity',
     userPreferences: 'userPreferences',
     userProfile: 'userProfile'
@@ -17971,20 +17947,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'OTPMethod[]'
-   */
-  export type ListEnumOTPMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OTPMethod[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'OTPMethod'
-   */
-  export type EnumOTPMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OTPMethod'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -18077,8 +18039,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    otpMethods?: EnumOTPMethodNullableListFilter<"User">
-    otpSecret?: StringNullableFilter<"User"> | string | null
     userSecurity?: JsonNullableFilter<"User">
     userPreferences?: JsonNullableFilter<"User">
     userProfile?: JsonNullableFilter<"User">
@@ -18098,8 +18058,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    otpMethods?: SortOrder
-    otpSecret?: SortOrderInput | SortOrder
     userSecurity?: SortOrderInput | SortOrder
     userPreferences?: SortOrderInput | SortOrder
     userProfile?: SortOrderInput | SortOrder
@@ -18122,8 +18080,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    otpMethods?: EnumOTPMethodNullableListFilter<"User">
-    otpSecret?: StringNullableFilter<"User"> | string | null
     userSecurity?: JsonNullableFilter<"User">
     userPreferences?: JsonNullableFilter<"User">
     userProfile?: JsonNullableFilter<"User">
@@ -18143,8 +18099,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    otpMethods?: SortOrder
-    otpSecret?: SortOrderInput | SortOrder
     userSecurity?: SortOrderInput | SortOrder
     userPreferences?: SortOrderInput | SortOrder
     userProfile?: SortOrderInput | SortOrder
@@ -18166,8 +18120,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    otpMethods?: EnumOTPMethodNullableListFilter<"User">
-    otpSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
     userSecurity?: JsonNullableWithAggregatesFilter<"User">
     userPreferences?: JsonNullableWithAggregatesFilter<"User">
     userProfile?: JsonNullableWithAggregatesFilter<"User">
@@ -19128,8 +19080,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -19149,8 +19099,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -19170,8 +19118,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -19191,8 +19137,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -19212,8 +19156,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -19229,8 +19171,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -19246,8 +19186,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -20369,14 +20307,6 @@ export namespace Prisma {
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
-
-  export type EnumOTPMethodNullableListFilter<$PrismaModel = never> = {
-    equals?: $Enums.OTPMethod[] | ListEnumOTPMethodFieldRefInput<$PrismaModel> | null
-    has?: $Enums.OTPMethod | EnumOTPMethodFieldRefInput<$PrismaModel> | null
-    hasEvery?: $Enums.OTPMethod[] | ListEnumOTPMethodFieldRefInput<$PrismaModel>
-    hasSome?: $Enums.OTPMethod[] | ListEnumOTPMethodFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -20456,8 +20386,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    otpMethods?: SortOrder
-    otpSecret?: SortOrder
     userSecurity?: SortOrder
     userPreferences?: SortOrder
     userProfile?: SortOrder
@@ -20473,7 +20401,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    otpSecret?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -20486,7 +20413,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    otpSecret?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -21221,10 +21147,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type UserCreateotpMethodsInput = {
-    set: $Enums.OTPMethod[]
-  }
-
   export type UserSessionCreateNestedManyWithoutUserInput = {
     create?: XOR<UserSessionCreateWithoutUserInput, UserSessionUncheckedCreateWithoutUserInput> | UserSessionCreateWithoutUserInput[] | UserSessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserSessionCreateOrConnectWithoutUserInput | UserSessionCreateOrConnectWithoutUserInput[]
@@ -21303,11 +21225,6 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
-  }
-
-  export type UserUpdateotpMethodsInput = {
-    set?: $Enums.OTPMethod[]
-    push?: $Enums.OTPMethod | $Enums.OTPMethod[]
   }
 
   export type UserSessionUpdateManyWithoutUserNestedInput = {
@@ -22362,8 +22279,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22382,8 +22297,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22418,8 +22331,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22438,8 +22349,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22458,8 +22367,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22478,8 +22385,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22514,8 +22419,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22534,8 +22437,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22586,8 +22487,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22606,8 +22505,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22725,8 +22622,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -22745,8 +22640,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -23105,8 +22998,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -23125,8 +23016,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    otpMethods?: UserCreateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -23206,8 +23095,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue
@@ -23226,8 +23113,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    otpMethods?: UserUpdateotpMethodsInput | $Enums.OTPMethod[]
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     userSecurity?: NullableJsonNullValueInput | InputJsonValue
     userPreferences?: NullableJsonNullValueInput | InputJsonValue
     userProfile?: NullableJsonNullValueInput | InputJsonValue

@@ -189,12 +189,15 @@ const SSOProviderRequest = z.object({
     provider: z.enum(['google', 'github', 'discord', 'microsoft']),
 });
 
+import { SocialLinkItemSchema } from "@/types";
+
 // Profile Update DTOs
 const UpdateProfileRequest = z.object({
     name: z.string().optional(),
-    email: z.string().email().optional(),
-    phone: z.string().optional(),
-    image: z.string().optional(),
+    socialLinks: z.array(SocialLinkItemSchema).optional(),
+    profilePicture: z.string().url().optional(),
+    bio: z.string().max(500).optional(),
+    headerImage: z.string().url().optional(),
 });
 
 const UpdateProfileResponse = z.object({

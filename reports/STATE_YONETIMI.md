@@ -1,7 +1,7 @@
 # 🔄 State Yönetimi Analizi
 
+
 **Analiz Tarihi:** 24 Aralık 2025  
-**Framework:** Next.js 16 (App Router)  
 **State Kütüphanesi:** Zustand v5.0.0-rc.2
 
 ---
@@ -12,10 +12,8 @@
 |----------|----------|---------------|
 | Global State (Zustand) | ✅ Minimal | İyi |
 | Local State (useState) | ⚠️ Aşırı Kullanım | Sorunlu |
-| Server Actions | ❌ Kullanılmıyor | Eksik |
-| React Context | ❌ Kullanılmıyor | - |
-| useReducer | ❌ Kullanılmıyor | Eksik |
-| URL State | ⚠️ Minimal | Yetersiz |
+| React Context | ❌ Kullanılmıyor | - | tercihen kullanılmadı
+| useReducer | ❌ Kullanılmıyor | Eksik | tercihen kullanılmadı |
 
 ---
 
@@ -76,20 +74,20 @@ type GlobalState = {
 ### ⚠️ İyileştirme Önerileri
 
 1. **Selector Kullanımı**
-   ```typescript
-   // ❌ Mevcut - Tüm state'i çekiyor
-   const { user } = useGlobalStore();
+  ```typescript
+  // ❌ Mevcut - Tüm state'i çekiyor
+  const { user } = useGlobalStore();
    
-   // ✅ Önerilen - Sadece gerekli slice
-   const user = useGlobalStore((state) => state.user);
-   ```
+  // ✅ Önerilen - Sadece gerekli slice
+  const user = useGlobalStore((state) => state.user);
+  ```
 
 2. **Computed Values Eksik**
-   ```typescript
-   // ✅ Önerilen - Store'a eklenebilir
-   isAuthenticated: () => get().user !== null,
-   isAdmin: () => get().user?.userRole === 'ADMIN',
-   ```
+  ```typescript
+  // ✅ Önerilen - Store'a eklenebilir
+  isAuthenticated: () => get().user !== null,
+  isAdmin: () => get().user?.userRole === 'ADMIN',
+  ```
 
 ---
 
@@ -111,7 +109,7 @@ type GlobalState = {
 ### Örnek: Post Edit Sayfası (12 useState)
 
 ```tsx
-// ❌ app/(admin)/admin/posts/[postId]/page.tsx
+// ❌ Çoklu useState kullanımı
 const [loading, setLoading] = useState(true);
 const [title, setTitle] = useState('');
 const [image, setImage] = useState('');
@@ -134,7 +132,7 @@ const [views, setViews] = useState<number>(0);
 ### ✅ Önerilen Çözüm: useReducer veya Form State
 
 ```tsx
-// ✅ Önerilen - useReducer ile
+// ✅ useReducer ile
 type PostState = {
   title: string;
   image: string;
@@ -158,7 +156,7 @@ const { register, handleSubmit, formState } = useForm<PostState>();
 ### Örnek: Login Sayfası (10 useState)
 
 ```tsx
-// ❌ app/(auth)/auth/login/page.tsx
+// ❌ Çoklu useState kullanımı
 const [email, setEmail] = useState<string>("");
 const [password, setPassword] = useState<string>("");
 const [_availableMethods, setAvailableMethods] = useState<OTPMethod[]>([]);
@@ -223,6 +221,7 @@ Projede ciddi bir props drilling sorunu **YOK**. Zustand global state ile çöz�
 
 ---
 
+
 ## 🔴 VERİ AKIŞI ANALİZİ
 
 ### Mevcut Veri Akışı Paterni
@@ -244,36 +243,26 @@ Projede ciddi bir props drilling sorunu **YOK**. Zustand global state ile çöz�
 
 ### Sorunlar
 
-1. **Server Actions Kullanılmıyor**
-   ```typescript
-   // ❌ Mevcut - Her şey client-side axios
-   const handleSubmit = async () => {
-     await axiosInstance.post('/api/posts', data);
-   };
-   
-   // ✅ Önerilen - Server Action
-   'use server'
-   export async function createPost(data: PostData) {
-     return await PostService.createPost(data);
-   }
-   ```
+1. **Tüm veri akışı client-side ve API çağrıları ile**
+  - Her şey client-side axios/fetch ile yönetiliyor
+  - Sunucuya bağımlı işlemler için merkezi bir pattern yok
 
 2. **Gereksiz Re-fetch**
-   ```tsx
-   // ❌ Feed bileşeni - Her page değişiminde fetch
-   useEffect(() => {
-     axiosInstance.get("/api/posts?page=" + page)
-       .then(response => setFeeds(prev => [...prev, ...response.data.posts]));
-   }, [page]);
-   ```
+  ```tsx
+  // ❌ Feed bileşeni - Her page değişiminde fetch
+  useEffect(() => {
+    axiosInstance.get("/api/posts?page=" + page)
+     .then(response => setFeeds(prev => [...prev, ...response.data.posts]));
+  }, [page]);
+  ```
    
-   Cache mekanizması yok, aynı veri tekrar çekiliyor.
+  Cache mekanizması yok, aynı veri tekrar çekiliyor.
 
 3. **Veri Tutarsızlığı Riski**
-   ```
-   User Login → setUser (Zustand) → Tab A gösterir
-                                  → Tab B hala eski state
-   ```
+  ```
+  User Login → setUser (Zustand) → Tab A gösterir
+                       → Tab B hala eski state
+  ```
 
 ---
 
@@ -296,8 +285,8 @@ Projede ciddi bir props drilling sorunu **YOK**. Zustand global state ile çöz�
 | State | Dosya | Alternatif |
 |-------|-------|------------|
 | `_availableMethods` | login/page.tsx | Kullanılmıyor, silinmeli |
-| `page`, `pageSize` | Table components | URL searchParams |
-| `search` | Table components | URL searchParams |
+| `page`, `pageSize` | Table components | URL veya props ile yönetilebilir |
+| `search` | Table components | URL veya props ile yönetilebilir |
 | `mode` | admin/posts | URL'den türetilebilir (zaten yapılmış ama state var) |
 
 ---
@@ -325,6 +314,7 @@ Projede ciddi bir props drilling sorunu **YOK**. Zustand global state ile çöz�
 
 ## 🛠️ İYİLEŞTİRME ÖNERİLERİ
 
+
 ### Öncelik 1: Form State'leri Birleştir
 
 ```tsx
@@ -346,52 +336,7 @@ const PostForm = () => {
 };
 ```
 
-### Öncelik 2: Server Actions Ekle
-
-```tsx
-// app/actions/post.ts
-'use server'
-
-import PostService from '@/services/PostService';
-import { revalidatePath } from 'next/cache';
-
-export async function createPost(formData: FormData) {
-  const data = Object.fromEntries(formData);
-  await PostService.createPost(data);
-  revalidatePath('/admin/posts');
-}
-
-export async function deletePost(postId: string) {
-  await PostService.deletePost(postId);
-  revalidatePath('/admin/posts');
-}
-```
-
-### Öncelik 3: URL State Kullan
-
-```tsx
-// ✅ Pagination için URL state
-'use client';
-import { useSearchParams, useRouter } from 'next/navigation';
-
-const PostTable = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  
-  const page = Number(searchParams.get('page')) || 1;
-  const search = searchParams.get('search') || '';
-  
-  const updateParams = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set(key, value);
-    router.push(`?${params.toString()}`);
-  };
-  
-  // ...
-};
-```
-
-### Öncelik 4: Custom Hooks Oluştur
+### Öncelik 2: Custom Hooks Oluştur
 
 ```tsx
 // hooks/useOTP.ts
@@ -415,7 +360,7 @@ export function useOTPFlow() {
 const { state, sendOTP, verifyOTP } = useOTPFlow();
 ```
 
-### Öncelik 5: Zustand Store'u Geliştir
+### Öncelik 3: Zustand Store'u Geliştir
 
 ```tsx
 // libs/zustand/index.ts
@@ -479,31 +424,25 @@ export const useGlobalStore = create<GlobalState>()(
 | ✅ Güçlü Yönler | ❌ Zayıf Yönler |
 |-----------------|-----------------|
 | Zustand minimal ve doğru kullanılmış | 100+ useState dağınık |
-| Props drilling yok | Server Actions kullanılmıyor |
-| Persist middleware mevcut | Form state'leri birleştirilmemiş |
-| Global state sadece gerekli veriler | URL state kullanılmıyor |
-| | Karmaşık bileşenler refactor edilmeli |
+| Props drilling yok | Form state'leri birleştirilmemiş |
+| Persist middleware mevcut | Karmaşık bileşenler refactor edilmeli |
+| Global state sadece gerekli veriler | |
 
 ---
 
 ## 📅 AKSIYON PLANI
 
+
 ### Hafta 1: Hızlı Kazanımlar
 - [ ] Dead code temizliği (`_availableMethods` vb.)
 - [ ] Zustand selector'lar ekle
-- [ ] URL state için pagination
 
 ### Hafta 2: Form Refactoring
 - [ ] react-hook-form entegrasyonu
 - [ ] Post edit form refactor
 - [ ] Login form refactor
 
-### Hafta 3: Server Actions
-- [ ] CRUD işlemleri için server actions
-- [ ] revalidatePath kullanımı
-- [ ] Loading states azaltma
-
-### Hafta 4: Custom Hooks
+### Hafta 3: Custom Hooks
 - [ ] useOTP hook
 - [ ] usePagination hook
 - [ ] useAuth hook

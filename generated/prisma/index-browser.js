@@ -130,8 +130,6 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  otpMethods: 'otpMethods',
-  otpSecret: 'otpSecret',
   userSecurity: 'userSecurity',
   userPreferences: 'userPreferences',
   userProfile: 'userProfile'
@@ -320,13 +318,6 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
   BANNED: 'BANNED'
-};
-
-exports.OTPMethod = exports.$Enums.OTPMethod = {
-  EMAIL: 'EMAIL',
-  SMS: 'SMS',
-  TOTP_APP: 'TOTP_APP',
-  PUSH_APP: 'PUSH_APP'
 };
 
 exports.CommentStatus = exports.$Enums.CommentStatus = {

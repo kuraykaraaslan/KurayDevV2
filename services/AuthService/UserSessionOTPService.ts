@@ -7,7 +7,8 @@ import {prisma} from '@/libs/prisma';
 import AuthMessages from "@/messages/AuthMessages";
 import { authenticator } from "otplib";
 import {  SafeUserSession } from '@/types/user/UserSessionTypes';
-import { SafeUser } from '@/types/user/UserTypes';
+import { SafeUser, UserSchema } from '@/types/user/UserTypes';
+import { UserSecuritySchema } from "@/types";
 
 export default class UserSessionOTPService {
   static OTP_EXPIRY_SECONDS = parseInt(process.env.OTP_EXPIRY_SECONDS || "600"); // 10 dk
@@ -34,13 +35,16 @@ export default class UserSessionOTPService {
   }
 
   static async getUserOTPSecret(userId: string): Promise<string | null> {
-    const user = await prisma.user.findUnique({
+    const _user = await prisma.user.findUnique({
       where: { userId },
-      select: { otpSecret: true },
+      select: {  },
     });
-    if (!user) throw new Error(AuthMessages.USER_NOT_FOUND);
-    if (!user.otpSecret) return null;
-    return user.otpSecret;
+
+    if (!_user) throw new Error(AuthMessages.USER_NOT_FOUND);
+
+    const user = UserSchema.parse(_user);
+    const userSecurity = UserSecuritySchema.parse(user.userSecurity);
+    return userSecurity.otpSecret || null;
   }
 
   static async rateLimitGuard(sessionId: string, method: OTPMethod) {
