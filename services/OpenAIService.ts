@@ -21,6 +21,10 @@ export default class OpenAIService {
                 response_format: 'url',
             });
 
+            if (!response.data || response.data.length === 0) {
+                return null;
+            }
+
             const imageUrl = response.data[0].url;
 
             return imageUrl || null;

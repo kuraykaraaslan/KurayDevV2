@@ -1,4 +1,5 @@
-import { OTPMethod, User } from "@/generated/prisma";
+import { User } from "@/types/user/UserTypes";
+import { OTPMethod, OTPMethodEnum } from "@/types/user/UserSecurityTypes";
 import redis from "@/libs/redis";
 import AuthMessages from "@/messages/AuthMessages";
 import { SafeUser } from '@/types/user/UserTypes';
@@ -26,7 +27,7 @@ export default class OTPService {
       throw new Error(AuthMessages.USER_NOT_FOUND);
     }
     
-    if (method === OTPMethod.TOTP_APP || method === OTPMethod.PUSH_APP) {
+    if (method === OTPMethodEnum.Enum.TOTP_APP) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD);
     }
 
@@ -74,10 +75,10 @@ export default class OTPService {
 
 
   static listOTPStatus(user: User): { active: OTPMethod[]; inactive: OTPMethod[] } {
-    const all: OTPMethod[] = [OTPMethod.EMAIL, OTPMethod.SMS, OTPMethod.TOTP_APP, OTPMethod.PUSH_APP];
+    const all: OTPMethod[] = [OTPMethodEnum.Enum.EMAIL, OTPMethodEnum.Enum.SMS, OTPMethodEnum.Enum.TOTP_APP];
     return {
-      active: user.otpMethods,
-      inactive: all.filter((m) => !user.otpMethods.includes(m)),
+      active: user.userSecurity?.otpMethods || [],
+      inactive: all.filter((m) => !user.userSecurity?.otpMethods.includes(m)),
     };
   }
 }

@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useGlobalStore } from '@/libs/zustand';
 import {  IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MenuItem } from '@/types/ui';
+import { MenuItem } from '@/types/ui/UITypes';
 import i18n from "@/libs/localize/localize";
 
 

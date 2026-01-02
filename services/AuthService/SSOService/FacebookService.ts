@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SSOProfileResponse } from '@/types/common';
+import { SSOProfileResponse } from '@/types/common/SSOTypes';
 
 export default class FacebookService {
 

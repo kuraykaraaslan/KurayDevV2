@@ -1,4 +1,4 @@
-import { Slot } from '@/types/features'
+import { Slot } from '@/types/features/CalendarTypes'
 import { differenceInMinutes, format } from "date-fns"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCalendar, faClock, faStopwatch } from "@fortawesome/free-solid-svg-icons"

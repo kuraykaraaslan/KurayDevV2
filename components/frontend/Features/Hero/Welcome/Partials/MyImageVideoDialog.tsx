@@ -35,7 +35,7 @@ const MyImageVideoDialog = () => {
   return (
     <>
       <div className="relative w-full h-full flex flex-col" onClick={handleOpenModal}>
-        <FontAwesomeIcon icon={faPlayCircle} className="text-white w-16 h-16 m-auto" />
+        <FontAwesomeIcon icon={faPlayCircle} className="text-white w-48 h-48 m-auto" size="3x" />
       </div>
 
       <dialog id="my_video" className="modal" onClick={handleCloseModal}>

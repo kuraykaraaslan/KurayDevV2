@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import PostService from '@/services/PostService';
 import { getBaseUrl, renderUrlSet } from '@/helpers/SitemapGenerator';
 import redisInstance from '@/libs/redis';
-import type { SitemapUrl } from '@/types/common';
+import type { SitemapUrl } from '@/types/common/SitemapTypes';
 
 const CACHE_KEY = 'sitemap:blog';
 const CACHE_TTL = 60 * 60; // 1 saat

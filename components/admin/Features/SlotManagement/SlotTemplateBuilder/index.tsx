@@ -1,7 +1,7 @@
 'use client'
 
 import axiosInstance from '@/libs/axios'
-import { Day, Slot, SlotTemplate } from '@/types/features'
+import { Day, Slot, SlotTemplate } from '@/types/features/CalendarTypes'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { format, parse, startOfWeek, addDays } from 'date-fns'

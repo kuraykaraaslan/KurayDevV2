@@ -1,4 +1,4 @@
-import {Testimonial} from '@/types/ui';
+import {Testimonial} from '@/types/ui/TestimonialTypes';
 import SingleTestimonial from "./Partials/SingleTestimonial";
 
 const Testimonials = () => {

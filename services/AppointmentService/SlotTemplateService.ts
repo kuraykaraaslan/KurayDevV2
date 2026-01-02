@@ -1,4 +1,4 @@
-import { Day, Slot, SlotTemplate } from '@/types/features';
+import { Day, Slot, SlotTemplate } from '@/types/features/CalendarTypes'
 
 import redisInstance from '@/libs/redis';
 

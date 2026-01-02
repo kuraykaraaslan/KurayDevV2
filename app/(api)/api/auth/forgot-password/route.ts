@@ -4,14 +4,14 @@ import { NextResponse } from "next/server";
 import AuthMessages from "@/messages/AuthMessages";
 import RateLimiter from "@/libs/rateLimit";
 import PasswordService from "@/services/AuthService/PasswordService";
-import { ForgotPasswordRequest } from "@/dtos/AuthDTO";
+import { ForgotPasswordRequestSchema } from "@/dtos/AuthDTO";
 
 export async function POST(request: NextRequest) {
     try {
 
         await RateLimiter.checkRateLimit(request);
 
-        const parsedData = ForgotPasswordRequest.safeParse(await request.json());
+        const parsedData = ForgotPasswordRequestSchema.safeParse(await request.json());
 
         if (!parsedData.success) {
             return NextResponse.json({

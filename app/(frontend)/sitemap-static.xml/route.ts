@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { getBaseUrl, renderUrlSet } from '@/helpers/SitemapGenerator';
 import redisInstance from '@/libs/redis';
-import type { SitemapUrl } from '@/types/common';
+import type { SitemapUrl } from '@/types/common/SitemapTypes';
 
 const CACHE_KEY = 'sitemap:static';
 const CACHE_TTL = 24 * 60 * 60; // 1 gün

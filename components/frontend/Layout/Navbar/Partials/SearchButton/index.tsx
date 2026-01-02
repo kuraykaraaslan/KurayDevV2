@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faB, faMagnifyingGlass, faP, faSpinner } from "@fortawesome/free-solid-svg-icons"; // Spinner ekledik
 import HeadlessModal, { useModal } from "@/components/common/Layout/Modal";
 import { ResultElement } from "./partials/ResultElement";
-import { SearchResultItemType, SearchType } from '@/types/content';
+import { SearchResultItemType, SearchType } from '@/types/content/SearchTypes';
 import axiosInstance from "@/libs/axios";
 
 const SearchButton = () => {

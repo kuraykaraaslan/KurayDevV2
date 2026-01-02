@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
-import { Day, Slot } from '@/types/features'
+import { Day, Slot } from '@/types/features/CalendarTypes'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService';
 import { ApplySlotTemplateRequestSchema } from '@/dtos/SlotDTO';

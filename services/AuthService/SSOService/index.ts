@@ -9,12 +9,12 @@ import TwitterService from './TwitterService';
 
 import bcrypt from 'bcrypt';
 import SettingService from '../../SettingService';
-import { SSOProfileResponse } from '@/types/common';
+import { SSOProfileResponse } from '@/types/common/SSOTypes';
 import AutodeskService from './AutodeskService';
 
 import { SSOMessages } from '@/messages/SSOMessages';
 import { AuthMessages } from '@/messages/AuthMessages';
-import { SafeUser, User, UserSchema } from '@/types/user/UserTypes';
+import { SafeUser, UserSchema } from '@/types/user/UserTypes';
 import { UserSecurity, UserSecuritySchema } from '@/types/user/UserSecurityTypes';
 import { User as PrismaUser} from '@/generated/prisma';
 

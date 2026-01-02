@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-
 import plugin from "tailwindcss/plugin";
 
 const rotateY = plugin(function ({ addUtilities }) {
@@ -24,7 +23,6 @@ const rotateY = plugin(function ({ addUtilities }) {
     },
   });
 });
-
 
 const config: Config = {
   content: [
@@ -83,12 +81,7 @@ const config: Config = {
     require("daisyui"),
     require("@tailwindcss/typography"),
     rotateY,
-    require('@tailwindcss/forms')],
-  daisyui: {
-    themes: [
-      'light',
-      'dark',
-    ]
-  },
+    require('@tailwindcss/forms')]
 };
+
 export default config;

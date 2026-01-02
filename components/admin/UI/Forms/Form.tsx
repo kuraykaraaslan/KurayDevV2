@@ -14,7 +14,7 @@ type FormProps = {
     actions?: FormActionButton[];
 };
 
-const Form = ({ children, actions, className, bodyClassName }: FormProps) => {
+const Form = ({ children, actions, className }: FormProps) => {
     return (
         <div className={`container mx-auto gap-4 ${className || ''}`}>
             {children}

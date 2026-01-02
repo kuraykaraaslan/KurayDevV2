@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { NextRequest } from "next/server"; 
 import redis from "@/libs/redis"; 
 import { GeoLocation, OSPattern, OSName, DeviceType, BrowserNameEnum, BrowserName, OSNameEnum, DeviceTypeEnum } from '@/types/user/UserAgent';
-import { UserAgentData } from "@/types";
+import { UserAgentData } from "@/types/user/UserSessionTypes";
 
 
 export default class UserAgentService {

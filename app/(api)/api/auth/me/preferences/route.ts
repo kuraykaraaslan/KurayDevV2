@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import UserService from "@/services/UserService";
 import RateLimiter from "@/libs/rateLimit";
-import { UserPreferencesSchema } from '@/types/user/UserTypes';
 import { UpdatePreferencesRequestSchema } from "@/dtos/AuthDTO";
 import AuthMessages from "@/messages/AuthMessages";
 

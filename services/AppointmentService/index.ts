@@ -1,6 +1,6 @@
 import {prisma} from '@/libs/prisma'
 import Logger from '@/libs/logger'
-import { Appointment, AppointmentStatus } from '@/types/features'
+import { Appointment, AppointmentStatus } from '@/types/features/CalendarTypes'
 import SlotService from './SlotService'
 import { separateDateTimeWithTimeZone } from '@/helpers/TimeHelper'
 

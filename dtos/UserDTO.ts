@@ -1,6 +1,6 @@
 import { z } from "zod";
 import UserMessages from "@/messages/UserMessages";
-import { UserRoleEnum } from "@/types";
+import { UserRoleEnum } from "@/types/user/UserTypes";
 
 // Request DTOs
 export const GetUsersRequestSchema = z.object({

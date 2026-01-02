@@ -1,6 +1,6 @@
 import { z } from "zod";
 import PostMessages from "@/messages/PostMessages";
-import { PostStatus } from "@/types";
+import { PostStatus } from "@/types/content/BlogTypes";
 
 // Request DTOs
 export const GetPostsRequestSchema = z.object({

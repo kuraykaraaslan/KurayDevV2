@@ -1,4 +1,4 @@
-import { ContactForm } from '@/types/features';
+import { ContactForm } from '@/types/features/ContactTypes';
 import {prisma} from '@/libs/prisma';
 
 export default class ContactFormService {

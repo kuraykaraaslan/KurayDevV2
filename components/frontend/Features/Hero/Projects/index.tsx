@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import SingleProject from './Partials/SingleProject'
-import { Project } from '@prisma/client';
+import { Project } from '@/types/content/ProjectTypes';
 import axiosInstance from '@/libs/axios';
 
 const ProjectsHero = () => {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import redis from "@/libs/redis";
-import { ContributionDay, GraphQLRes, Week } from '@/types/common';
+import { ContributionDay, GraphQLRes, Week } from '@/types/common/GitTypes';
 
 export default class GithubService {
   static REDIS_KEY = "github:contributions";

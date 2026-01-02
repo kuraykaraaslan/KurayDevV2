@@ -1,5 +1,4 @@
 import { z } from "zod";
-import ProjectMessages from "@/messages/ProjectMessages";
 
 // Request DTOs
 export const GetProjectsRequestSchema = z.object({

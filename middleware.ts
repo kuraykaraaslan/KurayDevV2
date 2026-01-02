@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   rateLimitMiddleware,
   addRateLimitHeaders,
-  csrfMiddleware,
-  corsPreflightMiddleware,
+  //csrfMiddleware,
+  //corsPreflightMiddleware,
   addCorsHeaders,
   addSecurityHeaders,
 } from '@/middlewares';

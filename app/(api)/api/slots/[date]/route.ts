@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
 import UserSessionService from '@/services/AuthService/UserSessionService'
-import { SlotSchema } from '@/types'
+import { SlotSchema } from '@/types/features/CalendarTypes'
 
 /**
  * [day] → MONDAY..SUNDAY

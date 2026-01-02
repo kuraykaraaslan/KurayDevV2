@@ -2,7 +2,7 @@ import Newsletter from '@/components/frontend/Features/Newsletter';
 import {  ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Feed from '@/components/frontend/Features/Blog/Feed';
-import { Category } from '@prisma/client';
+import { Category } from '@/types/content/BlogTypes';
 import CategoryService from '@/services/CategoryService';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';

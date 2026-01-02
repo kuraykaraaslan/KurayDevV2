@@ -16,7 +16,7 @@ const UserPage = () => {
     const { t } = useTranslation();
 
     const columns: ColumnDef<SafeUser>[] = [
-        { key: 'image', header: 'Image', className: 'w-16', accessor: (u) => <ImageCell src={u.userProfile?.avatar} alt={u.name || u.email} /> },
+        { key: 'image', header: 'Image', className: 'w-16', accessor: (u) => <ImageCell src={u.userProfile?.profilePicture} alt={u.name || u.email} /> },
         { key: 'name', header: 'admin.users.name', accessor: (u) => u.name || '-' },
         { key: 'email', header: 'admin.users.email', accessor: (u) => u.email },
         { key: 'role', header: 'admin.users.role', accessor: (u) => u.userRole },

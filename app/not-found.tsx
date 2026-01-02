@@ -1,14 +1,8 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const NotFoundPage = () => {
-    const router = useRouter();
-
-    const handleGoHome = () => {
-        router.push('/');
-    };
-
+    
     return (
         <section className="h-screen flex items-center justify-center bg-base-100">
             <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">

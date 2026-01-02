@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { SearchResultItemType } from '@/types/content';
-import { SearchTypeColors } from '@/types/content';
+import { SearchTypeColors, SearchResultItemType } from '@/types/content/SearchTypes';
 
 export interface ResultElementProps {
   item: SearchResultItemType;

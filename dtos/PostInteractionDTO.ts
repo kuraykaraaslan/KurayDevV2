@@ -29,10 +29,3 @@ export type LikePostResponse = z.infer<typeof LikePostResponseSchema>
 export type GetLikeCountRequest = z.infer<typeof GetLikeCountRequestSchema>
 export type GetLikeCountResponse = z.infer<typeof GetLikeCountResponseSchema>
 
-// Schema Exports
-export {
-  LikePostRequestSchema,
-  LikePostResponseSchema,
-  GetLikeCountRequestSchema,
-  GetLikeCountResponseSchema,
-} as const

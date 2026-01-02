@@ -4,7 +4,7 @@ import OTPService from "@/services/AuthService/OTPService";
 import AuthMessages from "@/messages/AuthMessages";
 import AuthService from "@/services/AuthService";
 import { OTPVerifyRequestSchema } from "@/dtos/AuthDTO";
-import { OTPActionEnum } from "@/types";
+import { OTPActionEnum } from "@/types/user/UserSecurityTypes";
 
 export async function POST(request: NextRequest) {
   try {

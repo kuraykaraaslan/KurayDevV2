@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/libs/axios';
-import { Category } from '@prisma/client';
+import { Category } from '@/types/content/BlogTypes';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 

@@ -6,7 +6,7 @@ import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
 import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import TinyMCEEditor from '@/components/admin/UI/Forms/Editor';
-import { TableBody, TableFooter, TableHeader, TableProvider } from '@/components/admin/UI/Forms/DynamicTable';
+import { TableBody, TableHeader, TableProvider } from '@/components/admin/UI/Forms/DynamicTable';
 
 const SingleProject = () => {
 

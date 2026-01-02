@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import axiosInstance from "@/libs/axios";
-import { Setting } from '@prisma/client';
+import { Setting } from '@/types/common/SettingTypes';
 
 
 const Page = () => {

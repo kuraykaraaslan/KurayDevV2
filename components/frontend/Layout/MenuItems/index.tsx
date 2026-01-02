@@ -1,6 +1,6 @@
 import { faShield } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import {MenuItem} from '@/types/ui';
+import {MenuItem} from '@/types/ui/UITypes';
 
 const MenuItems = [
         { id: "home", page: '/', name: 'home', external: false, onlyAdmin: false, hideTextOnDesktop: false },

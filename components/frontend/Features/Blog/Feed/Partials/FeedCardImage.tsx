@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import { PostWithData } from '@/types/content';
+import { PostWithData } from '@/types/content/BlogTypes';
 
 export interface FeedCardProps extends PostWithData {
     className?: string;

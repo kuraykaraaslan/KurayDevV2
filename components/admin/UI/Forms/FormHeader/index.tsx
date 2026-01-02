@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { MouseEvent } from 'react';
 
 interface ActionButtonProps {

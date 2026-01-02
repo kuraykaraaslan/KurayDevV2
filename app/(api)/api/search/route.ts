@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { SearchResultItemType, SearchType } from '@/types/content';
+import { SearchResultItemType, SearchType } from '@/types/content/SearchTypes';
 import PostService from "@/services/PostService";
 import ProjectService from "@/services/ProjectService";
-import { PostWithData } from '@/types/content';
-import { Project } from '@/types/content';
+import { PostWithData } from '@/types/content/BlogTypes';
+import { Project } from '@/types/content/ProjectTypes';
 import { SearchRequestSchema } from "@/dtos/AIAndServicesDTO";
-import AIMessages from "@/messages/AIMessages";
 
 export const revalidate = 60; // 1 dakika cache
 

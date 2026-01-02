@@ -5,7 +5,6 @@ import { Project } from "@/generated/prisma";
 import ProjectService from "@/services/ProjectService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import { CreateProjectRequestSchema, UpdateProjectRequestSchema } from "@/dtos/ProjectDTO";
-import ProjectMessages from "@/messages/ProjectMessages";
 
 /**
  * GET handler for retrieving all projects with optional pagination and search.

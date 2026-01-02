@@ -58,17 +58,17 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
 
         await ContactFormService.createContactForm(data);
 
-    } catch (error) { Logger.error('[ContactForm] DB Error:', error); }
+    } catch (error) { Logger.error('[ContactForm] DB Error: ' + error); }
 
 
-    try { await MailService.sendContactFormAdminEmail({ name, email, phone, message }); } catch (error) { Logger.error('[ContactForm] Admin Email Error:', error); }
+    try { await MailService.sendContactFormAdminEmail({ name, email, phone, message }); } catch (error) { Logger.error('[ContactForm] Admin Email Error: ' + error); }
 
-    try { await MailService.sendContactFormUserEmail({ name, email }); } catch (error) { Logger.error('[ContactForm] User Email Error:', error); }
+    try { await MailService.sendContactFormUserEmail({ name, email }); } catch (error) { Logger.error('[ContactForm] User Email Error: ' + error); }
 
     try {
         const discordMessage = `A new message has been received from the contact form.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
         await DiscordService.sendWebhookMessage(discordMessage);
-    } catch (error) { Logger.error('[ContactForm] Discord Error:', error); }
+    } catch (error) { Logger.error('[ContactForm] Discord Error: ' + error); }
 
     try {
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
 
         await SMSService.sendShortMessage({ to: phone, body: userSMSBody });
 
-    } catch (error) { Logger.error('[ContactForm] SMS Error:', error); }
+    } catch (error) { Logger.error('[ContactForm] SMS Error: ' + error); }
 
     return NextResponse.json({ message: ContactMessages.MESSAGE_SENT_SUCCESSFULLY });
 }

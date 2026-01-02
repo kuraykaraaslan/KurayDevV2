@@ -1,4 +1,4 @@
-import { Post, PostWithData } from '@/types/content';
+import { Post, PostWithData } from '@/types/content/BlogTypes';
 import {prisma} from '@/libs/prisma';
 import { MetadataRoute } from 'next';
 import redisInstance from '@/libs/redis';

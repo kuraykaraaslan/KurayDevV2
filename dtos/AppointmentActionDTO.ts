@@ -29,10 +29,3 @@ export type BookAppointmentResponse = z.infer<typeof BookAppointmentResponseSche
 export type CancelAppointmentRequest = z.infer<typeof CancelAppointmentRequestSchema>
 export type CancelAppointmentResponse = z.infer<typeof CancelAppointmentResponseSchema>
 
-// Schema Exports
-export {
-  BookAppointmentRequestSchema,
-  BookAppointmentResponseSchema,
-  CancelAppointmentRequestSchema,
-  CancelAppointmentResponseSchema,
-} as const

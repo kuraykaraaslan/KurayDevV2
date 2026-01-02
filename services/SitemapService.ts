@@ -1,6 +1,6 @@
 // services/SitemapService.ts
 import axios from "axios";
-import { SitemapType, Sitemaps } from '@/types/common';
+import { SitemapType, Sitemaps } from '@/types/common/SitemapTypes';
 
 class SitemapService {
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import StatCard from "./Partials/StatCard";
 import { faUserAlt, faBlog, faEye, faFolder, faComment} from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "@/libs/axios";
-import { StatFrequency } from '@/types/common';
+import { StatFrequency } from '@/types/common/StatTypes';
 import { useTranslation } from "react-i18next";
 
 const StatsSection = () => {

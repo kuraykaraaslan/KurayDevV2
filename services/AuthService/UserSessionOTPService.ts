@@ -8,7 +8,7 @@ import AuthMessages from "@/messages/AuthMessages";
 import { authenticator } from "otplib";
 import {  SafeUserSession } from '@/types/user/UserSessionTypes';
 import { SafeUser, UserSchema } from '@/types/user/UserTypes';
-import { UserSecuritySchema } from "@/types";
+import { UserSecuritySchema } from "@/types/user/UserSecurityTypes";
 
 export default class UserSessionOTPService {
   static OTP_EXPIRY_SECONDS = parseInt(process.env.OTP_EXPIRY_SECONDS || "600"); // 10 dk

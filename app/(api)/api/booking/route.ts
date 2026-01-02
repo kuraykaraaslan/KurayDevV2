@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import AppointmentService from '@/services/AppointmentService'
 import Logger from '@/libs/logger'
 import SlotService from '@/services/AppointmentService/SlotService'
-import { AppointmentStatus } from '@/types/features'
+import { AppointmentStatus } from '@/types/features/CalendarTypes'
 import { CreateAppointmentRequestSchema } from '@/dtos/AppointmentDTO'
 import AppointmentMessages from '@/messages/AppointmentMessages'
 

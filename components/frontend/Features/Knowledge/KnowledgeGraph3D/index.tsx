@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { KnowledgeGraphNode } from '@/types/content'
+import { KnowledgeGraphNode } from '@/types/content/BlogTypes'
 import axiosInstance from '@/libs/axios'
 import { useParams } from 'next/navigation'
 import type * as ThreeJSTypes from 'three'

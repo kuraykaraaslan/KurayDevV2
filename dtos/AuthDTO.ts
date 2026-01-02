@@ -1,6 +1,6 @@
 import { z } from "zod";
-
 import  AuthMessages from "@/messages/AuthMessages";
+import { SocialLinkItemSchema } from "@/types/user/UserProfileTypes";
 
 // Login DTOs
 const LoginRequest = z.object({
@@ -189,7 +189,6 @@ const SSOProviderRequest = z.object({
     provider: z.enum(['google', 'github', 'discord', 'microsoft']),
 });
 
-import { SocialLinkItemSchema } from "@/types";
 
 // Profile Update DTOs
 const UpdateProfileRequest = z.object({

@@ -5,14 +5,13 @@ import path from 'path';
 import { Queue, Worker } from 'bullmq';
 import redisInstance from '@/libs/redis';
 import { UserAgentData } from '@/types/user/UserSessionTypes';
-import { PostWithData } from '@/types/content';
-import { Stat } from '@/types/common';
+import { PostWithData } from '@/types/content/BlogTypes';
+import { Stat } from '@/types/common/StatTypes';
 
 // Types
-import { User } from '@/generated/prisma';
-import { SafeUser } from '@/types/user/UserTypes';
+import { User, SafeUser } from '@/types/user/UserTypes';
 import { SafeUserSession } from '@/types/user/UserSessionTypes';
-import { Appointment } from '@/types/features';
+import { Appointment } from '@/types/features/CalendarTypes';
 
 const pwd = process.env.PWD || process.cwd();
 
@@ -171,7 +170,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email }
+                user: { name: user.userProfile?.name || user.email }
             }
         );
 
@@ -186,7 +185,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email },
+                user: { name: user.userProfile?.name || user.email },
                 device: userAgent?.device || "Unknown",
                 ip: userAgent?.ip || "Unknown",
                 location: userAgent?.city ? `${userAgent.city}, ${userAgent.country}` : "Unknown",
@@ -356,7 +355,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email }
+                user: { name: user.userProfile?.name || user.email }
             }
         );
 
@@ -378,7 +377,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email },
+                user: { name: user.userProfile?.name || user.email },
                 verifyLink
             }
         );
@@ -406,7 +405,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email },
+                user: { name: user.userProfile?.name || user.email },
                 device,
                 ip,
                 location,
@@ -438,7 +437,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email },
+                user: { name: user.userProfile?.name || user.email },
                 eventType,
                 ip,
                 location,
@@ -458,7 +457,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email }
+                user: { name: user.userProfile?.name || user.email }
             }
         );
 
@@ -497,7 +496,7 @@ export default class MailService {
             {
                 ...MailService.getBaseTemplateVars(),
                 subject,
-                user: { name: user.name || user.email },
+                user: { name: user.userProfile?.name || user.email },
                 post,
                 comment
             }

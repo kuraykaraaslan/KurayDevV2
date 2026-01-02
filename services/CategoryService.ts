@@ -1,4 +1,4 @@
-import { Category } from '@/types/content';
+import { Category } from '@/types/content/BlogTypes';
 import {prisma} from '@/libs/prisma';
 
 export default class CategoryService {

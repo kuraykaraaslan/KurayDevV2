@@ -68,7 +68,7 @@ export async function GET() {
 
   const end = performance.now()
   const uptimeSec = process.uptime()
-  const finalResponse = {
+  const _finalResponse = {
     
     timestamp: new Date().toISOString(),
     uptimeSec,
@@ -77,12 +77,14 @@ export async function GET() {
     cached: false,
   }
 
+  const parsedFinalResponse = HealthCheckResponseSchema.parse(_finalResponse)
+
   // 🔹 Sonucu cache’e yaz
   try {
-    await redisInstance.set(CACHE_KEY, JSON.stringify(finalResponse), 'EX', CACHE_TTL_SECONDS)
+    await redisInstance.set(CACHE_KEY, JSON.stringify(parsedFinalResponse), 'EX', CACHE_TTL_SECONDS)
   } catch (err) {
     console.warn('Redis cache write failed:', err)
   }
 
-  return NextResponse.json(finalResponse)
+  return NextResponse.json(parsedFinalResponse)
 }
