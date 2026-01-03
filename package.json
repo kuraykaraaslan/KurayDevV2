@@ -38,6 +38,8 @@
     "bullmq": "5.66.2",
     "canvas-confetti": "^1.9.4",
     "countries-and-timezones": "^3.8.0",
+    "country-flag-icons": "^1.6.4",
+    "country-flags-svg": "^2.0.0-beta.1",
     "crypto": "^1.0.1",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",

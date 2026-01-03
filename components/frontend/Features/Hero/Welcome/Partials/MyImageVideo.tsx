@@ -11,16 +11,16 @@ const MyImage = () => {
   return (
     <>
       <div className="relative flex-none hidden sm:block group">
-        <div className="shadow-2xl max-w-24 sm:max-w-48 md:max-w-64 transition duration-500 transform bg-primary">
+        <div className="max-w-24 sm:max-w-48 md:max-w-64 transition duration-500 transform bg-primary">
           <Image
             width="1000"
             height="1000"
             src="/assets/img/kuraykaraaslan.jpg"
             alt="kuray karaaslan"
-            className="transition duration-500 transform shadow-2xl max-w-24 sm:max-w-48 md:max-w-64 transition duration-500 transform bg-primary"
+            className="transition duration-500 transform max-w-24 sm:max-w-48 md:max-w-64 transition duration-500 transform bg-primary"
           />
         </div>
-        <div className="absolute top-0 shadow-2xl max-w-24 sm:max-w-48 md:max-w-64 transition duration-500 transform bg-transparent w-full h-full opacity-0 group-hover:opacity-100">
+        <div className="absolute top-0 max-w-24 sm:max-w-48 md:max-w-64 transition duration-500 transform bg-transparent w-full h-full opacity-0 group-hover:opacity-100">
           <MyImageVideoDialog />
         </div>
       </div>

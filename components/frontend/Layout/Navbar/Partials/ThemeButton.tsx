@@ -50,7 +50,7 @@ const ThemeButton = () => {
 
   return (
     <button
-      className="btn btn-square btn-ghost rounded-full items-center justify-center grayscale duration-300 hover:grayscale-0"
+      className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
       onClick={nextTheme}
 
     >

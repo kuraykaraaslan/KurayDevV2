@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { CircleFlag } from "react-circle-flags";
 import useGlobalStore from "@/libs/zustand";
 import { useTranslation } from "react-i18next";
 
@@ -33,6 +32,12 @@ export default function LanguageModal() {
     uk: "Українська",
   };
 
+  // https://kapowaz.github.io/square-flags/flags/XX.svg
+  const findFlagUrlByIso2Code = (iso2Code: string) => {
+    return `https://kapowaz.github.io/square-flags/flags/${iso2Code.toLowerCase()}.svg`;
+  };
+
+
   const openModal = () => {
     (document.getElementById("lang_modal") as HTMLDialogElement)?.showModal();
   };
@@ -45,6 +50,7 @@ export default function LanguageModal() {
     setLanguage(lang);
     closeModal();
     i18n.changeLanguage(lang);
+    console.log("Language Flag Changed to:", findFlagUrlByIso2Code(languageFlags[lang] ?? "us"));
   };
 
   useEffect(() => {
@@ -60,15 +66,17 @@ export default function LanguageModal() {
     <>
       {/* Trigger button */}
       <button
-        className="btn btn-square btn-ghost rounded-full"
+        className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
         onClick={openModal}
       >
-        <CircleFlag
-          height="24"
-          width="24"
-          countryCode={languageFlags[language] ?? "us"}
-        />
+                <img
+                  src={findFlagUrlByIso2Code(languageFlags[language] ?? "us")}
+                  alt={language}
+                  className="w-6 h-6 rounded-full"
+                  style={{ backgroundSize: "cover" }} 
+                />
       </button>
+
 
       {/* Modal */}
       <dialog id="lang_modal" className="modal">
@@ -95,10 +103,10 @@ export default function LanguageModal() {
                   }`}
                 onClick={() => selectLanguage(lang)}
               >
-                <CircleFlag
-                  height="26"
-                  width="26"
-                  countryCode={languageFlags[lang] ?? "us"}
+                <img
+                  src={findFlagUrlByIso2Code(languageFlags[lang] ?? "us")}
+                  alt={lang}
+                  className="w-6 h-6 rounded-full"
                 />
                 <span className="text-sm font-medium text-center">
                   {languageNames[lang]}

@@ -63,8 +63,8 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
         >
             <div
                 className={
-                    "navbar rounded-full shadow-lg border border-base-200 self-center	" +
-                    (isTopReached ? " rounded-full bg-transparent backdrop-blur-lg" : " rounded-none from-base-100 to-base-300 bg-gradient-to-b")
+                    "navbar self-center	" +
+                    (isTopReached ? " bg-transparent" : " shadow-lg border border-base-200 rounded-none from-base-100 to-base-300 bg-gradient-to-b")
                 }
             >
                 <div className="flex-none xl:hidden">
@@ -76,11 +76,13 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
                     </label>
                 </div>
                 <div className="md:mx-2 flex-1 md:px-2 text-lg font-semibold">
-                    <div className="flex items-center md:gap-1">
+                    <div className="flex items-center gap-2  justify-between lg:justify-start">
                         <Logo />
-                        <ThemeButton />
-                        <LanguageModal />
-                        <SearchButton />
+                        <div className="flex lg:gap-2">
+                            <ThemeButton />
+                            <LanguageModal />
+                            <SearchButton />
+                        </div>
 
                     </div>
                 </div>
