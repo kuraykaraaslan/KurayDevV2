@@ -185,8 +185,21 @@ const SSOCallbackResponse = z.object({
     }),
 });
 
+const SSOProviderEnum = z.enum([
+    'google', 
+    'github', 
+    'discord', 
+    'microsoft', 
+    'autodesk', 
+    'tiktok',
+    'apple',
+    'facebook',
+    'linkedin',
+    'twitter'
+]);
+
 const SSOProviderRequest = z.object({
-    provider: z.enum(['google', 'github', 'discord', 'microsoft']),
+    provider: SSOProviderEnum,
 });
 
 

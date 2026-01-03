@@ -14,6 +14,7 @@ export async function GET(
   const parsedData = SSOProviderRequestSchema.safeParse({ provider });
   
   if (!parsedData.success) {
+    console.error("Invalid provider parameter:", parsedData.error);
     return NextResponse.json({
       message: parsedData.error.errors.map(err => err.message).join(", ")
     }, { status: 400 });
