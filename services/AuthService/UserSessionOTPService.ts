@@ -8,7 +8,6 @@ import AuthMessages from "@/messages/AuthMessages";
 import { authenticator } from "otplib";
 import {  SafeUserSession } from '@/types/user/UserSessionTypes';
 import { SafeUser, UserSchema } from '@/types/user/UserTypes';
-import { UserSecuritySchema } from "@/types/user/UserSecurityTypes";
 import AuthService from ".";
 
 export default class UserSessionOTPService {

@@ -15,7 +15,7 @@ import AutodeskService from './AutodeskService';
 import { SSOMessages } from '@/messages/SSOMessages';
 import { AuthMessages } from '@/messages/AuthMessages';
 import { SafeUser, UserSchema } from '@/types/user/UserTypes';
-import { UserSecurity, UserSecuritySchema } from '@/types/user/UserSecurityTypes';
+import { UserSecurity } from '@/types/user/UserSecurityTypes';
 import { User as PrismaUser} from '@/generated/prisma';
 import AuthService from '..';
 
@@ -206,7 +206,7 @@ export default class SSOService {
             }
             
             const { userSecurity } = await AuthService.getUserSecurity(user.userId);
-            
+
             return { user : UserSchema.parse(user), userSecurity, newUser };
             
         } catch (error) {
