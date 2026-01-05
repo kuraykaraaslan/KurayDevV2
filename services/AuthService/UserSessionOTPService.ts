@@ -9,6 +9,7 @@ import { authenticator } from "otplib";
 import {  SafeUserSession } from '@/types/user/UserSessionTypes';
 import { SafeUser, UserSchema } from '@/types/user/UserTypes';
 import { UserSecuritySchema } from "@/types/user/UserSecurityTypes";
+import AuthService from ".";
 
 export default class UserSessionOTPService {
   static OTP_EXPIRY_SECONDS = parseInt(process.env.OTP_EXPIRY_SECONDS || "600"); // 10 dk
@@ -43,7 +44,7 @@ export default class UserSessionOTPService {
     if (!_user) throw new Error(AuthMessages.USER_NOT_FOUND);
 
     const user = UserSchema.parse(_user);
-    const userSecurity = UserSecuritySchema.parse(user.userSecurity);
+    const { userSecurity } = await AuthService.getUserSecurity(user.userId);
     return userSecurity.otpSecret || null;
   }
 

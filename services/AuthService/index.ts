@@ -58,12 +58,12 @@ export default class AuthService {
             throw new Error(AuthMessages.INVALID_EMAIL_OR_PASSWORD);
         }
         
-        const userSecurity = UserSecuritySchema.parse(user.userSecurity);
+        const { userSecurity } = await AuthService.getUserSecurity(user.userId);
 
         console.log(userSecurity);
         return {
             user: SafeUserSchema.parse(user),
-            userSecurity: UserSecuritySchema.parse(user.userSecurity),
+            userSecurity
         };
     }
 
