@@ -19,7 +19,7 @@ export default function Article(post: Partial<Post>) {
     });
 
     return (
-        <div className="max-w-none justify-center text-left mx-auto prose mb-8">
+        <div className="max-w-none justify-center text-left mx-auto prose mb-8 max-w-none">
             {image && (
                 <img
                     src={image ?? `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`}
@@ -28,7 +28,7 @@ export default function Article(post: Partial<Post>) {
                 />
             )}
 
-            <div dangerouslySetInnerHTML={{ __html: safeHTML }} className="prose mt-4" />
+            <div dangerouslySetInnerHTML={{ __html: safeHTML }} className="prose mt-4 max-w-none" />
         </div>
     );
 }

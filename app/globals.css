@@ -1,14 +1,3 @@
 @import "tailwindcss";
 @plugin "daisyui";
-
-
-@font-face {
-    font-family: 'Gill Sans';
-    src: url('https://fonts.cdnfonts.com/s/58185/Gill Sans.woff') format('woff');
-    font-display: swap;
-}
-
-
-html {
-  font-family: 'Gill Sans', system-ui, sans-serif;
-}
+@plugin "@tailwindcss/typography";

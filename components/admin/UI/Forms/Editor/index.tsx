@@ -54,11 +54,12 @@ const TinyMCEEditor = ({ value, onChange }: { value: string, onChange: (value: s
                     'table',
                     //'paste',
                     'help',
-                    'wordcount'
+                    'wordcount',
+                    'codesample'
                 ],
                 toolbar: 'undo redo | blocks | image | bold italic forecolor | ' +
                     'alignleft aligncenter alignright alignjustify | ' +
-                    'bullist numlist outdent indent | removeformat | help',
+                    'bullist numlist outdent indent | removeformat | code | help',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; background-color: transparent; }',
                 images_upload_handler: image_upload_handler as any
             }}

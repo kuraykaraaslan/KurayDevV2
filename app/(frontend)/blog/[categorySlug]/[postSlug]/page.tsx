@@ -70,7 +70,7 @@ export default async function BlogPost({ params }: { params: { categorySlug: str
             <>
                 {MetadataHelper.generateElements(metadata)}
                 <section className="min-h-screen bg-base-100 pt-32" id="blog">
-                    <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col">
+                    <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
                         <PostHeader {...post} />
                         <Article {...post} />
                         <ShareButtons title={post.title} url={`${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`} />
