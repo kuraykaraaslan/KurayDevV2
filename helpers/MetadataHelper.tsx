@@ -4,6 +4,9 @@ const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 export default class MetadataHelper {
 
+    // Supported languages
+    static readonly SUPPORTED_LANGUAGES = ['en', 'tr', 'de', 'nl', 'gr', 'mt', 'th', 'et', 'uk'];
+
     // Generate JSON-LD for Organization
     public static getOrganizationJsonLd() {
         return {
@@ -21,7 +24,7 @@ export default class MetadataHelper {
     }
 
     // Generate JSON-LD for Article
-    public static getArticleJsonLd(meta: Metadata) {
+    public static getArticleJsonLd(meta: Metadata, post?: any) {
         if (!meta?.openGraph?.url || !/\/blog\//.test(String(meta.openGraph.url))) return null;
         const title = meta?.title || 'Kuray Karaaslan';
         const description = meta?.description || 'Software developer, tech blogger, and open-source enthusiast.';
@@ -42,15 +45,27 @@ export default class MetadataHelper {
             images = [`${APPLICATION_HOST}/assets/img/og.png`];
         }
         const image = images[0];
+
+        // Calculate word count from content
+        const wordCount = post?.content
+            ? post.content.replace(/<[^>]*>/g, ' ').split(/\s+/).filter((word: string) => word.length > 0).length
+            : undefined;
+
         return {
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": title,
             "description": description,
             "image": image,
+            "datePublished": post?.createdAt ? new Date(post.createdAt).toISOString() : undefined,
+            "dateModified": post?.updatedAt ? new Date(post.updatedAt).toISOString() : (post?.createdAt ? new Date(post.createdAt).toISOString() : undefined),
+            "wordCount": wordCount,
+            "articleSection": post?.category?.name || "Technology",
+            "keywords": post?.keywords || [],
             "author": {
                 "@type": "Person",
-                "name": "Kuray Karaaslan"
+                "name": "Kuray Karaaslan",
+                "url": `${APPLICATION_HOST}/about`
             },
             "publisher": {
                 "@type": "Organization",
@@ -65,7 +80,21 @@ export default class MetadataHelper {
         };
     }
 
-    public static generateElements(meta: Metadata) {
+    // Generate hreflang tags for multi-language SEO
+    public static generateHreflangTags(currentUrl: string) {
+        const pathname = currentUrl.replace(APPLICATION_HOST || '', '');
+
+        return MetadataHelper.SUPPORTED_LANGUAGES.map(lang => (
+            <link
+                key={`hreflang-${lang}`}
+                rel="alternate"
+                hrefLang={lang}
+                href={`${APPLICATION_HOST}/${lang}${pathname}`}
+            />
+        ));
+    }
+
+    public static generateElements(meta: Metadata, post?: any) {
         // Fallbacks
         const title = meta?.title || 'Kuray Karaaslan';
         const description = meta?.description || 'Software developer, tech blogger, and open-source enthusiast.';
@@ -99,7 +128,7 @@ export default class MetadataHelper {
 
         // JSON-LD
         const orgJsonLd = MetadataHelper.getOrganizationJsonLd();
-        const articleJsonLd = MetadataHelper.getArticleJsonLd(meta);
+        const articleJsonLd = MetadataHelper.getArticleJsonLd(meta, post);
 
         return (
             <>
@@ -111,6 +140,21 @@ export default class MetadataHelper {
                 <meta property="og:description" content={String(meta?.openGraph?.description || description)} />
                 <meta property="og:type" content={ogType} />
                 <meta property="og:url" content={String(url)} />
+                <meta property="og:locale" content="en_US" />
+
+                {/* Article-specific OG tags */}
+                {ogType === 'article' && post && (
+                    <>
+                        <meta property="article:published_time" content={new Date(post.createdAt).toISOString()} />
+                        <meta property="article:modified_time" content={new Date(post.updatedAt || post.createdAt).toISOString()} />
+                        <meta property="article:author" content="Kuray Karaaslan" />
+                        <meta property="article:section" content={post.category?.name || "Technology"} />
+                        {post.keywords?.map((keyword: string) => (
+                            <meta key={keyword} property="article:tag" content={keyword} />
+                        ))}
+                    </>
+                )}
+
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:site" content="@kuraykaraaslan" />
                 <meta name="twitter:creator" content="@kuraykaraaslan" />
@@ -122,6 +166,10 @@ export default class MetadataHelper {
                 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
                 <meta name="author" content="Kuray Karaaslan" />
                 <meta name="theme-color" content="#000000" />
+
+                {/* Hreflang tags for multi-language SEO */}
+                {MetadataHelper.generateHreflangTags(String(url))}
+                <link rel="alternate" hrefLang="x-default" href={String(url)} />
 
                 {/* JSON-LD Structured Data */}
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />

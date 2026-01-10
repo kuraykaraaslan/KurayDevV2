@@ -1,27 +1,10 @@
-'use client';
-import { useEffect, useState, ReactNode } from "react";
+import { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useGlobalStore from "@/libs/zustand";
-import { toast } from "react-toastify";
-import i18n from "@/libs/localize/localize";
 import Head from "next/head"; 
 
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { language } = useGlobalStore();
-  const [languageNotifiedOnce, setLanguageNotifiedOnce] = useState(false);
-  const { t } = i18n;
-
-  useEffect(() => {
-    if (languageNotifiedOnce) return;
-
-    if (language !== "en") {
-      toast.info(t("shared.alert.this_blog_is_available_in_only_english"));
-      setLanguageNotifiedOnce(true);
-    }
-  }, [language]);
-
 
   return (
     <>
