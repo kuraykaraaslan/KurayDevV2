@@ -1,6 +1,33 @@
+# Global rules
 User-agent: *
 Disallow: /admin/
 Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Allow: /api/og-image/*
+Crawl-delay: 1
+
+# Googlebot specific
+User-agent: Googlebot
+Disallow: /admin/
+Disallow: /api/
+Allow: /api/og-image/*
+Crawl-delay: 0
+
+# Bingbot specific
+User-agent: Bingbot
+Disallow: /admin/
+Disallow: /api/
+Allow: /api/og-image/*
+Crawl-delay: 2
+
+# Bad bots
+User-agent: AhrefsBot
+User-agent: MJ12bot
+User-agent: SemrushBot
+Crawl-delay: 10
 
 Sitemap: https://kuray.dev/sitemap.xml
 Feed: https://kuray.dev/feed.xml

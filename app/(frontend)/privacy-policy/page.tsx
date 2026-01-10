@@ -111,8 +111,8 @@ function generateMetadataElement(meta: Metadata) {
       <meta property="og:url" content={String(meta?.openGraph?.url)} />
       <meta property="og:image" content={Array.isArray(meta?.openGraph?.images) ? String(meta?.openGraph?.images?.[0]) : String(meta?.openGraph?.images)} />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@dropshoptickets" />
-      <meta name="twitter:creator" content="@dropshoptickets" />
+      <meta name="twitter:site" content="@kuraykaraaslan" />
+      <meta name="twitter:creator" content="@kuraykaraaslan" />
       <meta name="twitter:title" content={String(meta?.title)} />
       <meta name="twitter:description" content={String(meta?.description)} />
       <meta name="twitter:image" content={Array.isArray(meta?.openGraph?.images) ? String(meta?.openGraph?.images?.[0]) : String(meta?.openGraph?.images)} />

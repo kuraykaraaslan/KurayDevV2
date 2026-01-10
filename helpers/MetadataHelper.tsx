@@ -112,11 +112,17 @@ export default class MetadataHelper {
                 <meta property="og:type" content={ogType} />
                 <meta property="og:url" content={String(url)} />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:site" content="@dropshoptickets" />
-                <meta name="twitter:creator" content="@dropshoptickets" />
+                <meta name="twitter:site" content="@kuraykaraaslan" />
+                <meta name="twitter:creator" content="@kuraykaraaslan" />
                 <meta name="twitter:title" content={String(title)} />
                 <meta name="twitter:description" content={String(description)} />
                 <meta name="twitter:image" content={images[0]} />
+
+                {/* Basic SEO Meta Tags */}
+                <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+                <meta name="author" content="Kuray Karaaslan" />
+                <meta name="theme-color" content="#000000" />
+
                 {/* JSON-LD Structured Data */}
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
                 {articleJsonLd && (
