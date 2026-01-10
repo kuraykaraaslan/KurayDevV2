@@ -67,8 +67,8 @@ export async function POST(request: NextRequest) {
 
         const post = await PostService.createPost(parsedData.data);
 
-        await KnowledgeGraphService.queueUpdatePost(post.postId)
-
+        await KnowledgeGraphService.queueUpdatePost(post.postId, post);
+        
         if (!post.image) {
             await PostCoverService.resetById(post.postId);
         }
@@ -110,8 +110,7 @@ export async function PUT(request: NextRequest) {
         console.log("Updating post:", parsedData.data.postId);
         const post = await PostService.updatePost(parsedData.data);
 
-        await KnowledgeGraphService.queueUpdatePost(post.postId)
-
+        await KnowledgeGraphService.queueUpdatePost(post.postId, post);
         if (!post.image) {
             await PostCoverService.resetById(post.postId);
         }

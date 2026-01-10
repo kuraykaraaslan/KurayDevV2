@@ -14,7 +14,7 @@ export default class SlotService {
     const keys: string[] = []
     let cursor = '0'
     do {
-      const [next, found] = await redisInstance.scan(cursor, 'MATCH', pattern, 'COUNT', 100)
+      const [next, found] = await redisInstance.scan(cursor, pattern, 100)
       keys.push(...found)
       cursor = next
     } while (cursor !== '0')
@@ -87,9 +87,9 @@ export default class SlotService {
 
   static async getAllSlotsForDate(date: string): Promise<Slot[]> {
     const pattern = this.makeKey(date, '*')
-    const keys = await this.scanKeys(pattern)
-    if (!keys.length) return []
-    const values = await redisInstance.mget(keys)
+    const keys = await this.scanKeys(pattern) as string[]
+    if (!keys || keys.length === 0) return []
+    const values = await redisInstance.mget(...keys)
     return values.filter((v): v is string => !!v).map((v) => JSON.parse(v) as Slot)
   }
 

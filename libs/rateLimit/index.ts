@@ -20,7 +20,7 @@ export default class RateLimiter {
     const current = await redisInstance.get(key);
     const currentCount = current ? parseInt(current, 10) : 0;
     const newCount = currentCount + 1;
-    await redisInstance.set(key, newCount, 'EX', RATE_DURATION);
+    await redisInstance.set(key, newCount.toString(), 'EX', RATE_DURATION);
     return { success: newCount <= RATE_LIMIT, remaining: Math.max(RATE_LIMIT - newCount, 0) };
   }
 

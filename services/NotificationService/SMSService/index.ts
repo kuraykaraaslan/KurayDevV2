@@ -1,6 +1,6 @@
 import Logger from '@/libs/logger';
 import { Queue, Worker } from 'bullmq';
-import redisInstance from '@/libs/redis';
+import redisInstance, { getBullMQConnection } from '@/libs/redis';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 // Providers
@@ -32,7 +32,7 @@ export default class SMSService {
 
 
     static readonly QUEUE = new Queue(SMSService.QUEUE_NAME, {
-        connection: redisInstance,
+        connection: getBullMQConnection(),
     });
 
     static readonly WORKER = new Worker(
@@ -43,7 +43,7 @@ export default class SMSService {
             await SMSService._sendShortMessage({ to, body });
         },
         {
-            connection: redisInstance,
+            connection: getBullMQConnection(),
         }
     );
 

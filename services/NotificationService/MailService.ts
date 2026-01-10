@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 import path from 'path';
 import { Queue, Worker } from 'bullmq';
-import redisInstance from '@/libs/redis';
+import { getBullMQConnection } from '@/libs/redis';
 import { UserAgentData } from '@/types/user/UserSessionTypes';
 import { PostWithData } from '@/types/content/BlogTypes';
 import { Stat } from '@/types/common/StatTypes';
@@ -22,7 +22,7 @@ export default class MailService {
     static readonly QUEUE_NAME = "mailQueue";
 
     static readonly QUEUE = new Queue(MailService.QUEUE_NAME, {
-        connection: redisInstance,
+        connection: getBullMQConnection(),
     });
 
     static readonly WORKER = new Worker(
@@ -32,7 +32,7 @@ export default class MailService {
             Logger.info(`MAIL Worker processing job ${job.id}...`);
             await MailService._sendMail(to, subject, html);
         },
-        { connection: redisInstance, concurrency: 5 }
+        { connection: getBullMQConnection(), concurrency: 5 }
     );
 
     static {

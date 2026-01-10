@@ -1,4 +1,4 @@
-import redis from '@/libs/redis'
+import redis, { getBullMQConnection } from '@/libs/redis'
 import LocalEmbedService from './PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
 import PostService from '@/services/PostService'
@@ -31,7 +31,7 @@ export default class KnowledgeGraphService {
   /** Queue + Worker */
   static readonly QUEUE_NAME = 'knowledgeGraphQueue'
   static readonly QUEUE = new Queue(KnowledgeGraphService.QUEUE_NAME, {
-    connection: redis,
+    connection: getBullMQConnection(),
   })
 
   static readonly WORKER = new Worker(
@@ -42,7 +42,7 @@ export default class KnowledgeGraphService {
       if (type === 'fullRebuild') await KnowledgeGraphService._fullRebuildInternal()
       if (type === 'updatePost' && postId) await KnowledgeGraphService._updatePostInternal(postId)
     },
-    { connection: redis }
+    { connection: getBullMQConnection() }
   )
 
   static {
