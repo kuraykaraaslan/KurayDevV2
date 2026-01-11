@@ -8,11 +8,21 @@ export const GetCategoriesRequestSchema = z.object({
     search: z.string().optional(),
 });
 
+// Translation schema for multi-language support
+export const CategoryTranslationInputSchema = z.object({
+    language: z.string().min(2).max(5),
+    title: z.string().min(1),
+    description: z.string().default(''),
+    slug: z.string().min(1),
+});
+
 export const CreateCategoryRequestSchema = z.object({
     title: z.string().min(1, CategoryMessages.TITLE_REQUIRED),
     description: z.string(),
     slug: z.string().min(1, CategoryMessages.SLUG_REQUIRED),
-    image: z.string(),
+    image: z.string().nullable().optional(),
+    keywords: z.array(z.string()).optional(),
+    translations: z.array(CategoryTranslationInputSchema).optional(),
 });
 
 export const UpdateCategoryRequestSchema = CreateCategoryRequestSchema.extend({
@@ -43,6 +53,7 @@ export const CategoryListResponseSchema = z.object({
 
 // Type exports
 export type GetCategoriesRequest = z.infer<typeof GetCategoriesRequestSchema>;
+export type CategoryTranslationInput = z.infer<typeof CategoryTranslationInputSchema>;
 export type CreateCategoryRequest = z.infer<typeof CreateCategoryRequestSchema>;
 export type UpdateCategoryRequest = z.infer<typeof UpdateCategoryRequestSchema>;
 export type GetCategoryByIdRequest = z.infer<typeof GetCategoryByIdRequestSchema>;

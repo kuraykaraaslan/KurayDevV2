@@ -131,3 +131,26 @@ export async function PUT(request: NextRequest) {
     }
 }
 
+/**
+ * DELETE handler for archiving all posts.
+ * @param request - The incoming request object
+ * @returns A NextResponse containing a success message or an error message
+ */
+export async function DELETE(request: NextRequest) {
+    try {
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
+
+        await PostService.deleteAllPosts();
+
+        return NextResponse.json(
+            { message: "All posts archived successfully." }
+        );
+    }
+    catch (error: any) {
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
+}
+

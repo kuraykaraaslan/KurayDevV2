@@ -384,9 +384,23 @@ export default class PostService {
     static async deletePost(postId: string): Promise<void> {
 
         await redisInstance.del(this.CACHE_KEY);
-        
+
         await prisma.post.update({
             where: { postId },
+            data: {
+                status: 'ARCHIVED',
+                deletedAt: new Date(),
+            },
+        });
+    }
+
+    /**
+     * Archives all posts (soft delete).
+     */
+    static async deleteAllPosts(): Promise<void> {
+        await redisInstance.del(this.CACHE_KEY);
+
+        await prisma.post.updateMany({
             data: {
                 status: 'ARCHIVED',
                 deletedAt: new Date(),

@@ -1,10 +1,14 @@
 'use client';
-import { useState, useEffect, useMemo, FormEvent, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
 import LanguageSelector, { SUPPORTED_LANGUAGES, TranslationStatus, TranslateRequest } from '@/components/admin/UI/Forms/LanguageSelector';
+import FormHeader from '@/components/admin/UI/Forms/FormHeader';
+import DynamicText from '@/components/admin/UI/Forms/DynamicText';
+import GenericElement from '@/components/admin/UI/Forms/GenericElement';
+import Form from '@/components/admin/UI/Forms/Form';
+import ImageLoad from '@/components/common/UI/Images/ImageLoad';
 import {
     EditorTranslation,
     EditorTranslationsState,
@@ -12,9 +16,11 @@ import {
 } from '@/types/content/BlogTypes';
 
 const EditCategory = () => {
+    const localStorageKey = 'category_drafts';
 
     const params = useParams<{ categoryId: string }>();
     const routeCategoryId = params.categoryId;
+    const router = useRouter();
 
     const mode: 'create' | 'edit' = useMemo(
         () => (routeCategoryId === 'create' ? 'create' : 'edit'),
@@ -33,11 +39,8 @@ const EditCategory = () => {
 
     // Common fields (not translated)
     const [keywords, setKeywords] = useState<string[]>([]);
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [image, setImage] = useState<string>('');
     const [isTranslating, setIsTranslating] = useState(false);
-
-    const router = useRouter();
 
     // Helper to get current translation
     const currentTranslation = translations[currentLang] || EMPTY_EDITOR_TRANSLATION;
@@ -62,60 +65,6 @@ const EditCategory = () => {
     const title = currentTranslation.title;
     const description = currentTranslation.description;
     const slug = currentTranslation.slug;
-
-    // Image upload functions
-    const uploadImage = async () => {
-        if (!imageFile) {
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', imageFile);
-        formData.append('folder', 'categories');
-
-        await axiosInstance.post('/api/aws', formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-        ).then((res) => {
-            setImageUrl(res.data.url);
-            toast.success('Image uploaded successfully');
-        }).catch((error) => {
-            console.error(error);
-            toast.error('Failed to upload image');
-        });
-    }
-
-    const uploadFromUrl = async (url: string) => {
-        await axiosInstance.post('/api/aws/from-url', {
-            url,
-            folder: 'categories'
-        }
-        ).then((res) => {
-            setImageUrl(res.data.url);
-            toast.success('Image uploaded successfully');
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-
-    const generateImage = async () => {
-        await axiosInstance.post('/api/ai/dall-e', {
-            prompt: 'create a category image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(','),
-        }).then((res) => {
-            toast.success('Image generated successfully');
-            setImageUrl(res.data.url);
-            return res;
-        }).then((res) => {
-            toast.success('Now uploading image to S3');
-            uploadFromUrl(res.data.url);
-        }).catch((error) => {
-            console.error(error);
-            toast.error('Failed to generate image');
-        });
-    }
 
     // Load category data (edit mode)
     useEffect(() => {
@@ -158,7 +107,7 @@ const EditCategory = () => {
 
                 if (firstCategory) {
                     setKeywords(firstCategory.keywords || []);
-                    setImageUrl(firstCategory.image);
+                    setImage(firstCategory.image || '');
                     setTranslations(loadedTranslations);
 
                     // Select first available language
@@ -190,6 +139,66 @@ const EditCategory = () => {
 
         setSlug(slugifiedTitle);
     }, [title, mode, loading]);
+
+    // Auto Save Draft to LocalStorage
+    useEffect(() => {
+        if (loading) return;
+
+        const draft = {
+            translations,
+            keywords,
+            image,
+            currentLang,
+        };
+
+        try {
+            const caches = localStorage.getItem(localStorageKey);
+            let parsedCaches: Record<string, any> = {};
+
+            try {
+                parsedCaches = caches ? JSON.parse(caches) : {};
+            } catch {
+                parsedCaches = {};
+            }
+
+            parsedCaches[routeCategoryId as string] = draft;
+            localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches));
+        } catch (err) {
+            console.error('Draft autosave error:', err);
+        }
+    }, [
+        translations,
+        keywords,
+        image,
+        loading,
+        currentLang,
+        routeCategoryId,
+    ]);
+
+    // Load Draft from LocalStorage
+    useEffect(() => {
+        try {
+            const caches = localStorage.getItem(localStorageKey);
+            if (!caches) return;
+
+            const parsed = JSON.parse(caches);
+            const draft = parsed[routeCategoryId as string];
+            if (!draft) return;
+
+            if (draft.translations) {
+                setTranslations(draft.translations);
+            }
+            setKeywords(draft.keywords ?? []);
+            setImage(draft.image ?? '');
+            if (draft.currentLang) {
+                setCurrentLang(draft.currentLang);
+            }
+
+            toast.info('Draft loaded from browser');
+        } catch (err) {
+            console.error('Draft load error', err);
+        }
+    }, [routeCategoryId]);
 
     // Language management functions
     const addLanguage = (langCode: string) => {
@@ -273,9 +282,36 @@ const EditCategory = () => {
         }
     };
 
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
+    // Cache temizleme fonksiyonu
+    const clearDraftCache = () => {
+        try {
+            const caches = localStorage.getItem(localStorageKey);
+            if (caches) {
+                const parsed = JSON.parse(caches);
+                delete parsed[routeCategoryId as string];
+                localStorage.setItem(localStorageKey, JSON.stringify(parsed));
+                toast.success('Draft cache cleared');
 
+                // Sayfayı yeniden yükle
+                if (mode === 'edit') {
+                    window.location.reload();
+                } else {
+                    // Create modda state'leri sıfırla
+                    setTranslations({ en: { ...EMPTY_EDITOR_TRANSLATION } });
+                    setImage('');
+                    setKeywords([]);
+                    setCurrentLang('en');
+                }
+            } else {
+                toast.info('No draft cache found');
+            }
+        } catch (err) {
+            console.error('Clear cache error:', err);
+            toast.error('Failed to clear cache');
+        }
+    };
+
+    const handleSubmit = async () => {
         // Validate at least one complete translation
         const filledTranslations = Object.entries(translations).filter(
             ([, t]) => t.title.trim() && t.slug.trim()
@@ -308,12 +344,13 @@ const EditCategory = () => {
             }));
 
         const blogCategory = {
+            categoryId: mode === 'edit' ? routeCategoryId : undefined,
             // Backward compatibility
             title: translations['en']?.title || title,
             description: translations['en']?.description || description,
             slug: translations['en']?.slug || slug,
             keywords: keywords,
-            image: imageUrl,
+            image: image || null,
             // New translations
             translations: translationsArray,
         };
@@ -322,12 +359,25 @@ const EditCategory = () => {
             if (mode === 'create') {
                 await axiosInstance.post('/api/categories', blogCategory);
                 toast.success('Category created successfully');
-                router.push('/admin/categories');
             } else {
-                await axiosInstance.put('/api/categories/' + routeCategoryId, blogCategory);
+                await axiosInstance.put('/api/categories', blogCategory);
                 toast.success('Category updated successfully');
-                router.push('/admin/categories');
             }
+
+            // Clear draft from localStorage after successful save
+            try {
+                const caches = localStorage.getItem(localStorageKey);
+                if (caches) {
+                    const parsed = JSON.parse(caches);
+                    delete parsed[routeCategoryId as string];
+                    localStorage.setItem(localStorageKey, JSON.stringify(parsed));
+                    console.log('Draft cache cleared after save');
+                }
+            } catch (err) {
+                console.error('Failed to clear cache after save:', err);
+            }
+
+            router.push('/admin/categories');
         } catch (error: any) {
             console.error(error);
             toast.error(error?.response?.data?.message || 'Failed to save category');
@@ -343,140 +393,99 @@ const EditCategory = () => {
     }
 
     return (
-        <>
-            <div className="container mx-auto max-w-4xl">
-                <div className="flex justify-between items-center flex-row">
-                    <h1 className="text-3xl font-bold h-16 items-center">
-                        {mode === 'create' ? 'Create Category' : 'Edit Category'}
-                    </h1>
-                    <div className="flex gap-2 h-16">
-                        <Link className="btn btn-primary btn-sm h-12" href="/admin/categories">
-                            Back to Categories
-                        </Link>
-                    </div>
-                </div>
+        <Form
+      className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-7xl"
+            actions={[
+                {
+                    label: mode === 'create' ? 'Create Category' : 'Update Category',
+                    onClick: handleSubmit,
+                    className: 'btn-primary',
+                },
+                {
+                    label: 'Cancel',
+                    onClick: () => router.push('/admin/categories'),
+                    className: 'btn-secondary',
+                },
+            ]}
+        >
+            <FormHeader
+                title={mode === 'create' ? 'Create Category' : 'Edit Category'}
+                className="my-4"
+                actionButtons={[
+                    {
+                        text: 'Clear Cache',
+                        className: 'btn-sm btn-warning',
+                        onClick: clearDraftCache,
+                    },
+                    {
+                        text: 'Back to Categories',
+                        className: 'btn-sm btn-primary',
+                        onClick: () => router.push('/admin/categories'),
+                    },
+                ]}
+            />
 
-                <form className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+            <LanguageSelector
+                currentLang={currentLang}
+                onLanguageChange={setCurrentLang}
+                activeLanguages={Object.keys(translations)}
+                onAddLanguage={addLanguage}
+                onRemoveLanguage={removeLanguage}
+                getTranslationStatus={getTranslationStatus}
+                onTranslateRequest={handleTranslateRequest}
+                isTranslating={isTranslating}
+                availableFields={['title', 'description', 'slug']}
+            />
 
-                    <LanguageSelector
-                        currentLang={currentLang}
-                        onLanguageChange={setCurrentLang}
-                        activeLanguages={Object.keys(translations)}
-                        onAddLanguage={addLanguage}
-                        onRemoveLanguage={removeLanguage}
-                        getTranslationStatus={getTranslationStatus}
-                        onTranslateRequest={handleTranslateRequest}
-                        isTranslating={isTranslating}
-                        availableFields={['title', 'description', 'slug']}
-                        cardBgClass="bg-base-100"
-                        buttonBgClass="bg-base-200"
-                    />
+            <DynamicText
+                label={`Title (${currentLang.toUpperCase()})`}
+                placeholder="Title"
+                value={title}
+                setValue={setTitle}
+                size="md"
+            />
 
-                    {/* Title */}
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Title ({currentLang.toUpperCase()})</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            className="input input-bordered"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </div>
+            <DynamicText
+                label={`Description (${currentLang.toUpperCase()})`}
+                placeholder="Description"
+                value={description}
+                setValue={setDescription}
+                size="md"
+                isTextarea={true}
+            />
 
-                    {/* Description */}
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Description ({currentLang.toUpperCase()})</span>
-                        </label>
-                        <textarea
-                            placeholder="Description"
-                            className="textarea textarea-bordered"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </div>
+            <DynamicText
+                label={`Slug (${currentLang.toUpperCase()})`}
+                placeholder="Slug"
+                value={slug}
+                setValue={setSlug}
+                size="md"
+            />
 
-                    {/* Slug */}
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Slug ({currentLang.toUpperCase()})</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Slug"
-                            className="input input-bordered"
-                            value={slug}
-                            onChange={(e) => setSlug(e.target.value)}
-                        />
-                    </div>
+            <DynamicText
+                label="Keywords"
+                placeholder="Keywords (comma separated)"
+                value={keywords.join(', ')}
+                setValue={(val) =>
+                    setKeywords(
+                        val
+                            .split(',')
+                            .map((s) => s.trim())
+                            .filter((s) => s.length > 0)
+                    )
+                }
+                size="md"
+            />
 
-                    <div className="divider">Common Fields / Ortak Alanlar</div>
-
-                    {/* Keywords (common) */}
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Keywords</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Keywords (comma separated)"
-                            className="input input-bordered"
-                            value={keywords.join(',')}
-                            onChange={(e) => setKeywords(e.target.value.split(',').map(k => k.trim()).filter(k => k))}
-                        />
-                    </div>
-
-                    {/* Image (common) */}
-                    <div className="form-control mb-4 mt-4">
-                        <label className="label">
-                            <span className="label-text">Image</span>
-                        </label>
-                        <img
-                            src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
-                            width={384}
-                            height={256}
-                            alt="Category Image"
-                            className="h-64 w-96 object-cover rounded-lg"
-                        />
-                        <div className="relative flex justify-between items-center mt-2">
-                            <input
-                                type="file"
-                                placeholder="Image URL"
-                                className="file-input file-input-bordered flex-1"
-                                accept="image/*"
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        setImageFile(file);
-                                    }
-                                }}
-                            />
-                            <div className="flex gap-2 ml-2">
-                                <button type="button" className="btn btn-primary btn-sm" onClick={uploadImage}>
-                                    Upload
-                                </button>
-                                <button type="button" className="btn btn-secondary btn-sm" onClick={generateImage}>
-                                    Generate AI
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Submit buttons */}
-                    <div className="flex gap-2 mt-6">
-                        <button type="submit" className="btn btn-primary flex-1">
-                            {mode === 'create' ? 'Create Category' : 'Update Category'}
-                        </button>
-                        <button type="button" className="btn btn-outline" onClick={() => router.push('/admin/categories')}>
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </>
+            <GenericElement label="Image">
+                <ImageLoad
+                    image={image}
+                    setImage={setImage}
+                    uploadFolder="categories"
+                    toast={toast}
+                />
+            </GenericElement>
+        </Form>
     );
 }
 

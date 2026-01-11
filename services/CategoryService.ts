@@ -37,7 +37,7 @@ export default class CategoryService {
         title: string;
         description: string;
         slug: string;
-        image?: string;
+        image?: string | null;
         keywords?: string[];
         translations?: Array<{
             language: string;
@@ -190,7 +190,7 @@ export default class CategoryService {
         title: string;
         description: string;
         slug: string;
-        image?: string;
+        image?: string | null;
         keywords?: string[];
         translations?: Array<{
             language: string;

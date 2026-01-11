@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
-import { CreateCategoryRequestSchema } from "@/dtos/CategoryDTO";
-
+import { CreateCategoryRequestSchema, UpdateCategoryRequestSchema } from "@/dtos/CategoryDTO";
 
 /**
  * GET handler for retrieving all categories with optional pagination and search.
  * @param request - The incoming request object
  * @returns A NextResponse containing the categories data or an error message
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
 
@@ -21,10 +20,11 @@ export async function GET(request: Request) {
 
         const result = await CategoryService.getAllCategories(page, pageSize, search, language);
 
-        return NextResponse.json({ categories: result.categories, total: result.total, language });
+        return NextResponse.json({ categories: result.categories, total: result.total, page, pageSize, language });
 
     }
     catch (error: any) {
+        console.error(error.message);
         return NextResponse.json(
             { message: error.message },
             { status: 500 }
@@ -33,39 +33,67 @@ export async function GET(request: Request) {
 }
 
 /**
- * POST handler for creating a new post.
+ * POST handler for creating a new category.
  * @param request - The incoming request object
- * @returns A NextResponse containing the new post data or an error message
+ * @returns A NextResponse containing the new category data or an error message
  */
 export async function POST(request: NextRequest) {
     try {
 
-        await UserSessionService.authenticateUserByRequest({ request });
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
         const body = await request.json();
-        
+
         const parsedData = CreateCategoryRequestSchema.safeParse(body);
-        
+
         if (!parsedData.success) {
             return NextResponse.json({
                 error: parsedData.error.errors.map(err => err.message).join(", ")
             }, { status: 400 });
         }
 
-        const { title, description, slug, image } = parsedData.data;
-
-        const data = {
-            title,
-            description,
-            slug,
-            image,
-        };
-
-        const category = await CategoryService.createCategory(data);
+        const category = await CategoryService.createCategory(parsedData.data);
 
         return NextResponse.json({ category });
 
     } catch (error: any) {
+        console.error(error.message);
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
+}
+
+/**
+ * PUT handler for updating a category.
+ * @param request - The incoming request object
+ * @returns A NextResponse containing the updated category data or an error message
+ */
+export async function PUT(request: NextRequest) {
+    try {
+
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
+
+        const data = await request.json();
+
+        const parsedData = UpdateCategoryRequestSchema.safeParse(data);
+
+        if (!parsedData.success) {
+            console.log("Validation errors:", parsedData.error.errors);
+            return NextResponse.json({
+                error: parsedData.error.errors.map(err => err.message).join(", ")
+            }, { status: 400 });
+        }
+
+        console.log("Updating category:", parsedData.data.categoryId);
+        const category = await CategoryService.updateCategory(parsedData.data.categoryId, parsedData.data);
+
+        return NextResponse.json({ category });
+
+    }
+    catch (error: any) {
+        console.error(error);
         return NextResponse.json(
             { message: error.message },
             { status: 500 }
@@ -77,21 +105,21 @@ export async function POST(request: NextRequest) {
  * DELETE handler for deleting all categories.
  * @param request - The incoming request object
  * @returns A NextResponse containing a success message or an error message
- * */
+ */
+export async function DELETE(request: NextRequest) {
+    try {
+        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
 
-export async function DELETE(_request: Request) {
-        try {
-            await CategoryService.deleteAllCategories();
+        await CategoryService.deleteAllCategories();
 
-            return NextResponse.json(
-                { message: "All categories deleted successfully." }
-            );
-        }
-        catch (error: any) {
-            return NextResponse.json(
-                { message: error.message },
-                { status: 500 }
-            );
-        }
-
+        return NextResponse.json(
+            { message: "All categories deleted successfully." }
+        );
     }
+    catch (error: any) {
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        );
+    }
+}
