@@ -1,5 +1,5 @@
 /**
- * Migration Script: Post ve Category verilerini Translation tablolarına taşır
+ * Migration Script: Post, Category ve Project verilerini Translation tablolarına taşır
  *
  * Kullanım:
  *   npx tsx scripts/migrate-to-translations.ts
@@ -22,6 +22,7 @@ const DEFAULT_LANGUAGE = 'en'
 interface MigrationStats {
   posts: { total: number; migrated: number; skipped: number }
   categories: { total: number; migrated: number; skipped: number }
+  projects: { total: number; migrated: number; skipped: number }
 }
 
 async function migratePostsToTranslations(): Promise<{ migrated: number; skipped: number }> {
@@ -122,6 +123,55 @@ async function migrateCategoriesToTranslations(): Promise<{ migrated: number; sk
   return { migrated, skipped }
 }
 
+async function migrateProjectsToTranslations(): Promise<{ migrated: number; skipped: number }> {
+  const projects = await prisma.project.findMany({
+    select: {
+      projectId: true,
+      title: true,
+      content: true,
+      description: true,
+      slug: true,
+    }
+  })
+
+  let migrated = 0
+  let skipped = 0
+
+  for (const project of projects) {
+    // Zaten translation var mı kontrol et
+    const existingTranslation = await prisma.projectTranslation.findUnique({
+      where: {
+        projectId_language: {
+          projectId: project.projectId,
+          language: DEFAULT_LANGUAGE
+        }
+      }
+    })
+
+    if (existingTranslation) {
+      console.log(`  ⏭️  Project "${project.slug}" zaten ${DEFAULT_LANGUAGE} çevirisi var, atlanıyor`)
+      skipped++
+      continue
+    }
+
+    await prisma.projectTranslation.create({
+      data: {
+        projectId: project.projectId,
+        language: DEFAULT_LANGUAGE,
+        title: project.title,
+        content: project.content,
+        description: project.description ?? '',
+        slug: project.slug,
+      }
+    })
+
+    console.log(`  ✅ Project "${project.slug}" → ${DEFAULT_LANGUAGE} çevirisi oluşturuldu`)
+    migrated++
+  }
+
+  return { migrated, skipped }
+}
+
 async function main() {
   console.log('═══════════════════════════════════════════════════════════')
   console.log('  🌐 Multi-Language Migration Script')
@@ -130,19 +180,23 @@ async function main() {
 
   const stats: MigrationStats = {
     posts: { total: 0, migrated: 0, skipped: 0 },
-    categories: { total: 0, migrated: 0, skipped: 0 }
+    categories: { total: 0, migrated: 0, skipped: 0 },
+    projects: { total: 0, migrated: 0, skipped: 0 }
   }
 
-  // Post sayısını al
+  // Sayıları al
   const postCount = await prisma.post.count()
   const categoryCount = await prisma.category.count()
+  const projectCount = await prisma.project.count()
 
   stats.posts.total = postCount
   stats.categories.total = categoryCount
+  stats.projects.total = projectCount
 
   console.log(`📊 Mevcut veriler:`)
   console.log(`   - ${postCount} post`)
-  console.log(`   - ${categoryCount} kategori\n`)
+  console.log(`   - ${categoryCount} kategori`)
+  console.log(`   - ${projectCount} proje\n`)
 
   // Posts migration
   console.log('📝 Post çevirileri oluşturuluyor...')
@@ -160,6 +214,14 @@ async function main() {
   stats.categories.skipped = categoryResult.skipped
   console.log('')
 
+  // Projects migration
+  console.log('🚀 Proje çevirileri oluşturuluyor...')
+  console.log('─────────────────────────────────────')
+  const projectResult = await migrateProjectsToTranslations()
+  stats.projects.migrated = projectResult.migrated
+  stats.projects.skipped = projectResult.skipped
+  console.log('')
+
   // Summary
   console.log('═══════════════════════════════════════════════════════════')
   console.log('  📋 ÖZET')
@@ -172,6 +234,10 @@ async function main() {
   console.log(`    - Toplam: ${stats.categories.total}`)
   console.log(`    - Migrate edildi: ${stats.categories.migrated}`)
   console.log(`    - Atlandı: ${stats.categories.skipped}`)
+  console.log(`  Projects:`)
+  console.log(`    - Toplam: ${stats.projects.total}`)
+  console.log(`    - Migrate edildi: ${stats.projects.migrated}`)
+  console.log(`    - Atlandı: ${stats.projects.skipped}`)
   console.log('═══════════════════════════════════════════════════════════')
   console.log('  ✅ Migration tamamlandı!')
   console.log('═══════════════════════════════════════════════════════════')

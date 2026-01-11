@@ -257,6 +257,25 @@ model Project {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @default(now()) @updatedAt
   projectLinks String[]
+
+  translations ProjectTranslation[]
+}
+
+model ProjectTranslation {
+  projectId String
+  language  String
+
+  title       String
+  content     String
+  description String
+  slug        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+
+  @@id([projectId, language])
+  @@unique([slug, language])
 }
 
 // Appointment Scheduling

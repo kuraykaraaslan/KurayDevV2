@@ -2,24 +2,32 @@ import { z } from "zod";
 
 // Request DTOs
 export const GetProjectsRequestSchema = z.object({
-    page: z.number().int().default(1),
+    page: z.number().int().default(0),
     pageSize: z.number().int().default(10),
     search: z.string().optional(),
     projectId: z.string().optional(),
 });
 
+// Translation schema for multi-language support
+export const ProjectTranslationInputSchema = z.object({
+    language: z.string().min(2).max(5),
+    title: z.string().min(1),
+    content: z.string().min(1),
+    description: z.string().default(''),
+    slug: z.string().min(1),
+});
+
 export const CreateProjectRequestSchema = z.object({
-    title: z.string(),
-    description: z.string().nullable(),
-    slug: z.string(),
-    image: z.string().nullable(),
+    title: z.string().min(1, "Title is required"),
+    description: z.string().nullable().default(''),
+    slug: z.string().min(1, "Slug is required"),
+    image: z.string().nullable().optional(),
     status: z.string().default("PUBLISHED"),
     platforms: z.array(z.string()).default([]),
     technologies: z.array(z.string()).default([]),
-    content: z.string(),
-    createdAt: z.date(),
-    updatedAt: z.date().nullable(),
+    content: z.string().min(1, "Content is required"),
     projectLinks: z.array(z.string()).default([]),
+    translations: z.array(ProjectTranslationInputSchema).optional(),
 });
 
 export const UpdateProjectRequestSchema = CreateProjectRequestSchema.extend({
@@ -55,6 +63,7 @@ export const ProjectListResponseSchema = z.object({
 
 // Type exports
 export type GetProjectsRequest = z.infer<typeof GetProjectsRequestSchema>;
+export type ProjectTranslationInput = z.infer<typeof ProjectTranslationInputSchema>;
 export type CreateProjectRequest = z.infer<typeof CreateProjectRequestSchema>;
 export type UpdateProjectRequest = z.infer<typeof UpdateProjectRequestSchema>;
 export type GetProjectByIdRequest = z.infer<typeof GetProjectByIdRequestSchema>;
