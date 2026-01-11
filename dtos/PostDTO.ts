@@ -13,6 +13,16 @@ export const GetPostsRequestSchema = z.object({
     search: z.string().optional(),
 });
 
+// Translation schema for multi-language support
+export const PostTranslationInputSchema = z.object({
+    language: z.string().min(2).max(5),
+    title: z.string().min(1),
+    content: z.string().min(1),
+    description: z.string().optional(),
+    slug: z.string().min(1),
+    keywords: z.array(z.string()).optional(),
+});
+
 export const CreatePostRequestSchema = z.object({
     title: z.string().min(1, PostMessages.TITLE_REQUIRED),
     content: z.string().min(1, PostMessages.CONTENT_REQUIRED),
@@ -26,6 +36,7 @@ export const CreatePostRequestSchema = z.object({
     status: PostStatusEnum.default("DRAFT"),
     views: z.number().default(0),
     deletedAt: z.date().nullable().optional(),
+    translations: z.array(PostTranslationInputSchema).optional(),
 });
 
 export const UpdatePostRequestSchema = CreatePostRequestSchema.extend({
@@ -58,6 +69,7 @@ export const PostListResponseSchema = z.object({
 
 // Type exports
 export type GetPostsRequest = z.infer<typeof GetPostsRequestSchema>;
+export type PostTranslationInput = z.infer<typeof PostTranslationInputSchema>;
 export type CreatePostRequest = z.infer<typeof CreatePostRequestSchema>;
 export type UpdatePostRequest = z.infer<typeof UpdatePostRequestSchema>;
 export type PostResponse = z.infer<typeof PostResponseSchema>;

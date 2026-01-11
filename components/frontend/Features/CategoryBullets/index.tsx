@@ -5,18 +5,22 @@ import { Category } from '@/types/content/BlogTypes';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
-export default function CategoryBullets() {
+interface CategoryBulletsProps {
+    lang?: string;
+}
+
+export default function CategoryBullets({ lang = 'en' }: CategoryBulletsProps) {
     const { t } = useTranslation();
     const [categories, setCategories] = useState<Category[]>([]);
     const [page, _setPage] = useState(0);
 
     useEffect(() => {
-        axiosInstance.get(`/api/categories?page=${page + 1}`)
+        axiosInstance.get(`/api/categories?page=${page + 1}&lang=${lang}`)
             .then(response => {
                 setCategories(response.data.categories);
             });
 
-    }, [page]); // Make sure to include all dependencies that affect the API call
+    }, [page, lang]);
 
     return (
         <section className="bg-base-300 py-12" id="categories">
@@ -32,7 +36,7 @@ export default function CategoryBullets() {
                     {categories.map((category) => (
                         <Link
                             key={category.categoryId}
-                            href={"/blog/" + category.slug}
+                            href={`/${lang}/blog/${category.slug}`}
                             className="m-2 px-4 py-2 bg-primary text-white rounded-md"
                         >
                             {category.title}

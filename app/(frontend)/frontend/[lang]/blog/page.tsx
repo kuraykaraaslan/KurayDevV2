@@ -6,15 +6,19 @@ import MetadataHelper from '@/helpers/MetadataHelper';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-const BlogPage = ({
-}) => {
+interface BlogPageProps {
+    params: Promise<{ lang: string }>;
+}
+
+const BlogPage = async ({ params }: BlogPageProps) => {
+    const { lang } = await params;
 
     const metadata: Metadata = {
         title: 'Blog | Kuray Karaaslan',
-        description: 'Welcome to my tech blog! I’m Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel. Stay updated, solve problems, and grow your tech expertise with me!',
+        description: "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel. Stay updated, solve problems, and grow your tech expertise with me!",
         openGraph: {
             title: 'Blog | Kuray Karaaslan',
-            description: 'Welcome to my tech blog! I’m Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel. Stay updated, solve problems, and grow your tech expertise with me!',
+            description: "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel. Stay updated, solve problems, and grow your tech expertise with me!",
             type: 'website',
             url: `${APPLICATION_HOST}/blog`,
             images: [
@@ -26,8 +30,8 @@ const BlogPage = ({
     return (
         <>
             {MetadataHelper.generateElements(metadata)}
-            <Feed />
-            <CategoryBullets />
+            <Feed lang={lang} />
+            <CategoryBullets lang={lang} />
             <Newsletter />
         </>
     );

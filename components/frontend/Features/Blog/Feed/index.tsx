@@ -15,11 +15,12 @@ const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 interface FeedProps {
     category?: Pick<Category, 'categoryId' | 'title'>;
     author?: Pick<SafeUser, 'userId' | 'name' | 'userProfile'>;
+    lang?: string;
 }
 
 export default function Feed(props: FeedProps) {
 
-    const { category, author } = props;
+    const { category, author, lang = 'en' } = props;
     const { t } = useTranslation();
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
@@ -28,16 +29,31 @@ export default function Feed(props: FeedProps) {
     const [isMoreAvailable, setIsMoreAvailable] = useState(true);
 
     useEffect(() => {
-        console.log("Fetching posts for feed...", { category, author });
-        axiosInstance.get("/api/posts" + `?page=${page}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : '') + `${author ? `&authorId=${author.userId}` : ''}`)
-            .then(response => {
+        // Reset feeds when language changes
+        if (page === 0) {
+            setFeeds([]);
+        }
+    }, [lang]);
 
+    useEffect(() => {
+        console.log("Fetching posts for feed...", { category, author, lang });
+
+        const params = new URLSearchParams({
+            page: String(page),
+            pageSize: String(pageSize),
+            sort: 'desc',
+            lang: lang,
+        });
+
+        if (category) params.append('categoryId', category.categoryId);
+        if (author) params.append('authorId', author.userId);
+
+        axiosInstance.get(`/api/posts?${params.toString()}`)
+            .then(response => {
                 console.log("Fetched posts:", response);
 
-
                 const incomingFeeds = response.data.posts.map((post: any) => {
-
-                    //dont allow duplicate posts
+                    // Don't allow duplicate posts
                     if (feeds.find(feed => feed.postId === post.postId)) {
                         return null;
                     }
@@ -50,17 +66,15 @@ export default function Feed(props: FeedProps) {
                         createdAt: new Date(post.createdAt),
                         image: post.image ? post.image : `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`,
                     };
-                });
+                }).filter(Boolean);
 
                 setFeeds(prev => [...prev, ...incomingFeeds]);
-
-
                 setIsMoreAvailable((response.data.total > (page + 1) * pageSize) && incomingFeeds.length === pageSize);
             }).catch(error => {
                 console.error("Error fetching posts:", error);
             });
 
-    }, [page]); // Make sure to include all dependencies that affect the API call
+    }, [page, lang, category?.categoryId, author?.userId]);
 
     return (
         <section className="min-h-screen bg-base-100 pt-32 " id="blog">
@@ -82,7 +96,7 @@ export default function Feed(props: FeedProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
                         {feeds.map((feed, index) => {
                             if (index < 2) {
-                                return <FeedCardImage key={index} {...feed} />
+                                return <FeedCardImage key={index} {...feed} lang={lang} />
                             } else {
                                 return null;
                             }
@@ -92,7 +106,7 @@ export default function Feed(props: FeedProps) {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         {feeds.map((feed, index) => {
                             if (index >= 2) {
-                                return <FeedCardImage key={index} {...feed} />
+                                return <FeedCardImage key={index} {...feed} lang={lang} />
                             } else {
                                 return null;
                             }

@@ -156,7 +156,7 @@ model PostTranslation {
   title             String
   content           String
   description       String
-  slug              String   @unique
+  slug              String
   keywords          String[]
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -164,6 +164,7 @@ model PostTranslation {
   post Post @relation(fields: [postId], references: [postId])
 
   @@id([postId, language])
+  @@unique([slug, language])
 }
 
 model Category {
@@ -188,13 +189,14 @@ model CategoryTranslation {
 
   title             String
   description       String
-  slug              String   @unique
+  slug              String
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
   category Category @relation(fields: [categoryId], references: [categoryId])
 
   @@id([categoryId, language])
+  @@unique([slug, language])
 }
 
 enum CommentStatus {

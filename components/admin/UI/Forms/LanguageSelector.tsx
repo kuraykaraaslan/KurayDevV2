@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
+import { HeadlessModal } from '@/components/common/Layout/Modal';
 
 export type TranslationStatus = 'complete' | 'partial' | 'empty';
 
@@ -19,6 +20,20 @@ export const SUPPORTED_LANGUAGES: Language[] = [
   { code: 'nl', label: 'Nederlands', flag: '🇳🇱' },
 ];
 
+export interface TranslateRequest {
+  sourceLang: string;
+  targetLang: string;
+  fields: string[];
+}
+
+export const TRANSLATABLE_FIELDS = [
+  { key: 'title', label: 'Title' },
+  { key: 'content', label: 'Content' },
+  { key: 'description', label: 'Description' },
+  { key: 'slug', label: 'Slug' },
+  { key: 'keywords', label: 'Keywords' },
+];
+
 interface LanguageSelectorProps {
   /** Currently selected language code */
   currentLang: string;
@@ -32,6 +47,12 @@ interface LanguageSelectorProps {
   onRemoveLanguage: (langCode: string) => void;
   /** Function to get translation status for a language */
   getTranslationStatus: (langCode: string) => TranslationStatus;
+  /** Optional callback for translation requests */
+  onTranslateRequest?: (request: TranslateRequest) => void;
+  /** Whether translation is in progress */
+  isTranslating?: boolean;
+  /** Available fields for translation (defaults to all) */
+  availableFields?: string[];
   /** Optional custom class name */
   className?: string;
   /** Optional card background class */
@@ -47,6 +68,9 @@ const LanguageSelector = ({
   onAddLanguage,
   onRemoveLanguage,
   getTranslationStatus,
+  onTranslateRequest,
+  isTranslating = false,
+  availableFields,
   className = '',
   cardBgClass = 'bg-base-200',
   buttonBgClass = 'bg-base-100',
@@ -55,10 +79,62 @@ const LanguageSelector = ({
   const currentLanguage = SUPPORTED_LANGUAGES.find(l => l.code === currentLang);
   const availableLanguages = SUPPORTED_LANGUAGES.filter(l => !activeLanguages.includes(l.code));
 
+  // Context menu state
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; targetLang: string } | null>(null);
+  const [translateModal, setTranslateModal] = useState<{ sourceLang: string; targetLang: string } | null>(null);
+  const [selectedFields, setSelectedFields] = useState<string[]>([]);
+  const contextMenuRef = useRef<HTMLDivElement>(null);
+
+  // Get fields to show based on availableFields prop
+  const fieldsToShow = availableFields
+    ? TRANSLATABLE_FIELDS.filter(f => availableFields.includes(f.key))
+    : TRANSLATABLE_FIELDS;
+
+  // Close context menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(e.target as Node)) {
+        setContextMenu(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleRemove = useCallback((e: React.MouseEvent, langCode: string) => {
     e.stopPropagation();
     onRemoveLanguage(langCode);
   }, [onRemoveLanguage]);
+
+  const handleContextMenu = useCallback((e: React.MouseEvent, langCode: string) => {
+    if (!onTranslateRequest || activeLanguages.length < 2) return;
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY, targetLang: langCode });
+  }, [onTranslateRequest, activeLanguages.length]);
+
+  const openTranslateModal = useCallback((sourceLang: string, targetLang: string) => {
+    setContextMenu(null);
+    setSelectedFields(fieldsToShow.map(f => f.key)); // Select all by default
+    setTranslateModal({ sourceLang, targetLang });
+  }, [fieldsToShow]);
+
+  const handleTranslate = useCallback(() => {
+    if (!translateModal || !onTranslateRequest || selectedFields.length === 0) return;
+    onTranslateRequest({
+      sourceLang: translateModal.sourceLang,
+      targetLang: translateModal.targetLang,
+      fields: selectedFields,
+    });
+    setTranslateModal(null);
+  }, [translateModal, onTranslateRequest, selectedFields]);
+
+  const toggleField = useCallback((fieldKey: string) => {
+    setSelectedFields(prev =>
+      prev.includes(fieldKey)
+        ? prev.filter(f => f !== fieldKey)
+        : [...prev, fieldKey]
+    );
+  }, []);
 
   return (
     <div className={`card ${cardBgClass} shadow-sm mb-6 ${className}`}>
@@ -96,6 +172,7 @@ const LanguageSelector = ({
                 <button
                   type="button"
                   onClick={() => onLanguageChange(langCode)}
+                  onContextMenu={(e) => handleContextMenu(e, langCode)}
                   className={`
                     relative flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm
                     transition-all duration-200 ease-out
@@ -103,7 +180,9 @@ const LanguageSelector = ({
                       ? 'bg-primary text-primary-content shadow-md scale-[1.02]'
                       : `${buttonBgClass} hover:bg-base-300 text-base-content/80 hover:text-base-content`
                     }
+                    ${isTranslating ? 'opacity-50 pointer-events-none' : ''}
                   `}
+                  disabled={isTranslating}
                 >
                   <span className="text-lg">{lang?.flag || '🌐'}</span>
                   <span>{lang?.label || langCode.toUpperCase()}</span>
@@ -192,16 +271,137 @@ const LanguageSelector = ({
         {/* Current language indicator */}
         <div className="flex items-center gap-2 mt-3 pt-3 border-t border-base-300">
           <span className="text-2xl">{currentLanguage?.flag}</span>
-          <div>
+          <div className="flex-1">
             <p className="text-sm font-medium">
               Editing in {currentLanguage?.label}
             </p>
             <p className="text-xs opacity-50">
-              Changes will be saved for this language only
+              {onTranslateRequest ? 'Right-click on a language to translate' : 'Changes will be saved for this language only'}
             </p>
           </div>
+          {isTranslating && (
+            <div className="flex items-center gap-2 text-sm text-primary">
+              <span className="loading loading-spinner loading-sm"></span>
+              Translating...
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <div
+          ref={contextMenuRef}
+          className="fixed z-50 bg-base-100 rounded-lg shadow-xl border border-base-300 py-2 min-w-48"
+          style={{ left: contextMenu.x, top: contextMenu.y }}
+        >
+          <div className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wide opacity-50 border-b border-base-300 mb-1">
+            Translate to {SUPPORTED_LANGUAGES.find(l => l.code === contextMenu.targetLang)?.label}
+          </div>
+          {activeLanguages
+            .filter(lang => lang !== contextMenu.targetLang)
+            .map(sourceLang => {
+              const lang = SUPPORTED_LANGUAGES.find(l => l.code === sourceLang);
+              const status = getTranslationStatus(sourceLang);
+              return (
+                <button
+                  key={sourceLang}
+                  type="button"
+                  className="w-full px-3 py-2 text-left hover:bg-base-200 flex items-center gap-3 text-sm"
+                  onClick={() => openTranslateModal(sourceLang, contextMenu.targetLang)}
+                  disabled={status === 'empty'}
+                >
+                  <span className="text-lg">{lang?.flag}</span>
+                  <span className="flex-1">From {lang?.label}</span>
+                  {status === 'empty' && (
+                    <span className="text-xs opacity-50">(empty)</span>
+                  )}
+                </button>
+              );
+            })}
+        </div>
+      )}
+
+      {/* Translate Modal */}
+      <HeadlessModal
+        open={!!translateModal}
+        onClose={() => setTranslateModal(null)}
+        title={
+          <span className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+            </svg>
+            Translate Content
+          </span>
+        }
+        description={translateModal && (
+          <span>
+            {SUPPORTED_LANGUAGES.find(l => l.code === translateModal.sourceLang)?.flag}{' '}
+            {SUPPORTED_LANGUAGES.find(l => l.code === translateModal.sourceLang)?.label}
+            {' → '}
+            {SUPPORTED_LANGUAGES.find(l => l.code === translateModal.targetLang)?.flag}{' '}
+            {SUPPORTED_LANGUAGES.find(l => l.code === translateModal.targetLang)?.label}
+          </span>
+        )}
+        size="sm"
+      >
+        <div className="space-y-4">
+          <p className="text-sm opacity-70">Select fields to translate:</p>
+          <div className="space-y-2">
+            {fieldsToShow.map(field => (
+              <label
+                key={field.key}
+                className="flex items-center gap-3 p-3 rounded-lg bg-base-200 hover:bg-base-300 cursor-pointer transition-colors"
+              >
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-primary checkbox-sm"
+                  checked={selectedFields.includes(field.key)}
+                  onChange={() => toggleField(field.key)}
+                />
+                <span className="font-medium">{field.label}</span>
+              </label>
+            ))}
+          </div>
+
+          {/* Select All / None */}
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="btn btn-xs btn-ghost"
+              onClick={() => setSelectedFields(fieldsToShow.map(f => f.key))}
+            >
+              Select All
+            </button>
+            <button
+              type="button"
+              className="btn btn-xs btn-ghost"
+              onClick={() => setSelectedFields([])}
+            >
+              Select None
+            </button>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-2 pt-4 border-t border-base-300">
+            <button
+              type="button"
+              className="btn btn-ghost flex-1"
+              onClick={() => setTranslateModal(null)}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary flex-1"
+              onClick={handleTranslate}
+              disabled={selectedFields.length === 0}
+            >
+              Translate ({selectedFields.length} field{selectedFields.length !== 1 ? 's' : ''})
+            </button>
+          </div>
+        </div>
+      </HeadlessModal>
     </div>
   );
 };

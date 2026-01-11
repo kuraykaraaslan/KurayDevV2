@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
-import LanguageSelector, { SUPPORTED_LANGUAGES, TranslationStatus } from '@/components/admin/UI/Forms/LanguageSelector';
+import LanguageSelector, { SUPPORTED_LANGUAGES, TranslationStatus, TranslateRequest } from '@/components/admin/UI/Forms/LanguageSelector';
 import {
     EditorTranslation,
     EditorTranslationsState,
@@ -35,6 +35,7 @@ const EditCategory = () => {
     const [keywords, setKeywords] = useState<string[]>([]);
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [isTranslating, setIsTranslating] = useState(false);
 
     const router = useRouter();
 
@@ -225,6 +226,53 @@ const EditCategory = () => {
         return 'empty';
     };
 
+    // Translation handler
+    const handleTranslateRequest = async (request: TranslateRequest) => {
+        const { sourceLang, targetLang, fields } = request;
+        const sourceTranslation = translations[sourceLang];
+
+        if (!sourceTranslation) {
+            toast.error('Source language has no content');
+            return;
+        }
+
+        setIsTranslating(true);
+
+        try {
+            const response = await axiosInstance.post('/api/ai/translate', {
+                content: {
+                    title: sourceTranslation.title,
+                    description: sourceTranslation.description,
+                    slug: sourceTranslation.slug,
+                },
+                fields,
+                sourceLang,
+                targetLang,
+            });
+
+            const translated = response.data.translated;
+
+            // Update target language with translated content
+            setTranslations(prev => ({
+                ...prev,
+                [targetLang]: {
+                    ...(prev[targetLang] || EMPTY_EDITOR_TRANSLATION),
+                    ...translated,
+                },
+            }));
+
+            // Switch to target language
+            setCurrentLang(targetLang);
+
+            toast.success(`Translated ${fields.length} field(s) successfully`);
+        } catch (error: any) {
+            console.error('Translation error:', error);
+            toast.error(error?.response?.data?.message || 'Translation failed');
+        } finally {
+            setIsTranslating(false);
+        }
+    };
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
@@ -310,13 +358,16 @@ const EditCategory = () => {
 
                 <form className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
 
-                        <LanguageSelector
+                    <LanguageSelector
                         currentLang={currentLang}
                         onLanguageChange={setCurrentLang}
                         activeLanguages={Object.keys(translations)}
                         onAddLanguage={addLanguage}
                         onRemoveLanguage={removeLanguage}
                         getTranslationStatus={getTranslationStatus}
+                        onTranslateRequest={handleTranslateRequest}
+                        isTranslating={isTranslating}
+                        availableFields={['title', 'description', 'slug']}
                         cardBgClass="bg-base-100"
                         buttonBgClass="bg-base-200"
                     />

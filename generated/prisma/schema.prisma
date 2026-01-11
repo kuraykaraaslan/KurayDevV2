@@ -118,19 +118,25 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+enum PostStatusEnum {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model Post {
-  postId      String    @id @default(cuid())
+  postId      String         @id @default(cuid())
   title       String
   content     String
   authorId    String
   description String?
-  slug        String    @unique
+  slug        String         @unique
   keywords    String[]
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime       @default(now())
   categoryId  String
   image       String?
-  status      String    @default("PUBLISHED")
-  views       Int       @default(0)
+  status      PostStatusEnum @default(PUBLISHED)
+  views       Int            @default(0)
   deletedAt   DateTime?
 
   comment  Comment[]
@@ -149,7 +155,7 @@ model PostTranslation {
   title       String
   content     String
   description String
-  slug        String   @unique
+  slug        String
   keywords    String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -157,6 +163,7 @@ model PostTranslation {
   post Post @relation(fields: [postId], references: [postId])
 
   @@id([postId, language])
+  @@unique([slug, language])
 }
 
 model Category {
@@ -181,13 +188,14 @@ model CategoryTranslation {
 
   title       String
   description String
-  slug        String   @unique
+  slug        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   category Category @relation(fields: [categoryId], references: [categoryId])
 
   @@id([categoryId, language])
+  @@unique([slug, language])
 }
 
 enum CommentStatus {

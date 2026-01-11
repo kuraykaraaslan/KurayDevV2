@@ -342,6 +342,12 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   BANNED: 'BANNED'
 };
 
+exports.PostStatusEnum = exports.$Enums.PostStatusEnum = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+};
+
 exports.CommentStatus = exports.$Enums.CommentStatus = {
   NOT_PUBLISHED: 'NOT_PUBLISHED',
   PUBLISHED: 'PUBLISHED',

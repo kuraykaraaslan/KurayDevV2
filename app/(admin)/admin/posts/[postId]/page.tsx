@@ -13,7 +13,7 @@ import DynamicText from '@/components/admin/UI/Forms/DynamicText';
 import DynamicDate from '@/components/admin/UI/Forms/DynamicDate';
 import GenericElement from '@/components/admin/UI/Forms/GenericElement';
 import Form from '@/components/admin/UI/Forms/Form';
-import LanguageSelector, { SUPPORTED_LANGUAGES, TranslationStatus } from '@/components/admin/UI/Forms/LanguageSelector';
+import LanguageSelector, { SUPPORTED_LANGUAGES, TranslationStatus, TranslateRequest } from '@/components/admin/UI/Forms/LanguageSelector';
 import {
   PostStatus,
   EditorTranslation,
@@ -54,6 +54,7 @@ const SinglePost = () => {
   const [status, setStatus] = useState<PostStatus>('DRAFT');
   const [createdAt, setCreatedAt] = useState<Date>(new Date());
   const [views, setViews] = useState<number>(0);
+  const [isTranslating, setIsTranslating] = useState(false);
 
   // Helper to get current translation
   const currentTranslation = translations[currentLang] || EMPTY_EDITOR_TRANSLATION;
@@ -378,6 +379,55 @@ const SinglePost = () => {
     return 'empty';
   };
 
+  // Translation handler
+  const handleTranslateRequest = async (request: TranslateRequest) => {
+    const { sourceLang, targetLang, fields } = request;
+    const sourceTranslation = translations[sourceLang];
+
+    if (!sourceTranslation) {
+      toast.error('Source language has no content');
+      return;
+    }
+
+    setIsTranslating(true);
+
+    try {
+      const response = await axiosInstance.post('/api/ai/translate', {
+        content: {
+          title: sourceTranslation.title,
+          content: sourceTranslation.content,
+          description: sourceTranslation.description,
+          slug: sourceTranslation.slug,
+          keywords: sourceTranslation.keywords,
+        },
+        fields,
+        sourceLang,
+        targetLang,
+      });
+
+      const translated = response.data.translated;
+
+      // Update target language with translated content
+      setTranslations(prev => ({
+        ...prev,
+        [targetLang]: {
+          ...(prev[targetLang] || EMPTY_EDITOR_TRANSLATION),
+          ...translated,
+        },
+      }));
+
+      // Switch to target language
+      setCurrentLang(targetLang);
+
+      toast.success(`Translated ${fields.length} field(s) successfully`);
+    } catch (error: any) {
+      console.error('Translation error:', error);
+      toast.error(error?.response?.data?.message || 'Translation failed');
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
   // Cache temizleme fonksiyonu
   const clearDraftCache = () => {
     try {
@@ -464,6 +514,9 @@ const SinglePost = () => {
         onAddLanguage={addLanguage}
         onRemoveLanguage={removeLanguage}
         getTranslationStatus={getTranslationStatus}
+        onTranslateRequest={handleTranslateRequest}
+        isTranslating={isTranslating}
+        availableFields={['title', 'content', 'description', 'slug', 'keywords']}
       />
 
       <DynamicText

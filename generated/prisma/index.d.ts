@@ -125,6 +125,15 @@ export const UserStatus: {
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
+export const PostStatusEnum: {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+export type PostStatusEnum = (typeof PostStatusEnum)[keyof typeof PostStatusEnum]
+
+
 export const CommentStatus: {
   NOT_PUBLISHED: 'NOT_PUBLISHED',
   PUBLISHED: 'PUBLISHED',
@@ -156,6 +165,10 @@ export const UserRole: typeof $Enums.UserRole
 export type UserStatus = $Enums.UserStatus
 
 export const UserStatus: typeof $Enums.UserStatus
+
+export type PostStatusEnum = $Enums.PostStatusEnum
+
+export const PostStatusEnum: typeof $Enums.PostStatusEnum
 
 export type CommentStatus = $Enums.CommentStatus
 
@@ -7070,7 +7083,7 @@ export namespace Prisma {
     createdAt: Date | null
     categoryId: string | null
     image: string | null
-    status: string | null
+    status: $Enums.PostStatusEnum | null
     views: number | null
     deletedAt: Date | null
   }
@@ -7085,7 +7098,7 @@ export namespace Prisma {
     createdAt: Date | null
     categoryId: string | null
     image: string | null
-    status: string | null
+    status: $Enums.PostStatusEnum | null
     views: number | null
     deletedAt: Date | null
   }
@@ -7260,7 +7273,7 @@ export namespace Prisma {
     createdAt: Date
     categoryId: string
     image: string | null
-    status: string
+    status: $Enums.PostStatusEnum
     views: number
     deletedAt: Date | null
     _count: PostCountAggregateOutputType | null
@@ -7396,7 +7409,7 @@ export namespace Prisma {
       createdAt: Date
       categoryId: string
       image: string | null
-      status: string
+      status: $Enums.PostStatusEnum
       views: number
       deletedAt: Date | null
     }, ExtArgs["result"]["post"]>
@@ -7837,7 +7850,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Post", 'DateTime'>
     readonly categoryId: FieldRef<"Post", 'String'>
     readonly image: FieldRef<"Post", 'String'>
-    readonly status: FieldRef<"Post", 'String'>
+    readonly status: FieldRef<"Post", 'PostStatusEnum'>
     readonly views: FieldRef<"Post", 'Int'>
     readonly deletedAt: FieldRef<"Post", 'DateTime'>
   }
@@ -20442,6 +20455,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'PostStatusEnum'
+   */
+  export type EnumPostStatusEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostStatusEnum'>
+    
+
+
+  /**
+   * Reference to a field of type 'PostStatusEnum[]'
+   */
+  export type ListEnumPostStatusEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostStatusEnum[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -20861,7 +20888,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Post"> | Date | string
     categoryId?: StringFilter<"Post"> | string
     image?: StringNullableFilter<"Post"> | string | null
-    status?: StringFilter<"Post"> | string
+    status?: EnumPostStatusEnumFilter<"Post"> | $Enums.PostStatusEnum
     views?: IntFilter<"Post"> | number
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     comment?: CommentListRelationFilter
@@ -20906,7 +20933,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Post"> | Date | string
     categoryId?: StringFilter<"Post"> | string
     image?: StringNullableFilter<"Post"> | string | null
-    status?: StringFilter<"Post"> | string
+    status?: EnumPostStatusEnumFilter<"Post"> | $Enums.PostStatusEnum
     views?: IntFilter<"Post"> | number
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     comment?: CommentListRelationFilter
@@ -20951,7 +20978,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
     categoryId?: StringWithAggregatesFilter<"Post"> | string
     image?: StringNullableWithAggregatesFilter<"Post"> | string | null
-    status?: StringWithAggregatesFilter<"Post"> | string
+    status?: EnumPostStatusEnumWithAggregatesFilter<"Post"> | $Enums.PostStatusEnum
     views?: IntWithAggregatesFilter<"Post"> | number
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
   }
@@ -20986,7 +21013,7 @@ export namespace Prisma {
   }
 
   export type PostTranslationWhereUniqueInput = Prisma.AtLeast<{
-    slug?: string
+    slug_language?: PostTranslationSlugLanguageCompoundUniqueInput
     postId_language?: PostTranslationPostIdLanguageCompoundUniqueInput
     AND?: PostTranslationWhereInput | PostTranslationWhereInput[]
     OR?: PostTranslationWhereInput[]
@@ -20996,11 +21023,12 @@ export namespace Prisma {
     title?: StringFilter<"PostTranslation"> | string
     content?: StringFilter<"PostTranslation"> | string
     description?: StringFilter<"PostTranslation"> | string
+    slug?: StringFilter<"PostTranslation"> | string
     keywords?: StringNullableListFilter<"PostTranslation">
     createdAt?: DateTimeFilter<"PostTranslation"> | Date | string
     updatedAt?: DateTimeFilter<"PostTranslation"> | Date | string
     post?: XOR<PostScalarRelationFilter, PostWhereInput>
-  }, "postId_language" | "slug">
+  }, "postId_language" | "slug_language">
 
   export type PostTranslationOrderByWithAggregationInput = {
     postId?: SortOrder
@@ -21131,7 +21159,7 @@ export namespace Prisma {
   }
 
   export type CategoryTranslationWhereUniqueInput = Prisma.AtLeast<{
-    slug?: string
+    slug_language?: CategoryTranslationSlugLanguageCompoundUniqueInput
     categoryId_language?: CategoryTranslationCategoryIdLanguageCompoundUniqueInput
     AND?: CategoryTranslationWhereInput | CategoryTranslationWhereInput[]
     OR?: CategoryTranslationWhereInput[]
@@ -21140,10 +21168,11 @@ export namespace Prisma {
     language?: StringFilter<"CategoryTranslation"> | string
     title?: StringFilter<"CategoryTranslation"> | string
     description?: StringFilter<"CategoryTranslation"> | string
+    slug?: StringFilter<"CategoryTranslation"> | string
     createdAt?: DateTimeFilter<"CategoryTranslation"> | Date | string
     updatedAt?: DateTimeFilter<"CategoryTranslation"> | Date | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-  }, "categoryId_language" | "slug">
+  }, "categoryId_language" | "slug_language">
 
   export type CategoryTranslationOrderByWithAggregationInput = {
     categoryId?: SortOrder
@@ -22107,7 +22136,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -22128,7 +22157,7 @@ export namespace Prisma {
     createdAt?: Date | string
     categoryId: string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -22145,7 +22174,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -22166,7 +22195,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -22185,7 +22214,7 @@ export namespace Prisma {
     createdAt?: Date | string
     categoryId: string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
   }
@@ -22199,7 +22228,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -22215,7 +22244,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -23461,6 +23490,13 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type EnumPostStatusEnumFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostStatusEnum | EnumPostStatusEnumFieldRefInput<$PrismaModel>
+    in?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostStatusEnumFilter<$PrismaModel> | $Enums.PostStatusEnum
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23551,6 +23587,16 @@ export namespace Prisma {
     views?: SortOrder
   }
 
+  export type EnumPostStatusEnumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostStatusEnum | EnumPostStatusEnumFieldRefInput<$PrismaModel>
+    in?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostStatusEnumWithAggregatesFilter<$PrismaModel> | $Enums.PostStatusEnum
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPostStatusEnumFilter<$PrismaModel>
+    _max?: NestedEnumPostStatusEnumFilter<$PrismaModel>
+  }
+
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23570,6 +23616,11 @@ export namespace Prisma {
   export type PostScalarRelationFilter = {
     is?: PostWhereInput
     isNot?: PostWhereInput
+  }
+
+  export type PostTranslationSlugLanguageCompoundUniqueInput = {
+    slug: string
+    language: string
   }
 
   export type PostTranslationPostIdLanguageCompoundUniqueInput = {
@@ -23650,6 +23701,11 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     image?: SortOrder
+  }
+
+  export type CategoryTranslationSlugLanguageCompoundUniqueInput = {
+    slug: string
+    language: string
   }
 
   export type CategoryTranslationCategoryIdLanguageCompoundUniqueInput = {
@@ -24310,6 +24366,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type EnumPostStatusEnumFieldUpdateOperationsInput = {
+    set?: $Enums.PostStatusEnum
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -24897,6 +24957,23 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumPostStatusEnumFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostStatusEnum | EnumPostStatusEnumFieldRefInput<$PrismaModel>
+    in?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostStatusEnumFilter<$PrismaModel> | $Enums.PostStatusEnum
+  }
+
+  export type NestedEnumPostStatusEnumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PostStatusEnum | EnumPostStatusEnumFieldRefInput<$PrismaModel>
+    in?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PostStatusEnum[] | ListEnumPostStatusEnumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPostStatusEnumWithAggregatesFilter<$PrismaModel> | $Enums.PostStatusEnum
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPostStatusEnumFilter<$PrismaModel>
+    _max?: NestedEnumPostStatusEnumFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -25069,7 +25146,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -25088,7 +25165,7 @@ export namespace Prisma {
     createdAt?: Date | string
     categoryId: string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -25235,7 +25312,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Post"> | Date | string
     categoryId?: StringFilter<"Post"> | string
     image?: StringNullableFilter<"Post"> | string | null
-    status?: StringFilter<"Post"> | string
+    status?: EnumPostStatusEnumFilter<"Post"> | $Enums.PostStatusEnum
     views?: IntFilter<"Post"> | number
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
   }
@@ -25772,7 +25849,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -25792,7 +25869,7 @@ export namespace Prisma {
     createdAt?: Date | string
     categoryId: string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -25824,7 +25901,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -25844,7 +25921,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -25888,7 +25965,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -25907,7 +25984,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -26102,7 +26179,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutPostsInput
@@ -26122,7 +26199,7 @@ export namespace Prisma {
     createdAt?: Date | string
     categoryId: string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
@@ -26203,7 +26280,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
@@ -26223,7 +26300,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
@@ -26239,7 +26316,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -26259,7 +26336,7 @@ export namespace Prisma {
     createdAt?: Date | string
     categoryId: string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -26332,7 +26409,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -26352,7 +26429,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -26449,7 +26526,7 @@ export namespace Prisma {
     createdAt?: Date | string
     categoryId: string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
   }
@@ -26570,7 +26647,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -26589,7 +26666,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -26607,7 +26684,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -26773,7 +26850,7 @@ export namespace Prisma {
     keywords?: PostCreatekeywordsInput | string[]
     createdAt?: Date | string
     image?: string | null
-    status?: string
+    status?: $Enums.PostStatusEnum
     views?: number
     deletedAt?: Date | string | null
   }
@@ -26814,7 +26891,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -26833,7 +26910,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -26851,7 +26928,7 @@ export namespace Prisma {
     keywords?: PostUpdatekeywordsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumPostStatusEnumFieldUpdateOperationsInput | $Enums.PostStatusEnum
     views?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
