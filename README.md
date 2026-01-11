@@ -414,7 +414,7 @@ To provide a clearer high‑level direction, here are the strategic goals that g
 
 #### **Low Priority (Long-term Vision)**
 - [ ] **AR & 3D Portfolio Viewer** — Web-based AR mode + interactive 3D scenes
-- [ ] **IoT Dashboard Integration** — Real-time device tracking for FastIoT / Roltek SaaS
+- [ ] **IoT Dashboard Integration** — Real-time device tracking 
 - [ ] **Blockchain Integration** — NFT certificates, crypto payments, content provenance
 - [ ] **Voice Interface** — Voice search, text-to-speech, voice commands
 - [ ] **VR/AR Showcase** — WebXR portfolio viewer, virtual office tours
