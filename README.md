@@ -57,10 +57,13 @@ Visit the live site: **[https://kuray.dev](https://kuray.dev)**
 ### 🧭 Blog System
 
 * Rich WYSIWYG editing (TinyMCE)
+* **Multi-language content support** (Posts, Categories with translations)
+* **AI-powered translation** between languages (right-click context menu)
 * Categories, related articles, comments (with auto-moderation)
 * AI-assisted writing tools in the admin panel
 * Per-post stats, likes, user profiles
 * Fully cached sitemap + RSS feed generation
+* LocalStorage draft caching with auto-save
 
 ### 📅 Appointment & Booking System
 
@@ -93,19 +96,34 @@ Visit the live site: **[https://kuray.dev](https://kuray.dev)**
 * Admin dashboard with weekly digests
 * Live system health/status widgets
 
+### 🚀 Project Showcase
+
+* **Multi-language project descriptions** (title, content, description, slug per language)
+* Platform & technology tagging
+* Project links management
+* AI-powered translation between languages
+* Rich content editor with TinyMCE
+
 ### 🛠️ Admin Panel
 
-Comprehensive CRUD modules:
+Comprehensive CRUD modules with unified UI components:
 
-* Projects
-* Posts
-* Categories
+* Projects (multi-language)
+* Posts (multi-language)
+* Categories (multi-language)
 * Users
 * Comments
 * Settings
 * Slots & slot templates
 * Integrations
 * Statistics overview
+
+**Editor Features:**
+* Unified form components (Form, FormHeader, DynamicText, DynamicSelect, GenericElement)
+* Language selector with translation status indicators
+* Right-click AI translation between languages
+* LocalStorage draft auto-save & recovery
+* Clear cache functionality
 
 ---
 
@@ -370,12 +388,19 @@ To provide a clearer high‑level direction, here are the strategic goals that g
 
 ### 🌍 **Internationalization**
 
+#### **Completed**
+- [x] **Auto-Translation System**
+  - AI-powered translation with GPT-4o
+  - Field-selective translation (title, content, description, slug, keywords)
+  - Right-click context menu for quick translation
+  - Translation status indicators in editor
+
 #### **Medium Priority**
 - [ ] **Auto-Translation Enhancement**
-  - AI-powered translation with DeepL/GPT
   - Translation quality scoring
   - Multi-language SEO optimization
   - RTL language support (Arabic, Hebrew)
+  - DeepL integration as alternative provider
 
 - [ ] **Geo-Specific Content**
   - Location-based content recommendations
@@ -436,6 +461,17 @@ To provide a clearer high‑level direction, here are the strategic goals that g
 * [x] Full admin dashboard migration
 * [x] Redis-powered queue system (BullMQ)
 * [x] Multi-provider SSO authentication
+* [x] **Multi-language content system** (Posts, Categories, Projects)
+  * Translation tables with Prisma models
+  * AI-powered translation via OpenAI GPT-4o
+  * Right-click context menu for quick translation
+  * Field-selective translation (title, content, description, slug)
+  * Migration script for existing content
+* [x] **Unified admin editor components**
+  * Form, FormHeader, DynamicText, DynamicSelect, GenericElement
+  * Language selector with status indicators (complete/partial/empty)
+  * LocalStorage draft caching with auto-save
+  * Consistent API structure (PUT with ID in body)
 
 ---
 
@@ -453,6 +489,33 @@ npm run dev
 ```
 
 Ensure PostgreSQL, Redis, and environment variables are configured.
+
+---
+
+## 📜 Scripts
+
+### Database Migration
+
+```bash
+# Push schema changes to database
+npx prisma db push
+
+# Generate Prisma client
+npx prisma generate
+```
+
+### Content Migration (Multi-language)
+
+Migrate existing Posts, Categories, and Projects to translation tables:
+
+```bash
+npx tsx scripts/migrate-to-translations.ts
+```
+
+This script:
+- Creates translation records for existing content (default: English)
+- Skips already migrated content (idempotent)
+- Shows detailed migration statistics
 
 ---
 
