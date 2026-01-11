@@ -5,6 +5,7 @@ import UserSessionService from "@/services/AuthService/UserSessionService";
 import KnowledgeGraphService from "@/services/KnowledgeGraphService";
 import PostCoverService from "@/services/PostService/PostCoverService";
 import { CreatePostRequestSchema, UpdatePostRequestSchema } from "@/dtos/PostDTO";
+import { PostStatusEnum } from "@/types/content/BlogTypes";
 
 export async function GET(request: NextRequest) {
     try {
@@ -18,9 +19,11 @@ export async function GET(request: NextRequest) {
         const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
         const postId = searchParams.get('postId') || undefined;
         const authorId = searchParams.get('authorId') || undefined;
-        const status = searchParams.get('status') || 'PUBLISHED';
+        const status = searchParams.get('status') || PostStatusEnum.enum.PUBLISHED;
         const categoryId = searchParams.get('categoryId') || undefined;
         const search = searchParams.get('search') || undefined;
+        const language = searchParams.get('lang') || searchParams.get('language') || 'en';
+        const slug = searchParams.get('slug') || undefined;
 
         const result = await PostService.getAllPosts({
             page,
@@ -30,10 +33,11 @@ export async function GET(request: NextRequest) {
             search,
             postId,
             authorId,
-
+            slug,
+            language,
         });
 
-        return NextResponse.json({ posts: result.posts, total: result.total, page, pageSize });
+        return NextResponse.json({ posts: result.posts, total: result.total, page, pageSize, language });
 
     }
     catch (error: any) {
@@ -67,7 +71,7 @@ export async function POST(request: NextRequest) {
 
         const post = await PostService.createPost(parsedData.data);
 
-        await KnowledgeGraphService.queueUpdatePost(post.postId, post);
+        await KnowledgeGraphService.queueUpdatePost(post.postId);
         
         if (!post.image) {
             await PostCoverService.resetById(post.postId);
@@ -110,7 +114,7 @@ export async function PUT(request: NextRequest) {
         console.log("Updating post:", parsedData.data.postId);
         const post = await PostService.updatePost(parsedData.data);
 
-        await KnowledgeGraphService.queueUpdatePost(post.postId, post);
+        await KnowledgeGraphService.queueUpdatePost(post.postId);
         if (!post.image) {
             await PostCoverService.resetById(post.postId);
         }

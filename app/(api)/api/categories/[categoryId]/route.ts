@@ -7,16 +7,19 @@ import CategoryMessages from "@/messages/CategoryMessages";
 /**
  * GET handler for retrieving a category by its Id.
  * @param request - The incoming request object
- * @param context - Contains the URL parameters, including postId
- * @returns A NextResponse containing the post data or an error message
+ * @param context - Contains the URL parameters, including categoryId
+ * @returns A NextResponse containing the category data or an error message
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
-    const { categoryId } = await params
-    const category = await CategoryService.getCategoryById(categoryId);
+    const { categoryId } = await params;
+    const { searchParams } = new URL(request.url);
+    const language = searchParams.get('lang') || searchParams.get('language') || 'en';
+
+    const category = await CategoryService.getCategoryById(categoryId, language);
 
     if (!category) {
       return NextResponse.json(
@@ -25,7 +28,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({  message: CategoryMessages.CATEGORY_RETRIEVED, category });
+    return NextResponse.json({ message: CategoryMessages.CATEGORY_RETRIEVED, category, language });
 
   }
   catch (error: any) {

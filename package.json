@@ -11,6 +11,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "migrate": "npx prisma migrate dev -n \"init\"",
+    "migrate:translations": "npx tsx scripts/migrate-to-translations.ts",
     "generate": "npx prisma generate",
     "postinstall": "npx prisma generate",
     "vercel-build": "npx prisma generate && npx prisma migrate deploy && npm run build",

@@ -1,9 +1,8 @@
 import { z } from 'zod';
 import { SafeUserSchema } from '../user/UserTypes';
 
-const CommentStatus = z.enum(["NOT_PUBLISHED", "PUBLISHED", "SPAM"]).default("NOT_PUBLISHED");
-const PostStatus = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED");
-
+export const CommentStatusEnum = z.enum(["NOT_PUBLISHED", "PUBLISHED", "SPAM"]);
+export const PostStatusEnum = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]);
 
 const CommentSchema = z.object({
     commentId: z.string(),
@@ -13,7 +12,7 @@ const CommentSchema = z.object({
     parentId: z.string().nullable(),
     email: z.string().email().nullable(),
     name: z.string().nullable(),
-    status: CommentStatus,
+    status: CommentStatusEnum.default("NOT_PUBLISHED"),
 });
 
 
@@ -28,9 +27,21 @@ const PostSchema = z.object({
     createdAt: z.date(),
     categoryId: z.string(),
     image: z.string().nullable(),
-    status: z.string().default("PUBLISHED"),
+    status: PostStatusEnum.default("DRAFT"),
     views: z.number().default(0),
     deletedAt: z.date().nullable().optional(),
+});
+
+const PostTranslationSchema = z.object({
+    postId: z.string(),
+    language: z.string(),
+    title: z.string(),
+    content: z.string(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    keywords: z.array(z.string()),
+    createdAt: z.date(),
+    updatedAt: z.date(),
 });
 
 const CategorySchema = z.object({
@@ -42,6 +53,16 @@ const CategorySchema = z.object({
     updatedAt: z.date().optional(),
     image: z.string().nullable(),
     keywords: z.array(z.string()).optional(),
+});
+
+const CategoryTranslationSchema = z.object({
+    categoryId: z.string(),
+    language: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
 });
 
 const PostWithDataSchema = PostSchema.extend({
@@ -99,8 +120,35 @@ export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>;
 
 export type Comment = z.infer<typeof CommentSchema>;
 export type Post = z.infer<typeof PostSchema>;
+export type PostTranslation = z.infer<typeof PostTranslationSchema>;
 export type Category = z.infer<typeof CategorySchema>;
+export type CategoryTranslation = z.infer<typeof CategoryTranslationSchema>;
 export type PostWithData = z.infer<typeof PostWithDataSchema>;
 export type CommentWithData = z.infer<typeof CommentWithDataSchema>;
 export type PostLike = z.infer<typeof PostLikeSchema>;
-export { CommentSchema, PostSchema, CategorySchema, PostWithDataSchema, CommentWithDataSchema, PostLikeSchema, CommentStatus, PostStatus };
+export type CommentStatus = z.infer<typeof CommentStatusEnum>;
+export type PostStatus = z.infer<typeof PostStatusEnum>;
+
+// Editor Translation Schema (shared for Post and Category)
+export const EditorTranslationSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  slug: z.string(),
+  content: z.optional(z.string()),
+  keywords: z.array(z.string()).optional(),
+});
+
+export const EditorTranslationsStateSchema = z.record(z.string(), EditorTranslationSchema);
+
+export type EditorTranslation = z.infer<typeof EditorTranslationSchema>;
+export type EditorTranslationsState = z.infer<typeof EditorTranslationsStateSchema>;
+
+export const EMPTY_EDITOR_TRANSLATION: EditorTranslation = {
+  title: '',
+  description: '',
+  slug: '',
+  content: '',
+  keywords: [],
+};
+
+export { CommentSchema, PostSchema, PostTranslationSchema, CategorySchema, CategoryTranslationSchema, PostWithDataSchema, CommentWithDataSchema, PostLikeSchema };

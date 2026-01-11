@@ -5,9 +5,9 @@ import { CreateCategoryRequestSchema } from "@/dtos/CategoryDTO";
 
 
 /**
- * GET handler for retrieving all posts with optional pagination and search.
+ * GET handler for retrieving all categories with optional pagination and search.
  * @param request - The incoming request object
- * @returns A NextResponse containing the posts data or an error message
+ * @returns A NextResponse containing the categories data or an error message
  */
 export async function GET(request: Request) {
     try {
@@ -17,10 +17,11 @@ export async function GET(request: Request) {
         const page = searchParams.get('page') ? parseInt(searchParams.get('page') || '0', 10) : 0;
         const pageSize = searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize') || '10', 10) : 10;
         const search = searchParams.get('search') || undefined;
+        const language = searchParams.get('lang') || searchParams.get('language') || 'en';
 
-        const result = await CategoryService.getAllCategories(page, pageSize, search);
+        const result = await CategoryService.getAllCategories(page, pageSize, search, language);
 
-        return NextResponse.json({ categories: result.categories, total: result.total });
+        return NextResponse.json({ categories: result.categories, total: result.total, language });
 
     }
     catch (error: any) {

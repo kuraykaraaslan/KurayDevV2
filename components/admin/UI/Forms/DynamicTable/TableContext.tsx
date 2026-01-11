@@ -127,6 +127,7 @@ export function TableProvider<T extends Record<string, unknown>>({
 
         try {
             const response = await axiosInstance.get(`${apiEndpoint}?${params.toString()}`);
+            console.log('Fetched data:', response.data);
             const newData = response.data[dataKey];
             setData(newData);
             setTotal(response.data.total);

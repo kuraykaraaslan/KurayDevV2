@@ -1,6 +1,6 @@
 import { z } from "zod";
 import PostMessages from "@/messages/PostMessages";
-import { PostStatus } from "@/types/content/BlogTypes";
+import { PostStatusEnum } from "@/types/content/BlogTypes";
 
 // Request DTOs
 export const GetPostsRequestSchema = z.object({
@@ -8,7 +8,7 @@ export const GetPostsRequestSchema = z.object({
     pageSize: z.number().int().default(10),
     postId: z.string().optional(),
     authorId: z.string().optional(),
-    status: PostStatus.default("PUBLISHED"),
+    status: PostStatusEnum.optional(),
     categoryId: z.string().optional(),
     search: z.string().optional(),
 });
@@ -23,7 +23,7 @@ export const CreatePostRequestSchema = z.object({
     createdAt: z.coerce.date(),
     categoryId: z.string(),
     image: z.string().nullable(),
-    status: z.string().default("PUBLISHED"),
+    status: PostStatusEnum.default("DRAFT"),
     views: z.number().default(0),
     deletedAt: z.date().nullable().optional(),
 });
