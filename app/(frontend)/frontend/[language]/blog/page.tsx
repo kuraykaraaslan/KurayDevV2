@@ -6,12 +6,9 @@ import MetadataHelper from '@/helpers/MetadataHelper';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-interface BlogPageProps {
-    params: Promise<{ lang: string }>;
-}
 
-const BlogPage = async ({ params }: BlogPageProps) => {
-    const { lang } = await params;
+const BlogPage = async ({ params }: { params: Promise<{ language: string }> }) => {
+    const { language } = await params;
 
     const metadata: Metadata = {
         title: 'Blog | Kuray Karaaslan',
@@ -30,8 +27,8 @@ const BlogPage = async ({ params }: BlogPageProps) => {
     return (
         <>
             {MetadataHelper.generateElements(metadata)}
-            <Feed lang={lang} />
-            <CategoryBullets lang={lang} />
+            <Feed language={language} />
+            <CategoryBullets language={language} />
             <Newsletter />
         </>
     );

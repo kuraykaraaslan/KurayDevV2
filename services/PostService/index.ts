@@ -204,6 +204,8 @@ export default class PostService {
         const { page, pageSize, search, categoryId, status, authorId, postId, slug } = data;
         const language = data.language || DEFAULT_LANGUAGE;
 
+        console.log("Requested language:", language);
+
         console.log("Fetching posts with params:", data);
 
         // Validate search query

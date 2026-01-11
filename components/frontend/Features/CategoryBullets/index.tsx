@@ -6,21 +6,21 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 interface CategoryBulletsProps {
-    lang?: string;
+    language?: string;
 }
 
-export default function CategoryBullets({ lang = 'en' }: CategoryBulletsProps) {
+export default function CategoryBullets({ language = 'en' }: CategoryBulletsProps) {
     const { t } = useTranslation();
     const [categories, setCategories] = useState<Category[]>([]);
     const [page, _setPage] = useState(0);
 
     useEffect(() => {
-        axiosInstance.get(`/api/categories?page=${page + 1}&lang=${lang}`)
+        axiosInstance.get(`/api/categories?page=${page + 1}&language=${language}`)
             .then(response => {
                 setCategories(response.data.categories);
             });
 
-    }, [page, lang]);
+    }, [page, language]);
 
     return (
         <section className="bg-base-300 py-12" id="categories">
@@ -36,7 +36,7 @@ export default function CategoryBullets({ lang = 'en' }: CategoryBulletsProps) {
                     {categories.map((category) => (
                         <Link
                             key={category.categoryId}
-                            href={`/${lang}/blog/${category.slug}`}
+                            href={`/blog/${category.slug}`}
                             className="m-2 px-4 py-2 bg-primary text-white rounded-md"
                         >
                             {category.title}

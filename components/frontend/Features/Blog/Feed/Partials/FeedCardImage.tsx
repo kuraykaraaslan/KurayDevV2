@@ -7,11 +7,11 @@ import { PostWithData } from '@/types/content/BlogTypes';
 
 export interface FeedCardProps extends PostWithData {
     className?: string;
-    lang?: string;
+    language?: string;
 }
 
 const FeedCardImage = (props: FeedCardProps) => {
-    const { lang = 'en' } = props;
+    const { language = 'en' } = props;
 
     const [dateText, setDateText] = useState("");
 
@@ -65,7 +65,7 @@ const FeedCardImage = (props: FeedCardProps) => {
         , [props.createdAt]);
 
 
-    const postUrl = `/${lang}/blog/${props?.category?.slug}/${props.slug}`;
+    const postUrl = `/blog/${props?.category?.slug}/${props.slug}`;
 
     return (
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  from-base-100 to-base-300 bg-gradient-to-b border-t-2 border-primary border-opacity-50 drop-shadow-lg "

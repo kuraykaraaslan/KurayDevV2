@@ -15,12 +15,12 @@ const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
 interface FeedProps {
     category?: Pick<Category, 'categoryId' | 'title'>;
     author?: Pick<SafeUser, 'userId' | 'name' | 'userProfile'>;
-    lang?: string;
+    language?: string;
 }
 
 export default function Feed(props: FeedProps) {
 
-    const { category, author, lang = 'en' } = props;
+    const { category, author, language = 'en' } = props;
     const { t } = useTranslation();
 
     const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
@@ -33,16 +33,16 @@ export default function Feed(props: FeedProps) {
         if (page === 0) {
             setFeeds([]);
         }
-    }, [lang]);
+    }, [language]);
 
     useEffect(() => {
-        console.log("Fetching posts for feed...", { category, author, lang });
+        console.log("Fetching posts for feed...", { category, author, language });
 
         const params = new URLSearchParams({
             page: String(page),
             pageSize: String(pageSize),
             sort: 'desc',
-            lang: lang,
+            language: language,
         });
 
         if (category) params.append('categoryId', category.categoryId);
@@ -74,7 +74,7 @@ export default function Feed(props: FeedProps) {
                 console.error("Error fetching posts:", error);
             });
 
-    }, [page, lang, category?.categoryId, author?.userId]);
+    }, [page, language, category?.categoryId, author?.userId]);
 
     return (
         <section className="min-h-screen bg-base-100 pt-32 " id="blog">
@@ -96,7 +96,7 @@ export default function Feed(props: FeedProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
                         {feeds.map((feed, index) => {
                             if (index < 2) {
-                                return <FeedCardImage key={index} {...feed} lang={lang} />
+                                return <FeedCardImage key={index} {...feed} language={language} />
                             } else {
                                 return null;
                             }
@@ -106,7 +106,7 @@ export default function Feed(props: FeedProps) {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         {feeds.map((feed, index) => {
                             if (index >= 2) {
-                                return <FeedCardImage key={index} {...feed} lang={lang} />
+                                return <FeedCardImage key={index} {...feed} language={language} />
                             } else {
                                 return null;
                             }

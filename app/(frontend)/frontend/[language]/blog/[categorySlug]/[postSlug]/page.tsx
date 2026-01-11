@@ -11,11 +11,12 @@ import ShareButtons from '@/components/frontend/Features/Blog/ShareButtons';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-export default async function BlogPost({ params }: { params: { categorySlug: string, postSlug: string } }) {
+export default async function BlogPost({ params }: { params: { categorySlug: string, postSlug: string, language: string } }) {
     try {
 
-        const { postSlug, categorySlug } = await params;
+        const { postSlug, categorySlug, language } = await params;
 
+        console.log("BlogPost page params:", params);
 
         if (!postSlug) {
             notFound();
@@ -32,6 +33,7 @@ export default async function BlogPost({ params }: { params: { categorySlug: str
             pageSize: 1,
             slug: postSlug,
             status: 'ALL',
+            language: language,
         });
 
         const { posts } = response;
