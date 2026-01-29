@@ -205,11 +205,11 @@ const SSOProviderRequest = z.object({
 
 // Profile Update DTOs
 const UpdateProfileRequest = z.object({
-    name: z.string().optional(),
-    socialLinks: z.array(SocialLinkItemSchema).optional(),
-    profilePicture: z.string().url().optional(),
-    bio: z.string().max(500).optional(),
-    headerImage: z.string().url().optional(),
+  name: z.string().optional(),
+  socialLinks: z.array(SocialLinkItemSchema).optional(),
+  profilePicture: z.string().url().nullable().optional(),
+  bio: z.string().max(500).optional(),
+  headerImage: z.string().url().nullable().optional(),
 });
 
 const UpdateProfileResponse = z.object({

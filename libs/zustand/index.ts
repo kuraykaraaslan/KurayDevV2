@@ -32,7 +32,7 @@ export const useGlobalStore = create<GlobalState>()(
     {
       name: 'global-storage',
       storage: createJSONStorage(() => localStorage),
-      version: 0.7,
+      version: 0.9,
     }
   )
 );

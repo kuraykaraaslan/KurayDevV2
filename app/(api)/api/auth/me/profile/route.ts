@@ -31,6 +31,7 @@ export async function PUT(request: NextRequest) {
         console.log('Parsed data:', parsedData);
 
         if (!parsedData.success) {
+            console.log('Validation errors:', parsedData.error);
             return NextResponse.json(
                 { 
                     message: parsedData.error.errors.map(err => err.message).join(", ")

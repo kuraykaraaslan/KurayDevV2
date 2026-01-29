@@ -55,7 +55,7 @@ const NavbarAuthButton = () => {
                 <Image
                     width={32}
                     height={32}
-                    src={user.userProfile.profilePicture || gravatarUrl}
+                    src={user?.userProfile?.profilePicture || gravatarUrl}
                     alt="User"
                     className="w-8 h-8 rounded-full"
                 />
