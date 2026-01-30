@@ -1,11 +1,12 @@
 import { Post } from "@/types/content/BlogTypes";
 import DOMPurify from "isomorphic-dompurify";
 import Image from "next/image";
+import { addHeadingIds } from "@/helpers/tocUtils";
 
 export default function Article(post: Partial<Post>) {
     const image = post.image ?? null;
 
-    const safeHTML = DOMPurify.sanitize(post.content ?? "", {
+    const sanitizedHTML = DOMPurify.sanitize(post.content ?? "", {
         USE_PROFILES: { html: true },
         ALLOWED_TAGS: [
             "p", "b", "i", "em", "strong", "a",
@@ -14,8 +15,11 @@ export default function Article(post: Partial<Post>) {
             "blockquote", "code", "pre",
             "img", "br"
         ],
-        ALLOWED_ATTR: ["href", "src", "alt", "title", "target", "rel"]
+        ALLOWED_ATTR: ["href", "src", "alt", "title", "target", "rel", "id"]
     });
+
+    // Add IDs to headings for anchor links
+    const safeHTML = addHeadingIds(sanitizedHTML);
 
     return (
         <div className="max-w-none justify-center text-left mx-auto prose mb-8 max-w-none">

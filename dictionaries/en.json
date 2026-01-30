@@ -369,6 +369,9 @@
     }
   },
   "frontend": {
+    "toc": {
+      "title": "Table of Contents"
+    },
     "comments": {
       "comments_count": "Comments",
       "name_placeholder": "Name",

@@ -369,6 +369,9 @@
     }
   },
   "frontend": {
+    "toc": {
+      "title": "İçindekiler"
+    },
     "comments": {
       "comments_count": "Yorumlar",
       "name_placeholder": "İsim",
