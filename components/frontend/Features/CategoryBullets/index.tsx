@@ -1,22 +1,11 @@
-'use client';
-import { useEffect, useState } from 'react';
-import axiosInstance from '@/libs/axios';
-import { Category } from '@/types/content/BlogTypes';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import CategoryService from '@/services/CategoryService';
+import { t } from 'i18next';
 
-export default function CategoryBullets() {
-    const { t } = useTranslation();
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [page, _setPage] = useState(0);
+export default async function CategoryBullets() {
 
-    useEffect(() => {
-        axiosInstance.get(`/api/categories?page=${page + 1}`)
-            .then(response => {
-                setCategories(response.data.categories);
-            });
+    const { categories } = await CategoryService.getAllCategories(0, 20);
 
-    }, [page]); // Make sure to include all dependencies that affect the API call
 
     return (
         <section className="bg-base-300 py-12" id="categories">

@@ -19,7 +19,7 @@ const OtherPosts = () => {
             const posts = res.data.posts;
             let postCards = posts.map((post: any) => {
 
-              post.image = post.image || `/blog/${post.category?.slug}/${post.slug}/opengraph-image`;
+              post.image = post.image || `/api/posts/${post.postId}/cover.jpeg`;
 
                 return <PostCard key={post.postId} post={post} />;
             });
