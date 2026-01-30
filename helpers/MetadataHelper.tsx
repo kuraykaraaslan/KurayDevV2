@@ -4,6 +4,32 @@ const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
 export default class MetadataHelper {
 
+    // Generate JSON-LD for WebSite with SearchAction (enables sitelinks search box in Google)
+    public static getWebSiteJsonLd() {
+        return {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Kuray Karaaslan",
+            "alternateName": ["Kuray Dev", "kuray.dev"],
+            "url": APPLICATION_HOST,
+            "description": "Software developer, tech blogger, and open-source enthusiast sharing coding tutorials and insights.",
+            "inLanguage": "en-US",
+            "publisher": {
+                "@type": "Person",
+                "name": "Kuray Karaaslan",
+                "url": APPLICATION_HOST
+            },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": `${APPLICATION_HOST}/blog?search={search_term_string}`
+                },
+                "query-input": "required name=search_term_string"
+            }
+        };
+    }
+
     // Generate JSON-LD for Organization
     public static getOrganizationJsonLd() {
         return {
