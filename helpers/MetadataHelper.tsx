@@ -108,6 +108,84 @@ export default class MetadataHelper {
         };
     }
 
+    // Generate JSON-LD for Comments
+    public static getCommentsJsonLd(comments: {
+        commentId: string;
+        content: string;
+        createdAt: Date | string;
+        name: string | null;
+    }[], articleUrl: string) {
+        if (!comments || comments.length === 0) return null;
+
+        return comments.map(comment => ({
+            "@context": "https://schema.org",
+            "@type": "Comment",
+            "@id": `${articleUrl}#comment-${comment.commentId}`,
+            "text": comment.content,
+            "dateCreated": typeof comment.createdAt === 'string' 
+                ? comment.createdAt 
+                : comment.createdAt.toISOString(),
+            "author": {
+                "@type": "Person",
+                "name": comment.name || "Anonymous"
+            },
+            "about": {
+                "@id": articleUrl
+            }
+        }));
+    }
+
+    // Generate Article JSON-LD with comment count
+    public static getArticleWithCommentsJsonLd(meta: Metadata, articleData?: {
+        datePublished?: string;
+        dateModified?: string;
+        authorName?: string;
+        articleSection?: string;
+        keywords?: string[];
+        wordCount?: number;
+        commentCount?: number;
+    }) {
+        const baseJsonLd = MetadataHelper.getArticleJsonLd(meta, articleData);
+        if (!baseJsonLd) return null;
+
+        if (articleData?.commentCount !== undefined) {
+            baseJsonLd["commentCount"] = articleData.commentCount;
+            baseJsonLd["interactionStatistic"] = {
+                "@type": "InteractionCounter",
+                "interactionType": "https://schema.org/CommentAction",
+                "userInteractionCount": articleData.commentCount
+            };
+        }
+
+        return baseJsonLd;
+    }
+
+    // Generate JSON-LD for AggregateRating (based on likes)
+    public static getAggregateRatingJsonLd(articleUrl: string, ratingData: {
+        likeCount: number;
+        maxRating?: number;
+    }) {
+        if (!ratingData || ratingData.likeCount === 0) return null;
+
+        // Convert likes to a rating scale (1-5)
+        // More likes = higher rating, capped at 5
+        const maxRating = ratingData.maxRating || 5;
+        const ratingValue = Math.min(maxRating, Math.max(1, 3 + Math.log10(ratingData.likeCount + 1)));
+
+        return {
+            "@context": "https://schema.org",
+            "@type": "AggregateRating",
+            "itemReviewed": {
+                "@type": "Article",
+                "@id": articleUrl
+            },
+            "ratingValue": parseFloat(ratingValue.toFixed(1)),
+            "bestRating": maxRating,
+            "worstRating": 1,
+            "ratingCount": ratingData.likeCount
+        };
+    }
+
     // Generate only JSON-LD scripts (for use with Next.js generateMetadata)
     public static generateJsonLdScripts(
         meta: Metadata,
@@ -119,13 +197,29 @@ export default class MetadataHelper {
                 articleSection?: string;
                 keywords?: string[];
                 wordCount?: number;
+                commentCount?: number;
             };
             breadcrumbs?: { name: string; url: string }[];
+            comments?: {
+                commentId: string;
+                content: string;
+                createdAt: Date | string;
+                name: string | null;
+            }[];
+            rating?: {
+                likeCount: number;
+                maxRating?: number;
+            };
         }
     ) {
         const orgJsonLd = MetadataHelper.getOrganizationJsonLd();
-        const articleJsonLd = MetadataHelper.getArticleJsonLd(meta, options?.articleData);
+        const articleJsonLd = options?.articleData?.commentCount !== undefined
+            ? MetadataHelper.getArticleWithCommentsJsonLd(meta, options.articleData)
+            : MetadataHelper.getArticleJsonLd(meta, options?.articleData);
         const breadcrumbJsonLd = options?.breadcrumbs ? MetadataHelper.getBreadcrumbJsonLd(options.breadcrumbs) : null;
+        const articleUrl = String(meta?.openGraph?.url || '');
+        const commentsJsonLd = options?.comments ? MetadataHelper.getCommentsJsonLd(options.comments, articleUrl) : null;
+        const ratingJsonLd = options?.rating ? MetadataHelper.getAggregateRatingJsonLd(articleUrl, options.rating) : null;
 
         return (
             <>
@@ -135,6 +229,12 @@ export default class MetadataHelper {
                 )}
                 {breadcrumbJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+                )}
+                {commentsJsonLd && commentsJsonLd.length > 0 && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(commentsJsonLd) }} />
+                )}
+                {ratingJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ratingJsonLd) }} />
                 )}
             </>
         );

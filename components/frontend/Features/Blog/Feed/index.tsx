@@ -46,7 +46,7 @@ export default function Feed(props: FeedProps) {
                         title: post.title,
                         description: post.description,
                         createdAt: new Date(post.createdAt),
-                        image: post.image ? post.image : `/api/posts/${post.postId}/cover.jpeg`,
+                        image: post.image ? post.image : `/blog/${post.category?.slug}/${post.slug}/opengraph-image`,
                     };
                 });
 

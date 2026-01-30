@@ -1,5 +1,7 @@
 import Article from '@/components/frontend/Features/Blog/Article';
 import PostService from '@/services/PostService';
+import CommentService from '@/services/CommentService';
+import PostLikeService from '@/services/PostService/LikeService';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Comments from '@/components/frontend/Features/Blog/Comments';
@@ -35,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     const url = `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}`;
-    const image = post.image || `${APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
+    const image = post.image || `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}/opengraph-image`;
     const description = post.description || post.content.substring(0, 150);
 
     return {
@@ -100,7 +102,7 @@ export default async function BlogPost({ params }: Props) {
         post.views++;
 
         const url = `${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`;
-        const image = post.image || `${APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
+        const image = post.image || `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}/opengraph-image`;
 
         // Metadata for JSON-LD
         const metadata: Metadata = {
@@ -131,11 +133,44 @@ export default async function BlogPost({ params }: Props) {
             articleSection: post.category.title,
             keywords: post.keywords?.length ? post.keywords : [post.category.title],
             wordCount: post.content.split(/\s+/).length,
+            commentCount: 0, // Will be updated below
         };
+
+        // Fetch comments for schema (server-side)
+        let commentsForSchema: { commentId: string; content: string; createdAt: Date | string; name: string | null }[] = [];
+        try {
+            const commentsResponse = await CommentService.getAllComments({
+                page: 0,
+                pageSize: 50, // Limit to 50 comments for schema
+                postId: post.postId,
+            });
+            commentsForSchema = commentsResponse.comments.map(c => ({
+                commentId: c.commentId,
+                content: c.content,
+                createdAt: c.createdAt,
+                name: c.name,
+            }));
+            articleData.commentCount = commentsResponse.total;
+        } catch (error) {
+            console.error('Error fetching comments for schema:', error);
+        }
+
+        // Fetch like count for AggregateRating schema
+        let likeCount = 0;
+        try {
+            likeCount = await PostLikeService.countLikes(post.postId);
+        } catch (error) {
+            console.error('Error fetching like count for schema:', error);
+        }
 
         return (
             <>
-                {MetadataHelper.generateJsonLdScripts(metadata, { articleData, breadcrumbs })}
+                {MetadataHelper.generateJsonLdScripts(metadata, { 
+                    articleData, 
+                    breadcrumbs, 
+                    comments: commentsForSchema,
+                    rating: likeCount > 0 ? { likeCount } : undefined
+                })}
                 <section className="min-h-screen bg-base-100 pt-32" id="blog">
                     <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
                         <PostHeader {...post} />
