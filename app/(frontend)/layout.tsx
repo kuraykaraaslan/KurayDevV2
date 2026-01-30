@@ -3,7 +3,6 @@ import Navbar from "@/components/frontend/Layout/Navbar";
 import ScrollToTop from "@/components/frontend/UI/Buttons/ScrollToTop";
 import Sidebar from "@/components/frontend/Layout/Sidebar";
 import Whatsapp from "@/components/frontend/Features/Social/Whatsapp";
-import { Suspense } from "react";
 import MenuItems from "@/components/frontend/Layout/MenuItems";
 import { ReactNode } from "react";
 
@@ -23,7 +22,7 @@ export default function RootLayout({
 
 
   return (
-    <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+    <>
       <div className="drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="relative drawer-content flex flex-col min-h-screen bg-base-200 h-full">
@@ -39,6 +38,6 @@ export default function RootLayout({
       </div>
       <ScrollToTop />
       <Whatsapp />
-    </Suspense>
+    </>
   );
 }
