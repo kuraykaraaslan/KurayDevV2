@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import Image from 'next/image';
 import { PostWithData } from '@/types/content/BlogTypes';
 
 export interface FeedCardProps extends PostWithData {
@@ -66,10 +67,16 @@ const FeedCardImage = (props: FeedCardProps) => {
     return (
         <div className={"bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  from-base-100 to-base-300 bg-gradient-to-b border-t-2 border-primary border-opacity-50 drop-shadow-lg "
             + (props.className || "")}>
-            <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60"
+            <Link className="col-span-12 justify-center flex border-b-2 border-base-300 rounded-t-lg select-none h-60 relative"
                 href={"/blog/" + props?.category?.slug + "/" + props.slug}>
-                <img src={props.image!} alt={props.title}
-                className="w-full object-cover rounded-t-lg" />
+                <Image
+                    src={props.image!}
+                    alt={`Thumbnail for blog post: ${props.title}`}
+                    fill
+                    className="object-cover rounded-t-lg"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                    quality={100}
+                />
             </Link>
             <div className="col-span-12 justify-center px-4">
                 <Link className="text-primary" href={"/blog/" + props.category?.slug + "/" + props.slug}>

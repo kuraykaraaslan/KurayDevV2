@@ -10,8 +10,6 @@ import dynamic from 'next/dynamic';
 
 const KnowledgeGraph2DButton = dynamic(() => import('../../Knowledge/KnowledgeGraph2D/Button'), { ssr: false , loading: () => null });
 
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
-
 interface FeedProps {
     category?: Pick<Category, 'categoryId' | 'title'>;
     author?: Pick<SafeUser, 'userId' | 'name' | 'userProfile'>;
@@ -48,7 +46,7 @@ export default function Feed(props: FeedProps) {
                         title: post.title,
                         description: post.description,
                         createdAt: new Date(post.createdAt),
-                        image: post.image ? post.image : `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`,
+                        image: post.image ? post.image : `/api/posts/${post.postId}/cover.jpeg`,
                     };
                 });
 

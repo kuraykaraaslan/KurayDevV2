@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import Image from 'next/image';
 import { PostWithData } from '@/types/content/BlogTypes';
 import { useTranslation } from 'react-i18next';
 
@@ -66,16 +67,15 @@ const PostCard = ({post}: { post: PostWithData }) => {
         <div className={"bg-base-300 shadow-md rounded-lg min-w-[296px]"}>
             <Link
                 href={"/blog/" + category.slug + "/" + slug}
-                className="block h-32 border-b-2 border-base-300 overflow-hidden rounded-t-lg"
+                className="block h-32 border-b-2 border-base-300 overflow-hidden rounded-t-lg relative"
             >
-            <img
-                        src={image!}
-                        width={1920}
-                        height={1080}
-                        alt="feed image"
-                        className="w-full h-full object-cover"
-                    />
-
+                <Image
+                    src={image!}
+                    alt={`Related post: ${title}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 200px"
+                />
             </Link>
             <div className="p-4">
                 <Link href={"/blog/" + category.slug + "/" + slug}>

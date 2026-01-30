@@ -1,4 +1,4 @@
-import { Post, PostWithData } from '@/types/content/BlogTypes';
+import { Post, PostSchema, PostWithData, PostWithDataSchema } from '@/types/content/BlogTypes';
 import {prisma} from '@/libs/prisma';
 import { MetadataRoute } from 'next';
 import redisInstance from '@/libs/redis';
@@ -17,6 +17,7 @@ export default class PostService {
         authorId: true,
         categoryId: true,
         createdAt: true,
+        updatedAt: true,
         status: true,
         views: true,
         content: true, // Include content only if postId or slug is provided
@@ -67,7 +68,8 @@ export default class PostService {
 
         await redisInstance.del(this.CACHE_KEY);
 
-        return await prisma.post.create({ data });
+        const createdPost = await prisma.post.create({ data });
+        return PostSchema.parse(createdPost);
     }
 
     /**
@@ -187,7 +189,7 @@ export default class PostService {
 
         await redisInstance.del(this.CACHE_KEY);
 
-        return post;
+        return PostSchema.parse(post);
     }
 
     /**
@@ -222,7 +224,7 @@ export default class PostService {
             },
         });
 
-        return post;
+        return PostSchema.parse(post);
     }
 
 
@@ -257,7 +259,17 @@ export default class PostService {
      * Get all blogpost slugs with postName and categorySlug
      * @returns Array of objects with postName and categorySlug
      * */
-    static async getAllPostSlugs(): Promise<{ title: string; slug: string; categorySlug: string }[]> {
+    static async getAllPostSlugs(): Promise<{
+        title: string;
+        slug: string;
+        categorySlug: string;
+        categoryTitle: string;
+        description: string | null;
+        content: string;
+        authorName: string;
+        createdAt: Date;
+        updatedAt: Date | null;
+    }[]> {
         const posts = await prisma.post.findMany({
             where: {
                 status: 'PUBLISHED',
@@ -269,18 +281,36 @@ export default class PostService {
             select: {
                 title: true,
                 slug: true,
+                description: true,
+                content: true,
+                createdAt: true,
+                updatedAt: true,
                 category: {
                     select: {
                         slug: true,
+                        title: true,
+                    }
+                },
+                author: {
+                    select: {
+                        userProfile: true
                     }
                 }
             }
         });
 
-        return posts.map(post => ({
+        const postSchemad = PostWithDataSchema.array().parse(posts);
+
+        return postSchemad.map(post => ({
             title: post.title,
             slug: post.slug,
-            categorySlug: post.category.slug,
+            categorySlug: post.category?.slug || '',
+            categoryTitle: post.category?.title || '',
+            description: post.description,
+            content: post.content,
+            authorName: post.author?.userProfile?.name || 'Kuray Karaaslan',
+            createdAt: post.createdAt,
+            updatedAt: post.updatedAt,
         }));
     }
 

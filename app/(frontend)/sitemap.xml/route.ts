@@ -8,7 +8,7 @@ export async function GET() {
   const xml = renderSitemapIndex([
     `${BASE}/sitemap-static.xml`,
     `${BASE}/blog/sitemap.xml`,
-    `${BASE}/project/sitemap.xml`,
+    `${BASE}/projects/sitemap.xml`,
   ]);
 
   console.log('Sitemap index generated.');

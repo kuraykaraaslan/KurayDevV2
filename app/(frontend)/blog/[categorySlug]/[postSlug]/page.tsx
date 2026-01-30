@@ -11,69 +11,136 @@ import ShareButtons from '@/components/frontend/Features/Blog/ShareButtons';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
-export default async function BlogPost({ params }: { params: { categorySlug: string, postSlug: string } }) {
-    try {
+type Props = {
+    params: Promise<{ categorySlug: string; postSlug: string }>;
+};
 
+// Fetch post data for both metadata and page rendering
+async function getPost(postSlug: string) {
+    const response = await PostService.getAllPosts({
+        page: 0,
+        pageSize: 1,
+        slug: postSlug,
+        status: 'ALL',
+    });
+    return response.posts[0] || null;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { postSlug, categorySlug } = await params;
+    const post = await getPost(postSlug);
+
+    if (!post || post.status !== 'PUBLISHED') {
+        return {};
+    }
+
+    const url = `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}`;
+    const image = post.image || `${APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
+    const description = post.description || post.content.substring(0, 150);
+
+    return {
+        title: `${post.title} | Kuray Karaaslan`,
+        description,
+        keywords: post.keywords?.length ? post.keywords : [post.category.title],
+        robots: {
+            index: post.status === 'PUBLISHED',
+            follow: true,
+            googleBot: {
+                index: post.status === 'PUBLISHED',
+                follow: true,
+            },
+        },
+        openGraph: {
+            title: `${post.title} | Kuray Karaaslan`,
+            description,
+            type: 'article',
+            url,
+            images: [{ url: image, width: 2400, height: 1260, alt: post.title }],
+            locale: 'en_US',
+            siteName: 'Kuray Karaaslan',
+            publishedTime: post.createdAt?.toISOString(),
+            modifiedTime: post.updatedAt?.toISOString(),
+            authors: ['Kuray Karaaslan'],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            site: '@kuraykaraaslan',
+            creator: '@kuraykaraaslan',
+            title: post.title,
+            description,
+            images: [image],
+        },
+        alternates: {
+            canonical: url,
+        },
+    };
+}
+
+export default async function BlogPost({ params }: Props) {
+    try {
         const { postSlug, categorySlug } = await params;
 
-
-        if (!postSlug) {
-            notFound();
-        }
-
-        if (!categorySlug) {
+        if (!postSlug || !categorySlug) {
             notFound();
         }
 
         console.log("Fetching post:", postSlug, "in category:", categorySlug);
 
-        const response = await PostService.getAllPosts({
-            page: 0,
-            pageSize: 1,
-            slug: postSlug,
-            status: 'ALL',
-        });
-
-        const { posts } = response;
-
-        if (!posts || posts.length === 0) {
-            notFound();
-        }
-
-        const post = posts[0];
+        const post = await getPost(postSlug);
 
         if (!post) {
             notFound();
         }
 
         if (post.status !== 'PUBLISHED') {
-            // Check if the user is authenticated and has the required role
             notFound();
         }
 
         await PostService.incrementViewCount(post.postId);
         post.views++;
 
-        const metadata : Metadata = {
+        const url = `${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`;
+        const image = post.image || `${APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
+
+        // Metadata for JSON-LD
+        const metadata: Metadata = {
             title: `${post.title} | Kuray Karaaslan`,
             description: post.description || post.content.substring(0, 150),
             openGraph: {
                 title: `${post.title} | Kuray Karaaslan`,
                 description: post.description || post.content.substring(0, 150),
                 type: 'article',
-                url: `${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`,
-                images: [ post.image ? post.image : `${APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg` ],
+                url,
+                images: [image],
             },
-        }
+        };
+
+        // Breadcrumbs for SEO
+        const breadcrumbs = [
+            { name: 'Home', url: `${APPLICATION_HOST}/` },
+            { name: 'Blog', url: `${APPLICATION_HOST}/blog` },
+            { name: post.category.title, url: `${APPLICATION_HOST}/blog/${post.category.slug}` },
+            { name: post.title, url },
+        ];
+
+        // Article data for JSON-LD
+        const articleData = {
+            datePublished: post.createdAt?.toISOString(),
+            dateModified: post.updatedAt?.toISOString() || post.createdAt?.toISOString(),
+            authorName: 'Kuray Karaaslan',
+            articleSection: post.category.title,
+            keywords: post.keywords?.length ? post.keywords : [post.category.title],
+            wordCount: post.content.split(/\s+/).length,
+        };
 
         return (
             <>
-                {MetadataHelper.generateElements(metadata)}
+                {MetadataHelper.generateJsonLdScripts(metadata, { articleData, breadcrumbs })}
                 <section className="min-h-screen bg-base-100 pt-32" id="blog">
                     <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
                         <PostHeader {...post} />
                         <Article {...post} />
-                        <ShareButtons title={post.title} url={`${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`} />
+                        <ShareButtons title={post.title} url={url} />
                         <OtherPosts />
                         <Comments postId={post.postId} />
                     </div>

@@ -26,6 +26,7 @@ const PostSchema = z.object({
     slug: z.string(),
     keywords: z.array(z.string()),
     createdAt: z.date(),
+    updatedAt: z.date().nullable().transform((date) => date || new Date()),
     categoryId: z.string(),
     image: z.string().nullable(),
     status: z.string().default("PUBLISHED"),

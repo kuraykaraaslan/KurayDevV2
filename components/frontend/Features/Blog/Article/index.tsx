@@ -1,7 +1,6 @@
 import { Post } from "@/types/content/BlogTypes";
 import DOMPurify from "isomorphic-dompurify";
-
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
+import Image from "next/image";
 
 export default function Article(post: Partial<Post>) {
     const image = post.image ?? null;
@@ -21,11 +20,16 @@ export default function Article(post: Partial<Post>) {
     return (
         <div className="max-w-none justify-center text-left mx-auto prose mb-8 max-w-none">
             {image && (
-                <img
-                    src={image ?? `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`}
-                    alt={post.title ?? ""}
-                    className="w-full h-64 object-cover"
-                />
+                <div className="relative w-full h-64 mb-12 -mt-8">
+                    <Image
+                        src={image ?? `/api/posts/${post.postId}/cover.jpeg`}
+                        alt={`Featured image for article: ${post.title ?? "Blog post"}`}
+                        fill
+                        priority
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 1200px"
+                    />
+                </div>
             )}
 
             <div dangerouslySetInnerHTML={{ __html: safeHTML }} className="prose mt-4 max-w-none" />

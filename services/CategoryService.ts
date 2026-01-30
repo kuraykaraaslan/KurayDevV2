@@ -160,4 +160,19 @@ export default class CategoryService {
 
         return;
     }
+
+    /**
+     * Get all category slugs for sitemap generation.
+     * @returns Array of objects with slug and updatedAt
+     */
+    static async getAllCategorySlugs(): Promise<{ slug: string; updatedAt: Date | null }[]> {
+        const categories = await prisma.category.findMany({
+            select: {
+                slug: true,
+                updatedAt: true,
+            }
+        });
+
+        return categories;
+    }
 }

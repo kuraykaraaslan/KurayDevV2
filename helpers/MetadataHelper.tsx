@@ -20,8 +20,15 @@ export default class MetadataHelper {
         };
     }
 
-    // Generate JSON-LD for Article
-    public static getArticleJsonLd(meta: Metadata) {
+    // Generate JSON-LD for Article with optional date information
+    public static getArticleJsonLd(meta: Metadata, articleData?: {
+        datePublished?: string;
+        dateModified?: string;
+        authorName?: string;
+        articleSection?: string;
+        keywords?: string[];
+        wordCount?: number;
+    }) {
         if (!meta?.openGraph?.url || !/\/blog\//.test(String(meta.openGraph.url))) return null;
         const title = meta?.title || 'Kuray Karaaslan';
         const description = meta?.description || 'Software developer, tech blogger, and open-source enthusiast.';
@@ -42,7 +49,8 @@ export default class MetadataHelper {
             images = [`${APPLICATION_HOST}/assets/img/og.png`];
         }
         const image = images[0];
-        return {
+
+        const jsonLd: Record<string, any> = {
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": title,
@@ -50,7 +58,8 @@ export default class MetadataHelper {
             "image": image,
             "author": {
                 "@type": "Person",
-                "name": "Kuray Karaaslan"
+                "name": articleData?.authorName || "Kuray Karaaslan",
+                "url": `${APPLICATION_HOST}/about`
             },
             "publisher": {
                 "@type": "Organization",
@@ -63,9 +72,88 @@ export default class MetadataHelper {
             "mainEntityOfPage": url,
             "url": url
         };
+
+        if (articleData?.datePublished) {
+            jsonLd["datePublished"] = articleData.datePublished;
+        }
+        if (articleData?.dateModified) {
+            jsonLd["dateModified"] = articleData.dateModified;
+        } else if (articleData?.datePublished) {
+            jsonLd["dateModified"] = articleData.datePublished;
+        }
+        if (articleData?.articleSection) {
+            jsonLd["articleSection"] = articleData.articleSection;
+        }
+        if (articleData?.keywords?.length) {
+            jsonLd["keywords"] = articleData.keywords;
+        }
+        if (articleData?.wordCount) {
+            jsonLd["wordCount"] = articleData.wordCount;
+        }
+
+        return jsonLd;
     }
 
-    public static generateElements(meta: Metadata) {
+    // Generate JSON-LD for Breadcrumb
+    public static getBreadcrumbJsonLd(items: { name: string; url: string }[]) {
+        return {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": items.map((item, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "name": item.name,
+                "item": item.url
+            }))
+        };
+    }
+
+    // Generate only JSON-LD scripts (for use with Next.js generateMetadata)
+    public static generateJsonLdScripts(
+        meta: Metadata,
+        options?: {
+            articleData?: {
+                datePublished?: string;
+                dateModified?: string;
+                authorName?: string;
+                articleSection?: string;
+                keywords?: string[];
+                wordCount?: number;
+            };
+            breadcrumbs?: { name: string; url: string }[];
+        }
+    ) {
+        const orgJsonLd = MetadataHelper.getOrganizationJsonLd();
+        const articleJsonLd = MetadataHelper.getArticleJsonLd(meta, options?.articleData);
+        const breadcrumbJsonLd = options?.breadcrumbs ? MetadataHelper.getBreadcrumbJsonLd(options.breadcrumbs) : null;
+
+        return (
+            <>
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+                {articleJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+                )}
+                {breadcrumbJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+                )}
+            </>
+        );
+    }
+
+    public static generateElements(
+        meta: Metadata,
+        options?: {
+            articleData?: {
+                datePublished?: string;
+                dateModified?: string;
+                authorName?: string;
+                articleSection?: string;
+                keywords?: string[];
+                wordCount?: number;
+            };
+            breadcrumbs?: { name: string; url: string }[];
+        }
+    ) {
         // Fallbacks
         const title = meta?.title || 'Kuray Karaaslan';
         const description = meta?.description || 'Software developer, tech blogger, and open-source enthusiast.';
@@ -99,7 +187,8 @@ export default class MetadataHelper {
 
         // JSON-LD
         const orgJsonLd = MetadataHelper.getOrganizationJsonLd();
-        const articleJsonLd = MetadataHelper.getArticleJsonLd(meta);
+        const articleJsonLd = MetadataHelper.getArticleJsonLd(meta, options?.articleData);
+        const breadcrumbJsonLd = options?.breadcrumbs ? MetadataHelper.getBreadcrumbJsonLd(options.breadcrumbs) : null;
 
         return (
             <>
@@ -111,9 +200,11 @@ export default class MetadataHelper {
                 <meta property="og:description" content={String(meta?.openGraph?.description || description)} />
                 <meta property="og:type" content={ogType} />
                 <meta property="og:url" content={String(url)} />
+                <meta property="og:locale" content="en_US" />
+                <meta property="og:site_name" content="Kuray Karaaslan" />
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:site" content="@dropshoptickets" />
-                <meta name="twitter:creator" content="@dropshoptickets" />
+                <meta name="twitter:site" content="@kuraykaraaslan" />
+                <meta name="twitter:creator" content="@kuraykaraaslan" />
                 <meta name="twitter:title" content={String(title)} />
                 <meta name="twitter:description" content={String(description)} />
                 <meta name="twitter:image" content={images[0]} />
@@ -121,6 +212,9 @@ export default class MetadataHelper {
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
                 {articleJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+                )}
+                {breadcrumbJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
                 )}
             </>
         );

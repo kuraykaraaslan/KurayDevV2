@@ -7,8 +7,6 @@ import axiosInstance from '@/libs/axios';
 import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
-const NEXT_PUBLIC_APPLICATION_HOST = process.env.APPLICATION_HOST;
-
 const OtherPosts = () => {
     const { t } = useTranslation();
     const { categoryId } = useParams();
@@ -21,7 +19,7 @@ const OtherPosts = () => {
             const posts = res.data.posts;
             let postCards = posts.map((post: any) => {
 
-              post.image = post.image || `${NEXT_PUBLIC_APPLICATION_HOST}/api/posts/${post.postId}/cover.jpeg`;
+              post.image = post.image || `/api/posts/${post.postId}/cover.jpeg`;
 
                 return <PostCard key={post.postId} post={post} />;
             });

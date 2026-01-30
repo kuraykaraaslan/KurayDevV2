@@ -128,6 +128,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'www.kuray.dev'
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000'
       }
     ]
   }
