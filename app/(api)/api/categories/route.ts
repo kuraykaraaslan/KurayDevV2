@@ -51,16 +51,7 @@ export async function POST(request: NextRequest) {
             }, { status: 400 });
         }
 
-        const { title, description, slug, image } = parsedData.data;
-
-        const data = {
-            title,
-            description,
-            slug,
-            image,
-        };
-
-        const category = await CategoryService.createCategory(data);
+        const category = await CategoryService.createCategory(parsedData.data);
 
         return NextResponse.json({ category });
 
@@ -71,26 +62,3 @@ export async function POST(request: NextRequest) {
         );
     }
 }
-
-/**
- * DELETE handler for deleting all categories.
- * @param request - The incoming request object
- * @returns A NextResponse containing a success message or an error message
- * */
-
-export async function DELETE(_request: Request) {
-        try {
-            await CategoryService.deleteAllCategories();
-
-            return NextResponse.json(
-                { message: "All categories deleted successfully." }
-            );
-        }
-        catch (error: any) {
-            return NextResponse.json(
-                { message: error.message },
-                { status: 500 }
-            );
-        }
-
-    }

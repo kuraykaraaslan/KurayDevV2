@@ -1,258 +1,263 @@
 'use client';
-import { useState, useEffect, useMemo, FormEvent } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import axiosInstance from '@/libs/axios';
 import { toast } from 'react-toastify';
+import ImageLoad from '@/components/common/UI/Images/ImageLoad';
+import FormHeader from '@/components/admin/UI/Forms/FormHeader';
+import DynamicText from '@/components/admin/UI/Forms/DynamicText';
+import GenericElement from '@/components/admin/UI/Forms/GenericElement';
+import Form from '@/components/admin/UI/Forms/Form';
 
-const EditCategory = () => {
+const SingleCategory = () => {
+  const localStorageKey = 'category_drafts';
 
-    const params = useParams<{ categoryId: string }>();
-    const routeCategoryId = params.categoryId;
+  const params = useParams<{ categoryId: string }>();
+  const routeCategoryId = params?.categoryId;
+  const router = useRouter();
 
-    const mode: 'create' | 'edit' = useMemo(
-        () => (routeCategoryId === 'create' ? 'create' : 'edit'),
-        [routeCategoryId]
-    );
+  const mode: 'create' | 'edit' = useMemo(
+    () => (routeCategoryId === 'create' ? 'create' : 'edit'),
+    [routeCategoryId]
+  );
 
+  const [loading, setLoading] = useState(true);
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [slug, setSlug] = useState('');
-    const [keywords, setKeywords] = useState<string[]>([]);
+  // Model fields
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [slug, setSlug] = useState('');
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [image, setImage] = useState('');
 
-    const [loading, setLoading] = useState(true);
+  // Slug generation (only in create mode and after loading)
+  useEffect(() => {
+    if (mode === 'edit' || loading) return;
+    if (!title) return;
 
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const invalidChars = /[^\w\s-]/g;
+    let slugifiedTitle = title.replace(invalidChars, '');
+    slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-');
+    slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
+    slugifiedTitle = slugifiedTitle.toLowerCase();
 
-    //image upload
-    const [imageFile, setImageFile] = useState<File | null>(null);
+    setSlug(slugifiedTitle);
+  }, [title, mode, loading]);
 
-    const router = useRouter();
+  // Load category (in edit mode)
+  useEffect(() => {
+    let cancelled = false;
 
-    const uploadImage = async () => {
-        if (!imageFile) {
-            return;
+    const load = async () => {
+      if (!routeCategoryId) {
+        setLoading(false);
+        return;
+      }
+      if (routeCategoryId === 'create') {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await axiosInstance.get(`/api/categories/${routeCategoryId}`);
+        const category = res.data?.category;
+
+        if (!category) {
+          toast.error('Category not found');
+          return;
         }
+        if (cancelled) return;
 
-        const formData = new FormData();
-        formData.append('file', imageFile);
-        formData.append('folder', 'categories');
-
-        await axiosInstance.post('/api/aws', formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-        ).then((res) => {
-            setImageUrl(res.data.url);
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-
-    const uploadFromUrl = async (url: string) => {
-        await axiosInstance.post('/api/aws/from-url', {
-            url,
-            folder: 'categories'
-        }
-        ).then((res) => {
-            setImageUrl(res.data.url);
-            toast.success('Image uploaded successfully');
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-
-    const generateImage = async () => {
-        await axiosInstance.post('/api/ai/dall-e', {
-            prompt: 'create a category image for title ' + title + ' and description ' + description + ' and keywords ' + keywords.join(','),
-        }).then((res) => {
-            toast.success('Image generated successfully,');
-            setImageUrl(res.data.url);
-            return res;
-        }).then((res) => {
-            toast.success('Now uploading image to S3');
-            uploadFromUrl(res.data.url);
-        }).
-            catch((error) => {
-                console.error(error);
-            });
-    }
-
-    useEffect(() => {
-        const fetchCategory = async () => {
-            await axiosInstance.get(`/api/categories/${params.categoryId}`).then((res) => {
-                const { category } = res.data;
-                setTitle(category.title);
-                setDescription(category.description);
-                setSlug(category.slug);
-                setKeywords(category.keywords);
-                setImageUrl(category.image);
-                setLoading(false);
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-
-        fetchCategory();
-    }, []);
-
-    useEffect(() => {
-        if (mode === 'edit' || loading) return;
-        if (!title) return;
-
-        const invalidChars = /[^\w\s-]/g;
-        let slugifiedTitle = title.replace(invalidChars, '');
-        slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-');
-        slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
-        slugifiedTitle = slugifiedTitle.toLowerCase();
-
-        setSlug(`${slugifiedTitle}`);
-    }, [title, mode, loading]);
-
-
-
-    useEffect(() => {
-
-    }
-        , [imageUrl]);
-
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-
-        const blogCategory = {
-            title,
-            description,
-            slug,
-            keywords: keywords,
-            image: imageUrl,
-        };
-
-        if (title === '') {
-            toast.error('Title is required');
-            return;
-        }
-
-        if (description === '') {
-            toast.error('Description is required');
-            return;
-        }
-
-        if (slug === '') {
-            toast.error('Slug is required');
-            return;
-        }
-
-        await axiosInstance.put('/api/categories/' + params.categoryId, blogCategory).then(() => {
-            toast.success('Category updated successfully');
-            router.push('/admin/categories/' + params.categoryId);
-        }).catch((error) => {
-            console.error(error);
-        });
-
+        setTitle(category.title ?? '');
+        setDescription(category.description ?? '');
+        setSlug(category.slug ?? '');
+        setKeywords(Array.isArray(category.keywords) ? category.keywords : []);
+        setImage(category.image ?? '');
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.response?.data?.message ?? 'Failed to load category');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     };
 
-    return (
-        <>
-            <div className="container mx-auto">
-                <div className="flex justify-between items-center flex-row">
-                    <h1 className="text-3xl font-bold h-16 items-center">Create Category</h1>
-                    <div className="flex gap-2 h-16">
-                        <Link className="btn btn-primary btn-sm h-12" href="/admin/categories">
-                            Back to Categories
-                        </Link>
-                    </div>
-                </div>
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [routeCategoryId]);
 
-                <form className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Title</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            className="input input-bordered"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Description</span>
-                        </label>
-                        <textarea
-                            placeholder="Description"
-                            className="textarea textarea-bordered"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Slug</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Slug"
-                            className="input input-bordered"
-                            value={slug}
-                            onChange={(e) => setSlug(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Keywords</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Keywords"
-                            className="input input-bordered"
-                            value={keywords.join(',')}
-                            onChange={(e) => setKeywords(e.target.value.split(','))}
-                        />
-                    </div>
-                    <div className="form-control mb-4 mt-4">
-                        <label className="label">
-                            <span className="label-text">Image</span>
-                        </label>
-                        <img src={imageUrl ? imageUrl as string : '/assets/img/og.png'}
+  // Auto Save Draft to LocalStorage
+  useEffect(() => {
+    if (loading) return;
 
-                            width={384} height={256}
-                            alt="Image" className="h-64 w-96 object-cover rounded-lg" />
-                        <div className="relative flex justify-between items-center">
-                            <input
-                                type="file"
-                                placeholder="Image URL"
-                                className="input input-bordered mt-2 p-4 flex-1 h-16"
-                                //only images
-                                accept="image/*"
+    const draft = {
+      title,
+      description,
+      slug,
+      keywords,
+      image,
+    };
 
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        setImageFile(file);
-                                        //setImageUrl(URL.createObjectURL(file));
-                                    }
-                                }}
-                            />
-                            <div className="absolute right-2 top-2 text-black p-2 rounded-lg">
-                                <button type="button" className="h-12 text-black p-2 rounded-lg bg-primary mr-2" onClick={uploadImage}>
-                                    Upload Image
-                                </button>
-                                <button type="button" className="h-12 text-black p-2 rounded-lg bg-secondary" onClick={generateImage}>
-                                    Generate Image
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" className="btn btn-primary block w-full mt-4">Update Category</button>
-                </form>
-            </div>
-        </>
-    );
-}
+    try {
+      const caches = localStorage.getItem(localStorageKey);
+      let parsedCaches: Record<string, any> = {};
 
-export default EditCategory;
+      try {
+        parsedCaches = caches ? JSON.parse(caches) : {};
+      } catch {
+        parsedCaches = {};
+      }
+
+      parsedCaches[routeCategoryId] = draft;
+      localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches));
+    } catch (err) {
+      console.error('Draft autosave error:', err);
+    }
+  }, [title, description, slug, keywords, image, loading, routeCategoryId]);
+
+  // Load Draft from LocalStorage
+  useEffect(() => {
+    try {
+      const caches = localStorage.getItem(localStorageKey);
+      if (!caches) return;
+
+      const parsed = JSON.parse(caches);
+      const draft = parsed[routeCategoryId];
+      if (!draft) return;
+
+      setTitle(draft.title ?? '');
+      setDescription(draft.description ?? '');
+      setSlug(draft.slug ?? '');
+      setKeywords(draft.keywords ?? []);
+      setImage(draft.image ?? '');
+
+      toast.info('Draft loaded from browser');
+    } catch (err) {
+      console.error('Draft load error', err);
+    }
+  }, []);
+
+  const handleSubmit = async () => {
+    const errors: string[] = [];
+    const required: Record<string, unknown> = {
+      title,
+      description,
+      slug,
+    };
+
+    for (const [key, val] of Object.entries(required)) {
+      if (typeof val === 'string' && val.trim() === '') {
+        errors.push(`${key} is required`);
+      }
+    }
+
+    if (errors.length) {
+      errors.forEach((msg) => toast.error(msg));
+      return;
+    }
+
+    const body = {
+      categoryId: routeCategoryId !== 'create' ? routeCategoryId : undefined,
+      title,
+      description,
+      slug,
+      keywords,
+      image,
+    };
+
+    try {
+      if (mode === 'create') {
+        await axiosInstance.post('/api/categories', body);
+        toast.success('Category created successfully');
+      } else {
+        await axiosInstance.put(`/api/categories/${routeCategoryId}`, body);
+        toast.success('Category updated successfully');
+      }
+      router.push('/admin/categories');
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message ?? 'Save failed');
+    }
+  };
+
+  return (
+    <Form
+      className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-7xl"
+      actions={[
+        {
+          label: 'Save',
+          onClick: handleSubmit,
+          className: 'btn-primary',
+        },
+        {
+          label: 'Cancel',
+          onClick: () => router.push('/admin/categories'),
+          className: 'btn-secondary',
+        },
+      ]}
+    >
+      <FormHeader
+        title={mode === 'create' ? 'Create Category' : 'Edit Category'}
+        className="my-4"
+        actionButtons={[
+          {
+            text: 'Back to Categories',
+            className: 'btn-sm btn-primary',
+            onClick: () => router.push('/admin/categories'),
+          },
+        ]}
+      />
+
+      <DynamicText
+        label="Title"
+        placeholder="Title"
+        value={title}
+        setValue={setTitle}
+        size="md"
+      />
+
+      <DynamicText
+        label="Description"
+        placeholder="Description"
+        value={description}
+        setValue={setDescription}
+        size="md"
+        isTextarea={true}
+      />
+
+      <DynamicText
+        label="Slug"
+        placeholder="Slug"
+        value={slug}
+        setValue={setSlug}
+        size="md"
+      />
+
+      <DynamicText
+        label="Keywords"
+        placeholder="Keywords"
+        value={keywords.join(',')}
+        setValue={(val) =>
+          setKeywords(
+            val
+              .split(',')
+              .map((s) => s.trim())
+              .filter((s) => s.length > 0)
+          )
+        }
+        size="md"
+      />
+
+      <GenericElement label="Image">
+        <ImageLoad
+          image={image}
+          setImage={setImage}
+          uploadFolder="categories"
+          toast={toast}
+        />
+      </GenericElement>
+    </Form>
+  );
+};
+
+export default SingleCategory;

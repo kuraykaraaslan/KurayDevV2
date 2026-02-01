@@ -13,6 +13,7 @@ export const CreateCategoryRequestSchema = z.object({
     description: z.string(),
     slug: z.string().min(1, CategoryMessages.SLUG_REQUIRED),
     image: z.string(),
+    keywords: z.array(z.string()).optional().default([]),
 });
 
 export const UpdateCategoryRequestSchema = CreateCategoryRequestSchema.extend({
@@ -30,6 +31,7 @@ export const CategoryResponseSchema = z.object({
     description: z.string().nullable(),
     slug: z.string(),
     image: z.string().nullable(),
+    keywords: z.array(z.string()).optional().default([]),
     createdAt: z.date(),
     updatedAt: z.date(),
 });

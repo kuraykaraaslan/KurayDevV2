@@ -4,7 +4,7 @@ import PostService from "@/services/PostService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import KnowledgeGraphService from "@/services/KnowledgeGraphService";
 import PostCoverService from "@/services/PostService/PostCoverService";
-import { CreatePostRequestSchema, UpdatePostRequestSchema } from "@/dtos/PostDTO";
+import { CreatePostRequestSchema } from "@/dtos/PostDTO";
 
 export async function GET(request: NextRequest) {
     try {
@@ -79,48 +79,6 @@ export async function POST(request: NextRequest) {
     }
     catch (error: any) {
         console.error(error.message);
-        return NextResponse.json(
-            { message: error.message },
-            { status: 500 }
-        );
-    }
-}
-
-/**
- * PUT handler for updating a post.
- * @param request - The incoming request object
- * @returns A NextResponse containing the updated post data or an error message
- */
-export async function PUT(request: NextRequest) {
-    try {
-
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
-
-        const data = await request.json();
-        
-        const parsedData = UpdatePostRequestSchema.safeParse(data);
-        
-        if (!parsedData.success) {
-            console.log("Validation errors:", parsedData.error.errors);
-            return NextResponse.json({
-                error: parsedData.error.errors.map(err => err.message).join(", ")
-            }, { status: 400 });
-        }
-
-        console.log("Updating post:", parsedData.data.postId);
-        const post = await PostService.updatePost(parsedData.data);
-
-        await KnowledgeGraphService.queueUpdatePost(post.postId)
-
-        if (!post.image) {
-            await PostCoverService.resetById(post.postId);
-        }
-
-        return NextResponse.json({ post });
-
-    }
-    catch (error: any) {
-        console.error(error);
         return NextResponse.json(
             { message: error.message },
             { status: 500 }

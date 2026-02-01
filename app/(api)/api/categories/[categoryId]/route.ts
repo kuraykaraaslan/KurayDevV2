@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import CategoryService from "@/services/CategoryService";
 import UserSessionService from "@/services/AuthService/UserSessionService";
 import CategoryMessages from "@/messages/CategoryMessages";
+import { UpdateCategoryRequestSchema } from "@/dtos/CategoryDTO";
 
 /**
  * GET handler for retrieving a category by its Id.
@@ -76,10 +77,10 @@ export async function DELETE(
 }
 
 /**
- * PUT handler for updating a post by its ID.
+ * PUT handler for updating a category by its ID.
  * @param request - The incoming request object
- * @param context - Contains the URL parameters, including postId
- * @returns A NextResponse containing the updated post data or an error message
+ * @param context - Contains the URL parameters, including categoryId
+ * @returns A NextResponse containing the updated category data or an error message
  */
 export async function PUT(
   request: NextRequest,
@@ -90,22 +91,23 @@ export async function PUT(
     await UserSessionService.authenticateUserByRequest({ request });
 
     const { categoryId } = await params;
-    const post = await CategoryService.getCategoryById(categoryId);
-
-    if (!post) {
-      return NextResponse.json(
-        { message: "Category not found." },
-        { status: 404 }
-      );
-    }
 
     const data = await request.json();
+    data.categoryId = categoryId;
 
-    const updatedCategory = await CategoryService.updateCategory(post.categoryId, data);
+    const parsedData = UpdateCategoryRequestSchema.safeParse(data);
 
-    return NextResponse.json({ category: updatedCategory });
-  }
-  catch (error: any) {
+    if (!parsedData.success) {
+      return NextResponse.json({
+        error: parsedData.error.errors.map(err => err.message).join(", ")
+      }, { status: 400 });
+    }
+
+    const category = await CategoryService.updateCategory(parsedData.data);
+
+    return NextResponse.json({ category });
+
+  } catch (error: any) {
     return NextResponse.json(
       { message: error.message },
       { status: 500 }

@@ -237,7 +237,7 @@ const SinglePost = () => {
         await axiosInstance.post('/api/posts', body);
         toast.success('Post created successfully');
       } else {
-        await axiosInstance.put('/api/posts/', body);
+        await axiosInstance.put(`/api/posts/${routePostId}`, body);
         toast.success('Post updated successfully');
       }
       router.push('/admin/posts');

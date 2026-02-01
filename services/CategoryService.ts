@@ -16,9 +16,10 @@ export default class CategoryService {
         description: string;
         slug: string;
         image: string;
+        keywords?: string[];
     }): Promise<any> {
 
-        let { title, description, slug, image } = data;
+        let { title, description, slug, image, keywords } = data;
 
         // Validate input
         if (!title || !description || !slug) {
@@ -41,6 +42,7 @@ export default class CategoryService {
                 description,
                 slug,
                 image,
+                keywords: keywords || [],
             },
         });
 
@@ -94,34 +96,34 @@ export default class CategoryService {
     }
 
     /**
-     * Updates a category by its ID.
-     * @param categoryId - The ID of the category
-     * @param data - The updated category data
+     * Updates a category.
+     * @param data - The updated category data including categoryId
      * @returns The updated category
      */
-    static async updateCategory(categoryId: string, data: {
+    static async updateCategory(data: {
+        categoryId: string;
         title: string;
         description: string;
         slug: string;
         image: string;
-        keywords: string[];
+        keywords?: string[];
     }): Promise<Category> {
-            
-            const { title, description, slug, image } = data;
-    
-            const category = await prisma.category.update({
-                where: { categoryId },
-                data: {
-                    title,
-                    description,
-                    slug,
-                    image,
-                    keywords: { set: data.keywords },
-                },
-            });
-    
-            return category;
-        }
+
+        const { categoryId, title, description, slug, image, keywords } = data;
+
+        const category = await prisma.category.update({
+            where: { categoryId },
+            data: {
+                title,
+                description,
+                slug,
+                image,
+                keywords: keywords || [],
+            },
+        });
+
+        return category;
+    }
 
     /**
      * Deletes a category by its ID.
