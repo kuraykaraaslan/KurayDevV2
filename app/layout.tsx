@@ -15,6 +15,14 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
+        {/* Preconnect hints for faster resource loading */}
+        <link rel="preconnect" href="https://kuray-dev.s3.amazonaws.com" />
+        <link rel="preconnect" href="https://www.gravatar.com" />
+        <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://kuray-dev.s3.amazonaws.com" />
+        <link rel="dns-prefetch" href="https://www.gravatar.com" />
+        <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
       </head>
       <body className="min-h-screen">
         {children}

@@ -29,7 +29,7 @@ const HomePage = () => {
 
   return (
     <>
-      {MetadataHelper.generateElements(metadata)}
+      {MetadataHelper.generateElements(metadata, { includeProfilePage: true })}
       <Welcome />
       <Toolbox />
       <ProjectsHero />

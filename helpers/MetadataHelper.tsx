@@ -46,6 +46,45 @@ export default class MetadataHelper {
         };
     }
 
+    // Generate JSON-LD for ProfilePage (personal brand schema for homepage)
+    public static getProfilePageJsonLd() {
+        return {
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "dateCreated": "2020-01-01T00:00:00+00:00",
+            "dateModified": new Date().toISOString(),
+            "mainEntity": {
+                "@type": "Person",
+                "@id": `${APPLICATION_HOST}/#person`,
+                "name": "Kuray Karaaslan",
+                "alternateName": "kuraykaraaslan",
+                "description": "Software developer, tech blogger, and open-source enthusiast. Skilled in React, Next.js, Node.js, Java, and React Native.",
+                "url": APPLICATION_HOST,
+                "image": `${APPLICATION_HOST}/assets/img/og.png`,
+                "jobTitle": "Software Developer",
+                "worksFor": {
+                    "@type": "Organization",
+                    "name": "Freelance"
+                },
+                "knowsAbout": [
+                    "React",
+                    "Next.js",
+                    "Node.js",
+                    "TypeScript",
+                    "Java",
+                    "React Native",
+                    "Web Development",
+                    "Mobile Development"
+                ],
+                "sameAs": [
+                    "https://github.com/kuraykaraaslan",
+                    "https://twitter.com/kuraykaraaslan",
+                    "https://www.linkedin.com/in/kuraykaraaslan/"
+                ]
+            }
+        };
+    }
+
     // Generate JSON-LD for Article with optional date information
     public static getArticleJsonLd(meta: Metadata, articleData?: {
         datePublished?: string;
@@ -281,6 +320,7 @@ export default class MetadataHelper {
                 wordCount?: number;
             };
             breadcrumbs?: { name: string; url: string }[];
+            includeProfilePage?: boolean;
         }
     ) {
         // Fallbacks
@@ -314,9 +354,13 @@ export default class MetadataHelper {
         // Canonical tag
         const canonicalUrl = url;
 
+        // Author
+        const authorName = options?.articleData?.authorName || 'Kuray Karaaslan';
+
         // JSON-LD
         const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd();
         const orgJsonLd = MetadataHelper.getOrganizationJsonLd();
+        const profilePageJsonLd = options?.includeProfilePage ? MetadataHelper.getProfilePageJsonLd() : null;
         const articleJsonLd = MetadataHelper.getArticleJsonLd(meta, options?.articleData);
         const breadcrumbJsonLd = options?.breadcrumbs ? MetadataHelper.getBreadcrumbJsonLd(options.breadcrumbs) : null;
 
@@ -324,6 +368,7 @@ export default class MetadataHelper {
             <>
                 <title>{String(title)}</title>
                 <meta name="description" content={String(description)} />
+                <meta name="author" content={authorName} />
                 <link rel="canonical" href={String(canonicalUrl)} />
                 <meta property="og:title" content={String(meta?.openGraph?.title || title)} />
                 <meta property="og:image" content={images[0]} />
@@ -341,6 +386,9 @@ export default class MetadataHelper {
                 {/* JSON-LD Structured Data */}
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+                {profilePageJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }} />
+                )}
                 {articleJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
                 )}

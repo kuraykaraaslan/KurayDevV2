@@ -31,6 +31,7 @@
 | Comment Schema | Done | `helpers/MetadataHelper.tsx` | Individual comment structured data |
 | AggregateRating Schema | Done | `helpers/MetadataHelper.tsx` | Star ratings based on likes count |
 | WebSite + SearchAction Schema | Done | `helpers/MetadataHelper.tsx` | Sitelinks search box in Google SERP |
+| ProfilePage Schema | Done | `helpers/MetadataHelper.tsx` | Personal brand schema for homepage |
 
 ### Meta Tags & Open Graph
 
@@ -42,6 +43,7 @@
 | Meta Description | Done | All pages | Search result snippets |
 | Meta Keywords | Done | Blog posts | Keyword targeting |
 | Robots Meta | Done | Blog posts | Index/noindex control |
+| Author Meta Tag | Done | `helpers/MetadataHelper.tsx` | `<meta name="author">` on all pages |
 
 ### Technical SEO
 
@@ -56,6 +58,7 @@
 | RSS Feed | Done | `app/(frontend)/feed.xml/` | Full RSS 2.0 with content:encoded |
 | Reading Time | Done | `PostHeader/index.tsx` | 200 WPM calculation |
 | Reading Progress Bar | Done | `components/frontend/UI/Progress/` | Scroll progress indicator |
+| Preconnect Hints | Done | `app/layout.tsx` | DNS prefetch for S3, Gravatar, GitHub CDNs |
 
 ### UI/UX SEO Features
 
@@ -69,14 +72,6 @@
 ---
 
 ## To Do (Planned)
-
-### High Priority
-
-| Feature | Priority | Description | Effort |
-|---------|----------|-------------|--------|
-| ProfilePage Schema | HIGH | Personal brand schema for homepage | Easy |
-| Preconnect Hints | HIGH | DNS prefetch for S3, Gravatar CDNs | Easy |
-| Author Meta Tag | HIGH | `<meta name="author">` on posts | Easy |
 
 ### Medium Priority
 
@@ -199,6 +194,9 @@
 
 | Date | Change |
 |------|--------|
+| 2026-02-01 | Added Author meta tag to all pages |
+| 2026-02-01 | Added Preconnect hints for external CDNs |
+| 2026-02-01 | Added ProfilePage schema to homepage |
 | 2026-02-01 | Added WebSite + SearchAction schema to all pages |
 | 2026-02-01 | Fixed sitemap lastmod bug (was using createdAt instead of updatedAt) |
 | 2026-02-01 | Added Future Enhancements section |
