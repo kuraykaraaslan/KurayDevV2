@@ -26,8 +26,8 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@prisma/adapter-pg": "7.2.0",
-    "@prisma/client": "7.2.0",
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
     "@tailwindcss/forms": "0.5.11",
     "@tailwindcss/typography": "^0.5.19",
     "@tinymce/tinymce-react": "^6.1.0",
@@ -40,7 +40,7 @@
     "countries-and-timezones": "^3.8.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "dotenv": "17.2.3",
+    "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "form-data": "^4.0.4",
     "google-libphonenumber": "^3.2.40",
@@ -52,6 +52,7 @@
     "nodemailer": "^7.0.7",
     "openai": "^4.71.1",
     "otplib": "^12.0.1",
+    "pg": "^8.18.0",
     "qs": "^6.14.0",
     "react": "19.2.1",
     "react-calendar": "^6.0.0",
@@ -74,14 +75,17 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "16.1.1",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/bcrypt": "^5.0.2",
     "@types/canvas-confetti": "^1.9.0",
     "@types/ejs": "^3.1.5",
+    "@types/geojson": "^7946.0.16",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^20.19.25",
     "@types/nodemailer": "^6.4.16",
+    "@types/pg": "^8.16.0",
     "@types/qs": "6.14.0",
     "@types/react": "19.2.7",
     "@types/react-google-recaptcha": "^2.1.9",
@@ -91,9 +95,11 @@
     "eslint": "^9.39.1",
     "eslint-config-next": "16.0.7",
     "jest": "^29.7.0",
-    "prisma": "^6.19.2",
+    "postcss": "^8.5.6",
+    "prisma": "^7.3.0",
     "tailwindcss": "^4.1.18",
     "ts-jest": "^29.4.5",
+    "tsx": "^4.21.0",
     "typescript": "5.9.3"
   },
   "prisma": {
@@ -104,9 +110,5 @@
     "not dead",
     "not ie 11",
     "not op_mini all"
-  ],
-  "overrides": {
-    "@types/react": "19.2.7",
-    "@types/react-dom": "19.2.3"
-  }
+  ]
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import type { Feature, Point } from 'geojson'
 import axiosInstance from '@/libs/axios'
 import i18n from "@/libs/localize/localize";
 
@@ -58,7 +59,7 @@ export default function GeoHeatmap() {
       mapRef.current = map
 
       // --- 3. Convert DB data → GeoJSON ---
-        const features: GeoJSON.Feature<GeoJSON.Point>[] = data.map((p) => ({
+        const features: Feature<Point>[] = data.map((p) => ({
         type: "Feature",
         geometry: {
           type: "Point",
