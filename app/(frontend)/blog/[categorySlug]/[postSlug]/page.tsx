@@ -126,6 +126,13 @@ export default async function BlogPost({ params }: Props) {
             { name: post.title, url },
         ];
 
+        // Strip HTML tags for articleBody (plain text for SEO)
+        const articleBody = post.content
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .substring(0, 5000); // Limit to 5000 chars to avoid huge schemas
+
         // Article data for JSON-LD
         const articleData = {
             datePublished: post.createdAt?.toISOString(),
@@ -134,6 +141,7 @@ export default async function BlogPost({ params }: Props) {
             articleSection: post.category.title,
             keywords: post.keywords?.length ? post.keywords : [post.category.title],
             wordCount: post.content.split(/\s+/).length,
+            articleBody,
             commentCount: 0, // Will be updated below
         };
 

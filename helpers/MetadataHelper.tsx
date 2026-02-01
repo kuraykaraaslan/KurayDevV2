@@ -93,6 +93,7 @@ export default class MetadataHelper {
         articleSection?: string;
         keywords?: string[];
         wordCount?: number;
+        articleBody?: string;
     }) {
         if (!meta?.openGraph?.url || !/\/blog\//.test(String(meta.openGraph.url))) return null;
         const title = meta?.title || 'Kuray Karaaslan';
@@ -155,6 +156,9 @@ export default class MetadataHelper {
         if (articleData?.wordCount) {
             jsonLd["wordCount"] = articleData.wordCount;
         }
+        if (articleData?.articleBody) {
+            jsonLd["articleBody"] = articleData.articleBody;
+        }
 
         return jsonLd;
     }
@@ -208,6 +212,7 @@ export default class MetadataHelper {
         articleSection?: string;
         keywords?: string[];
         wordCount?: number;
+        articleBody?: string;
         commentCount?: number;
     }) {
         const baseJsonLd = MetadataHelper.getArticleJsonLd(meta, articleData);
@@ -262,6 +267,7 @@ export default class MetadataHelper {
                 articleSection?: string;
                 keywords?: string[];
                 wordCount?: number;
+                articleBody?: string;
                 commentCount?: number;
             };
             breadcrumbs?: { name: string; url: string }[];
@@ -318,6 +324,7 @@ export default class MetadataHelper {
                 articleSection?: string;
                 keywords?: string[];
                 wordCount?: number;
+                articleBody?: string;
             };
             breadcrumbs?: { name: string; url: string }[];
             includeProfilePage?: boolean;

@@ -25,7 +25,7 @@
 | Feature | Status | Location | Description |
 |---------|--------|----------|-------------|
 | Organization Schema | Done | `helpers/MetadataHelper.tsx` | Company/brand information for Google |
-| Article Schema | Done | `helpers/MetadataHelper.tsx` | Blog post structured data with headline, author, dates |
+| Article Schema | Done | `helpers/MetadataHelper.tsx` | Blog post structured data with headline, author, dates, articleBody |
 | Person Schema (Author) | Done | `helpers/MetadataHelper.tsx` | Author information within Article schema |
 | Breadcrumb Schema | Done | `helpers/MetadataHelper.tsx` | Navigation path for better SERP display |
 | Comment Schema | Done | `helpers/MetadataHelper.tsx` | Individual comment structured data |
@@ -80,7 +80,6 @@
 | FAQ Schema | MEDIUM | Rich snippets for Q&A content | Easy |
 | HowTo Schema | MEDIUM | Step-by-step tutorial markup | Medium |
 | VideoObject Schema | MEDIUM | Video embed structured data | Medium |
-| articleBody in Schema | MEDIUM | Full content in Article JSON-LD | Easy |
 | Breadcrumb on All Pages | MEDIUM | Not just blog pages | Medium |
 
 ### Low Priority
@@ -194,6 +193,7 @@
 
 | Date | Change |
 |------|--------|
+| 2026-02-01 | Added articleBody to Article schema |
 | 2026-02-01 | Added Author meta tag to all pages |
 | 2026-02-01 | Added Preconnect hints for external CDNs |
 | 2026-02-01 | Added ProfilePage schema to homepage |
