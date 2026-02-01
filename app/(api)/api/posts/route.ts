@@ -60,6 +60,7 @@ export async function POST(request: NextRequest) {
         const parsedData = CreatePostRequestSchema.safeParse(body);
         
         if (!parsedData.success) {
+            console.error("Validation failed:", parsedData.error.errors);
             return NextResponse.json({
                 error: parsedData.error.errors.map(err => err.message).join(", ")
             }, { status: 400 });

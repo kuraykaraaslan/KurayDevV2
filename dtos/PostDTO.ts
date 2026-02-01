@@ -26,7 +26,7 @@ export const CreatePostRequestSchema = z.object({
     status: z.string().default("PUBLISHED"),
     views: z.number().default(0),
     deletedAt: z.date().nullable().optional(),
-    updatedAt: z.date().nullable().transform((val) => val || new Date()),
+    updatedAt: z.date().nullable().optional().transform((val) => val ?? new Date()),
 });
 
 export const UpdatePostRequestSchema = CreatePostRequestSchema.extend({
