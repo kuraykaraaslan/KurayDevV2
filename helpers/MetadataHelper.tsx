@@ -236,8 +236,10 @@ export default class MetadataHelper {
                 likeCount: number;
                 maxRating?: number;
             };
+            includeWebSite?: boolean;
         }
     ) {
+        const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd();
         const orgJsonLd = MetadataHelper.getOrganizationJsonLd();
         const articleJsonLd = options?.articleData?.commentCount !== undefined
             ? MetadataHelper.getArticleWithCommentsJsonLd(meta, options.articleData)
@@ -249,6 +251,7 @@ export default class MetadataHelper {
 
         return (
             <>
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
                 {articleJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
@@ -312,6 +315,7 @@ export default class MetadataHelper {
         const canonicalUrl = url;
 
         // JSON-LD
+        const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd();
         const orgJsonLd = MetadataHelper.getOrganizationJsonLd();
         const articleJsonLd = MetadataHelper.getArticleJsonLd(meta, options?.articleData);
         const breadcrumbJsonLd = options?.breadcrumbs ? MetadataHelper.getBreadcrumbJsonLd(options.breadcrumbs) : null;
@@ -335,6 +339,7 @@ export default class MetadataHelper {
                 <meta name="twitter:description" content={String(description)} />
                 <meta name="twitter:image" content={images[0]} />
                 {/* JSON-LD Structured Data */}
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
                 {articleJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />

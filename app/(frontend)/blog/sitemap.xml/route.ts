@@ -24,7 +24,7 @@ export async function GET() {
 
   const urls: SitemapUrl[] = posts.map((p: any) => ({
     loc: `${BASE}/blog/${p.categorySlug}/${p.slug}`,
-    lastmod: p.updatedAt ? new Date(p.createdAt).toISOString() : undefined,
+    lastmod: new Date(p.updatedAt || p.createdAt).toISOString(),
     changefreq: 'daily',
     priority: 0.8,
   }));
