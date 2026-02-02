@@ -1,4 +1,4 @@
-import { Post, PostSchema, PostWithData, PostWithDataSchema } from '@/types/content/BlogTypes';
+import { Post, PostSchema, PostWithData } from '@/types/content/BlogTypes';
 import {prisma} from '@/libs/prisma';
 import { MetadataRoute } from 'next';
 import redisInstance from '@/libs/redis';
@@ -299,16 +299,14 @@ export default class PostService {
             }
         });
 
-        const postSchemad = PostWithDataSchema.array().parse(posts);
-
-        return postSchemad.map(post => ({
+        return posts.map(post => ({
             title: post.title,
             slug: post.slug,
             categorySlug: post.category?.slug || '',
             categoryTitle: post.category?.title || '',
             description: post.description,
             content: post.content,
-            authorName: post.author?.userProfile?.name || 'Kuray Karaaslan',
+            authorName: (post.author?.userProfile as { name?: string } | null)?.name || 'Kuray Karaaslan',
             createdAt: post.createdAt,
             updatedAt: post.updatedAt,
         }));
