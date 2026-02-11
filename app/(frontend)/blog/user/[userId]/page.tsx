@@ -6,7 +6,7 @@ import UserService from '@/services/UserService';
 import { ToastContainer } from 'react-toastify';
 import Feed from '@/components/frontend/Features/Blog/Feed';
 
-const APPLICATION_HOST = process.env.APPLICATION_HOST;
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 export default async function AuthorPage({ params }: { params: Promise<{ userId: string }> }) {
     try {

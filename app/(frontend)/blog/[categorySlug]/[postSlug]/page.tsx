@@ -12,7 +12,7 @@ import MetadataHelper from '@/helpers/MetadataHelper';
 import ShareButtons from '@/components/frontend/Features/Blog/ShareButtons';
 import TableOfContents from '@/components/frontend/Features/Blog/TableOfContents';
 
-const APPLICATION_HOST = process.env.APPLICATION_HOST;
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 type Props = {
     params: Promise<{ categorySlug: string; postSlug: string }>;

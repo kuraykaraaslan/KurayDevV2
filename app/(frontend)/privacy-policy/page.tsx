@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-const APPLICATION_HOST = process.env.APPLICATION_HOST;
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 export default function TermsPage() {
 

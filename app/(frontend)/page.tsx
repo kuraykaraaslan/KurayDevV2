@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OfflineIndicator from '@/components/common/UI/Indicators/OfflineIndicator';
 
-const APPLICATION_HOST = process.env.APPLICATION_HOST;
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 const HomePage = () => {
 

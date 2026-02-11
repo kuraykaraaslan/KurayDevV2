@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
 import PostService from '@/services/PostService';
 
-const APPLICATION_HOST = process.env.APPLICATION_HOST;
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 const description = 'Welcome to my tech blog! I\'m Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel.';
 

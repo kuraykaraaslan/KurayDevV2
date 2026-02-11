@@ -5,30 +5,119 @@ import ProjectService from '@/services/ProjectService';
 import Image from 'next/image';
 import SingleProject from '@/components/frontend/Features/SingleProject';
 import SingleLink from '@/components/frontend/Features/Hero/Projects/Partials/SingleLink';
+import MetadataHelper from '@/helpers/MetadataHelper';
 
-export default async function ProjectPage({ params }: { params: { projectSlug: string } }) {
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
+type Props = {
+    params: Promise<{ projectSlug: string }>;
+};
+
+async function getProject(projectSlug: string) {
+    const response = await ProjectService.getAllProjects({
+        projectSlug,
+        page: 0,
+        pageSize: 1,
+        onlyPublished: true,
+    });
+    return response.projects[0] || null;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { projectSlug } = await params;
+    const project = await getProject(projectSlug);
+
+    if (!project) return {};
+
+    const url = `${NEXT_PUBLIC_APPLICATION_HOST}/projects/${project.slug}`;
+    const description = project.description || project.content.substring(0, 160);
+    const image = project.image || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`;
+
+    return {
+        title: `${project.title} | Kuray Karaaslan`,
+        description,
+        keywords: project.technologies,
+        robots: { index: true, follow: true },
+        openGraph: {
+            title: `${project.title} | Kuray Karaaslan`,
+            description,
+            type: 'website',
+            url,
+            images: [{ url: image, width: 1200, height: 630, alt: project.title }],
+            locale: 'en_US',
+            siteName: 'Kuray Karaaslan',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            site: '@kuraykaraaslan',
+            creator: '@kuraykaraaslan',
+            title: `${project.title} | Kuray Karaaslan`,
+            description,
+            images: [image],
+        },
+        alternates: {
+            canonical: url,
+        },
+    };
+}
+
+export default async function ProjectPage({ params }: Props) {
     try {
-
         const { projectSlug } = await params;
 
-        const response = await ProjectService.getAllProjects({
-            projectSlug: projectSlug,
-            page: 0,
-            pageSize: 1,
-            onlyPublished: true
-        });
-
-        if (!response.projects || response.projects.length === 0) {
+        if (!projectSlug) {
             notFound();
         }
 
-        const project = response.projects[0];
-        const meta = generateMetadata(project);
+        const project = await getProject(projectSlug);
+
+        if (!project) {
+            notFound();
+        }
+
+        const url = `${NEXT_PUBLIC_APPLICATION_HOST}/projects/${project.slug}`;
+        const description = project.description || project.content.substring(0, 160);
+
+        const metadata: Metadata = {
+            title: `${project.title} | Kuray Karaaslan`,
+            description,
+            openGraph: {
+                title: `${project.title} | Kuray Karaaslan`,
+                description,
+                type: 'website',
+                url,
+                images: [project.image || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
+            },
+        };
+
+        const breadcrumbs = [
+            { name: 'Home', url: `${NEXT_PUBLIC_APPLICATION_HOST}/` },
+            { name: 'Projects', url: `${NEXT_PUBLIC_APPLICATION_HOST}/projects` },
+            { name: project.title, url },
+        ];
+
+        const applicationBody = project.content
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .substring(0, 5000);
 
         return (
             <>
-                {generateMetadataElement(meta)}
+                {MetadataHelper.generateJsonLdScripts(metadata, {
+                    softwareApp: {
+                        name: project.title,
+                        description,
+                        url,
+                        image: project.image || undefined,
+                        datePublished: project.createdAt?.toISOString(),
+                        dateModified: project.updatedAt?.toISOString() || project.createdAt?.toISOString(),
+                        technologies: project.technologies,
+                        platforms: project.platforms,
+                        applicationBody,
+                    },
+                    breadcrumbs,
+                })}
                 <section className="min-h-screen pt-32 pb-8 bg-base-100" id="project">
                     <div className="mx-auto px-4 lg:px-8 mb-8 flex justify-between md:flex-row flex-col h-full md:gap-2">
                         <div className="flex-none flex md:min-w-80">
@@ -54,8 +143,7 @@ export default async function ProjectPage({ params }: { params: { projectSlug: s
                                     </h3>
                                     <div className="flex space-x-2 mt-4">
                                         {(project.projectLinks || []).map((link: string, index: number) => (
-                                            <SingleLink key={index} url={link}
-                                            />
+                                            <SingleLink key={index} url={link} />
                                         ))}
                                     </div>
                                 </div>
@@ -71,44 +159,6 @@ export default async function ProjectPage({ params }: { params: { projectSlug: s
         );
     } catch (error) {
         console.error('Error fetching project:', error);
-        return (
-            <div className="text-center text-red-500 py-10">
-                Oops! Something went wrong while loading the project. Please try again later.
-            </div>
-        );
+        notFound();
     }
-}
-
-function generateMetadata(project: any): Metadata {
-    return {
-        title: `${project.title} | Kuray Karaaslan`,
-        description: project.description || project.content.substring(0, 160),
-        openGraph: {
-            title: `${project.title} | Kuray Karaaslan`,
-            description: project.description || project.content.substring(0, 160),
-            type: 'article',
-            url: `https://kuray.dev/project/${project.slug}/`,
-            images: [project.image || 'https://kuray.dev/images/logo.png'],
-        },
-    };
-}
-
-function generateMetadataElement(meta: Metadata) {
-    return (
-        <>
-            <title>{String(meta?.title)}</title>
-            <meta name="description" content={String(meta?.description)} />
-            <meta property="og:title" content={String(meta?.openGraph?.title)} />
-            <meta property="og:description" content={String(meta?.openGraph?.description)} />
-            <meta property="og:type" content="article" />
-            <meta property="og:url" content={String(meta?.openGraph?.url)} />
-            <meta property="og:image" content={Array.isArray(meta?.openGraph?.images) ? String(meta?.openGraph?.images?.[0]) : String(meta?.openGraph?.images)} />
-            <meta property="og:site_name" content="kuray.dev" />
-            <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:title" content={String(meta?.openGraph?.title)} />
-            <meta property="twitter:description" content={String(meta?.openGraph?.description)} />
-            <meta property="twitter:image" content={Array.isArray(meta?.openGraph?.images) ? String(meta?.openGraph?.images?.[0]) : String(meta?.openGraph?.images)} />
-            <link rel="canonical" href={String(meta?.openGraph?.url)} />
-        </>
-    );
 }

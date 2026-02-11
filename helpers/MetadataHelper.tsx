@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-const APPLICATION_HOST = process.env.APPLICATION_HOST;
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 export default class MetadataHelper {
 
@@ -274,6 +274,43 @@ export default class MetadataHelper {
         };
     }
 
+    // Generate JSON-LD for SoftwareApplication (project pages)
+    public static getSoftwareApplicationJsonLd(options: {
+        name: string;
+        description: string;
+        url: string;
+        image?: string;
+        datePublished?: string;
+        dateModified?: string;
+        technologies?: string[];
+        platforms?: string[];
+        applicationBody?: string;
+    }) {
+        return {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": options.name,
+            "description": options.description,
+            "url": options.url,
+            "image": options.image || `${APPLICATION_HOST}/assets/img/og.png`,
+            "author": {
+                "@type": "Person",
+                "name": "Kuray Karaaslan",
+                "url": APPLICATION_HOST
+            },
+            "creator": {
+                "@type": "Person",
+                "name": "Kuray Karaaslan",
+                "url": APPLICATION_HOST
+            },
+            ...(options.datePublished ? { "datePublished": options.datePublished } : {}),
+            ...(options.dateModified ? { "dateModified": options.dateModified } : {}),
+            ...(options.technologies?.length ? { "keywords": options.technologies.join(', ') } : {}),
+            ...(options.platforms?.length ? { "operatingSystem": options.platforms.join(', ') } : {}),
+            ...(options.applicationBody ? { "text": options.applicationBody } : {}),
+        };
+    }
+
     // Generate JSON-LD for AggregateRating (based on likes)
     public static getAggregateRatingJsonLd(articleUrl: string, ratingData: {
         likeCount: number;
@@ -334,6 +371,17 @@ export default class MetadataHelper {
                 description: string;
                 posts: { title: string; url: string; datePublished?: string }[];
             };
+            softwareApp?: {
+                name: string;
+                description: string;
+                url: string;
+                image?: string;
+                datePublished?: string;
+                dateModified?: string;
+                technologies?: string[];
+                platforms?: string[];
+                applicationBody?: string;
+            };
         }
     ) {
         const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd();
@@ -351,11 +399,17 @@ export default class MetadataHelper {
         const collectionPageJsonLd = options?.collectionPage
             ? MetadataHelper.getCollectionPageJsonLd(options.collectionPage)
             : null;
+        const softwareAppJsonLd = options?.softwareApp
+            ? MetadataHelper.getSoftwareApplicationJsonLd(options.softwareApp)
+            : null;
 
         return (
             <>
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+                {softwareAppJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }} />
+                )}
                 {articleJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
                 )}

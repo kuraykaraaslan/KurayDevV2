@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
 
-const APPLICATION_HOST = process.env.APPLICATION_HOST;
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
 type Props = {
     params: Promise<{ categorySlug: string }>;

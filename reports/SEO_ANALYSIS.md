@@ -70,6 +70,18 @@
 | Reading Progress Bar | Done | `components/frontend/UI/Progress/` | Scroll progress indicator |
 | Preconnect Hints | Done | `app/layout.tsx` | DNS prefetch for S3, Gravatar, GitHub CDNs |
 
+### Projects SEO
+
+| Feature | Status | Location | Description |
+|---------|--------|----------|-------------|
+| Project Metadata (generateMetadata) | Done | `app/(frontend)/projects/[projectSlug]/page.tsx` | Native Next.js metadata export replacing manual meta tags |
+| SoftwareApplication Schema | Done | `helpers/MetadataHelper.tsx`, `app/(frontend)/projects/[projectSlug]/page.tsx` | JSON-LD with name, description, keywords (technologies), operatingSystem (platforms) |
+| Breadcrumb Schema (Projects) | Done | `app/(frontend)/projects/[projectSlug]/page.tsx` | Home → Projects → Project title |
+| Canonical URL (Projects) | Done | `app/(frontend)/projects/[projectSlug]/page.tsx` | Fixed hardcoded `https://kuray.dev/project/` to `${APPLICATION_HOST}/projects/` |
+| Twitter Card (Projects) | Done | `app/(frontend)/projects/[projectSlug]/page.tsx` | Full `summary_large_image` with site + creator tags |
+| Robots Meta (Projects) | Done | `app/(frontend)/projects/[projectSlug]/page.tsx` | `index: true, follow: true` |
+| Keywords Meta (Projects) | Done | `app/(frontend)/projects/[projectSlug]/page.tsx` | Mapped from `project.technologies` array |
+
 ### UI/UX SEO Features
 
 | Feature | Status | Location | Description |
@@ -171,6 +183,7 @@ None.
 
 | Date | Change |
 |------|--------|
+| 2026-02-11 | Added full SEO to projects pages (SoftwareApplication schema, generateMetadata, breadcrumbs, canonical) |
 | 2026-02-11 | Closed all To Do items — project SEO implementation complete |
 | 2026-02-11 | Removed dead security headers block from next.config.mjs (handled by nginx) |
 | 2026-02-11 | Added Core Web Vitals monitoring (LCP, INP, CLS, FCP, TTFB → GTM dataLayer) |

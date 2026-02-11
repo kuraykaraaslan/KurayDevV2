@@ -62,7 +62,7 @@ export default class MailService {
     static readonly TEMPLATE_PATH = path.join(pwd, "views", "email");
 
 
-    static readonly APPLICATION_NAME = process.env.APPLICATION_NAME || "Express Boilerplate";
+    static readonly APPLICATION_NAME = process.env.NEXT_PUBLIC_APPLICATION_NAME || "Express Boilerplate";
     static readonly APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || "http://localhost:3000";
 
 
