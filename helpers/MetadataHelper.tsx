@@ -94,6 +94,7 @@ export default class MetadataHelper {
         keywords?: string[];
         wordCount?: number;
         articleBody?: string;
+        relatedLinks?: string[];
     }) {
         if (!meta?.openGraph?.url || !/\/blog\//.test(String(meta.openGraph.url))) return null;
         const title = meta?.title || 'Kuray Karaaslan';
@@ -159,8 +160,28 @@ export default class MetadataHelper {
         if (articleData?.articleBody) {
             jsonLd["articleBody"] = articleData.articleBody;
         }
+        if (articleData?.relatedLinks?.length) {
+            jsonLd["relatedLink"] = articleData.relatedLinks;
+        }
 
         return jsonLd;
+    }
+
+    // Generate JSON-LD for NewsArticle (time-sensitive posts, published within ~48h)
+    public static getNewsArticleJsonLd(meta: Metadata, articleData?: {
+        datePublished?: string;
+        dateModified?: string;
+        authorName?: string;
+        articleSection?: string;
+        keywords?: string[];
+        wordCount?: number;
+        articleBody?: string;
+        commentCount?: number;
+        relatedLinks?: string[];
+    }) {
+        const base = MetadataHelper.getArticleWithCommentsJsonLd(meta, articleData);
+        if (!base) return null;
+        return { ...base, "@type": "NewsArticle" };
     }
 
     // Generate JSON-LD for Breadcrumb
@@ -214,6 +235,7 @@ export default class MetadataHelper {
         wordCount?: number;
         articleBody?: string;
         commentCount?: number;
+        relatedLinks?: string[];
     }) {
         const baseJsonLd = MetadataHelper.getArticleJsonLd(meta, articleData);
         if (!baseJsonLd) return null;
@@ -269,6 +291,7 @@ export default class MetadataHelper {
                 wordCount?: number;
                 articleBody?: string;
                 commentCount?: number;
+                relatedLinks?: string[];
             };
             breadcrumbs?: { name: string; url: string }[];
             comments?: {
@@ -282,6 +305,7 @@ export default class MetadataHelper {
                 maxRating?: number;
             };
             includeWebSite?: boolean;
+            isNewsArticle?: boolean;
         }
     ) {
         const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd();
@@ -289,6 +313,9 @@ export default class MetadataHelper {
         const articleJsonLd = options?.articleData?.commentCount !== undefined
             ? MetadataHelper.getArticleWithCommentsJsonLd(meta, options.articleData)
             : MetadataHelper.getArticleJsonLd(meta, options?.articleData);
+        const newsArticleJsonLd = options?.isNewsArticle
+            ? MetadataHelper.getNewsArticleJsonLd(meta, options.articleData)
+            : null;
         const breadcrumbJsonLd = options?.breadcrumbs ? MetadataHelper.getBreadcrumbJsonLd(options.breadcrumbs) : null;
         const articleUrl = String(meta?.openGraph?.url || '');
         const commentsJsonLd = options?.comments ? MetadataHelper.getCommentsJsonLd(options.comments, articleUrl) : null;
@@ -300,6 +327,9 @@ export default class MetadataHelper {
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
                 {articleJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+                )}
+                {newsArticleJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleJsonLd) }} />
                 )}
                 {breadcrumbJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />

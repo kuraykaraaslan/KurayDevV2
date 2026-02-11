@@ -143,7 +143,26 @@ export default async function BlogPost({ params }: Props) {
             wordCount: post.content.split(/\s+/).length,
             articleBody,
             commentCount: 0, // Will be updated below
+            relatedLinks: [] as string[], // Will be updated below
         };
+
+        // Fetch related posts for schema (same category, exclude current post)
+        let relatedLinks: string[] = [];
+        try {
+            const relatedResponse = await PostService.getAllPosts({
+                page: 0,
+                pageSize: 6,
+                categoryId: post.categoryId,
+                status: 'PUBLISHED',
+            });
+            relatedLinks = relatedResponse.posts
+                .filter(p => p.postId !== post.postId)
+                .slice(0, 5)
+                .map(p => `${APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`);
+            articleData.relatedLinks = relatedLinks;
+        } catch (error) {
+            console.error('Error fetching related posts for schema:', error);
+        }
 
         // Fetch comments for schema (server-side)
         let commentsForSchema: { commentId: string; content: string; createdAt: Date | string; name: string | null }[] = [];
@@ -172,13 +191,18 @@ export default async function BlogPost({ params }: Props) {
             console.error('Error fetching like count for schema:', error);
         }
 
+        // NewsArticle schema for posts published within the last 48 hours
+        const publishedAt = post.createdAt ? new Date(post.createdAt).getTime() : 0;
+        const isNewsArticle = publishedAt > 0 && (Date.now() - publishedAt) < 48 * 60 * 60 * 1000;
+
         return (
             <>
-                {MetadataHelper.generateJsonLdScripts(metadata, { 
-                    articleData, 
-                    breadcrumbs, 
+                {MetadataHelper.generateJsonLdScripts(metadata, {
+                    articleData,
+                    breadcrumbs,
                     comments: commentsForSchema,
-                    rating: likeCount > 0 ? { likeCount } : undefined
+                    rating: likeCount > 0 ? { likeCount } : undefined,
+                    isNewsArticle,
                 })}
                 <section className="min-h-screen bg-base-100 pt-32" id="blog">
                     <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
