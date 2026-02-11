@@ -3,6 +3,7 @@ import Feed from '@/components/frontend/Features/Blog/Feed';
 import CategoryBullets from '@/components/frontend/Features/CategoryBullets';
 import type { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
+import PostService from '@/services/PostService';
 
 const APPLICATION_HOST = process.env.APPLICATION_HOST;
 
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     },
 };
 
-const BlogPage = () => {
+const BlogPage = async () => {
     // Metadata for JSON-LD only (meta tags handled by export above)
     const jsonLdMetadata: Metadata = {
         title: 'Blog | Kuray Karaaslan',
@@ -52,9 +53,30 @@ const BlogPage = () => {
         { name: 'Blog', url: `${APPLICATION_HOST}/blog` },
     ];
 
+    // Fetch first page of posts for CollectionPage schema
+    let collectionPosts: { title: string; url: string; datePublished?: string }[] = [];
+    try {
+        const response = await PostService.getAllPosts({ page: 0, pageSize: 6, status: 'PUBLISHED' });
+        collectionPosts = response.posts.map(p => ({
+            title: p.title,
+            url: `${APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`,
+            datePublished: p.createdAt?.toISOString(),
+        }));
+    } catch (error) {
+        console.error('Error fetching posts for CollectionPage schema:', error);
+    }
+
     return (
         <>
-            {MetadataHelper.generateJsonLdScripts(jsonLdMetadata, { breadcrumbs })}
+            {MetadataHelper.generateJsonLdScripts(jsonLdMetadata, {
+                breadcrumbs,
+                collectionPage: collectionPosts.length > 0 ? {
+                    url: `${APPLICATION_HOST}/blog`,
+                    name: 'Blog | Kuray Karaaslan',
+                    description,
+                    posts: collectionPosts,
+                } : undefined,
+            })}
             <Feed />
             <CategoryBullets />
             <Newsletter />

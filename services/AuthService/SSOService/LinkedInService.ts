@@ -4,7 +4,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes';
 export default class LinkedInService {
 
     // App URL
-    static APPLICATION_HOST = process.env.APPLICATION_HOST;
+    static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
     // LinkedIn OAuth
     static LINKEDIN_CALLBACK_PATH = "/api/v1/sso/callback/linkedin";

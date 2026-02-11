@@ -2,6 +2,7 @@ import Newsletter from '@/components/frontend/Features/Newsletter';
 import Feed from '@/components/frontend/Features/Blog/Feed';
 import { Category } from '@/types/content/BlogTypes';
 import CategoryService from '@/services/CategoryService';
+import PostService from '@/services/PostService';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import MetadataHelper from '@/helpers/MetadataHelper';
@@ -90,9 +91,35 @@ export default async function CategoryPage({ params }: Props) {
             { name: category.title, url },
         ];
 
+        // Fetch first page of posts for CollectionPage schema
+        let collectionPosts: { title: string; url: string; datePublished?: string }[] = [];
+        try {
+            const response = await PostService.getAllPosts({
+                page: 0,
+                pageSize: 6,
+                categoryId: category.categoryId,
+                status: 'PUBLISHED',
+            });
+            collectionPosts = response.posts.map(p => ({
+                title: p.title,
+                url: `${APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`,
+                datePublished: p.createdAt?.toISOString(),
+            }));
+        } catch (error) {
+            console.error('Error fetching posts for CollectionPage schema:', error);
+        }
+
         return (
             <>
-                {MetadataHelper.generateJsonLdScripts(metadata, { breadcrumbs })}
+                {MetadataHelper.generateJsonLdScripts(metadata, {
+                    breadcrumbs,
+                    collectionPage: collectionPosts.length > 0 ? {
+                        url,
+                        name: `${category.title} | Kuray Karaaslan`,
+                        description: category.description || `Discover posts in the ${category.title} category.`,
+                        posts: collectionPosts,
+                    } : undefined,
+                })}
                 <Feed category={category} />
                 <Newsletter />
             </>

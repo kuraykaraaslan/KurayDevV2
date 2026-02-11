@@ -252,6 +252,28 @@ export default class MetadataHelper {
         return baseJsonLd;
     }
 
+    // Generate JSON-LD for CollectionPage (blog listing / category pages)
+    public static getCollectionPageJsonLd(options: {
+        url: string;
+        name: string;
+        description: string;
+        posts: { title: string; url: string; datePublished?: string }[];
+    }) {
+        return {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": options.name,
+            "description": options.description,
+            "url": options.url,
+            "hasPart": options.posts.map(post => ({
+                "@type": "BlogPosting",
+                "headline": post.title,
+                "url": post.url,
+                ...(post.datePublished ? { "datePublished": post.datePublished } : {})
+            }))
+        };
+    }
+
     // Generate JSON-LD for AggregateRating (based on likes)
     public static getAggregateRatingJsonLd(articleUrl: string, ratingData: {
         likeCount: number;
@@ -306,6 +328,12 @@ export default class MetadataHelper {
             };
             includeWebSite?: boolean;
             isNewsArticle?: boolean;
+            collectionPage?: {
+                url: string;
+                name: string;
+                description: string;
+                posts: { title: string; url: string; datePublished?: string }[];
+            };
         }
     ) {
         const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd();
@@ -320,6 +348,9 @@ export default class MetadataHelper {
         const articleUrl = String(meta?.openGraph?.url || '');
         const commentsJsonLd = options?.comments ? MetadataHelper.getCommentsJsonLd(options.comments, articleUrl) : null;
         const ratingJsonLd = options?.rating ? MetadataHelper.getAggregateRatingJsonLd(articleUrl, options.rating) : null;
+        const collectionPageJsonLd = options?.collectionPage
+            ? MetadataHelper.getCollectionPageJsonLd(options.collectionPage)
+            : null;
 
         return (
             <>
@@ -330,6 +361,9 @@ export default class MetadataHelper {
                 )}
                 {newsArticleJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleJsonLd) }} />
+                )}
+                {collectionPageJsonLd && (
+                    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }} />
                 )}
                 {breadcrumbJsonLd && (
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />

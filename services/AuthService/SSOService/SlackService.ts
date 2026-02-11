@@ -4,7 +4,7 @@ import axios from 'axios';
 export default class SlackService {
   static CLIENT_ID = process.env.SLACK_CLIENT_ID!;
   static CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET!;
-  static CALLBACK_URL = `${process.env.APPLICATION_HOST}/api/auth/callback/slack`;
+  static CALLBACK_URL = `${process.env.NEXT_PUBLIC_APPLICATION_HOST}/api/auth/callback/slack`;
 
   static AUTH_URL = 'https://slack.com/oauth/v2/authorize';
   static TOKEN_URL = 'https://slack.com/api/oauth.v2.access';

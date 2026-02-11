@@ -3,7 +3,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes';
 
 export default class AutodeskService {
 
-    static APPLICATION_HOST = process.env.APPLICATION_HOST;
+    static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
     static AUTODESK_CLIENT_ID = process.env.AUTODESK_CLIENT_ID!;
     static AUTODESK_CLIENT_SECRET = process.env.AUTODESK_CLIENT_SECRET!;
     static AUTODESK_CALLBACK_PATH = '/api/auth/callback/autodesk';

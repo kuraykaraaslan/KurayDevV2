@@ -4,7 +4,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes';
 export default class FacebookService {
 
     // App URL
-    static APPLICATION_HOST = process.env.APPLICATION_HOST;
+    static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
     // Meta (Facebook) OAuth
     static META_CALLBACK_PATH = "/api/auth/callback/facebook";

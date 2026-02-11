@@ -7,7 +7,7 @@ export type ChangeFreq =
 export const getBaseUrl = () => {
   const raw =
     process.env.NEXT_PUBLIC_APPLICATION_HOST ??
-    process.env.APPLICATION_HOST ??
+    process.env.NEXT_PUBLIC_APPLICATION_HOST ??
     'https://kuraykaraaslan.com';
   return raw.replace(/\/+$/, '');
 };

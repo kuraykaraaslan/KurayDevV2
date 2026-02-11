@@ -19,14 +19,14 @@ export async function GET(
 
     if (!code) {
         //redirect to frontend
-        NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.CODE_NOT_FOUND}`);
+        NextResponse.redirect(`${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.CODE_NOT_FOUND}`);
     }
 
     const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
 
     }
 
@@ -40,11 +40,11 @@ export async function GET(
 
     if (!userSession) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
     }
 
     const response = NextResponse.redirect(
-        `${process.env.APPLICATION_HOST}/auth/callback?rawAccessToken=${rawAccessToken}&rawRefreshToken=${rawRefreshToken}`
+        `${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/callback?rawAccessToken=${rawAccessToken}&rawRefreshToken=${rawRefreshToken}`
     )
 
     // Determine if we're in a secure context (HTTPS)
@@ -83,14 +83,14 @@ export async function POST(
 
     if (!code) {
         //redirect to frontend
-        NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.CODE_NOT_FOUND}`);
+        NextResponse.redirect(`${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.CODE_NOT_FOUND}`);
     }
 
     const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code as string);
 
     if (!user) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
     }
 
     const { userSession, rawAccessToken, rawRefreshToken } = await UserSessionService.createSession({ user, userSecurity, request });
@@ -103,11 +103,11 @@ export async function POST(
 
     if (!userSession) {
         //redirect to frontend
-        return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.AUTHENTICATION_FAILED}`);
     }
 
     //redirect to frontend
-    return NextResponse.redirect(`${process.env.APPLICATION_HOST}/auth/callback?rawAccessToken=${rawAccessToken}&rawRefreshToken=${rawRefreshToken}`);
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/callback?rawAccessToken=${rawAccessToken}&rawRefreshToken=${rawRefreshToken}`);
 
 }
 

@@ -5,7 +5,7 @@ import qs from 'querystring';
 export default class WeChatService {
   static CLIENT_ID = process.env.WECHAT_APP_ID!;
   static CLIENT_SECRET = process.env.WECHAT_APP_SECRET!;
-  static CALLBACK_URL = `${process.env.APPLICATION_HOST}/api/auth/callback/wechat`;
+  static CALLBACK_URL = `${process.env.NEXT_PUBLIC_APPLICATION_HOST}/api/auth/callback/wechat`;
 
   static AUTH_URL = 'https://open.weixin.qq.com/connect/qrconnect';
   static TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token';

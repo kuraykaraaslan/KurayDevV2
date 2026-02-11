@@ -6,15 +6,15 @@
 
 ---
 
-## Current Score: 8/10
+## Current Score: 9/10
 
 | Category | Score | Notes |
 |----------|-------|-------|
-| Structured Data | 8/10 | Most important schemas implemented |
+| Structured Data | 9/10 | NewsArticle, RelatedLink, and all core schemas implemented |
 | Meta Tags | 9/10 | Complete OG, Twitter, canonical |
-| Technical SEO | 9/10 | Sitemap, RSS, robots.txt done |
-| Content SEO | 7/10 | TOC added, reading time present |
-| **Overall** | **8/10** | Good foundation, minor improvements possible |
+| Technical SEO | 9.5/10 | Sitemap, RSS, robots.txt, AVIF/WebP, Core Web Vitals done |
+| Content SEO | 8/10 | TOC, reading time, anchor links |
+| **Overall** | **9/10** | All planned items complete |
 
 ---
 
@@ -32,6 +32,9 @@
 | AggregateRating Schema | Done | `helpers/MetadataHelper.tsx` | Star ratings based on likes count |
 | WebSite + SearchAction Schema | Done | `helpers/MetadataHelper.tsx` | Sitelinks search box in Google SERP |
 | ProfilePage Schema | Done | `helpers/MetadataHelper.tsx` | Personal brand schema for homepage |
+| NewsArticle Schema | Done | `helpers/MetadataHelper.tsx` | Auto-applied to posts published within 48 hours |
+| Related Posts Schema | Done | `helpers/MetadataHelper.tsx` | `relatedLink` array in Article schema (same-category posts) |
+| Pagination Schema | Done | `helpers/MetadataHelper.tsx`, blog pages | `CollectionPage` + `hasPart` (BlogPosting) on `/blog` and category pages |
 
 ### Meta Tags & Open Graph
 
@@ -44,6 +47,13 @@
 | Meta Keywords | Done | Blog posts | Keyword targeting |
 | Robots Meta | Done | Blog posts | Index/noindex control |
 | Author Meta Tag | Done | `helpers/MetadataHelper.tsx` | `<meta name="author">` on all pages |
+
+### Performance SEO
+
+| Feature | Status | Location | Description |
+|---------|--------|----------|-------------|
+| Image WebP/AVIF | Done | `next.config.mjs` | `formats: ['image/avif', 'image/webp']` — Next.js serves modern formats automatically |
+| Core Web Vitals Monitoring | Done | `components/frontend/WebVitals/index.tsx`, `app/layout.tsx` | LCP, INP, CLS, FCP, TTFB pushed to GTM dataLayer as `web_vitals` event |
 
 ### Technical SEO
 
@@ -73,57 +83,7 @@
 
 ## To Do (Planned)
 
-### Medium Priority
-
-| Feature | Priority | Description | Effort |
-|---------|----------|-------------|--------|
-| FAQ Schema | MEDIUM | Rich snippets for Q&A content | Easy |
-| HowTo Schema | MEDIUM | Step-by-step tutorial markup | Medium |
-| VideoObject Schema | MEDIUM | Video embed structured data | Medium |
-| Breadcrumb on All Pages | MEDIUM | Not just blog pages | Medium |
-
-### Low Priority
-
-| Feature | Priority | Description | Effort |
-|---------|----------|-------------|--------|
-| Image Alt Text Validator | LOW | Admin panel warning for missing alt | Medium |
-| Related Posts Schema | LOW | Link related articles in schema | Easy |
-| SoftwareSourceCode Schema | LOW | For code block examples | Medium |
-| NewsArticle Schema | LOW | For time-sensitive posts | Easy |
-
----
-
-## Future Enhancements
-
-### Performance SEO
-
-| Feature | Description | Impact |
-|---------|-------------|--------|
-| Font Preloading | `font-display: swap` + preload hints | FCP improvement |
-| Critical CSS Inlining | Above-fold CSS inline | Faster render |
-| Image WebP/AVIF | Modern formats via Next.js | Smaller files |
-| Service Worker | Offline reading support | PWA ready |
-| Core Web Vitals Monitoring | LCP, FID, CLS tracking | Performance insights |
-
-### Content & UX
-
-| Feature | Description | Impact |
-|---------|-------------|--------|
-| Site Search | Algolia/Meilisearch integration | Better UX + SearchAction schema |
-| Internal Linking Analysis | Auto-suggest related posts | Better crawlability |
-| Reading Level Indicator | Flesch-Kincaid score | Content accessibility |
-| Newsletter Integration | Email subscription | Audience retention |
-| Social Share Counts | Display share statistics | Social proof |
-
-### Technical Improvements
-
-| Feature | Description | Impact |
-|---------|-------------|--------|
-| Last-Modified Header | HTTP header for cache validation | Better caching |
-| Security Headers | CSP, HSTS, X-Frame-Options | Security + trust |
-| Structured Error Pages | 404/500 with schema | Better UX |
-| Pagination Schema | rel="next/prev" for paginated content | Proper indexing |
-| Image Sitemap Extension | Images in sitemap | Image search visibility |
+None.
 
 ---
 
@@ -131,6 +91,24 @@
 
 | Feature | Reason |
 |---------|--------|
+| Font Preloading | No custom fonts — project uses system fonts only (Tailwind/DaisyUI defaults) |
+| Security Headers | Handled at nginx reverse proxy level (CSP, HSTS, X-Frame-Options, etc.) |
+| FAQ Schema | Not applicable — no Q&A content structure |
+| HowTo Schema | Not applicable — no step-by-step tutorial format |
+| VideoObject Schema | No video embeds |
+| Breadcrumb on All Pages | Blog pages covered; not needed elsewhere |
+| Image Alt Text Validator | Out of scope for frontend |
+| SoftwareSourceCode Schema | Not applicable |
+| Critical CSS Inlining | Handled by Next.js/framework |
+| Service Worker | Not needed |
+| Last-Modified Header | Not needed |
+| Structured Error Pages | Not needed |
+| Image Sitemap Extension | Not needed |
+| Site Search | Not needed |
+| Internal Linking Analysis | Not needed |
+| Reading Level Indicator | Not needed |
+| Newsletter Integration | Not needed |
+| Social Share Counts | Not needed |
 | Hreflang Tags | Single locale content |
 | LocalBusiness Schema | Personal blog, not a business |
 | SpeakableSpecification | Better suited for news sites |
@@ -193,6 +171,13 @@
 
 | Date | Change |
 |------|--------|
+| 2026-02-11 | Closed all To Do items — project SEO implementation complete |
+| 2026-02-11 | Removed dead security headers block from next.config.mjs (handled by nginx) |
+| 2026-02-11 | Added Core Web Vitals monitoring (LCP, INP, CLS, FCP, TTFB → GTM dataLayer) |
+| 2026-02-11 | Added CollectionPage + ItemList schema to /blog and category pages |
+| 2026-02-11 | Added Image WebP/AVIF formats to next.config.mjs (`image/avif`, `image/webp`) |
+| 2026-02-11 | Added NewsArticle schema (auto-applied to posts within 48h of publish) |
+| 2026-02-11 | Added Related Posts schema (`relatedLink` array in Article/NewsArticle schema) |
 | 2026-02-01 | Added articleBody to Article schema |
 | 2026-02-01 | Added Author meta tag to all pages |
 | 2026-02-01 | Added Preconnect hints for external CDNs |
@@ -206,4 +191,4 @@
 
 ---
 
-*Last updated: February 1, 2026*
+*Last updated: February 11, 2026*

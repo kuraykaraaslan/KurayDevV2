@@ -5,7 +5,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes';
 export default class AppleService {
 
     // App URL
-    static APPLICATION_HOST = process.env.APPLICATION_HOST;
+    static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
     // Apple OAuth
     static APPLE_CALLBACK_PATH = "/api/auth/callback/apple";

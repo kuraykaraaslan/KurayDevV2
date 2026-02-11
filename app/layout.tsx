@@ -1,8 +1,9 @@
 import "./globals.css";
 import Script from "next/script";
 import { ReactNode } from "react";
+import WebVitals from "@/components/frontend/WebVitals";
 
-const NEXT_PUBLIC_GOOGLE_TAG = process.env.NEXT_PUBLIC_GOOGLE_TAG;
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG;
 
 export default function RootLayout({
   children,
@@ -25,23 +26,31 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
       </head>
       <body className="min-h-screen">
+        <WebVitals />
         {children}
 
-        <Script
-          id="gtm-script"
-          strategy="lazyOnload"
-          src={`https://www.googletagmanager.com/gtm.js?id=${NEXT_PUBLIC_GOOGLE_TAG}`}
-        />
-
-        {/* Optional noscript fallback for analytics accuracy */}
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${NEXT_PUBLIC_GOOGLE_TAG}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
+        {/* Google Analytics 4 */}
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              id="ga4-script"
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
+            <Script
+              id="ga4-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GA_MEASUREMENT_ID}', { page_path: window.location.pathname });
+                `,
+              }}
+            />
+          </>
+        )}
       </body>
     </html>
   );

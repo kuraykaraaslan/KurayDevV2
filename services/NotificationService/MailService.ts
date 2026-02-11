@@ -63,7 +63,7 @@ export default class MailService {
 
 
     static readonly APPLICATION_NAME = process.env.APPLICATION_NAME || "Express Boilerplate";
-    static readonly APPLICATION_HOST = process.env.APPLICATION_HOST || "http://localhost:3000";
+    static readonly APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || "http://localhost:3000";
 
 
     static readonly FRONTEND_URL = MailService.APPLICATION_HOST;

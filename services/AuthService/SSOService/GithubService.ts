@@ -4,7 +4,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes';
 export default class GithubService {
 
     // App URL
-    static APPLICATION_HOST = process.env.APPLICATION_HOST;
+    static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
     // GitHub OAuth
     static GITHUB_CALLBACK_PATH = "/api/v1/sso/callback/github";
