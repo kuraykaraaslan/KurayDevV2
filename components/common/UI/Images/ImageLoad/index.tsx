@@ -12,6 +12,7 @@ interface ImageLoadProps {
   uploadFolder?: string
   toast?: any
 
+  label?: string
   aspect?: number
   outputQuality?: number
   width?: number
@@ -23,6 +24,7 @@ const ImageLoad = ({
   setImage,
   uploadFolder = 'default',
   toast,
+  label,
   aspect = 3 / 2,
   outputQuality = 1,
   width = 384,
@@ -142,12 +144,13 @@ const ImageLoad = ({
 
   return (
     <>
+      {label && <label className="label font-medium text-sm">{label}</label>}
       {/* PREVIEW */}
       <img
-        src={image || 'https://placehold.co/384x256'}
+        src={image || `https://placehold.co/${width}x${height}`}
         width={width}
         height={height}
-        className="h-64 w-96 object-cover rounded-lg cursor-pointer"
+        className="object-cover rounded-lg cursor-pointer"
         onClick={openCrop}
         alt="Image"
       />

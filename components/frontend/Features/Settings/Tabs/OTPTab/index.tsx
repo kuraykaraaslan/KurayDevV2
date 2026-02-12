@@ -5,6 +5,7 @@ import { OTPMethodEnum } from '@/types/user/UserSecurityTypes'
 import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/user/UserSecurityTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 
 import OTPMethodCard from './partials/OTPMethodCard'
 import OTPConfirmModal from './partials/OTPConfirmModal'
@@ -41,20 +42,18 @@ export default function OTPTab() {
       if (!enabled) {
         await totp.openTotpSetup()
       } else {
-        // Open disable modal to verify TOTP code
         totp.openTotpDisableModal()
       }
       return
     }
 
-    // Email/SMS flow
     otp.openModalForMethod(method)
   }
 
   return (
     <>
-      <div className="bg-base-100 rounded-xl p-6 space-y-6">
-        <h2 className="text-lg font-bold">{t('frontend.settings.otp')}</h2>
+      <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
+        <FormHeader title={t('frontend.settings.otp')} titleClassName="text-lg" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.values(OTPMethodEnum.Enum).map((method) => (

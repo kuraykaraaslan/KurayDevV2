@@ -19,6 +19,9 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file')
     const folder = formData.get('folder')
 
+    console.log('Received file:', file)
+    console.log('Target folder:', folder)
+
     if (!file) {
       return NextResponse.json({ message: AIMessages.FILE_REQUIRED }, { status: 400 })
     }

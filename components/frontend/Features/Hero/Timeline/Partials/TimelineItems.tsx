@@ -17,8 +17,8 @@ const TimelineItems = () => {
           <span className="text-sm max-w-2xl">
             • Communication between IoT Devices and Servers using the MQTT, Websocket, SNMP, and
             REST. <br />
-            • Developing serverside application with Java Spring, deploying and maintenance. <br />
-            • Developing clientside application with Typescript React, deploying and maintenance.{' '}
+            • Developing serverside application with Java Spring, deploying and maintenance. <br />•
+            Developing clientside application with Typescript React, deploying and maintenance.{' '}
             <br />
             • Network management and monitoring. <br />
           </span>

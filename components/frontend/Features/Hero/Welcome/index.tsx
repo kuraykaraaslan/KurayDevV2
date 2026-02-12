@@ -11,7 +11,7 @@ const TypingEffect = dynamic(() => import('./Partials/TypingEffect'), { ssr: fal
 const MyImage = dynamic(() => import('./Partials/MyImageVideo'), { ssr: false })
 
 const Welcome = () => {
-  const { t, i18n } = useTranslation() 
+  const { t, i18n } = useTranslation()
 
   return (
     <div

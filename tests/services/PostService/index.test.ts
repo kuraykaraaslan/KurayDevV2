@@ -1,4 +1,4 @@
-import  PostService from '@/services/PostService'
+import PostService from '@/services/PostService'
 
 describe('PostService', () => {
   it('should be defined', () => {

@@ -1,103 +1,73 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import axiosInstance from '@/libs/axios';
-import { toast } from 'react-toastify';
-import useGlobalStore from '@/libs/zustand';
+import { useState } from 'react'
+import axiosInstance from '@/libs/axios'
+import { toast } from 'react-toastify'
+import useGlobalStore from '@/libs/zustand'
+import FormHeader from '@/components/admin/UI/Forms/FormHeader'
+import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 
 export default function SecurityTab() {
-  const { setUser } = useGlobalStore();
-  const [data, setData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
-  const [loading, setLoading] = useState(false);
-
-  const update = (e: any) =>
-    setData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const { setUser } = useGlobalStore()
+  const [data, setData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
+  const [loading, setLoading] = useState(false)
 
   const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (data.newPassword !== data.confirmPassword) return toast.error("Yeni şifreler eşleşmiyor");
+    if (data.newPassword !== data.confirmPassword) return toast.error('Yeni şifreler eşleşmiyor')
 
-    setLoading(true);
+    setLoading(true)
 
-    await axiosInstance.post('/api/auth/me/change-password', {
+    await axiosInstance
+      .post('/api/auth/me/change-password', {
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
-      }).then((res) => {
-        toast.success("Şifre başarıyla değiştirildi");
-        setUser(res.data.user);
-        setData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      })
+      .then((res) => {
+        toast.success('Şifre başarıyla değiştirildi')
+        setUser(res.data.user)
+        setData({ currentPassword: '', newPassword: '', confirmPassword: '' })
       })
       .catch((err) => {
-        toast.error(err.response?.data?.message || "Şifre değiştirilemedi");
+        toast.error(err.response?.data?.message || 'Şifre değiştirilemedi')
       })
       .finally(() => {
-        setLoading(false);
-      });
-
-  };
+        setLoading(false)
+      })
+  }
 
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
+      <FormHeader title="Şifre Değiştir" titleClassName="text-lg" />
+      <p className="text-sm text-base-content/70 -mt-4">Hesap güvenliğini artır.</p>
 
-      <div>
-        <h2 className="text-lg font-bold">Şifre Değiştir</h2>
-        <p className="text-sm text-base-content/70">Hesap güvenliğini artır.</p>
-      </div>
+      <form className="space-y-6" onSubmit={submit}>
+        <DynamicText
+          label="Mevcut Şifre"
+          placeholder="Mevcut şifrenizi girin"
+          value={data.currentPassword}
+          setValue={(val) => setData((prev) => ({ ...prev, currentPassword: val }))}
+        />
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold">
-                Mevcut Şifre
-              </span>
-            </label>
-            <input
-              type="password"
-              name="currentPassword"
-              value={data.currentPassword}
-              onChange={update}
-              className="input input-bordered w-full"
-              placeholder="Mevcut şifrenizi girin"
-              required
-            />
-          </div>
+        <DynamicText
+          label="Yeni Şifre"
+          placeholder="Yeni şifrenizi girin"
+          value={data.newPassword}
+          setValue={(val) => setData((prev) => ({ ...prev, newPassword: val }))}
+        />
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold">
-                Yeni Şifre
-              </span>
-            </label>
-            <input
-              type="password"
-              name="newPassword"
-              value={data.newPassword}
-              onChange={update}
-              className="input input-bordered w-full"
-              placeholder="Yeni şifrenizi girin"
-              required
-            />
-          </div>
+        <DynamicText
+          label="Yeni Şifre (Tekrar)"
+          placeholder="Yeni şifrenizi tekrar girin"
+          value={data.confirmPassword}
+          setValue={(val) => setData((prev) => ({ ...prev, confirmPassword: val }))}
+        />
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold">
-                Yeni Şifre (Tekrar)
-              </span>
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={data.confirmPassword}
-              onChange={update}
-              className="input input-bordered w-full"
-              placeholder="Yeni şifrenizi tekrar girin"
-              required
-            />
-          </div>
-        <button disabled={loading} className="btn btn-primary w-full" onClick={submit}>
-          {loading ? "Değiştiriliyor..." : "Şifreyi Değiştir"}
+        <button disabled={loading} className="btn btn-primary w-full" type="submit">
+          {loading ? 'Değiştiriliyor...' : 'Şifreyi Değiştir'}
         </button>
+      </form>
     </div>
-  );
+  )
 }

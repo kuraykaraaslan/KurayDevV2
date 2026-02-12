@@ -7,6 +7,8 @@ import '../../styles/phoneInput.css'
 
 import axiosInstance from '@/libs/axios'
 import useGlobalStore from '@/libs/zustand'
+import FormHeader from '@/components/admin/UI/Forms/FormHeader'
+import GenericElement from '@/components/admin/UI/Forms/GenericElement'
 
 export default function BasicTab() {
   const { user, setUser } = useGlobalStore()
@@ -36,21 +38,13 @@ export default function BasicTab() {
 
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
-      {/* Header */}
-      <div>
-        <h2 className="text-lg font-bold">Profil Bilgileri</h2>
-        <p className="text-sm text-base-content/70">
-          Buradan profil bilgilerini güncelleyebilirsin.
-        </p>
-      </div>
+      <FormHeader title="Profil Bilgileri" titleClassName="text-lg" />
+      <p className="text-sm text-base-content/70 -mt-4">
+        Buradan profil bilgilerini güncelleyebilirsin.
+      </p>
 
       <form className="space-y-6" onSubmit={handleSave}>
-        {/* Phone */}
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">Telefon</span>
-          </label>
-
+        <GenericElement label="Telefon">
           <PhoneInput
             defaultCountry="TR"
             value={phone}
@@ -58,31 +52,23 @@ export default function BasicTab() {
             className="input input-bordered w-full"
             placeholder="+90 5XX XXX XX XX"
           />
-
           {phone && !isValidPhoneNumber(phone) && (
             <p className="text-error text-sm mt-1">Geçersiz telefon numarası</p>
           )}
-        </div>
+        </GenericElement>
 
-        {/* Email (Read-only) */}
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text font-semibold">E-mail Adresi</span>
-          </label>
-
+        <GenericElement label="E-mail Adresi">
           <input
             type="email"
             value={user?.email || ''}
             disabled
             className="input input-bordered w-full bg-base-200 opacity-70"
           />
-
           <label className="label">
             <span className="label-text-alt">E-mail adresi değiştirilemez</span>
           </label>
-        </div>
+        </GenericElement>
 
-        {/* Save Button */}
         <button disabled={loading} className="btn btn-primary w-full">
           {loading ? 'Kaydediliyor...' : 'Profili Kaydet'}
         </button>

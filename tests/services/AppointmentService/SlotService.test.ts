@@ -14,10 +14,9 @@ describe('SlotService', () => {
   it('throws on overlapping slots', async () => {
     jest.spyOn(SlotService as any, 'getOverlappingSlots').mockResolvedValue({
       startTime: '2025-05-01T10:00:00Z',
-      endTime: '2025-05-01T11:00:00Z'
+      endTime: '2025-05-01T11:00:00Z',
     })
     const slot = { startTime: '2025-05-01T10:30:00Z', endTime: '2025-05-01T11:30:00Z' }
-    await expect(SlotService.createSlot(slot as any))
-      .rejects.toThrow('Overlapping slot exists')
+    await expect(SlotService.createSlot(slot as any)).rejects.toThrow('Overlapping slot exists')
   })
 })

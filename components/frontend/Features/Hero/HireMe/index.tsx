@@ -70,7 +70,6 @@ const HireMe = () => {
                 <p className="py-6">
                   Have a project in mind? Let&apos;s work together to make it a reality.
                 </p>
-                {/* @ts-ignore */}
                 <HireMeVideo />
                 <Link className="btn btn-primary" href="/freelance#services">
                   <FontAwesomeIcon icon={faCircleNodes} className="mr-2 text-xl w-6 h-6" />

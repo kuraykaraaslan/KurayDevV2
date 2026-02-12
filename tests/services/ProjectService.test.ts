@@ -7,5 +7,4 @@ describe('ProjectService', () => {
     const hasStatic = props.some((p) => typeof (ProjectService as any)[p] === 'function')
     expect(hasStatic).toBe(true)
   })
-
 })

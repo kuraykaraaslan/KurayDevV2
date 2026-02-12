@@ -1,7 +1,7 @@
 import AWSService from '@/services/StorageService/AWSService'
 
 jest.mock('@/libs/s3', () => ({
-  s3: { send: jest.fn() }
+  s3: { send: jest.fn() },
 }))
 
 describe('AWSService', () => {

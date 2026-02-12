@@ -7,14 +7,14 @@ export default class PostCoverService {
   private static readonly CACHE_PREFIX = 'post:og:'
 
   /**
-   * Cache key oluşturur.
+   * Creates cache key.
    */
   private static key(postId: string) {
     return `${this.CACHE_PREFIX}${postId}`
   }
 
   /**
-   * Tüm cache’i temizler.
+   * Clears all cache.
    */
   static async resetAll() {
     const keys = await redis.keys(`${this.CACHE_PREFIX}*`)
@@ -23,7 +23,7 @@ export default class PostCoverService {
   }
 
   /**
-   * Belirli bir post için cache temizler.
+   * Clears cache for a specific post.
    */
   static async resetById(postId: string) {
     const key = this.key(postId)
@@ -32,7 +32,7 @@ export default class PostCoverService {
   }
 
   /**
-   * OG görseli üretir veya cache'ten döner.
+   * Generates OG image or returns from cache.
    */
   static async getImage(post: PostWithData): Promise<Response | null> {
     if (!post.postId) return null

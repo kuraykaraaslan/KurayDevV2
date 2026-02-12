@@ -1,49 +1,30 @@
-'use client';
+'use client'
 
-import { useMemo } from 'react';
-import {
-  DndContext,
-  closestCenter,
-  DragEndEvent,
-} from '@dnd-kit/core';
+import { useMemo } from 'react'
+import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core'
 import {
   SortableContext,
   verticalListSortingStrategy,
   useSortable,
   arrayMove,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
-import {
-  SocialLinks,
-  SocialLinkItem,
-  SingleSocialLinkEnum,
-} from '@/types/user/UserProfileTypes';
+import { SocialLinks, SocialLinkItem, SingleSocialLinkEnum } from '@/types/user/UserProfileTypes'
 
 /* ------------------------------------------------
    Sortable Row
 ------------------------------------------------- */
-function SortableRow({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
-  const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({ id });
+function SortableRow({ id, children }: { id: string; children: React.ReactNode }) {
+  const { setNodeRef, attributes, listeners, transform, transition } = useSortable({ id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+  }
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="flex items-center gap-2"
-    >
+    <div ref={setNodeRef} style={style} className="flex items-center gap-2">
       <button
         type="button"
         {...attributes}
@@ -55,40 +36,35 @@ function SortableRow({
       </button>
       {children}
     </div>
-  );
+  )
 }
 
 /* ------------------------------------------------
    Main Component
 ------------------------------------------------- */
 type Props = {
-  value: SocialLinks;
-  onChange: (links: SocialLinks) => void;
-};
+  value: SocialLinks
+  onChange: (links: SocialLinks) => void
+}
 
 export default function SocialLinksInput({ value, onChange }: Props) {
-  const sorted = useMemo(
-    () => [...value].sort((a, b) => a.order - b.order),
-    [value]
-  );
+  const sorted = useMemo(() => [...value].sort((a, b) => a.order - b.order), [value])
 
   /* ---------- DND ---------- */
   const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
+    const { active, over } = event
+    if (!over || active.id === over.id) return
 
-    const oldIndex = sorted.findIndex(x => x.id === active.id);
-    const newIndex = sorted.findIndex(x => x.id === over.id);
+    const oldIndex = sorted.findIndex((x) => x.id === active.id)
+    const newIndex = sorted.findIndex((x) => x.id === over.id)
 
-    const reordered = arrayMove(sorted, oldIndex, newIndex).map(
-      (item, index) => ({
-        ...item,
-        order: index,
-      })
-    );
+    const reordered = arrayMove(sorted, oldIndex, newIndex).map((item, index) => ({
+      ...item,
+      order: index,
+    }))
 
-    onChange(reordered);
-  };
+    onChange(reordered)
+  }
 
   /* ---------- ADD ---------- */
   const addLink = () => {
@@ -98,67 +74,47 @@ export default function SocialLinksInput({ value, onChange }: Props) {
         id: crypto.randomUUID(),
         platform: 'GITHUB',
         url: null,
-        order: sorted.length
+        order: sorted.length,
       },
-    ]);
-  };
+    ])
+  }
 
   /* ---------- UPDATE ---------- */
   const updateItem = (id: string, patch: Partial<SocialLinkItem>) => {
-    onChange(
-      sorted.map(item =>
-        item.id === id ? { ...item, ...patch } : item
-      )
-    );
-  };
+    onChange(sorted.map((item) => (item.id === id ? { ...item, ...patch } : item)))
+  }
 
   /* ---------- DELETE ---------- */
   const deleteItem = (id: string) => {
-    const filtered = sorted
-      .filter(x => x.id !== id)
-      .map((x, i) => ({ ...x, order: i }));
+    const filtered = sorted.filter((x) => x.id !== id).map((x, i) => ({ ...x, order: i }))
 
-    onChange(filtered);
-  };
+    onChange(filtered)
+  }
 
   return (
     <div className="form-control w-full space-y-3">
       <label className="label flex justify-between items-center">
-        <span className="label-text font-semibold">
-          Sosyal Medya Bağlantıları
-        </span>
-        <button
-          type="button"
-          className="btn btn-xs btn-outline"
-          onClick={addLink}
-        >
+        <span className="label-text font-semibold">Sosyal Medya Bağlantıları</span>
+        <button type="button" className="btn btn-xs btn-outline" onClick={addLink}>
           Bağlantı Ekle
         </button>
       </label>
 
-      <DndContext
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={sorted.map(x => x.id)}
-          strategy={verticalListSortingStrategy}
-        >
+      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={sorted.map((x) => x.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-3">
-            {sorted.map(item => (
+            {sorted.map((item) => (
               <SortableRow key={item.id} id={item.id}>
                 <select
                   className="select select-bordered w-36"
                   value={item.platform}
-                  onChange={e =>
+                  onChange={(e) =>
                     updateItem(item.id, {
-                      platform:
-                        e.target
-                          .value as SocialLinkItem['platform'],
+                      platform: e.target.value as SocialLinkItem['platform'],
                     })
                   }
                 >
-                  {SingleSocialLinkEnum.options.map(opt => (
+                  {SingleSocialLinkEnum.options.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
                     </option>
@@ -170,9 +126,7 @@ export default function SocialLinksInput({ value, onChange }: Props) {
                   className="input input-bordered flex-1"
                   placeholder={`${item.platform} URL`}
                   value={item.url ?? ''}
-                  onChange={e =>
-                    updateItem(item.id, { url: e.target.value })
-                  }
+                  onChange={(e) => updateItem(item.id, { url: e.target.value })}
                 />
 
                 <button
@@ -188,5 +142,5 @@ export default function SocialLinksInput({ value, onChange }: Props) {
         </SortableContext>
       </DndContext>
     </div>
-  );
+  )
 }

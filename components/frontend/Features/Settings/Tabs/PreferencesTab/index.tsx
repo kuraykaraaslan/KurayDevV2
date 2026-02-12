@@ -4,8 +4,6 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
 import useGlobalStore from '@/libs/zustand'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGlobe, faMoon } from '@fortawesome/free-solid-svg-icons'
 import {
   UserPreferences,
   ThemeEnum,
@@ -13,21 +11,8 @@ import {
   UserPreferencesDefault,
 } from '@/types/user/UserTypes'
 import * as countriesAndTimezones from 'countries-and-timezones'
-
-/*
-const UserPreferencesSchema = z.object({
-  theme: ThemeEnum.optional().default('SYSTEM'),
-  language: LanguageEnum.optional().default('EN'),
-  emailNotifications: z.boolean().optional().default(true),
-  smsNotifications: z.boolean().optional().default(false),
-  pushNotifications: z.boolean().optional().default(true),
-  newsletter: z.boolean().optional().default(true),
-
-  timezone: string;           // "Europe/Istanbul"
-  dateFormat: 'DD/MM/YYYY' | 'MM/DD/YYYY';
-  timeFormat: '24H' | '12H';
-  firstDayOfWeek: 'MON' | 'SUN';
-});*/
+import FormHeader from '@/components/admin/UI/Forms/FormHeader'
+import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 
 export default function PreferencesTab() {
   const { user, setUser } = useGlobalStore()
@@ -62,134 +47,112 @@ export default function PreferencesTab() {
       })
   }
 
+  const languageOptions = LanguageEnum.options.map((lang) => ({
+    value: lang,
+    label: lang.toUpperCase(),
+  }))
+
+  const themeOptions = ThemeEnum.options.map((theme) => ({
+    value: theme,
+    label: theme.toUpperCase(),
+  }))
+
+  const timezoneOptions = Object.entries(countriesAndTimezones.getAllTimezones()).map(
+    ([tz, info]) => ({
+      value: tz,
+      label: `(GMT${info.utcOffsetStr}) ${info.name}`,
+    })
+  )
+
+  const dateFormatOptions = [
+    { value: 'DD/MM/YYYY', label: 'DD/MM/YYYY' },
+    { value: 'MM/DD/YYYY', label: 'MM/DD/YYYY' },
+  ]
+
+  const timeFormatOptions = [
+    { value: '24H', label: '24 Saat' },
+    { value: '12H', label: '12 Saat' },
+  ]
+
+  const firstDayOptions = [
+    { value: 'MON', label: 'Pazartesi' },
+    { value: 'SUN', label: 'Pazar' },
+  ]
+
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-4">
-      {/* Header */}
-      <div>
-        <h2 className="text-lg font-bold">Kişisel Tercihler</h2>
-        <p className="text-sm text-base-content/70">Bildirim ve uygulama ayarlarını yönet.</p>
-      </div>
+      <FormHeader title="Kişisel Tercihler" titleClassName="text-lg" />
+      <p className="text-sm text-base-content/70 -mt-2">Bildirim ve uygulama ayarlarını yönet.</p>
 
-      {/* Language Dropdown */}
-      <div className="form-control w-full">
-        <label className="label">
-          <span className="label-text font-semibold flex items-center gap-2">
-            <FontAwesomeIcon icon={faGlobe} className="text-primary" />
-            Dil
-          </span>
-        </label>
+      <DynamicSelect
+        label="Dil"
+        options={languageOptions}
+        selectedValue={userPreferences.language || 'EN'}
+        onValueChange={(val) =>
+          setUserPreferences({ ...userPreferences, language: val as UserPreferences['language'] })
+        }
+        searchable={false}
+      />
 
-        <select
-          className="select select-bordered select-primary w-full"
-          value={userPreferences.language}
-          onChange={(e) =>
-            setUserPreferences({ ...userPreferences, language: e.target.value as any })
-          }
-        >
-          {LanguageEnum.options.map((lang) => (
-            <option key={lang} value={lang}>
-              {lang.toUpperCase()}
-            </option>
-          ))}
-        </select>
-      </div>
+      <DynamicSelect
+        label="Tema"
+        options={themeOptions}
+        selectedValue={userPreferences.theme || 'SYSTEM'}
+        onValueChange={(val) =>
+          setUserPreferences({ ...userPreferences, theme: val as UserPreferences['theme'] })
+        }
+        searchable={false}
+      />
 
-      {/* Theme Dropdown */}
-      <div className="form-control w-full">
-        <label className="label">
-          <span className="label-text font-semibold flex items-center gap-2">
-            <FontAwesomeIcon icon={faMoon} className="text-primary" />
-            Tema
-          </span>
-        </label>
+      <DynamicSelect
+        label="Zaman Dilimi"
+        options={timezoneOptions}
+        selectedValue={userPreferences.timezone || 'UTC'}
+        onValueChange={(val) => setUserPreferences({ ...userPreferences, timezone: val })}
+        searchable
+      />
 
-        <select
-          className="select select-bordered select-primary w-full"
-          value={userPreferences.theme}
-          onChange={(e) => setUserPreferences({ ...userPreferences, theme: e.target.value as any })}
-        >
-          {ThemeEnum.options.map((theme) => (
-            <option key={theme} value={theme}>
-              {theme.toUpperCase()}
-            </option>
-          ))}
-        </select>
-      </div>
+      <DynamicSelect
+        label="Tarih Formatı"
+        options={dateFormatOptions}
+        selectedValue={userPreferences.dateFormat || 'DD/MM/YYYY'}
+        onValueChange={(val) =>
+          setUserPreferences({
+            ...userPreferences,
+            dateFormat: val as UserPreferences['dateFormat'],
+          })
+        }
+        searchable={false}
+      />
 
-      {/* TiMEZONE */}
-      <div className="form-control w-full">
-        <label className="label">
-          <span className="label-text font-semibold">Zaman Dilimi</span>
-        </label>
-        <select
-          className="select select-bordered select-primary w-full"
-          value={userPreferences.timezone}
-          onChange={(e) => setUserPreferences({ ...userPreferences, timezone: e.target.value })}
-        >
-          {Object.entries(countriesAndTimezones.getAllTimezones()).map(([tz, info]) => (
-            <option key={tz} value={tz}>
-              {`(GMT${info.utcOffsetStr}) ${info.name}`}
-            </option>
-          ))}
-        </select>
-      </div>
+      <DynamicSelect
+        label="Saat Formatı"
+        options={timeFormatOptions}
+        selectedValue={userPreferences.timeFormat || '24H'}
+        onValueChange={(val) =>
+          setUserPreferences({
+            ...userPreferences,
+            timeFormat: val as UserPreferences['timeFormat'],
+          })
+        }
+        searchable={false}
+      />
 
-      {/* Date Format Dropdown */}
-      <div className="form-control w-full">
-        <label className="label">
-          <span className="label-text font-semibold">Tarih Formatı</span>
-        </label>
+      <DynamicSelect
+        label="Haftanın İlk Günü"
+        options={firstDayOptions}
+        selectedValue={userPreferences.firstDayOfWeek || 'MON'}
+        onValueChange={(val) =>
+          setUserPreferences({
+            ...userPreferences,
+            firstDayOfWeek: val as UserPreferences['firstDayOfWeek'],
+          })
+        }
+        searchable={false}
+      />
 
-        <select
-          className="select select-bordered select-primary w-full"
-          value={userPreferences.dateFormat}
-          onChange={(e) =>
-            setUserPreferences({ ...userPreferences, dateFormat: e.target.value as any })
-          }
-        >
-          <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-          <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-        </select>
-      </div>
-
-      {/* Time Format Dropdown */}
-      <div className="form-control w-full">
-        <label className="label">
-          <span className="label-text font-semibold">Saat Formatı</span>
-        </label>
-
-        <select
-          className="select select-bordered select-primary w-full"
-          value={userPreferences.timeFormat}
-          onChange={(e) =>
-            setUserPreferences({ ...userPreferences, timeFormat: e.target.value as any })
-          }
-        >
-          <option value="24H">24 Saat</option>
-          <option value="12H">12 Saat</option>
-        </select>
-      </div>
-
-      {/* First Day of Week Dropdown */}
-      <div className="form-control w-full">
-        <label className="label">
-          <span className="label-text font-semibold">Haftanın İlk Günü</span>
-        </label>
-
-        <select
-          className="select select-bordered select-primary w-full"
-          value={userPreferences.firstDayOfWeek}
-          onChange={(e) =>
-            setUserPreferences({ ...userPreferences, firstDayOfWeek: e.target.value as any })
-          }
-        >
-          <option value="MON">Pazartesi</option>
-          <option value="SUN">Pazar</option>
-        </select>
-      </div>
-
-      <button onClick={handleSave} className="btn btn-primary w-full">
-        Kaydet
+      <button onClick={handleSave} disabled={saving} className="btn btn-primary w-full">
+        {saving ? 'Kaydediliyor...' : 'Kaydet'}
       </button>
     </div>
   )

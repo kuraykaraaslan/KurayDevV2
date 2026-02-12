@@ -1,192 +1,199 @@
 'use client'
-import { useState, useEffect, FormEvent } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import ImageLoad from '@/components/common/UI/Images/ImageLoad'
+import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import FormHeader from '@/components/admin/UI/Forms/FormHeader'
+import DynamicText from '@/components/admin/UI/Forms/DynamicText'
+import Form from '@/components/admin/UI/Forms/Form'
 
-const UpdateUser = () => {
-  const params = useParams()
+type UserRole = 'ADMIN' | 'USER'
+type UserStatus = 'ACTIVE' | 'INACTIVE' | 'BANNED'
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [role, setRole] = useState('USER')
-
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-
+const SingleUser = () => {
+  const params = useParams<{ userId: string }>()
+  const routeUserId = params?.userId
   const router = useRouter()
 
-  const uploadImage = async () => {
-    const input = document.getElementById('file') as HTMLInputElement
-    const files = input.files
+  const mode: 'create' | 'edit' = useMemo(
+    () => (routeUserId === 'create' ? 'create' : 'edit'),
+    [routeUserId]
+  )
 
-    if (!files) {
-      return
-    }
+  const [loading, setLoading] = useState(true)
 
-    const imageFile = files[0]
+  // Model fields
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [password, setPassword] = useState('')
+  const [userRole, setUserRole] = useState<UserRole>('USER')
+  const [userStatus, setUserStatus] = useState<UserStatus>('ACTIVE')
+  const [image, setImage] = useState('')
 
-    const formData = new FormData()
-    formData.append('file', imageFile)
-    formData.append('folder', 'users')
-
-    await axiosInstance
-      .post('/api/aws', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        setImageUrl(res.data.url)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-
-    if (name === '') {
-      toast.error('Name is required')
-      return
-    }
-
-    if (email === '') {
-      toast.error('Email is required')
-      return
-    }
-
-    if (role === '') {
-      toast.error('Role is required')
-      return
-    }
-
-    await axiosInstance
-      .put('/api/users/' + params.userId, {
-        name,
-        email,
-        role,
-        profilePicture: imageUrl,
-      })
-      .then(() => {
-        toast.success('User updated successfully')
-        router.push('/admin/users')
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message)
-      })
-  }
-
+  // Load user (in edit mode)
   useEffect(() => {
-    if (params.userId) {
-      axiosInstance
-        .get(`/api/users/${params.userId}`)
-        .then((res) => {
-          const { user } = res.data
-          setName(user.name)
-          setEmail(user.email)
-          setRole(user.role)
-          setImageUrl(user.image)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+    let cancelled = false
+
+    const load = async () => {
+      if (!routeUserId) {
+        setLoading(false)
+        return
+      }
+      if (routeUserId === 'create') {
+        setLoading(false)
+        return
+      }
+
+      try {
+        const res = await axiosInstance.get(`/api/users/${routeUserId}`)
+        const user = res.data?.user
+
+        if (!user) {
+          toast.error('User not found')
+          return
+        }
+        if (cancelled) return
+
+        setName(user.userProfile?.name ?? user.name ?? '')
+        setEmail(user.email ?? '')
+        setPhone(user.phone ?? '')
+        setUserRole((user.userRole as UserRole) ?? 'USER')
+        setUserStatus((user.userStatus as UserStatus) ?? 'ACTIVE')
+        setImage(user.userProfile?.image ?? user.image ?? '')
+      } catch (error: any) {
+        console.error(error)
+        toast.error(error?.response?.data?.message ?? 'Failed to load user')
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
     }
-  }, [])
+
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [routeUserId])
+
+  const handleSubmit = async () => {
+    const errors: string[] = []
+
+    if (!name.trim()) errors.push('Name is required')
+    if (!email.trim()) errors.push('Email is required')
+    if (mode === 'create' && !password.trim()) errors.push('Password is required')
+
+    if (errors.length) {
+      errors.forEach((msg) => toast.error(msg))
+      return
+    }
+
+    const body: Record<string, any> = {
+      name,
+      email,
+      phone: phone || undefined,
+      userRole,
+      image: image || undefined,
+    }
+
+    if (mode === 'create') {
+      body.password = password
+    } else if (password.trim()) {
+      body.password = password
+    }
+
+    try {
+      if (mode === 'create') {
+        await axiosInstance.post('/api/users', body)
+        toast.success('User created successfully')
+      } else {
+        await axiosInstance.put(`/api/users/${routeUserId}`, { userId: routeUserId, ...body })
+        toast.success('User updated successfully')
+      }
+      router.push('/admin/users')
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message ?? 'Save failed')
+    }
+  }
 
   return (
-    <>
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center flex-row">
-          <h1 className="text-3xl font-bold h-16 items-center">Update User</h1>
-          <div className="flex gap-2 h-16">
-            <Link className="btn btn-primary btn-sm h-12" href="/admin/users">
-              Back to Users
-            </Link>
-          </div>
-        </div>
+    <Form
+      className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-7xl"
+      actions={[
+        {
+          label: 'Save',
+          onClick: handleSubmit,
+          className: 'btn-primary',
+        },
+        {
+          label: 'Cancel',
+          onClick: () => router.push('/admin/users'),
+          className: 'btn-secondary',
+        },
+      ]}
+    >
+      <FormHeader
+        title={mode === 'create' ? 'Create User' : 'Edit User'}
+        className="my-4"
+        actionButtons={[
+          {
+            text: 'Back to Users',
+            className: 'btn-sm btn-primary',
+            onClick: () => router.push('/admin/users'),
+          },
+        ]}
+      />
 
-        <form className="bg-base-200 p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Name</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Name"
-              className="input input-bordered"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
+      <DynamicText label="Name" placeholder="Name" value={name} setValue={setName} size="md" />
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
-            <input
-              type="email"
-              placeholder="Email"
-              className="input input-bordered"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+      <DynamicText
+        label="Email"
+        placeholder="Email"
+        value={email}
+        setValue={setEmail}
+        size="md"
+      />
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Role</span>
-            </label>
-            <select
-              className="select select-bordered"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="USER">User</option>
-              <option value="ADMIN">Admin</option>
-            </select>
-          </div>
+      <DynamicText
+        label="Phone"
+        placeholder="Phone (optional)"
+        value={phone}
+        setValue={setPhone}
+        size="md"
+      />
 
-          <div className="form-control mb-4 mt-4">
-            <label className="label">
-              <span className="label-text">Image</span>
-            </label>
-            <img
-              src={imageUrl ? (imageUrl as string) : '/assets/img/og.png'}
-              width={400}
-              height={400}
-              alt="Image"
-              className="h-96 w-96 object-cover rounded-lg"
-            />
-            <div className="relative flex justify-between items-center">
-              <input
-                type="file"
-                id="file"
-                placeholder="Image URL"
-                className="input input-bordered mt-2 p-4 flex-1 h-16"
-                //only images
-                accept="image/*"
-              />
-              <div className="absolute right-2 top-2 text-black p-2 rounded-lg">
-                <button
-                  type="button"
-                  className="h-12 text-black p-2 rounded-lg bg-primary mr-2"
-                  onClick={uploadImage}
-                >
-                  Upload Image
-                </button>
-              </div>
-            </div>
-          </div>
+      <DynamicText
+        label={mode === 'create' ? 'Password' : 'Password (leave empty to keep current)'}
+        placeholder="Password"
+        value={password}
+        setValue={setPassword}
+        size="md"
+      />
 
-          <button type="submit" className="btn btn-primary block w-full mt-4">
-            Update User
-          </button>
-        </form>
-      </div>
-    </>
+      <DynamicSelect
+        label="Role"
+        selectedValue={userRole}
+        onValueChange={(value) => setUserRole(value as UserRole)}
+        options={[
+          { value: 'USER', label: 'User' },
+          { value: 'ADMIN', label: 'Admin' },
+        ]}
+      />
+
+      <DynamicSelect
+        label="Status"
+        selectedValue={userStatus}
+        onValueChange={(value) => setUserStatus(value as UserStatus)}
+        options={[
+          { value: 'ACTIVE', label: 'Active' },
+          { value: 'INACTIVE', label: 'Inactive' },
+          { value: 'BANNED', label: 'Banned' },
+        ]}
+      />
+      
+    </Form>
   )
 }
 
-export default UpdateUser
+export default SingleUser

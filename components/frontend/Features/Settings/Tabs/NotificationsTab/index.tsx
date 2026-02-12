@@ -5,6 +5,8 @@ import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
 import useGlobalStore from '@/libs/zustand'
 import { UserPreferences, UserPreferencesDefault } from '@/types/user/UserTypes'
+import FormHeader from '@/components/admin/UI/Forms/FormHeader'
+import DynamicToggle from '@/components/admin/UI/Forms/DynamicToggle'
 
 export default function NotificationsTab() {
   const { user, setUser } = useGlobalStore()
@@ -39,68 +41,38 @@ export default function NotificationsTab() {
       })
   }
 
-  // --------------------------------------------------
-  // Render
-  // --------------------------------------------------
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
-      {/* Header */}
-      <div>
-        <h2 className="text-lg font-bold">Bildirim Tercihleri</h2>
-        <p className="text-sm text-base-content/70">Bildirim ve uygulama ayarlarını yönet.</p>
-      </div>
+      <FormHeader title="Bildirim Tercihleri" titleClassName="text-lg" />
+      <p className="text-sm text-base-content/70 -mt-4">Bildirim ve uygulama ayarlarını yönet.</p>
 
-      {/* Email */}
-      <div className="form-control">
-        <label className="cursor-pointer label">
-          <span className="label-text font-semibold">E-posta Bildirimleri</span>
-          <input
-            type="checkbox"
-            className="toggle toggle-primary"
-            checked={preferences.emailNotifications}
-            onChange={(e) => setPrefs((p) => ({ ...p, emailNotifications: e.target.checked }))}
-          />
-        </label>
-      </div>
+      <DynamicToggle
+        label="E-posta Bildirimleri"
+        description="Önemli güncellemeler ve duyurular için e-posta al"
+        checked={preferences.emailNotifications ?? true}
+        onChange={(checked) => setPrefs((p) => ({ ...p, emailNotifications: checked }))}
+      />
 
-      {/* SMS */}
-      <div className="form-control">
-        <label className="cursor-pointer label">
-          <span className="label-text font-semibold">SMS Bildirimleri</span>
-          <input
-            type="checkbox"
-            className="toggle toggle-primary"
-            checked={preferences.smsNotifications}
-            onChange={(e) => setPrefs((p) => ({ ...p, smsNotifications: e.target.checked }))}
-          />
-        </label>
-      </div>
+      <DynamicToggle
+        label="SMS Bildirimleri"
+        description="Kritik uyarılar için SMS bildirimleri al"
+        checked={preferences.smsNotifications ?? false}
+        onChange={(checked) => setPrefs((p) => ({ ...p, smsNotifications: checked }))}
+      />
 
-      {/* Push */}
-      <div className="form-control">
-        <label className="cursor-pointer label">
-          <span className="label-text font-semibold">Push Bildirimleri</span>
-          <input
-            type="checkbox"
-            className="toggle toggle-primary"
-            checked={preferences.pushNotifications}
-            onChange={(e) => setPrefs((p) => ({ ...p, pushNotifications: e.target.checked }))}
-          />
-        </label>
-      </div>
+      <DynamicToggle
+        label="Push Bildirimleri"
+        description="Tarayıcı üzerinden anlık bildirimler al"
+        checked={preferences.pushNotifications ?? true}
+        onChange={(checked) => setPrefs((p) => ({ ...p, pushNotifications: checked }))}
+      />
 
-      {/* Newsletter */}
-      <div className="form-control">
-        <label className="cursor-pointer label">
-          <span className="label-text font-semibold">Bülten Aboneliği</span>
-          <input
-            type="checkbox"
-            className="toggle toggle-primary"
-            checked={preferences.newsletter}
-            onChange={(e) => setPrefs((p) => ({ ...p, newsletter: e.target.checked }))}
-          />
-        </label>
-      </div>
+      <DynamicToggle
+        label="Bülten Aboneliği"
+        description="Haftalık haber bülteni ve güncellemeler al"
+        checked={preferences.newsletter ?? true}
+        onChange={(checked) => setPrefs((p) => ({ ...p, newsletter: checked }))}
+      />
 
       <button onClick={handleSave} disabled={saving} className="btn btn-primary w-full">
         {saving ? 'Kaydediliyor…' : 'Kaydet'}

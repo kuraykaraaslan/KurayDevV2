@@ -15,8 +15,7 @@ const HireMeVideo = () => {
       return
     }
 
-    // @ts-ignore
-    document.getElementById('my_modal')?.showModal()
+    ;(document.getElementById('my_modal') as HTMLDialogElement)?.showModal()
     // wait for the modal to open
     setTimeout(() => {
       //player.current?.seekTo(0);
@@ -33,8 +32,7 @@ const HireMeVideo = () => {
 
     //player.current?.seekTo(0);
     setPlaying(false)
-    // @ts-ignore
-    document.getElementById('my_modal')?.close()
+    ;(document.getElementById('my_modal') as HTMLDialogElement)?.close()
     setPlaying(false)
   }
 

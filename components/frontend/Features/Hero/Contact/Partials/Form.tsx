@@ -207,7 +207,6 @@ const ContactForm = (props: { className?: string; token: string }) => {
         <label htmlFor="message" className="block mb-2 text-sm font-medium">
           {t('pages.contact.form.message')}
         </label>
-        {/* @ts-ignore */}
         <textarea
           id="message"
           className={

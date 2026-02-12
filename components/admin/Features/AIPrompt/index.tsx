@@ -78,8 +78,7 @@ const AIPrompt = ({
 
   const openModal = () => {
     if (document.getElementById('my_modal_4')) {
-      // @ts-ignore
-      document.getElementById('my_modal_4')?.showModal()
+      ;(document.getElementById('my_modal_4') as HTMLDialogElement)?.showModal()
     }
   }
 

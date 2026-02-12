@@ -6,10 +6,10 @@ jest.mock('@/libs/redis', () => ({
   mget: jest.fn(),
   hset: jest.fn(),
   exists: jest.fn(),
-}));
+}))
 
 jest.mock('@/libs/logger', () => ({
   info: jest.fn(),
   warn: jest.fn(),
   error: jest.fn(),
-}));
+}))

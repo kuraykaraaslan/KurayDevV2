@@ -10,9 +10,9 @@ export default defineConfig({
     path: 'prisma/migrations',
     seed: 'tsx prisma/seed.ts',
   },
-  // The database URL 
+  // The database URL
   datasource: {
-    // Type Safe env() helper 
+    // Type Safe env() helper
     // Does not replace the need for dotenv
     url: env('DATABASE_URL'),
   },
