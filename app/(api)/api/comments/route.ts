@@ -7,11 +7,11 @@ import CommentMessages from '@/messages/CommentMessages'
 import { pipeline } from '@xenova/transformers'
 import { CommentStatus } from '@/generated/prisma'
 
-// Bu route kesin Node.js runtime'da çalışsın:
+// Force this route to run in Node.js runtime
 export const runtime = 'nodejs'
 
-// İstersen (zorunlu değil) model cache path'i ayarlayabilirsin
-// env.localModelPath = '/tmp/models'; // Vercel için uygun
+// Optional: You can set model cache path
+// env.localModelPath = '/tmp/models'; // Suitable for Vercel
 
 let toxicityModel: any = null
 
@@ -19,7 +19,7 @@ async function loadToxicityModel() {
   if (!toxicityModel) {
     toxicityModel = await pipeline(
       'text-classification',
-      'Xenova/toxic-bert' // 🔴 BURASI ÖNEMLİ
+      'Xenova/toxic-bert' // Important: toxicity detection model
     )
   }
   return toxicityModel

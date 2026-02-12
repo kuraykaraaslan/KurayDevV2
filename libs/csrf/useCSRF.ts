@@ -7,7 +7,7 @@ const CSRF_COOKIE_NAME = 'csrf-token'
 const CSRF_HEADER_NAME = 'x-csrf-token'
 
 /**
- * Cookie'den değer oku
+ * Read value from cookie
  */
 function getCookie(name: string): string | null {
   if (typeof document === 'undefined') return null
@@ -74,14 +74,14 @@ export function useCSRF(): UseCSRFReturn {
   }, [])
 
   useEffect(() => {
-    // İlk yüklemede token'ı cookie'den almayı dene
+    // On initial load, try to get token from cookie
     const existingToken = getCookie(CSRF_COOKIE_NAME)
 
     if (existingToken) {
       setToken(existingToken)
       setLoading(false)
     } else {
-      // Cookie'de yoksa API'den al
+      // If not in cookie, fetch from API
       refreshToken()
     }
   }, [refreshToken])

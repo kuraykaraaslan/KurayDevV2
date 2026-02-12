@@ -11,7 +11,7 @@ export async function GET() {
   const CACHE_KEY = 'system:status:health'
   const CACHE_TTL_SECONDS = 60 * 10 // 10 dakika
 
-  // 🔹 Cache kontrolü
+  // Cache check
   try {
     const cached = await redisInstance.get(CACHE_KEY)
     if (cached) {

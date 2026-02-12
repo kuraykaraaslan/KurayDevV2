@@ -25,7 +25,7 @@ const SinglePost = () => {
   const routePostId = params?.postId
   const router = useRouter()
 
-  // Mode, paramdan türetiliyor (state değil)
+  // Mode is derived from param (not state)
   const mode: 'create' | 'edit' = useMemo(
     () => (routePostId === 'create' ? 'create' : 'edit'),
     [routePostId]
@@ -46,7 +46,7 @@ const SinglePost = () => {
   const [createdAt, setCreatedAt] = useState<Date>(new Date())
   const [views, setViews] = useState<number>(0)
 
-  // Slug üretimi (sadece create modda ve loading bittiyse)
+  // Slug generation (only in create mode and after loading is done)
   useEffect(() => {
     if (mode === 'edit' || loading) return
     if (!title) return
@@ -64,7 +64,7 @@ const SinglePost = () => {
     setSlug(`${slugifiedTitle}-${monthString}${year}`)
   }, [title, mode, loading, createdAt])
 
-  // Postu yükle (edit modda)
+  // Load post (in edit mode)
   useEffect(() => {
     let cancelled = false
 

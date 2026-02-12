@@ -57,7 +57,7 @@ export async function GET() {
       },
     })
 
-    // Cookie'ye token'ı ekle
+    // Add token to cookie
     response.cookies.set(CSRF_COOKIE_NAME, token, {
       httpOnly: false,
       secure: isProduction,

@@ -5,7 +5,7 @@ import redisInstance from '@/libs/redis'
 import type { SitemapUrl } from '@/types/common/SitemapTypes'
 
 const CACHE_KEY = 'sitemap:static'
-const CACHE_TTL = 24 * 60 * 60 // 1 gün
+const CACHE_TTL = 24 * 60 * 60 // 1 day
 
 export async function GET() {
   const cached = await redisInstance.get(CACHE_KEY)

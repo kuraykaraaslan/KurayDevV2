@@ -2,13 +2,13 @@ import redis from '@/libs/redis'
 
 export default class GitlabService {
   static REDIS_KEY = 'gitlab:contributions'
-  static CACHE_TTL_SECONDS = 60 * 60 * 24 // 1 gün
+  static CACHE_TTL_SECONDS = 60 * 60 * 24 // 1 day
 
   static async getMockContributions(): Promise<any> {
     const cached = await redis.get(this.REDIS_KEY)
     if (cached) return JSON.parse(cached)
 
-    // Simüle edilmiş sabit data
+    // Simulated static data
     const mock = {
       user: {
         contributionsCollection: {

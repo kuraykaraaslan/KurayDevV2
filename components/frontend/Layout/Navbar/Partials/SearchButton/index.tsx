@@ -27,12 +27,12 @@ const SearchButton = () => {
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // AbortController ref'i (Eski istekleri iptal etmek için)
+  // AbortController ref (to cancel old requests)
   const abortControllerRef = useRef<AbortController | null>(null)
 
   /** Debounce Search & Cleanup */
   useEffect(() => {
-    // Input boşsa sonuçları temizle ve bekleme
+    // If input is empty, clear results and stop
     if (searchQuery.trim().length === 0) {
       setResults([])
       setLoading(false)
@@ -63,7 +63,7 @@ const SearchButton = () => {
       .then((response) => {
         const data = response.data
 
-        // TIP FİLTRESİ — yalnızca seçili kategorilerde olanlar gelsin
+        // Type filter — only show results from selected categories
         const filteredResults = data.hits.filter((hit: SearchResultItemType) =>
           searchTypes.includes(hit.type)
         )
@@ -120,7 +120,7 @@ const SearchButton = () => {
             <button
               onClick={() => {
                 toggleSearchType(SearchType.BLOG)
-                search(searchQuery) // Tür değiştiğinde aramayı tetikle
+                search(searchQuery) // Trigger search when type changes
               }}
               className={`mr-2 px-2 py-1 rounded-full text-sm border ${
                 searchTypes.includes(SearchType.BLOG)
@@ -133,7 +133,7 @@ const SearchButton = () => {
             <button
               onClick={() => {
                 toggleSearchType(SearchType.PROJECT)
-                search(searchQuery) // Tür değiştiğinde aramayı tetikle
+                search(searchQuery) // Trigger search when type changes
               }}
               className={`px-2 py-1 rounded-full text-sm border ${
                 searchTypes.includes(SearchType.PROJECT)

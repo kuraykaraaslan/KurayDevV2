@@ -3,7 +3,7 @@ import redis from '@/libs/redis'
 import { PostWithData } from '@/types/content/BlogTypes'
 
 export default class PostCoverService {
-  private static readonly CACHE_TTL = 60 * 60 * 24 * 7 // 7 gün
+  private static readonly CACHE_TTL = 60 * 60 * 24 * 7 // 7 days
   private static readonly CACHE_PREFIX = 'post:og:'
 
   /**
@@ -41,7 +41,7 @@ export default class PostCoverService {
 
     const cached = await redis.get(cacheKey)
     if (cached) {
-      // Cached data'yı buffer'a çevir ve direkt Response döndür
+      // Convert cached data to buffer and return Response directly
       const buffer = Buffer.from(cached, 'base64')
       return new Response(
         buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength),
@@ -66,7 +66,7 @@ export default class PostCoverService {
       const arrayBuffer = await res.arrayBuffer()
       await redis.setex(cacheKey, this.CACHE_TTL, Buffer.from(arrayBuffer).toString('base64'))
 
-      // Cache'e kaydettikten sonra yeni bir Response döndür
+      // Return new Response after saving to cache
       return new Response(arrayBuffer, {
         status: 200,
         headers: {
@@ -151,7 +151,7 @@ export default class PostCoverService {
     const arrayBuffer = await res.arrayBuffer()
     await redis.setex(cacheKey, this.CACHE_TTL, Buffer.from(arrayBuffer).toString('base64'))
 
-    // ArrayBuffer'ı Response olarak döndür
+    // Return ArrayBuffer as Response
     return new Response(arrayBuffer, {
       status: 200,
       headers: {

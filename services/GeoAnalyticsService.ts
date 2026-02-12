@@ -6,7 +6,7 @@ export default class GeoAnalyticsService {
   private static userKeyPrefix = 'seen-user:'
   private static cityKeyPrefix = 'geo-city:'
 
-  // Kullanıcıyı bir kez saymak için
+  // To count each user only once
   static async hasSeenUser(fingerprint: string) {
     return (await redis.exists(this.userKeyPrefix + fingerprint)) === 1
   }
@@ -15,7 +15,7 @@ export default class GeoAnalyticsService {
     await redis.set(this.userKeyPrefix + fingerprint, '1', 'EX', 60 * 60 * 24 * 90)
   }
 
-  // Ana iş mantığı: hem şehir analytics hem unique user
+  // Main logic: both city analytics and unique user tracking
   static async process(ip: string) {
     const ua = await UserAgentService.parse(undefined, ip)
     const fingerprint = ua.deviceFingerprint
@@ -24,13 +24,13 @@ export default class GeoAnalyticsService {
       return { ok: false, error: 'No fingerprint' }
     }
 
-    // Eğer kullanıcı daha önce sayılmışsa şehir sayısı artmasın
+    // If user was already counted, don't increment city count
     const alreadySeen = await this.hasSeenUser(fingerprint)
     if (alreadySeen) {
       return { ok: true, skipped: true }
     }
 
-    // Kullanıcıyı tekrar saymamak için işaretle
+    // Mark user as seen to avoid counting again
     await this.markUserSeen(fingerprint)
 
     // Geo konum al
@@ -42,17 +42,17 @@ export default class GeoAnalyticsService {
     const country = geo.country || 'Unknown'
     const city = geo.city || 'Unknown'
 
-    // Şehir bazlı Redis counter
+    // City-based Redis counter
     const redisKey = `${this.cityKeyPrefix}${country}:${city}`
     const newCount = await redis.incr(redisKey)
 
-    // DB güncelle
+    // Update DB
     await DBGeoService.saveOrUpdateGeo(
       country,
       city,
       geo.latitude,
       geo.longitude,
-      1 // her yeni user için +1
+      1 // +1 for each new user
     )
 
     return {

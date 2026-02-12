@@ -21,7 +21,7 @@ export default class DBGeoService {
           count,
         },
         update: {
-          // sadece sayım artsın, koordinat aynı kalsın
+          // only increment count, keep coordinates unchanged
           count: { increment: count },
         },
       })

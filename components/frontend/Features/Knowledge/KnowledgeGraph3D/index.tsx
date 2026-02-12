@@ -9,7 +9,7 @@ import type * as ThreeJSTypes from 'three'
 
 /* -------------------- Helpers -------------------- */
 
-// ✨ Ping-pong partiküller
+// Ping-pong particles
 function createParticles(scene: ThreeJSTypes.Scene, linksData: any[], nodeMap: Map<string, any>) {
   const particles: ThreeJSTypes.Points[] = []
   linksData.forEach((link) => {
@@ -33,7 +33,7 @@ function createParticles(scene: ThreeJSTypes.Scene, linksData: any[], nodeMap: M
   return particles
 }
 
-// her frame’de çağrılır
+// Called every frame
 function updateParticles(particles: ThreeJSTypes.Points[]) {
   particles.forEach((p) => {
     const { source, target, progress, direction } = p.userData
@@ -87,7 +87,7 @@ function detectTheme(setTheme: (t: 'dark' | 'light') => void) {
   }
 }
 
-// Kategoriye göre renk üretme
+// Generate color by category
 function useCategoryColor() {
   let colorMap: Record<string, string> = {}
 
@@ -103,7 +103,7 @@ function useCategoryColor() {
   return getColor
 }
 
-// Üç boyutlu sahneyi kurar
+// Sets up the 3D scene
 function setupScene(container: HTMLDivElement, theme: 'dark' | 'light') {
   const w = container.clientWidth
   const h = container.clientHeight
@@ -127,7 +127,7 @@ function setupScene(container: HTMLDivElement, theme: 'dark' | 'light') {
   controls.minDistance = 100
   controls.maxDistance = 1000
 
-  // Işıklar
+  // Lights
   scene.add(new THREE.AmbientLight(0xffffff, 0.6))
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4)
   directionalLight.position.set(10, 10, 10)
@@ -136,7 +136,7 @@ function setupScene(container: HTMLDivElement, theme: 'dark' | 'light') {
   return { scene, camera, renderer, controls }
 }
 
-// Düğümleri (node) oluşturur
+// Creates nodes
 function createNodes(
   scene: ThreeJSTypes.Scene,
   data: KnowledgeGraphNode[],
@@ -162,7 +162,7 @@ function createNodes(
   return nodeMap
 }
 
-// Bağlantıları (link) oluşturur
+// Creates links
 function createLinks(scene: ThreeJSTypes.Scene, data: any[], nodeMap: Map<string, any>) {
   const links: THREE.Line[] = []
   data.forEach((link) => {

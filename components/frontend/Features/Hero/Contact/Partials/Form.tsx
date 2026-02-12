@@ -84,7 +84,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
   async function formSubmit() {
     const date = new Date()
 
-    // Boşluk kontrolü
+    // Validation checks
     const isNameOk = /^[a-zA-Z\sçÇğĞıİöÖşŞüÜ]{3,50}$/.test(name)
     const isEmailOk = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
     const isPhoneOk = isValidPhoneNumber(phone || '')

@@ -14,7 +14,7 @@ export default function SystemStatusButton() {
       <button onClick={modal.openModal}>
         <FontAwesomeIcon
           icon={faCircle}
-          className={`text-[8px] mr-1 text-gray-300`} // renk içerikten geliyor
+          className={`text-[8px] mr-1 text-gray-300`} // color comes from content
         />
         <span className="text-sm">{i18n.t('shared.status.title')}</span>
       </button>

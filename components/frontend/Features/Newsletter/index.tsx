@@ -38,7 +38,7 @@ const Newsletter = ({ backgroundColor }: { backgroundColor?: string }) => {
 
       toast.success(response.data.message)
 
-      // 🎉 Buton çevresinde mini confetti patlat
+      // Fire mini confetti around the button
       fireButtonConfetti()
     } catch (error) {
       console.error(error)

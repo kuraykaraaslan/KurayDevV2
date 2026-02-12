@@ -17,8 +17,8 @@ export default function KnowledgeGraph2DButton() {
         open={open}
         onClose={closeModal}
         title="3D Knowledge Graph"
-        size="lg" // modal boyutu daha kontrollü
-        className="!max-w-5xl" // genişlik sınırlı
+        size="lg" // modal size more controlled
+        className="!max-w-5xl" // width limited
       >
         <div className="flex items-center justify-center w-full h-[70vh] bg-base-200 rounded-box">
           <KnowledgeGraph2D />

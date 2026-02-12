@@ -8,7 +8,7 @@ export const weeklyJobs = [
     name: 'Send Weekly Digest',
     handler: async () => {
       const thisWeekStart = new Date()
-      thisWeekStart.setDate(thisWeekStart.getDate() - 7) // Son 7 gün
+      thisWeekStart.setDate(thisWeekStart.getDate() - 7) // Last 7 days
       thisWeekStart.setHours(0, 0, 0, 0)
 
       const { posts } = await PostService.getAllPosts({

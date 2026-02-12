@@ -6,10 +6,10 @@ import { getBaseUrl } from '@/helpers/SitemapGenerator'
 import redisInstance from '@/libs/redis'
 
 const CACHE_KEY = 'feed:blog'
-const CACHE_TTL = 60 * 60 // 1 saat
+const CACHE_TTL = 60 * 60 // 1 hour
 
 export async function GET() {
-  // 1. Önce Redis'ten dene
+  // 1. First try from Redis
   const cached = await redisInstance.get(CACHE_KEY)
   if (cached) {
     return new NextResponse(cached, {
@@ -17,7 +17,7 @@ export async function GET() {
     })
   }
 
-  // 2. Cache yoksa DB/Service'ten çek
+  // 2. If not cached, fetch from DB/Service
   const BASE = getBaseUrl()
   const posts = await PostService.getAllPostSlugs()
 

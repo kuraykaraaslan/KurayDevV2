@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons' // ✔ Doğru X ikonu
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons' // X (Twitter) icon
 
 interface ShareButtonsProps {
   title?: string
@@ -14,7 +14,7 @@ interface ShareButtonsProps {
 const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) => {
   const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
 
-  // desc 100 karakterden uzun ise kısalt
+  // Truncate description if longer than 100 characters
   const shortDescription =
     description.length > 100 ? description.substring(0, 97) + '...' : description
   const textToShare = useMemo(

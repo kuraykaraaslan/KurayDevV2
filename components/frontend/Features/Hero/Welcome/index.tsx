@@ -8,16 +8,10 @@ import { useTranslation } from 'react-i18next'
 
 const TypingEffect = dynamic(() => import('./Partials/TypingEffect'), { ssr: false })
 
-/*
-const BackgroundImage = dynamic(
-  () => import("./Partials/BackgroundImage"),
-  { ssr: false },
-);*/
-
 const MyImage = dynamic(() => import('./Partials/MyImageVideo'), { ssr: false })
 
 const Welcome = () => {
-  const { t, i18n } = useTranslation() // <- burada i18n de geliyor, t de geliyor
+  const { t, i18n } = useTranslation() 
 
   return (
     <div

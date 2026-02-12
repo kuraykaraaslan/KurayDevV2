@@ -52,9 +52,9 @@ export default function LanguageModal() {
   }
 
   useEffect(() => {
-    if (!i18n.isInitialized) return // ❗ kritik
+    if (!i18n.isInitialized) return // critical
 
-    // i18next dili, hafızadaki dilden farklıysa güncelle
+    // Update if i18next language differs from stored language
     if (i18n.language !== language) {
       i18n.changeLanguage(language)
     }
@@ -77,13 +77,13 @@ export default function LanguageModal() {
 
       {/* Modal */}
       <dialog id="lang_modal" className="modal">
-        {/* BACKDROP — dışa tıklayınca kapanır */}
+        {/* BACKDROP — closes on outside click */}
         <div className="modal-backdrop fixed inset-0 bg-black/30" onClick={closeModal} />
 
         {/* MODAL BOX */}
         <div
           className="modal-box p-4 max-w-xs bg-base-200/60 backdrop-blur-xl border border-base-300 rounded-2xl shadow-xl relative"
-          onClick={(e) => e.stopPropagation()} // içe tıklayınca kapanmasın
+          onClick={(e) => e.stopPropagation()} // prevent close on inside click
         >
           <h3 className="font-semibold text-center text-lg mb-3">Choose Language</h3>
 

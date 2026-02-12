@@ -15,7 +15,7 @@ export async function GET(
   const imageResponse = await PostCoverService.getImage(post)
   if (!imageResponse) return notFound()
 
-  // ImageResponse zaten doğru header'ları içerdiğinden
-  // ayrıca Response ile sarmalamaya gerek yok.
+  // ImageResponse already contains correct headers
+  // so no need to wrap with Response.
   return imageResponse
 }

@@ -4,7 +4,7 @@ const CSRF_SECRET =
   process.env.CSRF_SECRET ||
   process.env.ACCESS_TOKEN_SECRET ||
   'default-csrf-secret-change-in-production'
-const CSRF_TOKEN_EXPIRY = 60 * 60 // 1 saat (saniye cinsinden)
+const CSRF_TOKEN_EXPIRY = 60 * 60 // 1 hour (in seconds)
 const CSRF_COOKIE_NAME = 'csrf-token'
 const CSRF_HEADER_NAME = 'x-csrf-token'
 
@@ -103,7 +103,7 @@ export default class CSRFService {
     // HMAC ile imzala
     const signature = await createHmacSignature(data, CSRF_SECRET)
 
-    // Token: data.signature formatında
+    // Token format: data.signature
     return base64urlEncode(`${data}.${signature}`)
   }
 
@@ -130,18 +130,18 @@ export default class CSRFService {
 
       const [tokenSessionId, timestamp] = dataParts
 
-      // Session ID kontrolü (eğer sağlanmışsa)
+      // Session ID check (if provided)
       if (sessionId && tokenSessionId !== sessionId && tokenSessionId !== 'anonymous') {
         return false
       }
 
-      // Timestamp kontrolü - token süresi dolmuş mu?
+      // Timestamp check - is the token expired?
       const tokenAge = Date.now() - parseInt(timestamp)
       if (tokenAge > CSRF_TOKEN_EXPIRY * 1000) {
         return false
       }
 
-      // Signature doğrulama
+      // Signature verification
       const expectedSignature = await createHmacSignature(data, CSRF_SECRET)
 
       return timingSafeEqual(signature, expectedSignature)
@@ -156,7 +156,7 @@ export default class CSRFService {
    * @returns CSRF token veya null
    */
   static getTokenFromRequest(request: NextRequest): string | null {
-    // Önce header'dan dene
+    // First try from header
     const headerToken = request.headers.get(CSRF_HEADER_NAME)
     if (headerToken) return headerToken
 
@@ -175,7 +175,7 @@ export default class CSRFService {
     const isProduction = process.env.NODE_ENV === 'production'
 
     response.cookies.set(CSRF_COOKIE_NAME, token, {
-      httpOnly: false, // JavaScript'in okuyabilmesi için false
+      httpOnly: false, // false so JavaScript can read it
       secure: isProduction,
       sameSite: 'strict',
       path: '/',
@@ -195,7 +195,7 @@ export default class CSRFService {
     request: NextRequest,
     sessionId?: string
   ): Promise<{ valid: boolean; error?: string }> {
-    // GET, HEAD, OPTIONS istekleri CSRF kontrolü gerektirmez
+    // GET, HEAD, OPTIONS requests don't require CSRF validation
     const safeMethods = ['GET', 'HEAD', 'OPTIONS']
     if (safeMethods.includes(request.method)) {
       return { valid: true }
@@ -207,7 +207,7 @@ export default class CSRFService {
     // Header'daki token
     const headerToken = request.headers.get(CSRF_HEADER_NAME)
 
-    // Double Submit Cookie Pattern: Her iki token da olmalı ve eşleşmeli
+    // Double Submit Cookie Pattern: Both tokens must be present and match
     if (!cookieToken || !headerToken) {
       return {
         valid: false,
@@ -222,7 +222,7 @@ export default class CSRFService {
       }
     }
 
-    // Token signature doğrulama
+    // Token signature verification
     const isValid = await this.verifyToken(cookieToken, sessionId)
     if (!isValid) {
       return {

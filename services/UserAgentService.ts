@@ -58,7 +58,7 @@ export default class UserAgentService {
         longitude: data.location?.longitude ?? null,
       }
 
-      await redis.set(cacheKey, JSON.stringify(location), 'EX', 86400) // 1 gün cache
+      await redis.set(cacheKey, JSON.stringify(location), 'EX', 86400) // 1 day cache
 
       return location
     } catch (error: any) {

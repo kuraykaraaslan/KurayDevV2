@@ -13,13 +13,13 @@ import { SafeUserSecurity } from '@/types/user/UserSecurityTypes'
 import { UserRole, UserSession } from '@/generated/prisma'
 
 const APPLICATION_DOMAIN = process.env.NEXT_PUBLIC_APPLICATION_DOMAIN || 'kuray.dev'
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET // Burada bir varsayılan değer belirleyebilirsiniz
-const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || '1h' // veya '1h' gibi
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
+const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || '1h'
 
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET // Burada bir varsayılan değer belirleyebilirsiniz
-const REFRESH_TOKEN_EXPIRES_IN: string | number = process.env.REFRESH_TOKEN_EXPIRES_IN || '7d' // veya '7d' gibi
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET
+const REFRESH_TOKEN_EXPIRES_IN: string | number = process.env.REFRESH_TOKEN_EXPIRES_IN || '7d'
 
-const SESSION_EXPIRY_MS = parseInt(process.env.SESSION_EXPIRY_MS || `${1000 * 60 * 60 * 24 * 7}`) // 7 gün
+const SESSION_EXPIRY_MS = parseInt(process.env.SESSION_EXPIRY_MS || `${1000 * 60 * 60 * 24 * 7}`) // 7 days
 const SESSION_REDIS_EXPIRY_MS = parseInt(process.env.SESSION_REDIS_EXPIRY_MS || `${1000 * 60 * 30}`) // 30 min default
 
 if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
@@ -60,7 +60,7 @@ export default class UserSessionService {
     return jwt.sign(
       {
         userId: userId,
-        userSessionId: userSessionId, // her session için eşsiz
+        userSessionId: userSessionId, // unique per session
         deviceFingerprint: deviceFingerprint,
       },
       ACCESS_TOKEN_SECRET,
@@ -91,7 +91,7 @@ export default class UserSessionService {
       {
         userId: userId,
         deviceFingerprint: deviceFingerprint,
-        userSessionId: userSessionId, // her session için eşsiz
+        userSessionId: userSessionId, // unique per session
       },
       REFRESH_TOKEN_SECRET as string,
       {
@@ -99,7 +99,7 @@ export default class UserSessionService {
         issuer: APPLICATION_DOMAIN,
         audience: 'web',
         expiresIn: REFRESH_TOKEN_EXPIRES_IN,
-        notBefore: 5, // 5 saniye sonra geçerli
+        notBefore: 5, // valid after 5 seconds
       }
     )
   }

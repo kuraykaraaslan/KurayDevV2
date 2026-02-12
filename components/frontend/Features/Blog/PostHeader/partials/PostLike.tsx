@@ -10,26 +10,26 @@ export default function LikeButton({ postId }: { postId: string }) {
 
   const toggleLike = async () => {
     setIsLiked(!isLiked)
-    // Burada API çağrısı yapılabilir
+    // API call can be made here
     try {
       if (isLiked) {
-        // Eğer zaten beğenildiyse, beğeniyi kaldır
+        // If already liked, remove the like
         await axiosInstance.delete(`/api/posts/${postId}/like`).catch(() => {
-          setIsLiked(true) // Hata durumunda beğeni durumunu geri al
+          setIsLiked(true) // Revert on error
         })
       } else {
-        // Eğer beğenilmediyse, beğeni ekle
+        // If not liked, add like
         await axiosInstance.post(`/api/posts/${postId}/like`).catch(() => {
-          setIsLiked(false) // Hata durumunda beğeni durumunu geri al
+          setIsLiked(false) // Revert on error
         })
       }
     } catch (error) {
       console.error('Like toggle error:', error)
-      setIsLiked(!isLiked) // Hata durumunda eski duruma geri dön
+      setIsLiked(!isLiked) // Revert to previous state on error
     }
   }
 
-  // Beğeni durumu değiştiğinde, API'den güncel beğeni durumunu çekmek isteyebilirsiniz
+  // You might want to fetch the current like status from API when like state changes
 
   return (
     <button onClick={toggleLike} className="flex items-center">

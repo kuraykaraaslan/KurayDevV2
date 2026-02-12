@@ -54,7 +54,7 @@ export async function GET(req: Request) {
       type: SearchType.PROJECT,
       createdAt: project.createdAt ? project.createdAt : new Date(),
     }))
-    .slice(0, 0) // Projeleri arama sonuçlarına dahil etme
+    .slice(0, 0) // Don't include projects in search results
 
   let results = [...projectResultsFormatted, ...blogResultsFormatted].sort(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime()

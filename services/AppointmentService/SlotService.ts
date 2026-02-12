@@ -62,7 +62,7 @@ export default class SlotService {
     }
 
     const key = this.makeKey(startDate, startTime)
-    const ttlSeconds = 60 * 60 * 24 * 14 // 14 gün sakla
+    const ttlSeconds = 60 * 60 * 24 * 14 // 14 days retention
     await redisInstance.set(key, JSON.stringify(slot), 'EX', ttlSeconds)
     return slot
   }
