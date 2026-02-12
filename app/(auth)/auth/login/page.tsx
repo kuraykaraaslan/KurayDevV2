@@ -73,9 +73,6 @@ const LoginPage = () => {
       })
       .then(async (res) => {
         const userSecurity = res.data.userSecurity
-
-        console.log('userSecurity', userSecurity)
-
         const { user } = res.data
         setUser(user)
 
@@ -117,8 +114,6 @@ const LoginPage = () => {
 
     try {
       setVerifyingOtp(true)
-
-      console.log('Verifying OTP with method:', selectedMethod, 'and code:', otpCode)
 
       await axiosInstance
         .post('/api/auth/login/verify', {

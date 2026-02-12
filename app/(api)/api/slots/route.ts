@@ -19,8 +19,6 @@ export async function GET(req: Request) {
       )
     }
 
-    console.log(`Fetching slots from ${startDate} to ${endDate}`)
-
     const { slots, total } = await SlotService.getAllSlotsForDateRange({
       startDate,
       endDate,

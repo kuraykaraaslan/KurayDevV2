@@ -37,7 +37,6 @@ export async function POST(request: NextRequest) {
     const userOTPMethods = userSecurity.otpMethods
 
     if (action === 'enable' && userOTPMethods.includes(method)) {
-      console.log('OTP method already enabled:', method)
       return NextResponse.json(
         { message: AuthMessages.OTP_METHOD_ALREADY_ENABLED },
         { status: 400 }
@@ -45,19 +44,16 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'disable' && !userOTPMethods.includes(method)) {
-      console.log('OTP method not enabled:', method)
       return NextResponse.json({ message: AuthMessages.OTP_METHOD_NOT_ENABLED }, { status: 400 })
     }
 
     if (method === 'EMAIL') {
-      console.log('Sending OTP via Email to:', user.email)
       await MailService.sendOTPEmail({
         email: user.email,
         name: user.userProfile?.name,
         otpToken,
       })
     } else if (method === 'SMS') {
-      console.log('Sending OTP via SMS to:', user.phone)
       await SMSService.sendShortMessage({
         to: user.phone!,
         body: 'Your OTP code for ' + action + ' ' + method + ' is: ' + otpToken,

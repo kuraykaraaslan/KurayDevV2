@@ -32,8 +32,6 @@ const PostCard = ({ post }: { post: PostWithData }) => {
       const diffHours = diffMinutes / 60
       const diffDays = diffHours / 24
 
-      console.log(typeof createdAt, createdAt, new Date(createdAt).toDateString(), diffDays)
-
       if (diffDays > 365) {
         setDateText(
           createdAt

@@ -233,8 +233,6 @@ export default class UserSessionService {
     )
     const hashedRefreshToken = UserSessionService.hashToken(rawRefreshToken)
 
-    console.log(userSecurity)
-
     const otpVerifyNeeded = !otpIgnore && userSecurity.otpMethods.length > 0
 
     const userSession = await prisma.userSession.create({
@@ -495,13 +493,6 @@ export default class UserSessionService {
       const accessToken = request.cookies.get('accessToken')?.value
       const refreshToken = request.cookies.get('refreshToken')?.value
 
-      console.log(
-        '[AUTH] Checking cookies - accessToken:',
-        accessToken ? 'present' : 'missing',
-        'refreshToken:',
-        refreshToken ? 'present' : 'missing'
-      )
-
       if (!accessToken || !refreshToken) {
         throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE)
       }
@@ -511,12 +502,6 @@ export default class UserSessionService {
         request,
         otpVerifyBypass,
       })
-      console.log(
-        '[AUTH] Session retrieved - user role:',
-        user?.userRole,
-        'required role:',
-        requiredUserRole
-      )
 
       if (!user) {
         throw new Error(AuthMessages.USER_NOT_FOUND)
@@ -536,22 +521,8 @@ export default class UserSessionService {
       const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole)
       const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole)
 
-      console.log(
-        '[AUTH] Role check - userRole:',
-        user.userRole,
-        'index:',
-        userRoleKeyIndex,
-        'requiredRole:',
-        requiredUserRole,
-        'index:',
-        requiredUserRoleKeyIndex,
-        'roleKeys:',
-        userRoleKeys
-      )
-
       // User's role index must be >= required role index (ADMIN=1 >= USER=0)
       if (userRoleKeyIndex < requiredUserRoleKeyIndex) {
-        console.log('[AUTH] Access denied - user role index too low')
         throw new Error(AuthMessages.USER_NOT_AUTHENTICATED)
       }
 

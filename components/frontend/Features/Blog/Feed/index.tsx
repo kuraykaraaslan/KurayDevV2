@@ -28,7 +28,6 @@ export default function Feed(props: FeedProps) {
   const [isMoreAvailable, setIsMoreAvailable] = useState(true)
 
   useEffect(() => {
-    console.log('Fetching posts for feed...', { category, author })
     axiosInstance
       .get(
         '/api/posts' +
@@ -37,8 +36,6 @@ export default function Feed(props: FeedProps) {
           `${author ? `&authorId=${author.userId}` : ''}`
       )
       .then((response) => {
-        console.log('Fetched posts:', response)
-
         const incomingFeeds = response.data.posts.map((post: any) => {
           //dont allow duplicate posts
           if (feeds.find((feed) => feed.postId === post.postId)) {

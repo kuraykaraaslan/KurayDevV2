@@ -88,8 +88,6 @@ export default async function BlogPost({ params }: Props) {
       notFound()
     }
 
-    console.log('Fetching post:', postSlug, 'in category:', categorySlug)
-
     const post = await getPost(postSlug)
 
     if (!post) {

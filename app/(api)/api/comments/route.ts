@@ -72,7 +72,6 @@ export async function POST(request: NextRequest) {
           const isSafe = toxicScore < 0.45
           finalStatus = isSafe ? CommentStatus.PUBLISHED : CommentStatus.SPAM
 
-          console.log('Toxicity score:', toxicScore, '=>', finalStatus)
         }
       } catch (err) {
         console.error('⚠ AI moderation failed:', err)

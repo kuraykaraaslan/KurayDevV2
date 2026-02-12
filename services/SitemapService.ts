@@ -18,11 +18,9 @@ class SitemapService {
       })
 
       if (res.status >= 200 && res.status < 300) {
-        console.log('[SitemapService] Google Search Console ping successful.')
         return true
       }
 
-      console.warn('[SitemapService] Google ping returned status:', res.status)
       return false
     } catch (err) {
       console.error('[SitemapService] Google ping failed:', err)

@@ -58,21 +58,6 @@ export async function POST(request: NextRequest) {
       request.headers.get('x-forwarded-proto') || request.headers.get('x-scheme') || 'http'
     const isSecure = origin.startsWith('https://') || protocol === 'https'
 
-    console.log(
-      '[LOGIN] Setting cookies - isSecure:',
-      isSecure,
-      'protocol:',
-      protocol,
-      'origin:',
-      origin
-    )
-    console.log('[LOGIN] Request headers:', {
-      host: request.headers.get('host'),
-      origin: request.headers.get('origin'),
-      'x-forwarded-host': request.headers.get('x-forwarded-host'),
-      'x-forwarded-proto': request.headers.get('x-forwarded-proto'),
-    })
-
     // Set cookies - Use SameSite=None with Secure for HTTPS cross-origin
     const cookieOptions = isSecure
       ? {
@@ -91,8 +76,6 @@ export async function POST(request: NextRequest) {
 
     response.cookies.set('accessToken', rawAccessToken, cookieOptions)
     response.cookies.set('refreshToken', rawRefreshToken, cookieOptions)
-
-    console.log('[LOGIN] Cookies set successfully with options:', cookieOptions)
 
     try {
       await MailService.sendNewLoginEmail(user, userSession)

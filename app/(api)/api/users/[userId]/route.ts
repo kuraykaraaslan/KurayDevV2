@@ -68,8 +68,6 @@ export async function PUT(request: NextRequest, { params }: { params: { userId: 
 
     const data = await request.json()
 
-    console.log('Received data for update:', data)
-
     const parsedData = UpdateUserRequestSchema.safeParse(data)
 
     if (!parsedData.success) {

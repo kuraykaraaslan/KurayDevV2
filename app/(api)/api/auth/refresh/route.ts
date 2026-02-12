@@ -6,8 +6,6 @@ import { RefreshTokenRequestSchema } from '@/dtos/AuthDTO'
 export async function POST(request: NextRequest) {
   const refreshToken = request.cookies.get('refreshToken')?.value
 
-  console.log('Refresh token request received.')
-
   if (!refreshToken) {
     return NextResponse.json({ message: AuthMessages.INVALID_TOKEN }, { status: 401 })
   }

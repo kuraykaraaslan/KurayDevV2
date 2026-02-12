@@ -81,7 +81,6 @@ const ForgotPasswordPage = () => {
         .catch((error) => {
           toast.error(error.response.data.error)
         })
-      console.log('Resetting password for token:', resetToken)
     }
   }
 

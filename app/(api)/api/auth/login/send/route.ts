@@ -34,12 +34,10 @@ export async function POST(request: NextRequest) {
 
     // check if method is enabled
     if (!userSecurity.otpMethods.includes(method)) {
-      console.log('OTP method not enabled:', method)
       return NextResponse.json({ message: AuthMessages.OTP_METHOD_NOT_ENABLED }, { status: 400 })
     }
 
     if (method === 'TOTP_APP') {
-      console.log('TOTP method selected; no send needed.')
       return NextResponse.json({
         message: AuthMessages.USE_AUTHENTICATOR_APP,
       })

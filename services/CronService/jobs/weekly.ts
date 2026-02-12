@@ -19,14 +19,10 @@ export const weeklyJobs = [
       })
 
       if (posts.length === 0) {
-        console.log('No new blog posts this week. Skipping digest email.')
         return
       }
 
       const subscriptions = await SubscriptionService.getAllSubscriptions({ includeDeleted: false })
-
-      console.log(`Sending weekly digest to ${subscriptions.length} subscribers.`)
-      console.log(`Number of new posts: ${posts.length}`)
 
       for (const subscription of subscriptions) {
         if (!subscription.deletedAt) {

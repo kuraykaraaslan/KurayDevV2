@@ -219,8 +219,6 @@ export default class UserService {
       where: { email },
     })
 
-    console.log(UserSchema.parse(user))
-
     return user ? UserSchema.parse(user) : null
   }
 }

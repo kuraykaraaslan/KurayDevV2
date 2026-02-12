@@ -49,7 +49,6 @@ export default function LanguageModal() {
     setLanguage(lang)
     closeModal()
     i18n.changeLanguage(lang)
-    console.log('Language Flag Changed to:', findFlagUrlByIso2Code(languageFlags[lang] ?? 'us'))
   }
 
   useEffect(() => {

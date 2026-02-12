@@ -67,7 +67,6 @@ export default class AuthService {
 
     const { userSecurity } = await AuthService.getUserSecurity(user.userId)
 
-    console.log(userSecurity)
     return {
       user: SafeUserSchema.parse(user),
       userSecurity,
@@ -173,8 +172,6 @@ export default class AuthService {
     if (!user) {
       throw new Error(AuthMessages.USER_NOT_FOUND)
     }
-
-    console.log('Fetched User Security:', user.userSecurity)
 
     return {
       userSecurity: UserSecuritySchema.parse(

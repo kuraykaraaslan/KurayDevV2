@@ -12,7 +12,7 @@ const TinyMCEEditor = ({
   onChange: (value: string) => void
 }) => {
   function onInit() {
-    console.log('TinyMCE Editor initialized')
+    // Editor initialized
   }
 
   const image_upload_handler = (blobInfo: any) =>

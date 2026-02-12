@@ -13,8 +13,6 @@ export async function GET(request: NextRequest) {
 
     const { userSecurity } = await AuthService.getUserSecurity(user.userId)
 
-    console.log('User Security:', userSecurity)
-
     return NextResponse.json({
       message: AuthMessages.SECURITY_SETTINGS_RETRIEVED,
       userSecurity,

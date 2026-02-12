@@ -79,7 +79,6 @@ export async function PUT(
     const parsedData = UpdatePostRequestSchema.safeParse(data)
 
     if (!parsedData.success) {
-      console.log('Validation errors:', parsedData.error.errors)
       return NextResponse.json(
         {
           error: parsedData.error.errors.map((err) => err.message).join(', '),
@@ -88,7 +87,6 @@ export async function PUT(
       )
     }
 
-    console.log('Updating post:', parsedData.data.postId)
     const post = await PostService.updatePost(parsedData.data)
 
     await KnowledgeGraphService.queueUpdatePost(post.postId)

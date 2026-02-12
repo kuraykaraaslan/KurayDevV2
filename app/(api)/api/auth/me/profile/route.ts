@@ -21,13 +21,9 @@ export async function PUT(request: NextRequest) {
 
     const { userProfile } = await request.json()
 
-    console.log('Received userProfile:', userProfile)
-
     const parsedData = UpdateProfileRequestSchema.safeParse(userProfile)
-    console.log('Parsed data:', parsedData)
 
     if (!parsedData.success) {
-      console.log('Validation errors:', parsedData.error)
       return NextResponse.json(
         {
           message: parsedData.error.errors.map((err) => err.message).join(', '),
