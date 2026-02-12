@@ -1,127 +1,126 @@
-'use client';
-import { useEffect, useMemo, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import axiosInstance from '@/libs/axios';
-import Editor from '@/components/admin/UI/Forms/Editor';
-import { toast } from 'react-toastify';
-import ImageLoad from '@/components/common/UI/Images/ImageLoad';
-import AIPrompt from '@/components/admin/Features/AIPrompt';
-import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect';
-import useGlobalStore from '@/libs/zustand';
-import FormHeader from '@/components/admin/UI/Forms/FormHeader';
-import DynamicText from '@/components/admin/UI/Forms/DynamicText';
-import DynamicDate from '@/components/admin/UI/Forms/DynamicDate';
-import GenericElement from '@/components/admin/UI/Forms/GenericElement';
-import Form from '@/components/admin/UI/Forms/Form';
+'use client'
+import { useEffect, useMemo, useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import axiosInstance from '@/libs/axios'
+import Editor from '@/components/admin/UI/Forms/Editor'
+import { toast } from 'react-toastify'
+import ImageLoad from '@/components/common/UI/Images/ImageLoad'
+import AIPrompt from '@/components/admin/Features/AIPrompt'
+import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import useGlobalStore from '@/libs/zustand'
+import FormHeader from '@/components/admin/UI/Forms/FormHeader'
+import DynamicText from '@/components/admin/UI/Forms/DynamicText'
+import DynamicDate from '@/components/admin/UI/Forms/DynamicDate'
+import GenericElement from '@/components/admin/UI/Forms/GenericElement'
+import Form from '@/components/admin/UI/Forms/Form'
 
-type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
 
 const SinglePost = () => {
+  const { user } = useGlobalStore()
 
-  const { user } = useGlobalStore();
-
-  const localStorageKey = 'post_drafts';
+  const localStorageKey = 'post_drafts'
   // Route param (tek kaynak)
-  const params = useParams<{ postId: string }>();
-  const routePostId = params?.postId;
-  const router = useRouter();
+  const params = useParams<{ postId: string }>()
+  const routePostId = params?.postId
+  const router = useRouter()
 
   // Mode, paramdan türetiliyor (state değil)
   const mode: 'create' | 'edit' = useMemo(
     () => (routePostId === 'create' ? 'create' : 'edit'),
     [routePostId]
-  );
+  )
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   // Model fields
-  const [title, setTitle] = useState('');
-  const [image, setImage] = useState('');
-  const [content, setContent] = useState('');
-  const [description, setDescription] = useState('');
-  const [slug, setSlug] = useState('');
-  const [keywords, setKeywords] = useState<string[]>([]);
-  const [authorId, setAuthorId] = useState<string>('');
-  const [categoryId, setCategoryId] = useState<string>('');
-  const [status, setStatus] = useState<PostStatus>('DRAFT');
-  const [createdAt, setCreatedAt] = useState<Date>(new Date());
-  const [views, setViews] = useState<number>(0);
+  const [title, setTitle] = useState('')
+  const [image, setImage] = useState('')
+  const [content, setContent] = useState('')
+  const [description, setDescription] = useState('')
+  const [slug, setSlug] = useState('')
+  const [keywords, setKeywords] = useState<string[]>([])
+  const [authorId, setAuthorId] = useState<string>('')
+  const [categoryId, setCategoryId] = useState<string>('')
+  const [status, setStatus] = useState<PostStatus>('DRAFT')
+  const [createdAt, setCreatedAt] = useState<Date>(new Date())
+  const [views, setViews] = useState<number>(0)
 
   // Slug üretimi (sadece create modda ve loading bittiyse)
   useEffect(() => {
-    if (mode === 'edit' || loading) return;
-    if (!title) return;
+    if (mode === 'edit' || loading) return
+    if (!title) return
 
-    const invalidChars = /[^\w\s-]/g;
-    let slugifiedTitle = title.replace(invalidChars, '');
-    slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-');
-    slugifiedTitle = slugifiedTitle.replace(/--+/g, '-');
-    slugifiedTitle = slugifiedTitle.toLowerCase();
+    const invalidChars = /[^\w\s-]/g
+    let slugifiedTitle = title.replace(invalidChars, '')
+    slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-')
+    slugifiedTitle = slugifiedTitle.replace(/--+/g, '-')
+    slugifiedTitle = slugifiedTitle.toLowerCase()
 
-    const month = createdAt.getMonth() + 1;
-    const year = createdAt.getFullYear();
-    const monthString = month < 10 ? `0${month}` : String(month);
+    const month = createdAt.getMonth() + 1
+    const year = createdAt.getFullYear()
+    const monthString = month < 10 ? `0${month}` : String(month)
 
-    setSlug(`${slugifiedTitle}-${monthString}${year}`);
-  }, [title, mode, loading, createdAt]);
+    setSlug(`${slugifiedTitle}-${monthString}${year}`)
+  }, [title, mode, loading, createdAt])
 
   // Postu yükle (edit modda)
   useEffect(() => {
-    let cancelled = false;
+    let cancelled = false
 
     const load = async () => {
       // Param yoksa
       if (!routePostId) {
-        setLoading(false);
-        return;
+        setLoading(false)
+        return
       }
       // Create mod
       if (routePostId === 'create') {
-        setLoading(false);
-        return;
+        setLoading(false)
+        return
       }
 
       try {
         const res = await axiosInstance.get('/api/posts', {
           params: { postId: routePostId, status: 'ALL' },
-        });
+        })
 
-        const posts = res.data?.posts ?? [];
-        const post = posts.find((p: any) => p.postId === routePostId);
+        const posts = res.data?.posts ?? []
+        const post = posts.find((p: any) => p.postId === routePostId)
         if (!post) {
-          toast.error('Post not found');
-          return;
+          toast.error('Post not found')
+          return
         }
-        if (cancelled) return;
+        if (cancelled) return
 
-        setTitle(post.title ?? '');
-        setImage(post.image ?? '');
-        setContent(post.content ?? '');
-        setDescription(post.description ?? '');
-        setSlug(post.slug ?? '');
-        setKeywords(Array.isArray(post.keywords) ? post.keywords : []);
-        setAuthorId(post.authorId ?? '');
-        setCategoryId(post.categoryId ?? '');
-        setStatus((post.status as PostStatus) ?? 'DRAFT');
-        setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date());
-        setViews(typeof post.views === 'number' ? post.views : 0);
+        setTitle(post.title ?? '')
+        setImage(post.image ?? '')
+        setContent(post.content ?? '')
+        setDescription(post.description ?? '')
+        setSlug(post.slug ?? '')
+        setKeywords(Array.isArray(post.keywords) ? post.keywords : [])
+        setAuthorId(post.authorId ?? '')
+        setCategoryId(post.categoryId ?? '')
+        setStatus((post.status as PostStatus) ?? 'DRAFT')
+        setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date())
+        setViews(typeof post.views === 'number' ? post.views : 0)
       } catch (error: any) {
-        console.error(error);
-        toast.error(error?.response?.data?.message ?? 'Failed to load post');
+        console.error(error)
+        toast.error(error?.response?.data?.message ?? 'Failed to load post')
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setLoading(false)
       }
-    };
+    }
 
-    load();
+    load()
     return () => {
-      cancelled = true;
-    };
-  }, [routePostId]);
+      cancelled = true
+    }
+  }, [routePostId])
 
   // Auto Save Draft to LocalStorage
   useEffect(() => {
-    if (loading) return;
+    if (loading) return
 
     const draft = {
       title,
@@ -133,67 +132,53 @@ const SinglePost = () => {
       categoryId,
       status,
       image,
-    };
+    }
 
     try {
-      const caches = localStorage.getItem(localStorageKey);
-      let parsedCaches: Record<string, any> = {};
+      const caches = localStorage.getItem(localStorageKey)
+      let parsedCaches: Record<string, any> = {}
 
       try {
-        parsedCaches = caches ? JSON.parse(caches) : {};
+        parsedCaches = caches ? JSON.parse(caches) : {}
       } catch {
-        parsedCaches = {};
+        parsedCaches = {}
       }
 
-      parsedCaches[routePostId] = draft;
-      localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches));
+      parsedCaches[routePostId] = draft
+      localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches))
     } catch (err) {
-      console.error('Draft autosave error:', err);
+      console.error('Draft autosave error:', err)
     }
-  }, [
-    title,
-    content,
-    description,
-    slug,
-    keywords,
-    authorId,
-    categoryId,
-    status,
-    image,
-    loading
-  ]);
-
+  }, [title, content, description, slug, keywords, authorId, categoryId, status, image, loading])
 
   // Load Draft from LocalStorage
   useEffect(() => {
     try {
-      const caches = localStorage.getItem(localStorageKey);
-      if (!caches) return;
+      const caches = localStorage.getItem(localStorageKey)
+      if (!caches) return
 
-      const parsed = JSON.parse(caches);
-      const draft = parsed[routePostId];
-      if (!draft) return;
+      const parsed = JSON.parse(caches)
+      const draft = parsed[routePostId]
+      if (!draft) return
 
-      setTitle(draft.title ?? '');
-      setContent(draft.content ?? '');
-      setDescription(draft.description ?? '');
-      setSlug(draft.slug ?? '');
-      setKeywords(draft.keywords ?? []);
-      setAuthorId(draft.authorId ?? '');
-      setCategoryId(draft.categoryId ?? '');
-      setStatus(draft.status ?? 'DRAFT');
-      setImage(draft.image ?? '');
+      setTitle(draft.title ?? '')
+      setContent(draft.content ?? '')
+      setDescription(draft.description ?? '')
+      setSlug(draft.slug ?? '')
+      setKeywords(draft.keywords ?? [])
+      setAuthorId(draft.authorId ?? '')
+      setCategoryId(draft.categoryId ?? '')
+      setStatus(draft.status ?? 'DRAFT')
+      setImage(draft.image ?? '')
 
-      toast.info('Draft loaded from browser');
+      toast.info('Draft loaded from browser')
     } catch (err) {
-      console.error('Draft load error', err);
+      console.error('Draft load error', err)
     }
-  }, []);
-
+  }, [])
 
   const handleSubmit = async () => {
-
-    const errors: string[] = [];
+    const errors: string[] = []
     const required: Record<string, unknown> = {
       title,
       content,
@@ -201,20 +186,20 @@ const SinglePost = () => {
       slug,
       authorId,
       categoryId,
-    };
+    }
 
     for (const [key, val] of Object.entries(required)) {
       if (typeof val === 'string' && val.trim() === '') {
-        errors.push(`${key} is required`);
+        errors.push(`${key} is required`)
       }
       if (Array.isArray(val) && val.length === 0) {
-        errors.push(`${key} is required`);
+        errors.push(`${key} is required`)
       }
     }
 
     if (errors.length) {
-      errors.forEach((msg) => toast.error(msg));
-      return;
+      errors.forEach((msg) => toast.error(msg))
+      return
     }
 
     const body = {
@@ -230,21 +215,21 @@ const SinglePost = () => {
       createdAt,
       views,
       image,
-    };
+    }
 
     try {
       if (mode === 'create') {
-        await axiosInstance.post('/api/posts', body);
-        toast.success('Post created successfully');
+        await axiosInstance.post('/api/posts', body)
+        toast.success('Post created successfully')
       } else {
-        await axiosInstance.put(`/api/posts/${routePostId}`, body);
-        toast.success('Post updated successfully');
+        await axiosInstance.put(`/api/posts/${routePostId}`, body)
+        toast.success('Post updated successfully')
       }
-      router.push('/admin/posts');
+      router.push('/admin/posts')
     } catch (error: any) {
-      toast.error(error?.response?.data?.message ?? 'Save failed');
+      toast.error(error?.response?.data?.message ?? 'Save failed')
     }
-  };
+  }
 
   return (
     <Form
@@ -283,18 +268,11 @@ const SinglePost = () => {
             text: 'Back to Posts',
             className: 'btn-sm btn-primary',
             onClick: () => router.push('/admin/posts'),
-
           },
         ]}
       />
 
-      <DynamicText
-        label='Title'
-        placeholder='Title'
-        value={title}
-        setValue={setTitle}
-        size="md"
-      />
+      <DynamicText label="Title" placeholder="Title" value={title} setValue={setTitle} size="md" />
 
       <DynamicSelect
         label="Status"
@@ -321,48 +299,34 @@ const SinglePost = () => {
         debounceMs={400}
       />
 
-
-      <DynamicDate
-        label="Created At"
-        value={createdAt}
-        onChange={setCreatedAt}
-      />
+      <DynamicDate label="Created At" value={createdAt} onChange={setCreatedAt} />
 
       <DynamicText
-        label='Views'
-        placeholder='Views'
+        label="Views"
+        placeholder="Views"
         value={String(views)}
         setValue={(val) => setViews(Number(val))}
         size="md"
       />
 
       <GenericElement label="Content">
-        <Editor
-          value={content || ''}
-          onChange={(newValue) => setContent(newValue)}
-        />
+        <Editor value={content || ''} onChange={(newValue) => setContent(newValue)} />
       </GenericElement>
 
       <DynamicText
-        label='Description'
-        placeholder='Description'
+        label="Description"
+        placeholder="Description"
         value={description}
         setValue={setDescription}
         size="md"
         isTextarea={true}
       />
 
-      <DynamicText
-        label='Slug'
-        placeholder='Slug'
-        value={slug}
-        setValue={setSlug}
-        size="md"
-      />
+      <DynamicText label="Slug" placeholder="Slug" value={slug} setValue={setSlug} size="md" />
 
       <DynamicText
-        label='Keywords'
-        placeholder='Keywords'
+        label="Keywords"
+        placeholder="Keywords"
         value={keywords.join(',')}
         setValue={(val) =>
           setKeywords(
@@ -381,7 +345,7 @@ const SinglePost = () => {
         endpoint="/api/users"
         dataKey="users"
         valueKey="userId"
-        labelKey={["userProfile.name", "email"]}
+        labelKey={['userProfile.name', 'email']}
         searchKey="search"
         selectedValue={authorId}
         onValueChange={setAuthorId}
@@ -393,15 +357,10 @@ const SinglePost = () => {
       />
 
       <GenericElement label="Image">
-        <ImageLoad
-          image={image}
-          setImage={setImage}
-          uploadFolder="posts"
-          toast={toast}
-        />
+        <ImageLoad image={image} setImage={setImage} uploadFolder="posts" toast={toast} />
       </GenericElement>
     </Form>
-  );
-};
+  )
+}
 
-export default SinglePost;
+export default SinglePost

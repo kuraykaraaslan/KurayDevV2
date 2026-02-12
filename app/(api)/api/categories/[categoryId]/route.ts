@@ -1,9 +1,8 @@
-
-import { NextResponse } from "next/server";
-import CategoryService from "@/services/CategoryService";
-import UserSessionService from "@/services/AuthService/UserSessionService";
-import CategoryMessages from "@/messages/CategoryMessages";
-import { UpdateCategoryRequestSchema } from "@/dtos/CategoryDTO";
+import { NextResponse } from 'next/server'
+import CategoryService from '@/services/CategoryService'
+import UserSessionService from '@/services/AuthService/UserSessionService'
+import CategoryMessages from '@/messages/CategoryMessages'
+import { UpdateCategoryRequestSchema } from '@/dtos/CategoryDTO'
 
 /**
  * GET handler for retrieving a category by its Id.
@@ -17,23 +16,15 @@ export async function GET(
 ) {
   try {
     const { categoryId } = await params
-    const category = await CategoryService.getCategoryById(categoryId);
+    const category = await CategoryService.getCategoryById(categoryId)
 
     if (!category) {
-      return NextResponse.json(
-        { message: CategoryMessages.CATEGORY_NOT_FOUND },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: CategoryMessages.CATEGORY_NOT_FOUND }, { status: 404 })
     }
 
-    return NextResponse.json({  message: CategoryMessages.CATEGORY_RETRIEVED, category });
-
-  }
-  catch (error: any) {
-    return NextResponse.json(
-      { message: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: CategoryMessages.CATEGORY_RETRIEVED, category })
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }
 
@@ -48,31 +39,20 @@ export async function DELETE(
   { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
+    await UserSessionService.authenticateUserByRequest({ request })
 
-    await UserSessionService.authenticateUserByRequest({ request });
-
-
-    const { categoryId } = await params;
-    const category = await CategoryService.getCategoryById(categoryId);
+    const { categoryId } = await params
+    const category = await CategoryService.getCategoryById(categoryId)
 
     if (!category) {
-      return NextResponse.json(
-        { message: CategoryMessages.CATEGORY_NOT_FOUND },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: CategoryMessages.CATEGORY_NOT_FOUND }, { status: 404 })
     }
 
-    await CategoryService.deleteCategory(category.categoryId);
+    await CategoryService.deleteCategory(category.categoryId)
 
-    return NextResponse.json(
-      {  message: CategoryMessages.CATEGORY_DELETED_SUCCESSFULLY }
-    );
-  }
-  catch (error: any) {
-    return NextResponse.json(
-      { message: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: CategoryMessages.CATEGORY_DELETED_SUCCESSFULLY })
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }
 
@@ -87,30 +67,28 @@ export async function PUT(
   { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
+    await UserSessionService.authenticateUserByRequest({ request })
 
-    await UserSessionService.authenticateUserByRequest({ request });
+    const { categoryId } = await params
 
-    const { categoryId } = await params;
+    const data = await request.json()
+    data.categoryId = categoryId
 
-    const data = await request.json();
-    data.categoryId = categoryId;
-
-    const parsedData = UpdateCategoryRequestSchema.safeParse(data);
+    const parsedData = UpdateCategoryRequestSchema.safeParse(data)
 
     if (!parsedData.success) {
-      return NextResponse.json({
-        error: parsedData.error.errors.map(err => err.message).join(", ")
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: parsedData.error.errors.map((err) => err.message).join(', '),
+        },
+        { status: 400 }
+      )
     }
 
-    const category = await CategoryService.updateCategory(parsedData.data);
+    const category = await CategoryService.updateCategory(parsedData.data)
 
-    return NextResponse.json({ category });
-
+    return NextResponse.json({ category })
   } catch (error: any) {
-    return NextResponse.json(
-      { message: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }

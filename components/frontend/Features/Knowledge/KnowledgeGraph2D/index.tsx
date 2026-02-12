@@ -59,7 +59,7 @@ function detectTheme(setTheme: (t: 'dark' | 'light') => void) {
   const observer = new MutationObserver(checkTheme)
   observer.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ['class', 'data-theme']
+    attributeFilter: ['class', 'data-theme'],
   })
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   mediaQuery.addEventListener('change', checkTheme)
@@ -80,7 +80,12 @@ function getCategoryColor(category: string, colorMap: Map<string, string>) {
   return colorMap.get(category)!
 }
 
-function createNodes(data: KnowledgeGraphNode[], w: number, h: number, colorMap: Map<string, string>): Node[] {
+function createNodes(
+  data: KnowledgeGraphNode[],
+  w: number,
+  h: number,
+  colorMap: Map<string, string>
+): Node[] {
   return data.map((node, i) => {
     const angle = (i / data.length) * Math.PI * 2
     const distance = Math.min(w, h) * 0.4 + Math.random() * Math.min(w, h) * 0.3
@@ -92,32 +97,32 @@ function createNodes(data: KnowledgeGraphNode[], w: number, h: number, colorMap:
       vy: 0,
       radius: (node.size || 6) * 2,
       color: getCategoryColor(node.categorySlug || 'default', colorMap),
-      data: node
+      data: node,
     }
   })
 }
 
 function createParticles(links: Link[]): Particle[] {
   const particles: Particle[] = []
-  links.forEach(link => {
+  links.forEach((link) => {
     particles.push({
       sourceId: link.source,
       targetId: link.target,
       progress: 0,
-      direction: 1
+      direction: 1,
     })
     particles.push({
       sourceId: link.source,
       targetId: link.target,
       progress: 0.5,
-      direction: 1
+      direction: 1,
     })
   })
   return particles
 }
 
 function applyForces(nodes: Node[], links: Link[]) {
-  const nodeMap = new Map(nodes.map(n => [n.id, n]))
+  const nodeMap = new Map(nodes.map((n) => [n.id, n]))
 
   // Repulsion between nodes
   for (let i = 0; i < nodes.length; i++) {
@@ -136,7 +141,7 @@ function applyForces(nodes: Node[], links: Link[]) {
   }
 
   // Attraction along links
-  links.forEach(link => {
+  links.forEach((link) => {
     const s = nodeMap.get(link.source)
     const t = nodeMap.get(link.target)
     if (!s || !t) return
@@ -153,7 +158,7 @@ function applyForces(nodes: Node[], links: Link[]) {
   })
 
   // Apply velocities with damping
-  nodes.forEach(n => {
+  nodes.forEach((n) => {
     n.x += n.vx
     n.y += n.vy
     n.vx *= 0.85
@@ -166,8 +171,17 @@ function applyForces(nodes: Node[], links: Link[]) {
 export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [theme, setTheme] = useState<'dark' | 'light'>('light')
-  const [tooltip, setTooltip] = useState<TooltipState>({ visible: false, x: 0, y: 0, title: '', image: '' })
-  const [graphData, setGraphData] = useState<{ nodes: KnowledgeGraphNode[]; links: Link[] }>({ nodes: [], links: [] })
+  const [tooltip, setTooltip] = useState<TooltipState>({
+    visible: false,
+    x: 0,
+    y: 0,
+    title: '',
+    image: '',
+  })
+  const [graphData, setGraphData] = useState<{ nodes: KnowledgeGraphNode[]; links: Link[] }>({
+    nodes: [],
+    links: [],
+  })
 
   useEffect(() => detectTheme(setTheme), [])
 
@@ -178,9 +192,9 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
       : '/api/knowledge-graph'
 
     fetch(url)
-      .then(res => res.json())
-      .then(data => setGraphData(data))
-      .catch(err => console.error('Failed to fetch graph data:', err))
+      .then((res) => res.json())
+      .then((data) => setGraphData(data))
+      .catch((err) => console.error('Failed to fetch graph data:', err))
   }, [categorySlug])
 
   useEffect(() => detectTheme(setTheme), [])
@@ -202,7 +216,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
     const colorMap = new Map<string, string>()
     let nodes = createNodes(graphData.nodes, canvas.width, canvas.height, colorMap)
     const particles = createParticles(graphData.links)
-    const nodeMap = new Map(nodes.map(n => [n.id, n]))
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]))
 
     let hoveredNode: Node | null = null
     let isDragging = false
@@ -253,11 +267,11 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
           x: e.clientX - rect.left,
           y: e.clientY - rect.top,
           title: found.data.title,
-          image: found.data.image
+          image: found.data.image,
         })
         canvas.style.cursor = 'pointer'
       } else {
-        setTooltip(prev => ({ ...prev, visible: false }))
+        setTooltip((prev) => ({ ...prev, visible: false }))
         canvas.style.cursor = isDragging ? 'grabbing' : 'grab'
       }
     }
@@ -308,25 +322,24 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
     }
 
     const handleClick = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = (e.clientX - rect.left - panX) / scale;
-      const mouseY = (e.clientY - rect.top - panY) / scale;
+      const rect = canvas.getBoundingClientRect()
+      const mouseX = (e.clientX - rect.left - panX) / scale
+      const mouseY = (e.clientY - rect.top - panY) / scale
 
       for (const node of nodes) {
-        const dx = mouseX - node.x;
-        const dy = mouseY - node.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const dx = mouseX - node.x
+        const dy = mouseY - node.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
 
         if (dist < node.radius * 1.5) {
           // Node clicked → navigate!
           if (node.data.slug) {
-            window.location.href = `/blog/${node.data.slug}`;
+            window.location.href = `/blog/${node.data.slug}`
           }
-          return;
+          return
         }
       }
-    };
-
+    }
 
     canvas.addEventListener('mousemove', handleMouseMove)
     canvas.addEventListener('mousedown', handleMouseDown)
@@ -352,7 +365,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
       // Draw links
       ctx.strokeStyle = theme === 'dark' ? 'rgba(100, 116, 139, 0.3)' : 'rgba(100, 116, 139, 0.5)'
       ctx.lineWidth = 1
-      graphData.links.forEach(link => {
+      graphData.links.forEach((link) => {
         const s = nodeMap.get(link.source)
         const t = nodeMap.get(link.target)
         if (!s || !t) return
@@ -363,10 +376,16 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
       })
 
       // Update and draw particles
-      particles.forEach(p => {
+      particles.forEach((p) => {
         p.progress += 0.01 * p.direction
-        if (p.progress >= 1) { p.progress = 1; p.direction = -1 }
-        if (p.progress <= 0) { p.progress = 0; p.direction = 1 }
+        if (p.progress >= 1) {
+          p.progress = 1
+          p.direction = -1
+        }
+        if (p.progress <= 0) {
+          p.progress = 0
+          p.direction = 1
+        }
 
         const s = nodeMap.get(p.sourceId)
         const t = nodeMap.get(p.targetId)
@@ -382,7 +401,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
       })
 
       // Draw nodes
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const isHovered = hoveredNode === node
         const r = node.radius * (isHovered ? 1 : 0.5)
 
@@ -416,11 +435,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
 
   return (
     <div className="relative w-full h-full">
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full"
-        style={{ minHeight: 600 }}
-      />
+      <canvas ref={canvasRef} className="w-full h-full" style={{ minHeight: 600 }} />
       {tooltip.visible && (
         <div
           className="absolute z-50 pointer-events-none px-3 py-2 rounded-lg shadow-lg text-sm font-medium max-w-xs"
@@ -429,7 +444,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
             top: `${tooltip.y + 10}px`,
             backgroundColor: theme === 'dark' ? '#1e293b' : '#fff',
             color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
-            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
+            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
           }}
         >
           {tooltip.image && <img src={tooltip.image} alt="" className="w-full mb-2 rounded" />}

@@ -1,10 +1,10 @@
-import Footer from "@/components/frontend/Layout/Footer";
-import Navbar from "@/components/frontend/Layout/Navbar";
-import ScrollToTop from "@/components/frontend/UI/Buttons/ScrollToTop";
-import Sidebar from "@/components/frontend/Layout/Sidebar";
-import Whatsapp from "@/components/frontend/Features/Social/Whatsapp";
-import MenuItems from "@/components/frontend/Layout/MenuItems";
-import { ReactNode } from "react";
+import Footer from '@/components/frontend/Layout/Footer'
+import Navbar from '@/components/frontend/Layout/Navbar'
+import ScrollToTop from '@/components/frontend/UI/Buttons/ScrollToTop'
+import Sidebar from '@/components/frontend/Layout/Sidebar'
+import Whatsapp from '@/components/frontend/Features/Social/Whatsapp'
+import MenuItems from '@/components/frontend/Layout/MenuItems'
+import { ReactNode } from 'react'
 
 /*
 export const metadata: Metadata = {
@@ -16,11 +16,8 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: ReactNode;
+  children: ReactNode
 }>) {
-
-
-
   return (
     <>
       <div className="drawer">
@@ -39,5 +36,5 @@ export default function RootLayout({
       <ScrollToTop />
       <Whatsapp />
     </>
-  );
+  )
 }

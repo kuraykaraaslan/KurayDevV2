@@ -1,4 +1,4 @@
-import {prisma} from '@/libs/prisma'
+import { prisma } from '@/libs/prisma'
 import Logger from '@/libs/logger'
 import { Appointment, AppointmentStatus } from '@/types/features/CalendarTypes'
 import SlotService from './SlotService'
@@ -38,7 +38,10 @@ export default class AppointmentService {
   }
 
   /** Retrieve by datetime range */
-  static async getAppointmentsByDatetimeRange(startTime: Date, endTime: Date): Promise<Appointment[]> {
+  static async getAppointmentsByDatetimeRange(
+    startTime: Date,
+    endTime: Date
+  ): Promise<Appointment[]> {
     return prisma.appointment.findMany({
       where: { startTime: { gte: startTime }, endTime: { lte: endTime } },
       orderBy: { startTime: 'asc' },

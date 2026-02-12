@@ -12,28 +12,28 @@ export async function POST(request: NextRequest) {
     // await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "USER" })
 
     const body = await request.json()
-    
-    const parsedData = CreateAppointmentRequestSchema.safeParse(body);
-    
+
+    const parsedData = CreateAppointmentRequestSchema.safeParse(body)
+
     if (!parsedData.success) {
-      return NextResponse.json({
-        message: parsedData.error.errors.map(err => err.message).join(", ")
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          message: parsedData.error.errors.map((err) => err.message).join(', '),
+        },
+        { status: 400 }
+      )
     }
 
-    const { date, time, name, email, phone, note } = parsedData.data;
+    const { date, time, name, email, phone, note } = parsedData.data
 
     // Assume slotId refers to a slot with date and time; fetch slot details
     const slot = await SlotService.getSlot(date, time)
     if (!slot) {
-      return NextResponse.json(
-        { message: AppointmentMessages.SLOT_NOT_FOUND },
-        { status: 404 }
-      )
+      return NextResponse.json({ message: AppointmentMessages.SLOT_NOT_FOUND }, { status: 404 })
     }
 
     const appointmentData = {
-      status: "PENDING" as AppointmentStatus,
+      status: 'PENDING' as AppointmentStatus,
       createdAt: new Date(),
       name,
       email,
@@ -41,19 +41,14 @@ export async function POST(request: NextRequest) {
       appointmentId: crypto.randomUUID(),
       startTime: slot.startTime,
       endTime: slot.endTime,
-      note: note ?? null
+      note: note ?? null,
     }
 
     const result = await AppointmentService.createAppointment(appointmentData)
 
     return NextResponse.json(result)
-
-    
   } catch (err: any) {
     Logger.error('API/booking POST: ' + err.message)
-    return NextResponse.json(
-      { message: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
   }
 }

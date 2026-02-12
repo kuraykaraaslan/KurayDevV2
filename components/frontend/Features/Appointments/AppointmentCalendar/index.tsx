@@ -12,7 +12,10 @@ import dynamic from 'next/dynamic'
 import LoadingElement from '@/components/frontend/UI/Content/LoadingElement'
 import { useTranslation } from 'react-i18next'
 
-const Calendar = dynamic(() => import('react-calendar'), { ssr: false, loading: () => <LoadingElement title="Calendar" /> })
+const Calendar = dynamic(() => import('react-calendar'), {
+  ssr: false,
+  loading: () => <LoadingElement title="Calendar" />,
+})
 
 export default function AppointmentCalendar() {
   const { t } = useTranslation()
@@ -28,9 +31,7 @@ export default function AppointmentCalendar() {
   const getTileClassName = ({ date }: { date: Date }): string => {
     const d = formatDate(date)
     const todayStr = formatDate(today)
-    const hasSlot = availableSlots.some(
-      (s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d
-    )
+    const hasSlot = availableSlots.some((s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d)
     const isSelected = format(selectedDate, 'yyyy-MM-dd') === d
     const isPast = date < new Date(todayStr)
 
@@ -44,14 +45,10 @@ export default function AppointmentCalendar() {
 
   const slotsOf = (date: Date) => {
     const d = format(date, 'yyyy-MM-dd')
-    return availableSlots.filter(
-      (s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d
-    )
+    return availableSlots.filter((s) => format(new Date(s.startTime), 'yyyy-MM-dd') === d)
   }
 
-  const handleDateSelect = (
-    value: Date | Date[] | null,
-  ) => {
+  const handleDateSelect = (value: Date | Date[] | null) => {
     if (value instanceof Date) {
       setSelectedDate(value)
       setSelectedSlot(null)
@@ -67,22 +64,22 @@ export default function AppointmentCalendar() {
     const end = new Date()
     end.setDate(start.getDate() + 14)
 
-     await axios.get(
-        `/api/slots?startDate=${formatDate(start)}&endDate=${formatDate(end)}`
-     ).then((res) => {
-      const data = (res.data?.slots || []) as Slot[]
-      setAvailableSlots(data)
+    await axios
+      .get(`/api/slots?startDate=${formatDate(start)}&endDate=${formatDate(end)}`)
+      .then((res) => {
+        const data = (res.data?.slots || []) as Slot[]
+        setAvailableSlots(data)
 
-      // Select first available date automatically
-      if (!selectedDate && data.length > 0) {
-        const first = new Date(data[0].startTime)
-        setSelectedDate(first)
-      }
-      }).catch((err) => {
+        // Select first available date automatically
+        if (!selectedDate && data.length > 0) {
+          const first = new Date(data[0].startTime)
+          setSelectedDate(first)
+        }
+      })
+      .catch((err) => {
         setAvailableSlots([])
         console.error(err)
       })
-    
   }
 
   useEffect(() => {
@@ -114,7 +111,9 @@ export default function AppointmentCalendar() {
           <div className="w-1/2 sm:w-1/3 md:w-1/4">
             {slotsOf(selectedDate).length > 0 ? (
               <div>
-                <h3 className="text-lg font-semibold mb-2">{t('shared.calendar.available_times')}</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  {t('shared.calendar.available_times')}
+                </h3>
                 <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-2">
                   {slotsOf(selectedDate).map((slot, idx) => {
                     const start = new Date(slot.startTime)
@@ -134,7 +133,10 @@ export default function AppointmentCalendar() {
                         } ${slot.capacity <= 0 ? 'btn-disabled cursor-not-allowed' : ''}`}
                         onClick={() => handleTimeSelect(slot)}
                       >
-                        <FontAwesomeIcon icon={slot.capacity <= 0 ? faX : faClock} className="mr-2" />
+                        <FontAwesomeIcon
+                          icon={slot.capacity <= 0 ? faX : faClock}
+                          className="mr-2"
+                        />
                         {label} ({length} {t('shared.calendar.minutes_abbr')})
                       </button>
                     )

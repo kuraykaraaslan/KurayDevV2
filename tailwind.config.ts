@@ -1,61 +1,58 @@
-import type { Config } from "tailwindcss";
-import plugin from "tailwindcss/plugin";
+import type { Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 
 const rotateY = plugin(function ({ addUtilities }) {
   addUtilities({
-    ".rotate-y-60": {
-      transform: "rotateY(60deg)",
+    '.rotate-y-60': {
+      transform: 'rotateY(60deg)',
     },
-    ".rotate-y-90": {
-      transform: "rotateY(90deg)",
+    '.rotate-y-90': {
+      transform: 'rotateY(90deg)',
     },
-    ".rotate-y-120": {
-      transform: "rotateY(120deg)",
+    '.rotate-y-120': {
+      transform: 'rotateY(120deg)',
     },
-    ".rotate-y-180": {
-      transform: "rotateY(180deg)",
+    '.rotate-y-180': {
+      transform: 'rotateY(180deg)',
     },
-    ".rotate-y-270": {
-      transform: "rotateY(270deg)",
+    '.rotate-y-270': {
+      transform: 'rotateY(270deg)',
     },
-    ".rotate-y-0": {
-      transform: "rotateY(0deg)",
+    '.rotate-y-0': {
+      transform: 'rotateY(0deg)',
     },
-  });
-});
+  })
+})
 
 const config: Config = {
-  content: [
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ['./components/**/*.{js,ts,jsx,tsx,mdx}', './app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
       },
       keyframes: {
         typing: {
-          "0%": {
-            width: "0%",
-            visibility: "hidden"
+          '0%': {
+            width: '0%',
+            visibility: 'hidden',
           },
-          "100%": {
-            width: "100%"
-          }
+          '100%': {
+            width: '100%',
+          },
         },
         blink: {
-          "50%": {
-            borderColor: "transparent"
+          '50%': {
+            borderColor: 'transparent',
           },
-          "100%": {
-            borderColor: "white"
-          }
-        }
+          '100%': {
+            borderColor: 'white',
+          },
+        },
       },
       animation: {
-        typing: "typing 0.5s steps(20) infinite alternate, blink .7s infinite"
+        typing: 'typing 0.5s steps(20) infinite alternate, blink .7s infinite',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
@@ -63,9 +60,9 @@ const config: Config = {
         lg: '0 8px 16px var(--tw-shadow-color)',
       },
       fontFamily: {
-        sans: ['Bookerly', 'system-ui', 'sans-serif']
-      }
-    }
+        sans: ['Bookerly', 'system-ui', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     plugin(function ({ matchUtilities, theme }) {
@@ -78,10 +75,11 @@ const config: Config = {
         { values: theme('textShadow') }
       )
     }),
-    require("daisyui"),
-    require("@tailwindcss/typography"),
+    require('daisyui'),
+    require('@tailwindcss/typography'),
     rotateY,
-    require('@tailwindcss/forms')]
-};
+    require('@tailwindcss/forms'),
+  ],
+}
 
-export default config;
+export default config

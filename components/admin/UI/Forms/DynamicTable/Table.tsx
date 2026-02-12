@@ -1,17 +1,13 @@
 'use client'
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 
 interface TableProps {
-    children: ReactNode;
-    className?: string;
+  children: ReactNode
+  className?: string
 }
 
 const Table = ({ children, className = '' }: TableProps) => {
-    return (
-        <div className={`container mx-auto ${className}`}>
-            {children}
-        </div>
-    );
-};
+  return <div className={`container mx-auto ${className}`}>{children}</div>
+}
 
-export default Table;
+export default Table

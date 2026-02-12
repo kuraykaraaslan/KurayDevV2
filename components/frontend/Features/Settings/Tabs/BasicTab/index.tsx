@@ -1,43 +1,41 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-import '../../styles/phoneInput.css';
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
+import '../../styles/phoneInput.css'
 
-import axiosInstance from '@/libs/axios';
-import useGlobalStore from '@/libs/zustand';
+import axiosInstance from '@/libs/axios'
+import useGlobalStore from '@/libs/zustand'
 
 export default function BasicTab() {
-  const { user, setUser } = useGlobalStore();
+  const { user, setUser } = useGlobalStore()
 
-  const [phone, setPhone] = useState(user?.phone || '');
+  const [phone, setPhone] = useState(user?.phone || '')
 
-
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
 
     try {
       const res = await axiosInstance.put('/api/auth/me/basic', {
         phone,
-      });
+      })
 
-      setUser(res.data.user);
-      toast.success("Profil başarıyla güncellendi");
+      setUser(res.data.user)
+      toast.success('Profil başarıyla güncellendi')
     } catch (err) {
-      toast.error("Profil güncellenirken hata oluştu");
-      console.error(err);
+      toast.error('Profil güncellenirken hata oluştu')
+      console.error(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
-
       {/* Header */}
       <div>
         <h2 className="text-lg font-bold">Profil Bilgileri</h2>
@@ -47,7 +45,6 @@ export default function BasicTab() {
       </div>
 
       <form className="space-y-6" onSubmit={handleSave}>
-
         {/* Phone */}
         <div className="form-control w-full">
           <label className="label">
@@ -87,10 +84,9 @@ export default function BasicTab() {
 
         {/* Save Button */}
         <button disabled={loading} className="btn btn-primary w-full">
-          {loading ? "Kaydediliyor..." : "Profili Kaydet"}
+          {loading ? 'Kaydediliyor...' : 'Profili Kaydet'}
         </button>
       </form>
-
     </div>
-  );
+  )
 }

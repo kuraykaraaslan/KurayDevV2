@@ -1,13 +1,13 @@
-import dynamic from "next/dynamic";
-import Image from 'next/image';
-import LoadingElement from "@/components/frontend/UI/Content/LoadingElement";
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import LoadingElement from '@/components/frontend/UI/Content/LoadingElement'
 
-const MyImageVideoDialog = dynamic(() => import("./MyImageVideoDialog"), { ssr: false ,
-  loading: () => <LoadingElement title="Video Player" />
-});
+const MyImageVideoDialog = dynamic(() => import('./MyImageVideoDialog'), {
+  ssr: false,
+  loading: () => <LoadingElement title="Video Player" />,
+})
 
 const MyImage = () => {
-
   return (
     <>
       <div className="relative flex-none hidden sm:block group">
@@ -25,7 +25,7 @@ const MyImage = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default MyImage;
+export default MyImage

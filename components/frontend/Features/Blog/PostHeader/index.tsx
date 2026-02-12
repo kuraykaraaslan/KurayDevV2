@@ -9,28 +9,30 @@ const PostHeader = (post: PostWithData) => {
   const readTime = Math.ceil(post.content.split(' ').length / 200)
 
   return (
-    <div className='max-w-none justify-center text-left mx-auto prose mb-8'>
-      <div className='flex items-center'>
-        <h1 className='text-3xl font-bold text-left mt-4 mb-4 mr-4'>{post.title}</h1>
+    <div className="max-w-none justify-center text-left mx-auto prose mb-8">
+      <div className="flex items-center">
+        <h1 className="text-3xl font-bold text-left mt-4 mb-4 mr-4">{post.title}</h1>
         <PostLike postId={post.postId} />
       </div>
-      <div className='text-sm flex items-center space-x-2'>
+      <div className="text-sm flex items-center space-x-2">
         <span>
           {post.createdAt
             ? new Date(post.createdAt).toLocaleDateString()
             : t('frontend.post_header.no_date')}
         </span>
-        <Link href={'/blog/' + post.category.slug} className='text-primary'>
+        <Link href={'/blog/' + post.category.slug} className="text-primary">
           {post.category.title}
         </Link>
-        <span className='text-primary hidden md:inline'>•</span>
-        <span className='hidden md:inline'>{t('frontend.post_header.views_count', { count: post.views })}</span>
-        <span className='text-primary'>•</span>
+        <span className="text-primary hidden md:inline">•</span>
+        <span className="hidden md:inline">
+          {t('frontend.post_header.views_count', { count: post.views })}
+        </span>
+        <span className="text-primary">•</span>
         <span>{t('frontend.post_header.read_time', { count: readTime })}</span>
-        <span className='text-primary hidden md:inline'>•</span>
-        <span className='hidden md:inline'>
+        <span className="text-primary hidden md:inline">•</span>
+        <span className="hidden md:inline">
           {t('frontend.post_header.by')}{' '}
-          <Link href={'/blog/user/' + post.authorId} className='text-primary'>
+          <Link href={'/blog/user/' + post.authorId} className="text-primary">
             {post.author.userProfile?.name || t('frontend.post_header.unknown_author')}
           </Link>
         </span>

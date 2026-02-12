@@ -1,29 +1,34 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import ProfileTab from '../Tabs/ProfileTab';
-import SecurityTab from '../Tabs/SecurityTab';
-import PreferencesTab from '../Tabs/PreferencesTab';
-import OTPTab from '../Tabs/OTPTab';
-import BasicTab from '../Tabs/BasicTab';
-import NotificationsTab from '../Tabs/NotificationsTab';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faGear, faLock, faNoteSticky, faRing, faSms, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'react-i18next';
-
+import { useState } from 'react'
+import ProfileTab from '../Tabs/ProfileTab'
+import SecurityTab from '../Tabs/SecurityTab'
+import PreferencesTab from '../Tabs/PreferencesTab'
+import OTPTab from '../Tabs/OTPTab'
+import BasicTab from '../Tabs/BasicTab'
+import NotificationsTab from '../Tabs/NotificationsTab'
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import {
+  faGear,
+  faLock,
+  faNoteSticky,
+  faRing,
+  faSms,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useTranslation } from 'react-i18next'
 
 interface Tab {
-  id: string;
-  label: string;
-  icon: IconDefinition;
-  content: React.ReactNode;
+  id: string
+  label: string
+  icon: IconDefinition
+  content: React.ReactNode
 }
 
-
 export default function SettingsTabs() {
-  const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<Tab['id']>('profile');
+  const { t } = useTranslation()
+  const [activeTab, setActiveTab] = useState<Tab['id']>('profile')
 
   const tabs: Tab[] = [
     {
@@ -62,7 +67,7 @@ export default function SettingsTabs() {
       icon: faRing,
       content: <NotificationsTab />,
     },
-  ];
+  ]
 
   return (
     <div className="w-full">
@@ -78,9 +83,11 @@ export default function SettingsTabs() {
                 : 'text-base-content/60 hover:text-base-content/80'
             }`}
           >
-            <span className="text-lg"><FontAwesomeIcon icon={tab.icon} size='lg' /></span>
+            <span className="text-lg">
+              <FontAwesomeIcon icon={tab.icon} size="lg" />
+            </span>
             <span className="hidden sm:inline text-sm">{tab.label}</span>
-            
+
             {/* Active indicator */}
             {activeTab === tab.id && (
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-primary/70" />
@@ -91,10 +98,8 @@ export default function SettingsTabs() {
 
       {/* Tab Content */}
       <div className="mt-4">
-        <div className="animate-fade-in">
-          {tabs.find((tab) => tab.id === activeTab)?.content}
-        </div>
+        <div className="animate-fade-in">{tabs.find((tab) => tab.id === activeTab)?.content}</div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import SettingsTabs from '@/components/frontend/Features/Settings/SettingsTabs';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import useGlobalStore from '@/libs/zustand';
+import SettingsTabs from '@/components/frontend/Features/Settings/SettingsTabs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import useGlobalStore from '@/libs/zustand'
 
 export default function SettingsPage() {
-  const { user } = useGlobalStore();
+  const { user } = useGlobalStore()
 
   if (!user) {
-    return null;
+    return null
   }
 
   return (
@@ -35,14 +35,17 @@ export default function SettingsPage() {
                 />
               ) : (
                 <div className="w-16 h-16 rounded-full bg-base-300 flex items-center justify-center border border-base-content/20">
-                    <FontAwesomeIcon icon={faUser} className="text-3xl text-base-content/50" />
+                  <FontAwesomeIcon icon={faUser} className="text-3xl text-base-content/50" />
                 </div>
               )}
               <div>
-                <h2 className="card-title text-xl text-base-content">{user.userProfile.name || 'Kullanıcı'}</h2>
+                <h2 className="card-title text-xl text-base-content">
+                  {user.userProfile.name || 'Kullanıcı'}
+                </h2>
                 <p className="text-sm text-base-content/70">{user?.email}</p>
                 <p className="text-xs text-base-content/60 mt-1">
-                  Üyelik Tarihi: {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('tr-TR') : '-'}
+                  Üyelik Tarihi:{' '}
+                  {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('tr-TR') : '-'}
                 </p>
               </div>
             </div>
@@ -52,5 +55,5 @@ export default function SettingsPage() {
         <SettingsTabs />
       </div>
     </div>
-  );
+  )
 }

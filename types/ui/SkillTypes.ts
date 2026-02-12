@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z } from 'zod'
 
 const SkillSchema = z.object({
   className: z.string().optional(),
@@ -6,7 +6,7 @@ const SkillSchema = z.object({
   bgColor: z.string().optional(),
   title: z.string(),
   textColor: z.string().optional(),
-});
+})
 
 const ToolSchema = z.object({
   icon: z.any(), // IconProp is not directly supported by Zod
@@ -14,8 +14,8 @@ const ToolSchema = z.object({
   description: z.string(),
   hoverBgColor: z.string().optional(),
   hoverTextColor: z.string().optional(),
-});
+})
 
-export type Tool = z.infer<typeof ToolSchema>;
-export type Skill = z.infer<typeof SkillSchema>;
-export { SkillSchema, ToolSchema };
+export type Tool = z.infer<typeof ToolSchema>
+export type Skill = z.infer<typeof SkillSchema>
+export { SkillSchema, ToolSchema }

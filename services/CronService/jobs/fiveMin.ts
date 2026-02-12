@@ -1,1 +1,1 @@
-export const fiveMinJobs = [];
+export const fiveMinJobs = []

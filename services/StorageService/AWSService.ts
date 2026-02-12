@@ -17,12 +17,7 @@ export default class AWSService {
   ]
 
   static allowedExtensions = ['jpeg', 'jpg', 'png', 'webp', 'avif']
-  static allowedMimeTypes = [
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-    'image/avif',
-  ]
+  static allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
 
   /** Validate MIME type and extension consistency */
   private static validateFile(file: File, folder: string) {
@@ -38,7 +33,10 @@ export default class AWSService {
       throw new Error(`Invalid MIME type: ${mimeType}`)
   }
 
-  static uploadFile = async (file: File, folder: string = 'general'): Promise<string | undefined> => {
+  static uploadFile = async (
+    file: File,
+    folder: string = 'general'
+  ): Promise<string | undefined> => {
     this.validateFile(file, folder)
 
     const randomString = Math.random().toString(36).slice(2, 10)
@@ -53,38 +51,40 @@ export default class AWSService {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileKey,
       Body: fileBuffer,
-      ContentType: file.type, 
+      ContentType: file.type,
     })
 
     await s3.send(command)
     return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
-
   }
 
-  static uploadFromUrl = async (url: string, folder: string = 'general'): Promise<string | undefined> => {
+  static uploadFromUrl = async (
+    url: string,
+    folder: string = 'general'
+  ): Promise<string | undefined> => {
     if (!AWSService.allowedFolders.includes(folder)) throw new Error('INVALID_FOLDER_NAME')
 
-      const response = await fetch(url)
-      const mimeType = response.headers.get('content-type') || 'application/octet-stream'
+    const response = await fetch(url)
+    const mimeType = response.headers.get('content-type') || 'application/octet-stream'
 
-      if (!AWSService.allowedMimeTypes.includes(mimeType)) {
-        throw new Error(`Invalid MIME type from URL: ${mimeType}`)
-      }
+    if (!AWSService.allowedMimeTypes.includes(mimeType)) {
+      throw new Error(`Invalid MIME type from URL: ${mimeType}`)
+    }
 
-      const arrayBuffer = await response.arrayBuffer()
-      const fileBuffer = Buffer.from(arrayBuffer)
-      const timestamp = Date.now()
-      const filename = url.split('?')[0].split('/').pop() || 'file'
-      const fileKey = `${folder}/${timestamp}-${filename}`
+    const arrayBuffer = await response.arrayBuffer()
+    const fileBuffer = Buffer.from(arrayBuffer)
+    const timestamp = Date.now()
+    const filename = url.split('?')[0].split('/').pop() || 'file'
+    const fileKey = `${folder}/${timestamp}-${filename}`
 
-      const command = new PutObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: fileKey,
-        Body: fileBuffer,
-        ContentType: mimeType,
-      })
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileKey,
+      Body: fileBuffer,
+      ContentType: mimeType,
+    })
 
-      await s3.send(command)
-      return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
+    await s3.send(command)
+    return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileKey}`
   }
 }

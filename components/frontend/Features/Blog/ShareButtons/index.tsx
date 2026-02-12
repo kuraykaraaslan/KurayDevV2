@@ -1,27 +1,26 @@
-'use client';
+'use client'
 
-import { useMemo } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons'; // ✔ Doğru X ikonu
+import { useMemo } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebook, faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons' // ✔ Doğru X ikonu
 
 interface ShareButtonsProps {
-  title?: string;
-  description?: string;
-  url?: string;
+  title?: string
+  description?: string
+  url?: string
 }
 
-const ShareButtons = ({ title = "", description = "", url }: ShareButtonsProps) => {
-  const currentUrl =
-    url || (typeof window !== "undefined" ? window.location.href : "");
+const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) => {
+  const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
 
-    // desc 100 karakterden uzun ise kısalt
-  const shortDescription = description.length > 100 ? description.substring(0, 97) + "..." : description;
+  // desc 100 karakterden uzun ise kısalt
+  const shortDescription =
+    description.length > 100 ? description.substring(0, 97) + '...' : description
   const textToShare = useMemo(
     () => `${title}\n\n${shortDescription}\n\n${currentUrl}`,
     [title, shortDescription, currentUrl]
-  );
-   
+  )
 
   const shareLinks = useMemo(
     () => ({
@@ -31,7 +30,7 @@ const ShareButtons = ({ title = "", description = "", url }: ShareButtonsProps) 
       whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare)}`,
     }),
     [currentUrl, textToShare]
-  );
+  )
 
   return (
     <div className="flex gap-2">
@@ -71,7 +70,7 @@ const ShareButtons = ({ title = "", description = "", url }: ShareButtonsProps) 
         <FontAwesomeIcon icon={faWhatsapp} size="lg" />
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default ShareButtons;
+export default ShareButtons

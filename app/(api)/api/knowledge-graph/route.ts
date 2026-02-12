@@ -55,8 +55,9 @@ export async function GET(request: NextRequest) {
       size: Math.max(4, Math.min(18, Math.floor(Math.log10((n.views || 0) + 10) * 6))),
     }))
 
-
-  Logger.info(`[KG] Serving ${nodes.length} nodes${categorySlug ? ` for category ${categorySlug}` : ''}`)
+  Logger.info(
+    `[KG] Serving ${nodes.length} nodes${categorySlug ? ` for category ${categorySlug}` : ''}`
+  )
 
   // Build links (filter both source and target)
   const links: any[] = []
@@ -87,32 +88,38 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    
-    const parsedData = UpdateKnowledgeGraphRequestSchema.safeParse(body);
-    
+    const body = await request.json()
+
+    const parsedData = UpdateKnowledgeGraphRequestSchema.safeParse(body)
+
     if (!parsedData.success) {
-      return Response.json({
-        ok: false,
-        message: parsedData.error.errors.map(err => err.message).join(", ")
-      }, { status: 400 });
+      return Response.json(
+        {
+          ok: false,
+          message: parsedData.error.errors.map((err) => err.message).join(', '),
+        },
+        { status: 400 }
+      )
     }
 
-    const { postId } = parsedData.data;
-    
-    await KnowledgeGraphService.queueUpdatePost(postId);
-    
-    cache = null; // Invalidate cache
-    
-    return Response.json({ 
-      ok: true, 
-      message: 'Knowledge graph updated for post.' 
-    });
+    const { postId } = parsedData.data
+
+    await KnowledgeGraphService.queueUpdatePost(postId)
+
+    cache = null // Invalidate cache
+
+    return Response.json({
+      ok: true,
+      message: 'Knowledge graph updated for post.',
+    })
   } catch (err: any) {
-    console.error('[KG] update failed:', err);
-    return Response.json({ 
-      ok: false, 
-      error: err.message 
-    }, { status: 500 });
+    console.error('[KG] update failed:', err)
+    return Response.json(
+      {
+        ok: false,
+        error: err.message,
+      },
+      { status: 500 }
+    )
   }
 }

@@ -3,8 +3,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
 import HeadlessModal, { useModal } from '@/components/common/Layout/Modal'
-import SystemStatusModalContent from "./content"
-import i18n from "@/libs/localize/localize";
+import SystemStatusModalContent from './content'
+import i18n from '@/libs/localize/localize'
 
 export default function SystemStatusButton() {
   const modal = useModal(false)
@@ -16,7 +16,7 @@ export default function SystemStatusButton() {
           icon={faCircle}
           className={`text-[8px] mr-1 text-gray-300`} // renk içerikten geliyor
         />
-        <span className="text-sm">{i18n.t("shared.status.title")}</span>
+        <span className="text-sm">{i18n.t('shared.status.title')}</span>
       </button>
 
       <HeadlessModal
@@ -24,7 +24,7 @@ export default function SystemStatusButton() {
         onClose={modal.closeModal}
         size="md"
         className="!max-w-md"
-        title={i18n.t("shared.status.title")}
+        title={i18n.t('shared.status.title')}
       >
         <SystemStatusModalContent />
       </HeadlessModal>

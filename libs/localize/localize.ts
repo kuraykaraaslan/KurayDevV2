@@ -1,19 +1,18 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
 
 //de, en, et, gr, mt, th, tr, nl, uk
-import de from "@/dictionaries/de.json";
-import en from "@/dictionaries/en.json";
-import et from "@/dictionaries/et.json";
-import gr from "@/dictionaries/gr.json";
-import mt from "@/dictionaries/mt.json";
-import th from "@/dictionaries/th.json";
-import tr from "@/dictionaries/tr.json";
-import nl from "@/dictionaries/nl.json";
-import uk from "@/dictionaries/uk.json";
+import de from '@/dictionaries/de.json'
+import en from '@/dictionaries/en.json'
+import et from '@/dictionaries/et.json'
+import gr from '@/dictionaries/gr.json'
+import mt from '@/dictionaries/mt.json'
+import th from '@/dictionaries/th.json'
+import tr from '@/dictionaries/tr.json'
+import nl from '@/dictionaries/nl.json'
+import uk from '@/dictionaries/uk.json'
 
-
-const fallbackLng = "en";
+const fallbackLng = 'en'
 
 const resources = {
   de: {
@@ -43,11 +42,11 @@ const resources = {
   uk: {
     translation: uk,
   },
-};
+}
 
 const interpolation = {
   escapeValue: false, // not needed for react as it escapes by default
-};
+}
 
 i18n
   // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
@@ -69,6 +68,4 @@ i18n
     interpolation,
   })
 
-
-
-export default i18n;
+export default i18n

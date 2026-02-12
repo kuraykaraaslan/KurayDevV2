@@ -1,59 +1,59 @@
-import { z } from "zod";
-import UserMessages from "@/messages/UserMessages";
-import { UserRoleEnum } from "@/types/user/UserTypes";
+import { z } from 'zod'
+import UserMessages from '@/messages/UserMessages'
+import { UserRoleEnum } from '@/types/user/UserTypes'
 
 // Request DTOs
 export const GetUsersRequestSchema = z.object({
-    page: z.number().int().default(1),
-    pageSize: z.number().int().default(10),
-    search: z.string().optional(),
-});
+  page: z.number().int().default(1),
+  pageSize: z.number().int().default(10),
+  search: z.string().optional(),
+})
 
 export const CreateUserRequestSchema = z.object({
-    email: z.string().email(UserMessages.INVALID_EMAIL),
-    password: z.string().min(8, UserMessages.PASSWORD_TOO_SHORT),
-    name: z.string().min(1, UserMessages.NAME_REQUIRED),
-    phone: z.string().optional(),
-    image: z.string().optional(),
-    userRole: UserRoleEnum.default('USER'),
-});
+  email: z.string().email(UserMessages.INVALID_EMAIL),
+  password: z.string().min(8, UserMessages.PASSWORD_TOO_SHORT),
+  name: z.string().min(1, UserMessages.NAME_REQUIRED),
+  phone: z.string().optional(),
+  image: z.string().optional(),
+  userRole: UserRoleEnum.default('USER'),
+})
 
 export const UpdateUserRequestSchema = CreateUserRequestSchema.partial().extend({
-    userId: z.string().min(1, UserMessages.USER_ID_REQUIRED),
-});
+  userId: z.string().min(1, UserMessages.USER_ID_REQUIRED),
+})
 
 export const GetUserByIdRequestSchema = z.object({
-    userId: z.string().min(1, UserMessages.USER_ID_REQUIRED),
-});
+  userId: z.string().min(1, UserMessages.USER_ID_REQUIRED),
+})
 
 // Response DTOs
 export const UserResponseSchema = z.object({
-    userId: z.string(),
-    email: z.string(),
-    name: z.string(),
-    phone: z.string().nullable(),
-    image: z.string().nullable(),
-    userRole: UserRoleEnum,
-    createdAt: z.date(),
-    updatedAt: z.date(),
-});
+  userId: z.string(),
+  email: z.string(),
+  name: z.string(),
+  phone: z.string().nullable(),
+  image: z.string().nullable(),
+  userRole: UserRoleEnum,
+  createdAt: z.date(),
+  updatedAt: z.date(),
+})
 
 export const UserListResponseSchema = z.object({
-    users: z.array(UserResponseSchema),
-    total: z.number(),
-    page: z.number(),
-    pageSize: z.number(),
-});
+  users: z.array(UserResponseSchema),
+  total: z.number(),
+  page: z.number(),
+  pageSize: z.number(),
+})
 
 export const UserPrivateResponseSchema = UserResponseSchema.extend({
-    password: z.string().optional(),
-});
+  password: z.string().optional(),
+})
 
 // Type exports
-export type GetUsersRequest = z.infer<typeof GetUsersRequestSchema>;
-export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
-export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
-export type GetUserByIdRequest = z.infer<typeof GetUserByIdRequestSchema>;
-export type UserResponse = z.infer<typeof UserResponseSchema>;
-export type UserListResponse = z.infer<typeof UserListResponseSchema>;
-export type UserPrivateResponse = z.infer<typeof UserPrivateResponseSchema>;
+export type GetUsersRequest = z.infer<typeof GetUsersRequestSchema>
+export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>
+export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>
+export type GetUserByIdRequest = z.infer<typeof GetUserByIdRequestSchema>
+export type UserResponse = z.infer<typeof UserResponseSchema>
+export type UserListResponse = z.infer<typeof UserListResponseSchema>
+export type UserPrivateResponse = z.infer<typeof UserPrivateResponseSchema>

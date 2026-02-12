@@ -1,11 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {Skill} from '@/types/ui/SkillTypes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Skill } from '@/types/ui/SkillTypes'
 
 const SingleSkill = ({ title, icon, bgColor, textColor }: Partial<Skill>) => {
+  const isTextLong = title && title.length > 10
+  const textSize = isTextLong ? 'text-sm' : 'text-lg'
 
-  const isTextLong = title && title.length > 10;
-  const textSize = isTextLong ? "text-sm" : "text-lg";
-  
   return (
     <div className="w-28 h-20 group">
       <div
@@ -13,15 +12,20 @@ const SingleSkill = ({ title, icon, bgColor, textColor }: Partial<Skill>) => {
       >
         <div className="flex flex-row items-center justify-center group-hover:rotate-y-180 h-full relative fixed w-28 h-24 top-0 left-0 absolute rounded-box">
           <figure className={`w-20 h-20 group-hover:hidden`}>
-            <FontAwesomeIcon
-              icon={icon}
-              className="text-2xl flex group-hover:hidden"
-            />
+            <FontAwesomeIcon icon={icon} className="text-2xl flex group-hover:hidden" />
           </figure>
-          <div className={"flex flex-col items-center justify-center hidden text-black group-hover:flex rotate-y-180 group-hover:rotate-y-0 w-28 h-24 top-0 left-0 absolute rounded-box " + (bgColor ? bgColor : "") + " " + (textColor ? textColor : "")}>
-            <div className={"card-body items-center text-center duration-1000 ease-in-out transform "}>
-              <h2 className={"card-title " + textSize + " " + (textColor ? textColor : "")}>
-
+          <div
+            className={
+              'flex flex-col items-center justify-center hidden text-black group-hover:flex rotate-y-180 group-hover:rotate-y-0 w-28 h-24 top-0 left-0 absolute rounded-box ' +
+              (bgColor ? bgColor : '') +
+              ' ' +
+              (textColor ? textColor : '')
+            }
+          >
+            <div
+              className={'card-body items-center text-center duration-1000 ease-in-out transform '}
+            >
+              <h2 className={'card-title ' + textSize + ' ' + (textColor ? textColor : '')}>
                 {title ? title : ''}
               </h2>
             </div>
@@ -29,7 +33,7 @@ const SingleSkill = ({ title, icon, bgColor, textColor }: Partial<Skill>) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SingleSkill;
+export default SingleSkill

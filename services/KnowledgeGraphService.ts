@@ -36,7 +36,7 @@ export default class KnowledgeGraphService {
 
   static readonly WORKER = new Worker(
     KnowledgeGraphService.QUEUE_NAME,
-    async job => {
+    async (job) => {
       const { type, postId } = job.data
       Logger.info(`[KG-Worker] Processing job ${job.id}: ${type} ${postId || ''}`)
       if (type === 'fullRebuild') await KnowledgeGraphService._fullRebuildInternal()
@@ -46,7 +46,7 @@ export default class KnowledgeGraphService {
   )
 
   static {
-    KnowledgeGraphService.WORKER.on('completed', job => {
+    KnowledgeGraphService.WORKER.on('completed', (job) => {
       Logger.info(`[KG-Worker] Job ${job.id} completed`)
     })
     KnowledgeGraphService.WORKER.on('failed', (job, err) => {
@@ -70,7 +70,9 @@ export default class KnowledgeGraphService {
 
   /** Tek post rebuild */
   private static async _updatePostInternal(postId: string) {
-    const post = await PostService.getAllPosts({ page: 1, pageSize: 1, postId }).then(r => r.posts[0])
+    const post = await PostService.getAllPosts({ page: 1, pageSize: 1, postId }).then(
+      (r) => r.posts[0]
+    )
     if (!post) return
     const nodes = await loadNodes()
     const embedding = await embedPost(post)
@@ -95,7 +97,7 @@ export default class KnowledgeGraphService {
     }
 
     sims.sort((a, b) => b.s - a.s)
-    const top = sims.slice(0, TOP_K).filter(x => x.s >= THRESH)
+    const top = sims.slice(0, TOP_K).filter((x) => x.s >= THRESH)
     await redis.set(LINKS(postId), JSON.stringify(top))
 
     for (const t of top) {
@@ -126,7 +128,7 @@ export default class KnowledgeGraphService {
       }
 
       const texts = posts.map(
-        p =>
+        (p) =>
           `${p.title}\n${p.description || ''}\n${p.keywords?.join(', ') || ''}\n${String(
             p.content || ''
           ).slice(0, 1000)}`
@@ -151,11 +153,11 @@ export default class KnowledgeGraphService {
       const ids = Object.keys(nodes)
       for (const id of ids) {
         const sims = ids
-          .filter(j => j !== id)
-          .map(j => ({ j, s: cosine(nodes[id].embedding, nodes[j].embedding) }))
+          .filter((j) => j !== id)
+          .map((j) => ({ j, s: cosine(nodes[id].embedding, nodes[j].embedding) }))
           .sort((a, b) => b.s - a.s)
-        const top = sims.slice(0, TOP_K).filter(x => x.s >= THRESH)
-        await redis.set(LINKS(id), JSON.stringify(top.map(t => ({ id: t.j, s: t.s }))))
+        const top = sims.slice(0, TOP_K).filter((x) => x.s >= THRESH)
+        await redis.set(LINKS(id), JSON.stringify(top.map((t) => ({ id: t.j, s: t.s }))))
       }
 
       await redis.hset('kg:meta', {

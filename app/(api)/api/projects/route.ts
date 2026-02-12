@@ -1,10 +1,8 @@
-
-
-import { NextResponse } from "next/server";
-import { Project } from "@/generated/prisma";
-import ProjectService from "@/services/ProjectService";
-import UserSessionService from "@/services/AuthService/UserSessionService";
-import { CreateProjectRequestSchema, UpdateProjectRequestSchema } from "@/dtos/ProjectDTO";
+import { NextResponse } from 'next/server'
+import { Project } from '@/generated/prisma'
+import ProjectService from '@/services/ProjectService'
+import UserSessionService from '@/services/AuthService/UserSessionService'
+import { CreateProjectRequestSchema, UpdateProjectRequestSchema } from '@/dtos/ProjectDTO'
 
 /**
  * GET handler for retrieving all projects with optional pagination and search.
@@ -12,32 +10,29 @@ import { CreateProjectRequestSchema, UpdateProjectRequestSchema } from "@/dtos/P
  * @returns A NextResponse containing the projects data or an error message
  * */
 export async function GET(request: NextRequest) {
-    try {
-        const { searchParams } = new URL(request.url);
+  try {
+    const { searchParams } = new URL(request.url)
 
-        // Extract query parameters
-        const page = searchParams.get('page') ? parseInt(searchParams.get('page') || '0', 10) : 0;
-        const pageSize = searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize') || '10', 10) : 10;
-        const search = searchParams.get('search') || undefined;
-        const projectId = searchParams.get('projectId') || undefined;
+    // Extract query parameters
+    const page = searchParams.get('page') ? parseInt(searchParams.get('page') || '0', 10) : 0
+    const pageSize = searchParams.get('pageSize')
+      ? parseInt(searchParams.get('pageSize') || '10', 10)
+      : 10
+    const search = searchParams.get('search') || undefined
+    const projectId = searchParams.get('projectId') || undefined
 
-        const result = await ProjectService.getAllProjects({
-            page,
-            pageSize,
-            search,
-            projectId
-        });
-        
-        return NextResponse.json({ projects: result.projects, total: result.total , page, pageSize });
+    const result = await ProjectService.getAllProjects({
+      page,
+      pageSize,
+      search,
+      projectId,
+    })
 
-    }
-    catch (error: any) {
-        console.error(error.message);
-        return NextResponse.json(
-            { message: error.message },
-            { status: 500 }
-        );
-    }
+    return NextResponse.json({ projects: result.projects, total: result.total, page, pageSize })
+  } catch (error: any) {
+    console.error(error.message)
+    return NextResponse.json({ message: error.message }, { status: 500 })
+  }
 }
 
 /**
@@ -46,35 +41,30 @@ export async function GET(request: NextRequest) {
  * @returns A NextResponse containing the newly created project or an error message
  * */
 export async function POST(request: NextRequest) {
-    try {
+  try {
+    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
+    const data = await request.json()
 
-        const data = await request.json();
-        
-        const parsedData = CreateProjectRequestSchema.safeParse(data);
-        
-        if (!parsedData.success) {
-            return NextResponse.json({
-                error: parsedData.error.errors.map(err => err.message).join(", ")
-            }, { status: 400 });
-        }
-        
-        const project = await ProjectService.createProject(parsedData.data) as Project;
-        
-        return NextResponse.json({ project });
+    const parsedData = CreateProjectRequestSchema.safeParse(data)
 
-    }
-    catch (error: any) {
-        console.error(error.message);
-        return NextResponse.json(
-            { message: error.message },
-            { status: 500 }
-        );
+    if (!parsedData.success) {
+      return NextResponse.json(
+        {
+          error: parsedData.error.errors.map((err) => err.message).join(', '),
+        },
+        { status: 400 }
+      )
     }
 
+    const project = (await ProjectService.createProject(parsedData.data)) as Project
+
+    return NextResponse.json({ project })
+  } catch (error: any) {
+    console.error(error.message)
+    return NextResponse.json({ message: error.message }, { status: 500 })
+  }
 }
-
 
 /**
  * PUT handler for updating an existing project.
@@ -82,31 +72,27 @@ export async function POST(request: NextRequest) {
  * @returns A NextResponse containing the updated project data or an error message
  * */
 export async function PUT(request: NextRequest) {
-    try {
+  try {
+    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: "ADMIN" });
+    const data = await request.json()
 
-        const data = await request.json();
-        
-        const parsedData = UpdateProjectRequestSchema.safeParse(data);
-        
-        if (!parsedData.success) {
-            return NextResponse.json({
-                error: parsedData.error.errors.map(err => err.message).join(", ")
-            }, { status: 400 });
-        }
-        
-        const project = await ProjectService.updateProject(parsedData.data as Project);
-        
-        return NextResponse.json({ project });
+    const parsedData = UpdateProjectRequestSchema.safeParse(data)
 
-    }
-    catch (error: any) {
-        console.error(error.message);
-        return NextResponse.json(
-            { message: error.message },
-            { status: 500 }
-        );
+    if (!parsedData.success) {
+      return NextResponse.json(
+        {
+          error: parsedData.error.errors.map((err) => err.message).join(', '),
+        },
+        { status: 400 }
+      )
     }
 
+    const project = await ProjectService.updateProject(parsedData.data as Project)
+
+    return NextResponse.json({ project })
+  } catch (error: any) {
+    console.error(error.message)
+    return NextResponse.json({ message: error.message }, { status: 500 })
+  }
 }

@@ -1,53 +1,55 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import { OTPMethodEnum } from '@/types/user/UserSecurityTypes';
-import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/user/UserSecurityTypes';
-import axiosInstance from '@/libs/axios';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react'
+import { OTPMethodEnum } from '@/types/user/UserSecurityTypes'
+import { SafeUserSecurity, SafeUserSecurityDefault } from '@/types/user/UserSecurityTypes'
+import axiosInstance from '@/libs/axios'
+import { useTranslation } from 'react-i18next'
 
-import OTPMethodCard from './partials/OTPMethodCard';
-import OTPConfirmModal from './partials/OTPConfirmModal';
-import TOTPSetupModal from './partials/TOTPSetupModal';
-import { useOTP } from './hooks/useOTP';
-import { useTOTP } from './hooks/useTOTP';
+import OTPMethodCard from './partials/OTPMethodCard'
+import OTPConfirmModal from './partials/OTPConfirmModal'
+import TOTPSetupModal from './partials/TOTPSetupModal'
+import { useOTP } from './hooks/useOTP'
+import { useTOTP } from './hooks/useTOTP'
 
 export default function OTPTab() {
-  const { t } = useTranslation();
-  const [userSecurity, setUserSecurity] = useState<SafeUserSecurity>(SafeUserSecurityDefault);
+  const { t } = useTranslation()
+  const [userSecurity, setUserSecurity] = useState<SafeUserSecurity>(SafeUserSecurityDefault)
 
   /* ============ FETCH USER SECURITY ============ */
   useEffect(() => {
     const fetchUserSecurity = async () => {
       try {
-        const res = await axiosInstance.get('/api/auth/me/security');
-        setUserSecurity(res.data.userSecurity);
+        const res = await axiosInstance.get('/api/auth/me/security')
+        setUserSecurity(res.data.userSecurity)
       } catch (err) {
-        console.error('Kullanıcı güvenliği alınamadı', err);
+        console.error('Kullanıcı güvenliği alınamadı', err)
       }
-    };
+    }
 
-    fetchUserSecurity();
-  }, []);
+    fetchUserSecurity()
+  }, [])
 
-  const otp = useOTP(userSecurity, setUserSecurity);
-  const totp = useTOTP(userSecurity, setUserSecurity);
+  const otp = useOTP(userSecurity, setUserSecurity)
+  const totp = useTOTP(userSecurity, setUserSecurity)
 
-  const handleCardClick = async (method: typeof OTPMethodEnum.Enum[keyof typeof OTPMethodEnum.Enum]) => {
+  const handleCardClick = async (
+    method: (typeof OTPMethodEnum.Enum)[keyof typeof OTPMethodEnum.Enum]
+  ) => {
     if (method === OTPMethodEnum.Enum.TOTP_APP) {
-      const enabled = userSecurity.otpMethods.includes(method);
+      const enabled = userSecurity.otpMethods.includes(method)
       if (!enabled) {
-        await totp.openTotpSetup();
+        await totp.openTotpSetup()
       } else {
         // Open disable modal to verify TOTP code
-        totp.openTotpDisableModal();
+        totp.openTotpDisableModal()
       }
-      return;
+      return
     }
 
     // Email/SMS flow
-    otp.openModalForMethod(method);
-  };
+    otp.openModalForMethod(method)
+  }
 
   return (
     <>
@@ -55,7 +57,7 @@ export default function OTPTab() {
         <h2 className="text-lg font-bold">{t('frontend.settings.otp')}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Object.values(OTPMethodEnum.Enum).map(method => (
+          {Object.values(OTPMethodEnum.Enum).map((method) => (
             <OTPMethodCard
               key={method}
               method={method}
@@ -105,6 +107,5 @@ export default function OTPTab() {
         onClose={totp.closeTotpDisableModal}
       />
     </>
-  );
+  )
 }
-

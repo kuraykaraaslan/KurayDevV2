@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server'
 
 /**
  * Spam protection utilities for contact forms
@@ -9,19 +9,19 @@ import { NextRequest } from 'next/server';
  * Minimum time (in ms) a human would take to fill the form
  * Forms submitted faster than this are likely bots
  */
-export const MIN_FORM_FILL_TIME_MS = 3000; // 3 seconds
+export const MIN_FORM_FILL_TIME_MS = 3000 // 3 seconds
 
 /**
  * Honeypot field name - should be hidden via CSS
  * Bots will fill this field, humans won't see it
  */
-export const HONEYPOT_FIELD_NAME = 'website';
+export const HONEYPOT_FIELD_NAME = 'website'
 
 /**
  * Check if the honeypot field was filled (indicates bot)
  */
 export function isHoneypotFilled(honeypotValue: string | undefined | null): boolean {
-  return !!honeypotValue && honeypotValue.trim().length > 0;
+  return !!honeypotValue && honeypotValue.trim().length > 0
 }
 
 /**
@@ -30,18 +30,18 @@ export function isHoneypotFilled(honeypotValue: string | undefined | null): bool
  * @param submitTime - Current timestamp
  */
 export function isSubmittedTooQuickly(formLoadTime: number | undefined): boolean {
-  if (!formLoadTime) return false; // If no timestamp provided, skip this check
-  
-  const timeTaken = Date.now() - formLoadTime;
-  return timeTaken < MIN_FORM_FILL_TIME_MS;
+  if (!formLoadTime) return false // If no timestamp provided, skip this check
+
+  const timeTaken = Date.now() - formLoadTime
+  return timeTaken < MIN_FORM_FILL_TIME_MS
 }
 
 /**
  * Detect common spam patterns in message content
  */
 export function hasSpamPatterns(message: string): boolean {
-  const lowerMessage = message.toLowerCase();
-  
+  const lowerMessage = message.toLowerCase()
+
   // Common spam patterns
   const spamPatterns = [
     // Cryptocurrency/financial spam
@@ -56,54 +56,55 @@ export function hasSpamPatterns(message: string): boolean {
     /[A-Z]{20,}/,
     // Repeated characters
     /(.)\1{10,}/,
-  ];
-  
-  return spamPatterns.some(pattern => pattern.test(lowerMessage));
+  ]
+
+  return spamPatterns.some((pattern) => pattern.test(lowerMessage))
 }
 
 /**
  * Get client fingerprint for rate limiting
  */
 export function getClientFingerprint(request: NextRequest): string {
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-             request.headers.get('x-real-ip') ||
-             'unknown';
-  const userAgent = request.headers.get('user-agent') || 'unknown';
-  
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    request.headers.get('x-real-ip') ||
+    'unknown'
+  const userAgent = request.headers.get('user-agent') || 'unknown'
+
   // Simple hash of IP + first part of user agent
-  return `${ip}:${userAgent.slice(0, 50)}`;
+  return `${ip}:${userAgent.slice(0, 50)}`
 }
 
 /**
  * Comprehensive spam check result
  */
 export interface SpamCheckResult {
-  isSpam: boolean;
-  reason?: string;
+  isSpam: boolean
+  reason?: string
 }
 
 /**
  * Run all spam checks
  */
 export function checkForSpam(data: {
-  honeypot?: string;
-  formLoadTime?: number;
-  message: string;
+  honeypot?: string
+  formLoadTime?: number
+  message: string
 }): SpamCheckResult {
   // Check honeypot
   if (isHoneypotFilled(data.honeypot)) {
-    return { isSpam: true, reason: 'honeypot_filled' };
+    return { isSpam: true, reason: 'honeypot_filled' }
   }
-  
+
   // Check timing
   if (isSubmittedTooQuickly(data.formLoadTime)) {
-    return { isSpam: true, reason: 'submitted_too_quickly' };
+    return { isSpam: true, reason: 'submitted_too_quickly' }
   }
-  
+
   // Check content patterns
   if (hasSpamPatterns(data.message)) {
-    return { isSpam: true, reason: 'spam_patterns_detected' };
+    return { isSpam: true, reason: 'spam_patterns_detected' }
   }
-  
-  return { isSpam: false };
+
+  return { isSpam: false }
 }

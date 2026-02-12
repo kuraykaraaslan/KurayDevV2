@@ -1,86 +1,98 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import { useGlobalStore } from '@/libs/zustand';
-import {  IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MenuItem } from '@/types/ui/UITypes';
-import i18n from "@/libs/localize/localize";
+'use client'
+import { useRouter } from 'next/navigation'
+import { useGlobalStore } from '@/libs/zustand'
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MenuItem } from '@/types/ui/UITypes'
+import i18n from '@/libs/localize/localize'
 
+const Menu = ({
+  isSidebar = false,
+  menuItems = [],
+}: {
+  isSidebar?: boolean
+  menuItems: MenuItem[]
+}) => {
+  const router = useRouter()
+  const { user } = useGlobalStore()
 
-const Menu = ({isSidebar = false, menuItems = []}: {isSidebar?: boolean, menuItems: MenuItem[]}) => {
+  const { t } = i18n
 
-    const router = useRouter();
-    const { user } = useGlobalStore();
+  const isAdmin = user?.userRole === 'ADMIN' || user?.userRole === 'SUPER_ADMIN'
 
-    
-    const { t } = i18n;
+  const getYpositionOfElementById = (id: string) => {
+    const additionalOffset = 100
+    const element = document.getElementById(id)
 
-    const isAdmin = user?.userRole === 'ADMIN' || user?.userRole === 'SUPER_ADMIN';
+    if (element) {
+      return element.getBoundingClientRect().top + window?.scrollY - additionalOffset
+    }
+    return null
+  }
 
-    const getYpositionOfElementById = (id: string) => {
-        const additionalOffset = 100;
-        const element = document.getElementById(id);
-
-        if (element) {
-            return element.getBoundingClientRect().top + window?.scrollY - additionalOffset;
-        }
-        return null;
+  const scrollOrRedirect = (item: MenuItem) => {
+    if (item.external) {
+      window?.open(item.page, '_blank')
+      return
     }
 
-    const scrollOrRedirect = (item: MenuItem) => {
+    const { id, page } = item
+    if (!id) {
+      router.push(page) // Use the 'page' field for navigation
+      return
+    }
+    const yPosition = getYpositionOfElementById(id)
 
-        if (item.external) {
-            window?.open(item.page, '_blank');
-            return;
+    if (yPosition === null) {
+      router.push(page) // Use the 'page' field for navigation
+      // wait for the page to load and try again maks 2 seconds
+      setTimeout(() => {
+        const yPosition = getYpositionOfElementById(id)
+        if (yPosition !== null) {
+          window?.scrollTo({ top: yPosition, behavior: 'smooth' })
         }
+      }, 700)
 
-
-        const { id, page } = item;
-        if (!id) {
-            router.push(page); // Use the 'page' field for navigation
-            return;
-        }
-        const yPosition = getYpositionOfElementById(id);
-
-        if (yPosition === null) {
-            router.push(page); // Use the 'page' field for navigation
-            // wait for the page to load and try again maks 2 seconds
-            setTimeout(() => {
-                const yPosition = getYpositionOfElementById(id);
-                if (yPosition !== null) {
-                    window?.scrollTo({ top: yPosition, behavior: 'smooth' });
-                }
-
-            }, 700);
-
-            return;
-        }
-
-        window?.scrollTo({ top: yPosition, behavior: 'smooth' });
-
+      return
     }
 
+    window?.scrollTo({ top: yPosition, behavior: 'smooth' })
+  }
 
-    return (
-        <>
-            {menuItems?.map((item) => (
-                <li key={item.id}
-                    style={{ display: item.onlyAdmin && !isAdmin ? 'none' : 'block', 
-                        
-                    marginLeft: '1px', marginTop: '4px' }}
-                    onClick={() => scrollOrRedirect(item)}
+  return (
+    <>
+      {menuItems?.map((item) => (
+        <li
+          key={item.id}
+          style={{
+            display: item.onlyAdmin && !isAdmin ? 'none' : 'block',
 
-                    className={(item.textColour ? item.textColour : "text-base-content") + " " + (item.backgroundColour ? item.backgroundColour : " ") + " rounded-md"}>
-                    <div className="flex items-center gap-2 h-8">
-                        {item.icon && <FontAwesomeIcon icon={item.icon as IconDefinition} className="w-6 h-6" />}
-                        <span className={(item.hideTextOnDesktop && !isSidebar ? 'hidden' : 'block')} suppressHydrationWarning>
-                            {t(`navigation.${item.name}`)}
-                        </span>
-                    </div>
-                </li>
-            ))}
-        </>
-    );
-};
+            marginLeft: '1px',
+            marginTop: '4px',
+          }}
+          onClick={() => scrollOrRedirect(item)}
+          className={
+            (item.textColour ? item.textColour : 'text-base-content') +
+            ' ' +
+            (item.backgroundColour ? item.backgroundColour : ' ') +
+            ' rounded-md'
+          }
+        >
+          <div className="flex items-center gap-2 h-8">
+            {item.icon && (
+              <FontAwesomeIcon icon={item.icon as IconDefinition} className="w-6 h-6" />
+            )}
+            <span
+              className={item.hideTextOnDesktop && !isSidebar ? 'hidden' : 'block'}
+              suppressHydrationWarning
+            >
+              {t(`navigation.${item.name}`)}
+            </span>
+          </div>
+        </li>
+      ))}
+    </>
+  )
+}
 
-export default Menu;
+export default Menu

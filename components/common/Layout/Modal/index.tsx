@@ -1,5 +1,15 @@
-import { ReactNode, RefObject, useCallback, useEffect, useId, useMemo, useRef, useState, MouseEvent } from "react"
-import { createPortal } from "react-dom"
+import {
+  ReactNode,
+  RefObject,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  MouseEvent,
+} from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
 /**
@@ -20,7 +30,7 @@ export type HeadlessModalProps = {
   closeOnEsc?: boolean
   showClose?: boolean
   initialFocusRef?: RefObject<HTMLElement>
-  size?: "sm" | "md" | "lg" | "xl" | "full"
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
   className?: string
   backdropClassName?: string
   children?: ReactNode
@@ -35,9 +45,9 @@ export function HeadlessModal({
   closeOnEsc = true,
   showClose = true,
   initialFocusRef,
-  size = "md",
-  className = "",
-  backdropClassName = "",
+  size = 'md',
+  className = '',
+  backdropClassName = '',
   children,
 }: HeadlessModalProps) {
   const { t } = useTranslation()
@@ -57,7 +67,7 @@ export function HeadlessModal({
     if (!open) return
     const html = document.documentElement
     const prev = html.style.overflow
-    html.style.overflow = "hidden"
+    html.style.overflow = 'hidden'
     return () => {
       html.style.overflow = prev
     }
@@ -86,11 +96,11 @@ export function HeadlessModal({
   useEffect(() => {
     if (!open || !closeOnEsc) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         e.stopPropagation()
         onClose()
       }
-      if (e.key === "Tab") {
+      if (e.key === 'Tab') {
         const focusables = getFocusable(panelRef.current)
         if (!focusables.length) return
         const first = focusables[0]
@@ -109,24 +119,24 @@ export function HeadlessModal({
         }
       }
     }
-    document.addEventListener("keydown", onKey, true)
-    return () => document.removeEventListener("keydown", onKey, true)
+    document.addEventListener('keydown', onKey, true)
+    return () => document.removeEventListener('keydown', onKey, true)
   }, [open, closeOnEsc, onClose])
 
   const sizeClass = useMemo(() => {
     switch (size) {
-      case "sm":
-        return "max-w-sm"
-      case "md":
-        return "max-w-lg"
-      case "lg":
-        return "max-w-2xl"
-      case "xl":
-        return "max-w-4xl"
-      case "full":
-        return "w-screen h-screen"
+      case 'sm':
+        return 'max-w-sm'
+      case 'md':
+        return 'max-w-lg'
+      case 'lg':
+        return 'max-w-2xl'
+      case 'xl':
+        return 'max-w-4xl'
+      case 'full':
+        return 'w-screen h-screen'
       default:
-        return "max-w-lg"
+        return 'max-w-lg'
     }
   }, [size])
 
@@ -142,28 +152,27 @@ export function HeadlessModal({
 
   return createPortal(
     <div
-      className={[
-        "fixed inset-0 z-50",
-        open ? "pointer-events-auto" : "pointer-events-none",
-      ].join(" ")}
+      className={['fixed inset-0 z-50', open ? 'pointer-events-auto' : 'pointer-events-none'].join(
+        ' '
+      )}
       aria-hidden={!open}
     >
       {/* Backdrop */}
       <div
         onMouseDown={handleBackdrop}
         className={[
-          "absolute inset-0 bg-base-300/60 backdrop-blur-sm transition-opacity",
-          open ? "opacity-100" : "opacity-0",
+          'absolute inset-0 bg-base-300/60 backdrop-blur-sm transition-opacity',
+          open ? 'opacity-100' : 'opacity-0',
           backdropClassName,
-        ].join(" ")}
+        ].join(' ')}
       />
 
       {/* Center wrapper */}
       <div
         className={[
-          "absolute inset-0 flex items-center justify-center p-4",
-          size === "full" ? "p-0" : "",
-        ].join(" ")}
+          'absolute inset-0 flex items-center justify-center p-4',
+          size === 'full' ? 'p-0' : '',
+        ].join(' ')}
         onMouseDown={handleBackdrop}
       >
         {/* Dialog Panel */}
@@ -174,16 +183,16 @@ export function HeadlessModal({
           aria-labelledby={title ? labelledById : undefined}
           aria-describedby={description ? describedById : undefined}
           className={[
-            "bg-base-100 text-base-content shadow-2xl rounded-box",
-            "w-full",
+            'bg-base-100 text-base-content shadow-2xl rounded-box',
+            'w-full',
             sizeClass,
             // Fit to screen
-            "max-w-[95vw] max-h-[90vh] overflow-auto",
+            'max-w-[95vw] max-h-[90vh] overflow-auto',
             // Animation
-            "transition-opacity transition-transform duration-200",
-            open ? "opacity-100 scale-100" : "opacity-0 scale-95",
+            'transition-opacity transition-transform duration-200',
+            open ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
             className,
-          ].join(" ")}
+          ].join(' ')}
           onMouseDown={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -237,7 +246,7 @@ function getFocusable(root: HTMLElement | null): HTMLElement[] {
     '[tabindex]:not([tabindex="-1"])',
   ]
   const nodes = Array.from(root.querySelectorAll<HTMLElement>(selectors.join(',')))
-  return nodes.filter((el) => !el.hasAttribute("disabled") && isVisible(el))
+  return nodes.filter((el) => !el.hasAttribute('disabled') && isVisible(el))
 }
 
 function getFirstFocusable(root: HTMLElement | null): HTMLElement | null {
@@ -246,7 +255,7 @@ function getFirstFocusable(root: HTMLElement | null): HTMLElement | null {
 
 function isVisible(el: HTMLElement): boolean {
   const style = window.getComputedStyle(el)
-  return style.visibility !== "hidden" && style.display !== "none"
+  return style.visibility !== 'hidden' && style.display !== 'none'
 }
 
 /** useModal — simple local state helper */

@@ -28,4 +28,3 @@ export type BookAppointmentRequest = z.infer<typeof BookAppointmentRequestSchema
 export type BookAppointmentResponse = z.infer<typeof BookAppointmentResponseSchema>
 export type CancelAppointmentRequest = z.infer<typeof CancelAppointmentRequestSchema>
 export type CancelAppointmentResponse = z.infer<typeof CancelAppointmentResponseSchema>
-

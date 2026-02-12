@@ -1,120 +1,118 @@
-'use client';
-import { useEffect, useState } from 'react';
-import axiosInstance from '@/libs/axios';
-import { Category } from '@/types/content/BlogTypes';
-import { SafeUser } from '@/types/user/UserTypes';
-import FeedCardImage, { FeedCardProps } from "./Partials/FeedCardImage";
-import { useTranslation } from 'react-i18next';
+'use client'
+import { useEffect, useState } from 'react'
+import axiosInstance from '@/libs/axios'
+import { Category } from '@/types/content/BlogTypes'
+import { SafeUser } from '@/types/user/UserTypes'
+import FeedCardImage, { FeedCardProps } from './Partials/FeedCardImage'
+import { useTranslation } from 'react-i18next'
 
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'
 
-const KnowledgeGraph2DButton = dynamic(() => import('../../Knowledge/KnowledgeGraph2D/Button'), { ssr: false , loading: () => null });
+const KnowledgeGraph2DButton = dynamic(() => import('../../Knowledge/KnowledgeGraph2D/Button'), {
+  ssr: false,
+  loading: () => null,
+})
 
 interface FeedProps {
-    category?: Pick<Category, 'categoryId' | 'title'>;
-    author?: Pick<SafeUser, 'userId' | 'name' | 'userProfile'>;
+  category?: Pick<Category, 'categoryId' | 'title'>
+  author?: Pick<SafeUser, 'userId' | 'name' | 'userProfile'>
 }
 
 export default function Feed(props: FeedProps) {
+  const { category, author } = props
+  const { t } = useTranslation()
 
-    const { category, author } = props;
-    const { t } = useTranslation();
+  const [feeds, setFeeds] = useState<FeedCardProps[]>([])
+  const [page, setPage] = useState(0)
+  const [pageSize, _setPageSize] = useState(6)
+  const [isMoreAvailable, setIsMoreAvailable] = useState(true)
 
-    const [feeds, setFeeds] = useState<FeedCardProps[]>([]);
-    const [page, setPage] = useState(0);
-    const [pageSize, _setPageSize] = useState(6);
-    const [isMoreAvailable, setIsMoreAvailable] = useState(true);
+  useEffect(() => {
+    console.log('Fetching posts for feed...', { category, author })
+    axiosInstance
+      .get(
+        '/api/posts' +
+          `?page=${page}&pageSize=${pageSize}&sort=desc` +
+          (category ? `&categoryId=${category.categoryId}` : '') +
+          `${author ? `&authorId=${author.userId}` : ''}`
+      )
+      .then((response) => {
+        console.log('Fetched posts:', response)
 
-    useEffect(() => {
-        console.log("Fetching posts for feed...", { category, author });
-        axiosInstance.get("/api/posts" + `?page=${page}&pageSize=${pageSize}&sort=desc` + (category ? `&categoryId=${category.categoryId}` : '') + `${author ? `&authorId=${author.userId}` : ''}`)
-            .then(response => {
+        const incomingFeeds = response.data.posts.map((post: any) => {
+          //dont allow duplicate posts
+          if (feeds.find((feed) => feed.postId === post.postId)) {
+            return null
+          }
 
-                console.log("Fetched posts:", response);
+          return {
+            ...post,
+            category: post.category,
+            title: post.title,
+            description: post.description,
+            createdAt: new Date(post.createdAt),
+            image: post.image || `/api/posts/${post.postId}/cover.jpeg`,
+          }
+        })
 
+        setFeeds((prev) => [...prev, ...incomingFeeds])
 
-                const incomingFeeds = response.data.posts.map((post: any) => {
+        setIsMoreAvailable(
+          response.data.total > (page + 1) * pageSize && incomingFeeds.length === pageSize
+        )
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error)
+      })
+  }, [page]) // Make sure to include all dependencies that affect the API call
 
-                    //dont allow duplicate posts
-                    if (feeds.find(feed => feed.postId === post.postId)) {
-                        return null;
-                    }
+  return (
+    <section className="min-h-screen bg-base-100 pt-32 " id="blog">
+      <div className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000">
+        <div className="mx-auto text-center lg:mb-8 -mt-8 lg:mt-0 ">
+          <div className="mb-8 hidden sm:flex items-center justify-center space-x-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
+            <p>
+              {category
+                ? category.title
+                : author
+                  ? `${t('frontend.posts_by')} ${author.userProfile.name}`
+                  : t('frontend.latest_posts')}
+            </p>
+            <KnowledgeGraph2DButton />
+          </div>
 
-                    return {
-                        ...post,
-                        category: post.category,
-                        title: post.title,
-                        description: post.description,
-                        createdAt: new Date(post.createdAt),
-                        image: post.image || `/api/posts/${post.postId}/cover.jpeg`,
-                    };
-                });
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
+            {feeds.map((feed, index) => {
+              if (index < 2) {
+                return <FeedCardImage key={index} {...feed} />
+              } else {
+                return null
+              }
+            })}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            {feeds.map((feed, index) => {
+              if (index >= 2) {
+                return <FeedCardImage key={index} {...feed} />
+              } else {
+                return null
+              }
+            })}
+          </div>
+        </div>
 
-                setFeeds(prev => [...prev, ...incomingFeeds]);
-
-
-                setIsMoreAvailable((response.data.total > (page + 1) * pageSize) && incomingFeeds.length === pageSize);
-            }).catch(error => {
-                console.error("Error fetching posts:", error);
-            });
-
-    }, [page]); // Make sure to include all dependencies that affect the API call
-
-    return (
-        <section className="min-h-screen bg-base-100 pt-32 " id="blog">
-            <div
-                className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6 duration-1000"
-            >
-                <div className="mx-auto text-center lg:mb-8 -mt-8 lg:mt-0 ">
-                    <div className="mb-8 hidden sm:flex items-center justify-center space-x-4 text-3xl lg:text-4xl tracking-tight font-extrabold">
-                        <p>
-                            {category
-                                ? category.title
-                                : author
-                                    ? `${t('frontend.posts_by')} ${author.userProfile.name}`
-                                    : t('frontend.latest_posts')}
-                        </p>
-                        <KnowledgeGraph2DButton />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
-                        {feeds.map((feed, index) => {
-                            if (index < 2) {
-                                return <FeedCardImage key={index} {...feed} />
-                            } else {
-                                return null;
-                            }
-                        })}
-
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        {feeds.map((feed, index) => {
-                            if (index >= 2) {
-                                return <FeedCardImage key={index} {...feed} />
-                            } else {
-                                return null;
-                            }
-                        })}
-                    </div>
-                </div>
-
-                {isMoreAvailable ? (
-                    <div className="flex justify-center mb-3">
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => setPage(page + 1)}
-                        >
-                            {t('frontend.load_more')}
-                        </button>
-                    </div>
-                ) : (
-                    <div className="flex justify-center mb-3">
-                        <span className="text-base opacity-50 select-none">
-                            {t('frontend.no_more_posts')}
-                        </span>
-                    </div>
-                )}
-            </div>
-        </section>
-    );
-};
+        {isMoreAvailable ? (
+          <div className="flex justify-center mb-3">
+            <button className="btn btn-primary" onClick={() => setPage(page + 1)}>
+              {t('frontend.load_more')}
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-center mb-3">
+            <span className="text-base opacity-50 select-none">{t('frontend.no_more_posts')}</span>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

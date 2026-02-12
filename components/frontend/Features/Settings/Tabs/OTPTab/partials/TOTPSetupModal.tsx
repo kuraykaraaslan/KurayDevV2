@@ -1,24 +1,24 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import HeadlessModal from '@/components/common/Layout/Modal';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react'
+import HeadlessModal from '@/components/common/Layout/Modal'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
-  open: boolean;
-  otpauthUrl?: string | null;
-  code: string;
-  loadingSetup: boolean;
-  verifying: boolean;
-  backupCodes?: string[];
-  onStartSetup: () => void;
-  onVerify: () => void;
-  onChangeCode: (v: string) => void;
-  onClose: () => void;
-};
+  open: boolean
+  otpauthUrl?: string | null
+  code: string
+  loadingSetup: boolean
+  verifying: boolean
+  backupCodes?: string[]
+  onStartSetup: () => void
+  onVerify: () => void
+  onChangeCode: (v: string) => void
+  onClose: () => void
+}
 
 export default function TOTPSetupModal(props: Props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const {
     open,
     otpauthUrl,
@@ -30,46 +30,50 @@ export default function TOTPSetupModal(props: Props) {
     onVerify,
     onChangeCode,
     onClose,
-  } = props;
+  } = props
 
-  const [acknowledged, setAcknowledged] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(false)
 
   // reset state when modal re-opens
   useEffect(() => {
     if (!open) {
-      setAcknowledged(false);
+      setAcknowledged(false)
     }
-  }, [open]);
+  }, [open])
 
-  const isShowingBackupCodes = backupCodes.length > 0;
+  const isShowingBackupCodes = backupCodes.length > 0
 
   const qrSrc = otpauthUrl
     ? `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
         otpauthUrl
       )}`
-    : null;
+    : null
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(backupCodes.join('\n'));
-    setAcknowledged(true);
-  };
+    await navigator.clipboard.writeText(backupCodes.join('\n'))
+    setAcknowledged(true)
+  }
 
   const handleDownload = () => {
-    const blob = new Blob([backupCodes.join('\n')], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'backup-codes.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-    setAcknowledged(true);
-  };
+    const blob = new Blob([backupCodes.join('\n')], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'backup-codes.txt'
+    a.click()
+    URL.revokeObjectURL(url)
+    setAcknowledged(true)
+  }
 
   return (
     <HeadlessModal
       open={open}
       onClose={onClose}
-      title={isShowingBackupCodes ? t('frontend.settings.totp_setup.backup_codes_title') : t('frontend.settings.totp_setup.title')}
+      title={
+        isShowingBackupCodes
+          ? t('frontend.settings.totp_setup.backup_codes_title')
+          : t('frontend.settings.totp_setup.title')
+      }
       size={isShowingBackupCodes ? 'md' : 'sm'}
       closeOnBackdrop={false}
       closeOnEsc={false}
@@ -79,34 +83,23 @@ export default function TOTPSetupModal(props: Props) {
         {isShowingBackupCodes ? (
           <>
             <div className="alert alert-warning">
-              <span>
-                {t('frontend.settings.totp_setup.warning')}
-              </span>
+              <span>{t('frontend.settings.totp_setup.warning')}</span>
             </div>
 
             <div className="bg-base-200 p-4 rounded-lg space-y-2">
               {backupCodes.map((c, idx) => (
-                <div
-                  key={idx}
-                  className="font-mono text-sm select-all p-2 bg-base-100 rounded"
-                >
+                <div key={idx} className="font-mono text-sm select-all p-2 bg-base-100 rounded">
                   {c}
                 </div>
               ))}
             </div>
 
             <div className="flex flex-col gap-2">
-              <button
-                onClick={handleCopy}
-                className="btn btn-outline w-full"
-              >
+              <button onClick={handleCopy} className="btn btn-outline w-full">
                 {t('frontend.settings.totp_setup.copy_codes')}
               </button>
 
-              <button
-                onClick={handleDownload}
-                className="btn btn-outline w-full"
-              >
+              <button onClick={handleDownload} className="btn btn-outline w-full">
                 {t('frontend.settings.totp_setup.download_codes')}
               </button>
             </div>
@@ -116,18 +109,12 @@ export default function TOTPSetupModal(props: Props) {
                 type="checkbox"
                 className="checkbox checkbox-primary"
                 checked={acknowledged}
-                onChange={e => setAcknowledged(e.target.checked)}
+                onChange={(e) => setAcknowledged(e.target.checked)}
               />
-              <span className="text-sm">
-                {t('frontend.settings.totp_setup.i_have_saved')}
-              </span>
+              <span className="text-sm">{t('frontend.settings.totp_setup.i_have_saved')}</span>
             </label>
 
-            <button
-              onClick={onClose}
-              disabled={!acknowledged}
-              className="btn btn-primary w-full"
-            >
+            <button onClick={onClose} disabled={!acknowledged} className="btn btn-primary w-full">
               OK
             </button>
           </>
@@ -140,7 +127,9 @@ export default function TOTPSetupModal(props: Props) {
                 disabled={loadingSetup}
                 className="btn btn-primary w-full"
               >
-                {loadingSetup ? t('frontend.loading') : t('frontend.settings.totp_setup.start_setup')}
+                {loadingSetup
+                  ? t('frontend.loading')
+                  : t('frontend.settings.totp_setup.start_setup')}
               </button>
             )}
 
@@ -173,7 +162,7 @@ export default function TOTPSetupModal(props: Props) {
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={code}
-                  onChange={e => onChangeCode(e.target.value)}
+                  onChange={(e) => onChangeCode(e.target.value)}
                   className="input input-bordered w-full text-center text-2xl tracking-widest font-mono"
                   placeholder={t('frontend.settings.otp_confirm.code_placeholder')}
                 />
@@ -183,7 +172,9 @@ export default function TOTPSetupModal(props: Props) {
                   disabled={verifying || code.length !== 6}
                   className="btn btn-primary w-full"
                 >
-                  {verifying ? t('frontend.settings.otp_confirm.verifying') : t('frontend.settings.totp_setup.confirm_setup')}
+                  {verifying
+                    ? t('frontend.settings.otp_confirm.verifying')
+                    : t('frontend.settings.totp_setup.confirm_setup')}
                 </button>
               </>
             )}
@@ -191,5 +182,5 @@ export default function TOTPSetupModal(props: Props) {
         )}
       </div>
     </HeadlessModal>
-  );
+  )
 }

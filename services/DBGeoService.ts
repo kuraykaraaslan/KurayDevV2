@@ -1,7 +1,6 @@
-import { prisma } from "@/libs/prisma";
+import { prisma } from '@/libs/prisma'
 
 export default class DBGeoService {
-
   static async saveOrUpdateGeo(
     country: string,
     city: string,
@@ -12,28 +11,28 @@ export default class DBGeoService {
     try {
       await prisma.geoAnalytics.upsert({
         where: {
-          country_city: { country, city }
+          country_city: { country, city },
         },
         create: {
           country,
           city,
           lat,
           lon,
-          count
+          count,
         },
         update: {
           // sadece sayım artsın, koordinat aynı kalsın
-          count: { increment: count }
-        }
-      });
+          count: { increment: count },
+        },
+      })
     } catch (error) {
-      console.error("Geo upsert ERROR:", error);
+      console.error('Geo upsert ERROR:', error)
     }
   }
 
   static async getAll() {
     return prisma.geoAnalytics.findMany({
-      orderBy: { count: "desc" }
-    });
+      orderBy: { count: 'desc' },
+    })
   }
 }

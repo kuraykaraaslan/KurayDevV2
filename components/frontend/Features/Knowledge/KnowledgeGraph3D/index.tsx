@@ -9,17 +9,22 @@ import type * as ThreeJSTypes from 'three'
 
 /* -------------------- Helpers -------------------- */
 
-
 // ✨ Ping-pong partiküller
 function createParticles(scene: ThreeJSTypes.Scene, linksData: any[], nodeMap: Map<string, any>) {
   const particles: ThreeJSTypes.Points[] = []
-  linksData.forEach(link => {
-    const s = nodeMap.get(link.source), t = nodeMap.get(link.target)
+  linksData.forEach((link) => {
+    const s = nodeMap.get(link.source),
+      t = nodeMap.get(link.target)
     if (!s || !t) return
     const geom = new THREE.BufferGeometry()
     const pos = new Float32Array(6)
     geom.setAttribute('position', new THREE.BufferAttribute(pos, 3))
-    const mat = new THREE.PointsMaterial({ color: 0x60a5fa, size: 1, transparent: true, opacity: 0.7 })
+    const mat = new THREE.PointsMaterial({
+      color: 0x60a5fa,
+      size: 1,
+      transparent: true,
+      opacity: 0.7,
+    })
     const p = new THREE.Points(geom, mat)
     p.userData = { source: s, target: t, progress: [0, 0.5], direction: [1, -1] }
     scene.add(p)
@@ -30,22 +35,29 @@ function createParticles(scene: ThreeJSTypes.Scene, linksData: any[], nodeMap: M
 
 // her frame’de çağrılır
 function updateParticles(particles: ThreeJSTypes.Points[]) {
-  particles.forEach(p => {
+  particles.forEach((p) => {
     const { source, target, progress, direction } = p.userData
     const pos = p.geometry.attributes.position.array as Float32Array
     progress.forEach((prog: number, i: number) => {
       prog += 0.01 * direction[i]
-      if (prog >= 1) { prog = 1; direction[i] = -1 }
-      if (prog <= 0) { prog = 0; direction[i] = 1 }
+      if (prog >= 1) {
+        prog = 1
+        direction[i] = -1
+      }
+      if (prog <= 0) {
+        prog = 0
+        direction[i] = 1
+      }
       progress[i] = prog
-      pos[i * 3]     = source.mesh.position.x + (target.mesh.position.x - source.mesh.position.x) * prog
-      pos[i * 3 + 1] = source.mesh.position.y + (target.mesh.position.y - source.mesh.position.y) * prog
-      pos[i * 3 + 2] = source.mesh.position.z + (target.mesh.position.z - source.mesh.position.z) * prog
+      pos[i * 3] = source.mesh.position.x + (target.mesh.position.x - source.mesh.position.x) * prog
+      pos[i * 3 + 1] =
+        source.mesh.position.y + (target.mesh.position.y - source.mesh.position.y) * prog
+      pos[i * 3 + 2] =
+        source.mesh.position.z + (target.mesh.position.z - source.mesh.position.z) * prog
     })
     p.geometry.attributes.position.needsUpdate = true
   })
 }
-
 
 /* -------------------- Helper Functions -------------------- */
 
@@ -64,7 +76,7 @@ function detectTheme(setTheme: (t: 'dark' | 'light') => void) {
   const observer = new MutationObserver(checkTheme)
   observer.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ['class', 'data-theme']
+    attributeFilter: ['class', 'data-theme'],
   })
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   mediaQuery.addEventListener('change', checkTheme)
@@ -78,7 +90,6 @@ function detectTheme(setTheme: (t: 'dark' | 'light') => void) {
 // Kategoriye göre renk üretme
 function useCategoryColor() {
   let colorMap: Record<string, string> = {}
-
 
   const getColor = (category: string) => {
     if (!colorMap[category]) {
@@ -126,13 +137,17 @@ function setupScene(container: HTMLDivElement, theme: 'dark' | 'light') {
 }
 
 // Düğümleri (node) oluşturur
-function createNodes(scene: ThreeJSTypes.Scene, data: KnowledgeGraphNode[], getColor: (cat: string) => string) {
+function createNodes(
+  scene: ThreeJSTypes.Scene,
+  data: KnowledgeGraphNode[],
+  getColor: (cat: string) => string
+) {
   const nodeMap = new Map()
   data.forEach((node, i) => {
     const radius = (node.size || 6) / 10
     const geometry = new THREE.SphereGeometry(radius, 16, 16)
     const material = new THREE.MeshLambertMaterial({
-      color: getColor(node.categorySlug || 'default')
+      color: getColor(node.categorySlug || 'default'),
     })
     const mesh = new THREE.Mesh(geometry, material)
     const angle = (i / data.length) * Math.PI * 2
@@ -150,7 +165,7 @@ function createNodes(scene: ThreeJSTypes.Scene, data: KnowledgeGraphNode[], getC
 // Bağlantıları (link) oluşturur
 function createLinks(scene: ThreeJSTypes.Scene, data: any[], nodeMap: Map<string, any>) {
   const links: THREE.Line[] = []
-  data.forEach(link => {
+  data.forEach((link) => {
     const s = nodeMap.get(link.source)
     const t = nodeMap.get(link.target)
     if (!s || !t) return
@@ -159,7 +174,7 @@ function createLinks(scene: ThreeJSTypes.Scene, data: any[], nodeMap: Map<string
     const material = new THREE.LineBasicMaterial({
       color: 0x64748b,
       transparent: true,
-      opacity: 0.5
+      opacity: 0.5,
     })
     const line = new THREE.Line(geometry, material)
     scene.add(line)
@@ -183,20 +198,27 @@ function setupInteractions(
   nodeMap: Map<string, any>,
   setTooltip: (t: any) => void
 ) {
-  const ray = new THREE.Raycaster(), mouse = new THREE.Vector2()
+  const ray = new THREE.Raycaster(),
+    mouse = new THREE.Vector2()
   let hovered: ThreeJSTypes.Mesh | null = null
   const move = (e: MouseEvent) => {
     const rect = container.getBoundingClientRect()
     mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1
     mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1
     ray.setFromCamera(mouse, camera)
-    const hits = ray.intersectObjects(Array.from(nodeMap.values()).map(n => n.mesh))
+    const hits = ray.intersectObjects(Array.from(nodeMap.values()).map((n) => n.mesh))
     if (hovered) hovered.scale.set(1, 1, 1)
     if (hits.length) {
       hovered = hits[0].object as ThreeJSTypes.Mesh
       hovered.scale.set(1.5, 1.5, 1.5)
       const n = hovered.userData
-      setTooltip({ visible: true, x: e.clientX - rect.left, y: e.clientY - rect.top, title: n.title || '', image: n.image })
+      setTooltip({
+        visible: true,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        title: n.title || '',
+        image: n.image,
+      })
     } else {
       setTooltip((prev: TooltipState) => ({ ...prev, visible: false }))
       hovered = null
@@ -211,15 +233,19 @@ function setupInteractions(
 export default function KnowledgeGraph3D({ className }: { className?: string }) {
   const { categorySlug } = useParams() as { categorySlug?: string }
   const containerRef = useRef<HTMLDivElement>(null)
-  const [data, setData] = useState<{ nodes: KnowledgeGraphNode[]; links: any[] }>({ nodes: [], links: [] })
+  const [data, setData] = useState<{ nodes: KnowledgeGraphNode[]; links: any[] }>({
+    nodes: [],
+    links: [],
+  })
   const [theme, setTheme] = useState<'dark' | 'light'>('light')
   const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, title: '', image: '' })
 
   useEffect(() => detectTheme(setTheme), [])
 
   useEffect(() => {
-    axiosInstance.get('/api/knowledge-graph?' + (categorySlug ? `categorySlug=${categorySlug}` : ''))
-      .then(res => setData(res.data))
+    axiosInstance
+      .get('/api/knowledge-graph?' + (categorySlug ? `categorySlug=${categorySlug}` : ''))
+      .then((res) => setData(res.data))
   }, [categorySlug])
 
   useEffect(() => {
@@ -248,7 +274,11 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
 
   return (
     <div className="relative w-full h-full">
-      <div ref={containerRef} className={`w-full h-full ${className}`} style={{ minHeight: 600, cursor: 'grab' }} />
+      <div
+        ref={containerRef}
+        className={`w-full h-full ${className}`}
+        style={{ minHeight: 600, cursor: 'grab' }}
+      />
       {tooltip.visible && (
         <div
           className="absolute z-50 pointer-events-none px-3 py-2 rounded-lg shadow-lg text-sm font-medium max-w-xs"
@@ -257,7 +287,7 @@ export default function KnowledgeGraph3D({ className }: { className?: string }) 
             top: `${tooltip.y + 10}px`,
             backgroundColor: theme === 'dark' ? '#1e293b' : '#fff',
             color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
-            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
+            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
           }}
         >
           {tooltip.image && <img src={tooltip.image} alt="" className="w-full mb-2 rounded" />}

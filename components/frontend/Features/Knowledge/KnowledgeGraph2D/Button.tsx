@@ -21,7 +21,7 @@ export default function KnowledgeGraph2DButton() {
         className="!max-w-5xl" // genişlik sınırlı
       >
         <div className="flex items-center justify-center w-full h-[70vh] bg-base-200 rounded-box">
-          <KnowledgeGraph2D/>
+          <KnowledgeGraph2D />
         </div>
       </HeadlessModal>
     </div>

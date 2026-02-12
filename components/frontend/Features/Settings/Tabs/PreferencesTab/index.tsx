@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import axiosInstance from '@/libs/axios';
-import useGlobalStore from '@/libs/zustand';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGlobe, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import axiosInstance from '@/libs/axios'
+import useGlobalStore from '@/libs/zustand'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGlobe, faMoon } from '@fortawesome/free-solid-svg-icons'
 import {
   UserPreferences,
   ThemeEnum,
   LanguageEnum,
   UserPreferencesDefault,
-} from '@/types/user/UserTypes';
-import * as countriesAndTimezones from 'countries-and-timezones';
+} from '@/types/user/UserTypes'
+import * as countriesAndTimezones from 'countries-and-timezones'
 
 /*
 const UserPreferencesSchema = z.object({
@@ -29,44 +29,45 @@ const UserPreferencesSchema = z.object({
   firstDayOfWeek: 'MON' | 'SUN';
 });*/
 
-
 export default function PreferencesTab() {
-   const { user, setUser } = useGlobalStore();
+  const { user, setUser } = useGlobalStore()
 
-  const [userPreferences, setUserPreferences] = useState<UserPreferences>(user?.userPreferences || UserPreferencesDefault);
-  const [saving, setSaving] = useState(false);
+  const [userPreferences, setUserPreferences] = useState<UserPreferences>(
+    user?.userPreferences || UserPreferencesDefault
+  )
+  const [saving, setSaving] = useState(false)
 
   const handleSave = async () => {
-    if (!user || saving) return;
+    if (!user || saving) return
 
-    setSaving(true);
+    setSaving(true)
 
-    await axiosInstance.put('/api/auth/me/preferences', {
+    await axiosInstance
+      .put('/api/auth/me/preferences', {
         userPreferences,
-      }).then((res) => {
-      setUser({
-        ...user,
-        userPreferences: res.data.userPreferences,
-      });
-      toast.success("Tercihler başarıyla güncellendi");
-    }).catch((err) => {
-      toast.error("Tercihler güncellenirken hata oluştu");
-      console.error(err);
-    }).finally(() => {
-      setSaving(false);
-    }); 
-
-  };
+      })
+      .then((res) => {
+        setUser({
+          ...user,
+          userPreferences: res.data.userPreferences,
+        })
+        toast.success('Tercihler başarıyla güncellendi')
+      })
+      .catch((err) => {
+        toast.error('Tercihler güncellenirken hata oluştu')
+        console.error(err)
+      })
+      .finally(() => {
+        setSaving(false)
+      })
+  }
 
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-4">
-
       {/* Header */}
       <div>
         <h2 className="text-lg font-bold">Kişisel Tercihler</h2>
-        <p className="text-sm text-base-content/70">
-          Bildirim ve uygulama ayarlarını yönet.
-        </p>
+        <p className="text-sm text-base-content/70">Bildirim ve uygulama ayarlarını yönet.</p>
       </div>
 
       {/* Language Dropdown */}
@@ -105,9 +106,7 @@ export default function PreferencesTab() {
         <select
           className="select select-bordered select-primary w-full"
           value={userPreferences.theme}
-          onChange={(e) =>
-            setUserPreferences({ ...userPreferences, theme: e.target.value as any })
-          }
+          onChange={(e) => setUserPreferences({ ...userPreferences, theme: e.target.value as any })}
         >
           {ThemeEnum.options.map((theme) => (
             <option key={theme} value={theme}>
@@ -117,8 +116,7 @@ export default function PreferencesTab() {
         </select>
       </div>
 
-
-      { /* TiMEZONE */}
+      {/* TiMEZONE */}
       <div className="form-control w-full">
         <label className="label">
           <span className="label-text font-semibold">Zaman Dilimi</span>
@@ -126,17 +124,13 @@ export default function PreferencesTab() {
         <select
           className="select select-bordered select-primary w-full"
           value={userPreferences.timezone}
-          onChange={(e) =>
-            setUserPreferences({ ...userPreferences, timezone: e.target.value })
-          }
+          onChange={(e) => setUserPreferences({ ...userPreferences, timezone: e.target.value })}
         >
-          {Object.entries(countriesAndTimezones.getAllTimezones()).map(
-            ([tz, info]) => (
-              <option key={tz} value={tz}>
-                {`(GMT${info.utcOffsetStr}) ${info.name}`}
-              </option>
-            )
-          )}
+          {Object.entries(countriesAndTimezones.getAllTimezones()).map(([tz, info]) => (
+            <option key={tz} value={tz}>
+              {`(GMT${info.utcOffsetStr}) ${info.name}`}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -194,10 +188,9 @@ export default function PreferencesTab() {
         </select>
       </div>
 
-
       <button onClick={handleSave} className="btn btn-primary w-full">
         Kaydet
       </button>
     </div>
-  );
+  )
 }

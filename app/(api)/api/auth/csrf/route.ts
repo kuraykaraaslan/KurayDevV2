@@ -1,27 +1,27 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
-const CSRF_COOKIE_NAME = 'csrf-token';
-const CSRF_HEADER_NAME = 'x-csrf-token';
-const CSRF_TOKEN_EXPIRY = 60 * 60; // 1 saat
+const CSRF_COOKIE_NAME = 'csrf-token'
+const CSRF_HEADER_NAME = 'x-csrf-token'
+const CSRF_TOKEN_EXPIRY = 60 * 60 // 1 saat
 
 /**
  * Basit CSRF token oluştur (Web Crypto API)
  */
 async function generateCSRFToken(): Promise<string> {
-  const timestamp = Date.now();
-  const randomBytes = new Uint8Array(32);
-  crypto.getRandomValues(randomBytes);
+  const timestamp = Date.now()
+  const randomBytes = new Uint8Array(32)
+  crypto.getRandomValues(randomBytes)
   const randomHex = Array.from(randomBytes)
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-  
-  const data = `${timestamp}-${randomHex}`;
-  
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+
+  const data = `${timestamp}-${randomHex}`
+
   // HMAC signature
-  const secret = process.env.CSRF_SECRET || process.env.ACCESS_TOKEN_SECRET || 'default-secret';
-  const encoder = new TextEncoder();
-  const keyData = encoder.encode(secret);
-  const messageData = encoder.encode(data);
+  const secret = process.env.CSRF_SECRET || process.env.ACCESS_TOKEN_SECRET || 'default-secret'
+  const encoder = new TextEncoder()
+  const keyData = encoder.encode(secret)
+  const messageData = encoder.encode(data)
 
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
@@ -29,14 +29,14 @@ async function generateCSRFToken(): Promise<string> {
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['sign']
-  );
+  )
 
-  const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData);
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData)
   const signatureHex = Array.from(new Uint8Array(signature))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
 
-  return `${data}.${signatureHex}`;
+  return `${data}.${signatureHex}`
 }
 
 /**
@@ -45,8 +45,8 @@ async function generateCSRFToken(): Promise<string> {
  */
 export async function GET() {
   try {
-    const token = await generateCSRFToken();
-    const isProduction = process.env.NODE_ENV === 'production';
+    const token = await generateCSRFToken()
+    const isProduction = process.env.NODE_ENV === 'production'
 
     const response = NextResponse.json({
       success: true,
@@ -55,7 +55,7 @@ export async function GET() {
         headerName: CSRF_HEADER_NAME,
         expiresIn: CSRF_TOKEN_EXPIRY,
       },
-    });
+    })
 
     // Cookie'ye token'ı ekle
     response.cookies.set(CSRF_COOKIE_NAME, token, {
@@ -64,13 +64,13 @@ export async function GET() {
       sameSite: 'strict',
       path: '/',
       maxAge: CSRF_TOKEN_EXPIRY,
-    });
+    })
 
-    return response;
+    return response
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to generate CSRF token';
-    console.error('[CSRF] Token generation error:', errorMessage);
-    
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate CSRF token'
+    console.error('[CSRF] Token generation error:', errorMessage)
+
     return NextResponse.json(
       {
         success: false,
@@ -80,6 +80,6 @@ export async function GET() {
         },
       },
       { status: 500 }
-    );
+    )
   }
 }

@@ -1,13 +1,11 @@
-import "./globals.css";
-import Script from "next/script";
-import { ReactNode } from "react";
-import WebVitals from "@/components/frontend/WebVitals";
+import './globals.css'
+import Script from 'next/script'
+import { ReactNode } from 'react'
+import WebVitals from '@/components/frontend/WebVitals'
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG;
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html data-theme="dark" className="antialiased scroll-smooth focus:scroll-auto">
       <head>
@@ -53,5 +51,5 @@ export default function RootLayout({
         )}
       </body>
     </html>
-  );
+  )
 }

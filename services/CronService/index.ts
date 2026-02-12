@@ -1,13 +1,13 @@
-import Logger from "@/libs/logger";
+import Logger from '@/libs/logger'
 
 // JOB IMPORTS
-import { dailyJobs } from "./jobs/daily";
-import { hourlyJobs } from "./jobs/hourly";
-import { weeklyJobs } from "./jobs/weekly";
-import { monthlyJobs } from "./jobs/monthly";
-import { fiveMinJobs } from "./jobs/fiveMin";
-import { yearlyJobs } from "./jobs/yearly";
-import { StatFrequency } from '@/types/common/StatTypes';
+import { dailyJobs } from './jobs/daily'
+import { hourlyJobs } from './jobs/hourly'
+import { weeklyJobs } from './jobs/weekly'
+import { monthlyJobs } from './jobs/monthly'
+import { fiveMinJobs } from './jobs/fiveMin'
+import { yearlyJobs } from './jobs/yearly'
+import { StatFrequency } from '@/types/common/StatTypes'
 
 export default class CronService {
   static jobMap: Record<StatFrequency, Array<{ name: string; handler: () => Promise<void> }>> = {
@@ -17,41 +17,41 @@ export default class CronService {
     monthly: monthlyJobs,
     yearly: yearlyJobs,
     fiveMin: fiveMinJobs,
-    "all-time": [],
-  };
+    'all-time': [],
+  }
 
   static async run(frequency: StatFrequency) {
-    Logger.info(`CRON: Trigger received → ${frequency}`);
+    Logger.info(`CRON: Trigger received → ${frequency}`)
 
-    const jobs = CronService.jobMap[frequency];
+    const jobs = CronService.jobMap[frequency]
 
     if (!jobs) {
-      Logger.error(`CRON: Unknown frequency "${frequency}"`);
-      throw new Error(`Unknown cron frequency: ${frequency}`);
+      Logger.error(`CRON: Unknown frequency "${frequency}"`)
+      throw new Error(`Unknown cron frequency: ${frequency}`)
     }
 
-    const results: any[] = [];
+    const results: any[] = []
 
     for (const job of jobs) {
-      const start = Date.now();
+      const start = Date.now()
       try {
-        Logger.info(`▶ Running job: ${job.name}`);
-        await job.handler();
-        const duration = Date.now() - start;
-        Logger.info(`✔ Finished job: ${job.name} (${duration}ms)`);
+        Logger.info(`▶ Running job: ${job.name}`)
+        await job.handler()
+        const duration = Date.now() - start
+        Logger.info(`✔ Finished job: ${job.name} (${duration}ms)`)
 
         results.push({
           job: job.name,
-          status: "success",
+          status: 'success',
           duration,
-        });
+        })
       } catch (err: any) {
-        Logger.error(`✘ Job failed: ${job.name} — ${err.message}`);
+        Logger.error(`✘ Job failed: ${job.name} — ${err.message}`)
         results.push({
           job: job.name,
-          status: "failed",
+          status: 'failed',
           error: err.message,
-        });
+        })
       }
     }
 
@@ -59,6 +59,6 @@ export default class CronService {
       ok: true,
       frequency,
       executed: results,
-    };
+    }
   }
 }

@@ -1,76 +1,76 @@
-import { z } from 'zod';
-import { SafeUserSchema } from '../user/UserTypes';
+import { z } from 'zod'
+import { SafeUserSchema } from '../user/UserTypes'
 
-const CommentStatus = z.enum(["NOT_PUBLISHED", "PUBLISHED", "SPAM"]).default("NOT_PUBLISHED");
-const PostStatus = z.enum(["PUBLISHED", "DRAFT", "ARCHIVED"]).default("PUBLISHED");
-
+const CommentStatus = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM']).default('NOT_PUBLISHED')
+const PostStatus = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']).default('PUBLISHED')
 
 const CommentSchema = z.object({
-    commentId: z.string(),
-    content: z.string(),
-    createdAt: z.date(),
-    postId: z.string(),
-    parentId: z.string().nullable(),
-    email: z.string().email().nullable(),
-    name: z.string().nullable(),
-    status: CommentStatus,
-});
-
+  commentId: z.string(),
+  content: z.string(),
+  createdAt: z.date(),
+  postId: z.string(),
+  parentId: z.string().nullable(),
+  email: z.string().email().nullable(),
+  name: z.string().nullable(),
+  status: CommentStatus,
+})
 
 const PostSchema = z.object({
-    postId: z.string(),
-    title: z.string(),
-    content: z.string(),
-    authorId: z.string(),
-    description: z.string().nullable(),
-    slug: z.string(),
-    keywords: z.array(z.string()),
-    createdAt: z.date(),
-    updatedAt: z.date().nullable().transform((date) => date || new Date()),
-    categoryId: z.string(),
-    image: z.string().nullable(),
-    status: z.string().default("PUBLISHED"),
-    views: z.number().default(0),
-    deletedAt: z.date().nullable().optional(),
-});
+  postId: z.string(),
+  title: z.string(),
+  content: z.string(),
+  authorId: z.string(),
+  description: z.string().nullable(),
+  slug: z.string(),
+  keywords: z.array(z.string()),
+  createdAt: z.date(),
+  updatedAt: z
+    .date()
+    .nullable()
+    .transform((date) => date || new Date()),
+  categoryId: z.string(),
+  image: z.string().nullable(),
+  status: z.string().default('PUBLISHED'),
+  views: z.number().default(0),
+  deletedAt: z.date().nullable().optional(),
+})
 
 const CategorySchema = z.object({
-    categoryId: z.string(),
-    title: z.string(),
-    description: z.string().nullable(),
-    slug: z.string(),
-    createdAt: z.date(),
-    updatedAt: z.date().optional(),
-    image: z.string().nullable(),
-    keywords: z.array(z.string()).optional(),
-});
+  categoryId: z.string(),
+  title: z.string(),
+  description: z.string().nullable(),
+  slug: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date().optional(),
+  image: z.string().nullable(),
+  keywords: z.array(z.string()).optional(),
+})
 
 const PostWithDataSchema = PostSchema.extend({
-    author: SafeUserSchema.pick({
-        userId: true,
-        name: true,
-        userProfile: true,
-    }),
-    category: CategorySchema.pick({
-        categoryId: true,
-        title: true,
-        slug: true,
-        image: true,
-        keywords: true,
-        description: true,
-        createdAt: true,
-        updatedAt: true,
-    }),
-});
-
+  author: SafeUserSchema.pick({
+    userId: true,
+    name: true,
+    userProfile: true,
+  }),
+  category: CategorySchema.pick({
+    categoryId: true,
+    title: true,
+    slug: true,
+    image: true,
+    keywords: true,
+    description: true,
+    createdAt: true,
+    updatedAt: true,
+  }),
+})
 
 const CommentWithDataSchema = CommentSchema.extend({
-    post: PostSchema.pick({
-        postId: true,
-        title: true,
-        slug: true,
-    }),
-});
+  post: PostSchema.pick({
+    postId: true,
+    title: true,
+    slug: true,
+  }),
+})
 
 const PostLikeSchema = z.object({
   postLikeId: z.string(),
@@ -79,8 +79,7 @@ const PostLikeSchema = z.object({
   ipAddress: z.string().nullable().optional(),
   deviceFingerprint: z.string().nullable().optional(),
   createdAt: z.date(),
-});
-
+})
 
 export const KnowledgeGraphNodeSchema = z.object({
   id: z.string(),
@@ -91,17 +90,23 @@ export const KnowledgeGraphNodeSchema = z.object({
   views: z.number(),
   embedding: z.array(z.number()),
   size: z.number().nullable().optional(),
-});
+})
 
-export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>;
+export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>
 
-
-
-
-export type Comment = z.infer<typeof CommentSchema>;
-export type Post = z.infer<typeof PostSchema>;
-export type Category = z.infer<typeof CategorySchema>;
-export type PostWithData = z.infer<typeof PostWithDataSchema>;
-export type CommentWithData = z.infer<typeof CommentWithDataSchema>;
-export type PostLike = z.infer<typeof PostLikeSchema>;
-export { CommentSchema, PostSchema, CategorySchema, PostWithDataSchema, CommentWithDataSchema, PostLikeSchema, CommentStatus, PostStatus };
+export type Comment = z.infer<typeof CommentSchema>
+export type Post = z.infer<typeof PostSchema>
+export type Category = z.infer<typeof CategorySchema>
+export type PostWithData = z.infer<typeof PostWithDataSchema>
+export type CommentWithData = z.infer<typeof CommentWithDataSchema>
+export type PostLike = z.infer<typeof PostLikeSchema>
+export {
+  CommentSchema,
+  PostSchema,
+  CategorySchema,
+  PostWithDataSchema,
+  CommentWithDataSchema,
+  PostLikeSchema,
+  CommentStatus,
+  PostStatus,
+}

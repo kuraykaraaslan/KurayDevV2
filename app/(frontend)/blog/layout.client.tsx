@@ -1,24 +1,24 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import useGlobalStore from "@/libs/zustand";
-import i18n from "@/libs/localize/localize";
+import { useEffect, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import useGlobalStore from '@/libs/zustand'
+import i18n from '@/libs/localize/localize'
 
 const BlogLayoutClient = () => {
-  const { language } = useGlobalStore();
-  const [languageNotifiedOnce, setLanguageNotifiedOnce] = useState(false);
-  const { t } = i18n;
+  const { language } = useGlobalStore()
+  const [languageNotifiedOnce, setLanguageNotifiedOnce] = useState(false)
+  const { t } = i18n
 
   useEffect(() => {
-    if (languageNotifiedOnce) return;
+    if (languageNotifiedOnce) return
 
-    if (language !== "en") {
-      toast.info(t("shared.alert.this_blog_is_available_in_only_english"));
-      setLanguageNotifiedOnce(true);
+    if (language !== 'en') {
+      toast.info(t('shared.alert.this_blog_is_available_in_only_english'))
+      setLanguageNotifiedOnce(true)
     }
-  }, [language, languageNotifiedOnce, t]);
+  }, [language, languageNotifiedOnce, t])
 
   return (
     <ToastContainer
@@ -33,7 +33,7 @@ const BlogLayoutClient = () => {
       pauseOnHover
       theme="light"
     />
-  );
-};
+  )
+}
 
-export default BlogLayoutClient;
+export default BlogLayoutClient

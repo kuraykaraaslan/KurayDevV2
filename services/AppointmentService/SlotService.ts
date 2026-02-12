@@ -50,7 +50,8 @@ export default class SlotService {
     const { date: startDate, time: startTime } = separateDateTimeWithTimeZone(slot.startTime)
     const { date: endDate, time: endTime } = separateDateTimeWithTimeZone(slot.endTime)
 
-    if (startDate !== endDate) throw new Error('Slot startTime and endTime must be on the same date')
+    if (startDate !== endDate)
+      throw new Error('Slot startTime and endTime must be on the same date')
     if (startTime >= endTime) throw new Error('Slot startTime must be before endTime')
 
     const overlappingSlot = await this.getOverlappingSlots(startDate, startTime, endTime)
