@@ -5,9 +5,9 @@ import Newsletter from '@/components/frontend/Features/Newsletter';
 import ProjectService from '@/services/ProjectService';
 import Image from 'next/image';
 import SingleProject from '@/components/frontend/Features/SingleProject';
-import SingleLink from '@/components/frontend/Features/Hero/Projects/Partials/SingleLink';
-import SingleTag from '@/components/frontend/Features/Hero/Projects/Partials/SingleTag';
+import ProjectHeader from '@/components/frontend/Features/Projects/ProjectHeader';
 import MetadataHelper from '@/helpers/MetadataHelper';
+import Breadcrumb from '@/components/common/Layout/Breadcrumb';
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST;
 
@@ -100,12 +100,6 @@ export default async function ProjectPage({ params }: Props) {
             .trim()
             .substring(0, 5000);
 
-        const formattedDate = project.createdAt
-            ? new Date(project.createdAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-            })
-            : null;
 
         return (
             <>
@@ -123,105 +117,14 @@ export default async function ProjectPage({ params }: Props) {
                     },
                     breadcrumbs,
                 })}
+                <section className="min-h-screen bg-base-100 pt-32" id="blog">
+                    <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
+                        <Breadcrumb items={breadcrumbs} />
+                        <ProjectHeader {...project} />
+                        <SingleProject {...project} />
 
-                {/* App-store style header */}
-                <div className="bg-base-200 pt-32 pb-10 border-b border-base-300">
-                    <div className="max-w-5xl mx-auto px-4 lg:px-8">
-
-                        {/* Breadcrumb */}
-                        <nav className="text-xs text-base-content/50 mb-6 flex items-center gap-1">
-                            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-                            <span>/</span>
-                            <Link href="/projects" className="hover:text-primary transition-colors">Projects</Link>
-                            <span>/</span>
-                            <span className="text-base-content/80 truncate max-w-[200px]">{project.title}</span>
-                        </nav>
-
-                        {/* Project header row */}
-                        <div className="flex flex-col sm:flex-row gap-6 md:gap-8">
-
-                            {/* Thumbnail */}
-                            <div className="flex-none">
-                                <Image
-                                    src={project.image || '/assets/img/og.png'}
-                                    alt={project.title}
-                                    width={192}
-                                    height={192}
-                                    className="w-28 h-28 md:w-48 md:h-48 rounded-2xl object-cover shadow-xl border-2 border-base-300"
-                                    unoptimized
-                                    priority
-                                />
-                            </div>
-
-                            {/* Info */}
-                            <div className="flex-1 min-w-0">
-                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">
-                                    {project.title}
-                                </h1>
-
-                                {project.description && (
-                                    <p className="mt-2 text-base-content/65 text-sm md:text-base leading-relaxed max-w-2xl">
-                                        {project.description}
-                                    </p>
-                                )}
-
-                                {/* Tech tags */}
-                                {project.technologies.length > 0 && (
-                                    <div className="flex flex-wrap gap-1 mt-4">
-                                        {project.technologies.map((tech, i) => (
-                                            <SingleTag key={i} technology={tech} />
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Platforms + date */}
-                                <div className="flex flex-wrap items-center gap-2 mt-3">
-                                    {project.platforms.map((platform, i) => (
-                                        <span key={i} className="badge badge-ghost badge-sm capitalize">
-                                            {platform}
-                                        </span>
-                                    ))}
-                                    {formattedDate && (
-                                        <span className="text-xs text-base-content/40 ml-auto hidden sm:block">
-                                            {formattedDate}
-                                        </span>
-                                    )}
-                                </div>
-
-                                {/* Links */}
-                                {project.projectLinks.length > 0 && (
-                                    <div className="flex flex-wrap gap-3 mt-5">
-                                        {project.projectLinks.map((link, i) => (
-                                            <span key={i} className="btn btn-outline btn-sm">
-                                                <SingleLink url={link} />
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Content */}
-                <section className="bg-base-100 py-12 pb-20" id="project">
-                    <div className="max-w-5xl mx-auto px-4 lg:px-8 flex gap-8 items-start">
-                        <div className="flex-1 min-w-0">
-                            <SingleProject {...project} />
-                        </div>
-                        <div className="hidden lg:flex flex-col gap-2 flex-none w-36">
-                            <Link href="/projects" className="btn btn-ghost btn-sm w-full">
-                                ← All Projects
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="lg:hidden max-w-5xl mx-auto px-4 lg:px-8 mt-4">
-                        <Link href="/projects" className="btn btn-ghost btn-sm">
-                            ← All Projects
-                        </Link>
                     </div>
                 </section>
-
                 <Newsletter backgroundColor="bg-base-200" />
             </>
         );
