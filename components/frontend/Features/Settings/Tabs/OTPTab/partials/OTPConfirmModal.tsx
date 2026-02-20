@@ -1,4 +1,4 @@
-import HeadlessModal from '@/components/common/Layout/Modal'
+import HeadlessModal from '@/components/admin/UI/Modal'
 import { useTranslation } from 'react-i18next'
 
 type Props = {

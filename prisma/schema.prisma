@@ -272,6 +272,30 @@ model GeoAnalytics {
   lat       Float
   lon       Float
   count     Int      @default(0)
-  
+
   @@unique([country, city])
+}
+
+model Media {
+  mediaId      String   @id @default(cuid())
+
+  key          String   @unique  // S3 object key (e.g. "posts/1234567890-abc.jpg")
+  url          String            // Public URL
+  folder       String            // Folder name (e.g. "posts", "general")
+  mimeType     String?           // Content type (e.g. "image/jpeg")
+  size         Int               // File size in bytes
+
+  // Editable metadata
+  name         String?           // Display name (editable)
+  altText      String?           // Alt text for accessibility (editable)
+  originalName String?           // Original filename before upload (read-only)
+
+  // Uploader — stored as plain string, nullable for legacy/migrated files
+  uploadedBy   String?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([folder])
+  @@index([uploadedBy])
 }

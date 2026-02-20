@@ -23,12 +23,22 @@ const SingleCategory = () => {
 
   const [loading, setLoading] = useState(true)
 
-  // Model fields
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [slug, setSlug] = useState('')
   const [keywords, setKeywords] = useState<string[]>([])
   const [image, setImage] = useState('')
+
+  const clearAutoSave = () => {
+    try {
+      const caches = localStorage.getItem(localStorageKey)
+      if (caches) {
+        const parsed = JSON.parse(caches)
+        delete parsed[routeCategoryId]
+        localStorage.setItem(localStorageKey, JSON.stringify(parsed))
+      }
+    } catch {}
+  }
 
   // Slug generation (only in create mode and after loading)
   useEffect(() => {
@@ -91,24 +101,16 @@ const SingleCategory = () => {
   useEffect(() => {
     if (loading) return
 
-    const draft = {
-      title,
-      description,
-      slug,
-      keywords,
-      image,
-    }
+    const draft = { title, description, slug, keywords, image }
 
     try {
       const caches = localStorage.getItem(localStorageKey)
       let parsedCaches: Record<string, any> = {}
-
       try {
         parsedCaches = caches ? JSON.parse(caches) : {}
       } catch {
         parsedCaches = {}
       }
-
       parsedCaches[routeCategoryId] = draft
       localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches))
     } catch (err) {
@@ -137,6 +139,16 @@ const SingleCategory = () => {
       console.error('Draft load error', err)
     }
   }, [])
+
+  const handleClearDraft = () => {
+    clearAutoSave()
+    setTitle('')
+    setDescription('')
+    setSlug('')
+    setKeywords([])
+    setImage('')
+    toast.info('Draft cleared')
+  }
 
   const handleSubmit = async () => {
     const errors: string[] = []
@@ -174,6 +186,7 @@ const SingleCategory = () => {
         await axiosInstance.put(`/api/categories/${routeCategoryId}`, body)
         toast.success('Category updated successfully')
       }
+      clearAutoSave()
       router.push('/admin/categories')
     } catch (error: any) {
       toast.error(error?.response?.data?.message ?? 'Save failed')
@@ -200,6 +213,11 @@ const SingleCategory = () => {
         title={mode === 'create' ? 'Create Category' : 'Edit Category'}
         className="my-4"
         actionButtons={[
+          {
+            text: 'Clear Draft',
+            className: 'btn-sm btn-error btn-outline',
+            onClick: handleClearDraft,
+          },
           {
             text: 'Back to Categories',
             className: 'btn-sm btn-primary',

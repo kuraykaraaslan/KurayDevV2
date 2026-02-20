@@ -20,12 +20,10 @@ const SinglePost = () => {
   const { user } = useGlobalStore()
 
   const localStorageKey = 'post_drafts'
-  // Route param (tek kaynak)
   const params = useParams<{ postId: string }>()
   const routePostId = params?.postId
   const router = useRouter()
 
-  // Mode is derived from param (not state)
   const mode: 'create' | 'edit' = useMemo(
     () => (routePostId === 'create' ? 'create' : 'edit'),
     [routePostId]
@@ -33,7 +31,6 @@ const SinglePost = () => {
 
   const [loading, setLoading] = useState(true)
 
-  // Model fields
   const [title, setTitle] = useState('')
   const [image, setImage] = useState('')
   const [content, setContent] = useState('')
@@ -45,6 +42,17 @@ const SinglePost = () => {
   const [status, setStatus] = useState<PostStatus>('DRAFT')
   const [createdAt, setCreatedAt] = useState<Date>(new Date())
   const [views, setViews] = useState<number>(0)
+
+  const clearAutoSave = () => {
+    try {
+      const caches = localStorage.getItem(localStorageKey)
+      if (caches) {
+        const parsed = JSON.parse(caches)
+        delete parsed[routePostId]
+        localStorage.setItem(localStorageKey, JSON.stringify(parsed))
+      }
+    } catch {}
+  }
 
   // Slug generation (only in create mode and after loading is done)
   useEffect(() => {
@@ -69,12 +77,10 @@ const SinglePost = () => {
     let cancelled = false
 
     const load = async () => {
-      // Param yoksa
       if (!routePostId) {
         setLoading(false)
         return
       }
-      // Create mod
       if (routePostId === 'create') {
         setLoading(false)
         return
@@ -122,28 +128,16 @@ const SinglePost = () => {
   useEffect(() => {
     if (loading) return
 
-    const draft = {
-      title,
-      content,
-      description,
-      slug,
-      keywords,
-      authorId,
-      categoryId,
-      status,
-      image,
-    }
+    const draft = { title, content, description, slug, keywords, authorId, categoryId, status, image }
 
     try {
       const caches = localStorage.getItem(localStorageKey)
       let parsedCaches: Record<string, any> = {}
-
       try {
         parsedCaches = caches ? JSON.parse(caches) : {}
       } catch {
         parsedCaches = {}
       }
-
       parsedCaches[routePostId] = draft
       localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches))
     } catch (err) {
@@ -176,6 +170,22 @@ const SinglePost = () => {
       console.error('Draft load error', err)
     }
   }, [])
+
+  const handleClearDraft = () => {
+    clearAutoSave()
+    setTitle('')
+    setContent('')
+    setDescription('')
+    setSlug('')
+    setKeywords([])
+    setAuthorId('')
+    setCategoryId('')
+    setStatus('DRAFT')
+    setImage('')
+    setCreatedAt(new Date())
+    setViews(0)
+    toast.info('Draft cleared')
+  }
 
   const handleSubmit = async () => {
     const errors: string[] = []
@@ -225,6 +235,7 @@ const SinglePost = () => {
         await axiosInstance.put(`/api/posts/${routePostId}`, body)
         toast.success('Post updated successfully')
       }
+      clearAutoSave()
       router.push('/admin/posts')
     } catch (error: any) {
       toast.error(error?.response?.data?.message ?? 'Save failed')
@@ -263,6 +274,11 @@ const SinglePost = () => {
                 toast={toast}
               />
             ),
+          },
+          {
+            text: 'Clear Draft',
+            className: 'btn-sm btn-error btn-outline',
+            onClick: handleClearDraft,
           },
           {
             text: 'Back to Posts',

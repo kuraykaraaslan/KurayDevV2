@@ -285,6 +285,21 @@ exports.Prisma.GeoAnalyticsScalarFieldEnum = {
   count: 'count'
 };
 
+exports.Prisma.MediaScalarFieldEnum = {
+  mediaId: 'mediaId',
+  key: 'key',
+  url: 'url',
+  folder: 'folder',
+  mimeType: 'mimeType',
+  size: 'size',
+  name: 'name',
+  altText: 'altText',
+  originalName: 'originalName',
+  uploadedBy: 'uploadedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -348,7 +363,8 @@ exports.Prisma.ModelName = {
   Project: 'Project',
   Appointment: 'Appointment',
   Like: 'Like',
-  GeoAnalytics: 'GeoAnalytics'
+  GeoAnalytics: 'GeoAnalytics',
+  Media: 'Media'
 };
 
 /**

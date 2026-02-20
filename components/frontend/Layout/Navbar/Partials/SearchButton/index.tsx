@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faB, faMagnifyingGlass, faP, faSpinner } from '@fortawesome/free-solid-svg-icons' // Spinner ekledik
-import HeadlessModal, { useModal } from '@/components/common/Layout/Modal'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { ResultElement } from './partials/ResultElement'
 import { SearchResultItemType, SearchType } from '@/types/content/SearchTypes'
 import axiosInstance from '@/libs/axios'

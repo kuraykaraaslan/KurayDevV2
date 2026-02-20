@@ -2,7 +2,7 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
-import HeadlessModal, { useModal } from '@/components/common/Layout/Modal'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import SystemStatusModalContent from './content'
 import i18n from '@/libs/localize/localize'
 

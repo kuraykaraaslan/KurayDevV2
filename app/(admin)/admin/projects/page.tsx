@@ -64,6 +64,8 @@ const ProjectPage = () => {
         <TableHeader
           title="admin.projects.title"
           searchPlaceholder="admin.projects.search_placeholder"
+          buttonText="admin.projects.create_project"
+          buttonLink="/admin/projects/create"
         />
         <TableBody />
         <TableFooter

@@ -18,7 +18,6 @@ const SingleProject = () => {
   const [mode, setMode] = useState(params.projectId === 'create' ? 'create' : 'edit')
   const [loading, setLoading] = useState(true)
 
-  // Model fields
   const [title, setTitle] = useState('')
   const [image, setImage] = useState('')
   const [content, setContent] = useState('')
@@ -29,7 +28,6 @@ const SingleProject = () => {
   const [status, setStatus] = useState('PUBLISHED')
   const [projectLinks, setProjectLinks] = useState<string[]>([])
 
-  // Platform fields
   const allowedPlatforms = [
     'ui/ux',
     'web',
@@ -42,7 +40,6 @@ const SingleProject = () => {
     'machine learning',
   ]
 
-  // Technologies fields
   const allowedTechnologies = [
     'react',
     'react native',
@@ -60,21 +57,22 @@ const SingleProject = () => {
     'other',
   ]
 
+  const clearAutoSave = () => {
+    try {
+      const caches = localStorage.getItem(localStorageKey)
+      if (caches) {
+        const parsed = JSON.parse(caches)
+        delete parsed[params.projectId as string]
+        localStorage.setItem(localStorageKey, JSON.stringify(parsed))
+      }
+    } catch {}
+  }
+
   // Auto Save to Local Storage
   useEffect(() => {
     if (loading) return
 
-    const draft = {
-      title,
-      content,
-      description,
-      slug,
-      platforms,
-      technologies,
-      status,
-      image,
-      projectLinks,
-    }
+    const draft = { title, content, description, slug, platforms, technologies, status, image, projectLinks }
 
     const caches = localStorage.getItem(localStorageKey)
     let parsedCaches: Record<string, typeof draft> = {}
@@ -86,20 +84,8 @@ const SingleProject = () => {
     }
 
     parsedCaches[params.projectId as string] = draft
-
     localStorage.setItem(localStorageKey, JSON.stringify(parsedCaches))
-  }, [
-    title,
-    content,
-    description,
-    slug,
-    platforms,
-    technologies,
-    status,
-    image,
-    projectLinks,
-    loading,
-  ])
+  }, [title, content, description, slug, platforms, technologies, status, image, projectLinks, loading])
 
   // Load Draft from Local Storage
   useEffect(() => {
@@ -129,26 +115,31 @@ const SingleProject = () => {
 
   // Auto Slugify
   useEffect(() => {
-    //if we are in edit mode and never update slug again
-    if (mode === 'edit' || loading) {
-      return
-    }
+    if (mode === 'edit' || loading) return
 
     if (title) {
-      // Remove all non-english characters
       const invalidChars = /[^\w\s-]/g
-      // Remove all non-english characters
       let slugifiedTitle = title.replace(invalidChars, '')
-      // Replace all spaces with hyphens
       slugifiedTitle = slugifiedTitle.replace(/\s+/g, '-')
-      // Remove all double hyphens
       slugifiedTitle = slugifiedTitle.replace(/--+/g, '-')
-      // Convert to lowercase
       slugifiedTitle = slugifiedTitle.toLowerCase()
-
       setSlug(slugifiedTitle)
     }
   }, [title])
+
+  const handleClearDraft = () => {
+    clearAutoSave()
+    setTitle('')
+    setContent('')
+    setDescription('')
+    setSlug('')
+    setPlatforms([])
+    setTechnologies([])
+    setStatus('PUBLISHED')
+    setImage('')
+    setProjectLinks([])
+    toast.info('Draft cleared')
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -156,7 +147,6 @@ const SingleProject = () => {
     const errors: string[] = []
 
     mandatoryFields.forEach((fieldName) => {
-      // integer or string
       const fieldValue = eval(fieldName)
       const fieldType = typeof fieldValue
 
@@ -204,6 +194,7 @@ const SingleProject = () => {
         .then((response) => {
           const { project } = response.data
           toast.success('Project created successfully')
+          clearAutoSave()
           router.push('/admin/projects/' + project.projectId)
         })
         .catch((error) => {
@@ -214,6 +205,7 @@ const SingleProject = () => {
         .put('/api/projects/', body)
         .then(() => {
           toast.success('Project updated successfully')
+          clearAutoSave()
           router.push('/admin/projects')
         })
         .catch((error) => {
@@ -248,7 +240,7 @@ const SingleProject = () => {
           setImage(project.image)
           setProjectLinks(project.projectLinks)
 
-          setLoading(false) // ✔️ API bittikten sonra
+          setLoading(false)
         })
         .catch((error) => {
           console.error(error)
@@ -265,6 +257,13 @@ const SingleProject = () => {
             {mode === 'create' ? 'Create Project' : title}
           </h1>
           <div className="flex gap-2 h-16">
+            <button
+              type="button"
+              className="btn btn-error btn-outline btn-sm h-12"
+              onClick={handleClearDraft}
+            >
+              Clear Draft
+            </button>
             <Link className="btn btn-primary btn-sm h-12" href="/admin/projects">
               Back to Projects
             </Link>
@@ -357,6 +356,7 @@ const SingleProject = () => {
               ))}
             </div>
           </div>
+
           <div className="form-control flex flex-col">
             <label className="label">
               <span className="label-text">Technologies</span>

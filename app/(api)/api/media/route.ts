@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import AWSService from '@/services/StorageService/AWSService'
+import { prisma } from '@/libs/prisma'
 
 export async function GET(request: NextRequest) {
   try {
@@ -12,29 +13,35 @@ export async function GET(request: NextRequest) {
     const pageSize = parseInt(searchParams.get('pageSize') || '24', 10)
     const search = searchParams.get('search') || undefined
 
-    let files = await AWSService.listFiles(folder)
-
-    // Filter by search query
-    if (search) {
-      const searchLower = search.toLowerCase()
-      files = files.filter(
-        (file) =>
-          file.key.toLowerCase().includes(searchLower) ||
-          file.folder.toLowerCase().includes(searchLower)
-      )
+    const where = {
+      ...(folder ? { folder } : {}),
+      ...(search
+        ? {
+            OR: [
+              { key: { contains: search, mode: 'insensitive' as const } },
+              { name: { contains: search, mode: 'insensitive' as const } },
+              { originalName: { contains: search, mode: 'insensitive' as const } },
+            ],
+          }
+        : {}),
     }
 
-    const total = files.length
-    const totalPages = Math.ceil(total / pageSize)
-    const startIndex = page * pageSize
-    const paginatedFiles = files.slice(startIndex, startIndex + pageSize)
+    const [files, total] = await Promise.all([
+      prisma.media.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: page * pageSize,
+        take: pageSize,
+      }),
+      prisma.media.count({ where }),
+    ])
 
     return NextResponse.json({
-      files: paginatedFiles,
+      files,
       total,
       page,
       pageSize,
-      totalPages,
+      totalPages: Math.ceil(total / pageSize),
       folders: AWSService.allowedFolders,
     })
   } catch (error: any) {
@@ -45,8 +52,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    // Allow any authenticated user to upload (not just ADMIN)
-    await UserSessionService.authenticateUserByRequest({ request })
+    const session = await UserSessionService.authenticateUserByRequest({ request })
 
     const formData = await request.formData()
     const file = formData.get('file') as File
@@ -58,9 +64,29 @@ export async function POST(request: NextRequest) {
 
     const url = await AWSService.uploadFile(file, folder)
 
+    if (!url) {
+      return NextResponse.json({ message: 'Upload failed' }, { status: 500 })
+    }
+
+    // Extract the S3 key from the returned public URL
+    const key = new URL(url).pathname.slice(1)
+
+    const media = await prisma.media.create({
+      data: {
+        key,
+        url,
+        folder,
+        mimeType: file.type,
+        size: file.size,
+        originalName: file.name,
+        uploadedBy: session.user.userId,
+      },
+    })
+
     return NextResponse.json({
       message: 'File uploaded successfully',
       url,
+      media,
     })
   } catch (error: any) {
     console.error('Error uploading media:', error)
@@ -81,9 +107,10 @@ export async function DELETE(request: NextRequest) {
 
     await AWSService.deleteFile(key)
 
-    return NextResponse.json({
-      message: 'File deleted successfully',
-    })
+    // Remove from DB — deleteMany to avoid throwing if key was never tracked
+    await prisma.media.deleteMany({ where: { key } })
+
+    return NextResponse.json({ message: 'File deleted successfully' })
   } catch (error: any) {
     console.error('Error deleting media:', error)
     return NextResponse.json({ message: error.message }, { status: 500 })

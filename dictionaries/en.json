@@ -331,6 +331,11 @@
       "title": "Media Library",
       "description": "Manage your uploaded files and images",
       "upload": "Upload",
+      "sync": "Sync from S3",
+      "edit": "Edit",
+      "name": "Display Name",
+      "alt_text": "Alt Text",
+      "alt_text_placeholder": "Describe the image for accessibility",
       "all_folders": "All Folders",
       "search_placeholder": "Search files...",
       "total_files": "Total Files",
@@ -456,6 +461,8 @@
       "error": "Error uploading image"
     },
     "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
     "modal": {
       "close_dialog": "Close dialog"
     },

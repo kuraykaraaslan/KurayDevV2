@@ -1,5 +1,5 @@
 'use client'
-import HeadlessModal, { useModal } from '@/components/common/Layout/Modal'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
 import KnowledgeGraph2D from './index'
