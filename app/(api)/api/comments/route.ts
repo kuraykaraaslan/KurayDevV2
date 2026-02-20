@@ -6,6 +6,7 @@ import { CreateCommentRequestSchema } from '@/dtos/CommentDTO'
 import CommentMessages from '@/messages/CommentMessages'
 import { pipeline } from '@xenova/transformers'
 import { CommentStatus } from '@/generated/prisma'
+import InAppNotificationService from '@/services/InAppNotificationService'
 
 // Force this route to run in Node.js runtime
 export const runtime = 'nodejs'
@@ -87,6 +88,12 @@ export async function POST(request: NextRequest) {
       status: finalStatus,
       createdAt: new Date(),
     })
+
+    InAppNotificationService.pushToAdmins({
+      title: finalStatus === CommentStatus.NOT_PUBLISHED ? 'Pending Comment' : 'New Comment',
+      message: `${name || email || 'Someone'} left a new comment`,
+      path: '/admin/comments',
+    }).catch(() => {})
 
     return NextResponse.json(
       {

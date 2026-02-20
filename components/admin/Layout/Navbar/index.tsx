@@ -15,6 +15,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import ThemeButton from './Partials/ThemeButton'
+import NotificationBell from './Partials/NotificationBell'
 import Logo from '@/components/common/Layout/Logo'
 import dynamic from 'next/dynamic'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
@@ -209,10 +210,11 @@ const Navbar = () => {
         </div>
 
         {/* Mobile hamburger */}
-        <div className="flex lg:hidden">
+        <div className="flex lg:hidden items-center gap-2 mr-2">
+          <NotificationBell />
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 mr-2 hover:bg-base-200 transition-colors"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 hover:bg-base-200 transition-colors"
             onClick={toggleMobileMenu}
             aria-label="Open main menu"
             aria-expanded={isMobileMenuOpen}
@@ -229,7 +231,8 @@ const Navbar = () => {
         </div>
 
         {/* Desktop auth */}
-        <div className="hidden lg:flex lg:justify-end items-center">
+        <div className="hidden lg:flex lg:justify-end items-center gap-2">
+          <NotificationBell />
           <NavbarAuthButton />
         </div>
       </nav>

@@ -1,5 +1,6 @@
-import {  NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import DiscordService from '@/services/SocialMediaService/DiscordService'
+import InAppNotificationService from '@/services/InAppNotificationService'
 import ContactFormService from '@/services/ContactFormService'
 import MailService from '@/services/NotificationService/MailService'
 import SMSService from '@/services/NotificationService/SMSService'
@@ -83,6 +84,11 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
     }
 
     await ContactFormService.createContactForm(data)
+    InAppNotificationService.pushToAdmins({
+      title: 'New Contact Message',
+      message: `${name || email} sent you a message`,
+      path: '/admin/contacts',
+    }).catch(() => {})
   } catch (error) {
     Logger.error('[ContactForm] DB Error: ' + error)
   }

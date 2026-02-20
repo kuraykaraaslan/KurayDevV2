@@ -17,7 +17,7 @@ const Comments = ({ postId }: { postId: string }) => {
   const fetchComments = async () => {
     // Fetch comments for the post
     await axiosInstance
-      .get(`/api/comments?postId=${postId}&page=${page + 1}&pageSize=${pageSize}`)
+      .get(`/api/comments?postId=${postId}&page=${page}&pageSize=${pageSize}`)
       .then((response) => {
         setComments((prevComments) => [...prevComments, ...response.data.comments])
       })

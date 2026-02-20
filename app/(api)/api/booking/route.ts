@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import AppointmentService from '@/services/AppointmentService'
 import Logger from '@/libs/logger'
+import InAppNotificationService from '@/services/InAppNotificationService'
 import SlotService from '@/services/AppointmentService/SlotService'
 import { AppointmentStatus } from '@/types/features/CalendarTypes'
 import { CreateAppointmentRequestSchema } from '@/dtos/AppointmentDTO'
@@ -45,6 +46,12 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await AppointmentService.createAppointment(appointmentData)
+
+    InAppNotificationService.pushToAdmins({
+      title: 'Appointment Request',
+      message: `${name || email} requested an appointment`,
+      path: '/admin/appointments',
+    }).catch(() => {})
 
     return NextResponse.json(result)
   } catch (err: any) {
