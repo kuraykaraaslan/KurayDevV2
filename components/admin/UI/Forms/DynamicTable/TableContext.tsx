@@ -2,6 +2,8 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
 import axiosInstance from '@/libs/axios'
 
+export type ViewMode = 'table' | 'grid'
+
 export interface ColumnDef<T> {
   key: string
   header: string
@@ -16,6 +18,13 @@ export interface ActionButton<T> {
   onClick?: (item: T, index?: number) => void | Promise<void>
   className?: string
   hideOnMobile?: boolean
+}
+
+export interface GridItemRenderProps<T> {
+  item: T
+  index: number
+  actions?: ActionButton<T>[]
+  handleActionClick: (action: ActionButton<T>, item: T, index?: number) => Promise<void>
 }
 
 interface TableContextValue<T> {
@@ -43,6 +52,12 @@ interface TableContextValue<T> {
   // Mode
   isLocalMode: boolean
 
+  // View Mode
+  viewMode: ViewMode
+  setViewMode: (mode: ViewMode) => void
+  gridItemRenderer?: (props: GridItemRenderProps<T>) => ReactNode
+  gridClassName?: string
+
   // Handlers
   handleActionClick: (action: ActionButton<T>, item: T, index?: number) => Promise<void>
   refetch: () => void
@@ -65,6 +80,9 @@ interface TableProviderBaseProps<T> {
   actions?: ActionButton<T>[]
   pageSize?: number
   onDataChange?: (data: T[]) => void
+  defaultViewMode?: ViewMode
+  gridItemRenderer?: (props: GridItemRenderProps<T>) => ReactNode
+  gridClassName?: string
 }
 
 interface TableProviderAPIProps<T> extends TableProviderBaseProps<T> {
@@ -92,11 +110,15 @@ export function TableProvider<T extends Record<string, unknown>>({
   actions,
   pageSize: initialPageSize = 10,
   onDataChange,
+  defaultViewMode = 'table',
+  gridItemRenderer,
+  gridClassName,
   ...rest
 }: TableProviderProps<T>) {
   const isLocalMode = 'localData' in rest && rest.localData !== undefined
 
   const [search, setSearch] = useState('')
+  const [viewMode, setViewMode] = useState<ViewMode>(defaultViewMode)
   const [data, setData] = useState<T[]>(
     isLocalMode ? (rest as TableProviderLocalProps<T>).localData : []
   )
@@ -174,6 +196,10 @@ export function TableProvider<T extends Record<string, unknown>>({
     actions,
     idKey,
     isLocalMode,
+    viewMode,
+    setViewMode,
+    gridItemRenderer,
+    gridClassName,
     handleActionClick,
     refetch: fetchData,
   }

@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url)
     const folder = searchParams.get('folder') || undefined
-    const page = parseInt(searchParams.get('page') || '1', 10)
+    const page = parseInt(searchParams.get('page') || '0', 10)
     const pageSize = parseInt(searchParams.get('pageSize') || '24', 10)
     const search = searchParams.get('search') || undefined
 
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     const total = files.length
     const totalPages = Math.ceil(total / pageSize)
-    const startIndex = (page - 1) * pageSize
+    const startIndex = page * pageSize
     const paginatedFiles = files.slice(startIndex, startIndex + pageSize)
 
     return NextResponse.json({

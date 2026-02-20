@@ -352,7 +352,8 @@
       "page": "Page",
       "page_size": "Page Size",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "showing": "Showing {{count}} of {{total}} files"
     },
     "project_links": {
       "url": "URL",
@@ -429,7 +430,10 @@
     "loading": "Loading...",
     "modal": {
       "close_dialog": "Close dialog"
-    }
+    },
+    "table_view": "Table View",
+    "grid_view": "Grid View",
+    "refresh": "Refresh"
   },
   "frontend": {
     "toc": {

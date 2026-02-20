@@ -2,7 +2,7 @@
 
 // Context & Provider
 export { TableProvider, useTableContext } from './TableContext'
-export type { ColumnDef, ActionButton } from './TableContext'
+export type { ColumnDef, ActionButton, ViewMode, GridItemRenderProps } from './TableContext'
 
 // Components
 export { default as Table } from './Table'
