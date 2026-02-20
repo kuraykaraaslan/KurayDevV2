@@ -6,37 +6,25 @@ import { Stat } from '@/types/common/StatTypes'
 import { Subscription } from '@/types/common/SubscriptionTypes'
 import { Appointment } from '@/types/features/CalendarTypes'
 import { ContactForm } from '@/types/features/ContactTypes'
-import { GeoLocation } from '@/dtos/AnalyticsDTO'
-import {
-  faNewspaper,
-  faFolder,
-  faUsers,
-  faEye,
-  faComment,
-} from '@fortawesome/free-solid-svg-icons'
 import DashboardWidget, { StatsGrid } from '@/components/admin/Features/Dashboard'
 import StatCardItem from '@/components/admin/Features/Dashboard/StatCardItem'
+import { STAT_CARDS, TrafficDataPoint, aggregateGeoByCountry, generateTrafficData } from '@/types/common/DashboardTypes'
 import RecentPostItem from '@/components/admin/Features/Dashboard/RecentPostItem'
 import PendingCommentItem from '@/components/admin/Features/Dashboard/PendingCommentItem'
 import PopularPostItem from '@/components/admin/Features/Dashboard/PopularPostItem'
 import SubscriptionItem from '@/components/admin/Features/Dashboard/SubscriptionItem'
 import AppointmentItem from '@/components/admin/Features/Dashboard/AppointmentItem'
 import ContactFormItem from '@/components/admin/Features/Dashboard/ContactFormItem'
-import TrafficOverviewChart, { TrafficDataPoint } from '@/components/admin/Features/Dashboard/TrafficOverviewChart'
+import TrafficOverviewChart from '@/components/admin/Features/Dashboard/TrafficOverviewChart'
 import GeoStatsItem from '@/components/admin/Features/Dashboard/GeoStatsItem'
+import { GeoLocation } from '@/dtos/AnalyticsDTO'
+import PageHeader from '@/components/admin/UI/PageHeader'
 
 interface DashboardWidgetConfig {
   key: string
   component: ReactNode
 }
 
-const statCards = [
-  { key: 'totalPosts', label: 'Posts', icon: faNewspaper, href: '/admin/posts' },
-  { key: 'totalCategories', label: 'Categories', icon: faFolder, href: '/admin/categories' },
-  { key: 'totalUsers', label: 'Users', icon: faUsers, href: '/admin/users' },
-  { key: 'totalViews', label: 'Total Views', icon: faEye, href: null },
-  { key: 'totalComments', label: 'Comments', icon: faComment, href: '/admin/comments' },
-] as const
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stat | null>(null)
@@ -88,30 +76,9 @@ export default function DashboardPage() {
         if (contactFormsRes.status === 'fulfilled')
           setContactForms(contactFormsRes.value.data.contactForms ?? [])
         if (geoRes.status === 'fulfilled') {
-          const locations = geoRes.value.data.data ?? []
-          // Aggregate by country
-          const countryMap = new Map<string, GeoLocation & { visitCount: number }>()
-          locations.forEach((loc: GeoLocation) => {
-            const key = loc.country || 'Unknown'
-            const existing = countryMap.get(key)
-            if (existing) {
-              existing.visitCount += loc.visitCount ?? 1
-            } else {
-              countryMap.set(key, { ...loc, visitCount: loc.visitCount ?? 1 })
-            }
-          })
-          setGeoData(Array.from(countryMap.values()).slice(0, 5))
-
-          // Generate traffic data from geo data (last 7 days simulation)
-          const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-          const totalVisits = locations.reduce((sum: number, loc: GeoLocation) => sum + (loc.visitCount ?? 1), 0)
-          const avgPerDay = Math.ceil(totalVisits / 7)
-          setTrafficData(
-            days.map((label) => ({
-              label,
-              value: Math.floor(avgPerDay * (0.5 + Math.random())),
-            }))
-          )
+          const locations: GeoLocation[] = geoRes.value.data.data ?? []
+          setGeoData(aggregateGeoByCountry(locations).slice(0, 5))
+          setTrafficData(generateTrafficData(locations))
         }
       } catch (err) {
         console.error('Dashboard fetch error:', err)
@@ -256,17 +223,14 @@ export default function DashboardPage() {
 
   return (
     <div className="w-full">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-base-content">Dashboard</h1>
-        <p className="text-base-content/50 text-sm mt-1">Overview of your content and activity</p>
-      </div>
+      <PageHeader title="Dashboard" description="Overview of your content and activity" />
 
       <StatsGrid>
-        {statCards.map(({ key, label, icon, href }) => (
+        {STAT_CARDS.map(({ key, label, icon, href }) => (
           <StatCardItem
             key={key}
             label={label}
-            value={stats ? stats[key] : null}
+            value={stats ? stats[key as keyof Stat] : null}
             icon={icon}
             href={href}
             loading={loading}

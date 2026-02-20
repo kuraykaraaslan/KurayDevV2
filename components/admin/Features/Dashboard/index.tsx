@@ -5,7 +5,7 @@ import { faArrowRight, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 export interface DashboardWidgetProps {
   title: string
-  viewAllHref: string
+  viewAllHref?: string
   loading: boolean
   isEmpty: boolean
   emptyMessage: string
@@ -24,13 +24,15 @@ export default function DashboardWidget({
     <div className="rounded-lg border border-base-300 bg-base-200 overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-base-300">
         <h2 className="text-sm font-semibold text-base-content">{title}</h2>
-        <Link
-          href={viewAllHref}
-          className="text-xs flex items-center gap-1 text-primary transition-colors"
-        >
-          View all
-          <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
-        </Link>
+        {viewAllHref && (
+          <Link
+            href={viewAllHref}
+            className="text-xs flex items-center gap-1 text-primary transition-colors"
+          >
+            View all
+            <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
+          </Link>
+        )}
       </div>
       <div className="divide-y divide-base-300">
         {loading ? (
