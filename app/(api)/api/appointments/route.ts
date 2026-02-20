@@ -1,5 +1,5 @@
 import AppointmentService from '@/services/AppointmentService'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import { AppointmentStatus } from '@/types/features/CalendarTypes'
 
@@ -8,14 +8,15 @@ export async function GET(request: NextRequest) {
     await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { searchParams } = new URL(request.url)
-    // Extract query parameters
-    const page = parseInt(searchParams.get('page') || '1', 10)
+    // Extract query parameters (0-based pagination from DynamicTable)
+    const page = parseInt(searchParams.get('page') || '0', 10)
     const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
     const startDate = searchParams.get('startDate') || undefined
     const endDate = searchParams.get('endDate') || undefined
     const status = (searchParams.get('status') as AppointmentStatus) || undefined
     const appointmentId = searchParams.get('appointmentId') || undefined
     const email = searchParams.get('email') || undefined
+    const search = searchParams.get('search') || undefined
 
     const result = await AppointmentService.getAllAppointments({
       page,
@@ -25,6 +26,7 @@ export async function GET(request: NextRequest) {
       endDate,
       appointmentId,
       email,
+      search,
     })
 
     return NextResponse.json({

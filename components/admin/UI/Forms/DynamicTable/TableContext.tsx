@@ -10,6 +10,7 @@ export interface ColumnDef<T> {
   accessor: (item: T, index?: number) => ReactNode
   className?: string
   onClick?: (item: T, index?: number) => void
+  hideOnMobile?: boolean
 }
 
 export interface ActionButton<T> {
@@ -18,6 +19,7 @@ export interface ActionButton<T> {
   onClick?: (item: T, index?: number) => void | Promise<void>
   className?: string
   hideOnMobile?: boolean
+  hidden?: (item: T) => boolean
 }
 
 export interface GridItemRenderProps<T> {

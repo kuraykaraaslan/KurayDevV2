@@ -38,8 +38,7 @@ const TableHeader = ({
   toolbarPosition = 'after-search',
 }: TableHeaderProps) => {
   const { t } = useTranslation()
-  const { search, setSearch, viewMode, setViewMode, gridItemRenderer, refetch, loading } =
-    useTableContext()
+  const { search, setSearch, viewMode, setViewMode, refetch, loading } = useTableContext()
 
   const renderToolbarContent = () => toolbarContent
 
@@ -67,7 +66,7 @@ const TableHeader = ({
               <FontAwesomeIcon icon={faRefresh} spin={loading} />
             </button>
           )}
-          {showViewToggle && gridItemRenderer && (
+          {showViewToggle && (
             <div className="join">
               <button
                 className={`join-item btn btn-sm ${viewMode === 'table' ? 'btn-active' : ''}`}

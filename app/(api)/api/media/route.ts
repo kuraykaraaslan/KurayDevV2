@@ -45,7 +45,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    // Allow any authenticated user to upload (not just ADMIN)
+    await UserSessionService.authenticateUserByRequest({ request })
 
     const formData = await request.formData()
     const file = formData.get('file') as File

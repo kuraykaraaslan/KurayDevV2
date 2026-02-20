@@ -60,6 +60,7 @@ const PostPage = () => {
           searchPlaceholder="admin.posts.search_placeholder"
           buttonText="admin.posts.create_post"
           buttonLink="/admin/posts/create"
+          showViewToggle
         />
         <TableBody />
         <TableFooter

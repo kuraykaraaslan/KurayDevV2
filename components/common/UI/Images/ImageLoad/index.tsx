@@ -95,7 +95,7 @@ const ImageLoad = ({
       formData.append('file', file)
       formData.append('folder', uploadFolder)
 
-      const res = await axiosInstance.post('/api/aws', formData, {
+      const res = await axiosInstance.post('/api/media', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
 

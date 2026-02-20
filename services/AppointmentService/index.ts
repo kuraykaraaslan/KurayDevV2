@@ -123,20 +123,31 @@ export default class AppointmentService {
     appointmentId?: string
     email?: string
     name?: string
+    search?: string
   }): Promise<{ appointments: Appointment[]; total: number }> {
-    const { page, pageSize, startDate, endDate, status, appointmentId, email, name } = params
-    const where: any = {
-      startTime: startDate ? { gte: new Date(startDate) } : undefined,
-      endTime: endDate ? { lte: new Date(endDate) } : undefined,
-      appointmentId: appointmentId || undefined,
-      email: email || undefined,
-      name: name || undefined,
-      status: status && status !== 'ALL' ? status : undefined,
+    const { page, pageSize, startDate, endDate, status, appointmentId, email, name, search } = params
+    
+    const where: any = {}
+    
+    if (startDate) where.startTime = { gte: new Date(startDate) }
+    if (endDate) where.endTime = { lte: new Date(endDate) }
+    if (appointmentId) where.appointmentId = appointmentId
+    if (status && status !== 'ALL') where.status = status
+    
+    // Search by name or email
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+      ]
+    } else {
+      if (email) where.email = { contains: email, mode: 'insensitive' }
+      if (name) where.name = { contains: name, mode: 'insensitive' }
     }
 
     const [appointments, total] = await prisma.$transaction([
       prisma.appointment.findMany({
-        skip: (page - 1) * pageSize,
+        skip: page * pageSize,
         take: pageSize,
         where,
         orderBy: { createdAt: 'desc' },

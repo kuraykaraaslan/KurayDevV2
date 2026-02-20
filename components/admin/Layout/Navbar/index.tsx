@@ -55,8 +55,10 @@ const Navbar = () => {
       name: 'Media',
       href: '/admin/media',
     },
-    {
-      name: 'Users',
+    {      name: 'Appointments',
+      href: '/admin/appointments',
+    },
+    {      name: 'Users',
       href: '/admin/users',
     },
     {

@@ -22,7 +22,7 @@ const TinyMCEEditor = ({
       formData.append('folder', 'categories')
 
       await axiosInstance
-        .post('/api/aws', formData, {
+        .post('/api/media', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
