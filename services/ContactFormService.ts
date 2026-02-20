@@ -95,4 +95,25 @@ export default class ContactFormService {
 
     return recentEntries
   }
+
+  /**
+   * Deletes a contact form by its ID.
+   * @param contactId - The contact form ID
+   * @returns The deleted contact form
+   */
+  static async deleteContactForm(contactId: string): Promise<ContactForm | null> {
+    const contactForm = await prisma.contactForm.findUnique({
+      where: { contactId },
+    })
+
+    if (!contactForm) {
+      return null
+    }
+
+    await prisma.contactForm.delete({
+      where: { contactId },
+    })
+
+    return contactForm as ContactForm
+  }
 }

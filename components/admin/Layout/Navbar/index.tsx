@@ -44,6 +44,18 @@ const Navbar = () => {
       href: '/admin/comments',
     },
     {
+      name: 'Contacts',
+      href: '/admin/contacts',
+    },
+    {
+      name: 'Subscriptions',
+      href: '/admin/subscriptions',
+    },
+    {
+      name: 'Media',
+      href: '/admin/media',
+    },
+    {
       name: 'Users',
       href: '/admin/users',
     },

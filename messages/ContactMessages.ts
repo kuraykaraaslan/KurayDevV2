@@ -18,6 +18,8 @@ export enum ContactMessages {
   INVALID_EMAIL_ADDRESS = 'INVALID_EMAIL_ADDRESS',
   MESSAGE_SENT_SUCCESSFULLY = 'Your message has been sent successfully.',
   TOO_MANY_REQUESTS = 'You have already submitted a message recently. Please wait before sending another message.',
+  CONTACT_NOT_FOUND = 'Contact form not found.',
+  CONTACT_DELETED_SUCCESSFULLY = 'Contact form deleted successfully.',
 }
 
 export default ContactMessages

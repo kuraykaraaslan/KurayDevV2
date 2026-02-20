@@ -1,5 +1,18 @@
 import { s3 } from '@/libs/s3'
-import { PutObjectCommand } from '@aws-sdk/client-s3'
+import {
+  PutObjectCommand,
+  ListObjectsV2Command,
+  DeleteObjectCommand,
+  HeadObjectCommand,
+} from '@aws-sdk/client-s3'
+
+export interface S3Object {
+  key: string
+  url: string
+  size: number
+  lastModified: Date
+  folder: string
+}
 
 export default class AWSService {
   static allowedFolders = [
@@ -31,6 +44,72 @@ export default class AWSService {
     const mimeType = file.type
     if (!mimeType || !AWSService.allowedMimeTypes.includes(mimeType))
       throw new Error(`Invalid MIME type: ${mimeType}`)
+  }
+
+  /**
+   * List all files in S3 bucket with optional folder filter
+   */
+  static listFiles = async (folder?: string): Promise<S3Object[]> => {
+    const command = new ListObjectsV2Command({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Prefix: folder ? `${folder}/` : undefined,
+    })
+
+    const response = await s3.send(command)
+    const objects: S3Object[] = []
+
+    if (response.Contents) {
+      for (const item of response.Contents) {
+        if (item.Key && item.Size && item.Size > 0) {
+          const itemFolder = item.Key.split('/')[0]
+          objects.push({
+            key: item.Key,
+            url: `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${item.Key}`,
+            size: item.Size,
+            lastModified: item.LastModified || new Date(),
+            folder: itemFolder,
+          })
+        }
+      }
+    }
+
+    return objects.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime())
+  }
+
+  /**
+   * Delete a file from S3 bucket
+   */
+  static deleteFile = async (key: string): Promise<boolean> => {
+    const command = new DeleteObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: key,
+    })
+
+    await s3.send(command)
+    return true
+  }
+
+  /**
+   * Get file metadata
+   */
+  static getFileMetadata = async (
+    key: string
+  ): Promise<{ size: number; contentType: string; lastModified: Date } | null> => {
+    try {
+      const command = new HeadObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: key,
+      })
+
+      const response = await s3.send(command)
+      return {
+        size: response.ContentLength || 0,
+        contentType: response.ContentType || 'application/octet-stream',
+        lastModified: response.LastModified || new Date(),
+      }
+    } catch {
+      return null
+    }
   }
 
   static uploadFile = async (

@@ -10,17 +10,31 @@ export default class SubscriptionService {
     page?: number
     pageSize?: number
     includeDeleted?: boolean
-  }): Promise<Subscription[]> {
-    return await prisma.subscription.findMany({
-      where: {
-        deletedAt: data.includeDeleted ? undefined : null,
-      },
-      skip: data.page && data.pageSize ? data.page * data.pageSize : undefined,
-      take: data.pageSize ? data.pageSize : undefined,
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+    search?: string
+  }): Promise<{ subscriptions: Subscription[]; total: number }> {
+    const where = {
+      deletedAt: data.includeDeleted ? undefined : null,
+      ...(data.search && {
+        email: {
+          contains: data.search,
+          mode: 'insensitive' as const,
+        },
+      }),
+    }
+
+    const [subscriptions, total] = await prisma.$transaction([
+      prisma.subscription.findMany({
+        where,
+        skip: data.page && data.pageSize ? data.page * data.pageSize : undefined,
+        take: data.pageSize ? data.pageSize : undefined,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      }),
+      prisma.subscription.count({ where }),
+    ])
+
+    return { subscriptions, total }
   }
 
   static async getSubscriptionByEmail(email: string): Promise<Subscription | null> {
