@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { CSRF_HEADER_NAME } from './csrf'
 import type { MiddlewareResult } from './types'
 

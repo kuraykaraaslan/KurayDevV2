@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import PostLikeService from '@/services/PostService/LikeService'
 import PostMessages from '@/messages/PostMessages'
 import { GetLikeCountRequestSchema } from '@/dtos/PostInteractionDTO'
 
-export async function GET(_: NextRequest, { params }: { params: { postId: string } }) {
+export async function GET(_: Request, { params }: { params: { postId: string } }) {
   try {
     const { postId } = await params
 

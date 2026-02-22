@@ -1,5 +1,5 @@
 import AppointmentService from '@/services/AppointmentService'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 
 type RouteParams = { params: Promise<{ appointmentId: string }> }

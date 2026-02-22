@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import GeoAnalyticsService from '@/services/GeoAnalyticsService'
 import DBGeoService from '@/services/DBGeoService'
 import { GetGeoAnalyticsRequestSchema } from '@/dtos/AnalyticsDTO'

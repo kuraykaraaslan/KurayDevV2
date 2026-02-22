@@ -1,4 +1,3 @@
-import { NextRequest } from 'next/server'
 import { notFound } from 'next/navigation'
 import PostCoverService from '@/services/PostService/PostCoverService'
 import PostService from '@/services/PostService'

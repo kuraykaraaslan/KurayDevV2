@@ -3,14 +3,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
-import ImageLoad from '@/components/common/UI/Images/ImageLoad'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import Form from '@/components/admin/UI/Forms/Form'
-
-type UserRole = 'ADMIN' | 'USER'
-type UserStatus = 'ACTIVE' | 'INACTIVE' | 'BANNED'
+import { UserRole, UserStatus } from '@/types/user/UserTypes'
 
 const SingleUser = () => {
   const params = useParams<{ userId: string }>()
@@ -21,8 +18,6 @@ const SingleUser = () => {
     () => (routeUserId === 'create' ? 'create' : 'edit'),
     [routeUserId]
   )
-
-  const [loading, setLoading] = useState(true)
 
   // Model fields
   const [name, setName] = useState('')
@@ -39,11 +34,9 @@ const SingleUser = () => {
 
     const load = async () => {
       if (!routeUserId) {
-        setLoading(false)
         return
       }
       if (routeUserId === 'create') {
-        setLoading(false)
         return
       }
 
@@ -66,9 +59,7 @@ const SingleUser = () => {
       } catch (error: any) {
         console.error(error)
         toast.error(error?.response?.data?.message ?? 'Failed to load user')
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
+      } 
     }
 
     load()

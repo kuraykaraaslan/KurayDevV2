@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import redisInstance from '@/libs/redis'
 import type { RateLimitConfig, RateLimitResult, MiddlewareResult } from './types'
 
@@ -125,7 +125,7 @@ export async function checkRateLimit(
  * Returns response if rate limit exceeded, null to continue
  */
 export async function rateLimitMiddleware(request: NextRequest): Promise<MiddlewareResult> {
-  const pathname = request.nextUrl.pathname
+  const pathname = new URL(request.url).pathname
   const clientIP = getClientIP(request)
   const config = getRateLimitConfig(pathname)
 
@@ -167,7 +167,7 @@ export async function addRateLimitHeaders(
   request: NextRequest,
   response: NextResponse
 ): Promise<void> {
-  const pathname = request.nextUrl.pathname
+  const pathname = new URL(request.url).pathname
   const clientIP = getClientIP(request)
   const config = getRateLimitConfig(pathname)
 

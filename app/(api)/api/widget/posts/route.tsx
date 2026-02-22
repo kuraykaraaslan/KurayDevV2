@@ -1,6 +1,5 @@
 import { ImageResponse } from 'next/og'
 import PostService from '@/services/PostService'
-import { NextRequest } from 'next/server'
 
 export async function GET(_request: NextRequest) {
   const { posts } = await PostService.getAllPosts({ page: 1, pageSize: 10, search: undefined })

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 const CSRF_SECRET =
   process.env.CSRF_SECRET ||
@@ -161,7 +161,7 @@ export default class CSRFService {
     if (headerToken) return headerToken
 
     // Sonra cookie'den dene
-    const cookieToken = request.cookies.get(CSRF_COOKIE_NAME)?.value
+    const cookieToken = (request as any).cookies?.get(CSRF_COOKIE_NAME)?.value
     return cookieToken || null
   }
 
@@ -202,7 +202,7 @@ export default class CSRFService {
     }
 
     // Cookie'deki token
-    const cookieToken = request.cookies.get(CSRF_COOKIE_NAME)?.value
+    const cookieToken = (request as any).cookies?.get(CSRF_COOKIE_NAME)?.value
 
     // Header'daki token
     const headerToken = request.headers.get(CSRF_HEADER_NAME)

@@ -2,7 +2,6 @@ import Logger from '@/libs/logger'
 import redis from '@/libs/redis'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import { KnowledgeGraphNode } from '@/types/content/BlogTypes'
-import { NextRequest } from 'next/server'
 import { UpdateKnowledgeGraphRequestSchema } from '@/dtos/KnowledgeGraphDTO'
 
 let cache: { data: any; expiresAt: number } | null = null

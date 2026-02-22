@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import type { CSRFValidationResult, MiddlewareResult } from './types'
 
 export const CSRF_COOKIE_NAME = 'csrf-token'
@@ -56,7 +56,7 @@ export function validateCSRF(request: NextRequest): CSRFValidationResult {
  * Returns response if validation fails, null to continue
  */
 export function csrfMiddleware(request: NextRequest): MiddlewareResult {
-  const pathname = request.nextUrl.pathname
+  const pathname = new URL(request.url).pathname
   const requiresCSRF = !CSRF_SAFE_METHODS.includes(request.method) && !isCSRFExempt(pathname)
 
   if (!requiresCSRF) {

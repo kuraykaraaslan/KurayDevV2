@@ -8,7 +8,7 @@ import { CreateCategoryRequestSchema } from '@/dtos/CategoryDTO'
  * @param request - The incoming request object
  * @returns A NextResponse containing the posts data or an error message
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
 

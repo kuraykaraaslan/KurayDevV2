@@ -12,7 +12,7 @@ export async function GET(
 ) {
   const { provider } = await params
 
-  const searchParams = request.nextUrl.searchParams
+  const searchParams = new URL(request.url).searchParams
 
   const code = searchParams.get('code')
   //const state = searchParams.get('state');

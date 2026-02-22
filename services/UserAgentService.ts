@@ -1,6 +1,5 @@
 import axios from 'axios'
 import crypto from 'crypto'
-import { NextRequest } from 'next/server'
 import redis from '@/libs/redis'
 import {
   GeoLocation,

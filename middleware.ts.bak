@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import {
   rateLimitMiddleware,
   addRateLimitHeaders,
@@ -12,7 +12,7 @@ import {
  * Main middleware - orchestrates all middleware handlers
  */
 export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+  const pathname = new URL(request.url).pathname;
 
   // Only apply middleware to API routes
   if (!pathname.startsWith('/api')) {

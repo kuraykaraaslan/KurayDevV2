@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import CronService from '@/services/CronService'
 import Logger from '@/libs/logger'
 import { StatFrequency, StatFrequencySchema } from '@/types/common/StatTypes'

@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import Logger from '@/libs/logger'
 import AppointmentService from '@/services/AppointmentService'
 import AppointmentMessages from '@/messages/AppointmentMessages'
