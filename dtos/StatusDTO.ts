@@ -1,35 +1,26 @@
 import { z } from 'zod'
 
-// Request Schemas (No input needed for health check)
-export const HealthCheckRequestSchema = z.object({})
-
-// Health Status Schema
-const HealthStatusSchema = z.object({
-  status: z.enum(['ok', 'degraded', 'down']),
-  message: z.string(),
-  timestamp: z.number(),
+const ServiceCheckSchema = z.object({
+  status: z.enum(['OK', 'FAIL']),
+  error: z.string().optional(),
+  queued: z.number().optional(),
+  bucket: z.string().optional(),
+  region: z.string().optional(),
 })
 
-// Response Schemas
 export const HealthCheckResponseSchema = z.object({
-  cached: z.boolean().optional(),
-  database: HealthStatusSchema.optional(),
-  redis: HealthStatusSchema.optional(),
-  email: HealthStatusSchema.optional(),
-  sms: HealthStatusSchema.optional(),
-  ai: HealthStatusSchema.optional(),
-  overall: z.enum(['ok', 'degraded', 'down']).optional(),
-  timestamp: z.number().optional(),
+  timestamp: z.string(),
+  uptimeSec: z.number(),
+  responseTimeMs: z.number(),
+  services: z.object({
+    redis: ServiceCheckSchema.optional(),
+    mail: ServiceCheckSchema.optional(),
+    sms: ServiceCheckSchema.optional(),
+    openai: ServiceCheckSchema.optional(),
+    aws: ServiceCheckSchema.optional(),
+  }),
+  cached: z.boolean(),
 })
 
-// Type Exports
-export type HealthCheckRequest = z.infer<typeof HealthCheckRequestSchema>
 export type HealthCheckResponse = z.infer<typeof HealthCheckResponseSchema>
-export type HealthStatus = z.infer<typeof HealthStatusSchema>
-
-// Schema Exports
-export const StatusSchemas = {
-  HealthCheckRequestSchema,
-  HealthCheckResponseSchema,
-  HealthStatusSchema,
-} as const
+export type ServiceCheck = z.infer<typeof ServiceCheckSchema>
