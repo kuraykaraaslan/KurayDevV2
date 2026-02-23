@@ -14,7 +14,7 @@ const NavbarAuthButton = dynamic(
   { ssr: false }
 )
 
-const LanguageModal = dynamic(() => import('./Partials/LanguageModal'), { ssr: false })
+const LangButton = dynamic(() => import('./Partials/LangButton'), { ssr: false })
 
 const ThemeButton = dynamic(() => import('./Partials/ThemeButton'), { ssr: false })
 
@@ -74,7 +74,7 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
             <Logo />
             <div className="flex lg:gap-2">
               <ThemeButton />
-              <LanguageModal />
+              <LangButton />
               <SearchButton />
             </div>
           </div>

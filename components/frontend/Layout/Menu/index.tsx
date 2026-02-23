@@ -9,9 +9,11 @@ import i18n from '@/libs/localize/localize'
 const Menu = ({
   isSidebar = false,
   menuItems = [],
+  onItemClick,
 }: {
   isSidebar?: boolean
   menuItems: MenuItem[]
+  onItemClick?: () => void
 }) => {
   const router = useRouter()
   const { user } = useGlobalStore()
@@ -70,7 +72,7 @@ const Menu = ({
             marginLeft: '1px',
             marginTop: '4px',
           }}
-          onClick={() => scrollOrRedirect(item)}
+          onClick={() => { scrollOrRedirect(item); onItemClick?.() }}
           className={
             (item.textColour ? item.textColour : 'text-base-content') +
             ' ' +

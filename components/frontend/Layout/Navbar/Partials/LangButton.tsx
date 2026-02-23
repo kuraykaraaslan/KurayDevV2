@@ -1,75 +1,72 @@
-import { useState, useEffect, MouseEvent } from 'react'
-import { CircleFlag } from 'react-circle-flags'
+'use client'
+
+import { useEffect } from 'react'
 import useGlobalStore from '@/libs/zustand'
 import { useTranslation } from 'react-i18next'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+import { LANGUAGES } from '@/config/languages'
+import { getLangConfig, getFlagUrl } from '@/utils/language'
 
-const LangButton = () => {
-  const [hasMounted, setHasMounted] = useState(false)
-
-  const { language, setLanguage, availableLanguages } = useGlobalStore()
+export default function LangButton() {
+  const { language, setLanguage } = useGlobalStore()
   const { i18n } = useTranslation()
+  const { open, openModal, closeModal } = useModal()
 
-  const languageFlags = {
-    en: 'us',
-    tr: 'tr',
-    de: 'de',
-    gr: 'gr',
-    et: 'ee',
-    mt: 'mt',
-    th: 'th',
-    nl: 'nl',
-    uk: 'ua',
-  }
-
-  const nextLanguage = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const currentIndex = availableLanguages.indexOf(language)
-
-    const nextLang =
-      currentIndex === -1 || currentIndex === availableLanguages.length - 1
-        ? availableLanguages[0]
-        : availableLanguages[currentIndex + 1]
-
-    setLanguage(nextLang)
+  const selectLanguage = (lang: string) => {
+    setLanguage(lang)
+    closeModal()
+    i18n.changeLanguage(lang)
   }
 
   useEffect(() => {
-    if (hasMounted) return
-
-    const currentLanguage = useGlobalStore.getState().language
-    if (i18n.language !== currentLanguage) {
-      i18n.changeLanguage(currentLanguage)
-    }
-    setHasMounted(true)
-  }, [i18n, hasMounted])
-
-  useEffect(() => {
-    if (!hasMounted) return
-
-    i18n.changeLanguage(language)
-  }, [language, i18n, hasMounted])
-
-  useEffect(() => {
-    if (!i18n.isInitialized) return // ❗ kritik
+    if (!i18n.isInitialized) return // critical
 
     if (i18n.language !== language) {
       i18n.changeLanguage(language)
     }
   }, [language, i18n])
 
+  const currentLang = getLangConfig(language)
+
   return (
-    <button
-      className="btn btn-square btn-ghost rounded-full items-center justify-center duration-300"
-      onClick={nextLanguage}
-    >
-      <CircleFlag
-        height="24"
-        width="24"
-        countryCode={languageFlags[language as keyof typeof languageFlags] ?? 'us'}
-      />
-    </button>
+    <>
+      <button
+        className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
+        onClick={openModal}
+      >
+        <img
+          src={getFlagUrl(currentLang.flagCode)}
+          alt={currentLang.name}
+          className="w-6 h-6 rounded-full"
+          style={{ backgroundSize: 'cover' }}
+        />
+      </button>
+
+      <HeadlessModal
+        open={open}
+        onClose={closeModal}
+        title="Choose Language"
+        size="sm"
+      >
+        <div className="grid grid-cols-3 gap-3">
+          {LANGUAGES.map(({ code, name, flagCode }) => (
+            <button
+              key={code}
+              className={`flex flex-col items-center gap-1 p-2 rounded-xl border border-transparent hover:bg-base-300 transition ${
+                code === language ? 'bg-base-300 border-base-300' : ''
+              }`}
+              onClick={() => selectLanguage(code)}
+            >
+              <img
+                src={getFlagUrl(flagCode)}
+                alt={name}
+                className="w-6 h-6 rounded-full"
+              />
+              <span className="text-sm font-medium text-center">{name}</span>
+            </button>
+          ))}
+        </div>
+      </HeadlessModal>
+    </>
   )
 }
-
-export default LangButton
