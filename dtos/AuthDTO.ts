@@ -207,8 +207,10 @@ const UpdateProfileRequest = z.object({
   name: z.string().optional(),
   socialLinks: z.array(SocialLinkItemSchema).optional(),
   profilePicture: z.string().url().nullable().optional(),
-  bio: z.string().max(500).optional(),
+  biography: z.string().max(500).optional(),
   headerImage: z.string().url().nullable().optional(),
+  hideProfileFromIndex: z.boolean().optional(),
+  username: z.string().optional(),
 })
 
 const UpdateProfileResponse = z.object({

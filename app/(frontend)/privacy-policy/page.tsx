@@ -1,18 +1,65 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
+import MetadataHelper from '@/helpers/MetadataHelper'
 
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
-export default function TermsPage() {
-  const meta = generateMetadata()
+const title = 'Privacy Policy | Kuray Karaaslan'
+const description =
+  'Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.'
 
+export const metadata: Metadata = {
+  title,
+  description,
+  robots: { index: true, follow: true },
+  authors: [{ name: 'Kuray Karaaslan', url: `${APPLICATION_HOST}` }],
+  openGraph: {
+    title,
+    description,
+    type: 'website',
+    url: `${APPLICATION_HOST}/privacy-policy`,
+    images: [
+      {
+        url: `${APPLICATION_HOST}/assets/img/og.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Kuray Karaaslan - Privacy Policy',
+      },
+    ],
+    locale: 'en_US',
+    siteName: 'Kuray Karaaslan',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@kuraykaraaslan',
+    creator: '@kuraykaraaslan',
+    title,
+    description,
+    images: [`${APPLICATION_HOST}/assets/img/og.png`],
+  },
+  alternates: {
+    canonical: `${APPLICATION_HOST}/privacy-policy`,
+  },
+}
+
+const jsonLdMeta: Metadata = {
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    type: 'website',
+    url: `${APPLICATION_HOST}/privacy-policy`,
+    images: [`${APPLICATION_HOST}/assets/img/og.png`],
+  },
+}
+
+export default function PrivacyPolicyPage() {
   return (
     <>
-      {generateMetadataElement(meta)}
+      {MetadataHelper.generateJsonLdScripts(jsonLdMeta)}
       <section className="min-h-screen bg-base-100 pt-32" id="blog">
         <h1 className="text-3xl font-bold text-center mb-6">Privacy Policy</h1>
-        <p className="text-sm text-gray-600 text-center mb-8">
-          Last Updated: {new Date().toLocaleDateString()}
-        </p>
+        <p className="text-sm text-gray-600 text-center mb-8">Last Updated: January 1, 2025</p>
 
         <div className="prose max-w-3xl mx-auto">
           <h2 className="text-xl font-semibold mb-4">1. Introduction</h2>
@@ -34,7 +81,7 @@ export default function TermsPage() {
               analytical data collected through cookies and similar technologies.
             </li>
             <li>
-              <strong>Cookies & Tracking:</strong> We use cookies to enhance your experience,
+              <strong>Cookies &amp; Tracking:</strong> We use cookies to enhance your experience,
               analyze traffic, and personalize content.
             </li>
           </ul>
@@ -106,54 +153,6 @@ export default function TermsPage() {
           </p>
         </div>
       </section>
-    </>
-  )
-}
-
-function generateMetadata(): Metadata {
-  return {
-    title: `Privacy Policy | Kuray Karaaslan`,
-    description: 'Privacy Policy for Kuray Karaaslan',
-    openGraph: {
-      title: `Privacy Policy | Kuray Karaaslan`,
-      description: 'Privacy Policy for Kuray Karaaslan',
-      type: 'article',
-      url: `${APPLICATION_HOST}/terms`,
-      images: [`${APPLICATION_HOST}/assets/img/default.jpg`],
-    },
-  }
-}
-
-function generateMetadataElement(meta: Metadata) {
-  return (
-    <>
-      <title>{String(meta?.title)}</title>
-      <meta name="description" content={String(meta?.description)} />
-      <meta property="og:title" content={String(meta?.openGraph?.title)} />
-      <meta property="og:description" content={String(meta?.openGraph?.description)} />
-      <meta property="og:type" content="article" />
-      <meta property="og:url" content={String(meta?.openGraph?.url)} />
-      <meta
-        property="og:image"
-        content={
-          Array.isArray(meta?.openGraph?.images)
-            ? String(meta?.openGraph?.images?.[0])
-            : String(meta?.openGraph?.images)
-        }
-      />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@dropshoptickets" />
-      <meta name="twitter:creator" content="@dropshoptickets" />
-      <meta name="twitter:title" content={String(meta?.title)} />
-      <meta name="twitter:description" content={String(meta?.description)} />
-      <meta
-        name="twitter:image"
-        content={
-          Array.isArray(meta?.openGraph?.images)
-            ? String(meta?.openGraph?.images?.[0])
-            : String(meta?.openGraph?.images)
-        }
-      />
     </>
   )
 }

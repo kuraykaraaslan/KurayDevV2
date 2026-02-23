@@ -81,18 +81,22 @@ export const SocialLinksSchema = z.array(SocialLinkItemSchema).default([])
 
 const UserProfileSchema = z.object({
   name: z.string().nullable().optional(),
+  username: z.string().nullable().optional(),
   biography: z.string().nullable().optional(),
   profilePicture: z.string().nullable().optional(),
   headerImage: z.string().nullable().optional(),
   socialLinks: SocialLinksSchema.optional().default([]),
+  hideProfileFromIndex: z.boolean().optional().default(true),
 })
 
 const UserProfileDefault: z.infer<typeof UserProfileSchema> = {
   name: null,
+  username: null,
   biography: null,
   profilePicture: null,
   headerImage: null,
   socialLinks: [],
+  hideProfileFromIndex: true,
 }
 
 export type UserProfile = z.infer<typeof UserProfileSchema>

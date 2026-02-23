@@ -22,7 +22,7 @@ export const weeklyJobs = [
         return
       }
 
-      const subscriptions = await SubscriptionService.getAllSubscriptions({ includeDeleted: false })
+      const {subscriptions} = await SubscriptionService.getAllSubscriptions({ includeDeleted: false })
 
       for (const subscription of subscriptions) {
         if (!subscription.deletedAt) {

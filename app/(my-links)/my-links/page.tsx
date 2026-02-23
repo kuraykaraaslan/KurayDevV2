@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import {
   faGithub,
   faInstagram,
@@ -10,6 +11,44 @@ import {
 import { faSnowman } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
+
+const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+
+export const metadata: Metadata = {
+  title: 'Links | Kuray Karaaslan',
+  description:
+    'Find all of Kuray Karaaslan\'s social media profiles and links in one place — GitHub, LinkedIn, YouTube, Instagram, X, Twitch, and TikTok.',
+  robots: { index: true, follow: true },
+  authors: [{ name: 'Kuray Karaaslan', url: `${APPLICATION_HOST}` }],
+  openGraph: {
+    title: 'Links | Kuray Karaaslan',
+    description:
+      'Find all of Kuray Karaaslan\'s social media profiles and links in one place.',
+    type: 'website',
+    url: `${APPLICATION_HOST}/my-links`,
+    images: [
+      {
+        url: `${APPLICATION_HOST}/assets/img/og.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Kuray Karaaslan - Links',
+      },
+    ],
+    locale: 'en_US',
+    siteName: 'Kuray Karaaslan',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@kuraykaraaslan',
+    creator: '@kuraykaraaslan',
+    title: 'Links | Kuray Karaaslan',
+    description: 'Find all of Kuray Karaaslan\'s social media profiles and links in one place.',
+    images: [`${APPLICATION_HOST}/assets/img/og.png`],
+  },
+  alternates: {
+    canonical: `${APPLICATION_HOST}/my-links`,
+  },
+}
 
 const links = [
   { href: '/', title: 'Blog', icon: faSnowman, color: 'bg-primary', textColor: 'text-white' },

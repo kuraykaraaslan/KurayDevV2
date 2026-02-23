@@ -13,6 +13,8 @@ const description =
 export const metadata: Metadata = {
   title: 'Blog | Kuray Karaaslan',
   description,
+  robots: { index: true, follow: true },
+  authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
   openGraph: {
     title: 'Blog | Kuray Karaaslan',
     description,

@@ -54,6 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         follow: true,
       },
     },
+    authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
     openGraph: {
       title: `${post.title} | Kuray Karaaslan`,
       description,

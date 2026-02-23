@@ -32,6 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${category.title} | Kuray Karaaslan`,
     description,
+    robots: { index: true, follow: true },
+    authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
     openGraph: {
       title: `${category.title} | Kuray Karaaslan`,
       description,

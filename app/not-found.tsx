@@ -1,5 +1,13 @@
-'use client'
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: '404 - Page Not Found | Kuray Karaaslan',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 const NotFoundPage = () => {
   return (

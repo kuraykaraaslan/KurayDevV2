@@ -1,0 +1,78 @@
+import {
+  faGithub,
+  faGitlab,
+  faBitbucket,
+  faLinkedin,
+  faTwitter,
+  faInstagram,
+  faFacebook,
+  faYoutube,
+  faTiktok,
+  faSnapchat,
+  faReddit,
+  faPinterest,
+  faDiscord,
+  faSlack,
+  faTelegram,
+  faCodepen,
+  faUpwork,
+  faNpm,
+  faPython,
+  faDev,
+  faMedium,
+  faStackOverflow,
+} from '@fortawesome/free-brands-svg-icons'
+import {
+  faGlobe,
+  faEnvelope,
+  faCalendar,
+  faCode,
+  faBriefcase,
+  type IconDefinition,
+} from '@fortawesome/free-solid-svg-icons'
+import { SingleSocialLink } from '@/types/user/UserProfileTypes'
+
+export interface SocialLinkIconEntry {
+  icon: IconDefinition
+  label: string
+  color: string
+}
+
+export const SocialLinkIconMap: Record<SingleSocialLink, SocialLinkIconEntry> = {
+  GITHUB:        { icon: faGithub,        label: 'GitHub',         color: 'hover:text-[#333]' },
+  GITLAB:        { icon: faGitlab,        label: 'GitLab',         color: 'hover:text-[#FC6D26]' },
+  BITBUCKET:     { icon: faBitbucket,     label: 'Bitbucket',      color: 'hover:text-[#0052CC]' },
+  STACKOVERFLOW: { icon: faStackOverflow, label: 'Stack Overflow',  color: 'hover:text-[#F58025]' },
+  NPM:           { icon: faNpm,           label: 'npm',            color: 'hover:text-[#CB3837]' },
+  PYPI:          { icon: faPython,        label: 'PyPI',           color: 'hover:text-[#3776AB]' },
+  DEVTO:         { icon: faDev,           label: 'DEV.to',         color: 'hover:text-black' },
+  MEDIUM:        { icon: faMedium,        label: 'Medium',         color: 'hover:text-black' },
+  HASHNODE:      { icon: faCode,          label: 'Hashnode',       color: 'hover:text-[#2962FF]' },
+  SUBSTACK:      { icon: faEnvelope,      label: 'Substack',       color: 'hover:text-[#FF6719]' },
+  LINKEDIN:      { icon: faLinkedin,      label: 'LinkedIn',       color: 'hover:text-[#0077B5]' },
+  WEBSITE:       { icon: faGlobe,         label: 'Website',        color: 'hover:text-primary' },
+  EMAIL:         { icon: faEnvelope,      label: 'Email',          color: 'hover:text-primary' },
+  CALENDLY:      { icon: faCalendar,      label: 'Calendly',       color: 'hover:text-[#006BFF]' },
+  TWITTER:       { icon: faTwitter,       label: 'Twitter / X',    color: 'hover:text-black' },
+  FACEBOOK:      { icon: faFacebook,      label: 'Facebook',       color: 'hover:text-[#1877F2]' },
+  INSTAGRAM:     { icon: faInstagram,     label: 'Instagram',      color: 'hover:text-[#E1306C]' },
+  YOUTUBE:       { icon: faYoutube,       label: 'YouTube',        color: 'hover:text-[#FF0000]' },
+  TIKTOK:        { icon: faTiktok,        label: 'TikTok',         color: 'hover:text-black' },
+  SNAPCHAT:      { icon: faSnapchat,      label: 'Snapchat',       color: 'hover:text-[#FFFC00]' },
+  REDDIT:        { icon: faReddit,        label: 'Reddit',         color: 'hover:text-[#FF4500]' },
+  PINTEREST:     { icon: faPinterest,     label: 'Pinterest',      color: 'hover:text-[#E60023]' },
+  DISCORD:       { icon: faDiscord,       label: 'Discord',        color: 'hover:text-[#5865F2]' },
+  SLACK:         { icon: faSlack,         label: 'Slack',          color: 'hover:text-[#4A154B]' },
+  TELEGRAM:      { icon: faTelegram,      label: 'Telegram',       color: 'hover:text-[#26A5E4]' },
+  KEYBASE:       { icon: faCode,          label: 'Keybase',        color: 'hover:text-[#3663EA]' },
+  DISCOURSE:     { icon: faGlobe,         label: 'Discourse',      color: 'hover:text-[#231F20]' },
+  UPWORK:        { icon: faUpwork,        label: 'Upwork',         color: 'hover:text-[#6FDA44]' },
+  FREELANCER:    { icon: faBriefcase,     label: 'Freelancer',     color: 'hover:text-[#29B2FE]' },
+  FIVERR:        { icon: faBriefcase,     label: 'Fiverr',         color: 'hover:text-[#1DBF73]' },
+  TOPTAL:        { icon: faBriefcase,     label: 'Toptal',         color: 'hover:text-[#204ECF]' },
+  CODEPEN:       { icon: faCodepen,       label: 'CodePen',        color: 'hover:text-black' },
+  JSFIDDLE:      { icon: faCode,          label: 'JSFiddle',       color: 'hover:text-[#0084FF]' },
+  LEETCODE:      { icon: faCode,          label: 'LeetCode',       color: 'hover:text-[#FFA116]' },
+  HACKERRANK:    { icon: faCode,          label: 'HackerRank',     color: 'hover:text-[#2EC866]' },
+  KAGGLE:        { icon: faCode,          label: 'Kaggle',         color: 'hover:text-[#20BEFF]' },
+}

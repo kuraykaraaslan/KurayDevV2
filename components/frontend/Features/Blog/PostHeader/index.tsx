@@ -32,7 +32,7 @@ const PostHeader = (post: PostWithData) => {
         <span className="text-primary hidden md:inline">•</span>
         <span className="hidden md:inline">
           {t('frontend.post_header.by')}{' '}
-          <Link href={'/blog/user/' + post.authorId} className="text-primary">
+          <Link href={'/users/' + post.authorId} className="text-primary">
             {post.author.userProfile?.name || t('frontend.post_header.unknown_author')}
           </Link>
         </span>

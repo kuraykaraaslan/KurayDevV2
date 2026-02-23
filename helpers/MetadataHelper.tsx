@@ -380,6 +380,7 @@ export default class MetadataHelper {
         maxRating?: number
       }
       includeWebSite?: boolean
+      includeProfilePage?: boolean
       isNewsArticle?: boolean
       collectionPage?: {
         url: string
@@ -402,6 +403,9 @@ export default class MetadataHelper {
   ) {
     const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd()
     const orgJsonLd = MetadataHelper.getOrganizationJsonLd()
+    const profilePageJsonLd = options?.includeProfilePage
+      ? MetadataHelper.getProfilePageJsonLd()
+      : null
     const articleJsonLd =
       options?.articleData?.commentCount !== undefined
         ? MetadataHelper.getArticleWithCommentsJsonLd(meta, options.articleData)
@@ -436,6 +440,12 @@ export default class MetadataHelper {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
+        {profilePageJsonLd && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
+          />
+        )}
         {softwareAppJsonLd && (
           <script
             type="application/ld+json"

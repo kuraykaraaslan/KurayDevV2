@@ -6,9 +6,11 @@ import axiosInstance from '@/libs/axios'
 import useGlobalStore from '@/libs/zustand'
 import { UserProfile, UserProfileDefault } from '@/types/user/UserProfileTypes'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
+import DynamicToggle from '@/components/admin/UI/Forms/DynamicToggle'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import SocialLinksInput from './partials/SocialLinksInput'
 import ImageLoad from '@/components/common/UI/Images/ImageLoad'
+
 export default function ProfileTab() {
   const { user, setUser } = useGlobalStore()
 
@@ -16,6 +18,12 @@ export default function ProfileTab() {
     user?.userProfile || UserProfileDefault
   )
   const [saving, setSaving] = useState(false)
+
+  const handleUsernameChange = (val: string) => {
+    // lowercase, sadece a-z 0-9 ve _ karakterlerine izin ver
+    const sanitized = val.toLowerCase().replace(/[^a-z0-9_]/g, '')
+    setUserProfile({ ...userProfile, username: sanitized || null })
+  }
 
   const handleSave = async () => {
     if (!user || saving) return
@@ -55,6 +63,34 @@ export default function ProfileTab() {
         setValue={(val) => setUserProfile({ ...userProfile, name: val })}
       />
 
+      {/* Username */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text font-semibold">Kullanıcı Adı</span>
+          {userProfile.username && (
+            <span className="label-text-alt text-base-content/40 font-mono">
+              /users/{userProfile.username}
+            </span>
+          )}
+        </label>
+        <div className="input input-bordered flex items-center gap-1">
+          <span className="text-base-content/40 select-none text-sm">@</span>
+          <input
+            type="text"
+            className="flex-1 bg-transparent outline-none text-sm"
+            placeholder="kullanici_adi"
+            value={userProfile.username || ''}
+            onChange={(e) => handleUsernameChange(e.target.value)}
+            maxLength={32}
+          />
+        </div>
+        <label className="label">
+          <span className="label-text-alt text-base-content/40">
+            Sadece küçük harf, rakam ve alt çizgi (_). Boş bırakılırsa kullanıcı ID kullanılır.
+          </span>
+        </label>
+      </div>
+
       <DynamicText
         label="Biyografi"
         placeholder="Kendinizi kısaca tanıtın..."
@@ -89,6 +125,17 @@ export default function ProfileTab() {
         value={userProfile.socialLinks || []}
         onChange={(links) => setUserProfile({ ...userProfile, socialLinks: links })}
       />
+
+      {/* Gizlilik */}
+      <div className="border-t border-base-300 pt-4">
+        <p className="text-sm font-semibold mb-3">Gizlilik</p>
+        <DynamicToggle
+          label="Profili arama motorlarından gizle"
+          description="Açık olduğunda profil sayfan Google ve diğer arama motorları tarafından indexlenmez."
+          checked={userProfile.hideProfileFromIndex ?? true}
+          onChange={(val) => setUserProfile({ ...userProfile, hideProfileFromIndex: val })}
+        />
+      </div>
 
       <button onClick={handleSave} disabled={saving} className="btn btn-primary w-full">
         {saving ? 'Kaydediliyor...' : 'Profili Kaydet'}
