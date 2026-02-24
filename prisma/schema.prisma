@@ -149,14 +149,14 @@ model PostTranslation {
   title       String
   content     String
   description String?
-  slug        String  @unique
+  slug        String
 
   post Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
 
   @@unique([postId, lang])
+  @@unique([lang, slug])
   @@index([postId])
   @@index([lang])
-  @@index([slug])
 }
 
 model Category {
@@ -179,14 +179,14 @@ model CategoryTranslation {
   lang        String
   title       String
   description String?
-  slug        String  @unique
+  slug        String
 
   category Category @relation(fields: [categoryId], references: [categoryId], onDelete: Cascade)
 
   @@unique([categoryId, lang])
+  @@unique([lang, slug])
   @@index([categoryId])
   @@index([lang])
-  @@index([slug])
 }
 
 enum CommentStatus {
@@ -258,15 +258,15 @@ model ProjectTranslation {
   lang        String
   title       String
   description String?
-  slug        String  @unique
+  slug        String
   content     String?
 
   project Project @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
 
   @@unique([projectId, lang])
+  @@unique([lang, slug])
   @@index([projectId])
   @@index([lang])
-  @@index([slug])
 }
 
 // Appointment Scheduling

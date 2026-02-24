@@ -5,6 +5,8 @@ type FormActionButton = {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
   className?: string
   bodyClassName?: string
+  disabled?: boolean
+  loading?: boolean
 }
 
 type FormProps = {
@@ -25,8 +27,10 @@ const Form = ({ children, actions, className }: FormProps) => {
             <button
               key={index}
               onClick={action.onClick}
+              disabled={action.disabled || action.loading}
               className={`btn ${action.className || 'btn-primary'}`}
             >
+              {action.loading && <span className="loading loading-spinner loading-xs" />}
               {action.label}
             </button>
           ))}

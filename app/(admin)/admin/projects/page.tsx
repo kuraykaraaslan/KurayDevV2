@@ -8,14 +8,15 @@ import Table, {
   ColumnDef,
   ActionButton,
 } from '@/components/admin/UI/Forms/DynamicTable'
-import { Project } from '@/types/content/ProjectTypes'
+import { ProjectWithTranslations } from '@/types/content/ProjectTypes'
+import { findFlagUrlByIso2Code } from '@/helpers/Language'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 
 const ProjectPage = () => {
   const { t } = useTranslation()
 
-  const columns: ColumnDef<Project>[] = [
+  const columns: ColumnDef<ProjectWithTranslations>[] = [
     {
       key: 'image',
       header: '',
@@ -31,9 +32,24 @@ const ProjectPage = () => {
     },
     { key: 'slug', header: 'admin.projects.slug', className: 'max-w-16', accessor: (p) => p.slug },
     { key: 'status', header: 'admin.projects.status', accessor: (p) => p.status },
+    {
+      key: 'translations',
+      header: 'Translations',
+      hideOnMobile: true,
+      accessor: (p) =>
+        p.translations?.length ? (
+          <div className="flex flex-wrap gap-1">
+            {p.translations.map((tr) => (
+              <img key={tr.lang} src={findFlagUrlByIso2Code(tr.lang)} alt={tr.lang} className="w-3 h-3 rounded-full" />
+            ))}
+          </div>
+        ) : (
+          <span className="text-base-content/30 text-xs">—</span>
+        ),
+    },
   ]
 
-  const actions: ActionButton<Project>[] = [
+  const actions: ActionButton<ProjectWithTranslations>[] = [
     {
       label: 'admin.projects.edit',
       href: (p) => `/admin/projects/${p.projectId}`,
@@ -52,7 +68,7 @@ const ProjectPage = () => {
   ]
 
   return (
-    <TableProvider<Project>
+    <TableProvider<ProjectWithTranslations>
       apiEndpoint="/api/projects"
       dataKey="projects"
       idKey="projectId"

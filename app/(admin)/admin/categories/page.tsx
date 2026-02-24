@@ -8,14 +8,15 @@ import Table, {
   ColumnDef,
   ActionButton,
 } from '@/components/admin/UI/Forms/DynamicTable'
-import { Category } from '@/types/content/BlogTypes'
+import { CategoryWithTranslations } from '@/types/content/BlogTypes'
+import { findFlagUrlByIso2Code } from '@/helpers/Language'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 
 const CategoryPage = () => {
   const { t } = useTranslation()
 
-  const columns: ColumnDef<Category>[] = [
+  const columns: ColumnDef<CategoryWithTranslations>[] = [
     {
       key: 'image',
       header: 'admin.categories.image',
@@ -24,9 +25,24 @@ const CategoryPage = () => {
     },
     { key: 'title', header: 'Title', accessor: (c) => c.title },
     { key: 'slug', header: 'admin.categories.slug', accessor: (c) => c.slug },
+    {
+      key: 'translations',
+      header: 'Translations',
+      hideOnMobile: true,
+      accessor: (c) =>
+        c.translations?.length ? (
+          <div className="flex flex-wrap gap-1">
+            {c.translations.map((tr) => (
+              <img key={tr.lang} src={findFlagUrlByIso2Code(tr.lang)} alt={tr.lang} className="w-3 h-3 rounded-full" />
+            ))}
+          </div>
+        ) : (
+          <span className="text-base-content/30 text-xs">—</span>
+        ),
+    },
   ]
 
-  const actions: ActionButton<Category>[] = [
+  const actions: ActionButton<CategoryWithTranslations>[] = [
     {
       label: 'admin.categories.edit',
       href: (c) => `/admin/categories/${c.categoryId}`,
@@ -51,7 +67,7 @@ const CategoryPage = () => {
   ]
 
   return (
-    <TableProvider<Category>
+    <TableProvider<CategoryWithTranslations>
       apiEndpoint="/api/categories"
       dataKey="categories"
       idKey="categoryId"

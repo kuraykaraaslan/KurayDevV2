@@ -1,6 +1,6 @@
 import { prisma } from '@/libs/prisma'
 import redisInstance from '@/libs/redis'
-import { Project } from '@/types/content/ProjectTypes'
+import { Project, ProjectWithTranslations } from '@/types/content/ProjectTypes'
 import { MetadataRoute } from 'next'
 
 export default class ProjectService {
@@ -16,7 +16,7 @@ export default class ProjectService {
     projectSlug?: string
     search?: string
     onlyPublished?: boolean
-  }): Promise<{ projects: Project[]; total: number }> {
+  }): Promise<{ projects: ProjectWithTranslations[]; total: number }> {
     const { page, pageSize, search, onlyPublished, projectId, projectSlug } = data
 
     // Validate search query
@@ -34,10 +34,16 @@ export default class ProjectService {
         description: true,
         slug: true,
         image: true,
+        status: true,
         platforms: true,
         technologies: true,
         projectLinks: true,
+        createdAt: true,
+        updatedAt: true,
         content: projectSlug || projectId ? true : false,
+        translations: {
+          select: { id: true, projectId: true, lang: true, title: true, description: true, slug: true, content: true },
+        },
       },
       where: {
         OR: [
@@ -87,7 +93,7 @@ export default class ProjectService {
       prisma.project.count(countQuery),
     ])
 
-    return { projects: transaction[0] as Project[], total: transaction[1] }
+    return { projects: transaction[0] as ProjectWithTranslations[], total: transaction[1] }
   }
 
   static async getProjectById(projectId: string): Promise<Project | null> {

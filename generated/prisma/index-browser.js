@@ -273,6 +273,16 @@ exports.Prisma.ProjectScalarFieldEnum = {
   projectLinks: 'projectLinks'
 };
 
+exports.Prisma.ProjectTranslationScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  lang: 'lang',
+  title: 'title',
+  description: 'description',
+  slug: 'slug',
+  content: 'content'
+};
+
 exports.Prisma.AppointmentScalarFieldEnum = {
   appointmentId: 'appointmentId',
   startTime: 'startTime',
@@ -382,6 +392,7 @@ exports.Prisma.ModelName = {
   Subscription: 'Subscription',
   Setting: 'Setting',
   Project: 'Project',
+  ProjectTranslation: 'ProjectTranslation',
   Appointment: 'Appointment',
   Like: 'Like',
   GeoAnalytics: 'GeoAnalytics',

@@ -79,6 +79,11 @@ export type Setting = $Result.DefaultSelection<Prisma.$SettingPayload>
  */
 export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
 /**
+ * Model ProjectTranslation
+ * 
+ */
+export type ProjectTranslation = $Result.DefaultSelection<Prisma.$ProjectTranslationPayload>
+/**
  * Model Appointment
  * 
  */
@@ -416,6 +421,16 @@ export class PrismaClient<
     * ```
     */
   get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.projectTranslation`: Exposes CRUD operations for the **ProjectTranslation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectTranslations
+    * const projectTranslations = await prisma.projectTranslation.findMany()
+    * ```
+    */
+  get projectTranslation(): Prisma.ProjectTranslationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.appointment`: Exposes CRUD operations for the **Appointment** model.
@@ -903,6 +918,7 @@ export namespace Prisma {
     Subscription: 'Subscription',
     Setting: 'Setting',
     Project: 'Project',
+    ProjectTranslation: 'ProjectTranslation',
     Appointment: 'Appointment',
     Like: 'Like',
     GeoAnalytics: 'GeoAnalytics',
@@ -922,7 +938,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "setting" | "project" | "appointment" | "like" | "geoAnalytics" | "media"
+      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "geoAnalytics" | "media"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1888,6 +1904,80 @@ export namespace Prisma {
           }
         }
       }
+      ProjectTranslation: {
+        payload: Prisma.$ProjectTranslationPayload<ExtArgs>
+        fields: Prisma.ProjectTranslationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectTranslationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectTranslationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectTranslationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectTranslationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectTranslationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectTranslationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectTranslationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectTranslationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectTranslationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>
+          }
+          update: {
+            args: Prisma.ProjectTranslationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectTranslationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectTranslationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProjectTranslationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProjectTranslationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectTranslationPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectTranslationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectTranslation>
+          }
+          groupBy: {
+            args: Prisma.ProjectTranslationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectTranslationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectTranslationCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectTranslationCountAggregateOutputType> | number
+          }
+        }
+      }
       Appointment: {
         payload: Prisma.$AppointmentPayload<ExtArgs>
         fields: Prisma.AppointmentFieldRefs
@@ -2305,6 +2395,7 @@ export namespace Prisma {
     subscription?: SubscriptionOmit
     setting?: SettingOmit
     project?: ProjectOmit
+    projectTranslation?: ProjectTranslationOmit
     appointment?: AppointmentOmit
     like?: LikeOmit
     geoAnalytics?: GeoAnalyticsOmit
@@ -2559,6 +2650,37 @@ export namespace Prisma {
    */
   export type CommentCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
+  }
+
+
+  /**
+   * Count Type ProjectCountOutputType
+   */
+
+  export type ProjectCountOutputType = {
+    translations: number
+  }
+
+  export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    translations?: boolean | ProjectCountOutputTypeCountTranslationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCountOutputType
+     */
+    select?: ProjectCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountTranslationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTranslationWhereInput
   }
 
 
@@ -16065,6 +16187,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     projectLinks?: boolean
+    translations?: boolean | Project$translationsArgs<ExtArgs>
+    _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16113,10 +16237,18 @@ export namespace Prisma {
   }
 
   export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"projectId" | "title" | "description" | "slug" | "image" | "status" | "platforms" | "technologies" | "content" | "createdAt" | "updatedAt" | "projectLinks", ExtArgs["result"]["project"]>
+  export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    translations?: boolean | Project$translationsArgs<ExtArgs>
+    _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
-    objects: {}
+    objects: {
+      translations: Prisma.$ProjectTranslationPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       projectId: string
       title: string
@@ -16524,6 +16656,7 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    translations<T extends Project$translationsArgs<ExtArgs> = {}>(args?: Subset<T, Project$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16582,6 +16715,10 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    /**
      * Filter, which Project to fetch.
      */
     where: ProjectWhereUniqueInput
@@ -16600,6 +16737,10 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    /**
      * Filter, which Project to fetch.
      */
     where: ProjectWhereUniqueInput
@@ -16617,6 +16758,10 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
     /**
      * Filter, which Project to fetch.
      */
@@ -16666,6 +16811,10 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    /**
      * Filter, which Project to fetch.
      */
     where?: ProjectWhereInput
@@ -16714,6 +16863,10 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    /**
      * Filter, which Projects to fetch.
      */
     where?: ProjectWhereInput
@@ -16756,6 +16909,10 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
     /**
      * The data needed to create a Project.
      */
@@ -16804,6 +16961,10 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
     /**
      * The data needed to update a Project.
      */
@@ -16871,6 +17032,10 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    /**
      * The filter to search for the Project to update in case it exists.
      */
     where: ProjectWhereUniqueInput
@@ -16897,6 +17062,10 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    /**
      * Filter which Project to delete.
      */
     where: ProjectWhereUniqueInput
@@ -16917,6 +17086,30 @@ export namespace Prisma {
   }
 
   /**
+   * Project.translations
+   */
+  export type Project$translationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    where?: ProjectTranslationWhereInput
+    orderBy?: ProjectTranslationOrderByWithRelationInput | ProjectTranslationOrderByWithRelationInput[]
+    cursor?: ProjectTranslationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectTranslationScalarFieldEnum | ProjectTranslationScalarFieldEnum[]
+  }
+
+  /**
    * Project without action
    */
   export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16928,6 +17121,1094 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectTranslation
+   */
+
+  export type AggregateProjectTranslation = {
+    _count: ProjectTranslationCountAggregateOutputType | null
+    _min: ProjectTranslationMinAggregateOutputType | null
+    _max: ProjectTranslationMaxAggregateOutputType | null
+  }
+
+  export type ProjectTranslationMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    lang: string | null
+    title: string | null
+    description: string | null
+    slug: string | null
+    content: string | null
+  }
+
+  export type ProjectTranslationMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    lang: string | null
+    title: string | null
+    description: string | null
+    slug: string | null
+    content: string | null
+  }
+
+  export type ProjectTranslationCountAggregateOutputType = {
+    id: number
+    projectId: number
+    lang: number
+    title: number
+    description: number
+    slug: number
+    content: number
+    _all: number
+  }
+
+
+  export type ProjectTranslationMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    lang?: true
+    title?: true
+    description?: true
+    slug?: true
+    content?: true
+  }
+
+  export type ProjectTranslationMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    lang?: true
+    title?: true
+    description?: true
+    slug?: true
+    content?: true
+  }
+
+  export type ProjectTranslationCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    lang?: true
+    title?: true
+    description?: true
+    slug?: true
+    content?: true
+    _all?: true
+  }
+
+  export type ProjectTranslationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectTranslation to aggregate.
+     */
+    where?: ProjectTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTranslations to fetch.
+     */
+    orderBy?: ProjectTranslationOrderByWithRelationInput | ProjectTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectTranslations
+    **/
+    _count?: true | ProjectTranslationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectTranslationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectTranslationMaxAggregateInputType
+  }
+
+  export type GetProjectTranslationAggregateType<T extends ProjectTranslationAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectTranslation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectTranslation[P]>
+      : GetScalarType<T[P], AggregateProjectTranslation[P]>
+  }
+
+
+
+
+  export type ProjectTranslationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTranslationWhereInput
+    orderBy?: ProjectTranslationOrderByWithAggregationInput | ProjectTranslationOrderByWithAggregationInput[]
+    by: ProjectTranslationScalarFieldEnum[] | ProjectTranslationScalarFieldEnum
+    having?: ProjectTranslationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectTranslationCountAggregateInputType | true
+    _min?: ProjectTranslationMinAggregateInputType
+    _max?: ProjectTranslationMaxAggregateInputType
+  }
+
+  export type ProjectTranslationGroupByOutputType = {
+    id: string
+    projectId: string
+    lang: string
+    title: string
+    description: string | null
+    slug: string
+    content: string | null
+    _count: ProjectTranslationCountAggregateOutputType | null
+    _min: ProjectTranslationMinAggregateOutputType | null
+    _max: ProjectTranslationMaxAggregateOutputType | null
+  }
+
+  type GetProjectTranslationGroupByPayload<T extends ProjectTranslationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectTranslationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectTranslationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectTranslationGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectTranslationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectTranslationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+    content?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectTranslation"]>
+
+  export type ProjectTranslationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+    content?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectTranslation"]>
+
+  export type ProjectTranslationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+    content?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectTranslation"]>
+
+  export type ProjectTranslationSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+    content?: boolean
+  }
+
+  export type ProjectTranslationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "lang" | "title" | "description" | "slug" | "content", ExtArgs["result"]["projectTranslation"]>
+  export type ProjectTranslationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ProjectTranslationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ProjectTranslationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectTranslationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectTranslation"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      lang: string
+      title: string
+      description: string | null
+      slug: string
+      content: string | null
+    }, ExtArgs["result"]["projectTranslation"]>
+    composites: {}
+  }
+
+  type ProjectTranslationGetPayload<S extends boolean | null | undefined | ProjectTranslationDefaultArgs> = $Result.GetResult<Prisma.$ProjectTranslationPayload, S>
+
+  type ProjectTranslationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProjectTranslationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProjectTranslationCountAggregateInputType | true
+    }
+
+  export interface ProjectTranslationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectTranslation'], meta: { name: 'ProjectTranslation' } }
+    /**
+     * Find zero or one ProjectTranslation that matches the filter.
+     * @param {ProjectTranslationFindUniqueArgs} args - Arguments to find a ProjectTranslation
+     * @example
+     * // Get one ProjectTranslation
+     * const projectTranslation = await prisma.projectTranslation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectTranslationFindUniqueArgs>(args: SelectSubset<T, ProjectTranslationFindUniqueArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProjectTranslation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProjectTranslationFindUniqueOrThrowArgs} args - Arguments to find a ProjectTranslation
+     * @example
+     * // Get one ProjectTranslation
+     * const projectTranslation = await prisma.projectTranslation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectTranslationFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectTranslationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectTranslation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTranslationFindFirstArgs} args - Arguments to find a ProjectTranslation
+     * @example
+     * // Get one ProjectTranslation
+     * const projectTranslation = await prisma.projectTranslation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectTranslationFindFirstArgs>(args?: SelectSubset<T, ProjectTranslationFindFirstArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectTranslation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTranslationFindFirstOrThrowArgs} args - Arguments to find a ProjectTranslation
+     * @example
+     * // Get one ProjectTranslation
+     * const projectTranslation = await prisma.projectTranslation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectTranslationFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectTranslationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProjectTranslations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTranslationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectTranslations
+     * const projectTranslations = await prisma.projectTranslation.findMany()
+     * 
+     * // Get first 10 ProjectTranslations
+     * const projectTranslations = await prisma.projectTranslation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectTranslationWithIdOnly = await prisma.projectTranslation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectTranslationFindManyArgs>(args?: SelectSubset<T, ProjectTranslationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProjectTranslation.
+     * @param {ProjectTranslationCreateArgs} args - Arguments to create a ProjectTranslation.
+     * @example
+     * // Create one ProjectTranslation
+     * const ProjectTranslation = await prisma.projectTranslation.create({
+     *   data: {
+     *     // ... data to create a ProjectTranslation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectTranslationCreateArgs>(args: SelectSubset<T, ProjectTranslationCreateArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProjectTranslations.
+     * @param {ProjectTranslationCreateManyArgs} args - Arguments to create many ProjectTranslations.
+     * @example
+     * // Create many ProjectTranslations
+     * const projectTranslation = await prisma.projectTranslation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectTranslationCreateManyArgs>(args?: SelectSubset<T, ProjectTranslationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectTranslations and returns the data saved in the database.
+     * @param {ProjectTranslationCreateManyAndReturnArgs} args - Arguments to create many ProjectTranslations.
+     * @example
+     * // Create many ProjectTranslations
+     * const projectTranslation = await prisma.projectTranslation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectTranslations and only return the `id`
+     * const projectTranslationWithIdOnly = await prisma.projectTranslation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectTranslationCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectTranslationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProjectTranslation.
+     * @param {ProjectTranslationDeleteArgs} args - Arguments to delete one ProjectTranslation.
+     * @example
+     * // Delete one ProjectTranslation
+     * const ProjectTranslation = await prisma.projectTranslation.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectTranslation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectTranslationDeleteArgs>(args: SelectSubset<T, ProjectTranslationDeleteArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProjectTranslation.
+     * @param {ProjectTranslationUpdateArgs} args - Arguments to update one ProjectTranslation.
+     * @example
+     * // Update one ProjectTranslation
+     * const projectTranslation = await prisma.projectTranslation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectTranslationUpdateArgs>(args: SelectSubset<T, ProjectTranslationUpdateArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProjectTranslations.
+     * @param {ProjectTranslationDeleteManyArgs} args - Arguments to filter ProjectTranslations to delete.
+     * @example
+     * // Delete a few ProjectTranslations
+     * const { count } = await prisma.projectTranslation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectTranslationDeleteManyArgs>(args?: SelectSubset<T, ProjectTranslationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectTranslations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTranslationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectTranslations
+     * const projectTranslation = await prisma.projectTranslation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectTranslationUpdateManyArgs>(args: SelectSubset<T, ProjectTranslationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectTranslations and returns the data updated in the database.
+     * @param {ProjectTranslationUpdateManyAndReturnArgs} args - Arguments to update many ProjectTranslations.
+     * @example
+     * // Update many ProjectTranslations
+     * const projectTranslation = await prisma.projectTranslation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProjectTranslations and only return the `id`
+     * const projectTranslationWithIdOnly = await prisma.projectTranslation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProjectTranslationUpdateManyAndReturnArgs>(args: SelectSubset<T, ProjectTranslationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProjectTranslation.
+     * @param {ProjectTranslationUpsertArgs} args - Arguments to update or create a ProjectTranslation.
+     * @example
+     * // Update or create a ProjectTranslation
+     * const projectTranslation = await prisma.projectTranslation.upsert({
+     *   create: {
+     *     // ... data to create a ProjectTranslation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectTranslation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectTranslationUpsertArgs>(args: SelectSubset<T, ProjectTranslationUpsertArgs<ExtArgs>>): Prisma__ProjectTranslationClient<$Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProjectTranslations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTranslationCountArgs} args - Arguments to filter ProjectTranslations to count.
+     * @example
+     * // Count the number of ProjectTranslations
+     * const count = await prisma.projectTranslation.count({
+     *   where: {
+     *     // ... the filter for the ProjectTranslations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectTranslationCountArgs>(
+      args?: Subset<T, ProjectTranslationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectTranslationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectTranslation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTranslationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectTranslationAggregateArgs>(args: Subset<T, ProjectTranslationAggregateArgs>): Prisma.PrismaPromise<GetProjectTranslationAggregateType<T>>
+
+    /**
+     * Group by ProjectTranslation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectTranslationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectTranslationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectTranslationGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectTranslationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectTranslationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectTranslationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectTranslation model
+   */
+  readonly fields: ProjectTranslationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectTranslation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectTranslationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectTranslation model
+   */
+  interface ProjectTranslationFieldRefs {
+    readonly id: FieldRef<"ProjectTranslation", 'String'>
+    readonly projectId: FieldRef<"ProjectTranslation", 'String'>
+    readonly lang: FieldRef<"ProjectTranslation", 'String'>
+    readonly title: FieldRef<"ProjectTranslation", 'String'>
+    readonly description: FieldRef<"ProjectTranslation", 'String'>
+    readonly slug: FieldRef<"ProjectTranslation", 'String'>
+    readonly content: FieldRef<"ProjectTranslation", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectTranslation findUnique
+   */
+  export type ProjectTranslationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTranslation to fetch.
+     */
+    where: ProjectTranslationWhereUniqueInput
+  }
+
+  /**
+   * ProjectTranslation findUniqueOrThrow
+   */
+  export type ProjectTranslationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTranslation to fetch.
+     */
+    where: ProjectTranslationWhereUniqueInput
+  }
+
+  /**
+   * ProjectTranslation findFirst
+   */
+  export type ProjectTranslationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTranslation to fetch.
+     */
+    where?: ProjectTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTranslations to fetch.
+     */
+    orderBy?: ProjectTranslationOrderByWithRelationInput | ProjectTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectTranslations.
+     */
+    cursor?: ProjectTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectTranslations.
+     */
+    distinct?: ProjectTranslationScalarFieldEnum | ProjectTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTranslation findFirstOrThrow
+   */
+  export type ProjectTranslationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTranslation to fetch.
+     */
+    where?: ProjectTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTranslations to fetch.
+     */
+    orderBy?: ProjectTranslationOrderByWithRelationInput | ProjectTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectTranslations.
+     */
+    cursor?: ProjectTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectTranslations.
+     */
+    distinct?: ProjectTranslationScalarFieldEnum | ProjectTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTranslation findMany
+   */
+  export type ProjectTranslationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectTranslations to fetch.
+     */
+    where?: ProjectTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectTranslations to fetch.
+     */
+    orderBy?: ProjectTranslationOrderByWithRelationInput | ProjectTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectTranslations.
+     */
+    cursor?: ProjectTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectTranslations.
+     */
+    skip?: number
+    distinct?: ProjectTranslationScalarFieldEnum | ProjectTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectTranslation create
+   */
+  export type ProjectTranslationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectTranslation.
+     */
+    data: XOR<ProjectTranslationCreateInput, ProjectTranslationUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectTranslation createMany
+   */
+  export type ProjectTranslationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectTranslations.
+     */
+    data: ProjectTranslationCreateManyInput | ProjectTranslationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectTranslation createManyAndReturn
+   */
+  export type ProjectTranslationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProjectTranslations.
+     */
+    data: ProjectTranslationCreateManyInput | ProjectTranslationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectTranslation update
+   */
+  export type ProjectTranslationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectTranslation.
+     */
+    data: XOR<ProjectTranslationUpdateInput, ProjectTranslationUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectTranslation to update.
+     */
+    where: ProjectTranslationWhereUniqueInput
+  }
+
+  /**
+   * ProjectTranslation updateMany
+   */
+  export type ProjectTranslationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectTranslations.
+     */
+    data: XOR<ProjectTranslationUpdateManyMutationInput, ProjectTranslationUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectTranslations to update
+     */
+    where?: ProjectTranslationWhereInput
+    /**
+     * Limit how many ProjectTranslations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectTranslation updateManyAndReturn
+   */
+  export type ProjectTranslationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * The data used to update ProjectTranslations.
+     */
+    data: XOR<ProjectTranslationUpdateManyMutationInput, ProjectTranslationUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectTranslations to update
+     */
+    where?: ProjectTranslationWhereInput
+    /**
+     * Limit how many ProjectTranslations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectTranslation upsert
+   */
+  export type ProjectTranslationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectTranslation to update in case it exists.
+     */
+    where: ProjectTranslationWhereUniqueInput
+    /**
+     * In case the ProjectTranslation found by the `where` argument doesn't exist, create a new ProjectTranslation with this data.
+     */
+    create: XOR<ProjectTranslationCreateInput, ProjectTranslationUncheckedCreateInput>
+    /**
+     * In case the ProjectTranslation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectTranslationUpdateInput, ProjectTranslationUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectTranslation delete
+   */
+  export type ProjectTranslationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectTranslation to delete.
+     */
+    where: ProjectTranslationWhereUniqueInput
+  }
+
+  /**
+   * ProjectTranslation deleteMany
+   */
+  export type ProjectTranslationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectTranslations to delete
+     */
+    where?: ProjectTranslationWhereInput
+    /**
+     * Limit how many ProjectTranslations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectTranslation without action
+   */
+  export type ProjectTranslationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTranslation
+     */
+    select?: ProjectTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectTranslation
+     */
+    omit?: ProjectTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTranslationInclude<ExtArgs> | null
   }
 
 
@@ -21465,6 +22746,19 @@ export namespace Prisma {
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
+  export const ProjectTranslationScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    lang: 'lang',
+    title: 'title',
+    description: 'description',
+    slug: 'slug',
+    content: 'content'
+  };
+
+  export type ProjectTranslationScalarFieldEnum = (typeof ProjectTranslationScalarFieldEnum)[keyof typeof ProjectTranslationScalarFieldEnum]
+
+
   export const AppointmentScalarFieldEnum: {
     appointmentId: 'appointmentId',
     startTime: 'startTime',
@@ -22614,6 +23908,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
     projectLinks?: StringNullableListFilter<"Project">
+    translations?: ProjectTranslationListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -22629,6 +23924,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     projectLinks?: SortOrder
+    translations?: ProjectTranslationOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -22647,6 +23943,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
     projectLinks?: StringNullableListFilter<"Project">
+    translations?: ProjectTranslationListRelationFilter
   }, "projectId" | "slug">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -22683,6 +23980,72 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
     projectLinks?: StringNullableListFilter<"Project">
+  }
+
+  export type ProjectTranslationWhereInput = {
+    AND?: ProjectTranslationWhereInput | ProjectTranslationWhereInput[]
+    OR?: ProjectTranslationWhereInput[]
+    NOT?: ProjectTranslationWhereInput | ProjectTranslationWhereInput[]
+    id?: StringFilter<"ProjectTranslation"> | string
+    projectId?: StringFilter<"ProjectTranslation"> | string
+    lang?: StringFilter<"ProjectTranslation"> | string
+    title?: StringFilter<"ProjectTranslation"> | string
+    description?: StringNullableFilter<"ProjectTranslation"> | string | null
+    slug?: StringFilter<"ProjectTranslation"> | string
+    content?: StringNullableFilter<"ProjectTranslation"> | string | null
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }
+
+  export type ProjectTranslationOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    slug?: SortOrder
+    content?: SortOrderInput | SortOrder
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type ProjectTranslationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    projectId_lang?: ProjectTranslationProjectIdLangCompoundUniqueInput
+    AND?: ProjectTranslationWhereInput | ProjectTranslationWhereInput[]
+    OR?: ProjectTranslationWhereInput[]
+    NOT?: ProjectTranslationWhereInput | ProjectTranslationWhereInput[]
+    projectId?: StringFilter<"ProjectTranslation"> | string
+    lang?: StringFilter<"ProjectTranslation"> | string
+    title?: StringFilter<"ProjectTranslation"> | string
+    description?: StringNullableFilter<"ProjectTranslation"> | string | null
+    content?: StringNullableFilter<"ProjectTranslation"> | string | null
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }, "id" | "slug" | "projectId_lang">
+
+  export type ProjectTranslationOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    slug?: SortOrder
+    content?: SortOrderInput | SortOrder
+    _count?: ProjectTranslationCountOrderByAggregateInput
+    _max?: ProjectTranslationMaxOrderByAggregateInput
+    _min?: ProjectTranslationMinOrderByAggregateInput
+  }
+
+  export type ProjectTranslationScalarWhereWithAggregatesInput = {
+    AND?: ProjectTranslationScalarWhereWithAggregatesInput | ProjectTranslationScalarWhereWithAggregatesInput[]
+    OR?: ProjectTranslationScalarWhereWithAggregatesInput[]
+    NOT?: ProjectTranslationScalarWhereWithAggregatesInput | ProjectTranslationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectTranslation"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectTranslation"> | string
+    lang?: StringWithAggregatesFilter<"ProjectTranslation"> | string
+    title?: StringWithAggregatesFilter<"ProjectTranslation"> | string
+    description?: StringNullableWithAggregatesFilter<"ProjectTranslation"> | string | null
+    slug?: StringWithAggregatesFilter<"ProjectTranslation"> | string
+    content?: StringNullableWithAggregatesFilter<"ProjectTranslation"> | string | null
   }
 
   export type AppointmentWhereInput = {
@@ -23987,6 +25350,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
+    translations?: ProjectTranslationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -24002,6 +25366,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
+    translations?: ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -24017,6 +25382,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
+    translations?: ProjectTranslationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -24032,6 +25398,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
+    translations?: ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -24077,6 +25444,75 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
+  }
+
+  export type ProjectTranslationCreateInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+    content?: string | null
+    project: ProjectCreateNestedOneWithoutTranslationsInput
+  }
+
+  export type ProjectTranslationUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+    content?: string | null
+  }
+
+  export type ProjectTranslationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    project?: ProjectUpdateOneRequiredWithoutTranslationsNestedInput
+  }
+
+  export type ProjectTranslationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProjectTranslationCreateManyInput = {
+    id?: string
+    projectId: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+    content?: string | null
+  }
+
+  export type ProjectTranslationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProjectTranslationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AppointmentCreateInput = {
@@ -25185,6 +26621,16 @@ export namespace Prisma {
     type?: SortOrder
   }
 
+  export type ProjectTranslationListRelationFilter = {
+    every?: ProjectTranslationWhereInput
+    some?: ProjectTranslationWhereInput
+    none?: ProjectTranslationWhereInput
+  }
+
+  export type ProjectTranslationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ProjectCountOrderByAggregateInput = {
     projectId?: SortOrder
     title?: SortOrder
@@ -25222,6 +26668,46 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ProjectScalarRelationFilter = {
+    is?: ProjectWhereInput
+    isNot?: ProjectWhereInput
+  }
+
+  export type ProjectTranslationProjectIdLangCompoundUniqueInput = {
+    projectId: string
+    lang: string
+  }
+
+  export type ProjectTranslationCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+    content?: SortOrder
+  }
+
+  export type ProjectTranslationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+    content?: SortOrder
+  }
+
+  export type ProjectTranslationMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+    content?: SortOrder
   }
 
   export type EnumAppointmentStatusFilter<$PrismaModel = never> = {
@@ -26051,6 +27537,20 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type ProjectTranslationCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectTranslationCreateWithoutProjectInput, ProjectTranslationUncheckedCreateWithoutProjectInput> | ProjectTranslationCreateWithoutProjectInput[] | ProjectTranslationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTranslationCreateOrConnectWithoutProjectInput | ProjectTranslationCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectTranslationCreateManyProjectInputEnvelope
+    connect?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+  }
+
+  export type ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectTranslationCreateWithoutProjectInput, ProjectTranslationUncheckedCreateWithoutProjectInput> | ProjectTranslationCreateWithoutProjectInput[] | ProjectTranslationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTranslationCreateOrConnectWithoutProjectInput | ProjectTranslationCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectTranslationCreateManyProjectInputEnvelope
+    connect?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+  }
+
   export type ProjectUpdateplatformsInput = {
     set?: string[]
     push?: string | string[]
@@ -26064,6 +27564,48 @@ export namespace Prisma {
   export type ProjectUpdateprojectLinksInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type ProjectTranslationUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectTranslationCreateWithoutProjectInput, ProjectTranslationUncheckedCreateWithoutProjectInput> | ProjectTranslationCreateWithoutProjectInput[] | ProjectTranslationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTranslationCreateOrConnectWithoutProjectInput | ProjectTranslationCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectTranslationUpsertWithWhereUniqueWithoutProjectInput | ProjectTranslationUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectTranslationCreateManyProjectInputEnvelope
+    set?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    disconnect?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    delete?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    connect?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    update?: ProjectTranslationUpdateWithWhereUniqueWithoutProjectInput | ProjectTranslationUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectTranslationUpdateManyWithWhereWithoutProjectInput | ProjectTranslationUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectTranslationScalarWhereInput | ProjectTranslationScalarWhereInput[]
+  }
+
+  export type ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectTranslationCreateWithoutProjectInput, ProjectTranslationUncheckedCreateWithoutProjectInput> | ProjectTranslationCreateWithoutProjectInput[] | ProjectTranslationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectTranslationCreateOrConnectWithoutProjectInput | ProjectTranslationCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectTranslationUpsertWithWhereUniqueWithoutProjectInput | ProjectTranslationUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectTranslationCreateManyProjectInputEnvelope
+    set?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    disconnect?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    delete?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    connect?: ProjectTranslationWhereUniqueInput | ProjectTranslationWhereUniqueInput[]
+    update?: ProjectTranslationUpdateWithWhereUniqueWithoutProjectInput | ProjectTranslationUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectTranslationUpdateManyWithWhereWithoutProjectInput | ProjectTranslationUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectTranslationScalarWhereInput | ProjectTranslationScalarWhereInput[]
+  }
+
+  export type ProjectCreateNestedOneWithoutTranslationsInput = {
+    create?: XOR<ProjectCreateWithoutTranslationsInput, ProjectUncheckedCreateWithoutTranslationsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutTranslationsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type ProjectUpdateOneRequiredWithoutTranslationsNestedInput = {
+    create?: XOR<ProjectCreateWithoutTranslationsInput, ProjectUncheckedCreateWithoutTranslationsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutTranslationsInput
+    upsert?: ProjectUpsertWithoutTranslationsInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutTranslationsInput, ProjectUpdateWithoutTranslationsInput>, ProjectUncheckedUpdateWithoutTranslationsInput>
   }
 
   export type EnumAppointmentStatusFieldUpdateOperationsInput = {
@@ -27649,6 +29191,139 @@ export namespace Prisma {
     translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
   }
 
+  export type ProjectTranslationCreateWithoutProjectInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+    content?: string | null
+  }
+
+  export type ProjectTranslationUncheckedCreateWithoutProjectInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+    content?: string | null
+  }
+
+  export type ProjectTranslationCreateOrConnectWithoutProjectInput = {
+    where: ProjectTranslationWhereUniqueInput
+    create: XOR<ProjectTranslationCreateWithoutProjectInput, ProjectTranslationUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectTranslationCreateManyProjectInputEnvelope = {
+    data: ProjectTranslationCreateManyProjectInput | ProjectTranslationCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectTranslationUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectTranslationWhereUniqueInput
+    update: XOR<ProjectTranslationUpdateWithoutProjectInput, ProjectTranslationUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectTranslationCreateWithoutProjectInput, ProjectTranslationUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectTranslationUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectTranslationWhereUniqueInput
+    data: XOR<ProjectTranslationUpdateWithoutProjectInput, ProjectTranslationUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectTranslationUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectTranslationScalarWhereInput
+    data: XOR<ProjectTranslationUpdateManyMutationInput, ProjectTranslationUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectTranslationScalarWhereInput = {
+    AND?: ProjectTranslationScalarWhereInput | ProjectTranslationScalarWhereInput[]
+    OR?: ProjectTranslationScalarWhereInput[]
+    NOT?: ProjectTranslationScalarWhereInput | ProjectTranslationScalarWhereInput[]
+    id?: StringFilter<"ProjectTranslation"> | string
+    projectId?: StringFilter<"ProjectTranslation"> | string
+    lang?: StringFilter<"ProjectTranslation"> | string
+    title?: StringFilter<"ProjectTranslation"> | string
+    description?: StringNullableFilter<"ProjectTranslation"> | string | null
+    slug?: StringFilter<"ProjectTranslation"> | string
+    content?: StringNullableFilter<"ProjectTranslation"> | string | null
+  }
+
+  export type ProjectCreateWithoutTranslationsInput = {
+    projectId?: string
+    title: string
+    description?: string | null
+    slug: string
+    image?: string | null
+    status?: string
+    platforms?: ProjectCreateplatformsInput | string[]
+    technologies?: ProjectCreatetechnologiesInput | string[]
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    projectLinks?: ProjectCreateprojectLinksInput | string[]
+  }
+
+  export type ProjectUncheckedCreateWithoutTranslationsInput = {
+    projectId?: string
+    title: string
+    description?: string | null
+    slug: string
+    image?: string | null
+    status?: string
+    platforms?: ProjectCreateplatformsInput | string[]
+    technologies?: ProjectCreatetechnologiesInput | string[]
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    projectLinks?: ProjectCreateprojectLinksInput | string[]
+  }
+
+  export type ProjectCreateOrConnectWithoutTranslationsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutTranslationsInput, ProjectUncheckedCreateWithoutTranslationsInput>
+  }
+
+  export type ProjectUpsertWithoutTranslationsInput = {
+    update: XOR<ProjectUpdateWithoutTranslationsInput, ProjectUncheckedUpdateWithoutTranslationsInput>
+    create: XOR<ProjectCreateWithoutTranslationsInput, ProjectUncheckedCreateWithoutTranslationsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutTranslationsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutTranslationsInput, ProjectUncheckedUpdateWithoutTranslationsInput>
+  }
+
+  export type ProjectUpdateWithoutTranslationsInput = {
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    platforms?: ProjectUpdateplatformsInput | string[]
+    technologies?: ProjectUpdatetechnologiesInput | string[]
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectLinks?: ProjectUpdateprojectLinksInput | string[]
+  }
+
+  export type ProjectUncheckedUpdateWithoutTranslationsInput = {
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    platforms?: ProjectUpdateplatformsInput | string[]
+    technologies?: ProjectUpdatetechnologiesInput | string[]
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projectLinks?: ProjectUpdateprojectLinksInput | string[]
+  }
+
   export type PostCreateWithoutLikesInput = {
     postId?: string
     title: string
@@ -28315,6 +29990,42 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+  }
+
+  export type ProjectTranslationCreateManyProjectInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+    content?: string | null
+  }
+
+  export type ProjectTranslationUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProjectTranslationUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProjectTranslationUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

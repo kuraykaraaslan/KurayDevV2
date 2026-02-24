@@ -30,6 +30,7 @@ const SingleCategory = () => {
   )
 
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -228,6 +229,7 @@ const SingleCategory = () => {
         return
       }
 
+      setSaving(true)
       try {
         await axiosInstance.post(`/api/categories/${routeCategoryId}/translations`, {
           lang: activeLang,
@@ -239,6 +241,8 @@ const SingleCategory = () => {
         toast.success('Translation saved')
       } catch (error: any) {
         toast.error(error?.response?.data?.message ?? 'Save failed')
+      } finally {
+        setSaving(false)
       }
       return
     }

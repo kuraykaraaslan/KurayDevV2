@@ -8,14 +8,15 @@ import Table, {
   ColumnDef,
   ActionButton,
 } from '@/components/admin/UI/Forms/DynamicTable'
-import { Post } from '@/types/content/BlogTypes'
+import { PostWithData } from '@/types/content/BlogTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import { findFlagUrlByIso2Code } from '@/helpers/Language'
 
 const PostPage = () => {
   const { t } = useTranslation()
 
-  const columns: ColumnDef<Post>[] = [
+  const columns: ColumnDef<PostWithData>[] = [
     {
       key: 'image',
       header: 'Image',
@@ -25,9 +26,24 @@ const PostPage = () => {
     { key: 'title', header: 'Title', accessor: (p) => p.title },
     { key: 'slug', header: 'admin.posts.slug', accessor: (p) => p.slug },
     { key: 'status', header: 'admin.posts.status', accessor: (p) => p.status },
+    {
+      key: 'translations',
+      header: 'Translations',
+      hideOnMobile: true,
+      accessor: (p) =>
+        p.translations?.length ? (
+          <div className="flex flex-wrap gap-1">
+            {p.translations.map((tr) => (
+              <img key={tr.lang} src={findFlagUrlByIso2Code(tr.lang)} alt={tr.lang} className="w-3 h-3 rounded-full" />
+            ))}
+          </div>
+        ) : (
+          <span className="text-base-content/30 text-xs">—</span>
+        ),
+    },
   ]
 
-  const actions: ActionButton<Post>[] = [
+  const actions: ActionButton<PostWithData>[] = [
     {
       label: 'admin.posts.edit',
       href: (p) => `/admin/posts/${p.postId}`,
@@ -46,7 +62,7 @@ const PostPage = () => {
   ]
 
   return (
-    <TableProvider<Post>
+    <TableProvider<PostWithData>
       apiEndpoint="/api/posts"
       dataKey="posts"
       idKey="postId"

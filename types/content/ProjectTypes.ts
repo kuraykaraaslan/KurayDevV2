@@ -1,4 +1,15 @@
 import { z } from 'zod'
+import { AppLanguageEnum } from '@/types/common/I18nTypes'
+
+const ProjectTranslationSchema = z.object({
+  id: z.string(),
+  projectId: z.string(),
+  lang: AppLanguageEnum,
+  title: z.string(),
+  description: z.string().nullable().optional(),
+  slug: z.string(),
+  content: z.string().nullable().optional(),
+})
 
 const UrlSchema = z.object({
   type: z.enum(['GitHub', 'Demo', 'Other']).optional(),
@@ -50,9 +61,11 @@ const ServiceSchema = z.object({
 })
 
 export type Project = z.infer<typeof ProjectSchema>
+export type ProjectTranslation = z.infer<typeof ProjectTranslationSchema>
+export type ProjectWithTranslations = Project & { translations?: ProjectTranslation[] }
 export type Platform = z.infer<typeof PlatformSchema>
 export type Tag = z.infer<typeof TagSchema>
 export type Service = z.infer<typeof ServiceSchema>
 export type Url = z.infer<typeof UrlSchema>
 
-export { ProjectSchema, PlatformSchema, TagSchema, ServiceSchema, UrlSchema }
+export { ProjectSchema, ProjectTranslationSchema, PlatformSchema, TagSchema, ServiceSchema, UrlSchema }

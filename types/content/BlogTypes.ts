@@ -118,6 +118,7 @@ export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>
 export type Comment = z.infer<typeof CommentSchema>
 export type Post = z.infer<typeof PostSchema>
 export type Category = z.infer<typeof CategorySchema>
+export type CategoryWithTranslations = Category & { translations?: CategoryTranslation[] }
 export type PostWithData = z.infer<typeof PostWithDataSchema>
 export type CommentWithData = z.infer<typeof CommentWithDataSchema>
 export type PostLike = z.infer<typeof PostLikeSchema>

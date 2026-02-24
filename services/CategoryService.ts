@@ -1,7 +1,5 @@
-import { Category, CategoryTranslation } from '@/types/content/BlogTypes'
+import { Category, CategoryWithTranslations } from '@/types/content/BlogTypes'
 import { prisma } from '@/libs/prisma'
-
-type CategoryWithTranslations = Category & { translations?: CategoryTranslation[] }
 
 const categoryWithTranslationsSelect = {
   categoryId: true,
@@ -94,7 +92,7 @@ export default class CategoryService {
     page: number,
     pageSize: number,
     search?: string
-  ): Promise<{ categories: Category[]; total: number }> {
+  ): Promise<{ categories: CategoryWithTranslations[]; total: number }> {
     if (search && this.sqlInjectionRegex.test(search)) {
       throw new Error('Invalid search query.')
     }
@@ -113,11 +111,12 @@ export default class CategoryService {
       where,
       skip: page * pageSize,
       take: pageSize,
+      select: categoryWithTranslationsSelect,
     })
 
     const total = await prisma.category.count({ where })
 
-    return { categories, total }
+    return { categories: categories as CategoryWithTranslations[], total }
   }
 
   /**
