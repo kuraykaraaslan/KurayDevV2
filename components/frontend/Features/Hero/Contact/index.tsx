@@ -14,7 +14,7 @@ import {
 import { CircleFlag } from 'react-circle-flags'
 
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 
 //axios
 import axios from 'axios'

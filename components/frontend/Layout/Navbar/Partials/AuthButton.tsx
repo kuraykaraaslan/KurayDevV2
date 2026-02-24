@@ -1,7 +1,7 @@
 'use client'
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import useGlobalStore from '@/libs/zustand'
 
 const AuthButton = () => {

@@ -1,7 +1,7 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faLink } from '@fortawesome/free-solid-svg-icons'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import dynamic from 'next/dynamic'
 import { Trans } from 'react-i18next'
 import { useTranslation } from 'react-i18next'

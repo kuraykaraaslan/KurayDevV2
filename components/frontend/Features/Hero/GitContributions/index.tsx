@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 

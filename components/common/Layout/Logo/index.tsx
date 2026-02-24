@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCode } from '@fortawesome/free-solid-svg-icons'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 interface LogoProps {
   className?: string
   iconClassName?: string

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNodes } from '@fortawesome/free-solid-svg-icons'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import WorldMap from 'react-svg-worldmap'
 
 const HireMeVideo = dynamic(() => import('./Partials/HireMeVideo'), { ssr: false })

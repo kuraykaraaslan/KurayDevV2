@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import {
   faReact,
   faHtml5,

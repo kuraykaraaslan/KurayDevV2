@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import useGlobalStore from '@/libs/zustand'
 import Image from 'next/image'
 import { createHash } from 'crypto'

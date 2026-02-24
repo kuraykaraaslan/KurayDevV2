@@ -1,5 +1,5 @@
 'use client'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { PostWithData } from '@/types/content/BlogTypes'
 import PostLike from './partials/PostLike'
 import { useTranslation } from 'react-i18next'

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { SearchTypeColors, SearchResultItemType } from '@/types/content/SearchTypes'
 
 export interface ResultElementProps {
