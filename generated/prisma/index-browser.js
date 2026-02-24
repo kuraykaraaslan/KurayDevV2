@@ -305,6 +305,17 @@ exports.Prisma.LikeScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.TestimonialScalarFieldEnum = {
+  testimonialId: 'testimonialId',
+  name: 'name',
+  title: 'title',
+  review: 'review',
+  image: 'image',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.GeoAnalyticsScalarFieldEnum = {
   id: 'id',
   country: 'country',
@@ -395,6 +406,7 @@ exports.Prisma.ModelName = {
   ProjectTranslation: 'ProjectTranslation',
   Appointment: 'Appointment',
   Like: 'Like',
+  Testimonial: 'Testimonial',
   GeoAnalytics: 'GeoAnalytics',
   Media: 'Media'
 };

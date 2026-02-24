@@ -35,6 +35,7 @@ const SingleProject = () => {
 
   const mode = routeProjectId === 'create' ? 'create' : 'edit'
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
 
   const [title, setTitle] = useState('')
   const [image, setImage] = useState('')
@@ -243,6 +244,7 @@ const SingleProject = () => {
         return
       }
 
+      setSaving(true)
       try {
         await axiosInstance.post(`/api/projects/${routeProjectId}/translations`, {
           lang: activeLang,
@@ -255,6 +257,8 @@ const SingleProject = () => {
         toast.success('Translation saved')
       } catch (error: any) {
         toast.error(error?.response?.data?.message ?? 'Save failed')
+      } finally {
+        setSaving(false)
       }
       return
     }
@@ -543,9 +547,10 @@ const SingleProject = () => {
         type="button"
         className="btn btn-primary block w-full mt-4"
         onClick={handleSubmit}
-        disabled={loading}
+        disabled={loading || saving}
       >
-        {loading ? 'Loading...' : mode === 'create' ? 'Create Project' : isEN ? 'Update Project' : 'Save Translation'}
+        {saving && <span className="loading loading-spinner loading-xs mr-2" />}
+        {loading ? 'Loading...' : saving ? 'Saving...' : mode === 'create' ? 'Create Project' : isEN ? 'Update Project' : 'Save Translation'}
       </button>
     </div>
   )

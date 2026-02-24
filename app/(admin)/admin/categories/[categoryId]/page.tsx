@@ -297,6 +297,8 @@ const SingleCategory = () => {
           label: 'Save',
           onClick: handleSubmit,
           className: 'btn-primary',
+          disabled: saving || loading,
+          loading: saving,
         },
         {
           label: 'Cancel',

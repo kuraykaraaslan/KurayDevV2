@@ -1,38 +1,29 @@
+'use client'
+import { useState, useEffect } from 'react'
 import { Testimonial } from '@/types/ui/TestimonialTypes'
+import axiosInstance from '@/libs/axios'
 import SingleTestimonial from './Partials/SingleTestimonial'
 
 const Testimonials = () => {
-  const testimonials = [
-    {
-      id: 1,
-      name: 'Michael Harris',
-      title: 'Founder at Bright Ventures',
-      review:
-        "We couldn't have asked for a better experience. The complex API integrations and custom features were delivered with precision. The professionalism and commitment to quality made a huge impact on our business.",
-    },
-    {
-      id: 2,
-      name: 'Sarah Miller',
-      title: 'CTO at NextGen Solutions',
-      review:
-        'A true expert in software engineering who transformed our vision into reality. The technical expertise and understanding of our complex requirements made a huge difference in the success of our project.',
-    },
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
 
-    {
-      id: 3,
-      name: 'Ahmet Yılmaz',
-      title: 'CTO at Akıllı Sistemler A.Ş.',
-      review:
-        'The software development process was seamless, and the e-commerce platform delivered exceeded our expectations. The attention to detail and ability to meet deadlines were impressive. Highly recommend for any technical project.',
-    },
-    {
-      id: 4,
-      name: 'James Roberts',
-      title: 'Product Manager at Stellar Apps',
-      review:
-        'Kuray provided invaluable assistance in scaling our mobile app. His knowledge in React Native and backend development allowed us to launch ahead of schedule. His professionalism and problem-solving skills set him apart.',
-    },
-  ] as Testimonial[]
+  useEffect(() => {
+    axiosInstance
+      .get('/api/testimonials?pageSize=100')
+      .then((response) => {
+        const all: Testimonial[] = response.data.testimonials ?? []
+        setTestimonials(all.filter((t) => t.status === 'PUBLISHED'))
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [])
+
+  if (!testimonials.length) return null
+
+  const half = Math.ceil(testimonials.length / 2)
+  const leftColumn = testimonials.slice(0, half)
+  const rightColumn = testimonials.slice(half)
 
   return (
     <section className="bg-base-300 md:px-24">
@@ -48,18 +39,14 @@ const Testimonials = () => {
           <div className="p-6 xl:col-span-3 pt-0">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="grid content-center gap-4">
-                {testimonials.map((testimonial) => {
-                  if (testimonial.id <= 2) {
-                    return <SingleTestimonial key={testimonial.id} testimonial={testimonial} />
-                  }
-                })}
+                {leftColumn.map((testimonial) => (
+                  <SingleTestimonial key={testimonial.testimonialId} testimonial={testimonial} />
+                ))}
               </div>
               <div className="grid content-center gap-4">
-                {testimonials.map((testimonial) => {
-                  if (testimonial.id > 2) {
-                    return <SingleTestimonial key={testimonial.id} testimonial={testimonial} />
-                  }
-                })}
+                {rightColumn.map((testimonial) => (
+                  <SingleTestimonial key={testimonial.testimonialId} testimonial={testimonial} />
+                ))}
               </div>
             </div>
           </div>

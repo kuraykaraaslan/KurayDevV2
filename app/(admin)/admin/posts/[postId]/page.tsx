@@ -53,6 +53,7 @@ const SinglePost = () => {
 
   // ── EN state ────────────────────────────────────────────────
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [title, setTitle] = useState('')
   const [image, setImage] = useState('')
   const [content, setContent] = useState('')
@@ -297,6 +298,7 @@ const SinglePost = () => {
       if (!currentSlug.trim()) errors.push('slug is required')
       if (errors.length) { errors.forEach((m) => toast.error(m)); return }
 
+      setSaving(true)
       try {
         await axiosInstance.post(`/api/posts/${routePostId}/translations`, {
           lang: activeLang,
@@ -309,6 +311,8 @@ const SinglePost = () => {
         toast.success(`${LANG_NAMES[activeLang] ?? activeLang} translation saved`)
       } catch (error: any) {
         toast.error(error?.response?.data?.message ?? 'Save failed')
+      } finally {
+        setSaving(false)
       }
       return
     }
@@ -348,7 +352,7 @@ const SinglePost = () => {
     <Form
       className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-7xl"
       actions={[
-        { label: saveLabel, onClick: handleSubmit, className: 'btn-primary' },
+        { label: saving ? 'Saving...' : saveLabel, onClick: handleSubmit, className: 'btn-primary', disabled: saving || loading, loading: saving },
         { label: 'Cancel', onClick: () => router.push('/admin/posts'), className: 'btn-secondary' },
       ]}
     >

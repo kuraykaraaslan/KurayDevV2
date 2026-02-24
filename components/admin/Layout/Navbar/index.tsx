@@ -45,6 +45,7 @@ const navGroups: NavGroup[] = [
       { name: 'Categories', href: '/admin/categories' },
       { name: 'Posts', href: '/admin/posts' },
       { name: 'Comments', href: '/admin/comments' },
+      { name: 'Testimonials', href: '/admin/testimonials' },
       { name: 'Media', href: '/admin/media' },
     ],
   },
