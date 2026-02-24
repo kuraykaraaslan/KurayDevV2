@@ -1,42 +1,51 @@
 'use client'
 
-import { useEffect } from 'react'
-import useGlobalStore from '@/libs/zustand'
-import { useTranslation } from 'react-i18next'
-import { AppLanguage } from '@/types/common/I18nTypes'
+import { usePathname, useRouter } from 'next/navigation'
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 
+// Language code → country flag code (only for exceptions where they differ)
+const LANG_TO_COUNTRY: Partial<Record<AppLanguage, string>> = {
+  en: 'us',
+  et: 'ee',
+  he: 'il',
+}
+
+const findFlagUrlByIso2Code = (lang: AppLanguage) => {
+  const country = LANG_TO_COUNTRY[lang] ?? lang
+  return `https://kapowaz.github.io/square-flags/flags/${country.toLowerCase()}.svg`
+}
+
 export default function LanguageModal() {
-  const { language, setLanguage, availableLanguages } = useGlobalStore()
-  const { i18n } = useTranslation()
+  const pathname = usePathname()
+  const router = useRouter()
   const { open, openModal, closeModal } = useModal()
 
-  // Language code → country flag code (only for exceptions where they differ)
-  const LANG_TO_COUNTRY: Partial<Record<AppLanguage, string>> = {
-    en: 'us',
-    et: 'ee',
-    he: 'il',
-  }
+  // Detect current language from URL (non-default lang is the first segment)
+  const firstSegment = pathname.split('/').filter(Boolean)[0]
+  const currentLang: AppLanguage =
+    AVAILABLE_LANGUAGES.includes(firstSegment as AppLanguage) && firstSegment !== DEFAULT_LANGUAGE
+      ? (firstSegment as AppLanguage)
+      : DEFAULT_LANGUAGE
 
-  // https://kapowaz.github.io/square-flags/flags/XX.svg
-  const findFlagUrlByIso2Code = (lang: AppLanguage) => {
-    const country = LANG_TO_COUNTRY[lang] ?? lang
-    return `https://kapowaz.github.io/square-flags/flags/${country.toLowerCase()}.svg`
+  // Returns the page path without lang prefix
+  const getPagePath = (): string => {
+    const segs = pathname.split('/').filter(Boolean)
+    if (AVAILABLE_LANGUAGES.includes(segs[0] as AppLanguage) && segs[0] !== DEFAULT_LANGUAGE) {
+      return '/' + segs.slice(1).join('/')
+    }
+    return pathname
   }
 
   const selectLanguage = (lang: AppLanguage) => {
-    setLanguage(lang)
     closeModal()
-    i18n.changeLanguage(lang)
-  }
-
-  useEffect(() => {
-    if (!i18n.isInitialized) return // critical
-
-    if (i18n.language !== language) {
-      i18n.changeLanguage(language)
+    const pagePath = getPagePath() || '/'
+    if (lang === DEFAULT_LANGUAGE) {
+      router.push(pagePath)
+    } else {
+      router.push(`/${lang}${pagePath}`)
     }
-  }, [language, i18n])
+  }
 
   return (
     <>
@@ -46,8 +55,8 @@ export default function LanguageModal() {
         onClick={openModal}
       >
         <img
-          src={findFlagUrlByIso2Code(language)}
-          alt={language}
+          src={findFlagUrlByIso2Code(currentLang)}
+          alt={currentLang}
           className="w-6 h-6 rounded-full"
           style={{ backgroundSize: 'cover' }}
         />
@@ -55,11 +64,11 @@ export default function LanguageModal() {
 
       <HeadlessModal open={open} onClose={closeModal} title="Choose Language" size="sm">
         <div className="grid grid-cols-3 gap-3">
-          {availableLanguages.map((lang) => (
+          {AVAILABLE_LANGUAGES.map((lang) => (
             <button
               key={lang}
               className={`flex flex-col items-center gap-1 p-2 rounded-xl border border-transparent hover:bg-base-300 transition ${
-                lang === language ? 'bg-base-300 border-base-300' : ''
+                lang === currentLang ? 'bg-base-300 border-base-300' : ''
               }`}
               onClick={() => selectLanguage(lang)}
             >
