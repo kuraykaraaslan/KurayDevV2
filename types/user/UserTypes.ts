@@ -14,7 +14,10 @@ export const LanguageSchema = AppLanguageEnum.default('en')
 
 export const UserPreferencesSchema = z.object({
   theme: ThemeEnum.optional().default('SYSTEM'),
-  language: AppLanguageEnum.optional().default('en'),
+  language: z.preprocess(
+    (val) => (typeof val === 'string' ? val.toLowerCase() : val),
+    AppLanguageEnum
+  ).optional().default('en'),
   emailNotifications: z.boolean().optional().default(true),
   smsNotifications: z.boolean().optional().default(false),
   pushNotifications: z.boolean().optional().default(true),

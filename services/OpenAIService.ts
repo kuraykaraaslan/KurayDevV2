@@ -52,7 +52,7 @@ export default class OpenAIService {
             content: prompt,
           },
         ],
-        max_tokens: 1000,
+        max_tokens: 4000,
       })
 
       let text = response.choices[0].message.content

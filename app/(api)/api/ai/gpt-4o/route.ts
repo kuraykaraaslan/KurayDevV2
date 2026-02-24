@@ -27,8 +27,10 @@ export async function POST(request: NextRequest) {
 
     const { prompt } = parsedData.data
     const text = await OpenAIService.generateText(prompt)
+    console.log('Generated text:', text)
     return NextResponse.json({ message: AIMessages.TEXT_GENERATED_SUCCESSFULLY, text })
   } catch (error: any) {
+    console.error('Error in GPT-4o API route:', error)
     return NextResponse.json(
       { message: error.message || AIMessages.GENERATION_FAILED },
       { status: 500 }
