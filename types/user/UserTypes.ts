@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { UserSecuritySchema, UserSecurityDefault } from './UserSecurityTypes'
 import { UserProfileSchema, UserProfileDefault } from './UserProfileTypes'
+import { AppLanguageEnum } from '@/types/common/I18nTypes'
 
 export const UserRoleEnum = z.enum(['ADMIN', 'USER']).default('USER')
 export const UserStatusEnum = z.enum(['ACTIVE', 'INACTIVE', 'BANNED']).default('ACTIVE')
@@ -8,12 +9,12 @@ export const UserStatusEnum = z.enum(['ACTIVE', 'INACTIVE', 'BANNED']).default('
 export const ThemeEnum = z.enum(['LIGHT', 'DARK', 'SYSTEM'])
 export const ThemeSchema = ThemeEnum.default('SYSTEM')
 
-export const LanguageEnum = z.enum(['EN', 'ES', 'FR', 'DE', 'CN', 'JP'])
-export const LanguageSchema = LanguageEnum.default('EN')
+export const LanguageEnum = AppLanguageEnum
+export const LanguageSchema = AppLanguageEnum.default('en')
 
 export const UserPreferencesSchema = z.object({
   theme: ThemeEnum.optional().default('SYSTEM'),
-  language: LanguageEnum.optional().default('EN'),
+  language: AppLanguageEnum.optional().default('en'),
   emailNotifications: z.boolean().optional().default(true),
   smsNotifications: z.boolean().optional().default(false),
   pushNotifications: z.boolean().optional().default(true),
@@ -26,7 +27,7 @@ export const UserPreferencesSchema = z.object({
 
 export const UserPreferencesDefault: z.infer<typeof UserPreferencesSchema> = {
   theme: ThemeEnum.enum.SYSTEM,
-  language: LanguageEnum.enum.EN,
+  language: AppLanguageEnum.enum.en,
   emailNotifications: true,
   smsNotifications: false,
   pushNotifications: true,

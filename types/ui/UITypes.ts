@@ -12,5 +12,18 @@ const MenuItemSchema = z.object({
   hideTextOnDesktop: z.boolean().default(false),
 })
 
+// =========================
+// UI Types
+// =========================
+
 export type MenuItem = z.infer<typeof MenuItemSchema>
 export { MenuItemSchema }
+
+export const AppThemeEnum = z.enum(['light', 'dark'])
+export const AppThemeSchema = AppThemeEnum.default('dark')
+
+export type AppTheme = z.infer<typeof AppThemeEnum>
+
+export const AVAILABLE_THEMES = AppThemeEnum.options
+
+export const DEFAULT_THEME: AppTheme = 'dark'
