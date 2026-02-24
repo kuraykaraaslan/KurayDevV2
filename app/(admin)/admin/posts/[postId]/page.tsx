@@ -13,8 +13,15 @@ import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import DynamicDate from '@/components/admin/UI/Forms/DynamicDate'
 import GenericElement from '@/components/admin/UI/Forms/GenericElement'
 import Form from '@/components/admin/UI/Forms/Form'
-import LanguageBar, { LANG_NAMES } from '@/components/admin/Features/PostTranslations/LanguageBar'
-import AddLanguageModal from '@/components/admin/Features/PostTranslations/AddLanguageModal'
+import LanguageBar, { LANG_NAMES } from '@/components/admin/Features/Translations/LanguageBar'
+import AddLanguageModal, { TranslationFieldDef } from '@/components/admin/Features/Translations/AddLanguageModal'
+
+const POST_TRANSLATION_FIELDS: TranslationFieldDef[] = [
+  { key: 'title', label: 'Title' },
+  { key: 'description', label: 'Description' },
+  { key: 'slug', label: 'Slug' },
+  { key: 'content', label: 'Content', isRichText: true },
+]
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
 
@@ -25,7 +32,7 @@ type TranslationForm = {
   slug: string
 }
 
-const emptyTranslation = (): TranslationForm => ({
+const emptyTranslation = (): Record<string, string> => ({
   title: '',
   content: '',
   description: '',
@@ -62,7 +69,7 @@ const SinglePost = () => {
   const [activeLang, setActiveLang] = useState('en')
   const [addedLangs, setAddedLangs] = useState<string[]>([])
   const [savedLangs, setSavedLangs] = useState<string[]>([])
-  const [translationForms, setTranslationForms] = useState<Record<string, TranslationForm>>({})
+  const [translationForms, setTranslationForms] = useState<Record<string, Record<string, string>>>({})
   const trTitleRef = useRef<Record<string, string>>({})
 
   // ── Derived: current language's field values ─────────────────
@@ -253,7 +260,7 @@ const SinglePost = () => {
     setAddLangModal({ open: true, targetLang: lang })
   }
 
-  const handleAddLangConfirm = (lang: string, prefilled?: TranslationForm) => {
+  const handleAddLangConfirm = (lang: string, prefilled?: Record<string, string>) => {
     setAddedLangs((p) => [...p, lang])
     setActiveLang(lang)
     trTitleRef.current[lang] = prefilled?.title ?? ''
@@ -461,6 +468,8 @@ const SinglePost = () => {
         targetLang={addLangModal.targetLang}
         sourceForms={sourceForms}
         availableSourceLangs={availableSourceLangs}
+        fields={POST_TRANSLATION_FIELDS}
+        entityLabel="blog post"
         onConfirm={handleAddLangConfirm}
       />
 

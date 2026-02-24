@@ -8,6 +8,14 @@ import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import GenericElement from '@/components/admin/UI/Forms/GenericElement'
 import Form from '@/components/admin/UI/Forms/Form'
+import LanguageBar from '@/components/admin/Features/Translations/LanguageBar'
+import AddLanguageModal, { TranslationFieldDef } from '@/components/admin/Features/Translations/AddLanguageModal'
+
+const CATEGORY_TRANSLATION_FIELDS: TranslationFieldDef[] = [
+  { key: 'title', label: 'Title' },
+  { key: 'description', label: 'Description' },
+  { key: 'slug', label: 'Slug' },
+]
 
 const SingleCategory = () => {
   const localStorageKey = 'category_drafts'
@@ -28,6 +36,20 @@ const SingleCategory = () => {
   const [slug, setSlug] = useState('')
   const [keywords, setKeywords] = useState<string[]>([])
   const [image, setImage] = useState('')
+
+  // Translation state
+  const [activeLang, setActiveLang] = useState('en')
+  const [addedLangs, setAddedLangs] = useState<string[]>([])
+  const [savedLangs, setSavedLangs] = useState<string[]>([])
+  const [translationForms, setTranslationForms] = useState<Record<string, Record<string, string>>>({})
+  const [modalTargetLang, setModalTargetLang] = useState('')
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const isEN = activeLang === 'en'
+
+  const currentTitle = isEN ? title : (translationForms[activeLang]?.title ?? '')
+  const currentDescription = isEN ? description : (translationForms[activeLang]?.description ?? '')
+  const currentSlug = isEN ? slug : (translationForms[activeLang]?.slug ?? '')
 
   const clearAutoSave = () => {
     try {
@@ -69,8 +91,12 @@ const SingleCategory = () => {
       }
 
       try {
-        const res = await axiosInstance.get(`/api/categories/${routeCategoryId}`)
-        const category = res.data?.category
+        const [categoryRes, translationsRes] = await Promise.all([
+          axiosInstance.get(`/api/categories/${routeCategoryId}`),
+          axiosInstance.get(`/api/categories/${routeCategoryId}/translations`),
+        ])
+
+        const category = categoryRes.data?.category
 
         if (!category) {
           toast.error('Category not found')
@@ -83,6 +109,25 @@ const SingleCategory = () => {
         setSlug(category.slug ?? '')
         setKeywords(Array.isArray(category.keywords) ? category.keywords : [])
         setImage(category.image ?? '')
+
+        const translations: Array<{ lang: string; title: string; description?: string; slug?: string }> =
+          translationsRes.data?.translations ?? []
+
+        const forms: Record<string, Record<string, string>> = {}
+        const langs: string[] = []
+
+        for (const t of translations) {
+          forms[t.lang] = {
+            title: t.title ?? '',
+            description: t.description ?? '',
+            slug: t.slug ?? '',
+          }
+          langs.push(t.lang)
+        }
+
+        setTranslationForms(forms)
+        setAddedLangs(langs)
+        setSavedLangs(langs)
       } catch (error: any) {
         console.error(error)
         toast.error(error?.response?.data?.message ?? 'Failed to load category')
@@ -150,7 +195,54 @@ const SingleCategory = () => {
     toast.info('Draft cleared')
   }
 
+  const handleAddLangConfirm = (lang: string, prefilled?: Record<string, string>) => {
+    if (prefilled) {
+      setTranslationForms((prev) => ({ ...prev, [lang]: prefilled }))
+    }
+    setActiveLang(lang)
+    setModalOpen(false)
+  }
+
+  const handleDeleteLang = async (lang: string) => {
+    try {
+      await axiosInstance.delete(`/api/categories/${routeCategoryId}/translations/${lang}`)
+      setAddedLangs((prev) => prev.filter((l) => l !== lang))
+      setSavedLangs((prev) => prev.filter((l) => l !== lang))
+      setTranslationForms((prev) => {
+        const next = { ...prev }
+        delete next[lang]
+        return next
+      })
+      if (activeLang === lang) setActiveLang('en')
+      toast.success('Translation deleted')
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message ?? 'Failed to delete translation')
+    }
+  }
+
   const handleSubmit = async () => {
+    if (!isEN) {
+      const form = translationForms[activeLang] ?? {}
+      if (!form.title?.trim()) {
+        toast.error('Title is required')
+        return
+      }
+
+      try {
+        await axiosInstance.post(`/api/categories/${routeCategoryId}/translations`, {
+          lang: activeLang,
+          title: form.title,
+          description: form.description,
+          slug: form.slug,
+        })
+        setSavedLangs((prev) => (prev.includes(activeLang) ? prev : [...prev, activeLang]))
+        toast.success('Translation saved')
+      } catch (error: any) {
+        toast.error(error?.response?.data?.message ?? 'Save failed')
+      }
+      return
+    }
+
     const errors: string[] = []
     const required: Record<string, unknown> = {
       title,
@@ -226,37 +318,83 @@ const SingleCategory = () => {
         ]}
       />
 
-      <DynamicText label="Title" placeholder="Title" value={title} setValue={setTitle} size="md" />
+      {mode === 'edit' && (
+        <>
+          <LanguageBar
+            activeLang={activeLang}
+            addedLangs={addedLangs}
+            savedLangs={savedLangs}
+            onSelect={setActiveLang}
+            onAdd={(lang) => {
+              setAddedLangs((prev) => [...prev, lang])
+              setModalTargetLang(lang)
+              setModalOpen(true)
+            }}
+            onDelete={handleDeleteLang}
+          />
+          <AddLanguageModal
+            open={modalOpen}
+            onClose={() => {
+              setModalOpen(false)
+              setAddedLangs((prev) => prev.filter((l) => l !== modalTargetLang))
+            }}
+            targetLang={modalTargetLang}
+            sourceForms={{ en: { title, description, slug }, ...translationForms }}
+            availableSourceLangs={['en', ...savedLangs]}
+            fields={CATEGORY_TRANSLATION_FIELDS}
+            entityLabel="category"
+            onConfirm={handleAddLangConfirm}
+          />
+        </>
+      )}
+
+      <DynamicText
+        label="Title"
+        placeholder="Title"
+        value={currentTitle}
+        setValue={isEN ? setTitle : (val) => setTranslationForms((prev) => ({ ...prev, [activeLang]: { ...prev[activeLang], title: val } }))}
+        size="md"
+      />
 
       <DynamicText
         label="Description"
         placeholder="Description"
-        value={description}
-        setValue={setDescription}
+        value={currentDescription}
+        setValue={isEN ? setDescription : (val) => setTranslationForms((prev) => ({ ...prev, [activeLang]: { ...prev[activeLang], description: val } }))}
         size="md"
         isTextarea={true}
       />
 
-      <DynamicText label="Slug" placeholder="Slug" value={slug} setValue={setSlug} size="md" />
-
       <DynamicText
-        label="Keywords"
-        placeholder="Keywords"
-        value={keywords.join(',')}
-        setValue={(val) =>
-          setKeywords(
-            val
-              .split(',')
-              .map((s) => s.trim())
-              .filter((s) => s.length > 0)
-          )
-        }
+        label="Slug"
+        placeholder="Slug"
+        value={currentSlug}
+        setValue={isEN ? setSlug : (val) => setTranslationForms((prev) => ({ ...prev, [activeLang]: { ...prev[activeLang], slug: val } }))}
         size="md"
       />
 
-      <GenericElement label="Image">
-        <ImageLoad image={image} setImage={setImage} uploadFolder="categories" toast={toast} />
-      </GenericElement>
+      {isEN && (
+        <>
+          <DynamicText
+            label="Keywords"
+            placeholder="Keywords"
+            value={keywords.join(',')}
+            setValue={(val) =>
+              setKeywords(
+                val
+                  .split(',')
+                  .map((s) => s.trim())
+                  .filter((s) => s.length > 0)
+              )
+            }
+            size="md"
+          />
+
+          <GenericElement label="Image">
+            <ImageLoad image={image} setImage={setImage} uploadFolder="categories" toast={toast} />
+          </GenericElement>
+        </>
+      )}
     </Form>
   )
 }

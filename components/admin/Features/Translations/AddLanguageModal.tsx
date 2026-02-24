@@ -4,20 +4,21 @@ import { HeadlessModal } from '@/components/admin/UI/Modal'
 import axiosInstance from '@/libs/axios'
 import { LANG_NAMES, LANG_FLAGS } from '@/types/common/I18nTypes'
 
-type TranslationForm = {
-  title: string
-  content: string
-  description: string
-  slug: string
+export type TranslationFieldDef = {
+  key: string
+  label: string
+  isRichText?: boolean // true → separate AI call, HTML preserved
 }
 
 interface AddLanguageModalProps {
   open: boolean
   onClose: () => void
   targetLang: string
-  sourceForms: Record<string, TranslationForm>
+  sourceForms: Record<string, Record<string, string>>
   availableSourceLangs: string[]
-  onConfirm: (lang: string, prefilled?: TranslationForm) => void
+  fields: TranslationFieldDef[]
+  entityLabel?: string // e.g. "blog post", "category", "project"
+  onConfirm: (lang: string, prefilled?: Record<string, string>) => void
 }
 
 const AddLanguageModal = ({
@@ -26,6 +27,8 @@ const AddLanguageModal = ({
   targetLang,
   sourceForms,
   availableSourceLangs,
+  fields,
+  entityLabel = 'content',
   onConfirm,
 }: AddLanguageModalProps) => {
   const [mode, setMode] = useState<'choose' | 'ai'>('choose')
@@ -47,8 +50,9 @@ const AddLanguageModal = ({
 
   const handleTranslate = async () => {
     const lang = sourceLang || availableSourceLangs[0]
-    const source = sourceForms[lang]
-    if (!source?.title?.trim()) {
+    const source = sourceForms[lang] ?? {}
+
+    if (!source['title']?.trim()) {
       setError('Source content has no title to translate')
       return
     }
@@ -59,55 +63,69 @@ const AddLanguageModal = ({
     const sourceLangName = LANG_NAMES[lang] ?? lang
     const targetLangName = LANG_NAMES[targetLang] ?? targetLang
 
-    const metaPrompt = `Translate the following blog post metadata from ${sourceLangName} to ${targetLangName}.
+    // Split fields: meta (structured text) vs richtext (separate call)
+    const metaFields = fields.filter((f) => !f.isRichText)
+    const richFields = fields.filter((f) => f.isRichText)
 
-Return ONLY these 3 lines in exactly this format — no extra text, no JSON, no markdown:
-TITLE: [translated title here]
-DESCRIPTION: [translated description here, or leave blank after colon if empty]
-SLUG: [translated-slug-${targetLang}]
+    const metaSourceLines = metaFields
+      .map((f) => `${f.label.toUpperCase()}: ${source[f.key] ?? ''}`)
+      .join('\n')
 
-SLUG rules: lowercase, hyphens only, no special characters, MUST end with "-${targetLang}".
+    const metaReturnLines = metaFields
+      .map((f) => {
+        if (f.key === 'slug') return `${f.label.toUpperCase()}: [translated-slug-${targetLang}]`
+        return `${f.label.toUpperCase()}: [translated ${f.label.toLowerCase()} here]`
+      })
+      .join('\n')
+
+    const slugRule = metaFields.some((f) => f.key === 'slug')
+      ? `\n\nSLUG rules: lowercase, hyphens only, no special characters, MUST end with "-${targetLang}".`
+      : ''
+
+    const metaPrompt = `Translate the following ${entityLabel} metadata from ${sourceLangName} to ${targetLangName}.
+
+Return ONLY these ${metaFields.length} lines in exactly this format — no extra text, no JSON, no markdown:
+${metaReturnLines}
+${slugRule}
 
 Source:
-TITLE: ${source.title}
-DESCRIPTION: ${source.description || ''}`
-
-    const contentPrompt = `Translate the following blog post content from ${sourceLangName} to ${targetLangName}.
-Return ONLY the translated content. Preserve all HTML tags exactly as-is. No explanations, no markdown wrappers.
-
-${source.content}`
+${metaSourceLines}`
 
     try {
-      const [metaRes, contentRes] = await Promise.all([
+      const richPromises = richFields.map((f) =>
+        axiosInstance.post('/api/ai/gpt-4o', {
+          prompt: `Translate the following ${entityLabel} ${f.label.toLowerCase()} from ${sourceLangName} to ${targetLangName}.\nReturn ONLY the translated content. Preserve all HTML tags exactly as-is. No explanations, no markdown wrappers.\n\n${source[f.key] ?? ''}`,
+        })
+      )
+
+      const [metaRes, ...richRes] = await Promise.all([
         axiosInstance.post('/api/ai/gpt-4o', { prompt: metaPrompt }),
-        axiosInstance.post('/api/ai/gpt-4o', { prompt: contentPrompt }),
+        ...richPromises,
       ])
 
-      // Parse metadata JSON — handle markdown fences and multi-line
       const metaText = String(metaRes.data?.text ?? '')
         .trim()
         .replace(/^```(?:json|JSON)?\s*\n?/, '')
         .replace(/\n?```\s*$/, '')
         .trim()
 
-      const getField = (lines: string[], key: string) => {
-        const line = lines.find((l) => l.toUpperCase().startsWith(key + ':'))
-        return line ? line.slice(key.length + 1).trim() : ''
+      const getField = (lines: string[], label: string) => {
+        const line = lines.find((l) => l.toUpperCase().startsWith(label.toUpperCase() + ':'))
+        return line ? line.slice(label.length + 1).trim() : ''
       }
 
       const metaLines = metaText.split('\n')
-      const title = getField(metaLines, 'TITLE')
-      const description = getField(metaLines, 'DESCRIPTION')
-      const slug = getField(metaLines, 'SLUG')
+      const prefilled: Record<string, string> = {}
 
-      if (!title) throw new Error('AI did not return a title')
-
-      const prefilled: TranslationForm = {
-        title,
-        content: String(contentRes.data?.text ?? '').trim(),
-        description,
-        slug,
+      for (const f of metaFields) {
+        prefilled[f.key] = getField(metaLines, f.label)
       }
+
+      if (!prefilled['title']) throw new Error('AI did not return a title')
+
+      richFields.forEach((f, i) => {
+        prefilled[f.key] = String(richRes[i]?.data?.text ?? '').trim()
+      })
 
       onConfirm(targetLang, prefilled)
       handleClose()
@@ -136,7 +154,6 @@ ${source.content}`
         <div className="flex flex-col gap-3">
           <p className="text-sm text-base-content/50 mb-1">How do you want to start?</p>
 
-          {/* Start from scratch */}
           <button
             type="button"
             onClick={handleScratch}
@@ -156,7 +173,6 @@ ${source.content}`
             </div>
           </button>
 
-          {/* Translate with AI */}
           <button
             type="button"
             onClick={() => setMode('ai')}
@@ -170,14 +186,13 @@ ${source.content}`
             <div>
               <div className="font-semibold text-sm">Translate with AI</div>
               <div className="text-xs text-base-content/45 mt-0.5 leading-relaxed">
-                Auto-fill title, content, description and slug using GPT-4o
+                Auto-fill {fields.map((f) => f.label.toLowerCase()).join(', ')} using GPT-4o
               </div>
             </div>
           </button>
         </div>
       ) : (
         <div className="flex flex-col gap-4">
-          {/* Back */}
           <button
             type="button"
             onClick={() => { setMode('choose'); setError('') }}
@@ -189,7 +204,6 @@ ${source.content}`
             Back
           </button>
 
-          {/* Source language picker */}
           <div>
             <label className="text-xs font-medium text-base-content/50 uppercase tracking-wider mb-2 block">
               Translate from
@@ -224,7 +238,6 @@ ${source.content}`
             </div>
           </div>
 
-          {/* Arrow indicator */}
           {effectiveSourceLang && (
             <div className="flex items-center gap-2 text-xs text-base-content/40">
               <span className="font-mono">{effectiveSourceLang.toUpperCase()}</span>
@@ -236,14 +249,12 @@ ${source.content}`
             </div>
           )}
 
-          {/* Error */}
           {error && (
             <div className="text-xs text-error bg-error/10 border border-error/20 rounded-lg px-3 py-2">
               {error}
             </div>
           )}
 
-          {/* Translate button */}
           <button
             type="button"
             onClick={handleTranslate}
