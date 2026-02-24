@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter as useNextRouter, usePathname } from 'next/navigation'
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
 
 /**
@@ -8,13 +8,13 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types
  * preserves the current locale prefix in all navigations.
  *
  * Usage:
- *   const router = useI18nRouter()
+ *   const router = useRouter()
  *   router.push('/blog')        // → /tr/blog  (if current lang is tr)
  *   router.push('/blog')        // → /blog      (if current lang is en)
  *   router.push('/blog', 'de')  // → /de/blog  (explicit lang override)
  */
-export function useI18nRouter() {
-  const router = useRouter()
+export function useRouter() {
+  const router = useNextRouter()
   const pathname = usePathname()
 
   const firstSegment = pathname.split('/').filter(Boolean)[0]
@@ -38,4 +38,4 @@ export function useI18nRouter() {
   }
 }
 
-export default useI18nRouter
+export default useRouter

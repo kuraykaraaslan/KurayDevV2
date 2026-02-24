@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuItem } from '@/types/ui/UITypes'
 import '@/libs/localize/localize'
 import { useTranslation } from 'react-i18next'
-import useI18nRouter from '@/libs/i18n/useI18nRouter'
+import { useRouter } from '@/libs/i18n/useI18nRouter'
 
 const Menu = ({
   isSidebar = false,
@@ -16,7 +16,7 @@ const Menu = ({
   menuItems: MenuItem[]
   onItemClick?: () => void
 }) => {
-  const router = useI18nRouter()
+  const router = useRouter()
   const { user } = useGlobalStore()
 
   const { t } = useTranslation()
