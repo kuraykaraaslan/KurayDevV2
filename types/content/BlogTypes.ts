@@ -1,5 +1,25 @@
 import { z } from 'zod'
 import { SafeUserSchema } from '../user/UserTypes'
+import { AppLanguageEnum } from '../common/I18nTypes'
+
+const PostTranslationSchema = z.object({
+  id: z.string(),
+  postId: z.string(),
+  lang: AppLanguageEnum,
+  title: z.string(),
+  content: z.string(),
+  description: z.string().nullable(),
+  slug: z.string(),
+})
+
+const CategoryTranslationSchema = z.object({
+  id: z.string(),
+  categoryId: z.string(),
+  lang: AppLanguageEnum,
+  title: z.string(),
+  description: z.string().nullable(),
+  slug: z.string(),
+})
 
 const CommentStatus = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM']).default('NOT_PUBLISHED')
 const PostStatus = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']).default('PUBLISHED')
@@ -62,6 +82,7 @@ const PostWithDataSchema = PostSchema.extend({
     createdAt: true,
     updatedAt: true,
   }),
+  translations: z.array(PostTranslationSchema).optional(),
 })
 
 const CommentWithDataSchema = CommentSchema.extend({
@@ -100,6 +121,8 @@ export type Category = z.infer<typeof CategorySchema>
 export type PostWithData = z.infer<typeof PostWithDataSchema>
 export type CommentWithData = z.infer<typeof CommentWithDataSchema>
 export type PostLike = z.infer<typeof PostLikeSchema>
+export type PostTranslation = z.infer<typeof PostTranslationSchema>
+export type CategoryTranslation = z.infer<typeof CategoryTranslationSchema>
 export {
   CommentSchema,
   PostSchema,
@@ -107,6 +130,8 @@ export {
   PostWithDataSchema,
   CommentWithDataSchema,
   PostLikeSchema,
+  PostTranslationSchema,
+  CategoryTranslationSchema,
   CommentStatus,
   PostStatus,
 }

@@ -39,10 +39,20 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
 /**
+ * Model PostTranslation
+ * 
+ */
+export type PostTranslation = $Result.DefaultSelection<Prisma.$PostTranslationPayload>
+/**
  * Model Category
  * 
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
+/**
+ * Model CategoryTranslation
+ * 
+ */
+export type CategoryTranslation = $Result.DefaultSelection<Prisma.$CategoryTranslationPayload>
 /**
  * Model Comment
  * 
@@ -328,6 +338,16 @@ export class PrismaClient<
   get post(): Prisma.PostDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.postTranslation`: Exposes CRUD operations for the **PostTranslation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PostTranslations
+    * const postTranslations = await prisma.postTranslation.findMany()
+    * ```
+    */
+  get postTranslation(): Prisma.PostTranslationDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.category`: Exposes CRUD operations for the **Category** model.
     * Example usage:
     * ```ts
@@ -336,6 +356,16 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.categoryTranslation`: Exposes CRUD operations for the **CategoryTranslation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CategoryTranslations
+    * const categoryTranslations = await prisma.categoryTranslation.findMany()
+    * ```
+    */
+  get categoryTranslation(): Prisma.CategoryTranslationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.comment`: Exposes CRUD operations for the **Comment** model.
@@ -865,7 +895,9 @@ export namespace Prisma {
     UserSocialAccount: 'UserSocialAccount',
     VerificationToken: 'VerificationToken',
     Post: 'Post',
+    PostTranslation: 'PostTranslation',
     Category: 'Category',
+    CategoryTranslation: 'CategoryTranslation',
     Comment: 'Comment',
     ContactForm: 'ContactForm',
     Subscription: 'Subscription',
@@ -890,7 +922,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "category" | "comment" | "contactForm" | "subscription" | "setting" | "project" | "appointment" | "like" | "geoAnalytics" | "media"
+      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "setting" | "project" | "appointment" | "like" | "geoAnalytics" | "media"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1264,6 +1296,80 @@ export namespace Prisma {
           }
         }
       }
+      PostTranslation: {
+        payload: Prisma.$PostTranslationPayload<ExtArgs>
+        fields: Prisma.PostTranslationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostTranslationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostTranslationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>
+          }
+          findFirst: {
+            args: Prisma.PostTranslationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostTranslationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>
+          }
+          findMany: {
+            args: Prisma.PostTranslationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>[]
+          }
+          create: {
+            args: Prisma.PostTranslationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>
+          }
+          createMany: {
+            args: Prisma.PostTranslationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PostTranslationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>[]
+          }
+          delete: {
+            args: Prisma.PostTranslationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>
+          }
+          update: {
+            args: Prisma.PostTranslationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostTranslationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostTranslationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PostTranslationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>[]
+          }
+          upsert: {
+            args: Prisma.PostTranslationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostTranslationPayload>
+          }
+          aggregate: {
+            args: Prisma.PostTranslationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePostTranslation>
+          }
+          groupBy: {
+            args: Prisma.PostTranslationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostTranslationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PostTranslationCountArgs<ExtArgs>
+            result: $Utils.Optional<PostTranslationCountAggregateOutputType> | number
+          }
+        }
+      }
       Category: {
         payload: Prisma.$CategoryPayload<ExtArgs>
         fields: Prisma.CategoryFieldRefs
@@ -1335,6 +1441,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CategoryCountArgs<ExtArgs>
             result: $Utils.Optional<CategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      CategoryTranslation: {
+        payload: Prisma.$CategoryTranslationPayload<ExtArgs>
+        fields: Prisma.CategoryTranslationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CategoryTranslationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CategoryTranslationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>
+          }
+          findFirst: {
+            args: Prisma.CategoryTranslationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CategoryTranslationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>
+          }
+          findMany: {
+            args: Prisma.CategoryTranslationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>[]
+          }
+          create: {
+            args: Prisma.CategoryTranslationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>
+          }
+          createMany: {
+            args: Prisma.CategoryTranslationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CategoryTranslationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>[]
+          }
+          delete: {
+            args: Prisma.CategoryTranslationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>
+          }
+          update: {
+            args: Prisma.CategoryTranslationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>
+          }
+          deleteMany: {
+            args: Prisma.CategoryTranslationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CategoryTranslationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CategoryTranslationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>[]
+          }
+          upsert: {
+            args: Prisma.CategoryTranslationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryTranslationPayload>
+          }
+          aggregate: {
+            args: Prisma.CategoryTranslationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCategoryTranslation>
+          }
+          groupBy: {
+            args: Prisma.CategoryTranslationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CategoryTranslationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CategoryTranslationCountArgs<ExtArgs>
+            result: $Utils.Optional<CategoryTranslationCountAggregateOutputType> | number
           }
         }
       }
@@ -2117,7 +2297,9 @@ export namespace Prisma {
     userSocialAccount?: UserSocialAccountOmit
     verificationToken?: VerificationTokenOmit
     post?: PostOmit
+    postTranslation?: PostTranslationOmit
     category?: CategoryOmit
+    categoryTranslation?: CategoryTranslationOmit
     comment?: CommentOmit
     contactForm?: ContactFormOmit
     subscription?: SubscriptionOmit
@@ -2267,11 +2449,13 @@ export namespace Prisma {
   export type PostCountOutputType = {
     comment: number
     likes: number
+    translations: number
   }
 
   export type PostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comment?: boolean | PostCountOutputTypeCountCommentArgs
     likes?: boolean | PostCountOutputTypeCountLikesArgs
+    translations?: boolean | PostCountOutputTypeCountTranslationsArgs
   }
 
   // Custom InputTypes
@@ -2299,6 +2483,13 @@ export namespace Prisma {
     where?: LikeWhereInput
   }
 
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeCountTranslationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostTranslationWhereInput
+  }
+
 
   /**
    * Count Type CategoryCountOutputType
@@ -2306,10 +2497,12 @@ export namespace Prisma {
 
   export type CategoryCountOutputType = {
     posts: number
+    translations: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     posts?: boolean | CategoryCountOutputTypeCountPostsArgs
+    translations?: boolean | CategoryCountOutputTypeCountTranslationsArgs
   }
 
   // Custom InputTypes
@@ -2328,6 +2521,13 @@ export namespace Prisma {
    */
   export type CategoryCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostWhereInput
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountTranslationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryTranslationWhereInput
   }
 
 
@@ -7201,6 +7401,7 @@ export namespace Prisma {
     author?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     likes?: boolean | Post$likesArgs<ExtArgs>
+    translations?: boolean | Post$translationsArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
@@ -7265,6 +7466,7 @@ export namespace Prisma {
     author?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     likes?: boolean | Post$likesArgs<ExtArgs>
+    translations?: boolean | Post$translationsArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7283,6 +7485,7 @@ export namespace Prisma {
       author: Prisma.$UserPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs>
       likes: Prisma.$LikePayload<ExtArgs>[]
+      translations: Prisma.$PostTranslationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       postId: string
@@ -7697,6 +7900,7 @@ export namespace Prisma {
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     likes<T extends Post$likesArgs<ExtArgs> = {}>(args?: Subset<T, Post$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    translations<T extends Post$translationsArgs<ExtArgs> = {}>(args?: Subset<T, Post$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8184,6 +8388,30 @@ export namespace Prisma {
   }
 
   /**
+   * Post.translations
+   */
+  export type Post$translationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    where?: PostTranslationWhereInput
+    orderBy?: PostTranslationOrderByWithRelationInput | PostTranslationOrderByWithRelationInput[]
+    cursor?: PostTranslationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostTranslationScalarFieldEnum | PostTranslationScalarFieldEnum[]
+  }
+
+  /**
    * Post without action
    */
   export type PostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8199,6 +8427,1090 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PostInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PostTranslation
+   */
+
+  export type AggregatePostTranslation = {
+    _count: PostTranslationCountAggregateOutputType | null
+    _min: PostTranslationMinAggregateOutputType | null
+    _max: PostTranslationMaxAggregateOutputType | null
+  }
+
+  export type PostTranslationMinAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    lang: string | null
+    title: string | null
+    content: string | null
+    description: string | null
+    slug: string | null
+  }
+
+  export type PostTranslationMaxAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    lang: string | null
+    title: string | null
+    content: string | null
+    description: string | null
+    slug: string | null
+  }
+
+  export type PostTranslationCountAggregateOutputType = {
+    id: number
+    postId: number
+    lang: number
+    title: number
+    content: number
+    description: number
+    slug: number
+    _all: number
+  }
+
+
+  export type PostTranslationMinAggregateInputType = {
+    id?: true
+    postId?: true
+    lang?: true
+    title?: true
+    content?: true
+    description?: true
+    slug?: true
+  }
+
+  export type PostTranslationMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    lang?: true
+    title?: true
+    content?: true
+    description?: true
+    slug?: true
+  }
+
+  export type PostTranslationCountAggregateInputType = {
+    id?: true
+    postId?: true
+    lang?: true
+    title?: true
+    content?: true
+    description?: true
+    slug?: true
+    _all?: true
+  }
+
+  export type PostTranslationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostTranslation to aggregate.
+     */
+    where?: PostTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTranslations to fetch.
+     */
+    orderBy?: PostTranslationOrderByWithRelationInput | PostTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PostTranslations
+    **/
+    _count?: true | PostTranslationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostTranslationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostTranslationMaxAggregateInputType
+  }
+
+  export type GetPostTranslationAggregateType<T extends PostTranslationAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostTranslation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePostTranslation[P]>
+      : GetScalarType<T[P], AggregatePostTranslation[P]>
+  }
+
+
+
+
+  export type PostTranslationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostTranslationWhereInput
+    orderBy?: PostTranslationOrderByWithAggregationInput | PostTranslationOrderByWithAggregationInput[]
+    by: PostTranslationScalarFieldEnum[] | PostTranslationScalarFieldEnum
+    having?: PostTranslationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostTranslationCountAggregateInputType | true
+    _min?: PostTranslationMinAggregateInputType
+    _max?: PostTranslationMaxAggregateInputType
+  }
+
+  export type PostTranslationGroupByOutputType = {
+    id: string
+    postId: string
+    lang: string
+    title: string
+    content: string
+    description: string | null
+    slug: string
+    _count: PostTranslationCountAggregateOutputType | null
+    _min: PostTranslationMinAggregateOutputType | null
+    _max: PostTranslationMaxAggregateOutputType | null
+  }
+
+  type GetPostTranslationGroupByPayload<T extends PostTranslationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostTranslationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostTranslationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostTranslationGroupByOutputType[P]>
+            : GetScalarType<T[P], PostTranslationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostTranslationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    lang?: boolean
+    title?: boolean
+    content?: boolean
+    description?: boolean
+    slug?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postTranslation"]>
+
+  export type PostTranslationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    lang?: boolean
+    title?: boolean
+    content?: boolean
+    description?: boolean
+    slug?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postTranslation"]>
+
+  export type PostTranslationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    lang?: boolean
+    title?: boolean
+    content?: boolean
+    description?: boolean
+    slug?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postTranslation"]>
+
+  export type PostTranslationSelectScalar = {
+    id?: boolean
+    postId?: boolean
+    lang?: boolean
+    title?: boolean
+    content?: boolean
+    description?: boolean
+    slug?: boolean
+  }
+
+  export type PostTranslationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "lang" | "title" | "content" | "description" | "slug", ExtArgs["result"]["postTranslation"]>
+  export type PostTranslationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+  export type PostTranslationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+  export type PostTranslationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+
+  export type $PostTranslationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostTranslation"
+    objects: {
+      post: Prisma.$PostPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      postId: string
+      lang: string
+      title: string
+      content: string
+      description: string | null
+      slug: string
+    }, ExtArgs["result"]["postTranslation"]>
+    composites: {}
+  }
+
+  type PostTranslationGetPayload<S extends boolean | null | undefined | PostTranslationDefaultArgs> = $Result.GetResult<Prisma.$PostTranslationPayload, S>
+
+  type PostTranslationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostTranslationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostTranslationCountAggregateInputType | true
+    }
+
+  export interface PostTranslationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostTranslation'], meta: { name: 'PostTranslation' } }
+    /**
+     * Find zero or one PostTranslation that matches the filter.
+     * @param {PostTranslationFindUniqueArgs} args - Arguments to find a PostTranslation
+     * @example
+     * // Get one PostTranslation
+     * const postTranslation = await prisma.postTranslation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PostTranslationFindUniqueArgs>(args: SelectSubset<T, PostTranslationFindUniqueArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PostTranslation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PostTranslationFindUniqueOrThrowArgs} args - Arguments to find a PostTranslation
+     * @example
+     * // Get one PostTranslation
+     * const postTranslation = await prisma.postTranslation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PostTranslationFindUniqueOrThrowArgs>(args: SelectSubset<T, PostTranslationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostTranslation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTranslationFindFirstArgs} args - Arguments to find a PostTranslation
+     * @example
+     * // Get one PostTranslation
+     * const postTranslation = await prisma.postTranslation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PostTranslationFindFirstArgs>(args?: SelectSubset<T, PostTranslationFindFirstArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostTranslation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTranslationFindFirstOrThrowArgs} args - Arguments to find a PostTranslation
+     * @example
+     * // Get one PostTranslation
+     * const postTranslation = await prisma.postTranslation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PostTranslationFindFirstOrThrowArgs>(args?: SelectSubset<T, PostTranslationFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PostTranslations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTranslationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PostTranslations
+     * const postTranslations = await prisma.postTranslation.findMany()
+     * 
+     * // Get first 10 PostTranslations
+     * const postTranslations = await prisma.postTranslation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postTranslationWithIdOnly = await prisma.postTranslation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PostTranslationFindManyArgs>(args?: SelectSubset<T, PostTranslationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PostTranslation.
+     * @param {PostTranslationCreateArgs} args - Arguments to create a PostTranslation.
+     * @example
+     * // Create one PostTranslation
+     * const PostTranslation = await prisma.postTranslation.create({
+     *   data: {
+     *     // ... data to create a PostTranslation
+     *   }
+     * })
+     * 
+     */
+    create<T extends PostTranslationCreateArgs>(args: SelectSubset<T, PostTranslationCreateArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PostTranslations.
+     * @param {PostTranslationCreateManyArgs} args - Arguments to create many PostTranslations.
+     * @example
+     * // Create many PostTranslations
+     * const postTranslation = await prisma.postTranslation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PostTranslationCreateManyArgs>(args?: SelectSubset<T, PostTranslationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PostTranslations and returns the data saved in the database.
+     * @param {PostTranslationCreateManyAndReturnArgs} args - Arguments to create many PostTranslations.
+     * @example
+     * // Create many PostTranslations
+     * const postTranslation = await prisma.postTranslation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PostTranslations and only return the `id`
+     * const postTranslationWithIdOnly = await prisma.postTranslation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PostTranslationCreateManyAndReturnArgs>(args?: SelectSubset<T, PostTranslationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PostTranslation.
+     * @param {PostTranslationDeleteArgs} args - Arguments to delete one PostTranslation.
+     * @example
+     * // Delete one PostTranslation
+     * const PostTranslation = await prisma.postTranslation.delete({
+     *   where: {
+     *     // ... filter to delete one PostTranslation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PostTranslationDeleteArgs>(args: SelectSubset<T, PostTranslationDeleteArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PostTranslation.
+     * @param {PostTranslationUpdateArgs} args - Arguments to update one PostTranslation.
+     * @example
+     * // Update one PostTranslation
+     * const postTranslation = await prisma.postTranslation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PostTranslationUpdateArgs>(args: SelectSubset<T, PostTranslationUpdateArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PostTranslations.
+     * @param {PostTranslationDeleteManyArgs} args - Arguments to filter PostTranslations to delete.
+     * @example
+     * // Delete a few PostTranslations
+     * const { count } = await prisma.postTranslation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PostTranslationDeleteManyArgs>(args?: SelectSubset<T, PostTranslationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostTranslations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTranslationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PostTranslations
+     * const postTranslation = await prisma.postTranslation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PostTranslationUpdateManyArgs>(args: SelectSubset<T, PostTranslationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostTranslations and returns the data updated in the database.
+     * @param {PostTranslationUpdateManyAndReturnArgs} args - Arguments to update many PostTranslations.
+     * @example
+     * // Update many PostTranslations
+     * const postTranslation = await prisma.postTranslation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PostTranslations and only return the `id`
+     * const postTranslationWithIdOnly = await prisma.postTranslation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PostTranslationUpdateManyAndReturnArgs>(args: SelectSubset<T, PostTranslationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PostTranslation.
+     * @param {PostTranslationUpsertArgs} args - Arguments to update or create a PostTranslation.
+     * @example
+     * // Update or create a PostTranslation
+     * const postTranslation = await prisma.postTranslation.upsert({
+     *   create: {
+     *     // ... data to create a PostTranslation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PostTranslation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PostTranslationUpsertArgs>(args: SelectSubset<T, PostTranslationUpsertArgs<ExtArgs>>): Prisma__PostTranslationClient<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PostTranslations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTranslationCountArgs} args - Arguments to filter PostTranslations to count.
+     * @example
+     * // Count the number of PostTranslations
+     * const count = await prisma.postTranslation.count({
+     *   where: {
+     *     // ... the filter for the PostTranslations we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostTranslationCountArgs>(
+      args?: Subset<T, PostTranslationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostTranslationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PostTranslation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTranslationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostTranslationAggregateArgs>(args: Subset<T, PostTranslationAggregateArgs>): Prisma.PrismaPromise<GetPostTranslationAggregateType<T>>
+
+    /**
+     * Group by PostTranslation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostTranslationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostTranslationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostTranslationGroupByArgs['orderBy'] }
+        : { orderBy?: PostTranslationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostTranslationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostTranslationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PostTranslation model
+   */
+  readonly fields: PostTranslationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PostTranslation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostTranslationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PostTranslation model
+   */
+  interface PostTranslationFieldRefs {
+    readonly id: FieldRef<"PostTranslation", 'String'>
+    readonly postId: FieldRef<"PostTranslation", 'String'>
+    readonly lang: FieldRef<"PostTranslation", 'String'>
+    readonly title: FieldRef<"PostTranslation", 'String'>
+    readonly content: FieldRef<"PostTranslation", 'String'>
+    readonly description: FieldRef<"PostTranslation", 'String'>
+    readonly slug: FieldRef<"PostTranslation", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PostTranslation findUnique
+   */
+  export type PostTranslationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTranslation to fetch.
+     */
+    where: PostTranslationWhereUniqueInput
+  }
+
+  /**
+   * PostTranslation findUniqueOrThrow
+   */
+  export type PostTranslationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTranslation to fetch.
+     */
+    where: PostTranslationWhereUniqueInput
+  }
+
+  /**
+   * PostTranslation findFirst
+   */
+  export type PostTranslationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTranslation to fetch.
+     */
+    where?: PostTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTranslations to fetch.
+     */
+    orderBy?: PostTranslationOrderByWithRelationInput | PostTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostTranslations.
+     */
+    cursor?: PostTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostTranslations.
+     */
+    distinct?: PostTranslationScalarFieldEnum | PostTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * PostTranslation findFirstOrThrow
+   */
+  export type PostTranslationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTranslation to fetch.
+     */
+    where?: PostTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTranslations to fetch.
+     */
+    orderBy?: PostTranslationOrderByWithRelationInput | PostTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostTranslations.
+     */
+    cursor?: PostTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostTranslations.
+     */
+    distinct?: PostTranslationScalarFieldEnum | PostTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * PostTranslation findMany
+   */
+  export type PostTranslationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which PostTranslations to fetch.
+     */
+    where?: PostTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostTranslations to fetch.
+     */
+    orderBy?: PostTranslationOrderByWithRelationInput | PostTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PostTranslations.
+     */
+    cursor?: PostTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostTranslations.
+     */
+    skip?: number
+    distinct?: PostTranslationScalarFieldEnum | PostTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * PostTranslation create
+   */
+  export type PostTranslationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PostTranslation.
+     */
+    data: XOR<PostTranslationCreateInput, PostTranslationUncheckedCreateInput>
+  }
+
+  /**
+   * PostTranslation createMany
+   */
+  export type PostTranslationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PostTranslations.
+     */
+    data: PostTranslationCreateManyInput | PostTranslationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PostTranslation createManyAndReturn
+   */
+  export type PostTranslationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * The data used to create many PostTranslations.
+     */
+    data: PostTranslationCreateManyInput | PostTranslationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PostTranslation update
+   */
+  export type PostTranslationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PostTranslation.
+     */
+    data: XOR<PostTranslationUpdateInput, PostTranslationUncheckedUpdateInput>
+    /**
+     * Choose, which PostTranslation to update.
+     */
+    where: PostTranslationWhereUniqueInput
+  }
+
+  /**
+   * PostTranslation updateMany
+   */
+  export type PostTranslationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PostTranslations.
+     */
+    data: XOR<PostTranslationUpdateManyMutationInput, PostTranslationUncheckedUpdateManyInput>
+    /**
+     * Filter which PostTranslations to update
+     */
+    where?: PostTranslationWhereInput
+    /**
+     * Limit how many PostTranslations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostTranslation updateManyAndReturn
+   */
+  export type PostTranslationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * The data used to update PostTranslations.
+     */
+    data: XOR<PostTranslationUpdateManyMutationInput, PostTranslationUncheckedUpdateManyInput>
+    /**
+     * Filter which PostTranslations to update
+     */
+    where?: PostTranslationWhereInput
+    /**
+     * Limit how many PostTranslations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PostTranslation upsert
+   */
+  export type PostTranslationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PostTranslation to update in case it exists.
+     */
+    where: PostTranslationWhereUniqueInput
+    /**
+     * In case the PostTranslation found by the `where` argument doesn't exist, create a new PostTranslation with this data.
+     */
+    create: XOR<PostTranslationCreateInput, PostTranslationUncheckedCreateInput>
+    /**
+     * In case the PostTranslation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostTranslationUpdateInput, PostTranslationUncheckedUpdateInput>
+  }
+
+  /**
+   * PostTranslation delete
+   */
+  export type PostTranslationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
+    /**
+     * Filter which PostTranslation to delete.
+     */
+    where: PostTranslationWhereUniqueInput
+  }
+
+  /**
+   * PostTranslation deleteMany
+   */
+  export type PostTranslationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostTranslations to delete
+     */
+    where?: PostTranslationWhereInput
+    /**
+     * Limit how many PostTranslations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostTranslation without action
+   */
+  export type PostTranslationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostTranslation
+     */
+    select?: PostTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostTranslation
+     */
+    omit?: PostTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostTranslationInclude<ExtArgs> | null
   }
 
 
@@ -8387,6 +9699,7 @@ export namespace Prisma {
     image?: boolean
     keywords?: boolean
     posts?: boolean | Category$postsArgs<ExtArgs>
+    translations?: boolean | Category$translationsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
@@ -8426,6 +9739,7 @@ export namespace Prisma {
   export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"categoryId" | "title" | "description" | "slug" | "createdAt" | "updatedAt" | "image" | "keywords", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     posts?: boolean | Category$postsArgs<ExtArgs>
+    translations?: boolean | Category$translationsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8435,6 +9749,7 @@ export namespace Prisma {
     name: "Category"
     objects: {
       posts: Prisma.$PostPayload<ExtArgs>[]
+      translations: Prisma.$CategoryTranslationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       categoryId: string
@@ -8840,6 +10155,7 @@ export namespace Prisma {
   export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     posts<T extends Category$postsArgs<ExtArgs> = {}>(args?: Subset<T, Category$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    translations<T extends Category$translationsArgs<ExtArgs> = {}>(args?: Subset<T, Category$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9289,6 +10605,30 @@ export namespace Prisma {
   }
 
   /**
+   * Category.translations
+   */
+  export type Category$translationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    where?: CategoryTranslationWhereInput
+    orderBy?: CategoryTranslationOrderByWithRelationInput | CategoryTranslationOrderByWithRelationInput[]
+    cursor?: CategoryTranslationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CategoryTranslationScalarFieldEnum | CategoryTranslationScalarFieldEnum[]
+  }
+
+  /**
    * Category without action
    */
   export type CategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9304,6 +10644,1077 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CategoryTranslation
+   */
+
+  export type AggregateCategoryTranslation = {
+    _count: CategoryTranslationCountAggregateOutputType | null
+    _min: CategoryTranslationMinAggregateOutputType | null
+    _max: CategoryTranslationMaxAggregateOutputType | null
+  }
+
+  export type CategoryTranslationMinAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    lang: string | null
+    title: string | null
+    description: string | null
+    slug: string | null
+  }
+
+  export type CategoryTranslationMaxAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    lang: string | null
+    title: string | null
+    description: string | null
+    slug: string | null
+  }
+
+  export type CategoryTranslationCountAggregateOutputType = {
+    id: number
+    categoryId: number
+    lang: number
+    title: number
+    description: number
+    slug: number
+    _all: number
+  }
+
+
+  export type CategoryTranslationMinAggregateInputType = {
+    id?: true
+    categoryId?: true
+    lang?: true
+    title?: true
+    description?: true
+    slug?: true
+  }
+
+  export type CategoryTranslationMaxAggregateInputType = {
+    id?: true
+    categoryId?: true
+    lang?: true
+    title?: true
+    description?: true
+    slug?: true
+  }
+
+  export type CategoryTranslationCountAggregateInputType = {
+    id?: true
+    categoryId?: true
+    lang?: true
+    title?: true
+    description?: true
+    slug?: true
+    _all?: true
+  }
+
+  export type CategoryTranslationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CategoryTranslation to aggregate.
+     */
+    where?: CategoryTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryTranslations to fetch.
+     */
+    orderBy?: CategoryTranslationOrderByWithRelationInput | CategoryTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CategoryTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CategoryTranslations
+    **/
+    _count?: true | CategoryTranslationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CategoryTranslationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CategoryTranslationMaxAggregateInputType
+  }
+
+  export type GetCategoryTranslationAggregateType<T extends CategoryTranslationAggregateArgs> = {
+        [P in keyof T & keyof AggregateCategoryTranslation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCategoryTranslation[P]>
+      : GetScalarType<T[P], AggregateCategoryTranslation[P]>
+  }
+
+
+
+
+  export type CategoryTranslationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryTranslationWhereInput
+    orderBy?: CategoryTranslationOrderByWithAggregationInput | CategoryTranslationOrderByWithAggregationInput[]
+    by: CategoryTranslationScalarFieldEnum[] | CategoryTranslationScalarFieldEnum
+    having?: CategoryTranslationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CategoryTranslationCountAggregateInputType | true
+    _min?: CategoryTranslationMinAggregateInputType
+    _max?: CategoryTranslationMaxAggregateInputType
+  }
+
+  export type CategoryTranslationGroupByOutputType = {
+    id: string
+    categoryId: string
+    lang: string
+    title: string
+    description: string | null
+    slug: string
+    _count: CategoryTranslationCountAggregateOutputType | null
+    _min: CategoryTranslationMinAggregateOutputType | null
+    _max: CategoryTranslationMaxAggregateOutputType | null
+  }
+
+  type GetCategoryTranslationGroupByPayload<T extends CategoryTranslationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CategoryTranslationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CategoryTranslationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CategoryTranslationGroupByOutputType[P]>
+            : GetScalarType<T[P], CategoryTranslationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CategoryTranslationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["categoryTranslation"]>
+
+  export type CategoryTranslationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["categoryTranslation"]>
+
+  export type CategoryTranslationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["categoryTranslation"]>
+
+  export type CategoryTranslationSelectScalar = {
+    id?: boolean
+    categoryId?: boolean
+    lang?: boolean
+    title?: boolean
+    description?: boolean
+    slug?: boolean
+  }
+
+  export type CategoryTranslationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "categoryId" | "lang" | "title" | "description" | "slug", ExtArgs["result"]["categoryTranslation"]>
+  export type CategoryTranslationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+  export type CategoryTranslationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+  export type CategoryTranslationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+
+  export type $CategoryTranslationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CategoryTranslation"
+    objects: {
+      category: Prisma.$CategoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      categoryId: string
+      lang: string
+      title: string
+      description: string | null
+      slug: string
+    }, ExtArgs["result"]["categoryTranslation"]>
+    composites: {}
+  }
+
+  type CategoryTranslationGetPayload<S extends boolean | null | undefined | CategoryTranslationDefaultArgs> = $Result.GetResult<Prisma.$CategoryTranslationPayload, S>
+
+  type CategoryTranslationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CategoryTranslationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CategoryTranslationCountAggregateInputType | true
+    }
+
+  export interface CategoryTranslationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CategoryTranslation'], meta: { name: 'CategoryTranslation' } }
+    /**
+     * Find zero or one CategoryTranslation that matches the filter.
+     * @param {CategoryTranslationFindUniqueArgs} args - Arguments to find a CategoryTranslation
+     * @example
+     * // Get one CategoryTranslation
+     * const categoryTranslation = await prisma.categoryTranslation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CategoryTranslationFindUniqueArgs>(args: SelectSubset<T, CategoryTranslationFindUniqueArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CategoryTranslation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CategoryTranslationFindUniqueOrThrowArgs} args - Arguments to find a CategoryTranslation
+     * @example
+     * // Get one CategoryTranslation
+     * const categoryTranslation = await prisma.categoryTranslation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CategoryTranslationFindUniqueOrThrowArgs>(args: SelectSubset<T, CategoryTranslationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CategoryTranslation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryTranslationFindFirstArgs} args - Arguments to find a CategoryTranslation
+     * @example
+     * // Get one CategoryTranslation
+     * const categoryTranslation = await prisma.categoryTranslation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CategoryTranslationFindFirstArgs>(args?: SelectSubset<T, CategoryTranslationFindFirstArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CategoryTranslation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryTranslationFindFirstOrThrowArgs} args - Arguments to find a CategoryTranslation
+     * @example
+     * // Get one CategoryTranslation
+     * const categoryTranslation = await prisma.categoryTranslation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CategoryTranslationFindFirstOrThrowArgs>(args?: SelectSubset<T, CategoryTranslationFindFirstOrThrowArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CategoryTranslations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryTranslationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CategoryTranslations
+     * const categoryTranslations = await prisma.categoryTranslation.findMany()
+     * 
+     * // Get first 10 CategoryTranslations
+     * const categoryTranslations = await prisma.categoryTranslation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const categoryTranslationWithIdOnly = await prisma.categoryTranslation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CategoryTranslationFindManyArgs>(args?: SelectSubset<T, CategoryTranslationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CategoryTranslation.
+     * @param {CategoryTranslationCreateArgs} args - Arguments to create a CategoryTranslation.
+     * @example
+     * // Create one CategoryTranslation
+     * const CategoryTranslation = await prisma.categoryTranslation.create({
+     *   data: {
+     *     // ... data to create a CategoryTranslation
+     *   }
+     * })
+     * 
+     */
+    create<T extends CategoryTranslationCreateArgs>(args: SelectSubset<T, CategoryTranslationCreateArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CategoryTranslations.
+     * @param {CategoryTranslationCreateManyArgs} args - Arguments to create many CategoryTranslations.
+     * @example
+     * // Create many CategoryTranslations
+     * const categoryTranslation = await prisma.categoryTranslation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CategoryTranslationCreateManyArgs>(args?: SelectSubset<T, CategoryTranslationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CategoryTranslations and returns the data saved in the database.
+     * @param {CategoryTranslationCreateManyAndReturnArgs} args - Arguments to create many CategoryTranslations.
+     * @example
+     * // Create many CategoryTranslations
+     * const categoryTranslation = await prisma.categoryTranslation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CategoryTranslations and only return the `id`
+     * const categoryTranslationWithIdOnly = await prisma.categoryTranslation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CategoryTranslationCreateManyAndReturnArgs>(args?: SelectSubset<T, CategoryTranslationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CategoryTranslation.
+     * @param {CategoryTranslationDeleteArgs} args - Arguments to delete one CategoryTranslation.
+     * @example
+     * // Delete one CategoryTranslation
+     * const CategoryTranslation = await prisma.categoryTranslation.delete({
+     *   where: {
+     *     // ... filter to delete one CategoryTranslation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CategoryTranslationDeleteArgs>(args: SelectSubset<T, CategoryTranslationDeleteArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CategoryTranslation.
+     * @param {CategoryTranslationUpdateArgs} args - Arguments to update one CategoryTranslation.
+     * @example
+     * // Update one CategoryTranslation
+     * const categoryTranslation = await prisma.categoryTranslation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CategoryTranslationUpdateArgs>(args: SelectSubset<T, CategoryTranslationUpdateArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CategoryTranslations.
+     * @param {CategoryTranslationDeleteManyArgs} args - Arguments to filter CategoryTranslations to delete.
+     * @example
+     * // Delete a few CategoryTranslations
+     * const { count } = await prisma.categoryTranslation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CategoryTranslationDeleteManyArgs>(args?: SelectSubset<T, CategoryTranslationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CategoryTranslations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryTranslationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CategoryTranslations
+     * const categoryTranslation = await prisma.categoryTranslation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CategoryTranslationUpdateManyArgs>(args: SelectSubset<T, CategoryTranslationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CategoryTranslations and returns the data updated in the database.
+     * @param {CategoryTranslationUpdateManyAndReturnArgs} args - Arguments to update many CategoryTranslations.
+     * @example
+     * // Update many CategoryTranslations
+     * const categoryTranslation = await prisma.categoryTranslation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CategoryTranslations and only return the `id`
+     * const categoryTranslationWithIdOnly = await prisma.categoryTranslation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CategoryTranslationUpdateManyAndReturnArgs>(args: SelectSubset<T, CategoryTranslationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CategoryTranslation.
+     * @param {CategoryTranslationUpsertArgs} args - Arguments to update or create a CategoryTranslation.
+     * @example
+     * // Update or create a CategoryTranslation
+     * const categoryTranslation = await prisma.categoryTranslation.upsert({
+     *   create: {
+     *     // ... data to create a CategoryTranslation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CategoryTranslation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CategoryTranslationUpsertArgs>(args: SelectSubset<T, CategoryTranslationUpsertArgs<ExtArgs>>): Prisma__CategoryTranslationClient<$Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CategoryTranslations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryTranslationCountArgs} args - Arguments to filter CategoryTranslations to count.
+     * @example
+     * // Count the number of CategoryTranslations
+     * const count = await prisma.categoryTranslation.count({
+     *   where: {
+     *     // ... the filter for the CategoryTranslations we want to count
+     *   }
+     * })
+    **/
+    count<T extends CategoryTranslationCountArgs>(
+      args?: Subset<T, CategoryTranslationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CategoryTranslationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CategoryTranslation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryTranslationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CategoryTranslationAggregateArgs>(args: Subset<T, CategoryTranslationAggregateArgs>): Prisma.PrismaPromise<GetCategoryTranslationAggregateType<T>>
+
+    /**
+     * Group by CategoryTranslation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryTranslationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CategoryTranslationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CategoryTranslationGroupByArgs['orderBy'] }
+        : { orderBy?: CategoryTranslationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CategoryTranslationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoryTranslationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CategoryTranslation model
+   */
+  readonly fields: CategoryTranslationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CategoryTranslation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CategoryTranslationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CategoryTranslation model
+   */
+  interface CategoryTranslationFieldRefs {
+    readonly id: FieldRef<"CategoryTranslation", 'String'>
+    readonly categoryId: FieldRef<"CategoryTranslation", 'String'>
+    readonly lang: FieldRef<"CategoryTranslation", 'String'>
+    readonly title: FieldRef<"CategoryTranslation", 'String'>
+    readonly description: FieldRef<"CategoryTranslation", 'String'>
+    readonly slug: FieldRef<"CategoryTranslation", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CategoryTranslation findUnique
+   */
+  export type CategoryTranslationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryTranslation to fetch.
+     */
+    where: CategoryTranslationWhereUniqueInput
+  }
+
+  /**
+   * CategoryTranslation findUniqueOrThrow
+   */
+  export type CategoryTranslationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryTranslation to fetch.
+     */
+    where: CategoryTranslationWhereUniqueInput
+  }
+
+  /**
+   * CategoryTranslation findFirst
+   */
+  export type CategoryTranslationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryTranslation to fetch.
+     */
+    where?: CategoryTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryTranslations to fetch.
+     */
+    orderBy?: CategoryTranslationOrderByWithRelationInput | CategoryTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CategoryTranslations.
+     */
+    cursor?: CategoryTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CategoryTranslations.
+     */
+    distinct?: CategoryTranslationScalarFieldEnum | CategoryTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * CategoryTranslation findFirstOrThrow
+   */
+  export type CategoryTranslationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryTranslation to fetch.
+     */
+    where?: CategoryTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryTranslations to fetch.
+     */
+    orderBy?: CategoryTranslationOrderByWithRelationInput | CategoryTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CategoryTranslations.
+     */
+    cursor?: CategoryTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryTranslations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CategoryTranslations.
+     */
+    distinct?: CategoryTranslationScalarFieldEnum | CategoryTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * CategoryTranslation findMany
+   */
+  export type CategoryTranslationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryTranslations to fetch.
+     */
+    where?: CategoryTranslationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryTranslations to fetch.
+     */
+    orderBy?: CategoryTranslationOrderByWithRelationInput | CategoryTranslationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CategoryTranslations.
+     */
+    cursor?: CategoryTranslationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryTranslations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryTranslations.
+     */
+    skip?: number
+    distinct?: CategoryTranslationScalarFieldEnum | CategoryTranslationScalarFieldEnum[]
+  }
+
+  /**
+   * CategoryTranslation create
+   */
+  export type CategoryTranslationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CategoryTranslation.
+     */
+    data: XOR<CategoryTranslationCreateInput, CategoryTranslationUncheckedCreateInput>
+  }
+
+  /**
+   * CategoryTranslation createMany
+   */
+  export type CategoryTranslationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CategoryTranslations.
+     */
+    data: CategoryTranslationCreateManyInput | CategoryTranslationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CategoryTranslation createManyAndReturn
+   */
+  export type CategoryTranslationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * The data used to create many CategoryTranslations.
+     */
+    data: CategoryTranslationCreateManyInput | CategoryTranslationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CategoryTranslation update
+   */
+  export type CategoryTranslationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CategoryTranslation.
+     */
+    data: XOR<CategoryTranslationUpdateInput, CategoryTranslationUncheckedUpdateInput>
+    /**
+     * Choose, which CategoryTranslation to update.
+     */
+    where: CategoryTranslationWhereUniqueInput
+  }
+
+  /**
+   * CategoryTranslation updateMany
+   */
+  export type CategoryTranslationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CategoryTranslations.
+     */
+    data: XOR<CategoryTranslationUpdateManyMutationInput, CategoryTranslationUncheckedUpdateManyInput>
+    /**
+     * Filter which CategoryTranslations to update
+     */
+    where?: CategoryTranslationWhereInput
+    /**
+     * Limit how many CategoryTranslations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CategoryTranslation updateManyAndReturn
+   */
+  export type CategoryTranslationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * The data used to update CategoryTranslations.
+     */
+    data: XOR<CategoryTranslationUpdateManyMutationInput, CategoryTranslationUncheckedUpdateManyInput>
+    /**
+     * Filter which CategoryTranslations to update
+     */
+    where?: CategoryTranslationWhereInput
+    /**
+     * Limit how many CategoryTranslations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CategoryTranslation upsert
+   */
+  export type CategoryTranslationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CategoryTranslation to update in case it exists.
+     */
+    where: CategoryTranslationWhereUniqueInput
+    /**
+     * In case the CategoryTranslation found by the `where` argument doesn't exist, create a new CategoryTranslation with this data.
+     */
+    create: XOR<CategoryTranslationCreateInput, CategoryTranslationUncheckedCreateInput>
+    /**
+     * In case the CategoryTranslation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CategoryTranslationUpdateInput, CategoryTranslationUncheckedUpdateInput>
+  }
+
+  /**
+   * CategoryTranslation delete
+   */
+  export type CategoryTranslationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
+    /**
+     * Filter which CategoryTranslation to delete.
+     */
+    where: CategoryTranslationWhereUniqueInput
+  }
+
+  /**
+   * CategoryTranslation deleteMany
+   */
+  export type CategoryTranslationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CategoryTranslations to delete
+     */
+    where?: CategoryTranslationWhereInput
+    /**
+     * Limit how many CategoryTranslations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CategoryTranslation without action
+   */
+  export type CategoryTranslationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryTranslation
+     */
+    select?: CategoryTranslationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryTranslation
+     */
+    omit?: CategoryTranslationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryTranslationInclude<ExtArgs> | null
   }
 
 
@@ -18950,6 +21361,19 @@ export namespace Prisma {
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
+  export const PostTranslationScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    lang: 'lang',
+    title: 'title',
+    content: 'content',
+    description: 'description',
+    slug: 'slug'
+  };
+
+  export type PostTranslationScalarFieldEnum = (typeof PostTranslationScalarFieldEnum)[keyof typeof PostTranslationScalarFieldEnum]
+
+
   export const CategoryScalarFieldEnum: {
     categoryId: 'categoryId',
     title: 'title',
@@ -18962,6 +21386,18 @@ export namespace Prisma {
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+  export const CategoryTranslationScalarFieldEnum: {
+    id: 'id',
+    categoryId: 'categoryId',
+    lang: 'lang',
+    title: 'title',
+    description: 'description',
+    slug: 'slug'
+  };
+
+  export type CategoryTranslationScalarFieldEnum = (typeof CategoryTranslationScalarFieldEnum)[keyof typeof CategoryTranslationScalarFieldEnum]
 
 
   export const CommentScalarFieldEnum: {
@@ -19638,6 +22074,7 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     likes?: LikeListRelationFilter
+    translations?: PostTranslationListRelationFilter
   }
 
   export type PostOrderByWithRelationInput = {
@@ -19659,6 +22096,7 @@ export namespace Prisma {
     author?: UserOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
     likes?: LikeOrderByRelationAggregateInput
+    translations?: PostTranslationOrderByRelationAggregateInput
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -19683,6 +22121,7 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     likes?: LikeListRelationFilter
+    translations?: PostTranslationListRelationFilter
   }, "postId" | "slug">
 
   export type PostOrderByWithAggregationInput = {
@@ -19727,6 +22166,72 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
   }
 
+  export type PostTranslationWhereInput = {
+    AND?: PostTranslationWhereInput | PostTranslationWhereInput[]
+    OR?: PostTranslationWhereInput[]
+    NOT?: PostTranslationWhereInput | PostTranslationWhereInput[]
+    id?: StringFilter<"PostTranslation"> | string
+    postId?: StringFilter<"PostTranslation"> | string
+    lang?: StringFilter<"PostTranslation"> | string
+    title?: StringFilter<"PostTranslation"> | string
+    content?: StringFilter<"PostTranslation"> | string
+    description?: StringNullableFilter<"PostTranslation"> | string | null
+    slug?: StringFilter<"PostTranslation"> | string
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+  }
+
+  export type PostTranslationOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    description?: SortOrderInput | SortOrder
+    slug?: SortOrder
+    post?: PostOrderByWithRelationInput
+  }
+
+  export type PostTranslationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    postId_lang?: PostTranslationPostIdLangCompoundUniqueInput
+    AND?: PostTranslationWhereInput | PostTranslationWhereInput[]
+    OR?: PostTranslationWhereInput[]
+    NOT?: PostTranslationWhereInput | PostTranslationWhereInput[]
+    postId?: StringFilter<"PostTranslation"> | string
+    lang?: StringFilter<"PostTranslation"> | string
+    title?: StringFilter<"PostTranslation"> | string
+    content?: StringFilter<"PostTranslation"> | string
+    description?: StringNullableFilter<"PostTranslation"> | string | null
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+  }, "id" | "slug" | "postId_lang">
+
+  export type PostTranslationOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    description?: SortOrderInput | SortOrder
+    slug?: SortOrder
+    _count?: PostTranslationCountOrderByAggregateInput
+    _max?: PostTranslationMaxOrderByAggregateInput
+    _min?: PostTranslationMinOrderByAggregateInput
+  }
+
+  export type PostTranslationScalarWhereWithAggregatesInput = {
+    AND?: PostTranslationScalarWhereWithAggregatesInput | PostTranslationScalarWhereWithAggregatesInput[]
+    OR?: PostTranslationScalarWhereWithAggregatesInput[]
+    NOT?: PostTranslationScalarWhereWithAggregatesInput | PostTranslationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PostTranslation"> | string
+    postId?: StringWithAggregatesFilter<"PostTranslation"> | string
+    lang?: StringWithAggregatesFilter<"PostTranslation"> | string
+    title?: StringWithAggregatesFilter<"PostTranslation"> | string
+    content?: StringWithAggregatesFilter<"PostTranslation"> | string
+    description?: StringNullableWithAggregatesFilter<"PostTranslation"> | string | null
+    slug?: StringWithAggregatesFilter<"PostTranslation"> | string
+  }
+
   export type CategoryWhereInput = {
     AND?: CategoryWhereInput | CategoryWhereInput[]
     OR?: CategoryWhereInput[]
@@ -19740,6 +22245,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Category"> | string | null
     keywords?: StringNullableListFilter<"Category">
     posts?: PostListRelationFilter
+    translations?: CategoryTranslationListRelationFilter
   }
 
   export type CategoryOrderByWithRelationInput = {
@@ -19752,6 +22258,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     keywords?: SortOrder
     posts?: PostOrderByRelationAggregateInput
+    translations?: CategoryTranslationOrderByRelationAggregateInput
   }
 
   export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -19767,6 +22274,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Category"> | string | null
     keywords?: StringNullableListFilter<"Category">
     posts?: PostListRelationFilter
+    translations?: CategoryTranslationListRelationFilter
   }, "categoryId" | "slug">
 
   export type CategoryOrderByWithAggregationInput = {
@@ -19795,6 +22303,67 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     image?: StringNullableWithAggregatesFilter<"Category"> | string | null
     keywords?: StringNullableListFilter<"Category">
+  }
+
+  export type CategoryTranslationWhereInput = {
+    AND?: CategoryTranslationWhereInput | CategoryTranslationWhereInput[]
+    OR?: CategoryTranslationWhereInput[]
+    NOT?: CategoryTranslationWhereInput | CategoryTranslationWhereInput[]
+    id?: StringFilter<"CategoryTranslation"> | string
+    categoryId?: StringFilter<"CategoryTranslation"> | string
+    lang?: StringFilter<"CategoryTranslation"> | string
+    title?: StringFilter<"CategoryTranslation"> | string
+    description?: StringNullableFilter<"CategoryTranslation"> | string | null
+    slug?: StringFilter<"CategoryTranslation"> | string
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+  }
+
+  export type CategoryTranslationOrderByWithRelationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    slug?: SortOrder
+    category?: CategoryOrderByWithRelationInput
+  }
+
+  export type CategoryTranslationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    categoryId_lang?: CategoryTranslationCategoryIdLangCompoundUniqueInput
+    AND?: CategoryTranslationWhereInput | CategoryTranslationWhereInput[]
+    OR?: CategoryTranslationWhereInput[]
+    NOT?: CategoryTranslationWhereInput | CategoryTranslationWhereInput[]
+    categoryId?: StringFilter<"CategoryTranslation"> | string
+    lang?: StringFilter<"CategoryTranslation"> | string
+    title?: StringFilter<"CategoryTranslation"> | string
+    description?: StringNullableFilter<"CategoryTranslation"> | string | null
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+  }, "id" | "slug" | "categoryId_lang">
+
+  export type CategoryTranslationOrderByWithAggregationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    slug?: SortOrder
+    _count?: CategoryTranslationCountOrderByAggregateInput
+    _max?: CategoryTranslationMaxOrderByAggregateInput
+    _min?: CategoryTranslationMinOrderByAggregateInput
+  }
+
+  export type CategoryTranslationScalarWhereWithAggregatesInput = {
+    AND?: CategoryTranslationScalarWhereWithAggregatesInput | CategoryTranslationScalarWhereWithAggregatesInput[]
+    OR?: CategoryTranslationScalarWhereWithAggregatesInput[]
+    NOT?: CategoryTranslationScalarWhereWithAggregatesInput | CategoryTranslationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CategoryTranslation"> | string
+    categoryId?: StringWithAggregatesFilter<"CategoryTranslation"> | string
+    lang?: StringWithAggregatesFilter<"CategoryTranslation"> | string
+    title?: StringWithAggregatesFilter<"CategoryTranslation"> | string
+    description?: StringNullableWithAggregatesFilter<"CategoryTranslation"> | string | null
+    slug?: StringWithAggregatesFilter<"CategoryTranslation"> | string
   }
 
   export type CommentWhereInput = {
@@ -20830,6 +23399,7 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutPostsInput
     category: CategoryCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
+    translations?: PostTranslationCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateInput = {
@@ -20849,6 +23419,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostUpdateInput = {
@@ -20868,6 +23439,7 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateInput = {
@@ -20887,6 +23459,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostCreateManyInput = {
@@ -20938,6 +23511,75 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type PostTranslationCreateInput = {
+    id?: string
+    lang: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+    post: PostCreateNestedOneWithoutTranslationsInput
+  }
+
+  export type PostTranslationUncheckedCreateInput = {
+    id?: string
+    postId: string
+    lang: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+  }
+
+  export type PostTranslationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    post?: PostUpdateOneRequiredWithoutTranslationsNestedInput
+  }
+
+  export type PostTranslationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostTranslationCreateManyInput = {
+    id?: string
+    postId: string
+    lang: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+  }
+
+  export type PostTranslationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostTranslationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
   export type CategoryCreateInput = {
     categoryId?: string
     title: string
@@ -20948,6 +23590,7 @@ export namespace Prisma {
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
     posts?: PostCreateNestedManyWithoutCategoryInput
+    translations?: CategoryTranslationCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateInput = {
@@ -20960,6 +23603,7 @@ export namespace Prisma {
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
     posts?: PostUncheckedCreateNestedManyWithoutCategoryInput
+    translations?: CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUpdateInput = {
@@ -20972,6 +23616,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
     posts?: PostUpdateManyWithoutCategoryNestedInput
+    translations?: CategoryTranslationUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateInput = {
@@ -20984,6 +23629,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
     posts?: PostUncheckedUpdateManyWithoutCategoryNestedInput
+    translations?: CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateManyInput = {
@@ -21017,6 +23663,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+  }
+
+  export type CategoryTranslationCreateInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+    category: CategoryCreateNestedOneWithoutTranslationsInput
+  }
+
+  export type CategoryTranslationUncheckedCreateInput = {
+    id?: string
+    categoryId: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+  }
+
+  export type CategoryTranslationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    category?: CategoryUpdateOneRequiredWithoutTranslationsNestedInput
+  }
+
+  export type CategoryTranslationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CategoryTranslationCreateManyInput = {
+    id?: string
+    categoryId: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+  }
+
+  export type CategoryTranslationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CategoryTranslationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type CommentCreateInput = {
@@ -22150,7 +24858,17 @@ export namespace Prisma {
     isNot?: CategoryWhereInput
   }
 
+  export type PostTranslationListRelationFilter = {
+    every?: PostTranslationWhereInput
+    some?: PostTranslationWhereInput
+    none?: PostTranslationWhereInput
+  }
+
   export type CommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostTranslationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22227,6 +24945,56 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type PostScalarRelationFilter = {
+    is?: PostWhereInput
+    isNot?: PostWhereInput
+  }
+
+  export type PostTranslationPostIdLangCompoundUniqueInput = {
+    postId: string
+    lang: string
+  }
+
+  export type PostTranslationCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+  }
+
+  export type PostTranslationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+  }
+
+  export type PostTranslationMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+  }
+
+  export type CategoryTranslationListRelationFilter = {
+    every?: CategoryTranslationWhereInput
+    some?: CategoryTranslationWhereInput
+    none?: CategoryTranslationWhereInput
+  }
+
+  export type CategoryTranslationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CategoryCountOrderByAggregateInput = {
     categoryId?: SortOrder
     title?: SortOrder
@@ -22258,6 +25026,38 @@ export namespace Prisma {
     image?: SortOrder
   }
 
+  export type CategoryTranslationCategoryIdLangCompoundUniqueInput = {
+    categoryId: string
+    lang: string
+  }
+
+  export type CategoryTranslationCountOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+  }
+
+  export type CategoryTranslationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+  }
+
+  export type CategoryTranslationMinOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    lang?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    slug?: SortOrder
+  }
+
   export type EnumCommentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CommentStatus | EnumCommentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
@@ -22268,11 +25068,6 @@ export namespace Prisma {
   export type CommentNullableScalarRelationFilter = {
     is?: CommentWhereInput | null
     isNot?: CommentWhereInput | null
-  }
-
-  export type PostScalarRelationFilter = {
-    is?: PostWhereInput
-    isNot?: PostWhereInput
   }
 
   export type CommentCountOrderByAggregateInput = {
@@ -22906,6 +25701,13 @@ export namespace Prisma {
     connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
   }
 
+  export type PostTranslationCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostTranslationCreateWithoutPostInput, PostTranslationUncheckedCreateWithoutPostInput> | PostTranslationCreateWithoutPostInput[] | PostTranslationUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTranslationCreateOrConnectWithoutPostInput | PostTranslationCreateOrConnectWithoutPostInput[]
+    createMany?: PostTranslationCreateManyPostInputEnvelope
+    connect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+  }
+
   export type CommentUncheckedCreateNestedManyWithoutPostInput = {
     create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
@@ -22918,6 +25720,13 @@ export namespace Prisma {
     connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[]
     createMany?: LikeCreateManyPostInputEnvelope
     connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+  }
+
+  export type PostTranslationUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostTranslationCreateWithoutPostInput, PostTranslationUncheckedCreateWithoutPostInput> | PostTranslationCreateWithoutPostInput[] | PostTranslationUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTranslationCreateOrConnectWithoutPostInput | PostTranslationCreateOrConnectWithoutPostInput[]
+    createMany?: PostTranslationCreateManyPostInputEnvelope
+    connect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
   }
 
   export type PostUpdatekeywordsInput = {
@@ -22977,6 +25786,20 @@ export namespace Prisma {
     deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
   }
 
+  export type PostTranslationUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostTranslationCreateWithoutPostInput, PostTranslationUncheckedCreateWithoutPostInput> | PostTranslationCreateWithoutPostInput[] | PostTranslationUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTranslationCreateOrConnectWithoutPostInput | PostTranslationCreateOrConnectWithoutPostInput[]
+    upsert?: PostTranslationUpsertWithWhereUniqueWithoutPostInput | PostTranslationUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostTranslationCreateManyPostInputEnvelope
+    set?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    disconnect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    delete?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    connect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    update?: PostTranslationUpdateWithWhereUniqueWithoutPostInput | PostTranslationUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostTranslationUpdateManyWithWhereWithoutPostInput | PostTranslationUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostTranslationScalarWhereInput | PostTranslationScalarWhereInput[]
+  }
+
   export type CommentUncheckedUpdateManyWithoutPostNestedInput = {
     create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
@@ -23005,6 +25828,34 @@ export namespace Prisma {
     deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
   }
 
+  export type PostTranslationUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostTranslationCreateWithoutPostInput, PostTranslationUncheckedCreateWithoutPostInput> | PostTranslationCreateWithoutPostInput[] | PostTranslationUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostTranslationCreateOrConnectWithoutPostInput | PostTranslationCreateOrConnectWithoutPostInput[]
+    upsert?: PostTranslationUpsertWithWhereUniqueWithoutPostInput | PostTranslationUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostTranslationCreateManyPostInputEnvelope
+    set?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    disconnect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    delete?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    connect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+    update?: PostTranslationUpdateWithWhereUniqueWithoutPostInput | PostTranslationUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostTranslationUpdateManyWithWhereWithoutPostInput | PostTranslationUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostTranslationScalarWhereInput | PostTranslationScalarWhereInput[]
+  }
+
+  export type PostCreateNestedOneWithoutTranslationsInput = {
+    create?: XOR<PostCreateWithoutTranslationsInput, PostUncheckedCreateWithoutTranslationsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutTranslationsInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type PostUpdateOneRequiredWithoutTranslationsNestedInput = {
+    create?: XOR<PostCreateWithoutTranslationsInput, PostUncheckedCreateWithoutTranslationsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutTranslationsInput
+    upsert?: PostUpsertWithoutTranslationsInput
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutTranslationsInput, PostUpdateWithoutTranslationsInput>, PostUncheckedUpdateWithoutTranslationsInput>
+  }
+
   export type CategoryCreatekeywordsInput = {
     set: string[]
   }
@@ -23016,11 +25867,25 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
+  export type CategoryTranslationCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<CategoryTranslationCreateWithoutCategoryInput, CategoryTranslationUncheckedCreateWithoutCategoryInput> | CategoryTranslationCreateWithoutCategoryInput[] | CategoryTranslationUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryTranslationCreateOrConnectWithoutCategoryInput | CategoryTranslationCreateOrConnectWithoutCategoryInput[]
+    createMany?: CategoryTranslationCreateManyCategoryInputEnvelope
+    connect?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+  }
+
   export type PostUncheckedCreateNestedManyWithoutCategoryInput = {
     create?: XOR<PostCreateWithoutCategoryInput, PostUncheckedCreateWithoutCategoryInput> | PostCreateWithoutCategoryInput[] | PostUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: PostCreateOrConnectWithoutCategoryInput | PostCreateOrConnectWithoutCategoryInput[]
     createMany?: PostCreateManyCategoryInputEnvelope
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
+  export type CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<CategoryTranslationCreateWithoutCategoryInput, CategoryTranslationUncheckedCreateWithoutCategoryInput> | CategoryTranslationCreateWithoutCategoryInput[] | CategoryTranslationUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryTranslationCreateOrConnectWithoutCategoryInput | CategoryTranslationCreateOrConnectWithoutCategoryInput[]
+    createMany?: CategoryTranslationCreateManyCategoryInputEnvelope
+    connect?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
   }
 
   export type CategoryUpdatekeywordsInput = {
@@ -23042,6 +25907,20 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
+  export type CategoryTranslationUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<CategoryTranslationCreateWithoutCategoryInput, CategoryTranslationUncheckedCreateWithoutCategoryInput> | CategoryTranslationCreateWithoutCategoryInput[] | CategoryTranslationUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryTranslationCreateOrConnectWithoutCategoryInput | CategoryTranslationCreateOrConnectWithoutCategoryInput[]
+    upsert?: CategoryTranslationUpsertWithWhereUniqueWithoutCategoryInput | CategoryTranslationUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: CategoryTranslationCreateManyCategoryInputEnvelope
+    set?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    disconnect?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    delete?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    connect?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    update?: CategoryTranslationUpdateWithWhereUniqueWithoutCategoryInput | CategoryTranslationUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: CategoryTranslationUpdateManyWithWhereWithoutCategoryInput | CategoryTranslationUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: CategoryTranslationScalarWhereInput | CategoryTranslationScalarWhereInput[]
+  }
+
   export type PostUncheckedUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<PostCreateWithoutCategoryInput, PostUncheckedCreateWithoutCategoryInput> | PostCreateWithoutCategoryInput[] | PostUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: PostCreateOrConnectWithoutCategoryInput | PostCreateOrConnectWithoutCategoryInput[]
@@ -23054,6 +25933,34 @@ export namespace Prisma {
     update?: PostUpdateWithWhereUniqueWithoutCategoryInput | PostUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: PostUpdateManyWithWhereWithoutCategoryInput | PostUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<CategoryTranslationCreateWithoutCategoryInput, CategoryTranslationUncheckedCreateWithoutCategoryInput> | CategoryTranslationCreateWithoutCategoryInput[] | CategoryTranslationUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryTranslationCreateOrConnectWithoutCategoryInput | CategoryTranslationCreateOrConnectWithoutCategoryInput[]
+    upsert?: CategoryTranslationUpsertWithWhereUniqueWithoutCategoryInput | CategoryTranslationUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: CategoryTranslationCreateManyCategoryInputEnvelope
+    set?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    disconnect?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    delete?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    connect?: CategoryTranslationWhereUniqueInput | CategoryTranslationWhereUniqueInput[]
+    update?: CategoryTranslationUpdateWithWhereUniqueWithoutCategoryInput | CategoryTranslationUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: CategoryTranslationUpdateManyWithWhereWithoutCategoryInput | CategoryTranslationUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: CategoryTranslationScalarWhereInput | CategoryTranslationScalarWhereInput[]
+  }
+
+  export type CategoryCreateNestedOneWithoutTranslationsInput = {
+    create?: XOR<CategoryCreateWithoutTranslationsInput, CategoryUncheckedCreateWithoutTranslationsInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutTranslationsInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type CategoryUpdateOneRequiredWithoutTranslationsNestedInput = {
+    create?: XOR<CategoryCreateWithoutTranslationsInput, CategoryUncheckedCreateWithoutTranslationsInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutTranslationsInput
+    upsert?: CategoryUpsertWithoutTranslationsInput
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutTranslationsInput, CategoryUpdateWithoutTranslationsInput>, CategoryUncheckedUpdateWithoutTranslationsInput>
   }
 
   export type CommentCreateNestedOneWithoutChildrenInput = {
@@ -23584,6 +26491,7 @@ export namespace Prisma {
     comment?: CommentCreateNestedManyWithoutPostInput
     category: CategoryCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
+    translations?: PostTranslationCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutAuthorInput = {
@@ -23602,6 +26510,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutAuthorInput = {
@@ -24035,6 +26944,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    translations?: CategoryTranslationCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutPostsInput = {
@@ -24046,6 +26956,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    translations?: CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutPostsInput = {
@@ -24076,6 +26987,34 @@ export namespace Prisma {
 
   export type LikeCreateManyPostInputEnvelope = {
     data: LikeCreateManyPostInput | LikeCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostTranslationCreateWithoutPostInput = {
+    id?: string
+    lang: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+  }
+
+  export type PostTranslationUncheckedCreateWithoutPostInput = {
+    id?: string
+    lang: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+  }
+
+  export type PostTranslationCreateOrConnectWithoutPostInput = {
+    where: PostTranslationWhereUniqueInput
+    create: XOR<PostTranslationCreateWithoutPostInput, PostTranslationUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostTranslationCreateManyPostInputEnvelope = {
+    data: PostTranslationCreateManyPostInput | PostTranslationCreateManyPostInput[]
     skipDuplicates?: boolean
   }
 
@@ -24176,6 +27115,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    translations?: CategoryTranslationUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutPostsInput = {
@@ -24187,6 +27127,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    translations?: CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type LikeUpsertWithWhereUniqueWithoutPostInput = {
@@ -24205,6 +27146,127 @@ export namespace Prisma {
     data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutPostInput>
   }
 
+  export type PostTranslationUpsertWithWhereUniqueWithoutPostInput = {
+    where: PostTranslationWhereUniqueInput
+    update: XOR<PostTranslationUpdateWithoutPostInput, PostTranslationUncheckedUpdateWithoutPostInput>
+    create: XOR<PostTranslationCreateWithoutPostInput, PostTranslationUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostTranslationUpdateWithWhereUniqueWithoutPostInput = {
+    where: PostTranslationWhereUniqueInput
+    data: XOR<PostTranslationUpdateWithoutPostInput, PostTranslationUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostTranslationUpdateManyWithWhereWithoutPostInput = {
+    where: PostTranslationScalarWhereInput
+    data: XOR<PostTranslationUpdateManyMutationInput, PostTranslationUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type PostTranslationScalarWhereInput = {
+    AND?: PostTranslationScalarWhereInput | PostTranslationScalarWhereInput[]
+    OR?: PostTranslationScalarWhereInput[]
+    NOT?: PostTranslationScalarWhereInput | PostTranslationScalarWhereInput[]
+    id?: StringFilter<"PostTranslation"> | string
+    postId?: StringFilter<"PostTranslation"> | string
+    lang?: StringFilter<"PostTranslation"> | string
+    title?: StringFilter<"PostTranslation"> | string
+    content?: StringFilter<"PostTranslation"> | string
+    description?: StringNullableFilter<"PostTranslation"> | string | null
+    slug?: StringFilter<"PostTranslation"> | string
+  }
+
+  export type PostCreateWithoutTranslationsInput = {
+    postId?: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+    keywords?: PostCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    image?: string | null
+    status?: string
+    views?: number
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    comment?: CommentCreateNestedManyWithoutPostInput
+    author: UserCreateNestedOneWithoutPostsInput
+    category: CategoryCreateNestedOneWithoutPostsInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutTranslationsInput = {
+    postId?: string
+    title: string
+    content: string
+    authorId: string
+    description?: string | null
+    slug: string
+    keywords?: PostCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    categoryId: string
+    image?: string | null
+    status?: string
+    views?: number
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    comment?: CommentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutTranslationsInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutTranslationsInput, PostUncheckedCreateWithoutTranslationsInput>
+  }
+
+  export type PostUpsertWithoutTranslationsInput = {
+    update: XOR<PostUpdateWithoutTranslationsInput, PostUncheckedUpdateWithoutTranslationsInput>
+    create: XOR<PostCreateWithoutTranslationsInput, PostUncheckedCreateWithoutTranslationsInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutTranslationsInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutTranslationsInput, PostUncheckedUpdateWithoutTranslationsInput>
+  }
+
+  export type PostUpdateWithoutTranslationsInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    keywords?: PostUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    comment?: CommentUpdateManyWithoutPostNestedInput
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutTranslationsInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    keywords?: PostUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+  }
+
   export type PostCreateWithoutCategoryInput = {
     postId?: string
     title: string
@@ -24221,6 +27283,7 @@ export namespace Prisma {
     comment?: CommentCreateNestedManyWithoutPostInput
     author: UserCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
+    translations?: PostTranslationCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutCategoryInput = {
@@ -24239,6 +27302,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutCategoryInput = {
@@ -24248,6 +27312,32 @@ export namespace Prisma {
 
   export type PostCreateManyCategoryInputEnvelope = {
     data: PostCreateManyCategoryInput | PostCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CategoryTranslationCreateWithoutCategoryInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+  }
+
+  export type CategoryTranslationUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
+  }
+
+  export type CategoryTranslationCreateOrConnectWithoutCategoryInput = {
+    where: CategoryTranslationWhereUniqueInput
+    create: XOR<CategoryTranslationCreateWithoutCategoryInput, CategoryTranslationUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type CategoryTranslationCreateManyCategoryInputEnvelope = {
+    data: CategoryTranslationCreateManyCategoryInput | CategoryTranslationCreateManyCategoryInput[]
     skipDuplicates?: boolean
   }
 
@@ -24265,6 +27355,98 @@ export namespace Prisma {
   export type PostUpdateManyWithWhereWithoutCategoryInput = {
     where: PostScalarWhereInput
     data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type CategoryTranslationUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: CategoryTranslationWhereUniqueInput
+    update: XOR<CategoryTranslationUpdateWithoutCategoryInput, CategoryTranslationUncheckedUpdateWithoutCategoryInput>
+    create: XOR<CategoryTranslationCreateWithoutCategoryInput, CategoryTranslationUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type CategoryTranslationUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: CategoryTranslationWhereUniqueInput
+    data: XOR<CategoryTranslationUpdateWithoutCategoryInput, CategoryTranslationUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type CategoryTranslationUpdateManyWithWhereWithoutCategoryInput = {
+    where: CategoryTranslationScalarWhereInput
+    data: XOR<CategoryTranslationUpdateManyMutationInput, CategoryTranslationUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type CategoryTranslationScalarWhereInput = {
+    AND?: CategoryTranslationScalarWhereInput | CategoryTranslationScalarWhereInput[]
+    OR?: CategoryTranslationScalarWhereInput[]
+    NOT?: CategoryTranslationScalarWhereInput | CategoryTranslationScalarWhereInput[]
+    id?: StringFilter<"CategoryTranslation"> | string
+    categoryId?: StringFilter<"CategoryTranslation"> | string
+    lang?: StringFilter<"CategoryTranslation"> | string
+    title?: StringFilter<"CategoryTranslation"> | string
+    description?: StringNullableFilter<"CategoryTranslation"> | string | null
+    slug?: StringFilter<"CategoryTranslation"> | string
+  }
+
+  export type CategoryCreateWithoutTranslationsInput = {
+    categoryId?: string
+    title: string
+    description?: string | null
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    keywords?: CategoryCreatekeywordsInput | string[]
+    posts?: PostCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryUncheckedCreateWithoutTranslationsInput = {
+    categoryId?: string
+    title: string
+    description?: string | null
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    keywords?: CategoryCreatekeywordsInput | string[]
+    posts?: PostUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutTranslationsInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutTranslationsInput, CategoryUncheckedCreateWithoutTranslationsInput>
+  }
+
+  export type CategoryUpsertWithoutTranslationsInput = {
+    update: XOR<CategoryUpdateWithoutTranslationsInput, CategoryUncheckedUpdateWithoutTranslationsInput>
+    create: XOR<CategoryCreateWithoutTranslationsInput, CategoryUncheckedCreateWithoutTranslationsInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutTranslationsInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutTranslationsInput, CategoryUncheckedUpdateWithoutTranslationsInput>
+  }
+
+  export type CategoryUpdateWithoutTranslationsInput = {
+    categoryId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    keywords?: CategoryUpdatekeywordsInput | string[]
+    posts?: PostUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutTranslationsInput = {
+    categoryId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    keywords?: CategoryUpdatekeywordsInput | string[]
+    posts?: PostUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CommentCreateWithoutChildrenInput = {
@@ -24342,6 +27524,7 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutPostsInput
     category: CategoryCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
+    translations?: PostTranslationCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutCommentInput = {
@@ -24360,6 +27543,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutCommentInput = {
@@ -24443,6 +27627,7 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutCommentInput = {
@@ -24461,6 +27646,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostCreateWithoutLikesInput = {
@@ -24479,6 +27665,7 @@ export namespace Prisma {
     comment?: CommentCreateNestedManyWithoutPostInput
     author: UserCreateNestedOneWithoutPostsInput
     category: CategoryCreateNestedOneWithoutPostsInput
+    translations?: PostTranslationCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutLikesInput = {
@@ -24497,6 +27684,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
+    translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutLikesInput = {
@@ -24572,6 +27760,7 @@ export namespace Prisma {
     comment?: CommentUpdateManyWithoutPostNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
+    translations?: PostTranslationUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutLikesInput = {
@@ -24590,6 +27779,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type UserUpsertWithoutLikesInput = {
@@ -24811,6 +28001,7 @@ export namespace Prisma {
     comment?: CommentUpdateManyWithoutPostNestedInput
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutAuthorInput = {
@@ -24829,6 +28020,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateManyWithoutAuthorInput = {
@@ -24889,6 +28081,15 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type PostTranslationCreateManyPostInput = {
+    id?: string
+    lang: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+  }
+
   export type CommentUpdateWithoutPostInput = {
     commentId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -24945,6 +28146,33 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PostTranslationUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostTranslationUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostTranslationUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
   export type PostCreateManyCategoryInput = {
     postId?: string
     title: string
@@ -24959,6 +28187,14 @@ export namespace Prisma {
     views?: number
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+  }
+
+  export type CategoryTranslationCreateManyCategoryInput = {
+    id?: string
+    lang: string
+    title: string
+    description?: string | null
+    slug: string
   }
 
   export type PostUpdateWithoutCategoryInput = {
@@ -24977,6 +28213,7 @@ export namespace Prisma {
     comment?: CommentUpdateManyWithoutPostNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutCategoryInput = {
@@ -24995,6 +28232,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateManyWithoutCategoryInput = {
@@ -25011,6 +28249,30 @@ export namespace Prisma {
     views?: IntFieldUpdateOperationsInput | number
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CategoryTranslationUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CategoryTranslationUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CategoryTranslationUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type CommentCreateManyParentInput = {

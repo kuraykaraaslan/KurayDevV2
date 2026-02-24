@@ -1,5 +1,41 @@
-import { Category } from '@/types/content/BlogTypes'
+import { Category, CategoryTranslation } from '@/types/content/BlogTypes'
 import { prisma } from '@/libs/prisma'
+
+type CategoryWithTranslations = Category & { translations?: CategoryTranslation[] }
+
+const categoryWithTranslationsSelect = {
+  categoryId: true,
+  title: true,
+  description: true,
+  slug: true,
+  createdAt: true,
+  updatedAt: true,
+  image: true,
+  keywords: true,
+  translations: {
+    select: {
+      id: true,
+      categoryId: true,
+      lang: true,
+      title: true,
+      description: true,
+      slug: true,
+    },
+  },
+}
+
+function applyTranslation(category: CategoryWithTranslations, lang: string): Category {
+  if (!category.translations?.length || lang === 'en') return category
+  const t = category.translations.find((tr) => tr.lang === lang)
+  if (!t) return category
+  return {
+    ...category,
+    title: t.title,
+    description: t.description ?? category.description,
+  }
+}
+
+
 
 export default class CategoryService {
   private static sqlInjectionRegex =
@@ -89,12 +125,12 @@ export default class CategoryService {
    * @param categoryId - The ID of the category
    * @returns The requested category or null if not found
    */
-  static async getCategoryById(categoryId: string): Promise<Category | null> {
+  static async getCategoryById(categoryId: string, lang?: string): Promise<Category | null> {
     const category = await prisma.category.findUnique({
       where: { categoryId },
+      select: categoryWithTranslationsSelect,
     })
-
-    return category
+    return category ? applyTranslation(category as CategoryWithTranslations, lang ?? 'en') : null
   }
 
   /**
@@ -144,12 +180,12 @@ export default class CategoryService {
    * @param slug - The slug of the category
    * @returns The requested category or null if not found
    */
-  static async getCategoryBySlug(slug: string): Promise<Category | null> {
+  static async getCategoryBySlug(slug: string, lang?: string): Promise<Category | null> {
     const category = await prisma.category.findFirst({
       where: { slug },
+      select: categoryWithTranslationsSelect,
     })
-
-    return category
+    return category ? applyTranslation(category as CategoryWithTranslations, lang ?? 'en') : null
   }
 
   /**

@@ -10,16 +10,16 @@ import MetadataHelper from '@/helpers/MetadataHelper'
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
-  params: Promise<{ categorySlug: string }>
+  params: Promise<{ lang: string; categorySlug: string }>
 }
 
-async function getCategory(categorySlug: string) {
-  return (await CategoryService.getCategoryBySlug(categorySlug)) as Category | null
+async function getCategory(categorySlug: string, lang: string) {
+  return (await CategoryService.getCategoryBySlug(categorySlug, lang)) as Category | null
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { categorySlug } = await params
-  const category = await getCategory(categorySlug)
+  const { categorySlug, lang } = await params
+  const category = await getCategory(categorySlug, lang)
 
   if (!category) {
     return {}
@@ -59,13 +59,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   try {
-    const { categorySlug } = await params
+    const { categorySlug, lang } = await params
 
     if (!categorySlug) {
       notFound()
     }
 
-    const category = await getCategory(categorySlug)
+    const category = await getCategory(categorySlug, lang)
 
     if (!category) {
       notFound()
@@ -102,6 +102,7 @@ export default async function CategoryPage({ params }: Props) {
         pageSize: 6,
         categoryId: category.categoryId,
         status: 'PUBLISHED',
+        lang,
       })
       collectionPosts = response.posts.map((p) => ({
         title: p.title,

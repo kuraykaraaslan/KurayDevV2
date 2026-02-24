@@ -193,6 +193,16 @@ exports.Prisma.PostScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.PostTranslationScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  lang: 'lang',
+  title: 'title',
+  content: 'content',
+  description: 'description',
+  slug: 'slug'
+};
+
 exports.Prisma.CategoryScalarFieldEnum = {
   categoryId: 'categoryId',
   title: 'title',
@@ -202,6 +212,15 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt',
   image: 'image',
   keywords: 'keywords'
+};
+
+exports.Prisma.CategoryTranslationScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  lang: 'lang',
+  title: 'title',
+  description: 'description',
+  slug: 'slug'
 };
 
 exports.Prisma.CommentScalarFieldEnum = {
@@ -355,7 +374,9 @@ exports.Prisma.ModelName = {
   UserSocialAccount: 'UserSocialAccount',
   VerificationToken: 'VerificationToken',
   Post: 'Post',
+  PostTranslation: 'PostTranslation',
   Category: 'Category',
+  CategoryTranslation: 'CategoryTranslation',
   Comment: 'Comment',
   ContactForm: 'ContactForm',
   Subscription: 'Subscription',

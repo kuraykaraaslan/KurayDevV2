@@ -21,7 +21,7 @@ export default class PostService {
     updatedAt: true,
     status: true,
     views: true,
-    content: true, // Include content only if postId or slug is provided
+    content: true,
     deletedAt: true,
     category: {
       select: {
@@ -37,6 +37,29 @@ export default class PostService {
         userProfile: true,
       },
     },
+    translations: {
+      select: {
+        id: true,
+        postId: true,
+        lang: true,
+        title: true,
+        content: true,
+        description: true,
+        slug: true,
+      },
+    },
+  }
+
+  static applyTranslation(post: PostWithData, lang: string): PostWithData {
+    if (!post.translations?.length || lang === 'en') return post
+    const t = post.translations.find((tr) => tr.lang === lang)
+    if (!t) return post
+    return {
+      ...post,
+      title: t.title,
+      content: t.content,
+      description: t.description ?? post.description,
+    }
   }
 
   /**
@@ -88,8 +111,9 @@ export default class PostService {
     postId?: string
     slug?: string
     createdAfter?: Date
+    lang?: string
   }): Promise<{ posts: PostWithData[]; total: number }> {
-    const { page, pageSize, search, categoryId, status, authorId, postId, slug } = data
+    const { page, pageSize, search, categoryId, status, authorId, postId, slug, lang } = data
     // Validate search query
     if (search && this.sqlInjectionRegex.test(search)) {
       throw new Error('Invalid search query.')
@@ -147,7 +171,10 @@ export default class PostService {
       prisma.post.count(countQuery as any),
     ])
 
-    return { posts: transaction[0] as PostWithData[], total: transaction[1] }
+    const posts = (transaction[0] as PostWithData[]).map((p) =>
+      this.applyTranslation(p, lang ?? 'en')
+    )
+    return { posts, total: transaction[1] }
   }
 
   /**
@@ -237,11 +264,12 @@ export default class PostService {
    * @param postId - The ID of the post
    * @returns The post
    */
-  static async getPostById(postId: string): Promise<PostWithData | null> {
-    return (await prisma.post.findUnique({
+  static async getPostById(postId: string, lang?: string): Promise<PostWithData | null> {
+    const post = (await prisma.post.findUnique({
       where: { postId },
       select: this.postWithDataSelect,
     })) as PostWithData | null
+    return post ? this.applyTranslation(post, lang ?? 'en') : null
   }
 
   /**

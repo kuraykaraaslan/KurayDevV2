@@ -16,23 +16,24 @@ import Breadcrumb from '@/components/common/Layout/Breadcrumb'
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
-  params: Promise<{ categorySlug: string; postSlug: string }>
+  params: Promise<{ lang: string; categorySlug: string; postSlug: string }>
 }
 
 // Fetch post data for both metadata and page rendering
-async function getPost(postSlug: string) {
+async function getPost(postSlug: string, lang: string) {
   const response = await PostService.getAllPosts({
     page: 0,
     pageSize: 1,
     slug: postSlug,
     status: 'ALL',
+    lang,
   })
   return response.posts[0] || null
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { postSlug, categorySlug } = await params
-  const post = await getPost(postSlug)
+  const { postSlug, categorySlug, lang } = await params
+  const post = await getPost(postSlug, lang)
 
   if (!post || post.status !== 'PUBLISHED') {
     return {}
@@ -83,13 +84,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPost({ params }: Props) {
   try {
-    const { postSlug, categorySlug } = await params
+    const { postSlug, categorySlug, lang } = await params
 
     if (!postSlug || !categorySlug) {
       notFound()
     }
 
-    const post = await getPost(postSlug)
+    const post = await getPost(postSlug, lang)
 
     if (!post) {
       notFound()
@@ -155,6 +156,7 @@ export default async function BlogPost({ params }: Props) {
         pageSize: 6,
         categoryId: post.categoryId,
         status: 'PUBLISHED',
+        lang,
       })
       relatedLinks = relatedResponse.posts
         .filter((p) => p.postId !== post.postId)

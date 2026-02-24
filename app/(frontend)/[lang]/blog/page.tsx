@@ -44,7 +44,13 @@ export const metadata: Metadata = {
   },
 }
 
-const BlogPage = async () => {
+type Props = {
+  params: Promise<{ lang: string }>
+}
+
+const BlogPage = async ({ params }: Props) => {
+  const { lang } = await params
+
   // Metadata for JSON-LD only (meta tags handled by export above)
   const jsonLdMetadata: Metadata = {
     title: 'Blog | Kuray Karaaslan',
@@ -66,7 +72,7 @@ const BlogPage = async () => {
   // Fetch first page of posts for CollectionPage schema
   let collectionPosts: { title: string; url: string; datePublished?: string }[] = []
   try {
-    const response = await PostService.getAllPosts({ page: 0, pageSize: 6, status: 'PUBLISHED' })
+    const response = await PostService.getAllPosts({ page: 0, pageSize: 6, status: 'PUBLISHED', lang })
     collectionPosts = response.posts.map((p) => ({
       title: p.title,
       url: `${APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`,

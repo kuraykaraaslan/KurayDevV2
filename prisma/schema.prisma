@@ -135,10 +135,28 @@ model Post {
   updatedAt   DateTime? @default(now()) @updatedAt
   deletedAt   DateTime?
 
-  comment  Comment[]
-  author   User      @relation(fields: [authorId], references: [userId])
-  category Category  @relation(fields: [categoryId], references: [categoryId])
-  likes    Like[]
+  comment      Comment[]
+  author       User             @relation(fields: [authorId], references: [userId])
+  category     Category         @relation(fields: [categoryId], references: [categoryId])
+  likes        Like[]
+  translations PostTranslation[]
+}
+
+model PostTranslation {
+  id          String  @id @default(cuid())
+  postId      String
+  lang        String
+  title       String
+  content     String
+  description String?
+  slug        String  @unique
+
+  post Post @relation(fields: [postId], references: [postId], onDelete: Cascade)
+
+  @@unique([postId, lang])
+  @@index([postId])
+  @@index([lang])
+  @@index([slug])
 }
 
 model Category {
@@ -151,7 +169,24 @@ model Category {
   image       String?
   keywords    String[]
 
-  posts Post[]
+  posts        Post[]
+  translations CategoryTranslation[]
+}
+
+model CategoryTranslation {
+  id          String  @id @default(cuid())
+  categoryId  String
+  lang        String
+  title       String
+  description String?
+  slug        String  @unique
+
+  category Category @relation(fields: [categoryId], references: [categoryId], onDelete: Cascade)
+
+  @@unique([categoryId, lang])
+  @@index([categoryId])
+  @@index([lang])
+  @@index([slug])
 }
 
 enum CommentStatus {
