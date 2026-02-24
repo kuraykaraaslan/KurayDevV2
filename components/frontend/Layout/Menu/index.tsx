@@ -1,10 +1,11 @@
 'use client'
-import { useRouter } from 'next/navigation'
 import { useGlobalStore } from '@/libs/zustand'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuItem } from '@/types/ui/UITypes'
-import i18n from '@/libs/localize/localize'
+import '@/libs/localize/localize'
+import { useTranslation } from 'react-i18next'
+import useI18nRouter from '@/libs/i18n/useI18nRouter'
 
 const Menu = ({
   isSidebar = false,
@@ -15,10 +16,10 @@ const Menu = ({
   menuItems: MenuItem[]
   onItemClick?: () => void
 }) => {
-  const router = useRouter()
+  const router = useI18nRouter()
   const { user } = useGlobalStore()
 
-  const { t } = i18n
+  const { t } = useTranslation()
 
   const isAdmin = user?.userRole === 'ADMIN' || user?.userRole === 'SUPER_ADMIN'
 
@@ -40,14 +41,13 @@ const Menu = ({
 
     const { id, page } = item
     if (!id) {
-      router.push(page) // Use the 'page' field for navigation
+      router.push(page)
       return
     }
     const yPosition = getYpositionOfElementById(id)
 
     if (yPosition === null) {
-      router.push(page) // Use the 'page' field for navigation
-      // wait for the page to load and try again maks 2 seconds
+      router.push(page)
       setTimeout(() => {
         const yPosition = getYpositionOfElementById(id)
         if (yPosition !== null) {
