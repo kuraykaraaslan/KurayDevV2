@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import {
   rateLimitMiddleware,
   addRateLimitHeaders,
@@ -8,10 +8,16 @@ import {
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE } from '@/types/common/I18nTypes'
 
 // Static assets served from /public — skip lang routing
-const STATIC_EXTENSIONS = ['.ico', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.woff', '.woff2', '.ttf', '.otf']
+const STATIC_EXTENSIONS = ['.ico', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.woff', '.woff2', '.ttf', '.otf', '.webmanifest']
+
+// PWA files served from /public — skip lang routing
+const STATIC_FILES = ['/sw.js', '/manifest.webmanifest', '/icon-192x192.png', '/icon-512x512.png']
 
 function isStaticAsset(pathname: string): boolean {
-  return STATIC_EXTENSIONS.some((ext) => pathname.endsWith(ext))
+  return (
+    STATIC_EXTENSIONS.some((ext) => pathname.endsWith(ext)) ||
+    STATIC_FILES.includes(pathname)
+  )
 }
 
 /**

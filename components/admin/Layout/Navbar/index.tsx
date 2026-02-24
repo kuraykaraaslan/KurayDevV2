@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import ThemeButton from './Partials/ThemeButton'
 import NotificationBell from './Partials/NotificationBell'
+import PushNotificationToggle from '@/components/common/PWA/PushNotificationToggle'
 import Logo from '@/components/common/Layout/Logo'
 import dynamic from 'next/dynamic'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
@@ -212,6 +213,7 @@ const Navbar = () => {
 
         {/* Mobile hamburger */}
         <div className="flex lg:hidden items-center gap-2 mr-2">
+          <PushNotificationToggle />
           <NotificationBell />
           <button
             type="button"
@@ -233,6 +235,7 @@ const Navbar = () => {
 
         {/* Desktop auth */}
         <div className="hidden lg:flex lg:justify-end items-center gap-2">
+          <PushNotificationToggle />
           <NotificationBell />
           <NavbarAuthButton />
         </div>

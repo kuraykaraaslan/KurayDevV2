@@ -2,6 +2,8 @@ import './globals.css'
 import Script from 'next/script'
 import { ReactNode } from 'react'
 import WebVitals from '@/components/frontend/WebVitals'
+import ServiceWorkerRegistrar from '@/components/common/PWA/ServiceWorkerRegistrar'
+import InstallPrompt from '@/components/common/PWA/InstallPrompt'
 import type { Metadata, Viewport } from 'next'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG
@@ -48,6 +50,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en" data-theme="dark" className="antialiased scroll-smooth focus:scroll-auto">
       <head>
         <meta charSet="utf-8" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         {/* Preconnect hints for faster resource loading */}
         <link rel="preconnect" href="https://kuray-dev.s3.amazonaws.com" />
         <link rel="preconnect" href="https://www.gravatar.com" />
@@ -58,8 +61,10 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
       </head>
       <body className="min-h-screen">
+        <ServiceWorkerRegistrar />
         <WebVitals />
         {children}
+        <InstallPrompt />
 
         {/* Google Analytics 4 */}
         {GA_MEASUREMENT_ID && (

@@ -316,6 +316,15 @@ exports.Prisma.TestimonialScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.GeoAnalyticsScalarFieldEnum = {
   id: 'id',
   country: 'country',
@@ -407,6 +416,7 @@ exports.Prisma.ModelName = {
   Appointment: 'Appointment',
   Like: 'Like',
   Testimonial: 'Testimonial',
+  PushSubscription: 'PushSubscription',
   GeoAnalytics: 'GeoAnalytics',
   Media: 'Media'
 };

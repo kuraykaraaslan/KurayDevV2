@@ -3,6 +3,7 @@ import { Redis } from 'ioredis'
 import { prisma } from '@/libs/prisma'
 import { v4 as uuid } from 'uuid'
 import type { Notification } from '@/types/common/NotificationTypes'
+import PushNotificationService from '@/services/PushNotificationService'
 
 /**
  * InAppNotificationService
@@ -62,6 +63,13 @@ export default class InAppNotificationService {
     // Broadcast to SSE subscribers
     await redis.publish(this.channel(userId), JSON.stringify(notification))
 
+    // Send web push notification (fire-and-forget)
+    PushNotificationService.sendToUser(userId, {
+      title: data.title,
+      body: data.message,
+      url: data.path || '/',
+    }).catch(() => {})
+
     return notification
   }
 
@@ -73,6 +81,7 @@ export default class InAppNotificationService {
       where: { userRole: 'ADMIN' },
       select: { userId: true },
     })
+    // push() already sends a web push per user, no extra sendToAdmins needed
     await Promise.all(admins.map((a) => this.push(a.userId, data)))
   }
 
