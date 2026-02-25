@@ -8,10 +8,27 @@ import { useEffect } from 'react'
  */
 let swRegistered = false
 
+function canUseServiceWorker() {
+  if (!('serviceWorker' in navigator)) return false
+
+  const hostname = window.location.hostname
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1'
+
+  if (!window.isSecureContext && !isLocalhost) {
+    console.info(
+      '[PWA] Skipping service worker registration because the origin is not secure:',
+      window.location.origin
+    )
+    return false
+  }
+
+  return true
+}
+
 export default function ServiceWorkerRegistrar() {
   useEffect(() => {
     if (swRegistered) return
-    if (!('serviceWorker' in navigator)) return
+    if (!canUseServiceWorker()) return
 
     swRegistered = true
     navigator.serviceWorker

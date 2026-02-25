@@ -3,7 +3,6 @@ import Script from 'next/script'
 import { ReactNode } from 'react'
 import WebVitals from '@/components/frontend/WebVitals'
 import ServiceWorkerRegistrar from '@/components/common/PWA/ServiceWorkerRegistrar'
-import InstallPrompt from '@/components/common/PWA/InstallPrompt'
 import type { Metadata, Viewport } from 'next'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG
@@ -64,7 +63,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <ServiceWorkerRegistrar />
         <WebVitals />
         {children}
-        <InstallPrompt />
 
         {/* Google Analytics 4 */}
         {GA_MEASUREMENT_ID && (
