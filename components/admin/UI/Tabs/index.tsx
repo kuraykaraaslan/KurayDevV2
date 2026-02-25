@@ -21,7 +21,6 @@ export interface TabsProps {
     contentClassName?: string;
     variant?: 'underline' | 'boxed' | 'lifted';
     size?: 'sm' | 'md' | 'lg';
-    showLabelsOnMobile?: boolean;
 }
 
 export default function Tabs({
@@ -33,7 +32,6 @@ export default function Tabs({
     contentClassName = '',
     variant = 'underline',
     size = 'md',
-    showLabelsOnMobile = false,
 }: TabsProps) {
     const [activeTab, setActiveTab] = useState<string>(defaultTab || tabs[0]?.id || '');
 
@@ -84,10 +82,27 @@ export default function Tabs({
         }
     };
 
+    const activeTabData = tabs.find((tab) => tab.id === activeTab);
+
     return (
         <div className={`w-full ${className}`}>
-            {/* Tabs Navigation */}
-            <div className={`${getContainerClasses()} ${tabsClassName}`}>
+            {/* Mobile Dropdown */}
+            <div className="sm:hidden mb-4">
+                <select
+                    className="select select-bordered w-full"
+                    value={activeTab}
+                    onChange={(e) => handleTabClick(e.target.value)}
+                >
+                    {tabs.map((tab) => (
+                        <option key={tab.id} value={tab.id} disabled={tab.disabled}>
+                            {tab.label}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {/* Desktop Tabs Navigation */}
+            <div className={`hidden sm:flex ${getContainerClasses()} ${tabsClassName}`}>
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
@@ -100,9 +115,7 @@ export default function Tabs({
                                 <FontAwesomeIcon icon={tab.icon} size={iconSizes[size]} />
                             </span>
                         )}
-                        <span className={showLabelsOnMobile ? '' : 'hidden sm:inline'}>
-                            {tab.label}
-                        </span>
+                        <span>{tab.label}</span>
 
                         {/* Active indicator for underline variant */}
                         {variant === 'underline' && activeTab === tab.id && (
@@ -115,7 +128,7 @@ export default function Tabs({
             {/* Tab Content */}
             <div className={`mt-4 ${contentClassName}`}>
                 <div className="animate-fade-in">
-                    {tabs.find((tab) => tab.id === activeTab)?.content}
+                    {activeTabData?.content}
                 </div>
             </div>
         </div>

@@ -3,16 +3,23 @@
 import { useEffect } from 'react'
 
 /**
- * Registers the service worker on mount.
+ * Registers the service worker once on mount.
  * Renders nothing — safe to place in the root layout.
  */
+let swRegistered = false
+
 export default function ServiceWorkerRegistrar() {
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js', { scope: '/', updateViaCache: 'none' })
-        .catch((err) => console.warn('SW registration failed:', err))
-    }
+    if (swRegistered) return
+    if (!('serviceWorker' in navigator)) return
+
+    swRegistered = true
+    navigator.serviceWorker
+      .register('/sw.js', { scope: '/', updateViaCache: 'none' })
+      .catch((err) => {
+        swRegistered = false
+        console.warn('SW registration failed:', err)
+      })
   }, [])
 
   return null
