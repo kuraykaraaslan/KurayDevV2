@@ -5,7 +5,10 @@ import { MenuItem } from '@/types/ui/UITypes'
 
 const closeSidebar = () => {
   const drawerCheckbox = document.getElementById('my-drawer') as HTMLInputElement
-  if (drawerCheckbox) drawerCheckbox.checked = false
+  if (drawerCheckbox) {
+    drawerCheckbox.checked = false
+    drawerCheckbox.dispatchEvent(new Event('change'))
+  }
 }
 
 const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
@@ -23,7 +26,6 @@ const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
       const mainContent = document.querySelector<HTMLElement>('.drawer-content')
 
       if (open) {
-        // Ana içeriği etkisizleştir: Tab, tıklama, ekran okuyucu erişimini engeller
         mainContent?.setAttribute('inert', '')
         requestAnimationFrame(() => {
           const firstItem = menuRef.current?.querySelector<HTMLElement>('button, a')
