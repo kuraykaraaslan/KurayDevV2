@@ -84,7 +84,7 @@ const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
   return (
     <div
       className="drawer-side"
-      style={{ zIndex: 8 }}
+      style={{ zIndex: 70 }}
       aria-hidden={!isOpen}
     >
       <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay backdrop-blur-sm" />
@@ -98,7 +98,7 @@ const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
       >
         {/* Close button */}
         <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-base-200">
-          <span className="text-base font-semibold text-base-content opacity-70 tracking-wide uppercase text-xs">
+          <span className="text-base font-semibold text-base-content opacity-70 tracking-wide uppercase text-xs select-none">
             Menu
           </span>
           <button
