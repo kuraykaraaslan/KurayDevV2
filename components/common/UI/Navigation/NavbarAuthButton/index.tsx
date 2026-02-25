@@ -38,6 +38,7 @@ const NavbarAuthButton = () => {
     return (
       <Link
         href="/auth/login"
+        ignoreLang
         className="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center ring-1 ring-primary ring-2 transition"
       >
         <FontAwesomeIcon icon={faUser} className="text-xs" />
@@ -67,6 +68,7 @@ const NavbarAuthButton = () => {
           {(user.userRole === 'ADMIN' || user.userRole === 'AUTHOR') && (
             <Link
               href="/admin"
+              ignoreLang
               className="px-3 py-2 rounded-md hover:bg-base-200 text-sm"
               onClick={() => setOpen(false)}
             >
@@ -75,6 +77,7 @@ const NavbarAuthButton = () => {
           )}
           <Link
             href="/settings"
+            ignoreLang
             className="px-3 py-2 rounded-md hover:bg-base-200 text-sm border-b border-base-300"
             onClick={() => setOpen(false)}
           >
@@ -83,6 +86,7 @@ const NavbarAuthButton = () => {
 
           <Link
             href="/auth/logout"
+            ignoreLang
             className="px-3 py-2 rounded-md hover:bg-base-200 text-sm text-red-500"
             onClick={() => setOpen(false)}
           >

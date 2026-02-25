@@ -3,18 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
-
-// Language code → country flag code (only for exceptions where they differ)
-const LANG_TO_COUNTRY: Partial<Record<AppLanguage, string>> = {
-  en: 'us',
-  et: 'ee',
-  he: 'il',
-}
-
-const findFlagUrlByIso2Code = (lang: AppLanguage) => {
-  const country = LANG_TO_COUNTRY[lang] ?? lang
-  return `https://kapowaz.github.io/square-flags/flags/${country.toLowerCase()}.svg`
-}
+import { getLangFlagUrl as findFlagUrlByIso2Code, LANG_NAMES } from '@/types/common/I18nTypes'
 
 export default function LanguageModal() {
   const pathname = usePathname()
@@ -77,7 +66,7 @@ export default function LanguageModal() {
                 alt={lang}
                 className="w-6 h-6 rounded-full"
               />
-              <span className="text-sm font-medium text-center">{lang}</span>
+              <span className="text-sm font-medium text-center">{LANG_NAMES[lang]}</span>
             </button>
           ))}
         </div>

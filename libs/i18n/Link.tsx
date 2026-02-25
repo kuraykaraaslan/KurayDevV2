@@ -5,19 +5,19 @@ import { usePathname } from 'next/navigation'
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
 import type { ComponentProps } from 'react'
 
-type LinkProps = ComponentProps<typeof NextLink>
+type LinkProps = ComponentProps<typeof NextLink> & { ignoreLang?: boolean }
 
 /**
  * Drop-in replacement for Next.js `Link` that automatically
  * preserves the current locale prefix in all href values.
  *
+ * Pass `ignoreLang` to skip prefixing (e.g. /admin, /auth/*, /settings).
+ *
  * Usage:
- *   import Link from '@/libs/i18n/Link'
- *   <Link href="/blog">Blog</Link>        // → /tr/blog  (if current lang is tr)
- *   <Link href="/blog">Blog</Link>        // → /blog      (if current lang is en)
- *   <Link href="https://example.com">…</Link>  // external → unchanged
+ *   <Link href="/blog">Blog</Link>              // → /tr/blog  (if current lang is tr)
+ *   <Link href="/admin" ignoreLang>Admin</Link> // → /admin    (no prefix)
  */
-export function Link({ href, ...props }: LinkProps) {
+export function Link({ href, ignoreLang, ...props }: LinkProps) {
   const pathname = usePathname()
 
   const firstSegment = pathname.split('/').filter(Boolean)[0]
@@ -27,7 +27,7 @@ export function Link({ href, ...props }: LinkProps) {
       : DEFAULT_LANGUAGE
 
   const localizeHref = (href: LinkProps['href']): LinkProps['href'] => {
-    if (currentLang === DEFAULT_LANGUAGE) return href
+    if (ignoreLang || currentLang === DEFAULT_LANGUAGE) return href
 
     if (typeof href === 'string') {
       // External links — unchanged

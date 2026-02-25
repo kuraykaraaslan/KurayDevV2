@@ -23,8 +23,8 @@ export function useRouter() {
       ? (firstSegment as AppLanguage)
       : DEFAULT_LANGUAGE
 
-  const localize = (href: string, lang: AppLanguage = currentLang): string => {
-    if (lang === DEFAULT_LANGUAGE) return href
+  const localize = (href: string, lang: AppLanguage = currentLang, ignoreLang = false): string => {
+    if (ignoreLang || lang === DEFAULT_LANGUAGE) return href
     return `/${lang}${href.startsWith('/') ? href : `/${href}`}`
   }
 
@@ -32,9 +32,21 @@ export function useRouter() {
     ...router,
     currentLang,
     localize,
-    push: (href: string, lang?: AppLanguage) => router.push(localize(href, lang)),
-    replace: (href: string, lang?: AppLanguage) => router.replace(localize(href, lang)),
-    prefetch: (href: string, lang?: AppLanguage) => router.prefetch(localize(href, lang)),
+    push: (href: string, opts?: AppLanguage | { lang?: AppLanguage; ignoreLang?: boolean }) => {
+      const lang = typeof opts === 'string' ? opts : opts?.lang
+      const ignoreLang = typeof opts === 'object' ? opts.ignoreLang : false
+      return router.push(localize(href, lang, ignoreLang))
+    },
+    replace: (href: string, opts?: AppLanguage | { lang?: AppLanguage; ignoreLang?: boolean }) => {
+      const lang = typeof opts === 'string' ? opts : opts?.lang
+      const ignoreLang = typeof opts === 'object' ? opts.ignoreLang : false
+      return router.replace(localize(href, lang, ignoreLang))
+    },
+    prefetch: (href: string, opts?: AppLanguage | { lang?: AppLanguage; ignoreLang?: boolean }) => {
+      const lang = typeof opts === 'string' ? opts : opts?.lang
+      const ignoreLang = typeof opts === 'object' ? opts.ignoreLang : false
+      return router.prefetch(localize(href, lang, ignoreLang))
+    },
   }
 }
 

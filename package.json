@@ -38,6 +38,7 @@
     "bullmq": "5.66.2",
     "canvas-confetti": "^1.9.4",
     "countries-and-timezones": "^3.8.0",
+    "country-data-list": "^1.6.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "dotenv": "^17.2.3",

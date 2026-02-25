@@ -1,0 +1,460 @@
+{
+  "navigation": {
+    "home": "Головна",
+    "portfolio": "Портфоліо",
+    "experience": "Досвід",
+    "contact": "Контакти",
+    "blog": "Блог",
+    "freelance": "Фріланс",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "resume": "Резюме",
+    "backend": "Бекенд"
+  },
+  "pages": {
+    "error": {
+      "404": {
+        "title": "Щось пішло не так",
+        "description": "Вибачте, ми не можемо знайти цю сторінку. Багато цікавого ви знайдете на головній сторінці.",
+        "button": "Повернутися на головну"
+      },
+      "500": {
+        "title": "Внутрішня помилка сервера",
+        "description": "На сервері сталася помилка.",
+        "button": "Повернутися на головну"
+      }
+    },
+    "welcome": {
+      "description": "<bold>Продукт-орієнтований Full-Stack розробник</bold> із <bold>3+ роками досвіду</bold> у створенні надійних, масштабованих рішень у <bold>frontend, backend та mobile у сферах BIM та IoT.</bold> Спеціалізуюся на <bold>Java Spring Boot, React, Next.js, Node.js та PostgreSQL</bold>. Володію навичками побудови <bold>мультиорендних SaaS-платформ, систем реального часу та інтеграції платежів.</bold> Поєдную сильну інженерну базу з <bold>креативним підходом</bold> і <bold>чистим, систематичним стилем коду.</bold>",
+      "typingEffect": {
+        "prefix": "Я готовий",
+        "suffix": "",
+        "text1": "вирішувати проблеми",
+        "text2": "створювати продукти",
+        "text3": "розробляти рішення",
+        "text4": "змінювати світ",
+        "text5": "приймати виклики",
+        "text6": "працювати як фрілансер"
+      },
+      "contact_me": "Зв’язатися зі мною",
+      "resume": "Резюме"
+    },
+    "toolbox": {
+      "title": "Креативність потребує багато інструментів",
+      "description": "Маю багато інструментів у своїй скриньці та постійно вивчаю нові.",
+      "frontend": "Фронтенд",
+      "backend": "Бекенд",
+      "skills": {
+        "clean_code": "Чистий код",
+        "authentication_security": "Аутентифікація та безпека",
+        "rest_api_design": "Дизайн REST API",
+        "sql_data_modeling": "SQL та моделювання даних",
+        "multi_tenant_saas": "Multi-Tenant SaaS",
+        "caching_redis": "Кешування за допомогою Redis",
+        "payment_systems": "Системи оплати",
+        "testing_cicd": "Тестування та CI/CD",
+        "performance_optimization": "Оптимізація продуктивності",
+        "cloud_infrastructure": "Хмарна інфраструктура (AWS)",
+        "event_driven_architecture": "Архітектура, керована подіями",
+        "domain_driven_design": "Дизайн, керований доменом"
+      }
+    },
+    "timeline": {
+      "title": "Моя подорож",
+      "description": "Мій шлях від інженера-будівельника до розробника ПЗ — це історія навчання, розвитку та трансформації. Ось короткий огляд мого професійного шляху."
+    },
+    "projects": {
+      "title": "Портфоліо",
+      "description": "Мої професійні проєкти, над якими я працював."
+    },
+    "contact": {
+      "title": "Контакти",
+      "description": "Гарні речі трапляються, коли ми спілкуємося.",
+      "phone_and_mail": "Телефон та електронна пошта",
+      "social_media": "Соціальні мережі",
+      "send_a_message": "Надіслати повідомлення",
+      "reveal_mail": "Натисніть, щоб показати email",
+      "reveal_phone": "Натисніть, щоб показати телефон",
+      "can_not_verify_that_you_are_not_a_robot": "Не вдалося підтвердити, що ви не робот. Спробуйте пізніше.",
+      "form": {
+        "name": "Ім’я",
+        "enter_your_name": "Введіть ваше ім’я",
+        "email": "Email",
+        "enter_your_email": "Введіть ваш email",
+        "phone": "Телефон",
+        "enter_your_phone": "Введіть ваш телефон",
+        "message": "Повідомлення",
+        "enter_your_message": "Введіть своє повідомлення, ви можете описати свій проєкт, потреби або будь-яку іншу інформацію.",
+        "send": "Надіслати",
+        "success": "Ваше повідомлення успішно надіслано. Я зв’яжусь із вами якнайшвидше.",
+        "error": "Під час надсилання повідомлення сталася помилка. Спробуйте пізніше.",
+        "please_fill_in_all_fields": "Будь ласка, заповніть усі поля.",
+        "loading": "Надсилання повідомлення..."
+      }
+    }
+  },
+  "shared": {
+    "alert": {
+      "this_blog_is_available_in_only_english": "Цей блог доступний лише англійською мовою",
+      "error": "Сталася помилка",
+      "success": "Успішно",
+      "warning": "Попередження",
+      "info": "Інформація"
+    },
+    "footer": {
+      "all_rights_reserved": "Всі права захищено."
+    },
+    "newsletter": {
+      "title": "Розсилка",
+      "description": "Будьте в курсі! Отримуйте всі останні та найкращі публікації прямо на вашу електронну пошту",
+      "email_placeholder": "Введіть вашу електронну адресу",
+      "subscribe": "Підписатися",
+      "success_message": "Успішно підписано! Перевірте вашу електронну пошту для підтвердження.",
+      "error_message": "Під час підписки сталася помилка. Спробуйте пізніше."
+    },
+    "whatsapp": {
+      "message": "Привіт! Я Курай Карааслан, чим можу допомогти?"
+    },
+    "calendar": {
+      "title": "Календар",
+      "name_placeholder": "Введіть ваше ім’я",
+      "email_placeholder": "Введіть ваш email",
+      "phone_placeholder": "Введіть ваш телефон",
+      "note_placeholder": "Введіть вашу нотатку",
+      "booked": "Заброньовано",
+      "cancelled": "Скасовано",
+      "available": "Доступно",
+      "no_available_slots": "Немає доступних слотів",
+      "name": "Ваше ім’я",
+      "email": "Ваш email",
+      "phone": "Ваш телефон",
+      "description": "Забронюйте зустріч зі мною.",
+      "available_slots": "Доступні слоти",
+      "book_appointment": "Забронювати зустріч",
+      "select_slot": "Будь ласка, оберіть слот для запису.",
+      "past_date_warning": "Неможливо забронювати зустріч на минулу дату.",
+      "minutes": "{{count}} хвилин",
+      "close": "Закрити",
+      "appointment_title": "Зустріч",
+      "appointment_subtitle": "Оберіть зручний день і час",
+      "available_times": "Доступний час",
+      "selected_time": "Обраний час",
+      "no_slots_for_day": "Немає доступного часу для обраного дня",
+      "book_now": "Забронювати зустріч",
+      "minutes_abbr": "хв",
+      "appointment_info": "Інформація про зустріч",
+      "full_name": "Повне ім’я",
+      "email_label": "Email",
+      "phone_label": "Телефон",
+      "note_label": "Нотатка",
+      "create_appointment": "Створити зустріч",
+      "close_modal": "Закрити",
+      "select_slot_first": "Спочатку оберіть часовий слот",
+      "appointment_created": "Вашу зустріч створено",
+      "appointment_error": "Не вдалося створити зустріч",
+      "error_occurred": "Сталася помилка"
+    },
+    "geomap": {
+      "title": "Теплова карта глобальних відвідувачів",
+      "description": "Дослідіть глобальний розподіл відвідувачів мого портфоліо за допомогою цієї інтерактивної теплової карти. Кожна точка на карті представляє місцезнаходження відвідувача, надаючи уявлення про те, звідки походить моя аудиторія по всьому світу.",
+      "visitors": "{{count}} відвідувач |||| {{count}} відвідувачів"
+    },
+    "status": {
+      "title": "Стан системи",
+      "loading": "Перевірка стану системи...",
+      "response_time": "Час відповіді: {{time}}мс",
+      "uptime": "Час безвідмовної роботи: {{time}}хв",
+      "service_names": {
+        "api": "API",
+        "database": "База даних",
+        "auth": "Аутентифікація",
+        "payment": "Платіжний шлюз",
+        "frontend": "Фронтенд",
+        "redis": "Redis Cache",
+        "mail": "Поштовий сервіс",
+        "openai": "OpenAI Сервіс",
+        "aws": "AWS Сервіси",
+        "sms": "SMS Сервіс"
+      },
+      "statuses": {
+        "operational": "В роботі",
+        "degraded_performance": "Знижена продуктивність",
+        "partial_outage": "Часткове відключення",
+        "major_outage": "Суттєве відключення"
+      }
+    }
+  },
+  "admin": {
+    "stats": {
+      "title": "Статистика",
+      "users": "Користувачі",
+      "posts": "Пости",
+      "views": "Перегляди",
+      "categories": "Категорії",
+      "comments": "Коментарі",
+      "total_users": "Усього користувачів",
+      "total_posts": "Усього постів",
+      "total_views": "Усього переглядів",
+      "total_categories": "Усього категорій",
+      "total_comments": "Усього коментарів",
+      "frequency": "Частота",
+      "last_5_minutes": "Останні 5 хвилин",
+      "last_hour": "Остання година",
+      "daily": "Щодня",
+      "weekly": "Щотижня",
+      "monthly": "Щомісяця",
+      "yearly": "Щороку",
+      "all_time": "За весь час"
+    },
+    "categories": {
+      "title": "Категорії",
+      "search_placeholder": "Пошук",
+      "create_category": "Створити категорію",
+      "image": "Зображення",
+      "slug": "Slug",
+      "action": "Дія",
+      "edit": "Редагувати",
+      "view": "Переглянути",
+      "posts": "Пости",
+      "delete": "Видалити",
+      "showing": "Показано {{count}} з {{total}} категорій",
+      "previous": "Попередня",
+      "next": "Наступна",
+      "confirm_delete": "Ви впевнені, що хочете видалити цю категорію?"
+    },
+    "posts": {
+      "title": "Пости",
+      "search_placeholder": "Пошук",
+      "create_post": "Створити пост",
+      "reset_knowledge_graph": "Скинути граф знань",
+      "rebuild_triggered": "Перебудову розпочато",
+      "rebuild_triggered_message": "Перебудову графа знань уже запущено. Щоб запустити ще раз, оновіть сторінку.",
+      "rebuild_success": "Перебудову графа знань успішно запущено.",
+      "rebuild_failed": "Не вдалося запустити перебудову графа знань.",
+      "category": "Категорія",
+      "status": "Статус",
+      "action": "Дія",
+      "edit": "Редагувати",
+      "view": "Переглянути",
+      "delete": "Видалити",
+      "showing": "Показано {{count}} з {{total}} постів",
+      "previous": "Попередня",
+      "next": "Наступна",
+      "confirm_delete": "Ви впевнені, що хочете видалити цей пост?"
+    },
+    "users": {
+      "title": "Користувачі",
+      "search_placeholder": "Пошук",
+      "create_user": "Створити користувача",
+      "name": "Ім’я",
+      "email": "Email",
+      "role": "Роль",
+      "status": "Статус",
+      "action": "Дія",
+      "edit": "Редагувати",
+      "delete": "Видалити",
+      "showing": "Показано {{count}} з {{total}} користувачів",
+      "previous": "Попередня",
+      "next": "Наступна",
+      "confirm_delete": "Ви впевнені, що хочете видалити цього користувача?",
+      "delete_success": "Користувача успішно видалено.",
+      "delete_failed": "Не вдалося видалити користувача."
+    },
+    "comments": {
+      "title": "Коментарі",
+      "search_placeholder": "Пошук",
+      "post": "Пост",
+      "contact": "Контакт",
+      "content": "Вміст",
+      "action": "Дія",
+      "delete": "Видалити",
+      "approve": "Схвалити",
+      "reject": "Відхилити",
+      "showing": "Показано {{count}} з {{total}} коментарів",
+      "previous": "Попередня",
+      "next": "Наступна",
+      "confirm_delete": "Ви впевнені, що хочете видалити цей коментар?",
+      "confirm_approve": "Ви впевнені, що хочете схвалити цей коментар?",
+      "confirm_reject": "Ви впевнені, що хочете відхилити цей коментар?"
+    },
+    "projects": {
+      "title": "Проєкти",
+      "search_placeholder": "Пошук",
+      "create_project": "Створити проєкт",
+      "tech_stack": "Технологічний стек",
+      "action": "Дія",
+      "edit": "Редагувати",
+      "view": "Переглянути",
+      "delete": "Видалити",
+      "showing": "Показано {{count}} з {{total}} проєктів",
+      "previous": "Попередня",
+      "next": "Наступна",
+      "confirm_delete": "Ви впевнені, що хочете видалити цей проєкт?"
+    },
+    "project_links": {
+      "url": "URL",
+      "action": "Дія",
+      "delete": "Видалити"
+    },
+    "slots": {
+      "template_builder": "Конструктор шаблонів",
+      "create_and_manage": "Створюйте та керуйте шаблонами часових слотів для кожного дня тижня.",
+      "select_day": "Оберіть день",
+      "interval": "Інтервал (хвилин)",
+      "start_time": "Час початку",
+      "end_time": "Час завершення",
+      "generate": "Згенерувати",
+      "generated_slots": "Згенеровано {{count}} слотів",
+      "add_manual_slot": "Додати слот вручну",
+      "select_time": "Оберіть час",
+      "add": "Додати",
+      "remove_all": "Видалити всі",
+      "save_template": "Зберегти шаблон",
+      "apply_template_date": "Застосувати шаблон до дати",
+      "apply_template_week": "Застосувати шаблон до тижня",
+      "template_saved": "Шаблон успішно збережено",
+      "template_failed": "Не вдалося зберегти шаблон",
+      "no_slots": "Немає слотів для застосування",
+      "apply_confirm": "Застосувати шаблон {{day}} до {{date}}? Існуючі слоти буде перезаписано.",
+      "week_confirm": "Ця дія перезапише всі слоти протягом тижня, що починається з {{date}}. Продовжити?",
+      "apply_success": "Шаблон застосовано до {{date}}",
+      "apply_week_success": "Шаблони успішно застосовано до всього тижня",
+      "apply_failed": "Не вдалося застосувати шаблон",
+      "fetch_failed": "Не вдалося отримати слоти шаблону",
+      "loading": "Завантаження...",
+      "saving": "Збереження...",
+      "no_slots_day": "Для цього дня немає слотів",
+      "save_changes": "Зберегти зміни",
+      "slots_updated": "Слоти успішно оновлено",
+      "slots_failed": "Не вдалося оновити слоти",
+      "please_select_time": "Будь ласка, оберіть час",
+      "slot_exists": "Такий слот вже існує",
+      "capacity": "Місткість",
+      "start_earlier_error": "Час початку має бути раніше за час завершення"
+    },
+    "ai_prompt": {
+      "generate_post": "OpenAI GPT-4 - Згенерувати пост",
+      "close": "Закрити"
+    },
+    "selects": {
+      "select_user": "Оберіть користувача",
+      "select_category": "Оберіть категорію"
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "Вхід через соцмережі",
+      "no_providers": "Жодного SSO-провайдера не налаштовано.",
+      "provider_not_allowed": "Вхід через {{provider}} не дозволено.",
+      "redirect_error": "Помилка перенаправлення SSO.",
+      "button_label": "Увійти через {{provider}}",
+      "modal_button": "Увійти через соцмережі",
+      "modal_title": "Вхід через соцмережі",
+      "close": "Закрити"
+    }
+  },
+  "common": {
+    "navbar_auth": {
+      "admin_dashboard": "Адмін-панель",
+      "user_settings": "Налаштування користувача",
+      "logout": "Вийти"
+    },
+    "image_load": {
+      "success": "Зображення успішно завантажено",
+      "error": "Помилка під час завантаження зображення"
+    },
+    "loading": "Завантаження...",
+    "modal": {
+      "close_dialog": "Закрити діалог"
+    }
+  },
+  "frontend": {
+    "comments": {
+      "comments_count": "Коментарі",
+      "name_placeholder": "Ім’я",
+      "email_placeholder": "Email",
+      "comment_placeholder": "Напишіть коментар...",
+      "submit_button": "Прокоментувати",
+      "fill_all_fields": "Будь ласка, заповніть усі поля",
+      "invalid_email": "Будь ласка, введіть коректний email",
+      "name_length_error": "Ім’я має містити щонайменше 3 і не більше 50 символів",
+      "content_length_error": "Коментар має містити щонайменше 5 символів",
+      "posted_successfully": "Коментар успішно опубліковано",
+      "error": "Сталася помилка",
+      "reply": "Відповісти",
+      "delete": "Видалити",
+      "anonymous": "Анонім"
+    },
+    "other_posts": "Інші пости",
+    "related_articles": "Схожі статті",
+    "categories": "Категорії",
+    "latest_posts": "Останні пости",
+    "posts_by": "Пости від",
+    "load_more": "Завантажити більше постів",
+    "no_more_posts": "Більше постів немає",
+    "min_read": "хв читання",
+    "views": "переглядів",
+    "by": "автор",
+    "no_date": "Без дати",
+    "unknown_author": "Невідомий автор",
+    "post_header": {
+      "no_date": "Без дати",
+      "views_count": "{{count}} переглядів",
+      "read_time": "{{count}} хв читання",
+      "by": "автор",
+      "unknown_author": "Невідомий автор"
+    },
+    "days_ago": "{{count}} дн. тому",
+    "yesterday": "Вчора",
+    "hours_ago": "{{count}} год. тому",
+    "an_hour_ago": "Годину тому",
+    "minutes_ago": "{{count}} хв. тому",
+    "a_minute_ago": "Хвилину тому",
+    "just_now": "Щойно",
+    "views_count": "{{count}} переглядів",
+    "today": "Сьогодні",
+    "read_more": "Читати далі",
+    "offline": {
+      "online": "Ви знову онлайн!",
+      "offline": "Ви офлайн!"
+    },
+    "terminal_button": "Термінал",
+    "scroll_to_top": "Прокрутити вгору",
+    "scroll_to_bottom": "Прокрутити вниз",
+    "knowledge_graph": {
+      "title_2d": "2D Граф знань",
+      "title_3d": "3D Граф знань"
+    },
+    "settings": {
+      "basic": "Базові",
+      "profile": "Профіль",
+      "security": "Безпека",
+      "otp": "2FA",
+      "preferences": "Налаштування",
+      "notifications": "Сповіщення",
+      "otp_method_card": {
+        "active": "Активно",
+        "inactive": "Неактивно"
+      },
+      "otp_confirm": {
+        "title": "Підтвердження безпеки",
+        "send_code": "Надіслати код підтвердження",
+        "sending": "Надсилання коду...",
+        "code_placeholder": "123456",
+        "verify": "Підтвердити",
+        "verifying": "Підтвердження..."
+      },
+      "totp_setup": {
+        "title": "Налаштування TOTP",
+        "backup_codes_title": "Резервні коди",
+        "warning": "Збережіть резервні коди в безпечному місці. Ви зможете використати їх для доступу до облікового запису, якщо втратите доступ до застосунку-аутентифікатора.",
+        "copy_codes": "Скопіювати коди",
+        "download_codes": "Завантажити коди",
+        "i_have_saved": "Я зберіг резервні коди",
+        "start_setup": "Розпочати налаштування",
+        "enter_code": "Введіть код із вашого застосунку-аутентифікатора",
+        "confirm_setup": "Підтвердити налаштування"
+      }
+    }
+  }
+}

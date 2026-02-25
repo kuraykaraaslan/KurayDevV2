@@ -9,7 +9,7 @@ import Table, {
   ActionButton,
 } from '@/components/admin/UI/Forms/DynamicTable'
 import { CategoryWithTranslations } from '@/types/content/BlogTypes'
-import { findFlagUrlByIso2Code } from '@/helpers/Language'
+import { getLangFlagUrl as findFlagUrlByIso2Code } from '@/types/common/I18nTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 

@@ -46,6 +46,7 @@ const MenuItems = [
     hideTextOnDesktop: true,
     icon: faShield,
     textColour: 'text-primary',
+    ignoreLang: true,
   },
   {
     id: 'github',

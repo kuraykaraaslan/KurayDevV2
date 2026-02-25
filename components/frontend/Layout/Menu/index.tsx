@@ -41,7 +41,7 @@ const Menu = ({
 
     const { id, page } = item
     if (!id) {
-      router.push(page)
+      router.push(page, { ignoreLang: item.ignoreLang })
       return
     }
     const yPosition = getYpositionOfElementById(id)

@@ -10,6 +10,7 @@ const MenuItemSchema = z.object({
   textColour: z.string().optional(),
   backgroundColour: z.string().optional(),
   hideTextOnDesktop: z.boolean().default(false),
+  ignoreLang: z.boolean().default(false),
 })
 
 // =========================
