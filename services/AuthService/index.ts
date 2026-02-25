@@ -7,7 +7,7 @@ import SMSService from '../NotificationService/SMSService'
 import MailService from '../NotificationService/MailService'
 
 // Utils
-import { SafeUser, SafeUserSchema, UserPreferencesSchema } from '@/types/user/UserTypes'
+import { SafeUser, SafeUserSchema, UserPreferencesSchema, UserRoleEnum } from '@/types/user/UserTypes'
 import { UserProfileSchema } from '@/types/user/UserProfileTypes'
 import AuthMessages from '@/messages/AuthMessages'
 import {
@@ -156,10 +156,13 @@ export default class AuthService {
    * @returns Whether the user has the required role.
    */
   public static checkIfUserHasRole(user: SafeUser, requiredRole: string): boolean {
-    const roles = ['SUPER_ADMIN', 'ADMIN', 'USER', 'GUEST']
 
-    const userRoleIndex = roles.indexOf(user.userRole)
-    const requiredRoleIndex = roles.indexOf(requiredRole)
+    const userRoleIndex = Object.values(UserRoleEnum).indexOf(user.userRole)
+    const requiredRoleIndex = Object.values(UserRoleEnum).indexOf(requiredRole as any)
+
+    if (userRoleIndex === -1 || requiredRoleIndex === -1) {
+      return false
+    }
 
     return userRoleIndex <= requiredRoleIndex
   }

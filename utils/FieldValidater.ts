@@ -114,7 +114,7 @@ export default class FieldValidater {
    */
   static isRole(role: string | undefined | null): boolean {
     if (!role || typeof role !== 'string') return false
-    return ['USER', 'ADMIN', 'SUPER_ADMIN'].includes(role)
+    return ['USER', 'AUTHOR', 'ADMIN', 'SUPER_ADMIN'].includes(role)
   }
 
   /**
@@ -126,7 +126,7 @@ export default class FieldValidater {
 
   static isTenantUserRole(tenantUserRole: string | undefined | null): boolean {
     if (!tenantUserRole || typeof tenantUserRole !== 'string') return false
-    return ['USER', 'ADMIN', 'SUPER_ADMIN'].includes(tenantUserRole)
+    return ['USER', 'AUTHOR', 'ADMIN', 'SUPER_ADMIN'].includes(tenantUserRole)
   }
 
   /**

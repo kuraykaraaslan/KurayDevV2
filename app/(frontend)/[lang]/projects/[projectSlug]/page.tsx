@@ -6,11 +6,12 @@ import SingleProject from '@/components/frontend/Features/SingleProject'
 import ProjectHeader from '@/components/frontend/Features/Projects/ProjectHeader'
 import MetadataHelper from '@/helpers/MetadataHelper'
 import Breadcrumb from '@/components/common/Layout/Breadcrumb'
+import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
-  params: Promise<{ projectSlug: string }>
+  params: Promise<{ lang: string; projectSlug: string }>
 }
 
 async function getProject(projectSlug: string) {
@@ -24,41 +25,44 @@ async function getProject(projectSlug: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { projectSlug } = await params
+  const { lang, projectSlug } = await params
   const project = await getProject(projectSlug)
 
   if (!project) return {}
 
-  const url = `${NEXT_PUBLIC_APPLICATION_HOST}/projects/${project.slug}`
-  const description = project.description || project.content.substring(0, 160)
+  const translation = lang !== 'en' ? project.translations?.find((t) => t.lang === lang) : null
+  const title = translation?.title ?? project.title
+  const description = translation?.description ?? project.description ?? project.content.substring(0, 160)
   const image = project.image || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`
 
+  const path = `/projects/${projectSlug}`
+  const availableLangs = ['en', ...(project.translations?.map((t) => t.lang) ?? [])]
+  const { canonical, languages } = buildAlternates(lang, path, availableLangs)
+
   return {
-    title: `${project.title} | Kuray Karaaslan`,
+    title: `${title} | Kuray Karaaslan`,
     description,
     keywords: project.technologies,
     robots: { index: true, follow: true },
     authors: [{ name: 'Kuray Karaaslan', url: NEXT_PUBLIC_APPLICATION_HOST || 'https://kuray.dev' }],
     openGraph: {
-      title: `${project.title} | Kuray Karaaslan`,
+      title: `${title} | Kuray Karaaslan`,
       description,
       type: 'website',
-      url,
-      images: [{ url: image, width: 1200, height: 630, alt: project.title }],
-      locale: 'en_US',
+      url: canonical,
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+      locale: getOgLocale(lang),
       siteName: 'Kuray Karaaslan',
     },
     twitter: {
       card: 'summary_large_image',
       site: '@kuraykaraaslan',
       creator: '@kuraykaraaslan',
-      title: `${project.title} | Kuray Karaaslan`,
+      title: `${title} | Kuray Karaaslan`,
       description,
       images: [image],
     },
-    alternates: {
-      canonical: url,
-    },
+    alternates: { canonical, languages },
   }
 }
 

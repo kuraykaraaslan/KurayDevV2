@@ -12,6 +12,7 @@ import MetadataHelper from '@/helpers/MetadataHelper'
 import ShareButtons from '@/components/frontend/Features/Blog/ShareButtons'
 import TableOfContents from '@/components/frontend/Features/Blog/TableOfContents'
 import Breadcrumb from '@/components/common/Layout/Breadcrumb'
+import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
@@ -39,9 +40,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {}
   }
 
-  const url = `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}`
+  const path = `/blog/${categorySlug}/${postSlug}`
   const image = post.image || `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}/opengraph-image`
   const description = post.description || post.content.substring(0, 150)
+
+  const availableLangs = ['en', ...(post.translations?.map((t) => t.lang) ?? [])]
+  const { canonical, languages } = buildAlternates(lang, path, availableLangs)
 
   return {
     title: `${post.title} | Kuray Karaaslan`,
@@ -60,9 +64,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${post.title} | Kuray Karaaslan`,
       description,
       type: 'article',
-      url,
+      url: canonical,
       images: [{ url: image, width: 2400, height: 1260, alt: post.title }],
-      locale: 'en_US',
+      locale: getOgLocale(lang),
       siteName: 'Kuray Karaaslan',
       publishedTime: post.createdAt?.toISOString(),
       modifiedTime: post.updatedAt?.toISOString(),
@@ -76,9 +80,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [image],
     },
-    alternates: {
-      canonical: url,
-    },
+    alternates: { canonical, languages },
   }
 }
 

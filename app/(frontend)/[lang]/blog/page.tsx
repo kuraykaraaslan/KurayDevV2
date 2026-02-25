@@ -4,48 +4,53 @@ import CategoryBullets from '@/components/frontend/Features/CategoryBullets'
 import type { Metadata } from 'next'
 import MetadataHelper from '@/helpers/MetadataHelper'
 import PostService from '@/services/PostService'
+import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
+import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 const description =
   "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel."
 
-export const metadata: Metadata = {
-  title: 'Blog | Kuray Karaaslan',
-  description,
-  robots: { index: true, follow: true },
-  authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
-  openGraph: {
-    title: 'Blog | Kuray Karaaslan',
-    description,
-    type: 'website',
-    url: `${APPLICATION_HOST}/blog`,
-    images: [
-      {
-        url: `${APPLICATION_HOST}/assets/img/og.png`,
-        width: 1200,
-        height: 630,
-        alt: 'Kuray Karaaslan Blog',
-      },
-    ],
-    locale: 'en_US',
-    siteName: 'Kuray Karaaslan',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@kuraykaraaslan',
-    creator: '@kuraykaraaslan',
-    title: 'Blog | Kuray Karaaslan',
-    description,
-    images: [`${APPLICATION_HOST}/assets/img/og.png`],
-  },
-  alternates: {
-    canonical: `${APPLICATION_HOST}/blog`,
-  },
-}
-
 type Props = {
   params: Promise<{ lang: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang } = await params
+  const { canonical, languages } = buildAlternates(lang, '/blog', [...AVAILABLE_LANGUAGES])
+
+  return {
+    title: 'Blog | Kuray Karaaslan',
+    description,
+    robots: { index: true, follow: true },
+    authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
+    openGraph: {
+      title: 'Blog | Kuray Karaaslan',
+      description,
+      type: 'website',
+      url: canonical,
+      images: [
+        {
+          url: `${APPLICATION_HOST}/assets/img/og.png`,
+          width: 1200,
+          height: 630,
+          alt: 'Kuray Karaaslan Blog',
+        },
+      ],
+      locale: getOgLocale(lang),
+      siteName: 'Kuray Karaaslan',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@kuraykaraaslan',
+      creator: '@kuraykaraaslan',
+      title: 'Blog | Kuray Karaaslan',
+      description,
+      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+    },
+    alternates: { canonical, languages },
+  }
 }
 
 const BlogPage = async ({ params }: Props) => {

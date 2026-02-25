@@ -61,7 +61,7 @@ export const AuthResponseSchema = z.object({
     .object({
       userId: z.string(),
       email: z.string().email(),
-      userRole: z.enum(['ADMIN', 'USER']),
+      userRole: z.enum(['ADMIN', 'AUTHOR', 'USER']),
     })
     .optional(),
 })

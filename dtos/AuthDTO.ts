@@ -22,7 +22,7 @@ const LoginResponse = z.object({
     userId: z.string(),
     email: z.string(),
     name: z.string(),
-    role: z.enum(['ADMIN', 'USER', 'GUEST']),
+    role: z.enum(['ADMIN', 'AUTHOR', 'USER', 'GUEST']),
   }),
 })
 
@@ -150,7 +150,7 @@ const SessionResponse = z.object({
   userId: z.string(),
   email: z.string(),
   name: z.string(),
-  role: z.enum(['ADMIN', 'USER', 'GUEST']),
+  role: z.enum(['ADMIN', 'AUTHOR', 'USER', 'GUEST']),
   isLoggedIn: z.boolean(),
 })
 

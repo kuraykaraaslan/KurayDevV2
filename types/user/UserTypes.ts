@@ -3,8 +3,8 @@ import { UserSecuritySchema, UserSecurityDefault } from './UserSecurityTypes'
 import { UserProfileSchema, UserProfileDefault } from './UserProfileTypes'
 import { AppLanguageEnum } from '@/types/common/I18nTypes'
 
-export const UserRoleEnum = z.enum(['ADMIN', 'USER']).default('USER')
-export const UserStatusEnum = z.enum(['ACTIVE', 'INACTIVE', 'BANNED']).default('ACTIVE')
+export const UserRoleEnum = z.enum(['ADMIN', 'AUTHOR', 'USER'])
+export const UserStatusEnum = z.enum(['ACTIVE', 'INACTIVE', 'BANNED'])
 
 export const ThemeEnum = z.enum(['LIGHT', 'DARK', 'SYSTEM'])
 export const ThemeSchema = ThemeEnum.default('SYSTEM')

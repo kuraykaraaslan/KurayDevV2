@@ -17,6 +17,7 @@ enum OTPMethod {
 
 enum UserRole {
   USER
+  AUTHOR
   ADMIN
 }
 

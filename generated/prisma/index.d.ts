@@ -130,6 +130,7 @@ export type OTPMethod = (typeof OTPMethod)[keyof typeof OTPMethod]
 
 export const UserRole: {
   USER: 'USER',
+  AUTHOR: 'AUTHOR',
   ADMIN: 'ADMIN'
 };
 

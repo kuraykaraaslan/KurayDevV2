@@ -179,12 +179,14 @@ export default class CategoryService {
    * @param slug - The slug of the category
    * @returns The requested category or null if not found
    */
-  static async getCategoryBySlug(slug: string, lang?: string): Promise<Category | null> {
+  static async getCategoryBySlug(slug: string, lang?: string): Promise<CategoryWithTranslations | null> {
     const category = await prisma.category.findFirst({
       where: { slug },
       select: categoryWithTranslationsSelect,
     })
-    return category ? applyTranslation(category as CategoryWithTranslations, lang ?? 'en') : null
+    if (!category) return null
+    // applyTranslation spreads the original object, so translations[] are preserved at runtime
+    return applyTranslation(category as CategoryWithTranslations, lang ?? 'en') as CategoryWithTranslations
   }
 
   /**

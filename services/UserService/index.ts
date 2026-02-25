@@ -167,6 +167,14 @@ export default class UserService {
       throw new Error(UserMessages.USER_NOT_FOUND)
     }
 
+    // Prevent the last ADMIN from being downgraded
+    if (user.userRole === 'ADMIN' && data.userRole && data.userRole !== 'ADMIN') {
+      const adminCount = await prisma.user.count({ where: { userRole: 'ADMIN' } })
+      if (adminCount <= 1) {
+        throw new Error(UserMessages.LAST_ADMIN_CANNOT_DOWNGRADE)
+      }
+    }
+
     // Update the user in the database
     const updatedUser = await prisma.user.update({
       where: { userId: userId },
@@ -190,6 +198,14 @@ export default class UserService {
 
     if (!user) {
       throw new Error(UserMessages.USER_NOT_FOUND)
+    }
+
+    // Prevent the last ADMIN from being deleted
+    if (user.userRole === 'ADMIN') {
+      const adminCount = await prisma.user.count({ where: { userRole: 'ADMIN' } })
+      if (adminCount <= 1) {
+        throw new Error(UserMessages.LAST_ADMIN_CANNOT_DELETE)
+      }
     }
 
     // Delete the user from the database

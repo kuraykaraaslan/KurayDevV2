@@ -25,6 +25,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           // Check if user has admin role
           if (
             response.data.user.userRole !== 'ADMIN' &&
+            response.data.user.userRole !== 'AUTHOR' &&
             response.data.user.userRole !== 'SUPER_ADMIN'
           ) {
             router.push('/auth/login?error=Access denied')

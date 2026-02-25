@@ -168,6 +168,7 @@ const SingleUser = () => {
         onValueChange={(value) => setUserRole(value as UserRole)}
         options={[
           { value: 'USER', label: 'User' },
+          { value: 'AUTHOR', label: 'Author' },
           { value: 'ADMIN', label: 'Admin' },
         ]}
       />

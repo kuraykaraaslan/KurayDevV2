@@ -1,11 +1,11 @@
 import Newsletter from '@/components/frontend/Features/Newsletter'
 import Feed from '@/components/frontend/Features/Blog/Feed'
-import { Category } from '@/types/content/BlogTypes'
 import CategoryService from '@/services/CategoryService'
 import PostService from '@/services/PostService'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import MetadataHelper from '@/helpers/MetadataHelper'
+import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
@@ -14,7 +14,7 @@ type Props = {
 }
 
 async function getCategory(categorySlug: string, lang: string) {
-  return (await CategoryService.getCategoryBySlug(categorySlug, lang)) as Category | null
+  return await CategoryService.getCategoryBySlug(categorySlug, lang)
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -25,9 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {}
   }
 
-  const url = `${APPLICATION_HOST}/blog/${category.slug}`
+  const path = `/blog/${categorySlug}`
   const description = category.description || `Discover posts in the ${category.title} category.`
   const image = category.image || `${APPLICATION_HOST}/assets/img/og.png`
+
+  const availableLangs = ['en', ...(category.translations?.map((t) => t.lang) ?? [])]
+  const { canonical, languages } = buildAlternates(lang, path, availableLangs)
 
   return {
     title: `${category.title} | Kuray Karaaslan`,
@@ -38,9 +41,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${category.title} | Kuray Karaaslan`,
       description,
       type: 'website',
-      url,
+      url: canonical,
       images: [{ url: image, width: 1200, height: 630, alt: category.title }],
-      locale: 'en_US',
+      locale: getOgLocale(lang),
       siteName: 'Kuray Karaaslan',
     },
     twitter: {
@@ -51,9 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [image],
     },
-    alternates: {
-      canonical: url,
-    },
+    alternates: { canonical, languages },
   }
 }
 

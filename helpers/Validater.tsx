@@ -144,7 +144,7 @@ export default class Validator {
       throw new Error('INVALID_ROLE')
     }
 
-    const roles = ['USER', 'ADMIN']
+    const roles = ['USER', 'AUTHOR', 'ADMIN']
     if (!roles.includes(role)) {
       throw new Error('INVALID_ROLE')
     }

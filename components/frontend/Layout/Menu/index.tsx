@@ -21,7 +21,7 @@ const Menu = ({
 
   const { t } = useTranslation()
 
-  const isAdmin = user?.userRole === 'ADMIN' || user?.userRole === 'SUPER_ADMIN'
+  const isAdmin = user?.userRole === 'ADMIN' || user?.userRole === 'AUTHOR' || user?.userRole === 'SUPER_ADMIN'
 
   const getYpositionOfElementById = (id: string) => {
     const additionalOffset = 100
