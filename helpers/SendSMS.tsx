@@ -16,7 +16,7 @@ export default class SendSMS {
     // if it is other than +90, it is the country code of another country then use TWILIO
 
     if (phone.startsWith('90')) {
-      phone.replace('90', '')
+      phone = phone.replace(/^90/, '')
       await this.sendOTPbyNETGSM(phone, message)
     } else {
       await this.sendOTPbyTwillo(phone, message)

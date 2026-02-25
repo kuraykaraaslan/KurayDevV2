@@ -6,8 +6,8 @@ export type ChangeFreq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 
 export const getBaseUrl = () => {
   const raw =
     process.env.NEXT_PUBLIC_APPLICATION_HOST ??
-    process.env.NEXT_PUBLIC_APPLICATION_HOST ??
-    'https://kuraykaraaslan.com'
+    process.env.APPLICATION_HOST ??
+    'https://kuray.dev'
   return raw.replace(/\/+$/, '')
 }
 

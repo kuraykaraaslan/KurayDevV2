@@ -1,12 +1,20 @@
-//create a s3 client
 import { S3Client } from '@aws-sdk/client-s3'
 
-//create a s3 client
+const AWS_REGION = process.env.AWS_REGION
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY
+
+if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
+  console.warn(
+    '[S3] AWS credentials (AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY) are not fully set. S3 features will be unavailable.'
+  )
+}
+
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION!,
+  region: AWS_REGION || 'us-east-1',
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: AWS_SECRET_ACCESS_KEY || '',
   },
 })
 

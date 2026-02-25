@@ -32,17 +32,9 @@ const ThemeButton = () => {
   }
 
   useEffect(() => {
-    switch (theme) {
-      case 'dark':
-        document.querySelector('html')?.setAttribute('data-theme', 'dark')
-        break
-      case 'light':
-        document.querySelector('html')?.setAttribute('data-theme', 'light')
-        break
-      default:
-        //document.querySelector("html")?.setAttribute("data-theme", "dark");
-        break
-    }
+    document.querySelector('html')?.setAttribute('data-theme', theme)
+    // Persist to cookie for SSR
+    document.cookie = `theme=${theme};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`
   }, [theme])
 
   return (

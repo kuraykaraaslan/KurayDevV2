@@ -68,7 +68,7 @@ export default class Logger {
         : [
             new winston.transports.File({
               filename: 'logs/' + new Date().toISOString().split('T')[0] + '.log',
-              level: 'error',
+              level: 'warn',
             }),
           ],
   })

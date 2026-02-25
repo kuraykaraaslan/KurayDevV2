@@ -8,9 +8,25 @@ export const redisConnection = {
   host: REDIS_HOST,
   port: Number(REDIS_PORT),
   password: REDIS_PASSWORD,
-  maxRetriesPerRequest: null, // ✅ This is required by BullMQ
+  maxRetriesPerRequest: null, // Required by BullMQ
+  retryStrategy(times: number) {
+    const delay = Math.min(times * 200, 5000)
+    return delay
+  },
 }
 
 const redisInstance = new Redis(redisConnection)
+
+redisInstance.on('error', (err) => {
+  console.error(`[Redis] Connection error: ${err.message}`)
+})
+
+redisInstance.on('connect', () => {
+  console.log('[Redis] Connected successfully')
+})
+
+redisInstance.on('reconnecting', () => {
+  console.warn('[Redis] Reconnecting...')
+})
 
 export default redisInstance

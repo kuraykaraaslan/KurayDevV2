@@ -84,7 +84,7 @@ export default class Validator {
 
     const stringFieldRegex = /^[a-zA-ZçğıöşüÇĞİÖŞÜ\s]*$/
 
-    if (!stringFieldRegex.test('string')) {
+    if (!stringFieldRegex.test(field!)) {
       if (field_name) {
         throw new Error(`INVALID_${field_name.toUpperCase()}`)
       }

@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server'
 
-const CSRF_SECRET =
-  process.env.CSRF_SECRET ||
-  process.env.ACCESS_TOKEN_SECRET ||
-  'default-csrf-secret-change-in-production'
+const CSRF_SECRET = process.env.CSRF_SECRET || process.env.ACCESS_TOKEN_SECRET
+if (!CSRF_SECRET) {
+  throw new Error(
+    'CSRF_SECRET or ACCESS_TOKEN_SECRET environment variable must be set. '
+    + 'Application cannot start without a secure CSRF secret.'
+  )
+}
 const CSRF_TOKEN_EXPIRY = 60 * 60 // 1 hour (in seconds)
 const CSRF_COOKIE_NAME = 'csrf-token'
 const CSRF_HEADER_NAME = 'x-csrf-token'

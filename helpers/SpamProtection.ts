@@ -1,3 +1,5 @@
+import { NextRequest } from 'next/server'
+
 /**
  * Spam protection utilities for contact forms
  * Implements honeypot field and timing-based detection

@@ -3,7 +3,10 @@ import Script from 'next/script'
 import { ReactNode } from 'react'
 import WebVitals from '@/components/frontend/WebVitals'
 import ServiceWorkerRegistrar from '@/components/common/PWA/ServiceWorkerRegistrar'
+import ThemeSyncScript from '@/components/common/UI/ThemeSyncScript'
 import type { Metadata, Viewport } from 'next'
+import { cookies } from 'next/headers'
+import type { AppTheme } from '@/types/ui/UITypes'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'https://kuray.dev'
@@ -44,9 +47,13 @@ export const viewport: Viewport = {
   themeColor: '#1d2a35',
 }
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const cookieStore = await cookies()
+  const themeCookie = cookieStore.get('theme')?.value as AppTheme | undefined
+  const theme: AppTheme = themeCookie === 'light' ? 'light' : 'dark'
+
   return (
-    <html lang="en" data-theme="dark" className="antialiased scroll-smooth focus:scroll-auto">
+    <html lang="en" data-theme={theme} className="antialiased scroll-smooth focus:scroll-auto">
       <head>
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.webmanifest" />
@@ -60,6 +67,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
       </head>
       <body className="min-h-screen">
+        <ThemeSyncScript />
         <ServiceWorkerRegistrar />
         <WebVitals />
         {children}
