@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Giriş Yap",
+      "user_menu": "Kullanıcı menüsü",
       "admin_dashboard": "Yönetim Paneli",
       "user_settings": "Kullanıcı Ayarları",
       "logout": "Çıkış Yap"

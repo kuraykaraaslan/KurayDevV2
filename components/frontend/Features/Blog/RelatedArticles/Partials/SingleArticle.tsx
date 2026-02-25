@@ -63,7 +63,7 @@ const SingleArticle = (props: PostWithData) => {
   }, [props.image])
 
   return (
-    <div
+    <article
       className={
         'from-base-100 to-base-300 bg-gradient-to-b grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  bg-base-200 max-w-sm'
       }
@@ -77,7 +77,7 @@ const SingleArticle = (props: PostWithData) => {
             src={image}
             width={1920}
             height={1080}
-            alt="feed image"
+            alt={`Thumbnail for: ${props.title}`}
             className="w-full object-cover rounded-t-lg"
           />
         ) : (
@@ -113,7 +113,7 @@ const SingleArticle = (props: PostWithData) => {
           </Link>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 

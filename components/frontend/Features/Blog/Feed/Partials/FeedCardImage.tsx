@@ -60,7 +60,7 @@ const FeedCardImage = (props: FeedCardProps) => {
   }, [props.createdAt])
 
   return (
-    <div
+    <article
       className={
         'bg-base-100 grid grid-row-2 grid-cols-12 gap-4 shadow-md rounded-lg  from-base-100 to-base-300 bg-gradient-to-b border-t-2 border-primary border-opacity-50 drop-shadow-lg ' +
         (props.className || '')
@@ -108,7 +108,7 @@ const FeedCardImage = (props: FeedCardProps) => {
           </Link>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 

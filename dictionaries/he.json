@@ -452,6 +452,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "התחברות",
+      "user_menu": "תפריט משתמש",
       "admin_dashboard": "לוח מחוונים של מנהל",
       "user_settings": "הגדרות משתמש",
       "logout": "התנתק"

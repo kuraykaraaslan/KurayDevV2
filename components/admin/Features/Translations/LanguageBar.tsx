@@ -167,7 +167,7 @@ const LanguageBar = ({
                     placeholder="Search language..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="input input-sm w-full bg-base-200/50 border-none focus:outline-none text-sm"
+                    className="input input-sm w-full bg-base-200/50 border-none text-sm"
                   />
                 </div>
 

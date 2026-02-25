@@ -31,14 +31,15 @@ const ScrollToTop = () => {
   })
 
   return (
-    <div
+    <button
       className="fixed transition duration-1000 ease-in-out bg-accent hover:bg-base-400 cursor-pointer p-4 shadow-lg rounded-full hover:rounded-box"
       style={{ zIndex: 100, right: '-80px', bottom: '20px' }}
       id="scrollToTop"
       onClick={() => window?.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Scroll to top"
     >
-      <FontAwesomeIcon icon={faArrowUp} className="text-l text-white w-8 h-8 md:w-6 md:h-6" />
-    </div>
+      <FontAwesomeIcon icon={faArrowUp} className="text-l text-white w-8 h-8 md:w-6 md:h-6" aria-hidden="true" />
+    </button>
   )
 }
 

@@ -77,7 +77,7 @@ export default function ProfileTab() {
           <span className="text-base-content/40 select-none text-sm">@</span>
           <input
             type="text"
-            className="flex-1 bg-transparent outline-none text-sm"
+            className="flex-1 bg-transparent text-sm"
             placeholder="kullanici_adi"
             value={userProfile.username || ''}
             onChange={(e) => handleUsernameChange(e.target.value)}

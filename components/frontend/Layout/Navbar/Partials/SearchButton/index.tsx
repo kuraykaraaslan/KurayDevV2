@@ -83,8 +83,9 @@ const SearchButton = () => {
       <button
         className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
         onClick={openModal}
+        aria-label="Open search"
       >
-        <FontAwesomeIcon icon={faMagnifyingGlass} style={{ width: 24, height: 24 }} />
+        <FontAwesomeIcon icon={faMagnifyingGlass} style={{ width: 24, height: 24 }} aria-hidden="true" />
       </button>
 
       <HeadlessModal
@@ -98,7 +99,11 @@ const SearchButton = () => {
         <div className="relative w-full mb-4">
           <input
             ref={inputRef}
-            type="text"
+            id="search-input"
+            type="search"
+            aria-label="Search"
+            aria-controls="search-results"
+            aria-autocomplete="list"
             className="
               input input-bordered w-full h-12 text-base px-4 pr-10
               backdrop-blur-md
@@ -122,32 +127,41 @@ const SearchButton = () => {
                 toggleSearchType(SearchType.BLOG)
                 search(searchQuery) // Trigger search when type changes
               }}
+              aria-label={`Filter by blog ${searchTypes.includes(SearchType.BLOG) ? '(active)' : ''}`}
+              aria-pressed={searchTypes.includes(SearchType.BLOG)}
               className={`mr-2 px-2 py-1 rounded-full text-sm border ${
                 searchTypes.includes(SearchType.BLOG)
                   ? 'bg-primary text-white border-primary'
                   : 'bg-transparent text-gray-500 border-gray-300'
               }`}
             >
-              <FontAwesomeIcon icon={faB} />
+              <FontAwesomeIcon icon={faB} aria-hidden="true" />
             </button>
             <button
               onClick={() => {
                 toggleSearchType(SearchType.PROJECT)
                 search(searchQuery) // Trigger search when type changes
               }}
+              aria-label={`Filter by project ${searchTypes.includes(SearchType.PROJECT) ? '(active)' : ''}`}
+              aria-pressed={searchTypes.includes(SearchType.PROJECT)}
               className={`px-2 py-1 rounded-full text-sm border ${
                 searchTypes.includes(SearchType.PROJECT)
                   ? 'bg-primary text-white border-primary'
                   : 'bg-transparent text-gray-500 border-gray-300'
               }`}
             >
-              <FontAwesomeIcon icon={faP} />
+              <FontAwesomeIcon icon={faP} aria-hidden="true" />
             </button>
           </div>
         </div>
 
         {/* Results Area */}
         <div
+          id="search-results"
+          role="listbox"
+          aria-label="Search results"
+          aria-live="polite"
+          aria-busy={loading}
           className={`max-h-[60vh] overflow-y-auto space-y-2 transition-opacity duration-200 ${loading ? 'opacity-50' : 'opacity-100'}`}
         >
           {/* "Sonuç bulunamadı" sadece loading değilken ve query varken gösterilir */}

@@ -66,7 +66,7 @@ const HireMe = () => {
           <div className="hero-content">
             <div className="flex-1 max-w-2xl">
               <div className="max-w-lg mr-4">
-                <h1 className="text-5xl font-bold">Seamless Freelance Experience</h1>
+                <h2 className="text-5xl font-bold">Seamless Freelance Experience</h2>
                 <p className="py-6">
                   Have a project in mind? Let&apos;s work together to make it a reality.
                 </p>

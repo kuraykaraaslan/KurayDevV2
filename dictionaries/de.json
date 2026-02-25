@@ -163,6 +163,11 @@
   },
   "admin": {},
   "auth": {},
-  "common": {},
+  "common": {
+    "navbar_auth": {
+      "login": "Anmelden",
+      "user_menu": "Benutzermenü"
+    }
+  },
   "frontend": {}
 }

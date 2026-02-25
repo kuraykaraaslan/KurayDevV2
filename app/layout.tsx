@@ -67,10 +67,16 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
       </head>
       <body className="min-h-screen">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md focus:text-sm focus:font-semibold"
+        >
+          Skip to content
+        </a>
         <ThemeSyncScript />
         <ServiceWorkerRegistrar />
         <WebVitals />
-        {children}
+        <main id="main-content">{children}</main>
 
         {/* Google Analytics 4 */}
         {GA_MEASUREMENT_ID && (

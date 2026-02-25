@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Log in",
+      "user_menu": "User menu",
       "admin_dashboard": "Адмін-панель",
       "user_settings": "Налаштування користувача",
       "logout": "Вийти"

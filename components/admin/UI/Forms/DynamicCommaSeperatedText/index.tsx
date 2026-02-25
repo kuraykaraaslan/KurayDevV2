@@ -137,7 +137,7 @@ const DynamicCommaSeperatedText: React.FC<DynamicCommaSeperatedTextProps> = ({
         {!disabled && (
           <input
             type="text"
-            className="flex-1 min-w-32 bg-transparent outline-none border-none"
+            className="flex-1 min-w-32 bg-transparent border-none"
             placeholder={values.length === 0 ? placeholder : ''}
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}

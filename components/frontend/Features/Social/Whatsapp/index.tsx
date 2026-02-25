@@ -69,10 +69,14 @@ const Whatsapp = () => {
       className="fixed transition duration-1000 ease-in-out bg-[#25D366] text-white cursor-pointer shadow-lg rounded-full"
       style={{ zIndex: 103, right: '-80px', bottom: '100px' }}
       id="whatsapp"
+      role="button"
+      tabIndex={0}
+      aria-label="Chat on WhatsApp"
       onClick={() => window?.open('https://wa.me/905459223554')}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') window?.open('https://wa.me/905459223554') }}
     >
       <div className="relative transition duration-1000 ease-in-out bg-[#25D366] cursor-pointer p-4 rounded-full group">
-        <FontAwesomeIcon icon={faWhatsapp} className="text-l text-white w-8 h-8 md:w-6 md:h-6" />
+        <FontAwesomeIcon icon={faWhatsapp} className="text-l text-white w-8 h-8 md:w-6 md:h-6" aria-hidden="true" />
         {count > 0 && (
           <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-1 text-sm">
             {count}

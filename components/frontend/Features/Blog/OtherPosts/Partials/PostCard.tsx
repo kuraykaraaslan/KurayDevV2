@@ -70,7 +70,7 @@ const PostCard = ({ post }: { post: PostWithData }) => {
   }, [createdAt])
 
   return (
-    <div className={'bg-base-300 shadow-md rounded-lg min-w-[296px]'}>
+    <article className={'bg-base-300 shadow-md rounded-lg min-w-[296px]'}>
       <Link
         href={'/blog/' + category.slug + '/' + slug}
         className="block h-32 border-b-2 border-base-300 overflow-hidden rounded-t-lg relative"
@@ -94,7 +94,7 @@ const PostCard = ({ post }: { post: PostWithData }) => {
           <span className="text-primary">{t('frontend.views_count', { count: post.views })}</span>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 

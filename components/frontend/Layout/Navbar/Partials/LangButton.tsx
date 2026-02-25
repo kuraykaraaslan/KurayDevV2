@@ -42,11 +42,13 @@ export default function LanguageModal() {
       <button
         className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
         onClick={openModal}
+        aria-label={`Change language (current: ${LANG_NAMES[currentLang] || currentLang})`}
       >
         <img
           src={findFlagUrlByIso2Code(currentLang)}
-          alt={currentLang}
-          className="w-6 h-6 rounded-full"
+          alt={`${LANG_NAMES[currentLang] || currentLang} flag`}
+          className="w-6 h-6 rounded-full select-none"
+          aria-hidden="true"
           style={{ backgroundSize: 'cover' }}
         />
       </button>
@@ -60,13 +62,15 @@ export default function LanguageModal() {
                 lang === currentLang ? 'bg-base-300 border-base-300' : ''
               }`}
               onClick={() => selectLanguage(lang)}
+              aria-label={`${LANG_NAMES[lang] || lang}`}
+              aria-current={lang === currentLang ? true : undefined}
             >
               <img
                 src={findFlagUrlByIso2Code(lang)}
-                alt={lang}
-                className="w-6 h-6 rounded-full"
+                alt={`${LANG_NAMES[lang]} flag`}
+                className="w-6 h-6 rounded-full select-none"
               />
-              <span className="text-sm font-medium text-center">{LANG_NAMES[lang]}</span>
+              <span className="text-sm font-medium text-center select-none">{LANG_NAMES[lang]}</span>
             </button>
           ))}
         </div>

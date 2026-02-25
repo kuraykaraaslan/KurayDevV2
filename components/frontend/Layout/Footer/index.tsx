@@ -20,21 +20,22 @@ const Footer = () => {
           <SystemStatusButton />
         </div>
         <div className="col-span-1 flex flex-row flex-wrap justify-start"></div>
-        <div className="col-span-1 flex flex-row flex-wrap justify-end">
-          <Link href="https://twitter.com/kuraykaraaslan" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faXTwitter} style={{ width: '24px', height: '24px' }} />
+        <nav aria-label="Social links" className="col-span-1 flex flex-row flex-wrap justify-end gap-1">
+          <Link href="https://twitter.com/kuraykaraaslan" target="_blank" rel="noopener noreferrer" aria-label="Twitter profile (opens in new tab)">
+            <FontAwesomeIcon icon={faXTwitter} style={{ width: '24px', height: '24px' }} aria-hidden="true" />
           </Link>
-          <Link href="https://github.com/kuraykaraaslan" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faGithub} style={{ width: '24px', height: '24px' }} />
+          <Link href="https://github.com/kuraykaraaslan" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in new tab)">
+            <FontAwesomeIcon icon={faGithub} style={{ width: '24px', height: '24px' }} aria-hidden="true" />
           </Link>
           <Link
             href="https://www.linkedin.com/in/kuraykaraaslan/"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="LinkedIn profile (opens in new tab)"
           >
-            <FontAwesomeIcon icon={faLinkedin} style={{ width: '24px', height: '24px' }} />
+            <FontAwesomeIcon icon={faLinkedin} style={{ width: '24px', height: '24px' }} aria-hidden="true" />
           </Link>
-        </div>
+        </nav>
       </footer>
     </>
   )

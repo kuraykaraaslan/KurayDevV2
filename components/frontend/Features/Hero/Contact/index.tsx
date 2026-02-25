@@ -104,7 +104,7 @@ const Contact = (props: ContactProps) => {
           <div className="mx-4 md:mx-8 pt-2 rounded-box md:mb-4">
             <div className="grid max-w-6xl grid-cols-1 px-6 mx-auto lg:px-8 md:grid-cols-2 md:divide-x pt-12 pb-12 mb-2">
               <div className="py-6 md:py-0 md:px-6">
-                <h1 className="text-4xl font-bold">{t('pages.contact.title')}</h1>
+                <h2 className="text-4xl font-bold">{t('pages.contact.title')}</h2>
 
                 <p className="pt-2 pb-4">{t('pages.contact.description')}</p>
                 <div className="space-y-4">
@@ -255,7 +255,7 @@ const Contact = (props: ContactProps) => {
                 </div>
               </div>
               <div className="flex flex-col py-6 space-y-6 md:py-0 md:px-6">
-                <h1 className="text-4xl font-bold">{t('pages.contact.send_a_message')}</h1>
+                <h2 className="text-4xl font-bold">{t('pages.contact.send_a_message')}</h2>
                 <Form token={token} />
               </div>
             </div>

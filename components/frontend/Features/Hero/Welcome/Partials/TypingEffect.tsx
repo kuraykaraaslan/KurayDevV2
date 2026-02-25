@@ -5,6 +5,9 @@ import { useState, useEffect, useMemo } from 'react'
 const TypingEffect = () => {
   const { t } = i18n
 
+  const prefersReducedMotion =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
   const texts = useMemo(
     () => [
       t('pages.welcome.typingEffect.text1'),
@@ -24,6 +27,8 @@ const TypingEffect = () => {
   const [renderedText, setRenderedText] = useState('')
 
   useEffect(() => {
+    if (prefersReducedMotion) return // skip animation entirely
+
     const current = texts[textsIndex]
     const delay = isDeleting ? 30 : 80
     const pauseAfterFull = 1000
@@ -47,7 +52,19 @@ const TypingEffect = () => {
     const timeout = setTimeout(handleTyping, delay)
     setRenderedText(current.substring(0, letterIndex))
     return () => clearTimeout(timeout)
-  }, [letterIndex, isDeleting, pause, textsIndex, texts])
+  }, [letterIndex, isDeleting, pause, textsIndex, texts, prefersReducedMotion])
+
+  // Reduced motion: show first text statically
+  if (prefersReducedMotion) {
+    return (
+      <span className="text-3xl font-bold text-shadow-sm pb-2">
+        {t('pages.welcome.typingEffect.prefix')}&nbsp;
+        <span className="text-primary text-shadow-sm">{texts[0]}</span>
+        &nbsp;
+        {t('pages.welcome.typingEffect.suffix')}
+      </span>
+    )
+  }
 
   return (
     <span className="text-3xl font-bold text-shadow-sm pb-2">

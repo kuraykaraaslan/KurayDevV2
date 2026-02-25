@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Iniciar sesión",
+      "user_menu": "Menú de usuario",
       "admin_dashboard": "Panel de administración",
       "user_settings": "Configuración de usuario",
       "logout": "Cerrar sesión"

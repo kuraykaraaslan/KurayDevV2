@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Inloggen",
+      "user_menu": "Gebruikersmenu",
       "admin_dashboard": "Admin Dashboard",
       "user_settings": "Gebruikersinstellingen",
       "logout": "Uitloggen"

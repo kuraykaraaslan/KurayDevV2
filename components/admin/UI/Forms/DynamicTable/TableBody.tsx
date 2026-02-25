@@ -45,7 +45,7 @@ function DefaultGridItem<T>({
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt=""
+            alt={String((itemAny.title ?? itemAny.name ?? 'Item') as string) + ' preview'}
             className="w-full h-full object-cover"
             loading="lazy"
           />

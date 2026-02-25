@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { useGlobalStore } from '@/libs/zustand'
+import { AppTheme } from '@/types/ui/UITypes'
 
 const ThemeButton = () => {
   const { theme, setTheme, availableThemes } = useGlobalStore()
@@ -15,7 +16,7 @@ const ThemeButton = () => {
   const nextTheme = () => {
     const currentIndex = availableThemes.indexOf(theme)
 
-    let nextTheme: string
+    let nextTheme: AppTheme
 
     switch (currentIndex) {
       case -1:
@@ -41,6 +42,7 @@ const ThemeButton = () => {
     <button
       className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
       onClick={nextTheme}
+      aria-label={`Switch theme (current: ${theme})`}
     >
       <FontAwesomeIcon
         icon={
@@ -49,6 +51,7 @@ const ThemeButton = () => {
             : faMoon
         }
         style={{ width: '24px', height: '24px' }}
+        aria-hidden="true"
       />
     </button>
   )

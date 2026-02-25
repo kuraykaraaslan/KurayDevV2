@@ -447,7 +447,7 @@ export default function KnowledgeGraphCanvas({ categorySlug }: { categorySlug?: 
             border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
           }}
         >
-          {tooltip.image && <img src={tooltip.image} alt="" className="w-full mb-2 rounded" />}
+          {tooltip.image && <img src={tooltip.image} alt={tooltip.title || 'Knowledge graph node'} className="w-full mb-2 rounded" />}
           <div>{tooltip.title}</div>
         </div>
       )}

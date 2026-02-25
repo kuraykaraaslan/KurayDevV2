@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Idħol",
+      "user_menu": "Menu tal-utent",
       "admin_dashboard": "Dashboard tal-Amministrazzjoni",
       "user_settings": "Settings tal-Utent",
       "logout": "Oħroġ"

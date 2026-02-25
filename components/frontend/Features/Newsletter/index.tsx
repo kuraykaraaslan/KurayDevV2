@@ -15,6 +15,8 @@ const Newsletter = ({ backgroundColor }: { backgroundColor?: string }) => {
 
   const fireButtonConfetti = () => {
     if (!buttonRef.current) return
+    // Respect prefers-reduced-motion
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const rect = buttonRef.current.getBoundingClientRect()
 
@@ -57,7 +59,7 @@ const Newsletter = ({ backgroundColor }: { backgroundColor?: string }) => {
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             placeholder={t('shared.newsletter.email_placeholder')}
-            className="w-full bg-transparent py-3.5 px-4 text-base focus:outline-none bg-base-100 border border-primary rounded"
+            className="w-full bg-transparent py-3.5 px-4 text-base bg-base-100 border border-primary rounded"
           />
 
           <button

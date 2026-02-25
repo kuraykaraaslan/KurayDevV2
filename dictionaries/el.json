@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Σύνδεση",
+      "user_menu": "Μενού χρήστη",
       "admin_dashboard": "Πίνακας Διαχείρισης",
       "user_settings": "Ρυθμίσεις Χρήστη",
       "logout": "Αποσύνδεση"

@@ -452,6 +452,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Log in",
+      "user_menu": "User menu",
       "admin_dashboard": "Admin Dashboard",
       "user_settings": "User Settings",
       "logout": "Logout"

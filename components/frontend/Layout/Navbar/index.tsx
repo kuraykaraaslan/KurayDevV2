@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import Menu from '../Menu'
@@ -20,6 +20,17 @@ const ThemeButton = dynamic(() => import('./Partials/ThemeButton'), { ssr: false
 
 const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const [isTopReached, setIsTopReached] = useState(true)
+  const drawerRef = useRef<HTMLInputElement | null>(null)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
+  useEffect(() => {
+    const checkbox = document.getElementById('my-drawer') as HTMLInputElement
+    drawerRef.current = checkbox
+    if (!checkbox) return
+    const onChange = () => setDrawerOpen(checkbox.checked)
+    checkbox.addEventListener('change', onChange)
+    return () => checkbox.removeEventListener('change', onChange)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +55,8 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
   }
 
   return (
-    <div
+    <nav
+      aria-label="Main navigation"
       className={
         'fixed top-0 z-50 w-full transition-all duration-300 ease-in-out ' +
         (isTopReached ? ' pl-2  sm:px-6 lg:px-8 pt-3 pb-6' : ' px-0 pt-0 pb-6')
@@ -62,11 +74,13 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
         <div className="flex-none xl:hidden">
           <label
             htmlFor="my-drawer"
-            aria-label="open sidebar"
+            aria-label={drawerOpen ? 'Close sidebar menu' : 'Open sidebar menu'}
+            aria-expanded={drawerOpen}
+            role="button"
             className="btn btn-circle btn-ghost"
             onClick={scrollTo100IfNot}
           >
-            <FontAwesomeIcon icon={faBars} style={{ width: '24px', height: '24px' }} />
+            <FontAwesomeIcon icon={faBars} style={{ width: '24px', height: '24px' }} aria-hidden="true" />
           </label>
         </div>
         <div className="md:mx-2 flex-1 md:px-2 text-lg font-semibold">
@@ -92,7 +106,7 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
         </div>
       </div>
       <ReadingProgressBar />
-    </div>
+    </nav>
   )
 }
 

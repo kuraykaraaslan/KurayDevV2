@@ -92,6 +92,7 @@ const RegisterPage = () => {
         </div>
         <div>
           <div className="">
+            <label htmlFor="email" className="sr-only">Email address</label>
             <input
               id="email"
               name="email"
@@ -102,6 +103,7 @@ const RegisterPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               placeholder="Email address"
+              aria-required="true"
               className={
                 'block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4'
               }
@@ -128,8 +130,10 @@ const RegisterPage = () => {
               required
               value={password as string}
               onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
+              autoComplete="new-password"
               placeholder="Password"
+              aria-label="Password"
+              aria-required="true"
               className={
                 'block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4'
               }
@@ -141,14 +145,16 @@ const RegisterPage = () => {
           <div className="flex items-center justify-between"></div>
           <div className="relative">
             <input
-              id="password"
+              id="confirm-password"
               name="confirmpassword"
               type="password"
               required
               value={confirmpassword as string}
               onChange={(e) => setConfirmpassword(e.target.value)}
-              autoComplete="current-password"
+              autoComplete="new-password"
               placeholder="Confirm Password"
+              aria-label="Confirm password"
+              aria-required="true"
               className={
                 'block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4'
               }

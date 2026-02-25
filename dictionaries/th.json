@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "เข้าสู่ระบบ",
+      "user_menu": "เมนูผู้ใช้",
       "admin_dashboard": "แดชบอร์ดผู้ดูแลระบบ",
       "user_settings": "การตั้งค่าผู้ใช้",
       "logout": "ออกจากระบบ"

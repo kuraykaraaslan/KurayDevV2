@@ -222,7 +222,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
         <button
           type="submit"
           disabled
-          className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus:outline-none focus:bg-primary-600 border border-1 border-gray-500 light:placeholder-black"
+          className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus-visible:ring-2 focus-visible:ring-primary border border-1 border-gray-500 light:placeholder-black"
         >
           <FontAwesomeIcon icon={faHourglass} spin className="w-3 h-3 mr-2" />
           {t('pages.contact.form.loading')}
@@ -230,7 +230,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
       ) : (
         <button
           type="submit"
-          className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus:outline-none focus:bg-primary-600 border border-1 border-gray-500 light:placeholder-black"
+          className="mt-2 py-3 px-5 text-sm font-medium bg-base-300 rounded-lg hover:text-white focus-visible:ring-2 focus-visible:ring-primary border border-1 border-gray-500 light:placeholder-black"
           onClick={formSubmit}
         >
           <FontAwesomeIcon icon={faMessage} className="w-3 h-3 mr-2" />

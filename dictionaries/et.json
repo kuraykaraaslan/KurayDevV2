@@ -355,6 +355,8 @@
   },
   "common": {
     "navbar_auth": {
+      "login": "Logi sisse",
+      "user_menu": "Kasutaja menüü",
       "admin_dashboard": "Admin paneel",
       "user_settings": "Kasutaja seaded",
       "logout": "Logi välja"
