@@ -677,5 +677,11 @@
     "search_results": "Результати пошуку",
     "switch_theme": "Змінити тему (поточна: {{theme}})",
     "select_language": "Виберіть мову"
+  },
+  "sidebar": {
+    "close_sidebar": "Закрити панель",
+    "menu": "Меню",
+    "mobile_navigation": "Мобільна навігація",
+    "navigation_menu": "Меню навігації"
   }
 }

@@ -677,5 +677,11 @@
     "search_results": "ผลการค้นหา",
     "switch_theme": "เปลี่ยนธีม (ปัจจุบัน: {{theme}})",
     "select_language": "เลือกภาษา"
+  },
+  "sidebar": {
+    "close_sidebar": "ปิดแถบด้านข้าง",
+    "menu": "เมนู",
+    "mobile_navigation": "การนำทางมือถือ",
+    "navigation_menu": "เมนูนำทาง"
   }
 }

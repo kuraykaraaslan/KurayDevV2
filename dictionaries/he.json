@@ -677,5 +677,11 @@
     "search_results": "תוצאות חיפוש",
     "switch_theme": "החלף ערכת נושא (נוכחית: {{theme}})",
     "select_language": "בחר שפה"
+  },
+  "sidebar": {
+    "close_sidebar": "סגור את סרגל הצד",
+    "menu": "תפריט",
+    "mobile_navigation": "ניווט נייד",
+    "navigation_menu": "תפריט ניווט"
   }
 }

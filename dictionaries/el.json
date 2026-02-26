@@ -677,5 +677,11 @@
     "search_results": "Αποτελέσματα αναζήτησης",
     "switch_theme": "Αλλαγή θέματος (τρέχον: {{theme}})",
     "select_language": "Επιλέξτε γλώσσα"
+  },
+  "sidebar": {
+    "close_sidebar": "Κλείσιμο πλαϊνής γραμμής",
+    "menu": "Μενού",
+    "mobile_navigation": "Πλοήγηση για κινητά",
+    "navigation_menu": "Μενού πλοήγησης"
   }
 }

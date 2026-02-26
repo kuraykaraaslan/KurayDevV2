@@ -11,7 +11,12 @@
     "resume": "Resume",
     "backend": "Backend"
   },
-
+  "sidebar": {
+    "close_sidebar": "Close sidebar",
+    "navigation_menu": "Navigation menu",
+    "menu": "Menu",
+    "mobile_navigation": "Mobile navigation"
+  },
   "metadata": {
     "home": {
       "title": "Software Developer | Kuray Karaaslan",

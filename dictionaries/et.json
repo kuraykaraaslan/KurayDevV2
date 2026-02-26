@@ -677,5 +677,11 @@
     "search_results": "Otsingu tulemused",
     "switch_theme": "Vaheta teemat (praegune: {{theme}})",
     "select_language": "Vali keel"
+  },
+  "sidebar": {
+    "close_sidebar": "Sulge külgriba",
+    "menu": "Menüü",
+    "mobile_navigation": "Mobiilne navigeerimine",
+    "navigation_menu": "Navigeerimismenüü"
   }
 }

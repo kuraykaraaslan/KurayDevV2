@@ -677,5 +677,11 @@
     "search_results": "Riżultati tat-tfittxija",
     "switch_theme": "Ibdel it-tema (attwali: {{theme}})",
     "select_language": "Agħżel il-Lingwa"
+  },
+  "sidebar": {
+    "close_sidebar": "Agħlaq il-sidebar",
+    "menu": "Menu",
+    "mobile_navigation": "Navigazzjoni mobbli",
+    "navigation_menu": "Menu tan-navigazzjoni"
   }
 }

@@ -677,5 +677,11 @@
     "search_results": "Zoekresultaten",
     "switch_theme": "Thema wisselen (huidig: {{theme}})",
     "select_language": "Selecteer taal"
+  },
+  "sidebar": {
+    "close_sidebar": "Sluit zijbalk",
+    "menu": "Menu",
+    "mobile_navigation": "Mobiele navigatie",
+    "navigation_menu": "Navigatiemenu"
   }
 }

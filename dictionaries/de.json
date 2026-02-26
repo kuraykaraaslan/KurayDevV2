@@ -677,5 +677,11 @@
     "search_results": "Suchergebnisse",
     "switch_theme": "Thema wechseln (aktuell: {{theme}})",
     "select_language": "Sprache auswählen"
+  },
+  "sidebar": {
+    "close_sidebar": "Seitenleiste schließen",
+    "menu": "Menü",
+    "mobile_navigation": "Mobile Navigation",
+    "navigation_menu": "Navigationsmenü"
   }
 }

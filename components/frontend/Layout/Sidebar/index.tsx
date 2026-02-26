@@ -1,4 +1,5 @@
 'use client'
+import { useTranslation } from 'react-i18next'
 import { useEffect, useRef, useState } from 'react'
 import Menu from '../Menu'
 import { MenuItem } from '@/types/ui/UITypes'
@@ -12,6 +13,7 @@ const closeSidebar = () => {
 }
 
 const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
+  const { t } = useTranslation()
   const menuRef = useRef<HTMLUListElement>(null)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -89,24 +91,24 @@ const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
       style={{ zIndex: 70 }}
       aria-hidden={!isOpen}
     >
-      <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay backdrop-blur-sm" />
+      <label htmlFor="my-drawer" aria-label={t('sidebar.close_sidebar')} className="drawer-overlay backdrop-blur-sm" />
 
       <aside
         role="dialog"
         aria-modal={isOpen}
-        aria-label="Navigation menu"
+        aria-label={t('sidebar.navigation_menu')}
         onKeyDown={handleSidebarKeyDown}
         className="flex flex-col w-72 h-full bg-base-100 border-r border-base-200 shadow-2xl"
       >
         {/* Close button */}
         <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-base-200">
           <span className="text-base font-semibold text-base-content opacity-70 tracking-wide uppercase text-xs select-none">
-            Menu
+            {t('sidebar.menu')}
           </span>
           <button
             onClick={closeSidebar}
             className="btn btn-ghost btn-sm btn-circle text-base-content/60 hover:text-base-content hover:bg-base-200"
-            aria-label="Close sidebar"
+            aria-label={t('sidebar.close_sidebar')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -115,7 +117,7 @@ const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
         </div>
 
         {/* Menu items */}
-        <nav aria-label="Mobile navigation" className="flex-1 overflow-y-auto py-4 px-3">
+        <nav aria-label={t('sidebar.mobile_navigation')} className="flex-1 overflow-y-auto py-4 px-3">
           <ul ref={menuRef} className="menu menu-md gap-1 w-full p-0">
             <Menu isSidebar={true} menuItems={menuItems} onItemClick={closeSidebar} />
           </ul>

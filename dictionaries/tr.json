@@ -677,5 +677,11 @@
     "search_results": "Arama sonuçları",
     "switch_theme": "Temayı değiştir (mevcut: {{theme}})",
     "select_language": "Dil Seç"
+  },
+  "sidebar": {
+    "close_sidebar": "Kenar çubuğunu kapat",
+    "menu": "Menü",
+    "mobile_navigation": "Mobil gezinme",
+    "navigation_menu": "Gezinme menüsü"
   }
 }
