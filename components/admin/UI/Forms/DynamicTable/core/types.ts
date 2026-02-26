@@ -25,6 +25,12 @@ export type ConfirmOptions = {
   confirmButtonClassName?: string
 }
 
+export interface BulkAction<T> {
+  label: string | ReactNode
+  onClick: (items: T[]) => void | Promise<void>
+  className?: string
+}
+
 export interface ActionButton<T> {
   label: string | ReactNode
   href?: (item: T) => string
@@ -75,6 +81,19 @@ export interface TableContextValue<T> {
   gridItemRenderer?: (props: GridItemRenderProps<T>) => ReactNode
   gridClassName?: string
 
+  // Selection
+  selectedIds: Set<unknown>
+  toggleSelect: (id: unknown, index?: number, shiftKey?: boolean) => void
+  toggleSelectAll: () => void
+  clearSelection: () => void
+  isAllSelected: boolean
+  bulkActions?: BulkAction<T>[]
+
+  // Column visibility
+  hiddenColumns: Set<string>
+  toggleColumnVisibility: (key: string) => void
+  visibleColumns: ColumnDef<T>[]
+
   // Sort
   sort: SortState
   setSort: (sort: SortState) => void
@@ -91,6 +110,7 @@ export interface TableProviderBaseProps<T> {
   actions?: ActionButton<T>[]
   pageSize?: number
   pageSizeOptions?: number[]
+  bulkActions?: BulkAction<T>[]
   onDataChange?: (data: T[]) => void
   defaultViewMode?: ViewMode
   gridItemRenderer?: (props: GridItemRenderProps<T>) => ReactNode

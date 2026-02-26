@@ -1,12 +1,15 @@
 'use client'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTableContext } from './TableContext'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTableCells, faGrip, faRefresh } from '@fortawesome/free-solid-svg-icons'
+import { faRefresh } from '@fortawesome/free-solid-svg-icons'
+import { useTableContext } from '../core/TableContext'
+import SearchInput from './SearchInput'
+import ViewToggle from './ViewToggle'
+import ColumnToggle from './ColumnToggle'
 
-interface TableHeaderProps {
+interface TableToolbarProps {
   title: string
   searchPlaceholder?: string
   buttonText?: string
@@ -18,11 +21,12 @@ interface TableHeaderProps {
   searchClassName?: string
   showViewToggle?: boolean
   showRefresh?: boolean
+  showColumnToggle?: boolean
   toolbarContent?: ReactNode
   toolbarPosition?: 'before-search' | 'after-search' | 'below'
 }
 
-const TableHeader = ({
+function TableToolbar({
   title,
   searchPlaceholder = 'common.search',
   buttonText,
@@ -34,28 +38,21 @@ const TableHeader = ({
   searchClassName = '',
   showViewToggle = false,
   showRefresh = false,
+  showColumnToggle = false,
   toolbarContent,
   toolbarPosition = 'after-search',
-}: TableHeaderProps) => {
+}: TableToolbarProps) {
   const { t } = useTranslation()
-  const { search, setSearch, viewMode, setViewMode, refetch, loading } = useTableContext()
-
-  const renderToolbarContent = () => toolbarContent
+  const { refetch, loading } = useTableContext()
 
   return (
     <div className={`${className}`}>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h1 className={`text-2xl font-bold ${titleTextClassName}`}>{t(title)}</h1>
         <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
-          {toolbarPosition === 'before-search' && renderToolbarContent()}
-          <input
-            type="text"
-            placeholder={t(searchPlaceholder)}
-            className={`input input-bordered w-full md:w-64 max-w-xs ${searchClassName}`}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {toolbarPosition === 'after-search' && renderToolbarContent()}
+          {toolbarPosition === 'before-search' && toolbarContent}
+          <SearchInput placeholder={searchPlaceholder} className={searchClassName} />
+          {toolbarPosition === 'after-search' && toolbarContent}
           {showRefresh && (
             <button
               className="btn btn-ghost btn-sm"
@@ -66,24 +63,8 @@ const TableHeader = ({
               <FontAwesomeIcon icon={faRefresh} spin={loading} />
             </button>
           )}
-          {showViewToggle && (
-            <div className="join">
-              <button
-                className={`join-item btn btn-sm ${viewMode === 'table' ? 'btn-active' : ''}`}
-                onClick={() => setViewMode('table')}
-                title={t('common.table_view')}
-              >
-                <FontAwesomeIcon icon={faTableCells} />
-              </button>
-              <button
-                className={`join-item btn btn-sm ${viewMode === 'grid' ? 'btn-active' : ''}`}
-                onClick={() => setViewMode('grid')}
-                title={t('common.grid_view')}
-              >
-                <FontAwesomeIcon icon={faGrip} />
-              </button>
-            </div>
-          )}
+          {showColumnToggle && <ColumnToggle />}
+          {showViewToggle && <ViewToggle />}
           {actionButtonText && actionButtonEvent && (
             <button onClick={actionButtonEvent} className="btn btn-secondary">
               {t(actionButtonText)}
@@ -97,10 +78,10 @@ const TableHeader = ({
         </div>
       </div>
       {toolbarPosition === 'below' && toolbarContent && (
-        <div className="mt-4 flex flex-wrap gap-2 items-center">{renderToolbarContent()}</div>
+        <div className="mt-4 flex flex-wrap gap-2 items-center">{toolbarContent}</div>
       )}
     </div>
   )
 }
 
-export default TableHeader
+export default TableToolbar

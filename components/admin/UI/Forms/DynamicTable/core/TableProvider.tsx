@@ -1,11 +1,12 @@
 'use client'
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import axiosInstance from '@/libs/axios'
 import { HeadlessModal } from '@/components/admin/UI/Modal'
 import { TableContext } from './TableContext'
 import type {
   ActionButton,
+  BulkAction,
   ConfirmOptions,
   SortState,
   TableProviderProps,
@@ -21,6 +22,7 @@ export function TableProvider<T extends Record<string, unknown>>({
   idKey,
   columns,
   actions,
+  bulkActions,
   pageSize: initialPageSize = 10,
   pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
   onDataChange,
@@ -33,6 +35,7 @@ export function TableProvider<T extends Record<string, unknown>>({
   const isLocalMode = 'localData' in rest && rest.localData !== undefined
 
   const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [viewMode, setViewMode] = useState(defaultViewMode)
   const [data, setData] = useState<T[]>(
     isLocalMode ? (rest as TableProviderLocalProps<T>).localData : []
@@ -49,11 +52,23 @@ export function TableProvider<T extends Record<string, unknown>>({
   )
   const [loading, setLoading] = useState(false)
   const [sort, setSort] = useState<SortState>(null)
+  const [selectedIds, setSelectedIds] = useState<Set<unknown>>(new Set())
+  const lastSelectedIndexRef = useRef<number | null>(null)
+  const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set())
   const [confirmPending, setConfirmPending] = useState<{
     action: ActionButton<T>
     item: T
     index?: number
   } | null>(null)
+
+  // Debounce search — reset page on change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search)
+      setPage(0)
+    }, 400)
+    return () => clearTimeout(timer)
+  }, [search])
 
   // Sync local data when it changes
   useEffect(() => {
@@ -73,7 +88,7 @@ export function TableProvider<T extends Record<string, unknown>>({
     const params = new URLSearchParams({
       page: String(page),
       pageSize: String(pageSize),
-      search,
+      search: debouncedSearch,
       ...additionalParams,
       ...(sort ? { sortKey: sort.key, sortDir: sort.dir } : {}),
     })
@@ -89,7 +104,7 @@ export function TableProvider<T extends Record<string, unknown>>({
     } finally {
       setLoading(false)
     }
-  }, [page, pageSize, search, sort, isLocalMode ? null : JSON.stringify(rest)])
+  }, [page, pageSize, debouncedSearch, sort, isLocalMode ? null : JSON.stringify(rest)])
 
   useEffect(() => {
     if (!isLocalMode) {
@@ -125,6 +140,65 @@ export function TableProvider<T extends Record<string, unknown>>({
     setConfirmPending(null)
     await executeAction(action, item, index)
   }, [confirmPending, executeAction])
+
+  // Clear selection and last index when page data changes
+  useEffect(() => {
+    setSelectedIds(new Set())
+    lastSelectedIndexRef.current = null
+  }, [data])
+
+  const toggleSelect = useCallback(
+    (id: unknown, index?: number, shiftKey = false) => {
+      if (shiftKey && index !== undefined && lastSelectedIndexRef.current !== null) {
+        const start = Math.min(lastSelectedIndexRef.current, index)
+        const end = Math.max(lastSelectedIndexRef.current, index)
+        const rangeIds = data.slice(start, end + 1).map((item) => item[idKey])
+        setSelectedIds((prev) => {
+          const next = new Set(prev)
+          rangeIds.forEach((rid) => next.add(rid))
+          return next
+        })
+      } else {
+        setSelectedIds((prev) => {
+          const next = new Set(prev)
+          if (next.has(id)) next.delete(id)
+          else next.add(id)
+          return next
+        })
+        if (index !== undefined) lastSelectedIndexRef.current = index
+      }
+    },
+    [data, idKey]
+  )
+
+  const toggleSelectAll = useCallback(() => {
+    setSelectedIds((prev) => {
+      const allIds = data.map((item) => item[idKey])
+      const allSelected = allIds.every((id) => prev.has(id))
+      return allSelected ? new Set() : new Set(allIds)
+    })
+  }, [data, idKey])
+
+  const clearSelection = useCallback(() => setSelectedIds(new Set()), [])
+
+  const toggleColumnVisibility = useCallback((key: string) => {
+    setHiddenColumns((prev) => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }, [])
+
+  const visibleColumns = useMemo(
+    () => columns.filter((col) => !hiddenColumns.has(col.key)),
+    [columns, hiddenColumns]
+  )
+
+  const isAllSelected = useMemo(
+    () => data.length > 0 && data.every((item) => selectedIds.has(item[idKey])),
+    [data, selectedIds, idKey]
+  )
 
   const sortedData = useMemo(() => {
     if (!isLocalMode || !sort) return data
@@ -164,6 +238,15 @@ export function TableProvider<T extends Record<string, unknown>>({
     setViewMode,
     gridItemRenderer,
     gridClassName,
+    selectedIds,
+    toggleSelect,
+    toggleSelectAll,
+    clearSelection,
+    isAllSelected,
+    bulkActions,
+    hiddenColumns,
+    toggleColumnVisibility,
+    visibleColumns,
     sort,
     setSort,
     handleActionClick,

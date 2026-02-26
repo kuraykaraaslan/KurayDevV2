@@ -1,4 +1,4 @@
-import { useTableContext } from './TableContext'
+import { useTableContext } from '../core/TableContext'
 import DefaultGridItem from './DefaultGridItem'
 
 interface TableGridProps {

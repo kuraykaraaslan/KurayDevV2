@@ -156,6 +156,7 @@
     },
     "refresh": "Refresh",
     "per_page": "Per page",
+    "selected": "{{count}} selected",
     "table_view": "Table View",
     "grid_view": "Grid View",
     "modal": {

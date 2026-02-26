@@ -1,6 +1,6 @@
 'use client'
 import { useTranslation } from 'react-i18next'
-import { useTableContext } from './TableContext'
+import { useTableContext } from '../core/TableContext'
 
 interface TableFooterProps {
   showingText?: string

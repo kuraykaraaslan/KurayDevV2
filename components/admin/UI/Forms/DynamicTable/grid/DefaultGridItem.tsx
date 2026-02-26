@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
-import type { ActionButton, ColumnDef, GridItemRenderProps } from './types'
+import type { ActionButton, ColumnDef, GridItemRenderProps } from '../core/types'
 
 const IMAGE_KEYS = ['image', 'preview', 'avatar', 'thumbnail', 'cover', 'photo']
 

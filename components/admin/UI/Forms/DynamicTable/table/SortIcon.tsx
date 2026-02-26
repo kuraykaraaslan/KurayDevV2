@@ -1,4 +1,4 @@
-import type { SortState } from './types'
+import type { SortState } from '../core/types'
 
 interface SortIconProps {
   colKey: string
