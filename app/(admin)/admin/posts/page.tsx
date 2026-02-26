@@ -28,7 +28,7 @@ const PostPage = () => {
       className: 'w-16',
       accessor: (p) => <ImageCell src={p.image} alt={p.title} />,
     },
-    { key: 'title', header: 'Title', accessor: (p) => p.title },
+    { key: 'title', header: 'Title', accessor: (p) => p.title, sortable: true },
     { key: 'slug', header: 'admin.posts.slug', accessor: (p) => p.slug },
     { key: 'status', header: 'admin.posts.status', accessor: (p) => p.status },
     {
@@ -81,6 +81,7 @@ const PostPage = () => {
         columns={columns}
         actions={actions}
         additionalParams={{ sort: 'desc', status: 'ALL' }}
+
       >
         <Table>
           <TableHeader
@@ -89,6 +90,8 @@ const PostPage = () => {
             buttonText="admin.posts.create_post"
             buttonLink="/admin/posts/create"
             showViewToggle
+            showColumnToggle
+            showRefresh
           />
           <TableBody />
           <TableFooter
