@@ -14,6 +14,8 @@ import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { getLangFlagUrl as findFlagUrlByIso2Code } from '@/types/common/I18nTypes'
 import PostShareModal from '@/components/admin/Features/Share/PostShareModal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
 
 const PostPage = () => {
   const { t } = useTranslation()
@@ -54,9 +56,9 @@ const PostPage = () => {
     },
     { label: 'admin.posts.view', href: (p) => `/blog/${p.slug}`, className: 'btn-secondary' },
     {
-      label: 'Share',
+      label: <FontAwesomeIcon icon={faShareAlt} size="sm" />,
       onClick: (p) => setSharePost(p),
-      className: 'btn-ghost btn-sm',
+      className: 'btn-ghost btn-sm bg-green-500/10 text-green-500 hover:bg-green-500/20',
       hidden: (p) => p.status !== 'PUBLISHED',
     },
     {
@@ -65,7 +67,7 @@ const PostPage = () => {
         if (!confirm(t('admin.posts.confirm_delete'))) return
         await axiosInstance.delete(`/api/posts/${p.postId}`)
       },
-      className: 'text-danger',
+      className: 'btn-error',
       hideOnMobile: true,
     },
   ]

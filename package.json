@@ -14,7 +14,8 @@
     "generate": "npx prisma generate",
     "postinstall": "npx prisma generate",
     "vercel-build": "npx prisma generate && npx prisma migrate deploy && npm run build",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "translate": "npx tsx scripts/translate-and-add-missing-keys.ts all"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.980.0",

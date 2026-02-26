@@ -1,8 +1,13 @@
 'use client'
 
-// Context & Provider
-export { TableProvider, useTableContext } from './TableContext'
-export type { ColumnDef, ActionButton, ViewMode, GridItemRenderProps } from './TableContext'
+// Types
+export type { ColumnDef, ActionButton, ConfirmOptions, ViewMode, GridItemRenderProps } from './types'
+
+// Context & hook
+export { useTableContext } from './TableContext'
+
+// Provider
+export { TableProvider } from './TableProvider'
 
 // Components
 export { default as Table } from './Table'
@@ -13,7 +18,7 @@ export { default as ImageCell } from './ImageCell'
 
 // Re-export for convenience
 import Table from './Table'
-import { TableProvider } from './TableContext'
+import { TableProvider } from './TableProvider'
 import TableHeader from './TableHead'
 import TableBody from './TableBody'
 import TableFooter from './TableFooter'

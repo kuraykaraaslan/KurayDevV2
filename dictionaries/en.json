@@ -149,7 +149,13 @@
     "loading": "Loading...",
     "save": "Save",
     "cancel": "Cancel",
+    "confirm": "Confirm",
+    "confirm_dialog": {
+      "title": "Are you sure?",
+      "description": "This action cannot be undone."
+    },
     "refresh": "Refresh",
+    "per_page": "Per page",
     "table_view": "Table View",
     "grid_view": "Grid View",
     "modal": {
