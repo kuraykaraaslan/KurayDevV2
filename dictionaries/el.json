@@ -661,5 +661,21 @@
       "modal_title": "Σύνδεση με Κοινωνικά Δίκτυα",
       "close": "Κλείσιμο"
     }
+  },
+  "navbar": {
+    "change_language": "Αλλαγή γλώσσας (τρέχουσα: {{lang}})",
+    "close_sidebar_menu": "Κλείσιμο μενού πλαϊνής μπάρας",
+    "filter_by_blog": "Φιλτράρισμα ανά ιστολόγιο {{active}}",
+    "filter_by_project": "Φιλτράρισμα ανά έργο {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Κύρια πλοήγηση",
+    "no_results_found": "Δεν βρέθηκαν αποτελέσματα",
+    "open_search": "Άνοιγμα αναζήτησης",
+    "open_sidebar_menu": "Άνοιγμα μενού πλαϊνής μπάρας",
+    "search": "Αναζήτηση",
+    "search_placeholder": "Πληκτρολογήστε για αναζήτηση...",
+    "search_results": "Αποτελέσματα αναζήτησης",
+    "switch_theme": "Αλλαγή θέματος (τρέχον: {{theme}})",
+    "select_language": "Επιλέξτε γλώσσα"
   }
 }

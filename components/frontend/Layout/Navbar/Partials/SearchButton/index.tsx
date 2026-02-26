@@ -7,8 +7,11 @@ import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { ResultElement } from './partials/ResultElement'
 import { SearchResultItemType, SearchType } from '@/types/content/SearchTypes'
 import axiosInstance from '@/libs/axios'
+import { useTranslation } from 'react-i18next'
 
 const SearchButton = () => {
+  const { t } = useTranslation()
+
   const { open, openModal, closeModal } = useModal(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [results, setResults] = useState<SearchResultItemType[]>([])
@@ -83,7 +86,7 @@ const SearchButton = () => {
       <button
         className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
         onClick={openModal}
-        aria-label="Open search"
+        aria-label={t('navbar.open_search')}
       >
         <FontAwesomeIcon icon={faMagnifyingGlass} style={{ width: 24, height: 24 }} aria-hidden="true" />
       </button>
@@ -92,7 +95,7 @@ const SearchButton = () => {
         open={open}
         onClose={closeModal}
         showClose={true}
-        title="Search"
+        title={t('navbar.search')}
         className="backdrop-blur-xl border border-base-200"
       >
         {/* Input Wrapper - Loading ikonunu buraya koyuyoruz */}
@@ -101,7 +104,7 @@ const SearchButton = () => {
             ref={inputRef}
             id="search-input"
             type="search"
-            aria-label="Search"
+            aria-label={t('navbar.search')}
             aria-controls="search-results"
             aria-autocomplete="list"
             className="
@@ -109,7 +112,7 @@ const SearchButton = () => {
               backdrop-blur-md
               border rounded-xl
             "
-            placeholder="Type to search..."
+            placeholder={t('navbar.search_placeholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -127,7 +130,7 @@ const SearchButton = () => {
                 toggleSearchType(SearchType.BLOG)
                 search(searchQuery) // Trigger search when type changes
               }}
-              aria-label={`Filter by blog ${searchTypes.includes(SearchType.BLOG) ? '(active)' : ''}`}
+              aria-label={t('navbar.filter_by_blog', { active: searchTypes.includes(SearchType.BLOG) ? '(active)' : '' })}
               aria-pressed={searchTypes.includes(SearchType.BLOG)}
               className={`mr-2 px-2 py-1 rounded-full text-sm border ${
                 searchTypes.includes(SearchType.BLOG)
@@ -142,7 +145,7 @@ const SearchButton = () => {
                 toggleSearchType(SearchType.PROJECT)
                 search(searchQuery) // Trigger search when type changes
               }}
-              aria-label={`Filter by project ${searchTypes.includes(SearchType.PROJECT) ? '(active)' : ''}`}
+              aria-label={t('navbar.filter_by_project', { active: searchTypes.includes(SearchType.PROJECT) ? '(active)' : '' })}
               aria-pressed={searchTypes.includes(SearchType.PROJECT)}
               className={`px-2 py-1 rounded-full text-sm border ${
                 searchTypes.includes(SearchType.PROJECT)
@@ -159,14 +162,14 @@ const SearchButton = () => {
         <div
           id="search-results"
           role="listbox"
-          aria-label="Search results"
+          aria-label={t('navbar.search_results')}
           aria-live="polite"
           aria-busy={loading}
           className={`max-h-[60vh] overflow-y-auto space-y-2 transition-opacity duration-200 ${loading ? 'opacity-50' : 'opacity-100'}`}
         >
           {/* "Sonuç bulunamadı" sadece loading değilken ve query varken gösterilir */}
           {!loading && results.length === 0 && searchQuery.length > 0 && (
-            <div className="text-gray-500 px-1 text-sm italic">No results found.</div>
+            <div className="text-gray-500 px-1 text-sm italic">{t('navbar.no_results_found')}</div>
           )}
 
           {results.map((item, i) => (

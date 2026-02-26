@@ -661,5 +661,21 @@
       "unsubscribe": "Abonelikten Çık",
       "unsubscribed": "Abonelikten Çıkıldı"
     }
+  },
+  "navbar": {
+    "change_language": "Dili değiştir (mevcut: {{lang}})",
+    "close_sidebar_menu": "Kenar çubuğu menüsünü kapat",
+    "filter_by_blog": "Bloga göre filtrele {{active}}",
+    "filter_by_project": "Projeye göre filtrele {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Ana gezinme",
+    "no_results_found": "Sonuç bulunamadı",
+    "open_search": "Aramayı aç",
+    "open_sidebar_menu": "Kenar çubuğu menüsünü aç",
+    "search": "Ara",
+    "search_placeholder": "Aramak için yazın...",
+    "search_results": "Arama sonuçları",
+    "switch_theme": "Temayı değiştir (mevcut: {{theme}})",
+    "select_language": "Dil Seç"
   }
 }

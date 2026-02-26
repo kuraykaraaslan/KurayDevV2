@@ -661,5 +661,21 @@
       "select_user": "בחר משתמש",
       "select_category": "בחר קטגוריה"
     }
+  },
+  "navbar": {
+    "change_language": "שנה שפה (נוכחית: {{lang}})",
+    "close_sidebar_menu": "סגור תפריט צדדי",
+    "filter_by_blog": "סנן לפי בלוג {{active}}",
+    "filter_by_project": "סנן לפי פרויקט {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "ניווט ראשי",
+    "no_results_found": "לא נמצאו תוצאות",
+    "open_search": "פתח חיפוש",
+    "open_sidebar_menu": "פתח תפריט צדדי",
+    "search": "חיפוש",
+    "search_placeholder": "הקלד לחיפוש...",
+    "search_results": "תוצאות חיפוש",
+    "switch_theme": "החלף ערכת נושא (נוכחית: {{theme}})",
+    "select_language": "בחר שפה"
   }
 }

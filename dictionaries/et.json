@@ -661,5 +661,21 @@
       "unsubscribe": "Tühista tellimus",
       "unsubscribed": "Tellimus tühistatud"
     }
+  },
+  "navbar": {
+    "change_language": "Muuda keelt (praegune: {{lang}})",
+    "close_sidebar_menu": "Sulge külgmenüü",
+    "filter_by_blog": "Filtreeri blogi järgi {{active}}",
+    "filter_by_project": "Filtreeri projekti järgi {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Peamine navigeerimine",
+    "no_results_found": "Tulemusi ei leitud",
+    "open_search": "Ava otsing",
+    "open_sidebar_menu": "Ava külgmenüü",
+    "search": "Otsi",
+    "search_placeholder": "Otsimiseks kirjuta...",
+    "search_results": "Otsingu tulemused",
+    "switch_theme": "Vaheta teemat (praegune: {{theme}})",
+    "select_language": "Vali keel"
   }
 }

@@ -661,5 +661,21 @@
       "modal_title": "เข้าสู่ระบบด้วยโซเชียลมีเดีย",
       "close": "ปิด"
     }
+  },
+  "navbar": {
+    "change_language": "เปลี่ยนภาษา (ปัจจุบัน: {{lang}})",
+    "close_sidebar_menu": "ปิดเมนูด้านข้าง",
+    "filter_by_blog": "กรองตามบล็อก {{active}}",
+    "filter_by_project": "กรองตามโปรเจกต์ {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "การนำทางหลัก",
+    "no_results_found": "ไม่พบผลลัพธ์",
+    "open_search": "เปิดการค้นหา",
+    "open_sidebar_menu": "เปิดเมนูด้านข้าง",
+    "search": "ค้นหา",
+    "search_placeholder": "พิมพ์เพื่อค้นหา...",
+    "search_results": "ผลการค้นหา",
+    "switch_theme": "เปลี่ยนธีม (ปัจจุบัน: {{theme}})",
+    "select_language": "เลือกภาษา"
   }
 }

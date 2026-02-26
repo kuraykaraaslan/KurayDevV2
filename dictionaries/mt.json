@@ -661,5 +661,21 @@
       "modal_title": "Idħol bil-Midja Soċjali",
       "close": "Agħlaq"
     }
+  },
+  "navbar": {
+    "change_language": "Ibdel il-lingwa (attwali: {{lang}})",
+    "close_sidebar_menu": "Agħlaq il-menu tal-ġenb",
+    "filter_by_blog": "Iffiltra bil-blogg {{active}}",
+    "filter_by_project": "Iffiltra bil-proġett {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Navigazzjoni prinċipali",
+    "no_results_found": "Ebda riżultat misjub",
+    "open_search": "Iftaħ it-tfittxija",
+    "open_sidebar_menu": "Iftaħ il-menu tal-ġenb",
+    "search": "Fittex",
+    "search_placeholder": "Ittajpja biex tfittex...",
+    "search_results": "Riżultati tat-tfittxija",
+    "switch_theme": "Ibdel it-tema (attwali: {{theme}})",
+    "select_language": "Agħżel il-Lingwa"
   }
 }

@@ -1,4 +1,6 @@
+
 'use client'
+import { useTranslation } from 'react-i18next'
 import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -16,9 +18,11 @@ const NavbarAuthButton = dynamic(
 
 const LangButton = dynamic(() => import('./Partials/LangButton'), { ssr: false })
 
+
 const ThemeButton = dynamic(() => import('./Partials/ThemeButton'), { ssr: false })
 
 const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
+  const { t } = useTranslation()
   const [isTopReached, setIsTopReached] = useState(true)
   const drawerRef = useRef<HTMLInputElement | null>(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -56,7 +60,7 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
 
   return (
     <nav
-      aria-label="Main navigation"
+      aria-label={t('navbar.main_navigation')}
       className={
         'fixed top-0 z-50 w-full transition-all duration-300 ease-in-out ' +
         (isTopReached ? ' pl-2  sm:px-6 lg:px-8 pt-3 pb-6' : ' px-0 pt-0 pb-6')
@@ -74,7 +78,7 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
         <div className="flex-none xl:hidden">
           <label
             htmlFor="my-drawer"
-            aria-label={drawerOpen ? 'Close sidebar menu' : 'Open sidebar menu'}
+            aria-label={drawerOpen ? t('navbar.close_sidebar_menu') : t('navbar.open_sidebar_menu')}
             aria-expanded={drawerOpen}
             role="button"
             className="btn btn-circle btn-ghost"

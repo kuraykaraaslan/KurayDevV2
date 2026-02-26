@@ -661,5 +661,21 @@
       "modal_title": "Вхід через соцмережі",
       "close": "Закрити"
     }
+  },
+  "navbar": {
+    "change_language": "Змінити мову (поточна: {{lang}})",
+    "close_sidebar_menu": "Закрити бокове меню",
+    "filter_by_blog": "Фільтрувати за блогом {{active}}",
+    "filter_by_project": "Фільтрувати за проєктом {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Основна навігація",
+    "no_results_found": "Результатів не знайдено",
+    "open_search": "Відкрити пошук",
+    "open_sidebar_menu": "Відкрити бокове меню",
+    "search": "Пошук",
+    "search_placeholder": "Введіть для пошуку...",
+    "search_results": "Результати пошуку",
+    "switch_theme": "Змінити тему (поточна: {{theme}})",
+    "select_language": "Виберіть мову"
   }
 }

@@ -58,6 +58,22 @@
     }
   },
 
+  "navbar": {
+    "change_language": "Change language (current: {{lang}})",
+    "language": "{{lang}}",
+    "switch_theme": "Switch theme (current: {{theme}})",
+    "main_navigation": "Main navigation",
+    "close_sidebar_menu": "Close sidebar menu",
+    "open_sidebar_menu": "Open sidebar menu",
+    "open_search": "Open search",
+    "search": "Search",
+    "filter_by_blog": "Filter by blog {{active}}",
+    "filter_by_project": "Filter by project {{active}}",
+    "search_results": "Search results",
+    "search_placeholder": "Type to search...",
+    "no_results_found": "No results found",
+    "select_language": "Select Language"
+  },
   "common": {
     "loading": "Loading...",
     "save": "Save",

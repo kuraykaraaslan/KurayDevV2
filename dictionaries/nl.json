@@ -661,5 +661,21 @@
       "modal_title": "Inloggen met Social Media",
       "close": "Sluiten"
     }
+  },
+  "navbar": {
+    "change_language": "Taal wijzigen (huidig: {{lang}})",
+    "close_sidebar_menu": "Sluit zijbalkmenu",
+    "filter_by_blog": "Filter op blog {{active}}",
+    "filter_by_project": "Filter op project {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Hoofdnavigatie",
+    "no_results_found": "Geen resultaten gevonden",
+    "open_search": "Open zoekfunctie",
+    "open_sidebar_menu": "Open zijbalkmenu",
+    "search": "Zoeken",
+    "search_placeholder": "Typ om te zoeken...",
+    "search_results": "Zoekresultaten",
+    "switch_theme": "Thema wisselen (huidig: {{theme}})",
+    "select_language": "Selecteer taal"
   }
 }

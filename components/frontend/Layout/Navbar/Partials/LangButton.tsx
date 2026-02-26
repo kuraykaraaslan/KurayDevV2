@@ -1,11 +1,13 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { getLangFlagUrl as findFlagUrlByIso2Code, LANG_NAMES } from '@/types/common/I18nTypes'
 
 export default function LanguageModal() {
+  const { t } = useTranslation()
   const pathname = usePathname()
   const router = useRouter()
   const { open, openModal, closeModal } = useModal()
@@ -42,7 +44,7 @@ export default function LanguageModal() {
       <button
         className="btn btn-square btn-ghost rounded-full grayscale duration-300 hover:grayscale-0"
         onClick={openModal}
-        aria-label={`Change language (current: ${LANG_NAMES[currentLang] || currentLang})`}
+        aria-label={t('navbar.change_language', { lang: LANG_NAMES[currentLang] || currentLang })}
       >
         <img
           src={findFlagUrlByIso2Code(currentLang)}
@@ -53,7 +55,7 @@ export default function LanguageModal() {
         />
       </button>
 
-      <HeadlessModal open={open} onClose={closeModal} title="Choose Language" size="sm">
+      <HeadlessModal open={open} onClose={closeModal} size="sm" title={t('navbar.select_language')}>
         <div className="grid grid-cols-3 gap-3">
           {AVAILABLE_LANGUAGES.map((lang) => (
             <button
@@ -62,7 +64,7 @@ export default function LanguageModal() {
                 lang === currentLang ? 'bg-base-300 border-base-300' : ''
               }`}
               onClick={() => selectLanguage(lang)}
-              aria-label={`${LANG_NAMES[lang] || lang}`}
+              aria-label={t('navbar.language', { lang: LANG_NAMES[lang] || lang })}
               aria-current={lang === currentLang ? true : undefined}
             >
               <img

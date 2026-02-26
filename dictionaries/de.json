@@ -661,5 +661,21 @@
       "title": "TOTP-Einrichtung",
       "warning": "Bewahren Sie Ihre Backup-Codes an einem sicheren Ort auf. Sie können sie verwenden, um wieder Zugriff auf Ihr Konto zu erhalten, falls Sie den Zugriff auf Ihre Authentifizierungs-App verlieren."
     }
+  },
+  "navbar": {
+    "change_language": "Sprache ändern (aktuell: {{lang}})",
+    "close_sidebar_menu": "Seitenmenü schließen",
+    "filter_by_blog": "Nach Blog filtern {{active}}",
+    "filter_by_project": "Nach Projekt filtern {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Hauptnavigation",
+    "no_results_found": "Keine Ergebnisse gefunden",
+    "open_search": "Suche öffnen",
+    "open_sidebar_menu": "Seitenmenü öffnen",
+    "search": "Suche",
+    "search_placeholder": "Zum Suchen tippen...",
+    "search_results": "Suchergebnisse",
+    "switch_theme": "Thema wechseln (aktuell: {{theme}})",
+    "select_language": "Sprache auswählen"
   }
 }
