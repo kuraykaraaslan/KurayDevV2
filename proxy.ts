@@ -1,3 +1,4 @@
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import {
   rateLimitMiddleware,
@@ -7,70 +8,93 @@ import {
 } from '@/middlewares'
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE } from '@/types/common/I18nTypes'
 
-// Static assets served from /public — skip lang routing
-const STATIC_EXTENSIONS = ['.ico', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.woff', '.woff2', '.ttf', '.otf', '.webmanifest']
+const STATIC_EXTENSIONS = new Set([
+  '.ico', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg',
+  '.woff', '.woff2', '.ttf', '.otf', '.webmanifest',
+])
 
-// PWA files served from /public — skip lang routing
-const STATIC_FILES = ['/sw.js', '/manifest.webmanifest', '/icon-192x192.png', '/icon-512x512.png']
+const STATIC_FILES = new Set([
+  '/sw.js',
+  '/manifest.webmanifest',
+  '/icon-192x192.png',
+  '/icon-512x512.png',
+  '/favicon.ico',
+  '/robots.txt',
+  '/sitemap.xml',
+  '/opensearch.xml',
+  '/site.webmanifest',
+])
 
-function isStaticAsset(pathname: string): boolean {
-  return (
-    STATIC_EXTENSIONS.some((ext) => pathname.endsWith(ext)) ||
-    STATIC_FILES.includes(pathname)
-  )
+const SKIP_PREFIXES = [
+  '/_next',     // Next.js internals (chunks, images, etc.)
+  '/_vercel',   // Vercel internals (if any)
+  '/__nextjs',  // tooling edge-cases
+  '/auth',
+  '/admin',
+]
+
+function shouldSkipI18n(pathname: string): boolean {
+  if (SKIP_PREFIXES.some((p) => pathname.startsWith(p))) return true
+  if (STATIC_FILES.has(pathname)) return true
+
+  // /sitemap-*.xml
+  if (pathname.startsWith('/sitemap') && pathname.endsWith('.xml')) return true
+
+  // extension check (only last segment)
+  const last = pathname.split('/').pop() || ''
+  const dot = last.lastIndexOf('.')
+  if (dot !== -1) {
+    const ext = last.slice(dot).toLowerCase()
+    if (STATIC_EXTENSIONS.has(ext)) return true
+  }
+
+  return false
 }
 
-/**
- * Next.js 16 Proxy — orchestrates API security + frontend i18n routing
- *
- * Rules (frontend paths only):
- *  /en/...           → redirect to /... (canonical, en is hidden default)
- *  /tr/... /de/... → pass through  ([lang] route handles it)
- *  /...              → rewrite internally to /en/... (URL stays clean)
- */
+async function handleApi(request: NextRequest) {
+  const rateLimitResponse = await rateLimitMiddleware(request)
+  if (rateLimitResponse) return rateLimitResponse
+
+  const response = NextResponse.next()
+  await addRateLimitHeaders(request, response)
+  addCorsHeaders(request, response)
+  addSecurityHeaders(response)
+  return response
+}
+
+function handleI18n(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  const segments = pathname.split('/').filter(Boolean)
+  const first = segments[0]
+
+  // /en/... → redirect to canonical URL without /en
+  if (first === DEFAULT_LANGUAGE) {
+    const rest = segments.slice(1).join('/')
+    const url = request.nextUrl.clone()
+    url.pathname = rest ? `/${rest}` : '/'
+    return NextResponse.redirect(url)
+  }
+
+  // /tr/... /de/... → pass through
+  if (AVAILABLE_LANGUAGES.includes(first as (typeof AVAILABLE_LANGUAGES)[number])) {
+    return NextResponse.next()
+  }
+
+  // no prefix → rewrite internally to /en/...
+  const url = request.nextUrl.clone()
+  url.pathname = `/${DEFAULT_LANGUAGE}${pathname}`
+  return NextResponse.rewrite(url)
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // ── API routes: rate limiting + security headers ─────────────────────────
-  if (pathname.startsWith('/api')) {
-    const rateLimitResponse = await rateLimitMiddleware(request)
-    if (rateLimitResponse) return rateLimitResponse
+  // API
+  if (pathname.startsWith('/api')) return handleApi(request)
 
-    const response = NextResponse.next()
-    await addRateLimitHeaders(request, response)
-    addCorsHeaders(request, response)
-    addSecurityHeaders(response)
-    return response
-  }
+  // Frontend skip
+  if (shouldSkipI18n(pathname)) return NextResponse.next()
 
-  // ── Skip: auth/admin routes and static assets ────────────────────────────
-  if (
-    pathname.startsWith('/auth') ||
-    pathname.startsWith('/admin') ||
-    isStaticAsset(pathname)
-  ) {
-    return NextResponse.next()
-  }
-
-  // ── Frontend i18n routing ─────────────────────────────────────────────────
-  const segments = pathname.split('/').filter(Boolean)
-  const firstSegment = segments[0]
-
-  // /en/... → redirect to canonical URL without /en prefix
-  if (firstSegment === DEFAULT_LANGUAGE) {
-    const rest = segments.slice(1).join('/')
-    const canonicalUrl = request.nextUrl.clone()
-    canonicalUrl.pathname = rest ? `/${rest}` : '/'
-    return NextResponse.redirect(canonicalUrl)
-  }
-
-  // /tr/... /de/... etc. → valid non-default lang, pass through
-  if (AVAILABLE_LANGUAGES.includes(firstSegment as (typeof AVAILABLE_LANGUAGES)[number])) {
-    return NextResponse.next()
-  }
-
-  // No lang prefix → rewrite to /en/... internally (URL stays the same)
-  const rewriteUrl = request.nextUrl.clone()
-  rewriteUrl.pathname = `/${DEFAULT_LANGUAGE}${pathname}`
-  return NextResponse.rewrite(rewriteUrl)
+  // Frontend i18n
+  return handleI18n(request)
 }
