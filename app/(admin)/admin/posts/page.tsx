@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import Table, {
   TableProvider,
   TableHeader,
@@ -12,9 +13,11 @@ import { PostWithData } from '@/types/content/BlogTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { getLangFlagUrl as findFlagUrlByIso2Code } from '@/types/common/I18nTypes'
+import PostShareModal from '@/components/admin/Features/Share/PostShareModal'
 
 const PostPage = () => {
   const { t } = useTranslation()
+  const [sharePost, setSharePost] = useState<PostWithData | null>(null)
 
   const columns: ColumnDef<PostWithData>[] = [
     {
@@ -51,6 +54,12 @@ const PostPage = () => {
     },
     { label: 'admin.posts.view', href: (p) => `/blog/${p.slug}`, className: 'btn-secondary' },
     {
+      label: 'Share',
+      onClick: (p) => setSharePost(p),
+      className: 'btn-ghost btn-sm',
+      hidden: (p) => p.status !== 'PUBLISHED',
+    },
+    {
       label: 'admin.posts.delete',
       onClick: async (p) => {
         if (!confirm(t('admin.posts.confirm_delete'))) return
@@ -62,30 +71,36 @@ const PostPage = () => {
   ]
 
   return (
-    <TableProvider<PostWithData>
-      apiEndpoint="/api/posts"
-      dataKey="posts"
-      idKey="postId"
-      columns={columns}
-      actions={actions}
-      additionalParams={{ sort: 'desc', status: 'ALL' }}
-    >
-      <Table>
-        <TableHeader
-          title="admin.posts.title"
-          searchPlaceholder="admin.posts.search_placeholder"
-          buttonText="admin.posts.create_post"
-          buttonLink="/admin/posts/create"
-          showViewToggle
-        />
-        <TableBody />
-        <TableFooter
-          showingText="admin.posts.showing"
-          previousText="admin.posts.previous"
-          nextText="admin.posts.next"
-        />
-      </Table>
-    </TableProvider>
+    <>
+      <TableProvider<PostWithData>
+        apiEndpoint="/api/posts"
+        dataKey="posts"
+        idKey="postId"
+        columns={columns}
+        actions={actions}
+        additionalParams={{ sort: 'desc', status: 'ALL' }}
+      >
+        <Table>
+          <TableHeader
+            title="admin.posts.title"
+            searchPlaceholder="admin.posts.search_placeholder"
+            buttonText="admin.posts.create_post"
+            buttonLink="/admin/posts/create"
+            showViewToggle
+          />
+          <TableBody />
+          <TableFooter
+            showingText="admin.posts.showing"
+            previousText="admin.posts.previous"
+            nextText="admin.posts.next"
+          />
+        </Table>
+      </TableProvider>
+
+      {sharePost && (
+        <PostShareModal post={sharePost} onClose={() => setSharePost(null)} />
+      )}
+    </>
   )
 }
 
