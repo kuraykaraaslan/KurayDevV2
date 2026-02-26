@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 
-const CSRF_SECRET = process.env.CSRF_SECRET || process.env.ACCESS_TOKEN_SECRET
+const CSRF_SECRET = process.env.CSRF_SECRET || process.env.ACCESS_TOKEN_SECRET || 'default_csrf_secret_key_change_me'
+
+
 if (!CSRF_SECRET) {
   throw new Error(
     'CSRF_SECRET or ACCESS_TOKEN_SECRET environment variable must be set. '

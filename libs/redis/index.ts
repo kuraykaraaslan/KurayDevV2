@@ -21,9 +21,6 @@ redisInstance.on('error', (err) => {
   console.error(`[Redis] Connection error: ${err.message}`)
 })
 
-redisInstance.on('connect', () => {
-  console.log('[Redis] Connected successfully')
-})
 
 redisInstance.on('reconnecting', () => {
   console.warn('[Redis] Reconnecting...')

@@ -74,8 +74,3 @@ export async function proxy(request: NextRequest) {
   rewriteUrl.pathname = `/${DEFAULT_LANGUAGE}${pathname}`
   return NextResponse.rewrite(rewriteUrl)
 }
-
-export const config = {
-  matcher: ['/((?!_next).*)'],
-  runtime: 'nodejs',
-}
