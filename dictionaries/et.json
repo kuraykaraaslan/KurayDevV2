@@ -11,22 +11,75 @@
     "resume": "CV",
     "backend": "Taustaprogramm"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "Midagi läks valesti",
-        "description": "Vabandust, me ei leia seda lehte. Avalehelt leiad palju huvitavat.",
-        "button": "Mine avalehele"
-      },
-      "500": {
-        "title": "Sisemine serveri viga",
-        "description": "Serveril tekkis viga.",
-        "button": "Mine avalehele"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "Midagi läks valesti",
+      "description": "Vabandust, me ei leia seda lehte. Avalehelt leiad palju huvitavat.",
+      "button": "Mine avalehele"
+    },
+    "500": {
+      "title": "Sisemine serveri viga",
+      "description": "Serveril tekkis viga.",
+      "button": "Mine avalehele"
+    }
+  },
+
+  "common": {
+    "loading": "Laadin...",
+    "modal": {
+      "close_dialog": "Sulge dialoog"
+    },
+    "navbar": {
+      "login": "Logi sisse",
+      "user_menu": "Kasutaja menüü",
+      "admin_dashboard": "Admin paneel",
+      "user_settings": "Kasutaja seaded",
+      "logout": "Logi välja"
+    },
+    "image": {
+      "upload_success": "Pilt on edukalt üles laetud",
+      "upload_error": "Pildi üleslaadimisel tekkis viga"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>Tootele orienteeritud täisstack arendaja</bold> üle <bold>3-aastase kogemusega</bold>, pakkudes tugevaid ja skaleeritavaid tarkvaralahendusi <bold>ees-, taga- ja mobiilseadmete arenduses BIM ja IoT valdkondades.</bold> Spetsialiseerunud <bold>Java Spring Boot, React, Next.js, Node.js ja PostgreSQL</bold> tehnoloogiatele. Kogenud <bold>mitme rentniku SaaS platvormide, reaalajasüsteemide ja makselahenduste</bold> arhitektuuris. Ühendab tugeva insenerialuse <bold>loova probleemilahenduse</bold> ja <bold>puhta, süsteemse kodeerimisviisiga.</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "Olen valmis",
         "suffix": "",
         "text1": "probleeme lahendama",
@@ -93,6 +146,98 @@
       }
     }
   },
+
+  "frontend": {
+    "feed": {
+      "other_posts": "Teised postitused",
+      "related_articles": "Seotud artiklid",
+      "categories": "Kategooriad",
+      "latest_posts": "Viimased postitused",
+      "posts_by": "Postitused autorilt",
+      "load_more": "Laadi rohkem postitusi",
+      "no_more_posts": "Rohkem postitusi pole saadaval",
+      "read_more": "Loe edasi"
+    },
+    "post": {
+      "by": "autor",
+      "min_read": "min lugemist",
+      "views": "vaatamist",
+      "no_date": "Kuupäev puudub",
+      "unknown_author": "Tundmatu autor",
+      "views_count": "{{count}} vaatamist",
+      "read_time": "{{count}} min lugemist"
+    },
+    "time": {
+      "days_ago": "{{count}} päeva tagasi",
+      "yesterday": "Eile",
+      "hours_ago": "{{count}} tundi tagasi",
+      "an_hour_ago": "Tund tagasi",
+      "minutes_ago": "{{count}} minutit tagasi",
+      "a_minute_ago": "Minut tagasi",
+      "just_now": "Just praegu",
+      "today": "Täna"
+    },
+    "comments": {
+      "comments_count": "Kommentaarid",
+      "name_placeholder": "Nimi",
+      "email_placeholder": "E-post",
+      "comment_placeholder": "Kirjuta kommentaar...",
+      "submit_button": "Kommenteeri",
+      "fill_all_fields": "Palun täida kõik väljad",
+      "invalid_email": "Palun sisesta kehtiv e-posti aadress",
+      "name_length_error": "Nimi peab olema vähemalt 3 ja kuni 50 märki pikk",
+      "content_length_error": "Sisu peab olema vähemalt 5 märki pikk",
+      "posted_successfully": "Kommentaar on edukalt postitatud",
+      "error": "Tekkis viga",
+      "reply": "Vasta",
+      "delete": "Kustuta",
+      "anonymous": "Anonüümne"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D teadmiste graaf",
+      "title_3d": "3D teadmiste graaf"
+    },
+    "offline": {
+      "online": "Oled taas võrgus!",
+      "offline": "Oled võrguühenduseta!"
+    },
+    "terminal_button": "Terminal",
+    "scroll_to_top": "Keri üles",
+    "scroll_to_bottom": "Keri alla"
+  },
+
+  "settings": {
+    "basic": "Põhiandmed",
+    "profile": "Profiil",
+    "security": "Turvalisus",
+    "otp": "2FA",
+    "preferences": "Eelistused",
+    "notifications": "Teavitused",
+    "otp_method_card": {
+      "active": "Aktiivne",
+      "inactive": "Mitteaktiivne"
+    },
+    "otp_confirm": {
+      "title": "Turvakontroll",
+      "send_code": "Saada kinnituskood",
+      "sending": "Saadan koodi...",
+      "code_placeholder": "123456",
+      "verify": "Kinnita",
+      "verifying": "Kinnitan..."
+    },
+    "totp_setup": {
+      "title": "TOTP seadistamine",
+      "backup_codes_title": "Varukoodid",
+      "warning": "Hoia oma varukoode turvalises kohas. Saad neid kasutada, kui kaotad juurdepääsu autentimisrakendusele.",
+      "copy_codes": "Kopeeri koodid",
+      "download_codes": "Laadi koodid alla",
+      "i_have_saved": "Olen oma varukoodid salvestanud",
+      "start_setup": "Alusta seadistamist",
+      "enter_code": "Sisesta kood oma autentimisrakendusest",
+      "confirm_setup": "Kinnita seadistus"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "See blogi on saadaval ainult inglise keeles",
@@ -117,42 +262,47 @@
     },
     "calendar": {
       "title": "Kalender",
-      "name_placeholder": "Sisesta oma nimi",
-      "email_placeholder": "Sisesta oma e-post",
-      "phone_placeholder": "Sisesta oma telefon",
-      "note_placeholder": "Sisesta oma märkus",
-      "booked": "Broneeritud",
-      "cancelled": "Tühistatud",
-      "available": "Saadaval",
-      "no_available_slots": "Vabu aegu pole saadaval",
-      "name": "Sinu nimi",
-      "email": "Sinu e-post",
-      "phone": "Sinu telefon",
       "description": "Broneeri aeg minuga.",
-      "available_slots": "Saadaolevad ajad",
-      "book_appointment": "Broneeri aeg",
-      "select_slot": "Palun vali aeg, et broneerida kohtumine.",
-      "past_date_warning": "Sa ei saa broneerida aega minevikukuupäevale.",
-      "minutes": "{{count}} minutit",
-      "close": "Sulge",
       "appointment_title": "Kohtumine",
       "appointment_subtitle": "Vali sobiv päev ja kellaaeg",
+      "available_slots": "Saadaolevad ajad",
       "available_times": "Saadaolevad kellaajad",
       "selected_time": "Valitud kellaaeg",
+      "no_available_slots": "Vabu aegu pole saadaval",
       "no_slots_for_day": "Valitud päeval pole vabu aegu",
-      "book_now": "Broneeri aeg",
-      "minutes_abbr": "min",
-      "appointment_info": "Kohtumise info",
-      "full_name": "Täisnimi",
-      "email_label": "E-post",
-      "phone_label": "Telefon",
-      "note_label": "Märkus",
-      "create_appointment": "Loo kohtumine",
-      "close_modal": "Sulge",
+      "past_date_warning": "Sa ei saa broneerida aega minevikukuupäevale.",
+      "select_slot": "Palun vali aeg, et broneerida kohtumine.",
       "select_slot_first": "Palun vali esmalt kellaaeg",
+      "book_now": "Broneeri aeg",
+      "book_appointment": "Broneeri aeg",
+      "create_appointment": "Loo kohtumine",
       "appointment_created": "Sinu kohtumine on loodud",
       "appointment_error": "Kohtumist ei õnnestunud luua",
-      "error_occurred": "Tekkis viga"
+      "appointment_info": "Kohtumise info",
+      "minutes": "{{count}} minutit",
+      "minutes_abbr": "min",
+      "close": "Sulge",
+      "close_modal": "Sulge",
+      "error_occurred": "Tekkis viga",
+      "fields": {
+        "name": "Sinu nimi",
+        "name_placeholder": "Sisesta oma nimi",
+        "email": "Sinu e-post",
+        "email_placeholder": "Sisesta oma e-post",
+        "phone": "Sinu telefon",
+        "phone_placeholder": "Sisesta oma telefon",
+        "note": "Märkus",
+        "note_placeholder": "Sisesta oma märkus",
+        "full_name": "Täisnimi",
+        "email_label": "E-post",
+        "phone_label": "Telefon",
+        "note_label": "Märkus"
+      },
+      "statuses": {
+        "booked": "Broneeritud",
+        "cancelled": "Tühistatud",
+        "available": "Saadaval"
+      }
     },
     "geomap": {
       "title": "Maailma külastajate soojuskaart",
@@ -164,7 +314,7 @@
       "loading": "Kontrollin süsteemi olekut...",
       "response_time": "Vastuse aeg: {{time}}ms",
       "uptime": "Töötamise aeg: {{time}}m",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "Andmebaas",
         "auth": "Autentimine",
@@ -182,6 +332,18 @@
         "partial_outage": "Osaline katkestus",
         "major_outage": "Tõsine katkestus"
       }
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "Logi sisse sotsiaalmeediaga",
+      "no_providers": "Ühtegi SSO teenusepakkujat pole seadistatud.",
+      "provider_not_allowed": "SSO sisselogimine teenusega {{provider}} ei ole lubatud.",
+      "redirect_error": "SSO ümbersuunamise viga.",
+      "button_label": "Logi sisse teenusega {{provider}}",
+      "modal_button": "Logi sisse sotsiaalmeediaga",
+      "modal_title": "Logi sisse sotsiaalmeediaga",
+      "close": "Sulge"
     }
   },
   "admin": {
@@ -339,124 +501,6 @@
     "selects": {
       "select_user": "Vali kasutaja",
       "select_category": "Vali kategooria"
-    }
-  },
-  "auth": {
-    "sso": {
-      "title": "Logi sisse sotsiaalmeediaga",
-      "no_providers": "Ühtegi SSO teenusepakkujat pole seadistatud.",
-      "provider_not_allowed": "SSO sisselogimine teenusega {{provider}} ei ole lubatud.",
-      "redirect_error": "SSO ümbersuunamise viga.",
-      "button_label": "Logi sisse teenusega {{provider}}",
-      "modal_button": "Logi sisse sotsiaalmeediaga",
-      "modal_title": "Logi sisse sotsiaalmeediaga",
-      "close": "Sulge"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "Logi sisse",
-      "user_menu": "Kasutaja menüü",
-      "admin_dashboard": "Admin paneel",
-      "user_settings": "Kasutaja seaded",
-      "logout": "Logi välja"
-    },
-    "image_load": {
-      "success": "Pilt on edukalt üles laetud",
-      "error": "Pildi üleslaadimisel tekkis viga"
-    },
-    "loading": "Laadin...",
-    "modal": {
-      "close_dialog": "Sulge dialoog"
-    }
-  },
-  "frontend": {
-    "comments": {
-      "comments_count": "Kommentaarid",
-      "name_placeholder": "Nimi",
-      "email_placeholder": "E-post",
-      "comment_placeholder": "Kirjuta kommentaar...",
-      "submit_button": "Kommenteeri",
-      "fill_all_fields": "Palun täida kõik väljad",
-      "invalid_email": "Palun sisesta kehtiv e-posti aadress",
-      "name_length_error": "Nimi peab olema vähemalt 3 ja kuni 50 märki pikk",
-      "content_length_error": "Sisu peab olema vähemalt 5 märki pikk",
-      "posted_successfully": "Kommentaar on edukalt postitatud",
-      "error": "Tekkis viga",
-      "reply": "Vasta",
-      "delete": "Kustuta",
-      "anonymous": "Anonüümne"
-    },
-    "other_posts": "Teised postitused",
-    "related_articles": "Seotud artiklid",
-    "categories": "Kategooriad",
-    "latest_posts": "Viimased postitused",
-    "posts_by": "Postitused autorilt",
-    "load_more": "Laadi rohkem postitusi",
-    "no_more_posts": "Rohkem postitusi pole saadaval",
-    "min_read": "min lugemist",
-    "views": "vaatamist",
-    "by": "autor",
-    "no_date": "Kuupäev puudub",
-    "unknown_author": "Tundmatu autor",
-    "post_header": {
-      "no_date": "Kuupäev puudub",
-      "views_count": "{{count}} vaatamist",
-      "read_time": "{{count}} min lugemist",
-      "by": "autor",
-      "unknown_author": "Tundmatu autor"
-    },
-    "days_ago": "{{count}} päeva tagasi",
-    "yesterday": "Eile",
-    "hours_ago": "{{count}} tundi tagasi",
-    "an_hour_ago": "Tund tagasi",
-    "minutes_ago": "{{count}} minutit tagasi",
-    "a_minute_ago": "Minut tagasi",
-    "just_now": "Just praegu",
-    "views_count": "{{count}} vaatamist",
-    "today": "Täna",
-    "read_more": "Loe edasi",
-    "offline": {
-      "online": "Oled taas võrgus!",
-      "offline": "Oled võrguühenduseta!"
-    },
-    "terminal_button": "Terminal",
-    "scroll_to_top": "Keri üles",
-    "scroll_to_bottom": "Keri alla",
-    "knowledge_graph": {
-      "title_2d": "2D teadmiste graaf",
-      "title_3d": "3D teadmiste graaf"
-    },
-    "settings": {
-      "basic": "Põhiandmed",
-      "profile": "Profiil",
-      "security": "Turvalisus",
-      "otp": "2FA",
-      "preferences": "Eelistused",
-      "notifications": "Teavitused",
-      "otp_method_card": {
-        "active": "Aktiivne",
-        "inactive": "Mitteaktiivne"
-      },
-      "otp_confirm": {
-        "title": "Turvakontroll",
-        "send_code": "Saada kinnituskood",
-        "sending": "Saadan koodi...",
-        "code_placeholder": "123456",
-        "verify": "Kinnita",
-        "verifying": "Kinnitan..."
-      },
-      "totp_setup": {
-        "title": "TOTP seadistamine",
-        "backup_codes_title": "Varukoodid",
-        "warning": "Hoia oma varukoode turvalises kohas. Saad neid kasutada, kui kaotad juurdepääsu autentimisrakendusele.",
-        "copy_codes": "Kopeeri koodid",
-        "download_codes": "Laadi koodid alla",
-        "i_have_saved": "Olen oma varukoodid salvestanud",
-        "start_setup": "Alusta seadistamist",
-        "enter_code": "Sisesta kood oma autentimisrakendusest",
-        "confirm_setup": "Kinnita seadistus"
-      }
     }
   }
 }

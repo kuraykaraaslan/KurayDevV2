@@ -20,8 +20,8 @@ export default function OTPMethodCard({ method, enabled, onClick }: Props) {
         <span className="font-semibold">{method}</span>
         <span className={`text-sm ${enabled ? 'text-primary' : 'text-base-content/60'}`}>
           {enabled
-            ? t('frontend.settings.otp_method_card.active')
-            : t('frontend.settings.otp_method_card.inactive')}
+            ? t('settings.otp_method_card.active')
+            : t('settings.otp_method_card.inactive')}
         </span>
       </div>
     </div>

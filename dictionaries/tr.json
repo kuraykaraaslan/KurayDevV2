@@ -11,22 +11,75 @@
     "resume": "Özgeçmiş",
     "backend": "Backend"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "Bir şeyler ters gitti",
-        "description": "Üzgünüz, bu sayfayı bulamıyoruz. Anasayfada keşfedilecek çok şey var.",
-        "button": "Anasayfaya dön"
-      },
-      "500": {
-        "title": "Sunucu Hatası",
-        "description": "Sunucuda bir hata oluştu.",
-        "button": "Anasayfaya dön"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog", "İzmir", "Turkey"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems", "İzmir", "Turkey"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "Bir şeyler ters gitti",
+      "description": "Üzgünüz, bu sayfayı bulamıyoruz. Anasayfada keşfedilecek çok şey var.",
+      "button": "Anasayfaya dön"
+    },
+    "500": {
+      "title": "Sunucu Hatası",
+      "description": "Sunucuda bir hata oluştu.",
+      "button": "Anasayfaya dön"
+    }
+  },
+
+  "common": {
+    "loading": "Yükleniyor...",
+    "modal": {
+      "close_dialog": "Pencereyi kapat"
+    },
+    "navbar": {
+      "login": "Giriş Yap",
+      "user_menu": "Kullanıcı menüsü",
+      "admin_dashboard": "Yönetim Paneli",
+      "user_settings": "Kullanıcı Ayarları",
+      "logout": "Çıkış Yap"
+    },
+    "image": {
+      "upload_success": "Görsel başarıyla yüklendi",
+      "upload_error": "Görsel yüklenirken bir hata oluştu"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>Ürün odaklı bir Full-Stack Geliştirici</bold> olarak, <bold>3+ yıllık deneyimimle</bold> BIM ve IoT alanlarında <bold>ön yüz, arka yüz ve mobil platformlar</bold> için sağlam ve ölçeklenebilir yazılım çözümleri geliştiriyorum. <bold>Java Spring Boot, React, Next.js, Node.js ve PostgreSQL</bold> teknolojilerinde uzmanım. <bold>SaaS platformları</bold>, <bold>gerçek zamanlı sistemler</bold> ve <bold>ödeme entegrasyonları</bold> mimarileri üzerinde deneyim sahibiyim. <bold>Güçlü mühendislik temelleri</bold> ile <bold>yaratıcı problem çözme becerisini</bold> ve <bold>temiz, sistematik bir kod yaklaşımını</bold> bir araya getiriyorum.",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "Ben",
         "suffix": "hazırım.",
         "text1": "sorunları çözmeye",
@@ -93,6 +146,101 @@
       }
     }
   },
+
+  "frontend": {
+    "toc": {
+      "title": "İçindekiler"
+    },
+    "feed": {
+      "other_posts": "Diğer Gönderiler",
+      "related_articles": "İlgili Yazılar",
+      "categories": "Kategoriler",
+      "latest_posts": "Son Gönderiler",
+      "posts_by": "Yazar:",
+      "load_more": "Daha fazla gönderi yükle",
+      "no_more_posts": "Daha fazla gönderi bulunmuyor",
+      "read_more": "Devamını Oku"
+    },
+    "post": {
+      "by": "yazan",
+      "min_read": "dk okuma",
+      "views": "görüntüleme",
+      "no_date": "Tarih yok",
+      "unknown_author": "Bilinmeyen Yazar",
+      "views_count": "{{count}} görüntüleme",
+      "read_time": "{{count}} dk okuma"
+    },
+    "time": {
+      "days_ago": "{{count}} gün önce",
+      "yesterday": "Dün",
+      "hours_ago": "{{count}} saat önce",
+      "an_hour_ago": "1 saat önce",
+      "minutes_ago": "{{count}} dakika önce",
+      "a_minute_ago": "1 dakika önce",
+      "just_now": "Az önce",
+      "today": "Bugün"
+    },
+    "comments": {
+      "comments_count": "Yorumlar",
+      "name_placeholder": "İsim",
+      "email_placeholder": "E-posta",
+      "comment_placeholder": "Bir yorum yazın...",
+      "submit_button": "Yorum Yap",
+      "fill_all_fields": "Lütfen tüm alanları doldurun",
+      "invalid_email": "Lütfen geçerli bir e-posta adresi girin",
+      "name_length_error": "İsim en az 3, en fazla 50 karakter olmalıdır",
+      "content_length_error": "İçerik en az 5 karakter olmalıdır",
+      "posted_successfully": "Yorum başarıyla gönderildi",
+      "error": "Bir hata oluştu",
+      "reply": "Yanıtla",
+      "delete": "Sil",
+      "anonymous": "Anonim"
+    },
+    "knowledge_graph": {
+      "title_2d": "2B Bilgi Grafiği",
+      "title_3d": "3B Bilgi Grafiği"
+    },
+    "offline": {
+      "online": "Tekrar çevrimiçisiniz!",
+      "offline": "Şu anda çevrimdışısınız!"
+    },
+    "terminal_button": "Terminal",
+    "scroll_to_top": "Yukarı kaydır",
+    "scroll_to_bottom": "Aşağı kaydır"
+  },
+
+  "settings": {
+    "basic": "Temel",
+    "profile": "Profil",
+    "security": "Güvenlik",
+    "otp": "2FA",
+    "preferences": "Tercihler",
+    "notifications": "Bildirimler",
+    "otp_method_card": {
+      "active": "Aktif",
+      "inactive": "Pasif"
+    },
+    "otp_confirm": {
+      "title": "Güvenlik Doğrulaması",
+      "send_code": "Doğrulama Kodu Gönder",
+      "sending": "Kod gönderiliyor...",
+      "code_placeholder": "123456",
+      "verify": "Doğrula",
+      "verifying": "Doğrulanıyor..."
+    },
+    "totp_setup": {
+      "title": "TOTP Kurulumu",
+      "backup_codes_title": "Yedek Kodlar",
+      "warning": "Yedek kodlarınızı güvenli bir yerde saklayın. Doğrulama uygulamanıza erişiminizi kaybederseniz hesabınıza tekrar erişmek için bu kodları kullanabilirsiniz.",
+      "copy_codes": "Kodları kopyala",
+      "download_codes": "Kodları indir",
+      "i_have_saved": "Yedek kodlarımı kaydettim",
+      "start_setup": "Kurulumu Başlat",
+      "enter_code": "Doğrulama uygulamanızdaki kodu girin",
+      "confirm_setup": "Kurulumu Onayla"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Bu blog yalnızca İngilizce olarak mevcuttur",
@@ -117,42 +265,47 @@
     },
     "calendar": {
       "title": "Takvim",
-      "name_placeholder": "Adınızı girin",
-      "email_placeholder": "E-posta adresinizi girin",
-      "phone_placeholder": "Telefon numaranızı girin",
-      "note_placeholder": "Notunuzu girin",
-      "booked": "Rezerve Edildi",
-      "cancelled": "İptal Edildi",
-      "available": "Uygun",
-      "no_available_slots": "Uygun zaman yok",
-      "name": "Adınız",
-      "email": "E-posta Adresiniz",
-      "phone": "Telefon Numaranız",
       "description": "Benimle bir randevu ayarlayın.",
-      "available_slots": "Uygun Zamanlar",
-      "book_appointment": "Randevu Al",
-      "select_slot": "Lütfen randevu almak için bir zaman seçin.",
-      "past_date_warning": "Geçmiş bir tarih için randevu oluşturamazsınız.",
-      "minutes": "{{count}} dakika",
-      "close": "Kapat",
       "appointment_title": "Randevu",
       "appointment_subtitle": "Uygun bir gün ve saat seçin",
+      "available_slots": "Uygun Zamanlar",
       "available_times": "Uygun Saatler",
       "selected_time": "Seçilen Saat",
+      "no_available_slots": "Uygun zaman yok",
       "no_slots_for_day": "Seçilen gün için uygun saat bulunmuyor",
-      "book_now": "Randevu Oluştur",
-      "minutes_abbr": "dk",
-      "appointment_info": "Randevu Bilgileri",
-      "full_name": "Ad Soyad",
-      "email_label": "E-posta",
-      "phone_label": "Telefon",
-      "note_label": "Not",
-      "create_appointment": "Randevu Oluştur",
-      "close_modal": "Kapat",
+      "past_date_warning": "Geçmiş bir tarih için randevu oluşturamazsınız.",
+      "select_slot": "Lütfen randevu almak için bir zaman seçin.",
       "select_slot_first": "Lütfen önce bir zaman dilimi seçin",
+      "book_now": "Randevu Oluştur",
+      "book_appointment": "Randevu Al",
+      "create_appointment": "Randevu Oluştur",
       "appointment_created": "Randevunuz oluşturuldu",
       "appointment_error": "Randevu oluşturulamadı",
-      "error_occurred": "Bir hata oluştu"
+      "appointment_info": "Randevu Bilgileri",
+      "minutes": "{{count}} dakika",
+      "minutes_abbr": "dk",
+      "close": "Kapat",
+      "close_modal": "Kapat",
+      "error_occurred": "Bir hata oluştu",
+      "fields": {
+        "name": "Adınız",
+        "name_placeholder": "Adınızı girin",
+        "email": "E-posta Adresiniz",
+        "email_placeholder": "E-posta adresinizi girin",
+        "phone": "Telefon Numaranız",
+        "phone_placeholder": "Telefon numaranızı girin",
+        "note": "Not",
+        "note_placeholder": "Notunuzu girin",
+        "full_name": "Ad Soyad",
+        "email_label": "E-posta",
+        "phone_label": "Telefon",
+        "note_label": "Not"
+      },
+      "statuses": {
+        "booked": "Rezerve Edildi",
+        "cancelled": "İptal Edildi",
+        "available": "Uygun"
+      }
     },
     "geomap": {
       "title": "Küresel Ziyaretçi Isı Haritası",
@@ -164,7 +317,7 @@
       "loading": "Sistem durumunu kontrol ediliyor...",
       "response_time": "Yanıt Süresi: {{time}}ms",
       "uptime": "Açık Kalma Süresi: {{time}}m",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "Veritabanı",
         "auth": "Kimlik Doğrulama",
@@ -182,6 +335,18 @@
         "partial_outage": "Kısmi Kesinti",
         "major_outage": "Büyük Kesinti"
       }
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "Sosyal Medya ile Giriş Yap",
+      "no_providers": "Herhangi bir SSO sağlayıcısı yapılandırılmamış.",
+      "provider_not_allowed": "{{provider}} için SSO girişi izinli değil.",
+      "redirect_error": "SSO yönlendirme hatası.",
+      "button_label": "{{provider}} ile giriş yap",
+      "modal_button": "Sosyal Medya ile Giriş Yap",
+      "modal_title": "Sosyal Medya ile Giriş Yap",
+      "close": "Kapat"
     }
   },
   "admin": {
@@ -339,127 +504,6 @@
     "selects": {
       "select_user": "Kullanıcı Seç",
       "select_category": "Kategori Seç"
-    }
-  },
-  "auth": {
-    "sso": {
-      "title": "Sosyal Medya ile Giriş Yap",
-      "no_providers": "Herhangi bir SSO sağlayıcısı yapılandırılmamış.",
-      "provider_not_allowed": "{{provider}} için SSO girişi izinli değil.",
-      "redirect_error": "SSO yönlendirme hatası.",
-      "button_label": "{{provider}} ile giriş yap",
-      "modal_button": "Sosyal Medya ile Giriş Yap",
-      "modal_title": "Sosyal Medya ile Giriş Yap",
-      "close": "Kapat"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "Giriş Yap",
-      "user_menu": "Kullanıcı menüsü",
-      "admin_dashboard": "Yönetim Paneli",
-      "user_settings": "Kullanıcı Ayarları",
-      "logout": "Çıkış Yap"
-    },
-    "image_load": {
-      "success": "Görsel başarıyla yüklendi",
-      "error": "Görsel yüklenirken bir hata oluştu"
-    },
-    "loading": "Yükleniyor...",
-    "modal": {
-      "close_dialog": "Pencereyi kapat"
-    }
-  },
-  "frontend": {
-    "toc": {
-      "title": "İçindekiler"
-    },
-    "comments": {
-      "comments_count": "Yorumlar",
-      "name_placeholder": "İsim",
-      "email_placeholder": "E-posta",
-      "comment_placeholder": "Bir yorum yazın...",
-      "submit_button": "Yorum Yap",
-      "fill_all_fields": "Lütfen tüm alanları doldurun",
-      "invalid_email": "Lütfen geçerli bir e-posta adresi girin",
-      "name_length_error": "İsim en az 3, en fazla 50 karakter olmalıdır",
-      "content_length_error": "İçerik en az 5 karakter olmalıdır",
-      "posted_successfully": "Yorum başarıyla gönderildi",
-      "error": "Bir hata oluştu",
-      "reply": "Yanıtla",
-      "delete": "Sil",
-      "anonymous": "Anonim"
-    },
-    "other_posts": "Diğer Gönderiler",
-    "related_articles": "İlgili Yazılar",
-    "categories": "Kategoriler",
-    "latest_posts": "Son Gönderiler",
-    "posts_by": "Yazar:",
-    "load_more": "Daha fazla gönderi yükle",
-    "no_more_posts": "Daha fazla gönderi bulunmuyor",
-    "min_read": "dk okuma",
-    "views": "görüntüleme",
-    "by": "yazan",
-    "no_date": "Tarih yok",
-    "unknown_author": "Bilinmeyen Yazar",
-    "post_header": {
-      "no_date": "Tarih yok",
-      "views_count": "{{count}} görüntüleme",
-      "read_time": "{{count}} dk okuma",
-      "by": "yazan",
-      "unknown_author": "Bilinmeyen Yazar"
-    },
-    "days_ago": "{{count}} gün önce",
-    "yesterday": "Dün",
-    "hours_ago": "{{count}} saat önce",
-    "an_hour_ago": "1 saat önce",
-    "minutes_ago": "{{count}} dakika önce",
-    "a_minute_ago": "1 dakika önce",
-    "just_now": "Az önce",
-    "views_count": "{{count}} görüntüleme",
-    "today": "Bugün",
-    "read_more": "Devamını Oku",
-    "offline": {
-      "online": "Tekrar çevrimiçisiniz!",
-      "offline": "Şu anda çevrimdışısınız!"
-    },
-    "terminal_button": "Terminal",
-    "scroll_to_top": "Yukarı kaydır",
-    "scroll_to_bottom": "Aşağı kaydır",
-    "knowledge_graph": {
-      "title_2d": "2B Bilgi Grafiği",
-      "title_3d": "3B Bilgi Grafiği"
-    },
-    "settings": {
-      "basic": "Temel",
-      "profile": "Profil",
-      "security": "Güvenlik",
-      "otp": "2FA",
-      "preferences": "Tercihler",
-      "notifications": "Bildirimler",
-      "otp_method_card": {
-        "active": "Aktif",
-        "inactive": "Pasif"
-      },
-      "otp_confirm": {
-        "title": "Güvenlik Doğrulaması",
-        "send_code": "Doğrulama Kodu Gönder",
-        "sending": "Kod gönderiliyor...",
-        "code_placeholder": "123456",
-        "verify": "Doğrula",
-        "verifying": "Doğrulanıyor..."
-      },
-      "totp_setup": {
-        "title": "TOTP Kurulumu",
-        "backup_codes_title": "Yedek Kodlar",
-        "warning": "Yedek kodlarınızı güvenli bir yerde saklayın. Doğrulama uygulamanıza erişiminizi kaybederseniz hesabınıza tekrar erişmek için bu kodları kullanabilirsiniz.",
-        "copy_codes": "Kodları kopyala",
-        "download_codes": "Kodları indir",
-        "i_have_saved": "Yedek kodlarımı kaydettim",
-        "start_setup": "Kurulumu Başlat",
-        "enter_code": "Doğrulama uygulamanızdaki kodu girin",
-        "confirm_setup": "Kurulumu Onayla"
-      }
     }
   }
 }

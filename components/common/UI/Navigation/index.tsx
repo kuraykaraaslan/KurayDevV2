@@ -70,7 +70,7 @@ const NavbarAuthButton = () => {
               className="px-3 py-2 rounded-md hover:bg-base-200 text-sm"
               onClick={() => setOpen(false)}
             >
-              {t('common.navbar_auth.admin_dashboard')}
+              {t('common.navbar.admin_dashboard')}
             </Link>
           )}
           <Link
@@ -78,7 +78,7 @@ const NavbarAuthButton = () => {
             className="px-3 py-2 rounded-md hover:bg-base-200 text-sm border-b border-base-300"
             onClick={() => setOpen(false)}
           >
-            {t('common.navbar_auth.user_settings')}
+            {t('common.navbar.user_settings')}
           </Link>
 
           <Link
@@ -86,7 +86,7 @@ const NavbarAuthButton = () => {
             className="px-3 py-2 rounded-md hover:bg-base-200 text-sm text-red-500"
             onClick={() => setOpen(false)}
           >
-            {t('common.navbar_auth.logout')}
+            {t('common.navbar.logout')}
           </Link>
         </div>
       )}

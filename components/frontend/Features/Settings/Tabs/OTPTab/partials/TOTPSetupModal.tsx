@@ -71,8 +71,8 @@ export default function TOTPSetupModal(props: Props) {
       onClose={onClose}
       title={
         isShowingBackupCodes
-          ? t('frontend.settings.totp_setup.backup_codes_title')
-          : t('frontend.settings.totp_setup.title')
+          ? t('settings.totp_setup.backup_codes_title')
+          : t('settings.totp_setup.title')
       }
       size={isShowingBackupCodes ? 'md' : 'sm'}
       closeOnBackdrop={false}
@@ -83,7 +83,7 @@ export default function TOTPSetupModal(props: Props) {
         {isShowingBackupCodes ? (
           <>
             <div className="alert alert-warning">
-              <span>{t('frontend.settings.totp_setup.warning')}</span>
+              <span>{t('settings.totp_setup.warning')}</span>
             </div>
 
             <div className="bg-base-200 p-4 rounded-lg space-y-2">
@@ -96,11 +96,11 @@ export default function TOTPSetupModal(props: Props) {
 
             <div className="flex flex-col gap-2">
               <button onClick={handleCopy} className="btn btn-outline w-full">
-                {t('frontend.settings.totp_setup.copy_codes')}
+                {t('settings.totp_setup.copy_codes')}
               </button>
 
               <button onClick={handleDownload} className="btn btn-outline w-full">
-                {t('frontend.settings.totp_setup.download_codes')}
+                {t('settings.totp_setup.download_codes')}
               </button>
             </div>
 
@@ -111,7 +111,7 @@ export default function TOTPSetupModal(props: Props) {
                 checked={acknowledged}
                 onChange={(e) => setAcknowledged(e.target.checked)}
               />
-              <span className="text-sm">{t('frontend.settings.totp_setup.i_have_saved')}</span>
+              <span className="text-sm">{t('settings.totp_setup.i_have_saved')}</span>
             </label>
 
             <button onClick={onClose} disabled={!acknowledged} className="btn btn-primary w-full">
@@ -129,7 +129,7 @@ export default function TOTPSetupModal(props: Props) {
               >
                 {loadingSetup
                   ? t('frontend.loading')
-                  : t('frontend.settings.totp_setup.start_setup')}
+                  : t('settings.totp_setup.start_setup')}
               </button>
             )}
 
@@ -147,7 +147,7 @@ export default function TOTPSetupModal(props: Props) {
                   )}
 
                   <p className="text-sm text-base-content/70 text-center">
-                    {t('frontend.settings.totp_setup.enter_code')}
+                    {t('settings.totp_setup.enter_code')}
                   </p>
 
                   <div className="textarea textarea-bordered w-full text-xs break-all select-all">
@@ -164,7 +164,7 @@ export default function TOTPSetupModal(props: Props) {
                   value={code}
                   onChange={(e) => onChangeCode(e.target.value)}
                   className="input input-bordered w-full text-center text-2xl tracking-widest font-mono"
-                  placeholder={t('frontend.settings.otp_confirm.code_placeholder')}
+                  placeholder={t('settings.otp_confirm.code_placeholder')}
                 />
 
                 <button
@@ -173,8 +173,8 @@ export default function TOTPSetupModal(props: Props) {
                   className="btn btn-primary w-full"
                 >
                   {verifying
-                    ? t('frontend.settings.otp_confirm.verifying')
-                    : t('frontend.settings.totp_setup.confirm_setup')}
+                    ? t('settings.otp_confirm.verifying')
+                    : t('settings.totp_setup.confirm_setup')}
                 </button>
               </>
             )}

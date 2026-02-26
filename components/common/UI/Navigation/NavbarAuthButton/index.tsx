@@ -103,7 +103,7 @@ const NavbarAuthButton = () => {
         href="/auth/login"
         ignoreLang
         className="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center ring-1 ring-primary ring-2 transition"
-        aria-label={t('common.navbar_auth.login')}
+        aria-label={t('common.navbar.login')}
       >
         <FontAwesomeIcon icon={faUser} className="text-xs" aria-hidden="true" />
       </Link>
@@ -119,7 +119,7 @@ const NavbarAuthButton = () => {
         onKeyDown={handleButtonKeyDown}
         aria-expanded={open}
         aria-haspopup="menu"
-        aria-label={t('common.navbar_auth.user_menu')}
+        aria-label={t('common.navbar.user_menu')}
         className="flex items-center justify-center rounded-full border border-base-300 w-9 h-9 overflow-hidden ring-1 ring-primary transition"
       >
         <Image
@@ -148,7 +148,7 @@ const NavbarAuthButton = () => {
               className="px-3 py-2 rounded-md hover:bg-base-200 text-sm"
               onClick={() => setOpen(false)}
             >
-              {t('common.navbar_auth.admin_dashboard')}
+              {t('common.navbar.admin_dashboard')}
             </Link>
           )}
           <Link
@@ -158,7 +158,7 @@ const NavbarAuthButton = () => {
             className="px-3 py-2 rounded-md hover:bg-base-200 text-sm border-b border-base-300"
             onClick={() => setOpen(false)}
           >
-            {t('common.navbar_auth.user_settings')}
+            {t('common.navbar.user_settings')}
           </Link>
 
           <Link
@@ -168,7 +168,7 @@ const NavbarAuthButton = () => {
             className="px-3 py-2 rounded-md hover:bg-base-200 text-sm text-red-500"
             onClick={() => setOpen(false)}
           >
-            {t('common.navbar_auth.logout')}
+            {t('common.navbar.logout')}
           </Link>
         </div>
       )}

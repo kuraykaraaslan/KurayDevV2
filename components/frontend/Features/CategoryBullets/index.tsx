@@ -10,7 +10,7 @@ export default async function CategoryBullets() {
       <div className="px-4 mx-auto max-w-screen-xl duration-1000">
         <div className="mx-auto text-center">
           <h2 className="mb-8 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
-            {t('frontend.categories')}
+            {t('frontend.feed.categories')}
           </h2>
         </div>
         <div className="flex flex-wrap justify-center">

@@ -44,7 +44,7 @@ const Welcome = () => {
             <h2 className="py-3 pb-6 leading-7 text-lg">
               <p>
                 <Trans
-                  i18nKey="pages.welcome.description"
+                  i18nKey="pages.hero.description"
                   lang={i18n.language}
                   components={{
                     bold: <span className="font-bold" />,
@@ -55,7 +55,7 @@ const Welcome = () => {
 
             <Link href="#contact" className="btn btn-primary hidden lg:inline-flex">
               <FontAwesomeIcon icon={faArrowRight} className="mt-1" style={{ width: '1rem' }} />
-              {t('pages.welcome.contact_me')}
+              {t('pages.hero.contact_me')}
             </Link>
 
             <Link
@@ -64,7 +64,7 @@ const Welcome = () => {
             >
               <p className="btn btn-ghost ml-2 lowercase hidden">
                 <FontAwesomeIcon icon={faLink} className="mt-1" style={{ width: '1rem' }} />
-                {t('pages.welcome.resume')}
+                {t('pages.hero.resume')}
               </p>
             </Link>
           </div>

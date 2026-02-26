@@ -19,7 +19,7 @@ const PostCard = ({ post }: { post: PostWithData }) => {
     }
 
     if (isNaN(new Date(createdAt).getTime())) {
-      setDateText(t('frontend.no_date'))
+      setDateText(t('frontend.post.no_date'))
       return
     }
 
@@ -40,32 +40,32 @@ const PostCard = ({ post }: { post: PostWithData }) => {
                 month: 'short',
                 day: 'numeric',
               })
-            : t('frontend.no_date')
+            : t('frontend.post.no_date')
         )
       } else if (diffDays > 7 && diffDays <= 365) {
         setDateText(
           createdAt
             ? new Date(createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
-            : t('frontend.no_date')
+            : t('frontend.post.no_date')
         )
       } else if (diffDays > 1) {
-        setDateText(t('frontend.days_ago', { count: Math.floor(diffDays) }))
+        setDateText(t('frontend.time.days_ago', { count: Math.floor(diffDays) }))
       } else if (diffDays === 1) {
-        setDateText(t('frontend.yesterday'))
+        setDateText(t('frontend.time.yesterday'))
       } else if (diffHours > 1) {
-        setDateText(t('frontend.hours_ago', { count: Math.floor(diffHours) }))
+        setDateText(t('frontend.time.hours_ago', { count: Math.floor(diffHours) }))
       } else if (diffHours === 1) {
-        setDateText(t('frontend.an_hour_ago'))
+        setDateText(t('frontend.time.an_hour_ago'))
       } else if (diffMinutes > 1) {
-        setDateText(t('frontend.minutes_ago', { count: Math.floor(diffMinutes) }))
+        setDateText(t('frontend.time.minutes_ago', { count: Math.floor(diffMinutes) }))
       } else if (diffMinutes === 1) {
-        setDateText(t('frontend.a_minute_ago'))
+        setDateText(t('frontend.time.a_minute_ago'))
       } else {
-        setDateText(t('frontend.just_now'))
+        setDateText(t('frontend.time.just_now'))
       }
     } catch (error) {
       console.error(error)
-      setDateText(t('frontend.no_date'))
+      setDateText(t('frontend.post.no_date'))
     }
   }, [createdAt])
 
@@ -91,7 +91,7 @@ const PostCard = ({ post }: { post: PostWithData }) => {
           <FontAwesomeIcon icon={faCalendar} className="w-4" />
           <span>{dateText}</span>
           <span className="text-primary">•</span>
-          <span className="text-primary">{t('frontend.views_count', { count: post.views })}</span>
+          <span className="text-primary">{t('frontend.post.views_count', { count: post.views })}</span>
         </div>
       </div>
     </article>

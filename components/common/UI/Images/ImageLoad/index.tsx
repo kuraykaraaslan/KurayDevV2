@@ -102,9 +102,9 @@ const ImageLoad = ({
       setImage(res.data.url)
       setOutputBlob(null)
 
-      toast?.success(t('common.image_load.success'))
+      toast?.success(t('common.image.upload_success'))
     } catch (err) {
-      toast?.error(t('common.image_load.error'))
+      toast?.error(t('common.image.upload_error'))
       console.error(err)
     } finally {
       setUploading(false)

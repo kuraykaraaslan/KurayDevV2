@@ -20,7 +20,7 @@ const SingleArticle = (props: PostWithData) => {
     try {
       const today = new Date()
       if (props.createdAt.toDateString() === today.toDateString()) {
-        setDateText(t('frontend.today'))
+        setDateText(t('frontend.time.today'))
         return
       }
       const diff = today.getTime() - new Date(props.createdAt).getTime()
@@ -33,28 +33,28 @@ const SingleArticle = (props: PostWithData) => {
         setDateText(props.createdAt.toDateString())
         return
       } else if (days > 1) {
-        setDateText(t('frontend.days_ago', { count: days }))
+        setDateText(t('frontend.time.days_ago', { count: days }))
         return
       } else if (days === 1) {
-        setDateText(t('frontend.yesterday'))
+        setDateText(t('frontend.time.yesterday'))
         return
       } else if (hours > 1) {
-        setDateText(t('frontend.hours_ago', { count: hours }))
+        setDateText(t('frontend.time.hours_ago', { count: hours }))
         return
       } else if (hours === 1) {
-        setDateText(t('frontend.an_hour_ago'))
+        setDateText(t('frontend.time.an_hour_ago'))
         return
       } else if (minutes > 1) {
-        setDateText(t('frontend.minutes_ago', { count: minutes }))
+        setDateText(t('frontend.time.minutes_ago', { count: minutes }))
         return
       } else if (minutes === 1) {
-        setDateText(t('frontend.a_minute_ago'))
+        setDateText(t('frontend.time.a_minute_ago'))
         return
       }
-      setDateText(t('frontend.just_now'))
+      setDateText(t('frontend.time.just_now'))
     } catch (error) {
       console.error(error)
-      setDateText(t('frontend.just_now'))
+      setDateText(t('frontend.time.just_now'))
     }
   }, [props.createdAt])
 
@@ -104,7 +104,7 @@ const SingleArticle = (props: PostWithData) => {
         </div>
         <div className="flex items-center gap-1">
           <Link href={'/blog/' + props.category.slug + '/' + props.slug} className="text-primary">
-            {t('frontend.read_more')}
+            {t('frontend.feed.read_more')}
             <FontAwesomeIcon
               icon={faCaretRight}
               className="text-primary mt-1"

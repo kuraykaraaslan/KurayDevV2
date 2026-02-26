@@ -11,22 +11,72 @@
     "resume": "Резюме",
     "backend": "Бекенд"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "Щось пішло не так",
-        "description": "Вибачте, ми не можемо знайти цю сторінку. Багато цікавого ви знайдете на головній сторінці.",
-        "button": "Повернутися на головну"
-      },
-      "500": {
-        "title": "Внутрішня помилка сервера",
-        "description": "На сервері сталася помилка.",
-        "button": "Повернутися на головну"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "Щось пішло не так",
+      "description": "Вибачте, ми не можемо знайти цю сторінку. Багато цікавого ви знайдете на головній сторінці.",
+      "button": "Повернутися на головну"
+    },
+    "500": {
+      "title": "Внутрішня помилка сервера",
+      "description": "На сервері сталася помилка.",
+      "button": "Повернутися на головну"
+    }
+  },
+
+  "common": {
+    "navbar": {
+      "login": "Log in",
+      "user_menu": "User menu"
+    },
+    "image": {
+      "upload_success": "Зображення успішно завантажено",
+      "upload_error": "Помилка під час завантаження зображення"
+    },
+    "loading": "Завантаження...",
+    "modal": {
+      "close_dialog": "Закрити діалог"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>Продукт-орієнтований Full-Stack розробник</bold> із <bold>3+ роками досвіду</bold> у створенні надійних, масштабованих рішень у <bold>frontend, backend та mobile у сферах BIM та IoT.</bold> Спеціалізуюся на <bold>Java Spring Boot, React, Next.js, Node.js та PostgreSQL</bold>. Володію навичками побудови <bold>мультиорендних SaaS-платформ, систем реального часу та інтеграції платежів.</bold> Поєдную сильну інженерну базу з <bold>креативним підходом</bold> і <bold>чистим, систематичним стилем коду.</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "Я готовий",
         "suffix": "",
         "text1": "вирішувати проблеми",
@@ -36,14 +86,12 @@
         "text5": "приймати виклики",
         "text6": "працювати як фрілансер"
       },
-      "contact_me": "Зв’язатися зі мною",
+      "contact_me": "Зв'язатися зі мною",
       "resume": "Резюме"
     },
     "toolbox": {
       "title": "Креативність потребує багато інструментів",
       "description": "Маю багато інструментів у своїй скриньці та постійно вивчаю нові.",
-      "frontend": "Фронтенд",
-      "backend": "Бекенд",
       "skills": {
         "clean_code": "Чистий код",
         "authentication_security": "Аутентифікація та безпека",
@@ -77,8 +125,8 @@
       "reveal_phone": "Натисніть, щоб показати телефон",
       "can_not_verify_that_you_are_not_a_robot": "Не вдалося підтвердити, що ви не робот. Спробуйте пізніше.",
       "form": {
-        "name": "Ім’я",
-        "enter_your_name": "Введіть ваше ім’я",
+        "name": "Ім'я",
+        "enter_your_name": "Введіть ваше ім'я",
         "email": "Email",
         "enter_your_email": "Введіть ваш email",
         "phone": "Телефон",
@@ -86,13 +134,105 @@
         "message": "Повідомлення",
         "enter_your_message": "Введіть своє повідомлення, ви можете описати свій проєкт, потреби або будь-яку іншу інформацію.",
         "send": "Надіслати",
-        "success": "Ваше повідомлення успішно надіслано. Я зв’яжусь із вами якнайшвидше.",
+        "success": "Ваше повідомлення успішно надіслано. Я зв'яжусь із вами якнайшвидше.",
         "error": "Під час надсилання повідомлення сталася помилка. Спробуйте пізніше.",
         "please_fill_in_all_fields": "Будь ласка, заповніть усі поля.",
         "loading": "Надсилання повідомлення..."
       }
     }
   },
+
+  "frontend": {
+    "feed": {
+      "other_posts": "Інші пости",
+      "related_articles": "Схожі статті",
+      "categories": "Категорії",
+      "latest_posts": "Останні пости",
+      "posts_by": "Пости від",
+      "load_more": "Завантажити більше постів",
+      "no_more_posts": "Більше постів немає",
+      "read_more": "Читати далі"
+    },
+    "post": {
+      "by": "автор",
+      "min_read": "хв читання",
+      "views": "переглядів",
+      "no_date": "Без дати",
+      "unknown_author": "Невідомий автор",
+      "views_count": "{{count}} переглядів",
+      "read_time": "{{count}} хв читання"
+    },
+    "time": {
+      "days_ago": "{{count}} дн. тому",
+      "yesterday": "Вчора",
+      "hours_ago": "{{count}} год. тому",
+      "an_hour_ago": "Годину тому",
+      "minutes_ago": "{{count}} хв. тому",
+      "a_minute_ago": "Хвилину тому",
+      "just_now": "Щойно",
+      "today": "Сьогодні"
+    },
+    "comments": {
+      "comments_count": "Коментарі",
+      "name_placeholder": "Ім'я",
+      "email_placeholder": "Email",
+      "comment_placeholder": "Напишіть коментар...",
+      "submit_button": "Прокоментувати",
+      "fill_all_fields": "Будь ласка, заповніть усі поля",
+      "invalid_email": "Будь ласка, введіть коректний email",
+      "name_length_error": "Ім'я має містити щонайменше 3 і не більше 50 символів",
+      "content_length_error": "Коментар має містити щонайменше 5 символів",
+      "posted_successfully": "Коментар успішно опубліковано",
+      "error": "Сталася помилка",
+      "reply": "Відповісти",
+      "delete": "Видалити",
+      "anonymous": "Анонім"
+    },
+    "offline": {
+      "online": "Ви знову онлайн!",
+      "offline": "Ви офлайн!"
+    },
+    "terminal_button": "Термінал",
+    "scroll_to_top": "Прокрутити вгору",
+    "scroll_to_bottom": "Прокрутити вниз",
+    "knowledge_graph": {
+      "title_2d": "2D Граф знань",
+      "title_3d": "3D Граф знань"
+    }
+  },
+
+  "settings": {
+    "basic": "Базові",
+    "profile": "Профіль",
+    "security": "Безпека",
+    "otp": "2FA",
+    "preferences": "Налаштування",
+    "notifications": "Сповіщення",
+    "otp_method_card": {
+      "active": "Активно",
+      "inactive": "Неактивно"
+    },
+    "otp_confirm": {
+      "title": "Підтвердження безпеки",
+      "send_code": "Надіслати код підтвердження",
+      "sending": "Надсилання коду...",
+      "code_placeholder": "123456",
+      "verify": "Підтвердити",
+      "verifying": "Підтвердження..."
+    },
+    "totp_setup": {
+      "title": "Налаштування TOTP",
+      "backup_codes_title": "Резервні коди",
+      "warning": "Збережіть резервні коди в безпечному місці. Ви зможете використати їх для доступу до облікового запису, якщо втратите доступ до застосунку-аутентифікатора.",
+      "copy_codes": "Скопіювати коди",
+      "download_codes": "Завантажити коди",
+      "i_have_saved": "Я зберіг резервні коди",
+      "start_setup": "Розпочати налаштування",
+      "enter_code": "Введіть код із вашого застосунку-аутентифікатора",
+      "confirm_setup": "Підтвердити налаштування"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Цей блог доступний лише англійською мовою",
@@ -117,42 +257,47 @@
     },
     "calendar": {
       "title": "Календар",
-      "name_placeholder": "Введіть ваше ім’я",
-      "email_placeholder": "Введіть ваш email",
-      "phone_placeholder": "Введіть ваш телефон",
-      "note_placeholder": "Введіть вашу нотатку",
-      "booked": "Заброньовано",
-      "cancelled": "Скасовано",
-      "available": "Доступно",
-      "no_available_slots": "Немає доступних слотів",
-      "name": "Ваше ім’я",
-      "email": "Ваш email",
-      "phone": "Ваш телефон",
       "description": "Забронюйте зустріч зі мною.",
-      "available_slots": "Доступні слоти",
-      "book_appointment": "Забронювати зустріч",
-      "select_slot": "Будь ласка, оберіть слот для запису.",
-      "past_date_warning": "Неможливо забронювати зустріч на минулу дату.",
-      "minutes": "{{count}} хвилин",
-      "close": "Закрити",
       "appointment_title": "Зустріч",
       "appointment_subtitle": "Оберіть зручний день і час",
+      "available_slots": "Доступні слоти",
       "available_times": "Доступний час",
       "selected_time": "Обраний час",
+      "no_available_slots": "Немає доступних слотів",
       "no_slots_for_day": "Немає доступного часу для обраного дня",
-      "book_now": "Забронювати зустріч",
-      "minutes_abbr": "хв",
-      "appointment_info": "Інформація про зустріч",
-      "full_name": "Повне ім’я",
-      "email_label": "Email",
-      "phone_label": "Телефон",
-      "note_label": "Нотатка",
-      "create_appointment": "Створити зустріч",
-      "close_modal": "Закрити",
+      "past_date_warning": "Неможливо забронювати зустріч на минулу дату.",
+      "select_slot": "Будь ласка, оберіть слот для запису.",
       "select_slot_first": "Спочатку оберіть часовий слот",
+      "book_now": "Забронювати зустріч",
+      "book_appointment": "Забронювати зустріч",
+      "create_appointment": "Створити зустріч",
       "appointment_created": "Вашу зустріч створено",
       "appointment_error": "Не вдалося створити зустріч",
-      "error_occurred": "Сталася помилка"
+      "appointment_info": "Інформація про зустріч",
+      "minutes": "{{count}} хвилин",
+      "minutes_abbr": "хв",
+      "close": "Закрити",
+      "close_modal": "Закрити",
+      "error_occurred": "Сталася помилка",
+      "fields": {
+        "name": "Ваше ім'я",
+        "name_placeholder": "Введіть ваше ім'я",
+        "email": "Ваш email",
+        "email_placeholder": "Введіть ваш email",
+        "phone": "Ваш телефон",
+        "phone_placeholder": "Введіть ваш телефон",
+        "note": "Нотатка",
+        "note_placeholder": "Введіть вашу нотатку",
+        "full_name": "Повне ім'я",
+        "email_label": "Email",
+        "phone_label": "Телефон",
+        "note_label": "Нотатка"
+      },
+      "statuses": {
+        "booked": "Заброньовано",
+        "cancelled": "Скасовано",
+        "available": "Доступно"
+      }
     },
     "geomap": {
       "title": "Теплова карта глобальних відвідувачів",
@@ -164,7 +309,7 @@
       "loading": "Перевірка стану системи...",
       "response_time": "Час відповіді: {{time}}мс",
       "uptime": "Час безвідмовної роботи: {{time}}хв",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "База даних",
         "auth": "Аутентифікація",
@@ -184,6 +329,7 @@
       }
     }
   },
+
   "admin": {
     "stats": {
       "title": "Статистика",
@@ -246,7 +392,7 @@
       "title": "Користувачі",
       "search_placeholder": "Пошук",
       "create_user": "Створити користувача",
-      "name": "Ім’я",
+      "name": "Ім'я",
       "email": "Email",
       "role": "Роль",
       "status": "Статус",
@@ -341,6 +487,7 @@
       "select_category": "Оберіть категорію"
     }
   },
+
   "auth": {
     "sso": {
       "title": "Вхід через соцмережі",
@@ -351,112 +498,6 @@
       "modal_button": "Увійти через соцмережі",
       "modal_title": "Вхід через соцмережі",
       "close": "Закрити"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "Log in",
-      "user_menu": "User menu",
-      "admin_dashboard": "Адмін-панель",
-      "user_settings": "Налаштування користувача",
-      "logout": "Вийти"
-    },
-    "image_load": {
-      "success": "Зображення успішно завантажено",
-      "error": "Помилка під час завантаження зображення"
-    },
-    "loading": "Завантаження...",
-    "modal": {
-      "close_dialog": "Закрити діалог"
-    }
-  },
-  "frontend": {
-    "comments": {
-      "comments_count": "Коментарі",
-      "name_placeholder": "Ім’я",
-      "email_placeholder": "Email",
-      "comment_placeholder": "Напишіть коментар...",
-      "submit_button": "Прокоментувати",
-      "fill_all_fields": "Будь ласка, заповніть усі поля",
-      "invalid_email": "Будь ласка, введіть коректний email",
-      "name_length_error": "Ім’я має містити щонайменше 3 і не більше 50 символів",
-      "content_length_error": "Коментар має містити щонайменше 5 символів",
-      "posted_successfully": "Коментар успішно опубліковано",
-      "error": "Сталася помилка",
-      "reply": "Відповісти",
-      "delete": "Видалити",
-      "anonymous": "Анонім"
-    },
-    "other_posts": "Інші пости",
-    "related_articles": "Схожі статті",
-    "categories": "Категорії",
-    "latest_posts": "Останні пости",
-    "posts_by": "Пости від",
-    "load_more": "Завантажити більше постів",
-    "no_more_posts": "Більше постів немає",
-    "min_read": "хв читання",
-    "views": "переглядів",
-    "by": "автор",
-    "no_date": "Без дати",
-    "unknown_author": "Невідомий автор",
-    "post_header": {
-      "no_date": "Без дати",
-      "views_count": "{{count}} переглядів",
-      "read_time": "{{count}} хв читання",
-      "by": "автор",
-      "unknown_author": "Невідомий автор"
-    },
-    "days_ago": "{{count}} дн. тому",
-    "yesterday": "Вчора",
-    "hours_ago": "{{count}} год. тому",
-    "an_hour_ago": "Годину тому",
-    "minutes_ago": "{{count}} хв. тому",
-    "a_minute_ago": "Хвилину тому",
-    "just_now": "Щойно",
-    "views_count": "{{count}} переглядів",
-    "today": "Сьогодні",
-    "read_more": "Читати далі",
-    "offline": {
-      "online": "Ви знову онлайн!",
-      "offline": "Ви офлайн!"
-    },
-    "terminal_button": "Термінал",
-    "scroll_to_top": "Прокрутити вгору",
-    "scroll_to_bottom": "Прокрутити вниз",
-    "knowledge_graph": {
-      "title_2d": "2D Граф знань",
-      "title_3d": "3D Граф знань"
-    },
-    "settings": {
-      "basic": "Базові",
-      "profile": "Профіль",
-      "security": "Безпека",
-      "otp": "2FA",
-      "preferences": "Налаштування",
-      "notifications": "Сповіщення",
-      "otp_method_card": {
-        "active": "Активно",
-        "inactive": "Неактивно"
-      },
-      "otp_confirm": {
-        "title": "Підтвердження безпеки",
-        "send_code": "Надіслати код підтвердження",
-        "sending": "Надсилання коду...",
-        "code_placeholder": "123456",
-        "verify": "Підтвердити",
-        "verifying": "Підтвердження..."
-      },
-      "totp_setup": {
-        "title": "Налаштування TOTP",
-        "backup_codes_title": "Резервні коди",
-        "warning": "Збережіть резервні коди в безпечному місці. Ви зможете використати їх для доступу до облікового запису, якщо втратите доступ до застосунку-аутентифікатора.",
-        "copy_codes": "Скопіювати коди",
-        "download_codes": "Завантажити коди",
-        "i_have_saved": "Я зберіг резервні коди",
-        "start_setup": "Розпочати налаштування",
-        "enter_code": "Введіть код із вашого застосунку-аутентифікатора",
-        "confirm_setup": "Підтвердити налаштування"
-      }
     }
   }
 }

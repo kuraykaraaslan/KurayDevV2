@@ -72,8 +72,8 @@ export default function Feed(props: FeedProps) {
               {category
                 ? category.title
                 : author
-                  ? `${t('frontend.posts_by')} ${author.userProfile.name}`
-                  : t('frontend.latest_posts')}
+                  ? `${t('frontend.feed.posts_by')} ${author.userProfile.name}`
+                  : t('frontend.feed.latest_posts')}
             </p>
             <KnowledgeGraph2DButton />
           </div>
@@ -101,12 +101,12 @@ export default function Feed(props: FeedProps) {
         {isMoreAvailable ? (
           <div className="flex justify-center mb-3">
             <button className="btn btn-primary" onClick={() => setPage(page + 1)}>
-              {t('frontend.load_more')}
+              {t('frontend.feed.load_more')}
             </button>
           </div>
         ) : (
           <div className="flex justify-center mb-3">
-            <span className="text-base opacity-50 select-none">{t('frontend.no_more_posts')}</span>
+            <span className="text-base opacity-50 select-none">{t('frontend.feed.no_more_posts')}</span>
           </div>
         )}
       </div>

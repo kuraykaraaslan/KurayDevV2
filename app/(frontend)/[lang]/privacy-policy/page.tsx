@@ -1,59 +1,70 @@
 import type { Metadata } from 'next'
 import MetadataHelper from '@/helpers/MetadataHelper'
+import { getPageMetadata } from '@/libs/localize/getDictionary'
+import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
+import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
 
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
-const title = 'Privacy Policy | Kuray Karaaslan'
-const description =
-  'Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.'
-
-export const metadata: Metadata = {
-  title,
-  description,
-  robots: { index: true, follow: true },
-  authors: [{ name: 'Kuray Karaaslan', url: `${APPLICATION_HOST}` }],
-  openGraph: {
-    title,
-    description,
-    type: 'website',
-    url: `${APPLICATION_HOST}/privacy-policy`,
-    images: [
-      {
-        url: `${APPLICATION_HOST}/assets/img/og.png`,
-        width: 1200,
-        height: 630,
-        alt: 'Kuray Karaaslan - Privacy Policy',
-      },
-    ],
-    locale: 'en_US',
-    siteName: 'Kuray Karaaslan',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@kuraykaraaslan',
-    creator: '@kuraykaraaslan',
-    title,
-    description,
-    images: [`${APPLICATION_HOST}/assets/img/og.png`],
-  },
-  alternates: {
-    canonical: `${APPLICATION_HOST}/privacy-policy`,
-  },
+type Props = {
+  params: Promise<{ lang: string }>
 }
 
-const jsonLdMeta: Metadata = {
-  title,
-  description,
-  openGraph: {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang } = await params
+  const { canonical, languages } = buildAlternates(lang, '/privacy-policy', [...AVAILABLE_LANGUAGES])
+  const { title, description, keywords } = await getPageMetadata(lang, 'privacy_policy')
+
+  return {
     title,
     description,
-    type: 'website',
-    url: `${APPLICATION_HOST}/privacy-policy`,
-    images: [`${APPLICATION_HOST}/assets/img/og.png`],
-  },
+    keywords,
+    robots: { index: true, follow: true },
+    authors: [{ name: 'Kuray Karaaslan', url: `${APPLICATION_HOST}` }],
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: canonical,
+      images: [
+        {
+          url: `${APPLICATION_HOST}/assets/img/og.png`,
+          width: 1200,
+          height: 630,
+          alt: 'Kuray Karaaslan - Privacy Policy',
+        },
+      ],
+      locale: getOgLocale(lang),
+      siteName: 'Kuray Karaaslan',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@kuraykaraaslan',
+      creator: '@kuraykaraaslan',
+      title,
+      description,
+      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+    },
+    alternates: { canonical, languages },
+  }
 }
 
-export default function PrivacyPolicyPage() {
+export default async function PrivacyPolicyPage({ params }: Props) {
+  const { lang } = await params
+  const { title, description } = await getPageMetadata(lang, 'privacy_policy')
+
+  const jsonLdMeta: Metadata = {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `${APPLICATION_HOST}/privacy-policy`,
+      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+    },
+  }
+
   return (
     <>
       {MetadataHelper.generateJsonLdScripts(jsonLdMeta)}

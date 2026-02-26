@@ -88,7 +88,7 @@ const OtherPosts = () => {
   return (
     <div className="container mb-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-left mt-4 mb-4">{t('frontend.related_articles')}</h2>
+        <h2 className="text-3xl font-bold text-left mt-4 mb-4">{t('frontend.feed.related_articles')}</h2>
         <div
           className="flex items-center transition-all duration-300 ease-in-out scroll-smooth	"
           style={{ width: 'fit-content' }}

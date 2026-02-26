@@ -80,7 +80,7 @@ export default function SystemStatusModalContent() {
         <>
           {Object.entries(data.services || {}).map(([key, value]: any) => (
             <div key={key} className="flex justify-between items-center">
-              <span className="capitalize">{t('shared.status.service_names.' + key)}</span>
+              <span className="capitalize">{t('shared.status.services.' + key)}</span>
               <span className={`flex items-center gap-1 ${getColor(value.status)}`}>
                 <FontAwesomeIcon icon={faCircle} className="text-[8px]" />
                 {t('shared.status.statuses.' + value.status)}

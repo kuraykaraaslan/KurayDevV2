@@ -33,37 +33,37 @@ export default function SettingsTabs() {
   const tabs: Tab[] = [
     {
       id: 'basic',
-      label: t('frontend.settings.basic'),
+      label: t('settings.basic'),
       icon: faNoteSticky,
       content: <BasicTab />,
     },
     {
       id: 'profile',
-      label: t('frontend.settings.profile'),
+      label: t('settings.profile'),
       icon: faUser,
       content: <ProfileTab />,
     },
     {
       id: 'security',
-      label: t('frontend.settings.security'),
+      label: t('settings.security'),
       icon: faLock,
       content: <SecurityTab />,
     },
     {
       id: 'otp',
-      label: t('frontend.settings.otp'),
+      label: t('settings.otp'),
       icon: faSms,
       content: <OTPTab />,
     },
     {
       id: 'preferences',
-      label: t('frontend.settings.preferences'),
+      label: t('settings.preferences'),
       icon: faGear,
       content: <PreferencesTab />,
     },
     {
       id: 'notifications',
-      label: t('frontend.settings.notifications'),
+      label: t('settings.notifications'),
       icon: faRing,
       content: <NotificationsTab />,
     },

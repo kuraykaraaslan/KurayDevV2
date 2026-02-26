@@ -10,12 +10,12 @@ const TypingEffect = () => {
 
   const texts = useMemo(
     () => [
-      t('pages.welcome.typingEffect.text1'),
-      t('pages.welcome.typingEffect.text2'),
-      t('pages.welcome.typingEffect.text3'),
-      t('pages.welcome.typingEffect.text4'),
-      t('pages.welcome.typingEffect.text5'),
-      t('pages.welcome.typingEffect.text6'),
+      t('pages.hero.typing_effect.text1'),
+      t('pages.hero.typing_effect.text2'),
+      t('pages.hero.typing_effect.text3'),
+      t('pages.hero.typing_effect.text4'),
+      t('pages.hero.typing_effect.text5'),
+      t('pages.hero.typing_effect.text6'),
     ],
     [i18n.language]
   )
@@ -58,17 +58,17 @@ const TypingEffect = () => {
   if (prefersReducedMotion) {
     return (
       <span className="text-3xl font-bold text-shadow-sm pb-2">
-        {t('pages.welcome.typingEffect.prefix')}&nbsp;
+        {t('pages.hero.typing_effect.prefix')}&nbsp;
         <span className="text-primary text-shadow-sm">{texts[0]}</span>
         &nbsp;
-        {t('pages.welcome.typingEffect.suffix')}
+        {t('pages.hero.typing_effect.suffix')}
       </span>
     )
   }
 
   return (
     <span className="text-3xl font-bold text-shadow-sm pb-2">
-      {t('pages.welcome.typingEffect.prefix')}&nbsp;
+      {t('pages.hero.typing_effect.prefix')}&nbsp;
       <span
         className="text-primary text-shadow-sm"
         onMouseEnter={() => setPause(true)}
@@ -77,7 +77,7 @@ const TypingEffect = () => {
         {renderedText === '' ? ' ' : renderedText}
       </span>
       &nbsp;
-      {t('pages.welcome.typingEffect.suffix')}
+      {t('pages.hero.typing_effect.suffix')}
     </span>
   )
 }

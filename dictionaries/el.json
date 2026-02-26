@@ -11,22 +11,75 @@
     "resume": "Βιογραφικό",
     "backend": "Backend"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "Κάτι πήγε στραβά",
-        "description": "Συγγνώμη, δεν μπορούμε να βρούμε αυτήν τη σελίδα. Ανακάλυψε πολλά ενδιαφέροντα στην αρχική σελίδα.",
-        "button": "Επιστροφή στην αρχική"
-      },
-      "500": {
-        "title": "Εσωτερικό σφάλμα διακομιστή",
-        "description": "Παρουσιάστηκε σφάλμα στον διακομιστή.",
-        "button": "Επιστροφή στην αρχική"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "Κάτι πήγε στραβά",
+      "description": "Συγγνώμη, δεν μπορούμε να βρούμε αυτήν τη σελίδα. Ανακάλυψε πολλά ενδιαφέροντα στην αρχική σελίδα.",
+      "button": "Επιστροφή στην αρχική"
+    },
+    "500": {
+      "title": "Εσωτερικό σφάλμα διακομιστή",
+      "description": "Παρουσιάστηκε σφάλμα στον διακομιστή.",
+      "button": "Επιστροφή στην αρχική"
+    }
+  },
+
+  "common": {
+    "loading": "Φόρτωση...",
+    "modal": {
+      "close_dialog": "Κλείσιμο διαλόγου"
+    },
+    "navbar": {
+      "login": "Σύνδεση",
+      "user_menu": "Μενού χρήστη",
+      "admin_dashboard": "Πίνακας Διαχείρισης",
+      "user_settings": "Ρυθμίσεις Χρήστη",
+      "logout": "Αποσύνδεση"
+    },
+    "image": {
+      "upload_success": "Η εικόνα ανέβηκε με επιτυχία",
+      "upload_error": "Σφάλμα κατά τη μεταφόρτωση της εικόνας"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>Full-Stack Developer με επίκεντρο το προϊόν</bold> και <bold>άνω των 3 ετών εμπειρίας</bold> στην παράδοση ανθεκτικών και επεκτάσιμων λύσεων λογισμικού σε <bold>frontend, backend και mobile στους τομείς BIM και IoT.</bold> Εξειδικευμένος σε <bold>Java Spring Boot, React, Next.js, Node.js και PostgreSQL</bold>. Ικανός στην αρχιτεκτονική <bold>πολυενοικιαζόμενων SaaS πλατφορμών, συστημάτων σε πραγματικό χρόνο και ενσωματώσεων πληρωμών.</bold> Συνδυάζει <bold>ισχυρά τεχνικά θεμέλια</bold> με <bold>δημιουργική επίλυση προβλημάτων</bold> και <bold>καθαρή, συστηματική προσέγγιση κωδικοποίησης.</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "Είμαι έτοιμος να",
         "suffix": "",
         "text1": "επιλύσω προβλήματα",
@@ -93,6 +146,98 @@
       }
     }
   },
+
+  "frontend": {
+    "feed": {
+      "other_posts": "Άλλες αναρτήσεις",
+      "related_articles": "Σχετικά άρθρα",
+      "categories": "Κατηγορίες",
+      "latest_posts": "Τελευταίες αναρτήσεις",
+      "posts_by": "Αναρτήσεις από",
+      "load_more": "Φόρτωση περισσότερων αναρτήσεων",
+      "no_more_posts": "Δεν υπάρχουν άλλες διαθέσιμες αναρτήσεις",
+      "read_more": "Διαβάστε περισσότερα"
+    },
+    "post": {
+      "by": "από",
+      "min_read": "λεπ ανάγνωσης",
+      "views": "προβολές",
+      "no_date": "Χωρίς ημερομηνία",
+      "unknown_author": "Άγνωστος συγγραφέας",
+      "views_count": "{{count}} προβολές",
+      "read_time": "{{count}} λεπ ανάγνωσης"
+    },
+    "time": {
+      "days_ago": "πριν από {{count}} ημέρες",
+      "yesterday": "Χθες",
+      "hours_ago": "πριν από {{count}} ώρες",
+      "an_hour_ago": "πριν από μία ώρα",
+      "minutes_ago": "πριν από {{count}} λεπτά",
+      "a_minute_ago": "πριν από ένα λεπτό",
+      "just_now": "Μόλις τώρα",
+      "today": "Σήμερα"
+    },
+    "comments": {
+      "comments_count": "Σχόλια",
+      "name_placeholder": "Όνομα",
+      "email_placeholder": "Email",
+      "comment_placeholder": "Γράψε ένα σχόλιο...",
+      "submit_button": "Σχόλιο",
+      "fill_all_fields": "Παρακαλώ συμπληρώστε όλα τα πεδία",
+      "invalid_email": "Παρακαλώ εισάγετε ένα έγκυρο email",
+      "name_length_error": "Το όνομα πρέπει να έχει τουλάχιστον 3 και έως 50 χαρακτήρες",
+      "content_length_error": "Το περιεχόμενο πρέπει να έχει τουλάχιστον 5 χαρακτήρες",
+      "posted_successfully": "Το σχόλιο δημοσιεύτηκε με επιτυχία",
+      "error": "Παρουσιάστηκε σφάλμα",
+      "reply": "Απάντηση",
+      "delete": "Διαγραφή",
+      "anonymous": "Ανώνυμος"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D Γράφος Γνώσης",
+      "title_3d": "3D Γράφος Γνώσης"
+    },
+    "offline": {
+      "online": "Επιστρέψατε online!",
+      "offline": "Είστε offline!"
+    },
+    "terminal_button": "Τερματικό",
+    "scroll_to_top": "Μετάβαση στην κορυφή",
+    "scroll_to_bottom": "Μετάβαση στο τέλος"
+  },
+
+  "settings": {
+    "basic": "Βασικά",
+    "profile": "Προφίλ",
+    "security": "Ασφάλεια",
+    "otp": "2FA",
+    "preferences": "Προτιμήσεις",
+    "notifications": "Ειδοποιήσεις",
+    "otp_method_card": {
+      "active": "Ενεργό",
+      "inactive": "Ανενεργό"
+    },
+    "otp_confirm": {
+      "title": "Έλεγχος Ασφαλείας",
+      "send_code": "Αποστολή Κωδικού Επιβεβαίωσης",
+      "sending": "Αποστολή κωδικού...",
+      "code_placeholder": "123456",
+      "verify": "Επιβεβαίωση",
+      "verifying": "Επιβεβαίωση..."
+    },
+    "totp_setup": {
+      "title": "Ρύθμιση TOTP",
+      "backup_codes_title": "Εφεδρικοί κωδικοί",
+      "warning": "Αποθηκεύστε τους εφεδρικούς κωδικούς σας σε ασφαλές σημείο. Μπορείτε να τους χρησιμοποιήσετε για να ανακτήσετε την πρόσβαση στον λογαριασμό σας αν χάσετε την εφαρμογή ταυτοποίησης.",
+      "copy_codes": "Αντιγραφή κωδικών",
+      "download_codes": "Λήψη κωδικών",
+      "i_have_saved": "Έχω αποθηκεύσει τους εφεδρικούς κωδικούς μου",
+      "start_setup": "Έναρξη ρύθμισης",
+      "enter_code": "Εισάγετε τον κωδικό από την εφαρμογή ταυτοποίησής σας",
+      "confirm_setup": "Επιβεβαίωση ρύθμισης"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Αυτό το ιστολόγιο είναι διαθέσιμο μόνο στα Αγγλικά",
@@ -117,42 +262,47 @@
     },
     "calendar": {
       "title": "Ημερολόγιο",
-      "name_placeholder": "Εισάγετε το όνομά σας",
-      "email_placeholder": "Εισάγετε το email σας",
-      "phone_placeholder": "Εισάγετε το τηλέφωνό σας",
-      "note_placeholder": "Εισάγετε τη σημείωσή σας",
-      "booked": "Κλεισμένο",
-      "cancelled": "Ακυρώθηκε",
-      "available": "Διαθέσιμο",
-      "no_available_slots": "Δεν υπάρχουν διαθέσιμα ραντεβού",
-      "name": "Το όνομά σας",
-      "email": "Το email σας",
-      "phone": "Το τηλέφωνό σας",
       "description": "Κλείστε ένα ραντεβού μαζί μου.",
-      "available_slots": "Διαθέσιμα ραντεβού",
-      "book_appointment": "Κλείσε ραντεβού",
-      "select_slot": "Παρακαλώ επιλέξτε ώρα για να κλείσετε ραντεβού.",
-      "past_date_warning": "Δεν μπορείτε να κλείσετε ραντεβού σε παρελθοντική ημερομηνία.",
-      "minutes": "{{count}} λεπτά",
-      "close": "Κλείσιμο",
       "appointment_title": "Ραντεβού",
       "appointment_subtitle": "Επιλέξτε κατάλληλη ημέρα και ώρα",
+      "available_slots": "Διαθέσιμα ραντεβού",
       "available_times": "Διαθέσιμες ώρες",
       "selected_time": "Επιλεγμένη ώρα",
+      "no_available_slots": "Δεν υπάρχουν διαθέσιμα ραντεβού",
       "no_slots_for_day": "Δεν υπάρχουν διαθέσιμες ώρες για την επιλεγμένη ημέρα",
-      "book_now": "Κλείσε ραντεβού",
-      "minutes_abbr": "λεπ",
-      "appointment_info": "Πληροφορίες ραντεβού",
-      "full_name": "Πλήρες όνομα",
-      "email_label": "Email",
-      "phone_label": "Τηλέφωνο",
-      "note_label": "Σημείωση",
-      "create_appointment": "Δημιουργία ραντεβού",
-      "close_modal": "Κλείσιμο",
+      "past_date_warning": "Δεν μπορείτε να κλείσετε ραντεβού σε παρελθοντική ημερομηνία.",
+      "select_slot": "Παρακαλώ επιλέξτε ώρα για να κλείσετε ραντεβού.",
       "select_slot_first": "Παρακαλώ επιλέξτε πρώτα ώρα",
+      "book_now": "Κλείσε ραντεβού",
+      "book_appointment": "Κλείσε ραντεβού",
+      "create_appointment": "Δημιουργία ραντεβού",
       "appointment_created": "Το ραντεβού σας δημιουργήθηκε",
       "appointment_error": "Δεν ήταν δυνατή η δημιουργία ραντεβού",
-      "error_occurred": "Παρουσιάστηκε σφάλμα"
+      "appointment_info": "Πληροφορίες ραντεβού",
+      "minutes": "{{count}} λεπτά",
+      "minutes_abbr": "λεπ",
+      "close": "Κλείσιμο",
+      "close_modal": "Κλείσιμο",
+      "error_occurred": "Παρουσιάστηκε σφάλμα",
+      "fields": {
+        "name": "Το όνομά σας",
+        "name_placeholder": "Εισάγετε το όνομά σας",
+        "email": "Το email σας",
+        "email_placeholder": "Εισάγετε το email σας",
+        "phone": "Το τηλέφωνό σας",
+        "phone_placeholder": "Εισάγετε το τηλέφωνό σας",
+        "note": "Σημείωση",
+        "note_placeholder": "Εισάγετε τη σημείωσή σας",
+        "full_name": "Πλήρες όνομα",
+        "email_label": "Email",
+        "phone_label": "Τηλέφωνο",
+        "note_label": "Σημείωση"
+      },
+      "statuses": {
+        "booked": "Κλεισμένο",
+        "cancelled": "Ακυρώθηκε",
+        "available": "Διαθέσιμο"
+      }
     },
     "geomap": {
       "title": "Χάρτης Θερμότητας Παγκόσμιων Επισκεπτών",
@@ -164,7 +314,7 @@
       "loading": "Έλεγχος κατάστασης συστήματος...",
       "response_time": "Χρόνος Απόκρισης: {{time}}ms",
       "uptime": "Διάρκεια Λειτουργίας: {{time}}m",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "Βάση Δεδομένων",
         "auth": "Επαλήθευση",
@@ -351,112 +501,6 @@
       "modal_button": "Σύνδεση με Κοινωνικά Δίκτυα",
       "modal_title": "Σύνδεση με Κοινωνικά Δίκτυα",
       "close": "Κλείσιμο"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "Σύνδεση",
-      "user_menu": "Μενού χρήστη",
-      "admin_dashboard": "Πίνακας Διαχείρισης",
-      "user_settings": "Ρυθμίσεις Χρήστη",
-      "logout": "Αποσύνδεση"
-    },
-    "image_load": {
-      "success": "Η εικόνα ανέβηκε με επιτυχία",
-      "error": "Σφάλμα κατά τη μεταφόρτωση της εικόνας"
-    },
-    "loading": "Φόρτωση...",
-    "modal": {
-      "close_dialog": "Κλείσιμο διαλόγου"
-    }
-  },
-  "frontend": {
-    "comments": {
-      "comments_count": "Σχόλια",
-      "name_placeholder": "Όνομα",
-      "email_placeholder": "Email",
-      "comment_placeholder": "Γράψε ένα σχόλιο...",
-      "submit_button": "Σχόλιο",
-      "fill_all_fields": "Παρακαλώ συμπληρώστε όλα τα πεδία",
-      "invalid_email": "Παρακαλώ εισάγετε ένα έγκυρο email",
-      "name_length_error": "Το όνομα πρέπει να έχει τουλάχιστον 3 και έως 50 χαρακτήρες",
-      "content_length_error": "Το περιεχόμενο πρέπει να έχει τουλάχιστον 5 χαρακτήρες",
-      "posted_successfully": "Το σχόλιο δημοσιεύτηκε με επιτυχία",
-      "error": "Παρουσιάστηκε σφάλμα",
-      "reply": "Απάντηση",
-      "delete": "Διαγραφή",
-      "anonymous": "Ανώνυμος"
-    },
-    "other_posts": "Άλλες αναρτήσεις",
-    "related_articles": "Σχετικά άρθρα",
-    "categories": "Κατηγορίες",
-    "latest_posts": "Τελευταίες αναρτήσεις",
-    "posts_by": "Αναρτήσεις από",
-    "load_more": "Φόρτωση περισσότερων αναρτήσεων",
-    "no_more_posts": "Δεν υπάρχουν άλλες διαθέσιμες αναρτήσεις",
-    "min_read": "λεπ ανάγνωσης",
-    "views": "προβολές",
-    "by": "από",
-    "no_date": "Χωρίς ημερομηνία",
-    "unknown_author": "Άγνωστος συγγραφέας",
-    "post_header": {
-      "no_date": "Χωρίς ημερομηνία",
-      "views_count": "{{count}} προβολές",
-      "read_time": "{{count}} λεπ ανάγνωσης",
-      "by": "από",
-      "unknown_author": "Άγνωστος συγγραφέας"
-    },
-    "days_ago": "πριν από {{count}} ημέρες",
-    "yesterday": "Χθες",
-    "hours_ago": "πριν από {{count}} ώρες",
-    "an_hour_ago": "πριν από μία ώρα",
-    "minutes_ago": "πριν από {{count}} λεπτά",
-    "a_minute_ago": "πριν από ένα λεπτό",
-    "just_now": "Μόλις τώρα",
-    "views_count": "{{count}} προβολές",
-    "today": "Σήμερα",
-    "read_more": "Διαβάστε περισσότερα",
-    "offline": {
-      "online": "Επιστρέψατε online!",
-      "offline": "Είστε offline!"
-    },
-    "terminal_button": "Τερματικό",
-    "scroll_to_top": "Μετάβαση στην κορυφή",
-    "scroll_to_bottom": "Μετάβαση στο τέλος",
-    "knowledge_graph": {
-      "title_2d": "2D Γράφος Γνώσης",
-      "title_3d": "3D Γράφος Γνώσης"
-    },
-    "settings": {
-      "basic": "Βασικά",
-      "profile": "Προφίλ",
-      "security": "Ασφάλεια",
-      "otp": "2FA",
-      "preferences": "Προτιμήσεις",
-      "notifications": "Ειδοποιήσεις",
-      "otp_method_card": {
-        "active": "Ενεργό",
-        "inactive": "Ανενεργό"
-      },
-      "otp_confirm": {
-        "title": "Έλεγχος Ασφαλείας",
-        "send_code": "Αποστολή Κωδικού Επιβεβαίωσης",
-        "sending": "Αποστολή κωδικού...",
-        "code_placeholder": "123456",
-        "verify": "Επιβεβαίωση",
-        "verifying": "Επιβεβαίωση..."
-      },
-      "totp_setup": {
-        "title": "Ρύθμιση TOTP",
-        "backup_codes_title": "Εφεδρικοί κωδικοί",
-        "warning": "Αποθηκεύστε τους εφεδρικούς κωδικούς σας σε ασφαλές σημείο. Μπορείτε να τους χρησιμοποιήσετε για να ανακτήσετε την πρόσβαση στον λογαριασμό σας αν χάσετε την εφαρμογή ταυτοποίησης.",
-        "copy_codes": "Αντιγραφή κωδικών",
-        "download_codes": "Λήψη κωδικών",
-        "i_have_saved": "Έχω αποθηκεύσει τους εφεδρικούς κωδικούς μου",
-        "start_setup": "Έναρξη ρύθμισης",
-        "enter_code": "Εισάγετε τον κωδικό από την εφαρμογή ταυτοποίησής σας",
-        "confirm_setup": "Επιβεβαίωση ρύθμισης"
-      }
     }
   }
 }

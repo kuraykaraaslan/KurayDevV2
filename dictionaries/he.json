@@ -11,22 +11,80 @@
     "resume": "קורות חיים",
     "backend": "Backend"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "משהו השתבש",
-        "description": "מצטערים, לא מצאנו את הדף הזה. בדף הבית תמצאו הרבה דברים לגלות.",
-        "button": "חזרה לדף הבית"
-      },
-      "500": {
-        "title": "שגיאת שרת פנימית",
-        "description": "אירעה שגיאה בשרת.",
-        "button": "חזרה לדף הבית"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "משהו השתבש",
+      "description": "מצטערים, לא מצאנו את הדף הזה. בדף הבית תמצאו הרבה דברים לגלות.",
+      "button": "חזרה לדף הבית"
+    },
+    "500": {
+      "title": "שגיאת שרת פנימית",
+      "description": "אירעה שגיאה בשרת.",
+      "button": "חזרה לדף הבית"
+    }
+  },
+
+  "common": {
+    "loading": "טוען...",
+    "save": "שמור",
+    "cancel": "ביטול",
+    "refresh": "רענן",
+    "table_view": "תצוגת טבלה",
+    "grid_view": "תצוגת רשת",
+    "modal": {
+      "close_dialog": "סגור דיאלוג"
+    },
+    "navbar": {
+      "login": "התחברות",
+      "user_menu": "תפריט משתמש",
+      "admin_dashboard": "לוח מחוונים של מנהל",
+      "user_settings": "הגדרות משתמש",
+      "logout": "התנתק"
+    },
+    "image": {
+      "upload_success": "התמונה הועלתה בהצלחה",
+      "upload_error": "שגיאה בהעלאת התמונה"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>מפתח Full-Stack ממוקד מוצר</bold> עם <bold>3+ שנות ניסיון</bold> במתן פתרונות תוכנה חזקים ומדרגיים ב<bold>frontend, backend, mobile בתחומי BIM ו-IoT.</bold> מתמחה ב<bold>Java Spring Boot, React, Next.js, Node.js ו-PostgreSQL</bold>. מיומן בבניית <bold>פלטפורמות SaaS מרובות-דיירים, מערכות זמן אמת ואינטגרציות תשלום.</bold> משלב יסודות הנדסיים חזקים עם <bold>פתרון בעיות יצירתי</bold> ו<bold>גישת קידוד נקייה ושיטתית.</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "אני מוכן ל",
         "suffix": "",
         "text1": "פתרון בעיות",
@@ -93,6 +151,101 @@
       }
     }
   },
+
+  "frontend": {
+    "toc": {
+      "title": "תוכן עניינים"
+    },
+    "feed": {
+      "other_posts": "פוסטים נוספים",
+      "related_articles": "מאמרים קשורים",
+      "categories": "קטגוריות",
+      "latest_posts": "פוסטים אחרונים",
+      "posts_by": "פוסטים מאת",
+      "load_more": "טען פוסטים נוספים",
+      "no_more_posts": "אין עוד פוסטים זמינים",
+      "read_more": "קרא עוד"
+    },
+    "post": {
+      "by": "מאת",
+      "min_read": "דקות קריאה",
+      "views": "צפיות",
+      "no_date": "אין תאריך",
+      "unknown_author": "מחבר לא ידוע",
+      "views_count": "{{count}} צפיות",
+      "read_time": "{{count}} דקות קריאה"
+    },
+    "time": {
+      "days_ago": "לפני {{count}} ימים",
+      "yesterday": "אתמול",
+      "hours_ago": "לפני {{count}} שעות",
+      "an_hour_ago": "לפני שעה",
+      "minutes_ago": "לפני {{count}} דקות",
+      "a_minute_ago": "לפני דקה",
+      "just_now": "הרגע",
+      "today": "היום"
+    },
+    "comments": {
+      "comments_count": "תגובות",
+      "name_placeholder": "שם",
+      "email_placeholder": "אימייל",
+      "comment_placeholder": "כתוב תגובה...",
+      "submit_button": "תגובה",
+      "fill_all_fields": "אנא מלא את כל השדות",
+      "invalid_email": "אנא הכנס כתובת אימייל תקנית",
+      "name_length_error": "השם חייב להיות לפחות 3 תווים ולא יותר מ-50 תווים",
+      "content_length_error": "התוכן חייב להיות לפחות 5 תווים",
+      "posted_successfully": "התגובה פורסמה בהצלחה",
+      "error": "אירעה שגיאה",
+      "reply": "השב",
+      "delete": "מחק",
+      "anonymous": "אנונימי"
+    },
+    "knowledge_graph": {
+      "title_2d": "גרף ידע 2D",
+      "title_3d": "גרף ידע 3D"
+    },
+    "offline": {
+      "online": "אתה חזרת לאינטרנט!",
+      "offline": "אתה לא מחובר!"
+    },
+    "terminal_button": "טרמינל",
+    "scroll_to_top": "גלול למעלה",
+    "scroll_to_bottom": "גלול למטה"
+  },
+
+  "settings": {
+    "basic": "בסיסי",
+    "profile": "פרופיל",
+    "security": "אבטחה",
+    "otp": "2FA",
+    "preferences": "העדפות",
+    "notifications": "התראות",
+    "otp_method_card": {
+      "active": "פעיל",
+      "inactive": "לא פעיל"
+    },
+    "otp_confirm": {
+      "title": "אימות אבטחה",
+      "send_code": "שלח קוד אימות",
+      "sending": "שולח קוד...",
+      "code_placeholder": "123456",
+      "verify": "אמת",
+      "verifying": "מאמת..."
+    },
+    "totp_setup": {
+      "title": "הגדרת TOTP",
+      "backup_codes_title": "קודי גיבוי",
+      "warning": "שמור את קודי הגיבוי במקום בטוח. תוכל להשתמש בהם כדי להחזיר גישה לחשבון שלך אם תאבד גישה לאפליקציית האימות שלך.",
+      "copy_codes": "העתק קודים",
+      "download_codes": "הורד קודים",
+      "i_have_saved": "שמרתי את קודי הגיבוי שלי",
+      "start_setup": "התחל הגדרה",
+      "enter_code": "הכנס את הקוד מאפליקציית האימות שלך",
+      "confirm_setup": "אשר הגדרה"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "הבלוג זמין באנגלית בלבד",
@@ -117,42 +270,47 @@
     },
     "calendar": {
       "title": "יומן",
-      "name_placeholder": "הכנס את שמך",
-      "email_placeholder": "הכנס את האימייל שלך",
-      "phone_placeholder": "הכנס את הטלפון שלך",
-      "note_placeholder": "הכנס הערה",
-      "booked": "תפוס",
-      "cancelled": "בוטל",
-      "available": "פנוי",
-      "no_available_slots": "אין חלונות זמינים",
-      "name": "שמך",
-      "email": "האימייל שלך",
-      "phone": "הטלפון שלך",
       "description": "קבע פגישה איתי.",
-      "available_slots": "חלונות זמינים",
-      "book_appointment": "קביעת פגישה",
-      "select_slot": "אנא בחר חלון לקביעת פגישה.",
-      "past_date_warning": "לא ניתן לקבוע פגישה לתאריך שעבר.",
-      "minutes": "{{count}} דקות",
-      "close": "סגור",
       "appointment_title": "פגישה",
       "appointment_subtitle": "בחר יום ושעה מתאימים",
+      "available_slots": "חלונות זמינים",
       "available_times": "שעות פנויות",
       "selected_time": "שעה נבחרת",
+      "no_available_slots": "אין חלונות זמינים",
       "no_slots_for_day": "אין שעות פנויות ביום שנבחר",
-      "book_now": "קבע פגישה",
-      "minutes_abbr": "דק'",
-      "appointment_info": "פרטי הפגישה",
-      "full_name": "שם מלא",
-      "email_label": "אימייל",
-      "phone_label": "טלפון",
-      "note_label": "הערה",
-      "create_appointment": "צור פגישה",
-      "close_modal": "סגור",
+      "past_date_warning": "לא ניתן לקבוע פגישה לתאריך שעבר.",
+      "select_slot": "אנא בחר חלון לקביעת פגישה.",
       "select_slot_first": "אנא בחר חלון זמן תחילה",
+      "book_now": "קבע פגישה",
+      "book_appointment": "קביעת פגישה",
+      "create_appointment": "צור פגישה",
       "appointment_created": "הפגישה שלך נוצרה",
       "appointment_error": "לא ניתן ליצור פגישה",
-      "error_occurred": "אירעה שגיאה"
+      "appointment_info": "פרטי הפגישה",
+      "minutes": "{{count}} דקות",
+      "minutes_abbr": "דק'",
+      "close": "סגור",
+      "close_modal": "סגור",
+      "error_occurred": "אירעה שגיאה",
+      "fields": {
+        "name": "שמך",
+        "name_placeholder": "הכנס את שמך",
+        "email": "האימייל שלך",
+        "email_placeholder": "הכנס את האימייל שלך",
+        "phone": "הטלפון שלך",
+        "phone_placeholder": "הכנס את הטלפון שלך",
+        "note": "הערה",
+        "note_placeholder": "הכנס הערה",
+        "full_name": "שם מלא",
+        "email_label": "אימייל",
+        "phone_label": "טלפון",
+        "note_label": "הערה"
+      },
+      "statuses": {
+        "booked": "תפוס",
+        "cancelled": "בוטל",
+        "available": "פנוי"
+      }
     },
     "geomap": {
       "title": "מפת חום של מבקרים גלובליים",
@@ -164,7 +322,7 @@
       "loading": "בודק מצב מערכת...",
       "response_time": "זמן תגובה: {{time}}ms",
       "uptime": "זמן פעולה: {{time}}m",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "מסד נתונים",
         "auth": "אימות",
@@ -182,6 +340,18 @@
         "partial_outage": "תקלה חלקית",
         "major_outage": "תקלה חמורה"
       }
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "התחבר עם רשתות חברתיות",
+      "no_providers": "לא הוגדרו ספקי SSO.",
+      "provider_not_allowed": "התחברות SSO עבור {{provider}} אינה מורשית.",
+      "redirect_error": "שגיאת הפניית SSO.",
+      "button_label": "התחבר עם {{provider}}",
+      "modal_button": "התחבר עם רשתות חברתיות",
+      "modal_title": "התחבר עם רשתות חברתיות",
+      "close": "סגור"
     }
   },
   "admin": {
@@ -436,132 +606,6 @@
     "selects": {
       "select_user": "בחר משתמש",
       "select_category": "בחר קטגוריה"
-    }
-  },
-  "auth": {
-    "sso": {
-      "title": "התחבר עם רשתות חברתיות",
-      "no_providers": "לא הוגדרו ספקי SSO.",
-      "provider_not_allowed": "התחברות SSO עבור {{provider}} אינה מורשית.",
-      "redirect_error": "שגיאת הפניית SSO.",
-      "button_label": "התחבר עם {{provider}}",
-      "modal_button": "התחבר עם רשתות חברתיות",
-      "modal_title": "התחבר עם רשתות חברתיות",
-      "close": "סגור"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "התחברות",
-      "user_menu": "תפריט משתמש",
-      "admin_dashboard": "לוח מחוונים של מנהל",
-      "user_settings": "הגדרות משתמש",
-      "logout": "התנתק"
-    },
-    "image_load": {
-      "success": "התמונה הועלתה בהצלחה",
-      "error": "שגיאה בהעלאת התמונה"
-    },
-    "loading": "טוען...",
-    "save": "שמור",
-    "cancel": "ביטול",
-    "modal": {
-      "close_dialog": "סגור דיאלוג"
-    },
-    "table_view": "תצוגת טבלה",
-    "grid_view": "תצוגת רשת",
-    "refresh": "רענן"
-  },
-  "frontend": {
-    "toc": {
-      "title": "תוכן עניינים"
-    },
-    "comments": {
-      "comments_count": "תגובות",
-      "name_placeholder": "שם",
-      "email_placeholder": "אימייל",
-      "comment_placeholder": "כתוב תגובה...",
-      "submit_button": "תגובה",
-      "fill_all_fields": "אנא מלא את כל השדות",
-      "invalid_email": "אנא הכנס כתובת אימייל תקנית",
-      "name_length_error": "השם חייב להיות לפחות 3 תווים ולא יותר מ-50 תווים",
-      "content_length_error": "התוכן חייב להיות לפחות 5 תווים",
-      "posted_successfully": "התגובה פורסמה בהצלחה",
-      "error": "אירעה שגיאה",
-      "reply": "השב",
-      "delete": "מחק",
-      "anonymous": "אנונימי"
-    },
-    "other_posts": "פוסטים נוספים",
-    "related_articles": "מאמרים קשורים",
-    "categories": "קטגוריות",
-    "latest_posts": "פוסטים אחרונים",
-    "posts_by": "פוסטים מאת",
-    "load_more": "טען פוסטים נוספים",
-    "no_more_posts": "אין עוד פוסטים זמינים",
-    "min_read": "דקות קריאה",
-    "views": "צפיות",
-    "by": "מאת",
-    "no_date": "אין תאריך",
-    "unknown_author": "מחבר לא ידוע",
-    "post_header": {
-      "no_date": "אין תאריך",
-      "views_count": "{{count}} צפיות",
-      "read_time": "{{count}} דקות קריאה",
-      "by": "מאת",
-      "unknown_author": "מחבר לא ידוע"
-    },
-    "days_ago": "לפני {{count}} ימים",
-    "yesterday": "אתמול",
-    "hours_ago": "לפני {{count}} שעות",
-    "an_hour_ago": "לפני שעה",
-    "minutes_ago": "לפני {{count}} דקות",
-    "a_minute_ago": "לפני דקה",
-    "just_now": "הרגע",
-    "views_count": "{{count}} צפיות",
-    "today": "היום",
-    "read_more": "קרא עוד",
-    "offline": {
-      "online": "אתה חזרת לאינטרנט!",
-      "offline": "אתה לא מחובר!"
-    },
-    "terminal_button": "טרמינל",
-    "scroll_to_top": "גלול למעלה",
-    "scroll_to_bottom": "גלול למטה",
-    "knowledge_graph": {
-      "title_2d": "גרף ידע 2D",
-      "title_3d": "גרף ידע 3D"
-    },
-    "settings": {
-      "basic": "בסיסי",
-      "profile": "פרופיל",
-      "security": "אבטחה",
-      "otp": "2FA",
-      "preferences": "העדפות",
-      "notifications": "התראות",
-      "otp_method_card": {
-        "active": "פעיל",
-        "inactive": "לא פעיל"
-      },
-      "otp_confirm": {
-        "title": "אימות אבטחה",
-        "send_code": "שלח קוד אימות",
-        "sending": "שולח קוד...",
-        "code_placeholder": "123456",
-        "verify": "אמת",
-        "verifying": "מאמת..."
-      },
-      "totp_setup": {
-        "title": "הגדרת TOTP",
-        "backup_codes_title": "קודי גיבוי",
-        "warning": "שמור את קודי הגיבוי במקום בטוח. תוכל להשתמש בהם כדי להחזיר גישה לחשבון שלך אם תאבד גישה לאפליקציית האימות שלך.",
-        "copy_codes": "העתק קודים",
-        "download_codes": "הורד קודים",
-        "i_have_saved": "שמרתי את קודי הגיבוי שלי",
-        "start_setup": "התחל הגדרה",
-        "enter_code": "הכנס את הקוד מאפליקציית האימות שלך",
-        "confirm_setup": "אשר הגדרה"
-      }
     }
   }
 }

@@ -18,7 +18,7 @@ const RelatedArticles = ({ categoryId }: { categoryId: string }) => {
       <div className="mx-auto lg:pb-16 lg:px-6 duration-1000">
         <div className="mx-auto text-start lg:mb-8 -mt-8 lg:mt-0 ">
           <h4 className="mb-8 hidden sm:block text-3xl lg:text-4xl tracking-tight font-extrabold">
-            {t('frontend.related_articles')}
+            {t('frontend.feed.related_articles')}
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">

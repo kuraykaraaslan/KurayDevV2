@@ -76,22 +76,22 @@ const AppointmentModal = ({
 
         <form onSubmit={handleFormSubmit} className="space-y-3">
           <label className="label">
-            <span className="label-text">{t('shared.calendar.full_name')}</span>
+            <span className="label-text">{t('shared.calendar.fields.full_name')}</span>
           </label>
           <input type="text" name="name" required className="input input-bordered w-full" />
 
           <label className="label">
-            <span className="label-text">{t('shared.calendar.email_label')}</span>
+            <span className="label-text">{t('shared.calendar.fields.email_label')}</span>
           </label>
           <input type="email" name="email" required className="input input-bordered w-full" />
 
           <label className="label">
-            <span className="label-text">{t('shared.calendar.phone_label')}</span>
+            <span className="label-text">{t('shared.calendar.fields.phone_label')}</span>
           </label>
           <input type="tel" name="phone" required className="input input-bordered w-full" />
 
           <label className="label">
-            <span className="label-text">{t('shared.calendar.note_label')}</span>
+            <span className="label-text">{t('shared.calendar.fields.note_label')}</span>
           </label>
           <textarea name="note" rows={3} className="textarea textarea-bordered w-full" />
 

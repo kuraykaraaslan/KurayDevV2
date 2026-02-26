@@ -11,22 +11,68 @@
     "resume": "Lebenslauf",
     "backend": "Backend"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "Etwas ist schiefgelaufen",
-        "description": "Entschuldigung, wir können diese Seite nicht finden. Auf der Startseite gibt es viel zu entdecken.",
-        "button": "Zur Startseite"
-      },
-      "500": {
-        "title": "Interner Serverfehler",
-        "description": "Auf dem Server ist ein Fehler aufgetreten.",
-        "button": "Zur Startseite"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "Etwas ist schiefgelaufen",
+      "description": "Entschuldigung, wir können diese Seite nicht finden. Auf der Startseite gibt es viel zu entdecken.",
+      "button": "Zur Startseite"
+    },
+    "500": {
+      "title": "Interner Serverfehler",
+      "description": "Auf dem Server ist ein Fehler aufgetreten.",
+      "button": "Zur Startseite"
+    }
+  },
+
+  "common": {
+    "navbar": {
+      "login": "Anmelden",
+      "user_menu": "Benutzermenü"
+    },
+    "image": {
+      "upload_success": "Image uploaded successfully",
+      "upload_error": "Error uploading image"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>Produktorientierter Full-Stack-Entwickler</bold> mit <bold>über 3 Jahren Erfahrung</bold> in der Entwicklung robuster und skalierbarer Softwarelösungen in den Bereichen <bold>Frontend, Backend und Mobile für BIM und IoT.</bold> Spezialisiert auf <bold>Java Spring Boot, React, Next.js, Node.js und PostgreSQL</bold>. Kompetent in der Architektur von <bold>Multi-Tenant-SaaS-Plattformen, Echtzeitsystemen und Zahlungsintegrationen.</bold> Verbindet <bold>starke technische Grundlagen</bold> mit <bold>kreativer Problemlösung</bold> und einem <bold>sauberen, systematischen Codierungsansatz.</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "Ich bin bereit zu",
         "suffix": "",
         "text1": "Probleme lösen",
@@ -91,6 +137,71 @@
       }
     }
   },
+
+  "frontend": {
+    "feed": {
+      "other_posts": "Other Posts",
+      "related_articles": "Related Articles",
+      "categories": "Categories",
+      "latest_posts": "Latest Posts",
+      "posts_by": "Posts by",
+      "load_more": "Load more posts",
+      "no_more_posts": "No more posts available",
+      "read_more": "Read More"
+    },
+    "post": {
+      "by": "by",
+      "min_read": "min read",
+      "views": "views",
+      "no_date": "No Date",
+      "unknown_author": "Unknown Author",
+      "views_count": "{{count}} views",
+      "read_time": "{{count}} min read"
+    },
+    "time": {
+      "days_ago": "{{count}} days ago",
+      "yesterday": "Yesterday",
+      "hours_ago": "{{count}} hours ago",
+      "an_hour_ago": "An hour ago",
+      "minutes_ago": "{{count}} minutes ago",
+      "a_minute_ago": "A minute ago",
+      "just_now": "Just now",
+      "today": "Today"
+    }
+  },
+
+  "settings": {
+    "basic": "Basic",
+    "profile": "Profile",
+    "security": "Security",
+    "otp": "2FA",
+    "preferences": "Preferences",
+    "notifications": "Notifications",
+    "otp_method_card": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "otp_confirm": {
+      "title": "Security Verification",
+      "send_code": "Send Verification Code",
+      "sending": "Sending Code...",
+      "code_placeholder": "123456",
+      "verify": "Verify",
+      "verifying": "Verifying..."
+    },
+    "totp_setup": {
+      "title": "TOTP Setup",
+      "backup_codes_title": "Backup Codes",
+      "warning": "Store your backup codes in a safe place.",
+      "copy_codes": "Copy codes",
+      "download_codes": "Download codes",
+      "i_have_saved": "I have saved my backup codes",
+      "start_setup": "Start Setup",
+      "enter_code": "Enter the code from your authenticator app",
+      "confirm_setup": "Confirm Setup"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Dieser Blog ist nur auf Englisch verfügbar",
@@ -115,21 +226,47 @@
     },
     "calendar": {
       "title": "Kalender",
-      "name_placeholder": "Geben Sie Ihren Namen ein",
-      "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
-      "phone_placeholder": "Geben Sie Ihre Telefonnummer ein",
-      "note_placeholder": "Geben Sie Ihre Notiz ein",
-      "booked": "Gebucht",
-      "cancelled": "Abgesagt",
-      "available": "Verfügbar",
-      "no_available_slots": "Keine verfügbaren Termine",
-      "name": "Ihr Name",
-      "email": "Ihre E-Mail",
-      "phone": "Ihre Telefonnummer",
       "description": "Vereinbaren Sie einen Termin mit mir.",
+      "appointment_title": "Termin",
+      "appointment_subtitle": "Wählen Sie einen geeigneten Tag und eine Uhrzeit",
       "available_slots": "Verfügbare Termine",
+      "available_times": "Verfügbare Zeiten",
+      "selected_time": "Ausgewählte Zeit",
+      "no_available_slots": "Keine verfügbaren Termine",
+      "no_slots_for_day": "Keine verfügbaren Zeiten für den ausgewählten Tag",
+      "past_date_warning": "Sie können keinen Termin für ein vergangenes Datum buchen.",
+      "select_slot": "Bitte wählen Sie einen Termin aus, um einen Termin zu buchen.",
+      "select_slot_first": "Bitte wählen Sie zuerst einen Zeitraum",
+      "book_now": "Termin buchen",
       "book_appointment": "Termin buchen",
-      "select_slot": "Bitte wählen Sie einen Termin aus, um einen Termin zu buchen."
+      "create_appointment": "Termin erstellen",
+      "appointment_created": "Ihr Termin wurde erstellt",
+      "appointment_error": "Termin konnte nicht erstellt werden",
+      "appointment_info": "Termininformationen",
+      "minutes": "{{count}} Minuten",
+      "minutes_abbr": "Min",
+      "close": "Schließen",
+      "close_modal": "Schließen",
+      "error_occurred": "Ein Fehler ist aufgetreten",
+      "fields": {
+        "name": "Ihr Name",
+        "name_placeholder": "Geben Sie Ihren Namen ein",
+        "email": "Ihre E-Mail",
+        "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+        "phone": "Ihre Telefonnummer",
+        "phone_placeholder": "Geben Sie Ihre Telefonnummer ein",
+        "note": "Notiz",
+        "note_placeholder": "Geben Sie Ihre Notiz ein",
+        "full_name": "Vollständiger Name",
+        "email_label": "E-Mail",
+        "phone_label": "Telefon",
+        "note_label": "Notiz"
+      },
+      "statuses": {
+        "booked": "Gebucht",
+        "cancelled": "Abgesagt",
+        "available": "Verfügbar"
+      }
     },
     "geomap": {
       "title": "Weltweite Besucher-Wärmekarte",
@@ -141,7 +278,7 @@
       "loading": "Systemstatus wird überprüft...",
       "response_time": "Antwortzeit: {{time}}ms",
       "uptime": "Betriebszeit: {{time}}m",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "Datenbank",
         "auth": "Authentifizierung",
@@ -162,12 +299,5 @@
     }
   },
   "admin": {},
-  "auth": {},
-  "common": {
-    "navbar_auth": {
-      "login": "Anmelden",
-      "user_menu": "Benutzermenü"
-    }
-  },
-  "frontend": {}
+  "auth": {}
 }

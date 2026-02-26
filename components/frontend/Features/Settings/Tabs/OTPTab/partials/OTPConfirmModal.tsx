@@ -33,7 +33,7 @@ export default function OTPConfirmModal(props: Props) {
     <HeadlessModal
       open={open}
       onClose={onClose}
-      title={t('frontend.settings.otp_confirm.title')}
+      title={t('settings.otp_confirm.title')}
       size="sm"
       closeOnBackdrop={false}
       closeOnEsc={false}
@@ -42,8 +42,8 @@ export default function OTPConfirmModal(props: Props) {
         {!otpSent && (
           <button onClick={onSendOtp} disabled={sendingOtp} className="btn btn-primary w-full">
             {sendingOtp
-              ? t('frontend.settings.otp_confirm.sending')
-              : t('frontend.settings.otp_confirm.send_code')}
+              ? t('settings.otp_confirm.sending')
+              : t('settings.otp_confirm.send_code')}
           </button>
         )}
 
@@ -55,7 +55,7 @@ export default function OTPConfirmModal(props: Props) {
               value={otpCode}
               onChange={(e) => onChangeCode(e.target.value)}
               className="input input-bordered w-full text-center text-2xl tracking-widest font-mono"
-              placeholder={t('frontend.settings.otp_confirm.code_placeholder')}
+              placeholder={t('settings.otp_confirm.code_placeholder')}
             />
 
             <button
@@ -64,8 +64,8 @@ export default function OTPConfirmModal(props: Props) {
               className="btn btn-primary w-full"
             >
               {verifying
-                ? t('frontend.settings.otp_confirm.verifying')
-                : t('frontend.settings.otp_confirm.verify')}
+                ? t('settings.otp_confirm.verifying')
+                : t('settings.otp_confirm.verify')}
             </button>
           </>
         )}

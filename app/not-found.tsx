@@ -46,16 +46,16 @@ export default function NotFoundPage() {
             404
           </h1>
           <p className="mb-4 text-3xl tracking-tight font-bold md:text-4xl">
-            {t('pages.error.404.title')}
+            {t('errors.404.title')}
           </p>
           <p className="mb-4 text-lg font-light">
-            {t('pages.error.404.description')}
+            {t('errors.404.description')}
           </p>
           <Link
             href="/"
             className="px-6 py-3 text-lg font-medium text-white bg-primary rounded-md mt-8"
           >
-            {t('pages.error.404.button')}
+            {t('errors.404.button')}
           </Link>
         </div>
       </div>

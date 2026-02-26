@@ -11,22 +11,72 @@
     "resume": "CV",
     "backend": "Backend"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "Er is iets misgegaan",
-        "description": "Sorry, we kunnen die pagina niet vinden. Op de homepagina vind je genoeg om te ontdekken.",
-        "button": "Ga terug naar home"
-      },
-      "500": {
-        "title": "Interne Serverfout",
-        "description": "Er is een fout op de server opgetreden.",
-        "button": "Ga terug naar home"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "Er is iets misgegaan",
+      "description": "Sorry, we kunnen die pagina niet vinden. Op de homepagina vind je genoeg om te ontdekken.",
+      "button": "Ga terug naar home"
+    },
+    "500": {
+      "title": "Interne Serverfout",
+      "description": "Er is een fout op de server opgetreden.",
+      "button": "Ga terug naar home"
+    }
+  },
+
+  "common": {
+    "navbar": {
+      "login": "Inloggen",
+      "user_menu": "Gebruikersmenu"
+    },
+    "image": {
+      "upload_success": "Afbeelding succesvol geüpload",
+      "upload_error": "Fout bij uploaden van afbeelding"
+    },
+    "loading": "Laden...",
+    "modal": {
+      "close_dialog": "Dialoog sluiten"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>Productgerichte Full-Stack Developer</bold> met <bold>3+ jaar ervaring</bold> in het leveren van robuuste, schaalbare softwareoplossingen op het gebied van <bold>frontend, backend en mobile binnen BIM- en IoT-domeinen.</bold> Gespecialiseerd in <bold>Java Spring Boot, React, Next.js, Node.js en PostgreSQL</bold>. Bedreven in het ontwerpen van <bold>multi-tenant SaaS-platformen, real-time systemen en betalingsintegraties.</bold> Combineert sterke technische basis met <bold>creatief probleemoplossen</bold> en een <bold>schone, systematische codeerstijl.</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "Ik ben klaar om",
         "suffix": "",
         "text1": "problemen op te lossen",
@@ -42,8 +92,6 @@
     "toolbox": {
       "title": "Creativiteit heeft veel tools nodig",
       "description": "Ik heb veel tools in mijn toolbox en ik blijf altijd nieuwe leren.",
-      "frontend": "Frontend",
-      "backend": "Backend",
       "skills": {
         "clean_code": "Schone Code",
         "authentication_security": "Authenticatie & Beveiliging",
@@ -93,6 +141,98 @@
       }
     }
   },
+
+  "frontend": {
+    "feed": {
+      "other_posts": "Andere berichten",
+      "related_articles": "Gerelateerde artikelen",
+      "categories": "Categorieën",
+      "latest_posts": "Laatste berichten",
+      "posts_by": "Berichten door",
+      "load_more": "Meer berichten laden",
+      "no_more_posts": "Geen extra berichten beschikbaar",
+      "read_more": "Lees meer"
+    },
+    "post": {
+      "by": "door",
+      "min_read": "min leestijd",
+      "views": "weergaven",
+      "no_date": "Geen datum",
+      "unknown_author": "Onbekende auteur",
+      "views_count": "{{count}} weergaven",
+      "read_time": "{{count}} min leestijd"
+    },
+    "time": {
+      "days_ago": "{{count}} dagen geleden",
+      "yesterday": "Gisteren",
+      "hours_ago": "{{count}} uur geleden",
+      "an_hour_ago": "Een uur geleden",
+      "minutes_ago": "{{count}} minuten geleden",
+      "a_minute_ago": "Een minuut geleden",
+      "just_now": "Zojuist",
+      "today": "Vandaag"
+    },
+    "comments": {
+      "comments_count": "Reacties",
+      "name_placeholder": "Naam",
+      "email_placeholder": "E-mail",
+      "comment_placeholder": "Schrijf een reactie...",
+      "submit_button": "Reageren",
+      "fill_all_fields": "Vul alstublieft alle velden in",
+      "invalid_email": "Voer een geldig e-mailadres in",
+      "name_length_error": "Naam moet minimaal 3 en maximaal 50 tekens bevatten",
+      "content_length_error": "Inhoud moet minimaal 5 tekens bevatten",
+      "posted_successfully": "Reactie succesvol geplaatst",
+      "error": "Er is een fout opgetreden",
+      "reply": "Antwoorden",
+      "delete": "Verwijderen",
+      "anonymous": "Anoniem"
+    },
+    "offline": {
+      "online": "Je bent weer online!",
+      "offline": "Je bent offline!"
+    },
+    "terminal_button": "Terminal",
+    "scroll_to_top": "Scroll naar boven",
+    "scroll_to_bottom": "Scroll naar beneden",
+    "knowledge_graph": {
+      "title_2d": "2D Knowledge Graph",
+      "title_3d": "3D Knowledge Graph"
+    }
+  },
+
+  "settings": {
+    "basic": "Basis",
+    "profile": "Profiel",
+    "security": "Beveiliging",
+    "otp": "2FA",
+    "preferences": "Voorkeuren",
+    "notifications": "Meldingen",
+    "otp_method_card": {
+      "active": "Actief",
+      "inactive": "Inactief"
+    },
+    "otp_confirm": {
+      "title": "Beveiligingsverificatie",
+      "send_code": "Verificatiecode verzenden",
+      "sending": "Code verzenden...",
+      "code_placeholder": "123456",
+      "verify": "Verifiëren",
+      "verifying": "Verifiëren..."
+    },
+    "totp_setup": {
+      "title": "TOTP-instelling",
+      "backup_codes_title": "Back-upcodes",
+      "warning": "Bewaar uw back-upcodes op een veilige plaats. U kunt ze gebruiken om weer toegang te krijgen tot uw account als u de toegang tot uw authenticatie-app verliest.",
+      "copy_codes": "Codes kopiëren",
+      "download_codes": "Codes downloaden",
+      "i_have_saved": "Ik heb mijn back-upcodes opgeslagen",
+      "start_setup": "Instelling starten",
+      "enter_code": "Voer de code uit uw authenticatie-app in",
+      "confirm_setup": "Instelling bevestigen"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Deze blog is alleen in het Engels beschikbaar",
@@ -117,42 +257,47 @@
     },
     "calendar": {
       "title": "Agenda",
-      "name_placeholder": "Voer uw naam in",
-      "email_placeholder": "Voer uw e-mail in",
-      "phone_placeholder": "Voer uw telefoonnummer in",
-      "note_placeholder": "Voer uw notitie in",
-      "booked": "Geboekt",
-      "cancelled": "Geannuleerd",
-      "available": "Beschikbaar",
-      "no_available_slots": "Geen beschikbare tijdsloten",
-      "name": "Uw naam",
-      "email": "Uw e-mail",
-      "phone": "Uw telefoonnummer",
       "description": "Plan een afspraak met mij.",
-      "available_slots": "Beschikbare tijdsloten",
-      "book_appointment": "Afspraak maken",
-      "select_slot": "Selecteer een tijdslot om een afspraak te maken.",
-      "past_date_warning": "U kunt geen afspraak maken in het verleden.",
-      "minutes": "{{count}} minuten",
-      "close": "Sluiten",
       "appointment_title": "Afspraak",
       "appointment_subtitle": "Kies een geschikte dag en tijd",
+      "available_slots": "Beschikbare tijdsloten",
       "available_times": "Beschikbare tijden",
       "selected_time": "Geselecteerde tijd",
+      "no_available_slots": "Geen beschikbare tijdsloten",
       "no_slots_for_day": "Geen beschikbare tijden voor de geselecteerde dag",
-      "book_now": "Plan afspraak",
-      "minutes_abbr": "min",
-      "appointment_info": "Afspraakinformatie",
-      "full_name": "Volledige naam",
-      "email_label": "E-mail",
-      "phone_label": "Telefoon",
-      "note_label": "Notitie",
-      "create_appointment": "Maak afspraak",
-      "close_modal": "Sluiten",
+      "past_date_warning": "U kunt geen afspraak maken in het verleden.",
+      "select_slot": "Selecteer een tijdslot om een afspraak te maken.",
       "select_slot_first": "Selecteer eerst een tijdslot",
+      "book_now": "Plan afspraak",
+      "book_appointment": "Afspraak maken",
+      "create_appointment": "Maak afspraak",
       "appointment_created": "Uw afspraak is gemaakt",
       "appointment_error": "Afspraak kon niet worden gemaakt",
-      "error_occurred": "Er is een fout opgetreden"
+      "appointment_info": "Afspraakinformatie",
+      "minutes": "{{count}} minuten",
+      "minutes_abbr": "min",
+      "close": "Sluiten",
+      "close_modal": "Sluiten",
+      "error_occurred": "Er is een fout opgetreden",
+      "fields": {
+        "name": "Uw naam",
+        "name_placeholder": "Voer uw naam in",
+        "email": "Uw e-mail",
+        "email_placeholder": "Voer uw e-mail in",
+        "phone": "Uw telefoonnummer",
+        "phone_placeholder": "Voer uw telefoonnummer in",
+        "note": "Notitie",
+        "note_placeholder": "Voer uw notitie in",
+        "full_name": "Volledige naam",
+        "email_label": "E-mail",
+        "phone_label": "Telefoon",
+        "note_label": "Notitie"
+      },
+      "statuses": {
+        "booked": "Geboekt",
+        "cancelled": "Geannuleerd",
+        "available": "Beschikbaar"
+      }
     },
     "geomap": {
       "title": "Wereldwijde Bezoekers Warmtekaart",
@@ -164,7 +309,7 @@
       "loading": "Systeemstatus controleren...",
       "response_time": "Reactietijd: {{time}}ms",
       "uptime": "Uptime: {{time}}m",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "Database",
         "auth": "Authenticatie",
@@ -184,6 +329,7 @@
       }
     }
   },
+
   "admin": {
     "stats": {
       "title": "Statistieken",
@@ -341,6 +487,7 @@
       "select_category": "Categorie selecteren"
     }
   },
+
   "auth": {
     "sso": {
       "title": "Inloggen met Social Media",
@@ -351,112 +498,6 @@
       "modal_button": "Inloggen met Social Media",
       "modal_title": "Inloggen met Social Media",
       "close": "Sluiten"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "Inloggen",
-      "user_menu": "Gebruikersmenu",
-      "admin_dashboard": "Admin Dashboard",
-      "user_settings": "Gebruikersinstellingen",
-      "logout": "Uitloggen"
-    },
-    "image_load": {
-      "success": "Afbeelding succesvol geüpload",
-      "error": "Fout bij uploaden van afbeelding"
-    },
-    "loading": "Laden...",
-    "modal": {
-      "close_dialog": "Dialoog sluiten"
-    }
-  },
-  "frontend": {
-    "comments": {
-      "comments_count": "Reacties",
-      "name_placeholder": "Naam",
-      "email_placeholder": "E-mail",
-      "comment_placeholder": "Schrijf een reactie...",
-      "submit_button": "Reageren",
-      "fill_all_fields": "Vul alstublieft alle velden in",
-      "invalid_email": "Voer een geldig e-mailadres in",
-      "name_length_error": "Naam moet minimaal 3 en maximaal 50 tekens bevatten",
-      "content_length_error": "Inhoud moet minimaal 5 tekens bevatten",
-      "posted_successfully": "Reactie succesvol geplaatst",
-      "error": "Er is een fout opgetreden",
-      "reply": "Antwoorden",
-      "delete": "Verwijderen",
-      "anonymous": "Anoniem"
-    },
-    "other_posts": "Andere berichten",
-    "related_articles": "Gerelateerde artikelen",
-    "categories": "Categorieën",
-    "latest_posts": "Laatste berichten",
-    "posts_by": "Berichten door",
-    "load_more": "Meer berichten laden",
-    "no_more_posts": "Geen extra berichten beschikbaar",
-    "min_read": "min leestijd",
-    "views": "weergaven",
-    "by": "door",
-    "no_date": "Geen datum",
-    "unknown_author": "Onbekende auteur",
-    "post_header": {
-      "no_date": "Geen datum",
-      "views_count": "{{count}} weergaven",
-      "read_time": "{{count}} min leestijd",
-      "by": "door",
-      "unknown_author": "Onbekende auteur"
-    },
-    "days_ago": "{{count}} dagen geleden",
-    "yesterday": "Gisteren",
-    "hours_ago": "{{count}} uur geleden",
-    "an_hour_ago": "Een uur geleden",
-    "minutes_ago": "{{count}} minuten geleden",
-    "a_minute_ago": "Een minuut geleden",
-    "just_now": "Zojuist",
-    "views_count": "{{count}} weergaven",
-    "today": "Vandaag",
-    "read_more": "Lees meer",
-    "offline": {
-      "online": "Je bent weer online!",
-      "offline": "Je bent offline!"
-    },
-    "terminal_button": "Terminal",
-    "scroll_to_top": "Scroll naar boven",
-    "scroll_to_bottom": "Scroll naar beneden",
-    "knowledge_graph": {
-      "title_2d": "2D Knowledge Graph",
-      "title_3d": "3D Knowledge Graph"
-    },
-    "settings": {
-      "basic": "Basis",
-      "profile": "Profiel",
-      "security": "Beveiliging",
-      "otp": "2FA",
-      "preferences": "Voorkeuren",
-      "notifications": "Meldingen",
-      "otp_method_card": {
-        "active": "Actief",
-        "inactive": "Inactief"
-      },
-      "otp_confirm": {
-        "title": "Beveiligingsverificatie",
-        "send_code": "Verificatiecode verzenden",
-        "sending": "Code verzenden...",
-        "code_placeholder": "123456",
-        "verify": "Verifiëren",
-        "verifying": "Verifiëren..."
-      },
-      "totp_setup": {
-        "title": "TOTP-instelling",
-        "backup_codes_title": "Back-upcodes",
-        "warning": "Bewaar uw back-upcodes op een veilige plaats. U kunt ze gebruiken om weer toegang te krijgen tot uw account als u de toegang tot uw authenticatie-app verliest.",
-        "copy_codes": "Codes kopiëren",
-        "download_codes": "Codes downloaden",
-        "i_have_saved": "Ik heb mijn back-upcodes opgeslagen",
-        "start_setup": "Instelling starten",
-        "enter_code": "Voer de code uit uw authenticatie-app in",
-        "confirm_setup": "Instelling bevestigen"
-      }
     }
   }
 }

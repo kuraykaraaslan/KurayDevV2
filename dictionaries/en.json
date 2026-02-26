@@ -11,22 +11,80 @@
     "resume": "Resume",
     "backend": "Backend"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "Something went wrong",
-        "description": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
-        "button": "Go back home"
-      },
-      "500": {
-        "title": "Internal Server Error",
-        "description": "An error occurred on the server.",
-        "button": "Go back home"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel. Stay updated, solve problems, and grow your tech expertise with me!",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog", "İzmir", "Turkey"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native. I share practical coding tutorials, industry insights, and UI/UX tips to help developers and tech enthusiasts excel.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems", "İzmir", "Turkey"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "Something went wrong",
+      "description": "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+      "button": "Go back home"
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "description": "An error occurred on the server.",
+      "button": "Go back home"
+    }
+  },
+
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "refresh": "Refresh",
+    "table_view": "Table View",
+    "grid_view": "Grid View",
+    "modal": {
+      "close_dialog": "Close dialog"
+    },
+    "navbar": {
+      "login": "Log in",
+      "user_menu": "User menu",
+      "admin_dashboard": "Admin Dashboard",
+      "user_settings": "User Settings",
+      "logout": "Logout"
+    },
+    "image": {
+      "upload_success": "Image uploaded successfully",
+      "upload_error": "Error uploading image"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>Product-focused Full-Stack Developer</bold> with <bold>3+ years of experience</bold> delivering robust, scalable software solutions across <bold>frontend, backend, mobile in BIM and IoT domains.</bold> Specialized in <bold>Java Spring Boot, React, Next.js, Node.js, and PostgreSQL</bold>. Adept at architecting <bold>multi-tenant SaaS platforms, real-time systems, and payment integrations.</bold> Combines strong engineering fundamentals with <bold>creative problem-solving</bold> and a <bold>clean, systematic coding approach.</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "I'm ready to",
         "suffix": "",
         "text1": "solve problems",
@@ -93,6 +151,101 @@
       }
     }
   },
+
+  "frontend": {
+    "toc": {
+      "title": "Table of Contents"
+    },
+    "feed": {
+      "other_posts": "Other Posts",
+      "related_articles": "Related Articles",
+      "categories": "Categories",
+      "latest_posts": "Latest Posts",
+      "posts_by": "Posts by",
+      "load_more": "Load more posts",
+      "no_more_posts": "No more posts available",
+      "read_more": "Read More"
+    },
+    "post": {
+      "by": "by",
+      "min_read": "min read",
+      "views": "views",
+      "no_date": "No Date",
+      "unknown_author": "Unknown Author",
+      "views_count": "{{count}} views",
+      "read_time": "{{count}} min read"
+    },
+    "time": {
+      "days_ago": "{{count}} days ago",
+      "yesterday": "Yesterday",
+      "hours_ago": "{{count}} hours ago",
+      "an_hour_ago": "An hour ago",
+      "minutes_ago": "{{count}} minutes ago",
+      "a_minute_ago": "A minute ago",
+      "just_now": "Just now",
+      "today": "Today"
+    },
+    "comments": {
+      "comments_count": "Comments",
+      "name_placeholder": "Name",
+      "email_placeholder": "Email",
+      "comment_placeholder": "Write a comment...",
+      "submit_button": "Comment",
+      "fill_all_fields": "Please fill all fields",
+      "invalid_email": "Please enter a valid email",
+      "name_length_error": "Name should be at least 3 characters and max 50 characters",
+      "content_length_error": "Content should be at least 5 characters",
+      "posted_successfully": "Comment posted successfully",
+      "error": "An error occurred",
+      "reply": "Reply",
+      "delete": "Delete",
+      "anonymous": "Anonymous"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D Knowledge Graph",
+      "title_3d": "3D Knowledge Graph"
+    },
+    "offline": {
+      "online": "You are back online!",
+      "offline": "You are offline!"
+    },
+    "terminal_button": "Terminal",
+    "scroll_to_top": "Scroll to top",
+    "scroll_to_bottom": "Scroll to bottom"
+  },
+
+  "settings": {
+    "basic": "Basic",
+    "profile": "Profile",
+    "security": "Security",
+    "otp": "2FA",
+    "preferences": "Preferences",
+    "notifications": "Notifications",
+    "otp_method_card": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "otp_confirm": {
+      "title": "Security Verification",
+      "send_code": "Send Verification Code",
+      "sending": "Sending Code...",
+      "code_placeholder": "123456",
+      "verify": "Verify",
+      "verifying": "Verifying..."
+    },
+    "totp_setup": {
+      "title": "TOTP Setup",
+      "backup_codes_title": "Backup Codes",
+      "warning": "Store your backup codes in a safe place. You can use them to regain access to your account if you lose access to your authenticator app.",
+      "copy_codes": "Copy codes",
+      "download_codes": "Download codes",
+      "i_have_saved": "I have saved my backup codes",
+      "start_setup": "Start Setup",
+      "enter_code": "Enter the code from your authenticator app",
+      "confirm_setup": "Confirm Setup"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "This blog is only available in English",
@@ -117,42 +270,47 @@
     },
     "calendar": {
       "title": "Calendar",
-      "name_placeholder": "Enter your name",
-      "email_placeholder": "Enter your email",
-      "phone_placeholder": "Enter your phone",
-      "note_placeholder": "Enter your note",
-      "booked": "Booked",
-      "cancelled": "Cancelled",
-      "available": "Available",
-      "no_available_slots": "No available slots",
-      "name": "Your Name",
-      "email": "Your Email",
-      "phone": "Your Phone",
       "description": "Book an appointment with me.",
-      "available_slots": "Available Slots",
-      "book_appointment": "Book Appointment",
-      "select_slot": "Please select a slot to book an appointment.",
-      "past_date_warning": "You cannot book an appointment for a past date.",
-      "minutes": "{{count}} minutes",
-      "close": "Close",
       "appointment_title": "Appointment",
       "appointment_subtitle": "Select a suitable day and time",
+      "available_slots": "Available Slots",
       "available_times": "Available Times",
       "selected_time": "Selected Time",
+      "no_available_slots": "No available slots",
       "no_slots_for_day": "No available times for the selected day",
-      "book_now": "Book Appointment",
-      "minutes_abbr": "min",
-      "appointment_info": "Appointment Information",
-      "full_name": "Full Name",
-      "email_label": "Email",
-      "phone_label": "Phone",
-      "note_label": "Note",
-      "create_appointment": "Create Appointment",
-      "close_modal": "Close",
+      "past_date_warning": "You cannot book an appointment for a past date.",
+      "select_slot": "Please select a slot to book an appointment.",
       "select_slot_first": "Please select a time slot first",
+      "book_now": "Book Appointment",
+      "book_appointment": "Book Appointment",
+      "create_appointment": "Create Appointment",
       "appointment_created": "Your appointment has been created",
       "appointment_error": "Could not create appointment",
-      "error_occurred": "An error occurred"
+      "appointment_info": "Appointment Information",
+      "minutes": "{{count}} minutes",
+      "minutes_abbr": "min",
+      "close": "Close",
+      "close_modal": "Close",
+      "error_occurred": "An error occurred",
+      "fields": {
+        "name": "Your Name",
+        "name_placeholder": "Enter your name",
+        "email": "Your Email",
+        "email_placeholder": "Enter your email",
+        "phone": "Your Phone",
+        "phone_placeholder": "Enter your phone",
+        "note": "Note",
+        "note_placeholder": "Enter your note",
+        "full_name": "Full Name",
+        "email_label": "Email",
+        "phone_label": "Phone",
+        "note_label": "Note"
+      },
+      "statuses": {
+        "booked": "Booked",
+        "cancelled": "Cancelled",
+        "available": "Available"
+      }
     },
     "geomap": {
       "title": "Global Visitors Heatmap",
@@ -164,7 +322,7 @@
       "loading": "Checking system status...",
       "response_time": "Response Time: {{time}}ms",
       "uptime": "Uptime: {{time}}m",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "Database",
         "auth": "Authentication",
@@ -184,6 +342,20 @@
       }
     }
   },
+
+  "auth": {
+    "sso": {
+      "title": "Login with Social Media",
+      "no_providers": "No SSO providers configured.",
+      "provider_not_allowed": "SSO login for {{provider}} is not allowed.",
+      "redirect_error": "SSO redirect error.",
+      "button_label": "Login with {{provider}}",
+      "modal_button": "Login with Social Media",
+      "modal_title": "Login with Social Media",
+      "close": "Close"
+    }
+  },
+
   "admin": {
     "stats": {
       "title": "Statistics",
@@ -436,132 +608,6 @@
     "selects": {
       "select_user": "Select User",
       "select_category": "Select Category"
-    }
-  },
-  "auth": {
-    "sso": {
-      "title": "Login with Social Media",
-      "no_providers": "No SSO providers configured.",
-      "provider_not_allowed": "SSO login for {{provider}} is not allowed.",
-      "redirect_error": "SSO redirect error.",
-      "button_label": "Login with {{provider}}",
-      "modal_button": "Login with Social Media",
-      "modal_title": "Login with Social Media",
-      "close": "Close"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "Log in",
-      "user_menu": "User menu",
-      "admin_dashboard": "Admin Dashboard",
-      "user_settings": "User Settings",
-      "logout": "Logout"
-    },
-    "image_load": {
-      "success": "Image uploaded successfully",
-      "error": "Error uploading image"
-    },
-    "loading": "Loading...",
-    "save": "Save",
-    "cancel": "Cancel",
-    "modal": {
-      "close_dialog": "Close dialog"
-    },
-    "table_view": "Table View",
-    "grid_view": "Grid View",
-    "refresh": "Refresh"
-  },
-  "frontend": {
-    "toc": {
-      "title": "Table of Contents"
-    },
-    "comments": {
-      "comments_count": "Comments",
-      "name_placeholder": "Name",
-      "email_placeholder": "Email",
-      "comment_placeholder": "Write a comment...",
-      "submit_button": "Comment",
-      "fill_all_fields": "Please fill all fields",
-      "invalid_email": "Please enter a valid email",
-      "name_length_error": "Name should be at least 3 characters and max 50 characters",
-      "content_length_error": "Content should be at least 5 characters",
-      "posted_successfully": "Comment posted successfully",
-      "error": "An error occurred",
-      "reply": "Reply",
-      "delete": "Delete",
-      "anonymous": "Anonymous"
-    },
-    "other_posts": "Other Posts",
-    "related_articles": "Related Articles",
-    "categories": "Categories",
-    "latest_posts": "Latest Posts",
-    "posts_by": "Posts by",
-    "load_more": "Load more posts",
-    "no_more_posts": "No more posts available",
-    "min_read": "min read",
-    "views": "views",
-    "by": "by",
-    "no_date": "No Date",
-    "unknown_author": "Unknown Author",
-    "post_header": {
-      "no_date": "No Date",
-      "views_count": "{{count}} views",
-      "read_time": "{{count}} min read",
-      "by": "by",
-      "unknown_author": "Unknown Author"
-    },
-    "days_ago": "{{count}} days ago",
-    "yesterday": "Yesterday",
-    "hours_ago": "{{count}} hours ago",
-    "an_hour_ago": "An hour ago",
-    "minutes_ago": "{{count}} minutes ago",
-    "a_minute_ago": "A minute ago",
-    "just_now": "Just now",
-    "views_count": "{{count}} views",
-    "today": "Today",
-    "read_more": "Read More",
-    "offline": {
-      "online": "You are back online!",
-      "offline": "You are offline!"
-    },
-    "terminal_button": "Terminal",
-    "scroll_to_top": "Scroll to top",
-    "scroll_to_bottom": "Scroll to bottom",
-    "knowledge_graph": {
-      "title_2d": "2D Knowledge Graph",
-      "title_3d": "3D Knowledge Graph"
-    },
-    "settings": {
-      "basic": "Basic",
-      "profile": "Profile",
-      "security": "Security",
-      "otp": "2FA",
-      "preferences": "Preferences",
-      "notifications": "Notifications",
-      "otp_method_card": {
-        "active": "Active",
-        "inactive": "Inactive"
-      },
-      "otp_confirm": {
-        "title": "Security Verification",
-        "send_code": "Send Verification Code",
-        "sending": "Sending Code...",
-        "code_placeholder": "123456",
-        "verify": "Verify",
-        "verifying": "Verifying..."
-      },
-      "totp_setup": {
-        "title": "TOTP Setup",
-        "backup_codes_title": "Backup Codes",
-        "warning": "Store your backup codes in a safe place. You can use them to regain access to your account if you lose access to your authenticator app.",
-        "copy_codes": "Copy codes",
-        "download_codes": "Download codes",
-        "i_have_saved": "I have saved my backup codes",
-        "start_setup": "Start Setup",
-        "enter_code": "Enter the code from your authenticator app",
-        "confirm_setup": "Confirm Setup"
-      }
     }
   }
 }

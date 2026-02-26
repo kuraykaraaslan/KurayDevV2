@@ -53,7 +53,7 @@ export default function OTPTab() {
   return (
     <>
       <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
-        <FormHeader title={t('frontend.settings.otp')} titleClassName="text-lg" />
+        <FormHeader title={t('settings.otp')} titleClassName="text-lg" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.values(OTPMethodEnum.Enum).map((method) => (

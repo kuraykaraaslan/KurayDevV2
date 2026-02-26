@@ -4,11 +4,9 @@ import ProjectsFeed from '@/components/frontend/Features/Projects/Feed'
 import MetadataHelper from '@/helpers/MetadataHelper'
 import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
+import { getPageMetadata } from '@/libs/localize/getDictionary'
 
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
-
-const description =
-  'Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.'
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -17,14 +15,16 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const { canonical, languages } = buildAlternates(lang, '/projects', [...AVAILABLE_LANGUAGES])
+  const { title, description, keywords } = await getPageMetadata(lang, 'projects')
 
   return {
-    title: 'Projects | Kuray Karaaslan',
+    title,
     description,
+    keywords,
     robots: { index: true, follow: true },
     authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
     openGraph: {
-      title: 'Projects | Kuray Karaaslan',
+      title,
       description,
       type: 'website',
       url: canonical,
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       site: '@kuraykaraaslan',
       creator: '@kuraykaraaslan',
-      title: 'Projects | Kuray Karaaslan',
+      title,
       description,
       images: [`${APPLICATION_HOST}/assets/img/og.png`],
     },
@@ -54,12 +54,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectsPage({ params }: Props) {
   const { lang } = await params
   const canonical = `${APPLICATION_HOST}${lang !== 'en' ? `/${lang}` : ''}/projects`
+  const { title, description } = await getPageMetadata(lang, 'projects')
 
   const jsonLdMetadata: Metadata = {
-    title: 'Projects | Kuray Karaaslan',
+    title,
     description,
     openGraph: {
-      title: 'Projects | Kuray Karaaslan',
+      title,
       description,
       type: 'website',
       url: canonical,

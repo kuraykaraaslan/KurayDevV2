@@ -11,22 +11,72 @@
     "resume": "เรซูเม่",
     "backend": "แบ็กเอนด์"
   },
-  "pages": {
-    "error": {
-      "404": {
-        "title": "เกิดข้อผิดพลาดบางอย่าง",
-        "description": "ขออภัย เราไม่พบหน้านั้น คุณสามารถสำรวจเนื้อหาต่าง ๆ ได้จากหน้าแรก",
-        "button": "กลับไปหน้าแรก"
-      },
-      "500": {
-        "title": "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-        "description": "เกิดข้อผิดพลาดในเซิร์ฟเวอร์",
-        "button": "กลับไปหน้าแรก"
-      }
+
+  "metadata": {
+    "home": {
+      "title": "Software Developer | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
     },
-    "welcome": {
+    "blog": {
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+    },
+    "projects": {
+      "title": "Projects | Kuray Karaaslan",
+      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
+      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+    },
+    "now": {
+      "title": "Now | Kuray Karaaslan",
+      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
+      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+    },
+    "privacy_policy": {
+      "title": "Privacy Policy | Kuray Karaaslan",
+      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
+      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+    },
+    "terms_of_use": {
+      "title": "Terms of Use | Kuray Karaaslan",
+      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
+      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+    }
+  },
+
+  "errors": {
+    "404": {
+      "title": "เกิดข้อผิดพลาดบางอย่าง",
+      "description": "ขออภัย เราไม่พบหน้านั้น คุณสามารถสำรวจเนื้อหาต่าง ๆ ได้จากหน้าแรก",
+      "button": "กลับไปหน้าแรก"
+    },
+    "500": {
+      "title": "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+      "description": "เกิดข้อผิดพลาดในเซิร์ฟเวอร์",
+      "button": "กลับไปหน้าแรก"
+    }
+  },
+
+  "common": {
+    "navbar": {
+      "login": "เข้าสู่ระบบ",
+      "user_menu": "เมนูผู้ใช้"
+    },
+    "image": {
+      "upload_success": "อัปโหลดรูปภาพเรียบร้อยแล้ว",
+      "upload_error": "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ"
+    },
+    "loading": "กำลังโหลด...",
+    "modal": {
+      "close_dialog": "ปิดหน้าต่าง"
+    }
+  },
+
+  "pages": {
+    "hero": {
       "description": "<bold>นักพัฒนา Full-Stack ที่มุ่งเน้นผลิตภัณฑ์</bold> มี <bold>ประสบการณ์มากกว่า 3 ปี</bold> ในการส่งมอบโซลูชันซอฟต์แวร์ที่แข็งแกร่งและสามารถขยายได้ใน <bold>ส่วนหน้า ส่วนหลัง และมือถือในด้าน BIM และ IoT</bold> มีความเชี่ยวชาญใน <bold>Java Spring Boot, React, Next.js, Node.js และ PostgreSQL</bold> มีความสามารถในการออกแบบ <bold>แพลตฟอร์ม SaaS หลายผู้เช่า ระบบเรียลไทม์ และการผสานระบบการชำระเงิน</bold> ผสานรวม <bold>รากฐานทางวิศวกรรมที่แข็งแกร่ง</bold> กับ <bold>การแก้ปัญหาอย่างสร้างสรรค์</bold> และ <bold>แนวทางการเขียนโค้ดที่สะอาดและเป็นระบบ</bold>",
-      "typingEffect": {
+      "typing_effect": {
         "prefix": "ฉันพร้อมที่จะ",
         "suffix": "",
         "text1": "แก้ไขปัญหา",
@@ -42,8 +92,6 @@
     "toolbox": {
       "title": "ความคิดสร้างสรรค์ต้องการเครื่องมือมากมาย",
       "description": "ฉันมีเครื่องมือมากมายในกล่องเครื่องมือ และยังคงเรียนรู้สิ่งใหม่ ๆ อยู่เสมอ",
-      "frontend": "ส่วนหน้า",
-      "backend": "ส่วนหลัง",
       "skills": {
         "clean_code": "โค้ดที่สะอาด",
         "authentication_security": "การยืนยันตัวตนและความปลอดภัย",
@@ -93,6 +141,98 @@
       }
     }
   },
+
+  "frontend": {
+    "feed": {
+      "other_posts": "โพสต์อื่น ๆ",
+      "related_articles": "บทความที่เกี่ยวข้อง",
+      "categories": "หมวดหมู่",
+      "latest_posts": "โพสต์ล่าสุด",
+      "posts_by": "โพสต์โดย",
+      "load_more": "โหลดโพสต์เพิ่มเติม",
+      "no_more_posts": "ไม่มีโพสต์เพิ่มเติม",
+      "read_more": "อ่านต่อ"
+    },
+    "post": {
+      "by": "โดย",
+      "min_read": "นาทีในการอ่าน",
+      "views": "ครั้ง",
+      "no_date": "ไม่มีวันที่",
+      "unknown_author": "ไม่ทราบผู้เขียน",
+      "views_count": "{{count}} ครั้ง",
+      "read_time": "{{count}} นาทีในการอ่าน"
+    },
+    "time": {
+      "days_ago": "{{count}} วันที่แล้ว",
+      "yesterday": "เมื่อวานนี้",
+      "hours_ago": "{{count}} ชั่วโมงที่แล้ว",
+      "an_hour_ago": "เมื่อชั่วโมงที่แล้ว",
+      "minutes_ago": "{{count}} นาทีที่แล้ว",
+      "a_minute_ago": "นาทีที่แล้ว",
+      "just_now": "เมื่อสักครู่",
+      "today": "วันนี้"
+    },
+    "comments": {
+      "comments_count": "ความคิดเห็น",
+      "name_placeholder": "ชื่อ",
+      "email_placeholder": "อีเมล",
+      "comment_placeholder": "เขียนความคิดเห็น...",
+      "submit_button": "แสดงความคิดเห็น",
+      "fill_all_fields": "กรุณากรอกข้อมูลให้ครบทุกช่อง",
+      "invalid_email": "กรุณากรอกอีเมลที่ถูกต้อง",
+      "name_length_error": "ชื่อควรมีอย่างน้อย 3 ตัวอักษรและไม่เกิน 50 ตัวอักษร",
+      "content_length_error": "เนื้อหาควรมีอย่างน้อย 5 ตัวอักษร",
+      "posted_successfully": "โพสต์ความคิดเห็นเรียบร้อยแล้ว",
+      "error": "เกิดข้อผิดพลาด",
+      "reply": "ตอบกลับ",
+      "delete": "ลบ",
+      "anonymous": "ไม่ระบุชื่อ"
+    },
+    "offline": {
+      "online": "คุณกลับมาออนไลน์แล้ว!",
+      "offline": "คุณออฟไลน์อยู่!"
+    },
+    "terminal_button": "เทอร์มินัล",
+    "scroll_to_top": "เลื่อนไปด้านบน",
+    "scroll_to_bottom": "เลื่อนไปด้านล่าง",
+    "knowledge_graph": {
+      "title_2d": "กราฟความรู้ 2D",
+      "title_3d": "กราฟความรู้ 3D"
+    }
+  },
+
+  "settings": {
+    "basic": "พื้นฐาน",
+    "profile": "โปรไฟล์",
+    "security": "ความปลอดภัย",
+    "otp": "ยืนยันตัวตนสองขั้นตอน",
+    "preferences": "การตั้งค่าตามต้องการ",
+    "notifications": "การแจ้งเตือน",
+    "otp_method_card": {
+      "active": "เปิดใช้งาน",
+      "inactive": "ปิดใช้งาน"
+    },
+    "otp_confirm": {
+      "title": "การยืนยันความปลอดภัย",
+      "send_code": "ส่งรหัสยืนยัน",
+      "sending": "กำลังส่งรหัส...",
+      "code_placeholder": "123456",
+      "verify": "ยืนยัน",
+      "verifying": "กำลังยืนยัน..."
+    },
+    "totp_setup": {
+      "title": "ตั้งค่า TOTP",
+      "backup_codes_title": "โค้ดสำรอง",
+      "warning": "กรุณาเก็บโค้ดสำรองของคุณไว้ในที่ปลอดภัย คุณสามารถใช้โค้ดเหล่านี้เพื่อเข้าถึงบัญชีได้หากคุณไม่สามารถเข้าถึงแอปยืนยันตัวตนได้",
+      "copy_codes": "คัดลอกโค้ด",
+      "download_codes": "ดาวน์โหลดโค้ด",
+      "i_have_saved": "ฉันได้เก็บโค้ดสำรองไว้แล้ว",
+      "start_setup": "เริ่มการตั้งค่า",
+      "enter_code": "กรอกรหัสจากแอปยืนยันตัวตนของคุณ",
+      "confirm_setup": "ยืนยันการตั้งค่า"
+    }
+  },
+
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "บล็อกนี้มีเฉพาะในภาษาอังกฤษเท่านั้น",
@@ -117,42 +257,47 @@
     },
     "calendar": {
       "title": "ปฏิทิน",
-      "name_placeholder": "กรอกชื่อของคุณ",
-      "email_placeholder": "กรอกอีเมลของคุณ",
-      "phone_placeholder": "กรอกเบอร์โทรของคุณ",
-      "note_placeholder": "กรอกบันทึกของคุณ",
-      "booked": "จองแล้ว",
-      "cancelled": "ยกเลิกแล้ว",
-      "available": "ว่าง",
-      "no_available_slots": "ไม่มีช่วงเวลาที่ว่าง",
-      "name": "ชื่อของคุณ",
-      "email": "อีเมลของคุณ",
-      "phone": "เบอร์โทรของคุณ",
       "description": "นัดหมายกับฉัน",
-      "available_slots": "ช่วงเวลาที่ว่าง",
-      "book_appointment": "จองนัดหมาย",
-      "select_slot": "กรุณาเลือกช่วงเวลาเพื่อจองนัดหมาย",
-      "past_date_warning": "คุณไม่สามารถจองนัดหมายย้อนหลังได้",
-      "minutes": "{{count}} นาที",
-      "close": "ปิด",
       "appointment_title": "การนัดหมาย",
       "appointment_subtitle": "เลือกวันที่และเวลาที่เหมาะสม",
+      "available_slots": "ช่วงเวลาที่ว่าง",
       "available_times": "ช่วงเวลาที่ว่าง",
       "selected_time": "เวลาที่เลือก",
+      "no_available_slots": "ไม่มีช่วงเวลาที่ว่าง",
       "no_slots_for_day": "ไม่มีเวลาว่างสำหรับวันที่เลือก",
-      "book_now": "จองตอนนี้",
-      "minutes_abbr": "นาที",
-      "appointment_info": "ข้อมูลการนัดหมาย",
-      "full_name": "ชื่อ-นามสกุล",
-      "email_label": "อีเมล",
-      "phone_label": "เบอร์โทร",
-      "note_label": "บันทึก",
-      "create_appointment": "สร้างการนัดหมาย",
-      "close_modal": "ปิด",
+      "past_date_warning": "คุณไม่สามารถจองนัดหมายย้อนหลังได้",
+      "select_slot": "กรุณาเลือกช่วงเวลาเพื่อจองนัดหมาย",
       "select_slot_first": "กรุณาเลือกช่วงเวลาก่อน",
+      "book_now": "จองตอนนี้",
+      "book_appointment": "จองนัดหมาย",
+      "create_appointment": "สร้างการนัดหมาย",
       "appointment_created": "สร้างการนัดหมายเรียบร้อยแล้ว",
       "appointment_error": "ไม่สามารถสร้างการนัดหมายได้",
-      "error_occurred": "เกิดข้อผิดพลาด"
+      "appointment_info": "ข้อมูลการนัดหมาย",
+      "minutes": "{{count}} นาที",
+      "minutes_abbr": "นาที",
+      "close": "ปิด",
+      "close_modal": "ปิด",
+      "error_occurred": "เกิดข้อผิดพลาด",
+      "fields": {
+        "name": "ชื่อของคุณ",
+        "name_placeholder": "กรอกชื่อของคุณ",
+        "email": "อีเมลของคุณ",
+        "email_placeholder": "กรอกอีเมลของคุณ",
+        "phone": "เบอร์โทรของคุณ",
+        "phone_placeholder": "กรอกเบอร์โทรของคุณ",
+        "note": "บันทึก",
+        "note_placeholder": "กรอกบันทึกของคุณ",
+        "full_name": "ชื่อ-นามสกุล",
+        "email_label": "อีเมล",
+        "phone_label": "เบอร์โทร",
+        "note_label": "บันทึก"
+      },
+      "statuses": {
+        "booked": "จองแล้ว",
+        "cancelled": "ยกเลิกแล้ว",
+        "available": "ว่าง"
+      }
     },
     "geomap": {
       "title": "แผนที่ความร้อนของผู้เยี่ยมชมทั่วโลก",
@@ -164,7 +309,7 @@
       "loading": "กำลังตรวจสอบสถานะระบบ...",
       "response_time": "เวลาในการตอบสนอง: {{time}}ms",
       "uptime": "เวลาทำงาน: {{time}}นาที",
-      "service_names": {
+      "services": {
         "api": "API",
         "database": "ฐานข้อมูล",
         "auth": "การตรวจสอบสิทธิ์",
@@ -184,6 +329,7 @@
       }
     }
   },
+
   "admin": {
     "stats": {
       "title": "สถิติ",
@@ -341,6 +487,7 @@
       "select_category": "เลือกหมวดหมู่"
     }
   },
+
   "auth": {
     "sso": {
       "title": "เข้าสู่ระบบด้วยโซเชียลมีเดีย",
@@ -351,112 +498,6 @@
       "modal_button": "เข้าสู่ระบบด้วยโซเชียลมีเดีย",
       "modal_title": "เข้าสู่ระบบด้วยโซเชียลมีเดีย",
       "close": "ปิด"
-    }
-  },
-  "common": {
-    "navbar_auth": {
-      "login": "เข้าสู่ระบบ",
-      "user_menu": "เมนูผู้ใช้",
-      "admin_dashboard": "แดชบอร์ดผู้ดูแลระบบ",
-      "user_settings": "การตั้งค่าผู้ใช้",
-      "logout": "ออกจากระบบ"
-    },
-    "image_load": {
-      "success": "อัปโหลดรูปภาพเรียบร้อยแล้ว",
-      "error": "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ"
-    },
-    "loading": "กำลังโหลด...",
-    "modal": {
-      "close_dialog": "ปิดหน้าต่าง"
-    }
-  },
-  "frontend": {
-    "comments": {
-      "comments_count": "ความคิดเห็น",
-      "name_placeholder": "ชื่อ",
-      "email_placeholder": "อีเมล",
-      "comment_placeholder": "เขียนความคิดเห็น...",
-      "submit_button": "แสดงความคิดเห็น",
-      "fill_all_fields": "กรุณากรอกข้อมูลให้ครบทุกช่อง",
-      "invalid_email": "กรุณากรอกอีเมลที่ถูกต้อง",
-      "name_length_error": "ชื่อควรมีอย่างน้อย 3 ตัวอักษรและไม่เกิน 50 ตัวอักษร",
-      "content_length_error": "เนื้อหาควรมีอย่างน้อย 5 ตัวอักษร",
-      "posted_successfully": "โพสต์ความคิดเห็นเรียบร้อยแล้ว",
-      "error": "เกิดข้อผิดพลาด",
-      "reply": "ตอบกลับ",
-      "delete": "ลบ",
-      "anonymous": "ไม่ระบุชื่อ"
-    },
-    "other_posts": "โพสต์อื่น ๆ",
-    "related_articles": "บทความที่เกี่ยวข้อง",
-    "categories": "หมวดหมู่",
-    "latest_posts": "โพสต์ล่าสุด",
-    "posts_by": "โพสต์โดย",
-    "load_more": "โหลดโพสต์เพิ่มเติม",
-    "no_more_posts": "ไม่มีโพสต์เพิ่มเติม",
-    "min_read": "นาทีในการอ่าน",
-    "views": "ครั้ง",
-    "by": "โดย",
-    "no_date": "ไม่มีวันที่",
-    "unknown_author": "ไม่ทราบผู้เขียน",
-    "post_header": {
-      "no_date": "ไม่มีวันที่",
-      "views_count": "{{count}} ครั้ง",
-      "read_time": "{{count}} นาทีในการอ่าน",
-      "by": "โดย",
-      "unknown_author": "ไม่ทราบผู้เขียน"
-    },
-    "days_ago": "{{count}} วันที่แล้ว",
-    "yesterday": "เมื่อวานนี้",
-    "hours_ago": "{{count}} ชั่วโมงที่แล้ว",
-    "an_hour_ago": "เมื่อชั่วโมงที่แล้ว",
-    "minutes_ago": "{{count}} นาทีที่แล้ว",
-    "a_minute_ago": "นาทีที่แล้ว",
-    "just_now": "เมื่อสักครู่",
-    "views_count": "{{count}} ครั้ง",
-    "today": "วันนี้",
-    "read_more": "อ่านต่อ",
-    "offline": {
-      "online": "คุณกลับมาออนไลน์แล้ว!",
-      "offline": "คุณออฟไลน์อยู่!"
-    },
-    "terminal_button": "เทอร์มินัล",
-    "scroll_to_top": "เลื่อนไปด้านบน",
-    "scroll_to_bottom": "เลื่อนไปด้านล่าง",
-    "knowledge_graph": {
-      "title_2d": "กราฟความรู้ 2D",
-      "title_3d": "กราฟความรู้ 3D"
-    },
-    "settings": {
-      "basic": "พื้นฐาน",
-      "profile": "โปรไฟล์",
-      "security": "ความปลอดภัย",
-      "otp": "ยืนยันตัวตนสองขั้นตอน",
-      "preferences": "การตั้งค่าตามต้องการ",
-      "notifications": "การแจ้งเตือน",
-      "otp_method_card": {
-        "active": "เปิดใช้งาน",
-        "inactive": "ปิดใช้งาน"
-      },
-      "otp_confirm": {
-        "title": "การยืนยันความปลอดภัย",
-        "send_code": "ส่งรหัสยืนยัน",
-        "sending": "กำลังส่งรหัส...",
-        "code_placeholder": "123456",
-        "verify": "ยืนยัน",
-        "verifying": "กำลังยืนยัน..."
-      },
-      "totp_setup": {
-        "title": "ตั้งค่า TOTP",
-        "backup_codes_title": "โค้ดสำรอง",
-        "warning": "กรุณาเก็บโค้ดสำรองของคุณไว้ในที่ปลอดภัย คุณสามารถใช้โค้ดเหล่านี้เพื่อเข้าถึงบัญชีได้หากคุณไม่สามารถเข้าถึงแอปยืนยันตัวตนได้",
-        "copy_codes": "คัดลอกโค้ด",
-        "download_codes": "ดาวน์โหลดโค้ด",
-        "i_have_saved": "ฉันได้เก็บโค้ดสำรองไว้แล้ว",
-        "start_setup": "เริ่มการตั้งค่า",
-        "enter_code": "กรอกรหัสจากแอปยืนยันตัวตนของคุณ",
-        "confirm_setup": "ยืนยันการตั้งค่า"
-      }
     }
   }
 }
