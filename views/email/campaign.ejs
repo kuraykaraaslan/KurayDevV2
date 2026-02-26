@@ -1,0 +1,11 @@
+<%- content %>
+
+<div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center;">
+  <p style="margin: 0; color: #9ca3af; font-size: 13px;">
+    You're receiving this email because you subscribed to <%= appName %>.
+  </p>
+  <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 13px;">
+    <a href="<%= frontendUrl %>/api/contact/subscription/unsubscribe?token=<%= unsubscribeToken %>"
+       style="color: #6b7280; text-decoration: underline;">Unsubscribe</a>
+  </p>
+</div>

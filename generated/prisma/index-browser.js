@@ -246,7 +246,20 @@ exports.Prisma.ContactFormScalarFieldEnum = {
 exports.Prisma.SubscriptionScalarFieldEnum = {
   email: 'email',
   createdAt: 'createdAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  unsubscribeToken: 'unsubscribeToken'
+};
+
+exports.Prisma.CampaignScalarFieldEnum = {
+  campaignId: 'campaignId',
+  title: 'title',
+  subject: 'subject',
+  content: 'content',
+  status: 'status',
+  sentAt: 'sentAt',
+  sentCount: 'sentCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SettingScalarFieldEnum = {
@@ -392,6 +405,12 @@ exports.CommentStatus = exports.$Enums.CommentStatus = {
   SPAM: 'SPAM'
 };
 
+exports.CampaignStatus = exports.$Enums.CampaignStatus = {
+  DRAFT: 'DRAFT',
+  SENDING: 'SENDING',
+  SENT: 'SENT'
+};
+
 exports.AppointmentStatus = exports.$Enums.AppointmentStatus = {
   PENDING: 'PENDING',
   BOOKED: 'BOOKED',
@@ -411,6 +430,7 @@ exports.Prisma.ModelName = {
   Comment: 'Comment',
   ContactForm: 'ContactForm',
   Subscription: 'Subscription',
+  Campaign: 'Campaign',
   Setting: 'Setting',
   Project: 'Project',
   ProjectTranslation: 'ProjectTranslation',

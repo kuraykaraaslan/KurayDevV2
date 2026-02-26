@@ -68,6 +68,12 @@ export default class SubscriptionService {
     })
   }
 
+  static async getSubscriptionByToken(token: string): Promise<Subscription | null> {
+    return await prisma.subscription.findFirst({
+      where: { unsubscribeToken: token },
+    })
+  }
+
   static async deleteSubscription(email: string): Promise<Subscription | null> {
     const existingSubscription = await this.getSubscriptionByEmail(email)
     if (!existingSubscription) {

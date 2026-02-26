@@ -430,6 +430,22 @@ export default class MailService {
     await MailService.sendMail(mail, subject, emailContent)
   }
 
+  static async sendCampaignEmail(
+    to: string,
+    subject: string,
+    content: string,
+    unsubscribeToken: string
+  ) {
+    const emailContent = await MailService.renderTemplate('campaign.ejs', {
+      ...MailService.getBaseTemplateVars(),
+      subject,
+      content,
+      unsubscribeToken,
+    })
+
+    await MailService.sendMail(to, subject, emailContent)
+  }
+
   static async sendNewCommentNotification(user: User | SafeUser, post: any, comment: any) {
     const subject = `New Comment on "${post.title}"`
 

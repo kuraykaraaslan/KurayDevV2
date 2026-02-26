@@ -196,6 +196,12 @@ enum CommentStatus {
   SPAM
 }
 
+enum CampaignStatus {
+  DRAFT
+  SENDING
+  SENT
+}
+
 model Comment {
   commentId String   @id @default(cuid())
   content   String
@@ -222,9 +228,22 @@ model ContactForm {
 }
 
 model Subscription {
-  email     String    @id @unique
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
+  email            String    @id @unique
+  createdAt        DateTime  @default(now())
+  deletedAt        DateTime?
+  unsubscribeToken String    @unique @default(dbgenerated("gen_random_uuid()"))
+}
+
+model Campaign {
+  campaignId String         @id @default(cuid())
+  title      String
+  subject    String
+  content    String
+  status     CampaignStatus @default(DRAFT)
+  sentAt     DateTime?
+  sentCount  Int            @default(0)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
 }
 
 model Setting {
