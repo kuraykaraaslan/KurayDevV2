@@ -11,40 +11,95 @@
     "resume": "Curriculum Vitae",
     "backend": "Backend"
   },
-
   "metadata": {
     "home": {
-      "title": "Software Developer | Kuray Karaaslan",
+      "title": "Żviluppatur tas-Software | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Full Stack Developer",
+        "React",
+        "Next.js",
+        "Node.js",
+        "TypeScript",
+        "Java",
+        "React Native",
+        "Web Development",
+        "Mobile Development",
+        "Tech Blog"
+      ]
     },
     "blog": {
       "title": "Blog | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Tech Blog",
+        "Web Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native",
+        "Programming",
+        "Tutorials"
+      ]
     },
     "projects": {
-      "title": "Projects | Kuray Karaaslan",
-      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
-      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+      "title": "Proġetti | Kuray Karaaslan",
+      "description": "Esplora l-portafoll tiegħi ta' proġetti tal-web, mobbli, desktop, u softwer ieħor. Mibni b'React, Next.js, Node.js, Java, React Native, u aktar.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Projects",
+        "Portfolio",
+        "Web Development",
+        "Mobile Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native"
+      ]
     },
     "now": {
-      "title": "Now | Kuray Karaaslan",
-      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+      "title": "Issa | Kuray Karaaslan",
+      "description": "Fuq xiex qed jiffoka Kuray Karaaslan bħalissa — xogħol, proġetti sekondarji, tagħlim, u ħajja.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Now Page",
+        "IoT",
+        "MQTT",
+        "Java Spring Boot",
+        "React",
+        "Next.js",
+        "Distributed Systems"
+      ]
     },
     "privacy_policy": {
-      "title": "Privacy Policy | Kuray Karaaslan",
-      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
-      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+      "title": "Politika ta' Privatezza | Kuray Karaaslan",
+      "description": "Politika ta' Privatezza għal kuray.dev — Tgħallem kif niġbru, nużaw, u nipproteġu l-informazzjoni personali tiegħek.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Privacy Policy",
+        "kuray.dev",
+        "Data Protection",
+        "Personal Information"
+      ]
     },
     "terms_of_use": {
-      "title": "Terms of Use | Kuray Karaaslan",
-      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
-      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+      "title": "Termini ta' Użu | Kuray Karaaslan",
+      "description": "Termini ta' Użu għal kuray.dev — Regoli u linji gwida għall-użu ta' dan is-sit u s-servizzi tiegħu.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Terms of Use",
+        "kuray.dev",
+        "Terms and Conditions",
+        "Guidelines"
+      ]
     }
   },
-
   "errors": {
     "404": {
       "title": "Xi ħaġa marret ħażin",
@@ -57,7 +112,6 @@
       "button": "Mur lura għall-paġna ewlenija"
     }
   },
-
   "common": {
     "navbar": {
       "login": "Idħol",
@@ -72,7 +126,6 @@
       "close_dialog": "Agħlaq id-djalogu"
     }
   },
-
   "pages": {
     "hero": {
       "description": "<bold>Full-Stack Developer iffukat fuq il-prodott</bold> b'<bold>aktar minn 3 snin esperjenza</bold> fil-ħolqien ta' soluzzjonijiet ta' softwer robusti u skalabbli fil-<bold>frontend, backend u mobile fid-dominji BIM u IoT.</bold> Speċjalizzat f'<bold>Java Spring Boot, React, Next.js, Node.js u PostgreSQL</bold>. Abli fil-bini ta' <bold>pjattaformi SaaS multi-tenant, sistemi real-time, u integrazzjonijiet tal-pagamenti.</bold> Jgħaqqad <bold>bażi soda ta' inġinerija</bold> ma' <bold>ħila kreattiva fit-tiftix ta' soluzzjonijiet</bold> u <bold>approċċ nadif u sistematiku għall-kodifikazzjoni.</bold>",
@@ -141,7 +194,6 @@
       }
     }
   },
-
   "frontend": {
     "feed": {
       "other_posts": "Postijiet oħra",
@@ -200,7 +252,6 @@
       "title_3d": "Grafu tal-Għarfien 3D"
     }
   },
-
   "settings": {
     "basic": "Bażiċi",
     "profile": "Profil",
@@ -232,7 +283,6 @@
       "confirm_setup": "Ikkonferma s-Setup"
     }
   },
-
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Dan il-blog huwa disponibbli biss bl-Ingliż",
@@ -329,7 +379,6 @@
       }
     }
   },
-
   "admin": {
     "stats": {
       "title": "Statistika",
@@ -487,7 +536,6 @@
       "select_category": "Agħżel Kategorija"
     }
   },
-
   "auth": {
     "sso": {
       "title": "Idħol bil-Midja Soċjali",

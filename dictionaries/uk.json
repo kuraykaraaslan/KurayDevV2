@@ -11,40 +11,95 @@
     "resume": "Резюме",
     "backend": "Бекенд"
   },
-
   "metadata": {
     "home": {
-      "title": "Software Developer | Kuray Karaaslan",
+      "title": "Розробник програмного забезпечення | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Full Stack Developer",
+        "React",
+        "Next.js",
+        "Node.js",
+        "TypeScript",
+        "Java",
+        "React Native",
+        "Web Development",
+        "Mobile Development",
+        "Tech Blog"
+      ]
     },
     "blog": {
-      "title": "Blog | Kuray Karaaslan",
+      "title": "Блог | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Tech Blog",
+        "Web Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native",
+        "Programming",
+        "Tutorials"
+      ]
     },
     "projects": {
-      "title": "Projects | Kuray Karaaslan",
-      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
-      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+      "title": "Проекти | Kuray Karaaslan",
+      "description": "Ознайомтеся з моїм портфоліо веб-, мобільних, настільних та інших програмних проектів. Створено з використанням React, Next.js, Node.js, Java, React Native та інших.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Projects",
+        "Portfolio",
+        "Web Development",
+        "Mobile Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native"
+      ]
     },
     "now": {
-      "title": "Now | Kuray Karaaslan",
-      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+      "title": "Зараз | Kuray Karaaslan",
+      "description": "На чому зараз зосереджений Kuray Karaaslan — робота, побічні проекти, навчання та життя.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Now Page",
+        "IoT",
+        "MQTT",
+        "Java Spring Boot",
+        "React",
+        "Next.js",
+        "Distributed Systems"
+      ]
     },
     "privacy_policy": {
-      "title": "Privacy Policy | Kuray Karaaslan",
-      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
-      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+      "title": "Політика конфіденційності | Kuray Karaaslan",
+      "description": "Політика конфіденційності для kuray.dev — Дізнайтеся, як ми збираємо, використовуємо та захищаємо вашу особисту інформацію.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Privacy Policy",
+        "kuray.dev",
+        "Data Protection",
+        "Personal Information"
+      ]
     },
     "terms_of_use": {
-      "title": "Terms of Use | Kuray Karaaslan",
-      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
-      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+      "title": "Умови використання | Kuray Karaaslan",
+      "description": "Умови використання для kuray.dev — Правила та рекомендації щодо використання цього вебсайту та його послуг.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Terms of Use",
+        "kuray.dev",
+        "Terms and Conditions",
+        "Guidelines"
+      ]
     }
   },
-
   "errors": {
     "404": {
       "title": "Щось пішло не так",
@@ -57,7 +112,6 @@
       "button": "Повернутися на головну"
     }
   },
-
   "common": {
     "navbar": {
       "login": "Log in",
@@ -72,7 +126,6 @@
       "close_dialog": "Закрити діалог"
     }
   },
-
   "pages": {
     "hero": {
       "description": "<bold>Продукт-орієнтований Full-Stack розробник</bold> із <bold>3+ роками досвіду</bold> у створенні надійних, масштабованих рішень у <bold>frontend, backend та mobile у сферах BIM та IoT.</bold> Спеціалізуюся на <bold>Java Spring Boot, React, Next.js, Node.js та PostgreSQL</bold>. Володію навичками побудови <bold>мультиорендних SaaS-платформ, систем реального часу та інтеграції платежів.</bold> Поєдную сильну інженерну базу з <bold>креативним підходом</bold> і <bold>чистим, систематичним стилем коду.</bold>",
@@ -141,7 +194,6 @@
       }
     }
   },
-
   "frontend": {
     "feed": {
       "other_posts": "Інші пости",
@@ -200,7 +252,6 @@
       "title_3d": "3D Граф знань"
     }
   },
-
   "settings": {
     "basic": "Базові",
     "profile": "Профіль",
@@ -232,7 +283,6 @@
       "confirm_setup": "Підтвердити налаштування"
     }
   },
-
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Цей блог доступний лише англійською мовою",
@@ -329,7 +379,6 @@
       }
     }
   },
-
   "admin": {
     "stats": {
       "title": "Статистика",
@@ -487,7 +536,6 @@
       "select_category": "Оберіть категорію"
     }
   },
-
   "auth": {
     "sso": {
       "title": "Вхід через соцмережі",

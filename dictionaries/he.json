@@ -11,40 +11,95 @@
     "resume": "קורות חיים",
     "backend": "Backend"
   },
-
   "metadata": {
     "home": {
-      "title": "Software Developer | Kuray Karaaslan",
+      "title": "מפתח תוכנה | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Full Stack Developer",
+        "React",
+        "Next.js",
+        "Node.js",
+        "TypeScript",
+        "Java",
+        "React Native",
+        "Web Development",
+        "Mobile Development",
+        "Tech Blog"
+      ]
     },
     "blog": {
-      "title": "Blog | Kuray Karaaslan",
+      "title": "בלוג | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Tech Blog",
+        "Web Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native",
+        "Programming",
+        "Tutorials"
+      ]
     },
     "projects": {
-      "title": "Projects | Kuray Karaaslan",
-      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
-      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+      "title": "פרויקטים | Kuray Karaaslan",
+      "description": "גלו את תיק העבודות שלי של פרויקטים באינטרנט, מובייל, דסקטופ ותוכנות אחרות. נבנה עם React, Next.js, Node.js, Java, React Native ועוד.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Projects",
+        "Portfolio",
+        "Web Development",
+        "Mobile Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native"
+      ]
     },
     "now": {
-      "title": "Now | Kuray Karaaslan",
-      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems"]
+      "title": "עכשיו | Kuray Karaaslan",
+      "description": "על מה Kuray Karaaslan מתמקד כרגע — עבודה, פרויקטים צדדיים, למידה וחיים.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Now Page",
+        "IoT",
+        "MQTT",
+        "Java Spring Boot",
+        "React",
+        "Next.js",
+        "Distributed Systems"
+      ]
     },
     "privacy_policy": {
-      "title": "Privacy Policy | Kuray Karaaslan",
-      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
-      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+      "title": "מדיניות פרטיות | Kuray Karaaslan",
+      "description": "מדיניות פרטיות עבור kuray.dev — למדו כיצד אנו אוספים, משתמשים ומגנים על המידע האישי שלכם.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Privacy Policy",
+        "kuray.dev",
+        "Data Protection",
+        "Personal Information"
+      ]
     },
     "terms_of_use": {
-      "title": "Terms of Use | Kuray Karaaslan",
-      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
-      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+      "title": "תנאי שימוש | Kuray Karaaslan",
+      "description": "תנאי שימוש עבור kuray.dev — כללים והנחיות לשימוש באתר זה ובשירותיו.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Terms of Use",
+        "kuray.dev",
+        "Terms and Conditions",
+        "Guidelines"
+      ]
     }
   },
-
   "errors": {
     "404": {
       "title": "משהו השתבש",
@@ -57,7 +112,6 @@
       "button": "חזרה לדף הבית"
     }
   },
-
   "common": {
     "loading": "טוען...",
     "save": "שמור",
@@ -80,7 +134,6 @@
       "upload_error": "שגיאה בהעלאת התמונה"
     }
   },
-
   "pages": {
     "hero": {
       "description": "<bold>מפתח Full-Stack ממוקד מוצר</bold> עם <bold>3+ שנות ניסיון</bold> במתן פתרונות תוכנה חזקים ומדרגיים ב<bold>frontend, backend, mobile בתחומי BIM ו-IoT.</bold> מתמחה ב<bold>Java Spring Boot, React, Next.js, Node.js ו-PostgreSQL</bold>. מיומן בבניית <bold>פלטפורמות SaaS מרובות-דיירים, מערכות זמן אמת ואינטגרציות תשלום.</bold> משלב יסודות הנדסיים חזקים עם <bold>פתרון בעיות יצירתי</bold> ו<bold>גישת קידוד נקייה ושיטתית.</bold>",
@@ -151,7 +204,6 @@
       }
     }
   },
-
   "frontend": {
     "toc": {
       "title": "תוכן עניינים"
@@ -213,7 +265,6 @@
     "scroll_to_top": "גלול למעלה",
     "scroll_to_bottom": "גלול למטה"
   },
-
   "settings": {
     "basic": "בסיסי",
     "profile": "פרופיל",
@@ -245,7 +296,6 @@
       "confirm_setup": "אשר הגדרה"
     }
   },
-
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "הבלוג זמין באנגלית בלבד",

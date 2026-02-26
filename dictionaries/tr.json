@@ -11,40 +11,99 @@
     "resume": "Özgeçmiş",
     "backend": "Backend"
   },
-
   "metadata": {
     "home": {
-      "title": "Software Developer | Kuray Karaaslan",
+      "title": "Yazılım Geliştirici | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Full Stack Developer", "React", "Next.js", "Node.js", "TypeScript", "Java", "React Native", "Web Development", "Mobile Development", "Tech Blog", "İzmir", "Turkey"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Full Stack Developer",
+        "React",
+        "Next.js",
+        "Node.js",
+        "TypeScript",
+        "Java",
+        "React Native",
+        "Web Development",
+        "Mobile Development",
+        "Tech Blog",
+        "İzmir",
+        "Turkey"
+      ]
     },
     "blog": {
       "title": "Blog | Kuray Karaaslan",
       "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
-      "keywords": ["Kuray Karaaslan", "Tech Blog", "Web Development", "React", "Next.js", "Node.js", "Java", "React Native", "Programming", "Tutorials"]
+      "keywords": [
+        "Kuray Karaaslan",
+        "Tech Blog",
+        "Web Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native",
+        "Programming",
+        "Tutorials"
+      ]
     },
     "projects": {
-      "title": "Projects | Kuray Karaaslan",
-      "description": "Explore my portfolio of web, mobile, desktop, and other software projects. Built with React, Next.js, Node.js, Java, React Native, and more.",
-      "keywords": ["Kuray Karaaslan", "Projects", "Portfolio", "Web Development", "Mobile Development", "React", "Next.js", "Node.js", "Java", "React Native"]
+      "title": "Projeler | Kuray Karaaslan",
+      "description": "Web, mobil, masaüstü ve diğer yazılım projelerimden oluşan portföyümü keşfedin. React, Next.js, Node.js, Java, React Native ve daha fazlasıyla inşa edilmiştir.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Projects",
+        "Portfolio",
+        "Web Development",
+        "Mobile Development",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native"
+      ]
     },
     "now": {
-      "title": "Now | Kuray Karaaslan",
-      "description": "What Kuray Karaaslan is focused on right now — work, side projects, learning, and life.",
-      "keywords": ["Kuray Karaaslan", "Software Developer", "Now Page", "IoT", "MQTT", "Java Spring Boot", "React", "Next.js", "Distributed Systems", "İzmir", "Turkey"]
+      "title": "Şimdi | Kuray Karaaslan",
+      "description": "Kuray Karaaslan şu anda neye odaklanıyor — iş, yan projeler, öğrenme ve yaşam.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Software Developer",
+        "Now Page",
+        "IoT",
+        "MQTT",
+        "Java Spring Boot",
+        "React",
+        "Next.js",
+        "Distributed Systems",
+        "İzmir",
+        "Turkey"
+      ]
     },
     "privacy_policy": {
-      "title": "Privacy Policy | Kuray Karaaslan",
-      "description": "Privacy Policy for kuray.dev — Learn how we collect, use, and protect your personal information.",
-      "keywords": ["Kuray Karaaslan", "Privacy Policy", "kuray.dev", "Data Protection", "Personal Information"]
+      "title": "Gizlilik Politikası | Kuray Karaaslan",
+      "description": "kuray.dev için Gizlilik Politikası — Kişisel bilgilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu öğrenin.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Privacy Policy",
+        "kuray.dev",
+        "Data Protection",
+        "Personal Information"
+      ]
     },
     "terms_of_use": {
-      "title": "Terms of Use | Kuray Karaaslan",
-      "description": "Terms of Use for kuray.dev — Rules and guidelines for using this website and its services.",
-      "keywords": ["Kuray Karaaslan", "Terms of Use", "kuray.dev", "Terms and Conditions", "Guidelines"]
+      "title": "Kullanım Koşulları | Kuray Karaaslan",
+      "description": "kuray.dev için Kullanım Koşulları — Bu web sitesini ve hizmetlerini kullanma kuralları ve yönergeleri.",
+      "keywords": [
+        "Kuray Karaaslan",
+        "Terms of Use",
+        "kuray.dev",
+        "Terms and Conditions",
+        "Guidelines"
+      ]
     }
   },
-
   "errors": {
     "404": {
       "title": "Bir şeyler ters gitti",
@@ -57,7 +116,6 @@
       "button": "Anasayfaya dön"
     }
   },
-
   "common": {
     "loading": "Yükleniyor...",
     "modal": {
@@ -73,9 +131,13 @@
     "image": {
       "upload_success": "Görsel başarıyla yüklendi",
       "upload_error": "Görsel yüklenirken bir hata oluştu"
-    }
+    },
+    "cancel": "İptal",
+    "grid_view": "Izgara Görünümü",
+    "refresh": "Yenile",
+    "save": "Kaydet",
+    "table_view": "Tablo Görünümü"
   },
-
   "pages": {
     "hero": {
       "description": "<bold>Ürün odaklı bir Full-Stack Geliştirici</bold> olarak, <bold>3+ yıllık deneyimimle</bold> BIM ve IoT alanlarında <bold>ön yüz, arka yüz ve mobil platformlar</bold> için sağlam ve ölçeklenebilir yazılım çözümleri geliştiriyorum. <bold>Java Spring Boot, React, Next.js, Node.js ve PostgreSQL</bold> teknolojilerinde uzmanım. <bold>SaaS platformları</bold>, <bold>gerçek zamanlı sistemler</bold> ve <bold>ödeme entegrasyonları</bold> mimarileri üzerinde deneyim sahibiyim. <bold>Güçlü mühendislik temelleri</bold> ile <bold>yaratıcı problem çözme becerisini</bold> ve <bold>temiz, sistematik bir kod yaklaşımını</bold> bir araya getiriyorum.",
@@ -146,7 +208,6 @@
       }
     }
   },
-
   "frontend": {
     "toc": {
       "title": "İçindekiler"
@@ -208,7 +269,6 @@
     "scroll_to_top": "Yukarı kaydır",
     "scroll_to_bottom": "Aşağı kaydır"
   },
-
   "settings": {
     "basic": "Temel",
     "profile": "Profil",
@@ -240,7 +300,6 @@
       "confirm_setup": "Kurulumu Onayla"
     }
   },
-
   "shared": {
     "alert": {
       "this_blog_is_available_in_only_english": "Bu blog yalnızca İngilizce olarak mevcuttur",
@@ -504,6 +563,103 @@
     "selects": {
       "select_user": "Kullanıcı Seç",
       "select_category": "Kategori Seç"
+    },
+    "appointments": {
+      "all_statuses": "Tüm Durumlar",
+      "cancel": "İptal Et",
+      "cancel_confirm": "Bu randevuyu iptal etmek istediğinizden emin misiniz?",
+      "close": "Kapat",
+      "complete": "Tamamla",
+      "complete_confirm": "Bu randevuyu tamamlandı olarak işaretlemek istediğinizden emin misiniz?",
+      "created": "Oluşturuldu",
+      "date": "Tarih",
+      "datetime": "Tarih & Saat",
+      "details": "Randevu Detayları",
+      "email": "E-posta",
+      "name": "Ad",
+      "next": "Sonraki",
+      "note": "Not",
+      "phone": "Telefon",
+      "previous": "Önceki",
+      "search_placeholder": "Ad veya e-posta ile ara...",
+      "showing": "{{total}} randevudan {{count}} tanesi gösteriliyor",
+      "status": "Durum",
+      "status_booked": "Rezerve Edildi",
+      "status_cancelled": "İptal Edildi",
+      "status_completed": "Tamamlandı",
+      "status_pending": "Beklemede",
+      "time": "Saat",
+      "title": "Randevular",
+      "view": "Görüntüle"
+    },
+    "contacts": {
+      "action": "Eylem",
+      "close": "Kapat",
+      "confirm_delete": "Bu iletişim formunu silmek istediğinizden emin misiniz?",
+      "contact": "İletişim",
+      "contact_details": "İletişim Detayları",
+      "date": "Tarih",
+      "delete": "Sil",
+      "email": "E-posta",
+      "message": "Mesaj",
+      "name": "Ad",
+      "next": "Sonraki",
+      "phone": "Telefon",
+      "previous": "Önceki",
+      "reply": "Yanıtla",
+      "search_placeholder": "İsim, e-posta veya mesaj ile ara...",
+      "showing": "{{total}} kişiden {{count}} gösteriliyor",
+      "title": "İletişim Formları",
+      "view": "Görüntüle"
+    },
+    "media": {
+      "actions": "İşlemler",
+      "all_folders": "Tüm Klasörler",
+      "alt_text": "Alt Metin",
+      "alt_text_placeholder": "Erişilebilirlik için resmi tanımlayın",
+      "confirm_bulk_delete": "{{count}} dosyayı silmek istediğinizden emin misiniz?",
+      "confirm_delete": "Bu dosyayı silmek istediğinizden emin misiniz?",
+      "copy_url": "URL'yi Kopyala",
+      "date": "Tarih",
+      "delete": "Sil",
+      "delete_selected": "Seçilenleri Sil",
+      "description": "Yüklediğiniz dosya ve resimleri yönetin",
+      "edit": "Düzenle",
+      "filename": "Dosya Adı",
+      "folder": "Klasör",
+      "folders": "Klasörler",
+      "name": "Görünen Ad",
+      "next": "Sonraki",
+      "no_files": "Dosya bulunamadı",
+      "page": "Sayfa",
+      "page_size": "Sayfa Boyutu",
+      "preview": "Önizleme",
+      "previous": "Önceki",
+      "search_placeholder": "Dosyaları ara...",
+      "selected": "Seçilen",
+      "showing": "{{total}} dosyadan {{count}} gösteriliyor",
+      "size": "Boyut",
+      "sync": "S3'ten Senkronize Et",
+      "title": "Medya Kütüphanesi",
+      "total_files": "Toplam Dosya",
+      "total_size": "Toplam Boyut",
+      "upload": "Yükle"
+    },
+    "subscriptions": {
+      "action": "İşlem",
+      "active": "Aktif",
+      "confirm_unsubscribe": "Bu e-postayı abonelikten çıkarmak istediğinizden emin misiniz?",
+      "email": "E-posta",
+      "next": "Sonraki",
+      "previous": "Önceki",
+      "search_placeholder": "E-posta ile ara...",
+      "send_email": "E-posta Gönder",
+      "showing": "{{total}} abonelikten {{count}} tanesi gösteriliyor",
+      "status": "Durum",
+      "subscribed_at": "Abone Olma Tarihi",
+      "title": "Abonelikler",
+      "unsubscribe": "Abonelikten Çık",
+      "unsubscribed": "Abonelikten Çıkıldı"
     }
   }
 }
