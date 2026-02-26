@@ -119,7 +119,10 @@
   "common": {
     "navbar": {
       "login": "เข้าสู่ระบบ",
-      "user_menu": "เมนูผู้ใช้"
+      "user_menu": "เมนูผู้ใช้",
+      "admin_dashboard": "แดชบอร์ดผู้ดูแล",
+      "logout": "ออกจากระบบ",
+      "user_settings": "การตั้งค่าผู้ใช้"
     },
     "image": {
       "upload_success": "อัปโหลดรูปภาพเรียบร้อยแล้ว",
@@ -128,7 +131,12 @@
     "loading": "กำลังโหลด...",
     "modal": {
       "close_dialog": "ปิดหน้าต่าง"
-    }
+    },
+    "cancel": "ยกเลิก",
+    "grid_view": "มุมมองตาราง",
+    "refresh": "รีเฟรช",
+    "save": "บันทึก",
+    "table_view": "มุมมองตาราง"
   },
   "pages": {
     "hero": {
@@ -162,7 +170,9 @@
         "cloud_infrastructure": "โครงสร้างพื้นฐานคลาวด์ (AWS)",
         "event_driven_architecture": "สถาปัตยกรรมที่ขับเคลื่อนด้วยเหตุการณ์",
         "domain_driven_design": "การออกแบบที่ขับเคลื่อนด้วยโดเมน"
-      }
+      },
+      "backend": "แบ็กเอนด์",
+      "frontend": "ฟรอนต์เอนด์"
     },
     "timeline": {
       "title": "เส้นทางของฉัน",
@@ -254,6 +264,9 @@
     "knowledge_graph": {
       "title_2d": "กราฟความรู้ 2D",
       "title_3d": "กราฟความรู้ 3D"
+    },
+    "toc": {
+      "title": "สารบัญ"
     }
   },
   "settings": {
@@ -538,6 +551,103 @@
     "selects": {
       "select_user": "เลือกผู้ใช้",
       "select_category": "เลือกหมวดหมู่"
+    },
+    "appointments": {
+      "all_statuses": "สถานะทั้งหมด",
+      "cancel": "ยกเลิก",
+      "cancel_confirm": "คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการนัดหมายนี้?",
+      "close": "ปิด",
+      "complete": "เสร็จสิ้น",
+      "complete_confirm": "คุณแน่ใจหรือไม่ว่าต้องการทำเครื่องหมายการนัดหมายนี้ว่าเสร็จสิ้น?",
+      "created": "สร้างแล้ว",
+      "date": "วันที่",
+      "datetime": "วันที่และเวลา",
+      "details": "รายละเอียดการนัดหมาย",
+      "email": "อีเมล",
+      "name": "ชื่อ",
+      "next": "ถัดไป",
+      "note": "หมายเหตุ",
+      "phone": "โทรศัพท์",
+      "previous": "ก่อนหน้า",
+      "search_placeholder": "ค้นหาด้วยชื่อหรืออีเมล...",
+      "showing": "แสดง {{count}} จาก {{total}} การนัดหมาย",
+      "status": "สถานะ",
+      "status_booked": "จองแล้ว",
+      "status_cancelled": "ยกเลิกแล้ว",
+      "status_completed": "เสร็จสิ้นแล้ว",
+      "status_pending": "รอดำเนินการ",
+      "time": "เวลา",
+      "title": "การนัดหมาย",
+      "view": "ดู"
+    },
+    "contacts": {
+      "action": "การกระทำ",
+      "close": "ปิด",
+      "confirm_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบแบบฟอร์มติดต่อนี้?",
+      "contact": "ติดต่อ",
+      "contact_details": "รายละเอียดการติดต่อ",
+      "date": "วันที่",
+      "delete": "ลบ",
+      "email": "อีเมล",
+      "message": "ข้อความ",
+      "name": "ชื่อ",
+      "next": "ถัดไป",
+      "phone": "โทรศัพท์",
+      "previous": "ก่อนหน้า",
+      "reply": "ตอบกลับ",
+      "search_placeholder": "ค้นหาด้วยชื่อ อีเมล หรือข้อความ...",
+      "showing": "แสดง {{count}} จาก {{total}} รายชื่อ",
+      "title": "แบบฟอร์มติดต่อ",
+      "view": "ดู"
+    },
+    "media": {
+      "actions": "การกระทำ",
+      "all_folders": "โฟลเดอร์ทั้งหมด",
+      "alt_text": "ข้อความแทน",
+      "alt_text_placeholder": "อธิบายภาพเพื่อการเข้าถึง",
+      "confirm_bulk_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์ {{count}} ไฟล์?",
+      "confirm_delete": "คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์นี้?",
+      "copy_url": "คัดลอก URL",
+      "date": "วันที่",
+      "delete": "ลบ",
+      "delete_selected": "ลบที่เลือก",
+      "description": "จัดการไฟล์และรูปภาพที่อัปโหลด",
+      "edit": "แก้ไข",
+      "filename": "ชื่อไฟล์",
+      "folder": "โฟลเดอร์",
+      "folders": "โฟลเดอร์",
+      "name": "ชื่อที่แสดง",
+      "next": "ถัดไป",
+      "no_files": "ไม่พบไฟล์",
+      "page": "หน้า",
+      "page_size": "ขนาดหน้า",
+      "preview": "ดูตัวอย่าง",
+      "previous": "ก่อนหน้า",
+      "search_placeholder": "ค้นหาไฟล์...",
+      "selected": "ที่เลือก",
+      "showing": "แสดง {{count}} จาก {{total}} ไฟล์",
+      "size": "ขนาด",
+      "sync": "ซิงค์จาก S3",
+      "title": "คลังสื่อ",
+      "total_files": "ไฟล์ทั้งหมด",
+      "total_size": "ขนาดทั้งหมด",
+      "upload": "อัปโหลด"
+    },
+    "subscriptions": {
+      "action": "การกระทำ",
+      "active": "ใช้งานอยู่",
+      "confirm_unsubscribe": "คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการสมัครอีเมลนี้?",
+      "email": "อีเมล",
+      "next": "ถัดไป",
+      "previous": "ก่อนหน้า",
+      "search_placeholder": "ค้นหาโดยอีเมล...",
+      "send_email": "ส่งอีเมล",
+      "showing": "แสดง {{count}} จาก {{total}} การสมัครสมาชิก",
+      "status": "สถานะ",
+      "subscribed_at": "สมัครสมาชิกเมื่อ",
+      "title": "การสมัครสมาชิก",
+      "unsubscribe": "ยกเลิกการสมัคร",
+      "unsubscribed": "ยกเลิกการสมัครแล้ว"
     }
   },
   "auth": {

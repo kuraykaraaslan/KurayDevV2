@@ -119,7 +119,10 @@
   "common": {
     "navbar": {
       "login": "Log in",
-      "user_menu": "User menu"
+      "user_menu": "User menu",
+      "admin_dashboard": "Панель адміністратора",
+      "logout": "Вийти",
+      "user_settings": "Налаштування користувача"
     },
     "image": {
       "upload_success": "Зображення успішно завантажено",
@@ -128,7 +131,12 @@
     "loading": "Завантаження...",
     "modal": {
       "close_dialog": "Закрити діалог"
-    }
+    },
+    "cancel": "Скасувати",
+    "grid_view": "Подання у вигляді сітки",
+    "refresh": "Оновити",
+    "save": "Зберегти",
+    "table_view": "Подання у вигляді таблиці"
   },
   "pages": {
     "hero": {
@@ -162,7 +170,9 @@
         "cloud_infrastructure": "Хмарна інфраструктура (AWS)",
         "event_driven_architecture": "Архітектура, керована подіями",
         "domain_driven_design": "Дизайн, керований доменом"
-      }
+      },
+      "backend": "Бекенд",
+      "frontend": "Фронтенд"
     },
     "timeline": {
       "title": "Моя подорож",
@@ -254,6 +264,9 @@
     "knowledge_graph": {
       "title_2d": "2D Граф знань",
       "title_3d": "3D Граф знань"
+    },
+    "toc": {
+      "title": "Зміст"
     }
   },
   "settings": {
@@ -538,6 +551,103 @@
     "selects": {
       "select_user": "Оберіть користувача",
       "select_category": "Оберіть категорію"
+    },
+    "appointments": {
+      "all_statuses": "Усі статуси",
+      "cancel": "Скасувати",
+      "cancel_confirm": "Ви впевнені, що хочете скасувати цю зустріч?",
+      "close": "Закрити",
+      "complete": "Завершити",
+      "complete_confirm": "Ви впевнені, що хочете позначити цю зустріч як завершену?",
+      "created": "Створено",
+      "date": "Дата",
+      "datetime": "Дата та час",
+      "details": "Деталі зустрічі",
+      "email": "Електронна пошта",
+      "name": "Ім'я",
+      "next": "Наступний",
+      "note": "Примітка",
+      "phone": "Телефон",
+      "previous": "Попередній",
+      "search_placeholder": "Пошук за ім'ям або електронною поштою...",
+      "showing": "Показано {{count}} з {{total}} зустрічей",
+      "status": "Статус",
+      "status_booked": "Заброньовано",
+      "status_cancelled": "Скасовано",
+      "status_completed": "Завершено",
+      "status_pending": "Очікується",
+      "time": "Час",
+      "title": "Зустрічі",
+      "view": "Переглянути"
+    },
+    "contacts": {
+      "action": "Дія",
+      "close": "Закрити",
+      "confirm_delete": "Ви впевнені, що хочете видалити цю контактну форму?",
+      "contact": "Контакт",
+      "contact_details": "Деталі контакту",
+      "date": "Дата",
+      "delete": "Видалити",
+      "email": "Електронна пошта",
+      "message": "Повідомлення",
+      "name": "Ім'я",
+      "next": "Наступний",
+      "phone": "Телефон",
+      "previous": "Попередній",
+      "reply": "Відповісти",
+      "search_placeholder": "Пошук за ім'ям, електронною поштою або повідомленням...",
+      "showing": "Показано {{count}} з {{total}} контактів",
+      "title": "Форми контактів",
+      "view": "Переглянути"
+    },
+    "media": {
+      "actions": "Дії",
+      "all_folders": "Усі папки",
+      "alt_text": "Альтернативний текст",
+      "alt_text_placeholder": "Опишіть зображення для доступності",
+      "confirm_bulk_delete": "Ви впевнені, що хочете видалити {{count}} файлів?",
+      "confirm_delete": "Ви впевнені, що хочете видалити цей файл?",
+      "copy_url": "Копіювати URL",
+      "date": "Дата",
+      "delete": "Видалити",
+      "delete_selected": "Видалити вибране",
+      "description": "Керуйте вашими завантаженими файлами та зображеннями",
+      "edit": "Редагувати",
+      "filename": "Ім'я файлу",
+      "folder": "Папка",
+      "folders": "Папки",
+      "name": "Відображуване ім'я",
+      "next": "Наступна",
+      "no_files": "Файлів не знайдено",
+      "page": "Сторінка",
+      "page_size": "Розмір сторінки",
+      "preview": "Попередній перегляд",
+      "previous": "Попередня",
+      "search_placeholder": "Пошук файлів...",
+      "selected": "Вибрано",
+      "showing": "Показано {{count}} з {{total}} файлів",
+      "size": "Розмір",
+      "sync": "Синхронізувати з S3",
+      "title": "Медіатека",
+      "total_files": "Усього файлів",
+      "total_size": "Загальний розмір",
+      "upload": "Завантажити"
+    },
+    "subscriptions": {
+      "action": "Дія",
+      "active": "Активний",
+      "confirm_unsubscribe": "Ви впевнені, що хочете відписати цю електронну пошту?",
+      "email": "Електронна пошта",
+      "next": "Наступна",
+      "previous": "Попередній",
+      "search_placeholder": "Пошук за електронною поштою...",
+      "send_email": "Надіслати електронний лист",
+      "showing": "Показано {{count}} з {{total}} підписок",
+      "status": "Статус",
+      "subscribed_at": "Дата підписки",
+      "title": "Підписки",
+      "unsubscribe": "Відписатися",
+      "unsubscribed": "Відписано"
     }
   },
   "auth": {

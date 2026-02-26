@@ -119,7 +119,10 @@
   "common": {
     "navbar": {
       "login": "Inloggen",
-      "user_menu": "Gebruikersmenu"
+      "user_menu": "Gebruikersmenu",
+      "admin_dashboard": "Beheerdersdashboard",
+      "logout": "Uitloggen",
+      "user_settings": "Gebruikersinstellingen"
     },
     "image": {
       "upload_success": "Afbeelding succesvol geüpload",
@@ -128,7 +131,12 @@
     "loading": "Laden...",
     "modal": {
       "close_dialog": "Dialoog sluiten"
-    }
+    },
+    "cancel": "Annuleren",
+    "grid_view": "Rasterweergave",
+    "refresh": "Verversen",
+    "save": "Opslaan",
+    "table_view": "Tabelweergave"
   },
   "pages": {
     "hero": {
@@ -162,7 +170,9 @@
         "cloud_infrastructure": "Cloud-infrastructuur (AWS)",
         "event_driven_architecture": "Event-Driven Architecture",
         "domain_driven_design": "Domain-Driven Design"
-      }
+      },
+      "backend": "Backend",
+      "frontend": "Frontend"
     },
     "timeline": {
       "title": "Mijn Reis",
@@ -254,6 +264,9 @@
     "knowledge_graph": {
       "title_2d": "2D Knowledge Graph",
       "title_3d": "3D Knowledge Graph"
+    },
+    "toc": {
+      "title": "Inhoudsopgave"
     }
   },
   "settings": {
@@ -538,6 +551,103 @@
     "selects": {
       "select_user": "Gebruiker selecteren",
       "select_category": "Categorie selecteren"
+    },
+    "appointments": {
+      "all_statuses": "Alle statussen",
+      "cancel": "Annuleren",
+      "cancel_confirm": "Weet je zeker dat je deze afspraak wilt annuleren?",
+      "close": "Sluiten",
+      "complete": "Voltooien",
+      "complete_confirm": "Weet je zeker dat je deze afspraak als voltooid wilt markeren?",
+      "created": "Gemaakt",
+      "date": "Datum",
+      "datetime": "Datum & Tijd",
+      "details": "Afspraakdetails",
+      "email": "E-mail",
+      "name": "Naam",
+      "next": "Volgende",
+      "note": "Notitie",
+      "phone": "Telefoon",
+      "previous": "Vorige",
+      "search_placeholder": "Zoek op naam of e-mail...",
+      "showing": "Toont {{count}} van {{total}} afspraken",
+      "status": "Status",
+      "status_booked": "Geboekt",
+      "status_cancelled": "Geannuleerd",
+      "status_completed": "Voltooid",
+      "status_pending": "In afwachting",
+      "time": "Tijd",
+      "title": "Afspraken",
+      "view": "Bekijken"
+    },
+    "contacts": {
+      "action": "Actie",
+      "close": "Sluiten",
+      "confirm_delete": "Weet je zeker dat je dit contactformulier wilt verwijderen?",
+      "contact": "Contact",
+      "contact_details": "Contactgegevens",
+      "date": "Datum",
+      "delete": "Verwijderen",
+      "email": "E-mail",
+      "message": "Bericht",
+      "name": "Naam",
+      "next": "Volgende",
+      "phone": "Telefoon",
+      "previous": "Vorige",
+      "reply": "Antwoorden",
+      "search_placeholder": "Zoek op naam, e-mail of bericht...",
+      "showing": "Toont {{count}} van {{total}} contacten",
+      "title": "Contactformulieren",
+      "view": "Bekijken"
+    },
+    "media": {
+      "actions": "Acties",
+      "all_folders": "Alle mappen",
+      "alt_text": "Alt-tekst",
+      "alt_text_placeholder": "Beschrijf de afbeelding voor toegankelijkheid",
+      "confirm_bulk_delete": "Weet je zeker dat je {{count}} bestanden wilt verwijderen?",
+      "confirm_delete": "Weet je zeker dat je dit bestand wilt verwijderen?",
+      "copy_url": "URL kopiëren",
+      "date": "Datum",
+      "delete": "Verwijderen",
+      "delete_selected": "Geselecteerde verwijderen",
+      "description": "Beheer je geüploade bestanden en afbeeldingen",
+      "edit": "Bewerken",
+      "filename": "Bestandsnaam",
+      "folder": "Map",
+      "folders": "Mappen",
+      "name": "Weergavenaam",
+      "next": "Volgende",
+      "no_files": "Geen bestanden gevonden",
+      "page": "Pagina",
+      "page_size": "Paginagrootte",
+      "preview": "Voorbeeld",
+      "previous": "Vorige",
+      "search_placeholder": "Zoek bestanden...",
+      "selected": "Geselecteerd",
+      "showing": "Toont {{count}} van {{total}} bestanden",
+      "size": "Grootte",
+      "sync": "Synchroniseren van S3",
+      "title": "Mediabibliotheek",
+      "total_files": "Totaal aantal bestanden",
+      "total_size": "Totale grootte",
+      "upload": "Uploaden"
+    },
+    "subscriptions": {
+      "action": "Actie",
+      "active": "Actief",
+      "confirm_unsubscribe": "Weet je zeker dat je dit e-mailadres wilt uitschrijven?",
+      "email": "E-mail",
+      "next": "Volgende",
+      "previous": "Vorige",
+      "search_placeholder": "Zoek op e-mail...",
+      "send_email": "E-mail verzenden",
+      "showing": "Toont {{count}} van {{total}} abonnementen",
+      "status": "Status",
+      "subscribed_at": "Geabonneerd op",
+      "title": "Abonnementen",
+      "unsubscribe": "Uitschrijven",
+      "unsubscribed": "Uitgeschreven"
     }
   },
   "auth": {

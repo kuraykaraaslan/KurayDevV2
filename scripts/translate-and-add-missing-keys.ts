@@ -11,6 +11,15 @@ function isPlainObject(v: any): v is Record<string, any> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
 
+function ensureJsonExt(name: string): string {
+  return name.endsWith(".json") ? name : `${name}.json`;
+}
+
+function listJsonFiles(dir: string): string[] {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
+}
+
 function getLeafKeys(obj: any, prefix = ""): string[] {
   if (!isPlainObject(obj)) return [];
   const out: string[] = [];
@@ -56,13 +65,14 @@ function readJsonIfExists(filePath: string): Json {
   return readJson(filePath);
 }
 
-function ensureJsonExt(name: string): string {
-  return name.endsWith(".json") ? name : `${name}.json`;
-}
-
 function parseArgs(argv: string[]) {
+  // usage:
+  //   node ... all
+  //   node ... tr
+  //   node ... tr --base en --dry-run --batch 40 --model gpt-4o
   const targetArg = argv[2] || "tr";
-  const targetFile = ensureJsonExt(targetArg);
+  const isAll = targetArg.toLowerCase() === "all";
+  const targetFile = isAll ? null : ensureJsonExt(targetArg);
 
   let baseFile = "en.json";
   let dryRun = false;
@@ -77,22 +87,16 @@ function parseArgs(argv: string[]) {
     if (a === "--model") model = argv[i + 1] || "gpt-4o";
   }
 
-  return { targetFile, baseFile, dryRun, batchSize, model };
+  return { isAll, targetFile, baseFile, dryRun, batchSize, model };
 }
 
-async function main() {
-  // sanity check: env gerçekten var mı?
-  if (!process.env.OPENAI_API_KEY) {
-    console.error("OPENAI_API_KEY is missing. Make sure it exists in .env or shell env.");
-    process.exit(1);
-  }
-
-  // IMPORTANT: import AFTER dotenv.config()
-  const { default: OpenAIService } = await import("../services/OpenAIService");
-
-  const { targetFile, baseFile, dryRun, batchSize, model } = parseArgs(process.argv);
-
-  const dictionariesDir = path.resolve(__dirname, "../dictionaries");
+async function translateOne(
+  OpenAIService: any,
+  dictionariesDir: string,
+  baseFile: string,
+  targetFile: string,
+  opts: { dryRun: boolean; batchSize: number; model: string }
+) {
   const basePath = path.join(dictionariesDir, baseFile);
   const targetPath = path.join(dictionariesDir, targetFile);
 
@@ -109,7 +113,7 @@ async function main() {
 
   const missingKeys = baseKeys.filter((k) => !targetKeys.has(k));
   if (missingKeys.length === 0) {
-    console.log("No missing keys to translate.");
+    console.log(`[${targetFile}] No missing keys to translate.`);
     return;
   }
 
@@ -123,7 +127,7 @@ async function main() {
     text: string;
   }[];
 
-  console.log(`Target: ${targetFile} (${targetLang})`);
+  console.log(`\nTarget: ${targetFile} (${targetLang})`);
   console.log(`Base:   ${baseFile} (${sourceLang})`);
   console.log(`Missing keys total: ${missingKeys.length}`);
   console.log(`Translating string keys: ${items.length}`);
@@ -134,8 +138,8 @@ async function main() {
   }
 
   const translations = await OpenAIService.translateMultipleKeys(items, targetLang, sourceLang, {
-    batchSize,
-    model,
+    batchSize: opts.batchSize,
+    model: opts.model,
   });
 
   let applied = 0;
@@ -152,7 +156,7 @@ async function main() {
     }
   }
 
-  if (dryRun) {
+  if (opts.dryRun) {
     console.log(`[dry-run] Would write: ${targetPath}`);
     console.log(`[dry-run] Applied: ${applied}, Missed: ${missed}`);
     return;
@@ -163,6 +167,43 @@ async function main() {
 
   console.log(`Done. Applied: ${applied}, Missed: ${missed}`);
   console.log(`Updated: ${targetPath}`);
+}
+
+async function main() {
+  // sanity check: env gerçekten var mı?
+  if (!process.env.OPENAI_API_KEY) {
+    console.error("OPENAI_API_KEY is missing. Make sure it exists in .env or shell env.");
+    process.exit(1);
+  }
+
+  // IMPORTANT: import AFTER dotenv.config()
+  const { default: OpenAIService } = await import("../services/OpenAIService");
+
+  const { isAll, targetFile, baseFile, dryRun, batchSize, model } = parseArgs(process.argv);
+
+  const dictionariesDir = path.resolve(__dirname, "../dictionaries");
+
+  if (!isAll) {
+    // single target (old behavior)
+    await translateOne(OpenAIService, dictionariesDir, baseFile, targetFile!, { dryRun, batchSize, model });
+    return;
+  }
+
+  // ALL mode: translate to every *.json in dictionariesDir except baseFile
+  const files = listJsonFiles(dictionariesDir).filter((f) => f !== baseFile);
+
+  if (files.length === 0) {
+    console.log(`No target json files found in: ${dictionariesDir} (base=${baseFile})`);
+    return;
+  }
+
+  console.log(`ALL mode enabled.`);
+  console.log(`Base: ${baseFile}`);
+  console.log(`Targets (${files.length}): ${files.join(", ")}`);
+
+  for (const f of files) {
+    await translateOne(OpenAIService, dictionariesDir, baseFile, f, { dryRun, batchSize, model });
+  }
 }
 
 main().catch((err) => {

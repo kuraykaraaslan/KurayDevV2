@@ -119,7 +119,10 @@
   "common": {
     "navbar": {
       "login": "Idħol",
-      "user_menu": "Menu tal-utent"
+      "user_menu": "Menu tal-utent",
+      "admin_dashboard": "Dashboard tal-Amministratur",
+      "logout": "Oħroġ",
+      "user_settings": "Settings tal-Utent"
     },
     "image": {
       "upload_success": "L-immaġni ittellgħet b'suċċess",
@@ -128,7 +131,12 @@
     "loading": "Qed jitgħabba...",
     "modal": {
       "close_dialog": "Agħlaq id-djalogu"
-    }
+    },
+    "cancel": "Ikkanċella",
+    "grid_view": "Veduta tal-Grilja",
+    "refresh": "Aġġorna",
+    "save": "Issejvja",
+    "table_view": "Veduta tat-Tabella"
   },
   "pages": {
     "hero": {
@@ -162,7 +170,9 @@
         "cloud_infrastructure": "Infrastruttura Cloud (AWS)",
         "event_driven_architecture": "Arkitettura Driven mill-Event",
         "domain_driven_design": "Disinn Driven mill-Domain"
-      }
+      },
+      "backend": "Backend",
+      "frontend": "Frontend"
     },
     "timeline": {
       "title": "Il-Vjaġġ Tiegħi",
@@ -254,6 +264,9 @@
     "knowledge_graph": {
       "title_2d": "Grafu tal-Għarfien 2D",
       "title_3d": "Grafu tal-Għarfien 3D"
+    },
+    "toc": {
+      "title": "Tabella tal-Kontenut"
     }
   },
   "settings": {
@@ -538,6 +551,103 @@
     "selects": {
       "select_user": "Agħżel Utent",
       "select_category": "Agħżel Kategorija"
+    },
+    "appointments": {
+      "all_statuses": "L-Istatuti Kollha",
+      "cancel": "Ikkanċella",
+      "cancel_confirm": "Int żgur li trid tikkanċella din l-appuntament?",
+      "close": "Agħlaq",
+      "complete": "Ikkumplimenta",
+      "complete_confirm": "Int żgur li trid timmarka din l-appuntament bħala kompluta?",
+      "created": "Maħluq",
+      "date": "Data",
+      "datetime": "Data u Ħin",
+      "details": "Dettalji tal-Appuntament",
+      "email": "Email",
+      "name": "Isem",
+      "next": "Li jmiss",
+      "note": "Nota",
+      "phone": "Telefon",
+      "previous": "Preċedenti",
+      "search_placeholder": "Fittex b'isem jew email...",
+      "showing": "Juri {{count}} minn {{total}} appuntament",
+      "status": "Stat",
+      "status_booked": "Riservat",
+      "status_cancelled": "Ikkanċellat",
+      "status_completed": "Kompluta",
+      "status_pending": "Pendenti",
+      "time": "Ħin",
+      "title": "Appuntamenti",
+      "view": "Ara"
+    },
+    "contacts": {
+      "action": "Azzjoni",
+      "close": "Agħlaq",
+      "confirm_delete": "Int żgur li trid tħassar din il-formola ta' kuntatt?",
+      "contact": "Kuntatt",
+      "contact_details": "Dettalji tal-Kuntatt",
+      "date": "Data",
+      "delete": "Ħassar",
+      "email": "Email",
+      "message": "Messaġġ",
+      "name": "Isem",
+      "next": "Li jmiss",
+      "phone": "Telefon",
+      "previous": "Preċedenti",
+      "reply": "Irrispondi",
+      "search_placeholder": "Fittex b'isem, email jew messaġġ...",
+      "showing": "Juri {{count}} minn {{total}} kuntatti",
+      "title": "Formoli ta' Kuntatt",
+      "view": "Ara"
+    },
+    "media": {
+      "actions": "Azzjonijiet",
+      "all_folders": "Il-Folders Kollha",
+      "alt_text": "Test Alternattiv",
+      "alt_text_placeholder": "Iddeskrivi l-immaġni għall-aċċessibilità",
+      "confirm_bulk_delete": "Żgur li trid tħassar {{count}} fajls?",
+      "confirm_delete": "Żgur li trid tħassar dan il-fajl?",
+      "copy_url": "Kopja URL",
+      "date": "Data",
+      "delete": "Ħassar",
+      "delete_selected": "Ħassar Magħżula",
+      "description": "Immaniġġja l-fajls u l-immaġini mtellgħin tiegħek",
+      "edit": "Editja",
+      "filename": "Isem il-Fajl",
+      "folder": "Folder",
+      "folders": "Folders",
+      "name": "Isem tal-Wiri",
+      "next": "Li jmiss",
+      "no_files": "Ma nstabux fajls",
+      "page": "Paġna",
+      "page_size": "Daqs tal-Paġna",
+      "preview": "Previżjoni",
+      "previous": "Preċedenti",
+      "search_placeholder": "Fittex fajls...",
+      "selected": "Magħżula",
+      "showing": "Juri {{count}} minn {{total}} fajls",
+      "size": "Daqs",
+      "sync": "Sinkronizza minn S3",
+      "title": "Librerija tal-Midja",
+      "total_files": "Total tal-Fajls",
+      "total_size": "Daqs Totali",
+      "upload": "Tella'"
+    },
+    "subscriptions": {
+      "action": "Azzjoni",
+      "active": "Attiv",
+      "confirm_unsubscribe": "Żgur li trid tneħħi dan l-email mis-sottoskrizzjoni?",
+      "email": "Email",
+      "next": "Li jmiss",
+      "previous": "Preċedenti",
+      "search_placeholder": "Fittex bl-email...",
+      "send_email": "Ibgħat Email",
+      "showing": "Juri {{count}} minn {{total}} abbonamenti",
+      "status": "Status",
+      "subscribed_at": "Abbonat Fis",
+      "title": "Abbonamenti",
+      "unsubscribe": "Neħħi l-Abbonament",
+      "unsubscribed": "Mhux Abbonat"
     }
   },
   "auth": {
