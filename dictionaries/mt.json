@@ -683,5 +683,12 @@
     "menu": "Menu",
     "mobile_navigation": "Navigazzjoni mobbli",
     "navigation_menu": "Menu tan-navigazzjoni"
+  },
+  "footer": {
+    "github_profile": "Profil GitHub (jiftaħ f'tab ġdid)",
+    "linkedin_profile": "Profil LinkedIn (jiftaħ f'tab ġdid)",
+    "site_footer": "Qiegħ tal-websajt",
+    "social_media_links": "Ħoloq tal-midja soċjali",
+    "x_profile": "Profil X (qabel Twitter) (jiftaħ f'tab ġdid)"
   }
 }

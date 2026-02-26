@@ -683,5 +683,12 @@
     "menu": "Menü",
     "mobile_navigation": "Mobile Navigation",
     "navigation_menu": "Navigationsmenü"
+  },
+  "footer": {
+    "github_profile": "GitHub-Profil (öffnet in neuem Tab)",
+    "linkedin_profile": "LinkedIn-Profil (öffnet in neuem Tab)",
+    "site_footer": "Seitenfuß",
+    "social_media_links": "Soziale Medien Links",
+    "x_profile": "X (ehemals Twitter) Profil (öffnet in neuem Tab)"
   }
 }

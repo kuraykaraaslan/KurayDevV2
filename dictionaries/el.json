@@ -683,5 +683,12 @@
     "menu": "Μενού",
     "mobile_navigation": "Πλοήγηση για κινητά",
     "navigation_menu": "Μενού πλοήγησης"
+  },
+  "footer": {
+    "github_profile": "Προφίλ GitHub (ανοίγει σε νέα καρτέλα)",
+    "linkedin_profile": "Προφίλ LinkedIn (ανοίγει σε νέα καρτέλα)",
+    "site_footer": "Υποσέλιδο ιστότοπου",
+    "social_media_links": "Σύνδεσμοι κοινωνικών μέσων",
+    "x_profile": "Προφίλ X (πρώην Twitter) (ανοίγει σε νέα καρτέλα)"
   }
 }

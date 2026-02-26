@@ -161,7 +161,7 @@ export default class OpenAIService {
         continue;
       }
 
-      // merge back
+      // @ts-ignore
       for (const { key, text } of chunk) {
         const val = translated[key];
 

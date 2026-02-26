@@ -683,5 +683,12 @@
     "menu": "Меню",
     "mobile_navigation": "Мобільна навігація",
     "navigation_menu": "Меню навігації"
+  },
+  "footer": {
+    "github_profile": "Профіль GitHub (відкривається у новій вкладці)",
+    "linkedin_profile": "Профіль LinkedIn (відкривається у новій вкладці)",
+    "site_footer": "Нижній колонтитул сайту",
+    "social_media_links": "Посилання на соціальні мережі",
+    "x_profile": "Профіль X (раніше Twitter) (відкривається у новій вкладці)"
   }
 }

@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <footer
       role="contentinfo"
-      aria-label="Site footer"
+      aria-label={t('footer.site_footer')}
       className="footer flex flex-col md:flex-row md:justify-between items-center bg-base-300 text-base-content p-2"
     >
       <div className="flex flex-row flex-wrap justify-start items-center gap-2">
@@ -22,12 +22,12 @@ const Footer = () => {
         <SystemStatusButton />
       </div>
 
-      <nav aria-label="Social media links" className="flex flex-row flex-wrap justify-end gap-1">
+      <nav aria-label={t('footer.social_media_links')} className="flex flex-row flex-wrap justify-end gap-1">
         <Link
           href="https://twitter.com/kuraykaraaslan"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="X (formerly Twitter) profile (opens in new tab)"
+          aria-label={t('footer.x_profile')}
           className="p-2 rounded-lg hover:bg-base-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           <FontAwesomeIcon icon={faXTwitter} style={{ width: '24px', height: '24px' }} aria-hidden="true" />
@@ -36,7 +36,7 @@ const Footer = () => {
           href="https://github.com/kuraykaraaslan"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="GitHub profile (opens in new tab)"
+          aria-label={t('footer.github_profile')}
           className="p-2 rounded-lg hover:bg-base-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           <FontAwesomeIcon icon={faGithub} style={{ width: '24px', height: '24px' }} aria-hidden="true" />
@@ -45,7 +45,7 @@ const Footer = () => {
           href="https://www.linkedin.com/in/kuraykaraaslan/"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="LinkedIn profile (opens in new tab)"
+          aria-label={t('footer.linkedin_profile')}
           className="p-2 rounded-lg hover:bg-base-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           <FontAwesomeIcon icon={faLinkedin} style={{ width: '24px', height: '24px' }} aria-hidden="true" />

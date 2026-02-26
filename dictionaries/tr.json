@@ -683,5 +683,12 @@
     "menu": "Menü",
     "mobile_navigation": "Mobil gezinme",
     "navigation_menu": "Gezinme menüsü"
+  },
+  "footer": {
+    "github_profile": "GitHub profili (yeni sekmede açılır)",
+    "linkedin_profile": "LinkedIn profili (yeni sekmede açılır)",
+    "site_footer": "Site altbilgisi",
+    "social_media_links": "Sosyal medya bağlantıları",
+    "x_profile": "X (eski adıyla Twitter) profili (yeni sekmede açılır)"
   }
 }

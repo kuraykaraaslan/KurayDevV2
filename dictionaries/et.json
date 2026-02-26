@@ -683,5 +683,12 @@
     "menu": "Menüü",
     "mobile_navigation": "Mobiilne navigeerimine",
     "navigation_menu": "Navigeerimismenüü"
+  },
+  "footer": {
+    "github_profile": "GitHub profiil (avaneb uues vahekaardis)",
+    "linkedin_profile": "LinkedIn profiil (avaneb uues vahekaardis)",
+    "site_footer": "Saidi jalus",
+    "social_media_links": "Sotsiaalmeedia lingid",
+    "x_profile": "X (endine Twitter) profiil (avaneb uues vahekaardis)"
   }
 }

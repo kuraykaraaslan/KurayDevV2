@@ -683,5 +683,12 @@
     "menu": "Menu",
     "mobile_navigation": "Mobiele navigatie",
     "navigation_menu": "Navigatiemenu"
+  },
+  "footer": {
+    "github_profile": "GitHub-profiel (opent in nieuw tabblad)",
+    "linkedin_profile": "LinkedIn-profiel (opent in nieuw tabblad)",
+    "site_footer": "Site-voetnoot",
+    "social_media_links": "Sociale media links",
+    "x_profile": "X (voorheen Twitter) profiel (opent in nieuw tabblad)"
   }
 }

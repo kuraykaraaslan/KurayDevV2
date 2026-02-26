@@ -683,5 +683,12 @@
     "menu": "เมนู",
     "mobile_navigation": "การนำทางมือถือ",
     "navigation_menu": "เมนูนำทาง"
+  },
+  "footer": {
+    "github_profile": "โปรไฟล์ GitHub (เปิดในแท็บใหม่)",
+    "linkedin_profile": "โปรไฟล์ LinkedIn (เปิดในแท็บใหม่)",
+    "site_footer": "ท้ายเว็บไซต์",
+    "social_media_links": "ลิงก์สื่อสังคมออนไลน์",
+    "x_profile": "โปรไฟล์ X (เดิมคือ Twitter) (เปิดในแท็บใหม่)"
   }
 }
