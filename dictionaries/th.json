@@ -14,47 +14,49 @@
   "metadata": {
     "home": {
       "title": "นักพัฒนาซอฟต์แวร์ | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "ยินดีต้อนรับสู่บล็อกเทคโนโลยีของฉัน! ฉันคือ Kuray Karaaslan นักพัฒนาฝั่งหน้า ฝั่งหลัง และมือถือที่มีทักษะใน React, Next.js, Node.js, Java และ React Native ฉันแบ่งปันบทเรียนการเขียนโค้ดที่ใช้งานได้จริง ข้อมูลเชิงลึกในอุตสาหกรรม และเคล็ดลับ UI/UX เพื่อช่วยให้นักพัฒนาและผู้ที่ชื่นชอบเทคโนโลยีประสบความสำเร็จ ติดตามข่าวสาร แก้ปัญหา และพัฒนาความเชี่ยวชาญด้านเทคโนโลยีกับฉัน!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "นักพัฒนาซอฟต์แวร์",
+        "นักพัฒนาเต็มสแต็ก",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "การพัฒนาเว็บ",
+        "การพัฒนามือถือ",
+        "บล็อกเทคโนโลยี",
+        "İzmir",
+        "Turkey"
       ]
     },
     "blog": {
       "title": "บล็อก | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "ยินดีต้อนรับสู่บล็อกเทคโนโลยีของฉัน! ฉันคือ Kuray Karaaslan นักพัฒนาฝั่งหน้า ฝั่งหลัง และมือถือที่มีทักษะใน React, Next.js, Node.js, Java และ React Native ฉันแบ่งปันบทเรียนการเขียนโค้ดที่ใช้งานได้จริง ข้อมูลเชิงลึกในอุตสาหกรรม และเคล็ดลับ UI/UX เพื่อช่วยให้นักพัฒนาและผู้ที่ชื่นชอบเทคโนโลยีประสบความสำเร็จ",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "บล็อกเทคโนโลยี",
+        "การพัฒนาเว็บ",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
-        "Tutorials"
+        "การเขียนโปรแกรม",
+        "บทเรียน"
       ]
     },
     "projects": {
-      "title": "โปรเจกต์ | Kuray Karaaslan",
-      "description": "สำรวจผลงานของฉันในโปรเจกต์เว็บ, มือถือ, เดสก์ท็อป, และซอฟต์แวร์อื่น ๆ ที่สร้างด้วย React, Next.js, Node.js, Java, React Native, และอื่น ๆ",
+      "title": "โครงการ | Kuray Karaaslan",
+      "description": "สำรวจผลงานของฉันในด้านเว็บ มือถือ เดสก์ท็อป และซอฟต์แวร์อื่นๆ สร้างด้วย React, Next.js, Node.js, Java, React Native และอื่นๆ",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
-        "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "โครงการ",
+        "ผลงาน",
+        "การพัฒนาเว็บ",
+        "การพัฒนามือถือ",
         "React",
         "Next.js",
         "Node.js",
@@ -64,39 +66,41 @@
     },
     "now": {
       "title": "ตอนนี้ | Kuray Karaaslan",
-      "description": "สิ่งที่ Kuray Karaaslan กำลังมุ่งเน้นในตอนนี้ — งาน, โปรเจกต์เสริม, การเรียนรู้, และชีวิต",
+      "description": "สิ่งที่ Kuray Karaaslan กำลังมุ่งเน้นในตอนนี้ — งาน, โปรเจกต์เสริม, การเรียนรู้ และชีวิต",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "นักพัฒนาซอฟต์แวร์",
+        "หน้าตอนนี้",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "ระบบกระจาย",
+        "İzmir",
+        "Turkey"
       ]
     },
     "privacy_policy": {
       "title": "นโยบายความเป็นส่วนตัว | Kuray Karaaslan",
-      "description": "นโยบายความเป็นส่วนตัวสำหรับ kuray.dev — เรียนรู้วิธีที่เรารวบรวม, ใช้, และปกป้องข้อมูลส่วนบุคคลของคุณ",
+      "description": "นโยบายความเป็นส่วนตัวสำหรับ kuray.dev — เรียนรู้เกี่ยวกับวิธีที่เรารวบรวม ใช้ และปกป้องข้อมูลส่วนบุคคลของคุณ",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "นโยบายความเป็นส่วนตัว",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "การปกป้องข้อมูล",
+        "ข้อมูลส่วนบุคคล"
       ]
     },
     "terms_of_use": {
       "title": "ข้อกำหนดการใช้งาน | Kuray Karaaslan",
-      "description": "ข้อกำหนดการใช้งานสำหรับ kuray.dev — กฎและแนวทางในการใช้เว็บไซต์และบริการนี้",
+      "description": "ข้อกำหนดการใช้งานสำหรับ kuray.dev — กฎและแนวทางสำหรับการใช้เว็บไซต์และบริการนี้",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "ข้อกำหนดการใช้งาน",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "ข้อกำหนดและเงื่อนไข",
+        "แนวทาง"
       ]
     }
   },

@@ -14,38 +14,38 @@
   "metadata": {
     "home": {
       "title": "Yazılım Geliştirici | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Teknoloji bloguma hoş geldiniz! Ben Kuray Karaaslan, React, Next.js, Node.js, Java ve React Native konusunda yetenekli bir frontend, backend ve mobil geliştiriciyim. Geliştiricilerin ve teknoloji meraklılarının başarılı olmalarına yardımcı olmak için pratik kodlama eğitimleri, sektör içgörüleri ve UI/UX ipuçları paylaşıyorum. Güncel kalın, sorunları çözün ve teknoloji uzmanlığınızı benimle birlikte geliştirin!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "Yazılım Geliştirici",
+        "Full Stack Geliştirici",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog",
+        "Web Geliştirme",
+        "Mobil Geliştirme",
+        "Teknoloji Blogu",
         "İzmir",
-        "Turkey"
+        "Türkiye"
       ]
     },
     "blog": {
       "title": "Blog | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Teknoloji bloguma hoş geldiniz! Ben Kuray Karaaslan, React, Next.js, Node.js, Java ve React Native konusunda yetenekli bir frontend, backend ve mobil geliştiriciyim. Geliştiricilerin ve teknoloji meraklılarının başarılı olmalarına yardımcı olmak için pratik kodlama eğitimleri, sektör içgörüleri ve UI/UX ipuçları paylaşıyorum.",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "Teknoloji Blogu",
+        "Web Geliştirme",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
-        "Tutorials"
+        "Programlama",
+        "Eğitimler"
       ]
     },
     "projects": {
@@ -53,10 +53,10 @@
       "description": "Web, mobil, masaüstü ve diğer yazılım projelerimden oluşan portföyümü keşfedin. React, Next.js, Node.js, Java, React Native ve daha fazlasıyla inşa edilmiştir.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
-        "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "Projeler",
+        "Portföy",
+        "Web Geliştirme",
+        "Mobil Geliştirme",
         "React",
         "Next.js",
         "Node.js",
@@ -66,19 +66,19 @@
     },
     "now": {
       "title": "Şimdi | Kuray Karaaslan",
-      "description": "Kuray Karaaslan şu anda neye odaklanıyor — iş, yan projeler, öğrenme ve yaşam.",
+      "description": "Kuray Karaaslan'ın şu anda odaklandığı konular — iş, yan projeler, öğrenme ve yaşam.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "Yazılım Geliştirici",
+        "Şimdi Sayfası",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems",
+        "Dağıtık Sistemler",
         "İzmir",
-        "Turkey"
+        "Türkiye"
       ]
     },
     "privacy_policy": {
@@ -86,10 +86,10 @@
       "description": "kuray.dev için Gizlilik Politikası — Kişisel bilgilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu öğrenin.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "Gizlilik Politikası",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "Veri Koruma",
+        "Kişisel Bilgi"
       ]
     },
     "terms_of_use": {
@@ -97,10 +97,10 @@
       "description": "kuray.dev için Kullanım Koşulları — Bu web sitesini ve hizmetlerini kullanma kuralları ve yönergeleri.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "Kullanım Koşulları",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "Şartlar ve Koşullar",
+        "Yönergeler"
       ]
     }
   },

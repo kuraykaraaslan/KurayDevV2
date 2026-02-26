@@ -14,47 +14,49 @@
   "metadata": {
     "home": {
       "title": "Tarkvaraarendaja | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Tere tulemast minu tehnoloogia blogisse! Olen Kuray Karaaslan, frontend-, backend- ja mobiiliarendaja, kes on osav Reacti, Next.js, Node.js, Java ja React Native'i alal. Jagasin praktilisi kodeerimisõpetusi, tööstuse teadmisi ja UI/UX näpunäiteid, et aidata arendajatel ja tehnoloogiahuvilistel silma paista. Püsige kursis, lahendage probleeme ja kasvatage oma tehnoloogiaekspertiisi koos minuga!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "Tarkvaraarendaja",
+        "Full Stack Arendaja",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "Veebiarendus",
+        "Mobiiliarendus",
+        "Tehnoloogia Blogi",
+        "İzmir",
+        "Türgi"
       ]
     },
     "blog": {
       "title": "Blogi | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Tere tulemast minu tehnoloogia blogisse! Olen Kuray Karaaslan, frontend-, backend- ja mobiiliarendaja, kes on osav Reacti, Next.js, Node.js, Java ja React Native'i alal. Jagasin praktilisi kodeerimisõpetusi, tööstuse teadmisi ja UI/UX näpunäiteid, et aidata arendajatel ja tehnoloogiahuvilistel silma paista.",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "Tehnoloogia Blogi",
+        "Veebiarendus",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
-        "Tutorials"
+        "Programmeerimine",
+        "Õpetused"
       ]
     },
     "projects": {
       "title": "Projektid | Kuray Karaaslan",
-      "description": "Tutvu minu veebilehtede, mobiili-, lauaarvuti- ja muude tarkvaraprojektide portfelliga. Loodud Reacti, Next.js, Node.js, Java, React Native'i ja muuga.",
+      "description": "Tutvu minu veeb-, mobiili-, töölaua- ja muude tarkvaraprojektide portfelliga. Loodud Reacti, Next.js, Node.js, Java, React Native'i ja muuga.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
-        "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "Projektid",
+        "Portfell",
+        "Veebiarendus",
+        "Mobiiliarendus",
         "React",
         "Next.js",
         "Node.js",
@@ -67,36 +69,38 @@
       "description": "Millele Kuray Karaaslan praegu keskendub — töö, kõrvalprojektid, õppimine ja elu.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "Tarkvaraarendaja",
+        "Praegu Leht",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "Hajussüsteemid",
+        "İzmir",
+        "Türgi"
       ]
     },
     "privacy_policy": {
       "title": "Privaatsuspoliitika | Kuray Karaaslan",
-      "description": "Privaatsuspoliitika saidile kuray.dev — Uuri, kuidas me kogume, kasutame ja kaitseme sinu isiklikku teavet.",
+      "description": "Privaatsuspoliitika kuray.dev jaoks — Uuri, kuidas me kogume, kasutame ja kaitseme sinu isiklikku teavet.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "Privaatsuspoliitika",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "Andmekaitse",
+        "Isiklik teave"
       ]
     },
     "terms_of_use": {
       "title": "Kasutustingimused | Kuray Karaaslan",
-      "description": "Kasutustingimused saidile kuray.dev — Reeglid ja juhised selle veebisaidi ja teenuste kasutamiseks.",
+      "description": "Kasutustingimused kuray.dev jaoks — Selle veebisaidi ja teenuste kasutamise reeglid ja juhised.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "Kasutustingimused",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "Tingimused ja nõuded",
+        "Juhised"
       ]
     }
   },
@@ -127,7 +131,12 @@
     "image": {
       "upload_success": "Pilt on edukalt üles laetud",
       "upload_error": "Pildi üleslaadimisel tekkis viga"
-    }
+    },
+    "cancel": "Tühista",
+    "grid_view": "Ruudustiku vaade",
+    "refresh": "Värskenda",
+    "save": "Salvesta",
+    "table_view": "Tabeli vaade"
   },
   "pages": {
     "hero": {
@@ -255,7 +264,10 @@
     },
     "terminal_button": "Terminal",
     "scroll_to_top": "Keri üles",
-    "scroll_to_bottom": "Keri alla"
+    "scroll_to_bottom": "Keri alla",
+    "toc": {
+      "title": "Sisukord"
+    }
   },
   "settings": {
     "basic": "Põhiandmed",
@@ -551,6 +563,103 @@
     "selects": {
       "select_user": "Vali kasutaja",
       "select_category": "Vali kategooria"
+    },
+    "appointments": {
+      "all_statuses": "Kõik olekud",
+      "cancel": "Tühista",
+      "cancel_confirm": "Kas olete kindel, et soovite selle kohtumise tühistada?",
+      "close": "Sulge",
+      "complete": "Lõpeta",
+      "complete_confirm": "Kas olete kindel, et soovite selle kohtumise lõpetatuks märkida?",
+      "created": "Loodud",
+      "date": "Kuupäev",
+      "datetime": "Kuupäev ja kellaaeg",
+      "details": "Kohtumise üksikasjad",
+      "email": "E-post",
+      "name": "Nimi",
+      "next": "Järgmine",
+      "note": "Märkus",
+      "phone": "Telefon",
+      "previous": "Eelmine",
+      "search_placeholder": "Otsi nime või e-posti järgi...",
+      "showing": "Kuvatakse {{count}} {{total}} kohtumisest",
+      "status": "Olek",
+      "status_booked": "Broneeritud",
+      "status_cancelled": "Tühistatud",
+      "status_completed": "Lõpetatud",
+      "status_pending": "Ootel",
+      "time": "Kellaaeg",
+      "title": "Kohtumised",
+      "view": "Vaata"
+    },
+    "contacts": {
+      "action": "Tegevus",
+      "close": "Sulge",
+      "confirm_delete": "Kas olete kindel, et soovite selle kontaktivormi kustutada?",
+      "contact": "Kontakt",
+      "contact_details": "Kontakti üksikasjad",
+      "date": "Kuupäev",
+      "delete": "Kustuta",
+      "email": "E-post",
+      "message": "Sõnum",
+      "name": "Nimi",
+      "next": "Järgmine",
+      "phone": "Telefon",
+      "previous": "Eelmine",
+      "reply": "Vasta",
+      "search_placeholder": "Otsi nime, e-posti või sõnumi järgi...",
+      "showing": "Näitan {{count}} {{total}} kontaktist",
+      "title": "Kontaktivormid",
+      "view": "Vaata"
+    },
+    "media": {
+      "actions": "Tegevused",
+      "all_folders": "Kõik kaustad",
+      "alt_text": "Alternatiivtekst",
+      "alt_text_placeholder": "Kirjelda pilti ligipääsetavuse jaoks",
+      "confirm_bulk_delete": "Kas olete kindel, et soovite kustutada {{count}} faili?",
+      "confirm_delete": "Kas olete kindel, et soovite selle faili kustutada?",
+      "copy_url": "Kopeeri URL",
+      "date": "Kuupäev",
+      "delete": "Kustuta",
+      "delete_selected": "Kustuta valitud",
+      "description": "Halda oma üleslaaditud faile ja pilte",
+      "edit": "Muuda",
+      "filename": "Failinimi",
+      "folder": "Kaust",
+      "folders": "Kaustad",
+      "name": "Kuvatav nimi",
+      "next": "Järgmine",
+      "no_files": "Faile ei leitud",
+      "page": "Lehekülg",
+      "page_size": "Lehekülje suurus",
+      "preview": "Eelvaade",
+      "previous": "Eelmine",
+      "search_placeholder": "Otsi faile...",
+      "selected": "Valitud",
+      "showing": "Näitan {{count}} {{total}} failist",
+      "size": "Suurus",
+      "sync": "Sünkrooni S3-st",
+      "title": "Meediakogu",
+      "total_files": "Kokku faile",
+      "total_size": "Kogusuurus",
+      "upload": "Laadi üles"
+    },
+    "subscriptions": {
+      "action": "Tegevus",
+      "active": "Aktiivne",
+      "confirm_unsubscribe": "Kas olete kindel, et soovite selle e-posti tellimuse tühistada?",
+      "email": "E-post",
+      "next": "Järgmine",
+      "previous": "Eelmine",
+      "search_placeholder": "Otsi e-posti järgi...",
+      "send_email": "Saada e-kiri",
+      "showing": "Kuvatud {{count}} {{total}} tellimusest",
+      "status": "Staatus",
+      "subscribed_at": "Tellitud",
+      "title": "Tellimused",
+      "unsubscribe": "Tühista tellimus",
+      "unsubscribed": "Tellimus tühistatud"
     }
   }
 }

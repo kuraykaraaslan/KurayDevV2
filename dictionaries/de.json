@@ -14,35 +14,37 @@
   "metadata": {
     "home": {
       "title": "Softwareentwickler | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Willkommen in meinem Tech-Blog! Ich bin Kuray Karaaslan, ein Frontend-, Backend- und Mobile-Entwickler mit Fähigkeiten in React, Next.js, Node.js, Java und React Native. Ich teile praktische Programmier-Tutorials, Brancheneinblicke und UI/UX-Tipps, um Entwicklern und Technikbegeisterten zu helfen, sich zu verbessern. Bleiben Sie auf dem Laufenden, lösen Sie Probleme und erweitern Sie Ihr technisches Fachwissen mit mir!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "Softwareentwickler",
+        "Full Stack Entwickler",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "Webentwicklung",
+        "Mobile Entwicklung",
+        "Tech-Blog",
+        "İzmir",
+        "Türkei"
       ]
     },
     "blog": {
       "title": "Blog | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Willkommen in meinem Tech-Blog! Ich bin Kuray Karaaslan, ein Frontend-, Backend- und Mobile-Entwickler mit Fähigkeiten in React, Next.js, Node.js, Java und React Native. Ich teile praktische Programmier-Tutorials, Brancheneinblicke und UI/UX-Tipps, um Entwicklern und Technikbegeisterten zu helfen, sich zu verbessern.",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "Tech-Blog",
+        "Webentwicklung",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
+        "Programmierung",
         "Tutorials"
       ]
     },
@@ -51,10 +53,10 @@
       "description": "Entdecken Sie mein Portfolio von Web-, Mobil-, Desktop- und anderen Softwareprojekten. Erstellt mit React, Next.js, Node.js, Java, React Native und mehr.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
+        "Projekte",
         "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "Webentwicklung",
+        "Mobile Entwicklung",
         "React",
         "Next.js",
         "Node.js",
@@ -64,28 +66,30 @@
     },
     "now": {
       "title": "Jetzt | Kuray Karaaslan",
-      "description": "Worauf sich Kuray Karaaslan gerade konzentriert — Arbeit, Nebenprojekte, Lernen und Leben.",
+      "description": "Woran Kuray Karaaslan gerade arbeitet — Arbeit, Nebenprojekte, Lernen und Leben.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "Softwareentwickler",
+        "Now-Seite",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "Verteilte Systeme",
+        "İzmir",
+        "Türkei"
       ]
     },
     "privacy_policy": {
-      "title": "Datenschutzrichtlinie | Kuray Karaaslan",
-      "description": "Datenschutzrichtlinie für kuray.dev — Erfahren Sie, wie wir Ihre persönlichen Informationen sammeln, verwenden und schützen.",
+      "title": "Datenschutzerklärung | Kuray Karaaslan",
+      "description": "Datenschutzerklärung für kuray.dev — Erfahren Sie, wie wir Ihre persönlichen Informationen sammeln, verwenden und schützen.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "Datenschutzerklärung",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "Datenschutz",
+        "Persönliche Informationen"
       ]
     },
     "terms_of_use": {
@@ -93,10 +97,10 @@
       "description": "Nutzungsbedingungen für kuray.dev — Regeln und Richtlinien für die Nutzung dieser Website und ihrer Dienste.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "Nutzungsbedingungen",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "Allgemeine Geschäftsbedingungen",
+        "Richtlinien"
       ]
     }
   },
@@ -115,12 +119,24 @@
   "common": {
     "navbar": {
       "login": "Anmelden",
-      "user_menu": "Benutzermenü"
+      "user_menu": "Benutzermenü",
+      "admin_dashboard": "Admin-Dashboard",
+      "logout": "Abmelden",
+      "user_settings": "Benutzereinstellungen"
     },
     "image": {
       "upload_success": "Image uploaded successfully",
       "upload_error": "Error uploading image"
-    }
+    },
+    "cancel": "Abbrechen",
+    "grid_view": "Rasteransicht",
+    "loading": "Laden...",
+    "modal": {
+      "close_dialog": "Dialog schließen"
+    },
+    "refresh": "Aktualisieren",
+    "save": "Speichern",
+    "table_view": "Tabellenansicht"
   },
   "pages": {
     "hero": {
@@ -154,7 +170,9 @@
         "cloud_infrastructure": "Cloud-Infrastruktur (AWS)",
         "event_driven_architecture": "Event-Driven Architecture",
         "domain_driven_design": "Domain-Driven Design"
-      }
+      },
+      "backend": "Backend",
+      "frontend": "Frontend"
     },
     "timeline": {
       "title": "Meine Reise",
@@ -188,68 +206,6 @@
         "please_fill_in_all_fields": "Bitte füllen Sie alle Felder aus.",
         "loading": "Nachricht wird gesendet..."
       }
-    }
-  },
-  "frontend": {
-    "feed": {
-      "other_posts": "Other Posts",
-      "related_articles": "Related Articles",
-      "categories": "Categories",
-      "latest_posts": "Latest Posts",
-      "posts_by": "Posts by",
-      "load_more": "Load more posts",
-      "no_more_posts": "No more posts available",
-      "read_more": "Read More"
-    },
-    "post": {
-      "by": "by",
-      "min_read": "min read",
-      "views": "views",
-      "no_date": "No Date",
-      "unknown_author": "Unknown Author",
-      "views_count": "{{count}} views",
-      "read_time": "{{count}} min read"
-    },
-    "time": {
-      "days_ago": "{{count}} days ago",
-      "yesterday": "Yesterday",
-      "hours_ago": "{{count}} hours ago",
-      "an_hour_ago": "An hour ago",
-      "minutes_ago": "{{count}} minutes ago",
-      "a_minute_ago": "A minute ago",
-      "just_now": "Just now",
-      "today": "Today"
-    }
-  },
-  "settings": {
-    "basic": "Basic",
-    "profile": "Profile",
-    "security": "Security",
-    "otp": "2FA",
-    "preferences": "Preferences",
-    "notifications": "Notifications",
-    "otp_method_card": {
-      "active": "Active",
-      "inactive": "Inactive"
-    },
-    "otp_confirm": {
-      "title": "Security Verification",
-      "send_code": "Send Verification Code",
-      "sending": "Sending Code...",
-      "code_placeholder": "123456",
-      "verify": "Verify",
-      "verifying": "Verifying..."
-    },
-    "totp_setup": {
-      "title": "TOTP Setup",
-      "backup_codes_title": "Backup Codes",
-      "warning": "Store your backup codes in a safe place.",
-      "copy_codes": "Copy codes",
-      "download_codes": "Download codes",
-      "i_have_saved": "I have saved my backup codes",
-      "start_setup": "Start Setup",
-      "enter_code": "Enter the code from your authenticator app",
-      "confirm_setup": "Confirm Setup"
     }
   },
   "shared": {
@@ -348,6 +304,362 @@
       }
     }
   },
-  "admin": {},
-  "auth": {}
+  "admin": {
+    "ai_prompt": {
+      "close": "Schließen",
+      "generate_post": "OpenAI GPT-4 - Beitrag generieren"
+    },
+    "appointments": {
+      "all_statuses": "Alle Status",
+      "cancel": "Abbrechen",
+      "cancel_confirm": "Sind Sie sicher, dass Sie diesen Termin absagen möchten?",
+      "close": "Schließen",
+      "complete": "Abschließen",
+      "complete_confirm": "Sind Sie sicher, dass Sie diesen Termin als abgeschlossen markieren möchten?",
+      "created": "Erstellt",
+      "date": "Datum",
+      "datetime": "Datum & Uhrzeit",
+      "details": "Termindetails",
+      "email": "E-Mail",
+      "name": "Name",
+      "next": "Weiter",
+      "note": "Notiz",
+      "phone": "Telefon",
+      "previous": "Zurück",
+      "search_placeholder": "Suche nach Name oder E-Mail...",
+      "showing": "Zeige {{count}} von {{total}} Terminen",
+      "status": "Status",
+      "status_booked": "Gebucht",
+      "status_cancelled": "Abgesagt",
+      "status_completed": "Abgeschlossen",
+      "status_pending": "Ausstehend",
+      "time": "Uhrzeit",
+      "title": "Termine",
+      "view": "Ansehen"
+    },
+    "categories": {
+      "action": "Aktion",
+      "confirm_delete": "Sind Sie sicher, dass Sie diese Kategorie löschen möchten?",
+      "create_category": "Kategorie erstellen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "image": "Bild",
+      "next": "Weiter",
+      "posts": "Beiträge",
+      "previous": "Zurück",
+      "search_placeholder": "Suche",
+      "showing": "Zeige {{count}} von {{total}} Kategorien",
+      "slug": "Slug",
+      "title": "Kategorien",
+      "view": "Ansehen"
+    },
+    "comments": {
+      "action": "Aktion",
+      "approve": "Genehmigen",
+      "confirm_approve": "Sind Sie sicher, dass Sie diesen Beitrag genehmigen möchten?",
+      "confirm_delete": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten?",
+      "confirm_reject": "Sind Sie sicher, dass Sie diesen Beitrag ablehnen möchten?",
+      "contact": "Kontakt",
+      "content": "Inhalt",
+      "delete": "Löschen",
+      "next": "Weiter",
+      "post": "Beitrag",
+      "previous": "Zurück",
+      "reject": "Ablehnen",
+      "search_placeholder": "Suchen",
+      "showing": "Zeige {{count}} von {{total}} Kommentaren",
+      "title": "Kommentare"
+    },
+    "contacts": {
+      "action": "Aktion",
+      "close": "Schließen",
+      "confirm_delete": "Sind Sie sicher, dass Sie dieses Kontaktformular löschen möchten?",
+      "contact": "Kontakt",
+      "contact_details": "Kontaktdetails",
+      "date": "Datum",
+      "delete": "Löschen",
+      "email": "E-Mail",
+      "message": "Nachricht",
+      "name": "Name",
+      "next": "Weiter",
+      "phone": "Telefon",
+      "previous": "Zurück",
+      "reply": "Antworten",
+      "search_placeholder": "Suche nach Name, E-Mail oder Nachricht...",
+      "showing": "Zeige {{count}} von {{total}} Kontakten",
+      "title": "Kontaktformulare",
+      "view": "Ansehen"
+    },
+    "media": {
+      "actions": "Aktionen",
+      "all_folders": "Alle Ordner",
+      "alt_text": "Alternativtext",
+      "alt_text_placeholder": "Beschreiben Sie das Bild für Barrierefreiheit",
+      "confirm_bulk_delete": "Sind Sie sicher, dass Sie {{count}} Dateien löschen möchten?",
+      "confirm_delete": "Sind Sie sicher, dass Sie diese Datei löschen möchten?",
+      "copy_url": "URL kopieren",
+      "date": "Datum",
+      "delete": "Löschen",
+      "delete_selected": "Ausgewählte löschen",
+      "description": "Verwalten Sie Ihre hochgeladenen Dateien und Bilder",
+      "edit": "Bearbeiten",
+      "filename": "Dateiname",
+      "folder": "Ordner",
+      "folders": "Ordner",
+      "name": "Anzeigename",
+      "next": "Weiter",
+      "no_files": "Keine Dateien gefunden",
+      "page": "Seite",
+      "page_size": "Seitengröße",
+      "preview": "Vorschau",
+      "previous": "Zurück",
+      "search_placeholder": "Dateien suchen...",
+      "selected": "Ausgewählt",
+      "showing": "Zeige {{count}} von {{total}} Dateien",
+      "size": "Größe",
+      "sync": "Von S3 synchronisieren",
+      "title": "Medienbibliothek",
+      "total_files": "Gesamtanzahl Dateien",
+      "total_size": "Gesamtgröße",
+      "upload": "Hochladen"
+    },
+    "posts": {
+      "action": "Aktion",
+      "category": "Kategorie",
+      "confirm_delete": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten?",
+      "create_post": "Beitrag erstellen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "next": "Weiter",
+      "previous": "Zurück",
+      "rebuild_failed": "Auslösen des Knowledge-Graph-Neuaufbaus fehlgeschlagen.",
+      "rebuild_success": "Knowledge-Graph-Neuaufbau ausgelöst.",
+      "rebuild_triggered": "Neuaufbau ausgelöst",
+      "rebuild_triggered_message": "Knowledge-Graph-Neuaufbau bereits ausgelöst. Sie müssen die Seite aktualisieren, um erneut auszulösen.",
+      "reset_knowledge_graph": "Knowledge Graph zurücksetzen",
+      "search_placeholder": "Suchen",
+      "showing": "Zeige {{count}} von {{total}} Beiträgen",
+      "status": "Status",
+      "title": "Beiträge",
+      "view": "Ansehen"
+    },
+    "project_links": {
+      "action": "Aktion",
+      "delete": "Löschen",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "Aktion",
+      "confirm_delete": "Sind Sie sicher, dass Sie dieses Projekt löschen möchten?",
+      "create_project": "Projekt erstellen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "next": "Weiter",
+      "previous": "Zurück",
+      "search_placeholder": "Suchen",
+      "showing": "Zeige {{count}} von {{total}} Projekten",
+      "tech_stack": "Technologie-Stack",
+      "title": "Projekte",
+      "view": "Ansehen"
+    },
+    "selects": {
+      "select_category": "Kategorie auswählen",
+      "select_user": "Benutzer auswählen"
+    },
+    "slots": {
+      "add": "Hinzufügen",
+      "add_manual_slot": "Manuellen Slot hinzufügen",
+      "apply_confirm": "{{day}}-Vorlage auf {{date}} anwenden? Dies überschreibt vorhandene Slots.",
+      "apply_failed": "Vorlage konnte nicht angewendet werden",
+      "apply_success": "Vorlage auf {{date}} angewendet",
+      "apply_template_date": "Vorlage auf Datum anwenden",
+      "apply_template_week": "Vorlage auf Woche anwenden",
+      "apply_week_success": "Vorlagen erfolgreich auf die gesamte Woche angewendet",
+      "capacity": "Kapazität",
+      "create_and_manage": "Erstellen und verwalten Sie Slot-Vorlagen für jeden Wochentag.",
+      "end_time": "Endzeit",
+      "fetch_failed": "Vorlagen-Slots konnten nicht abgerufen werden",
+      "generate": "Generieren",
+      "generated_slots": "{{count}} Slots generiert",
+      "interval": "Intervall (Minuten)",
+      "loading": "Laden...",
+      "no_slots": "Keine Slots zum Anwenden",
+      "no_slots_day": "Keine Slots für diesen Tag",
+      "please_select_time": "Bitte wählen Sie eine Uhrzeit",
+      "remove_all": "Alle entfernen",
+      "save_changes": "Änderungen speichern",
+      "save_template": "Vorlage speichern",
+      "saving": "Speichern...",
+      "select_day": "Tag auswählen",
+      "select_time": "Zeit auswählen",
+      "slot_exists": "Slot existiert bereits",
+      "slots_failed": "Slots konnten nicht aktualisiert werden",
+      "slots_updated": "Slots erfolgreich aktualisiert",
+      "start_earlier_error": "Startzeit muss früher als Endzeit sein",
+      "start_time": "Startzeit",
+      "template_builder": "Vorlagen-Generator",
+      "template_failed": "Vorlage konnte nicht gespeichert werden",
+      "template_saved": "Vorlage erfolgreich gespeichert",
+      "week_confirm": "Dies wird vorhandene Slots für die Woche überschreiben, die ab dem {{date}} beginnt. Fortfahren?"
+    },
+    "stats": {
+      "all_time": "Gesamt",
+      "categories": "Kategorien",
+      "comments": "Kommentare",
+      "daily": "Täglich",
+      "frequency": "Häufigkeit",
+      "last_5_minutes": "Letzte 5 Minuten",
+      "last_hour": "Letzte Stunde",
+      "monthly": "Monatlich",
+      "posts": "Beiträge",
+      "title": "Statistiken",
+      "total_categories": "Gesamtkategorien",
+      "total_comments": "Gesamte Kommentare",
+      "total_posts": "Gesamtbeiträge",
+      "total_users": "Gesamtnutzer",
+      "total_views": "Gesamtansichten",
+      "users": "Nutzer",
+      "views": "Ansichten",
+      "weekly": "Wöchentlich",
+      "yearly": "Jährlich"
+    },
+    "subscriptions": {
+      "action": "Aktion",
+      "active": "Aktiv",
+      "confirm_unsubscribe": "Sind Sie sicher, dass Sie diese E-Mail abbestellen möchten?",
+      "email": "E-Mail",
+      "next": "Weiter",
+      "previous": "Zurück",
+      "search_placeholder": "Suche nach E-Mail...",
+      "send_email": "E-Mail senden",
+      "showing": "Zeige {{count}} von {{total}} Abonnements",
+      "status": "Status",
+      "subscribed_at": "Abonniert am",
+      "title": "Abonnements",
+      "unsubscribe": "Abbestellen",
+      "unsubscribed": "Abbestellt"
+    },
+    "users": {
+      "action": "Aktion",
+      "confirm_delete": "Möchten Sie diesen Benutzer wirklich löschen?",
+      "create_user": "Benutzer erstellen",
+      "delete": "Löschen",
+      "delete_failed": "Benutzer konnte nicht gelöscht werden.",
+      "delete_success": "Benutzer erfolgreich gelöscht.",
+      "edit": "Bearbeiten",
+      "email": "E-Mail",
+      "name": "Name",
+      "next": "Weiter",
+      "previous": "Zurück",
+      "role": "Rolle",
+      "search_placeholder": "Suche",
+      "showing": "Zeige {{count}} von {{total}} Benutzern",
+      "status": "Status",
+      "title": "Benutzer"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "Anmelden mit {{provider}}",
+      "close": "Schließen",
+      "modal_button": "Anmelden mit sozialen Medien",
+      "modal_title": "Anmelden mit sozialen Medien",
+      "no_providers": "Keine SSO-Anbieter konfiguriert.",
+      "provider_not_allowed": "SSO-Anmeldung für {{provider}} ist nicht erlaubt.",
+      "redirect_error": "SSO-Weiterleitungsfehler.",
+      "title": "Anmelden mit sozialen Medien"
+    }
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "Anonym",
+      "comment_placeholder": "Schreibe einen Kommentar...",
+      "comments_count": "Kommentare",
+      "content_length_error": "Der Inhalt sollte mindestens 5 Zeichen lang sein",
+      "delete": "Löschen",
+      "email_placeholder": "E-Mail",
+      "error": "Ein Fehler ist aufgetreten",
+      "fill_all_fields": "Bitte alle Felder ausfüllen",
+      "invalid_email": "Bitte eine gültige E-Mail eingeben",
+      "name_length_error": "Der Name sollte mindestens 3 Zeichen und maximal 50 Zeichen lang sein",
+      "name_placeholder": "Name",
+      "posted_successfully": "Kommentar erfolgreich gepostet",
+      "reply": "Antworten",
+      "submit_button": "Kommentieren"
+    },
+    "feed": {
+      "categories": "Kategorien",
+      "latest_posts": "Neueste Beiträge",
+      "load_more": "Mehr Beiträge laden",
+      "no_more_posts": "Keine weiteren Beiträge verfügbar",
+      "other_posts": "Weitere Beiträge",
+      "posts_by": "Beiträge von",
+      "read_more": "Weiterlesen",
+      "related_articles": "Verwandte Artikel"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D-Wissensgraph",
+      "title_3d": "3D-Wissensgraph"
+    },
+    "offline": {
+      "offline": "Du bist offline!",
+      "online": "Du bist wieder online!"
+    },
+    "post": {
+      "by": "von",
+      "min_read": "Minuten Lesezeit",
+      "no_date": "Kein Datum",
+      "read_time": "{{count}} Minuten Lesezeit",
+      "unknown_author": "Unbekannter Autor",
+      "views": "Aufrufe",
+      "views_count": "{{count}} Aufrufe"
+    },
+    "scroll_to_bottom": "Nach unten scrollen",
+    "scroll_to_top": "Nach oben scrollen",
+    "terminal_button": "Terminal",
+    "time": {
+      "a_minute_ago": "Vor einer Minute",
+      "an_hour_ago": "Vor einer Stunde",
+      "days_ago": "vor {{count}} Tagen",
+      "hours_ago": "vor {{count}} Stunden",
+      "just_now": "Gerade eben",
+      "minutes_ago": "vor {{count}} Minuten",
+      "today": "Heute",
+      "yesterday": "Gestern"
+    },
+    "toc": {
+      "title": "Inhaltsverzeichnis"
+    }
+  },
+  "settings": {
+    "basic": "Grundlegend",
+    "notifications": "Benachrichtigungen",
+    "otp": "2FA",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "Bestätigungscode senden",
+      "sending": "Code wird gesendet...",
+      "title": "Sicherheitsüberprüfung",
+      "verify": "Überprüfen",
+      "verifying": "Überprüfung..."
+    },
+    "otp_method_card": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
+    },
+    "preferences": "Einstellungen",
+    "profile": "Profil",
+    "security": "Sicherheit",
+    "totp_setup": {
+      "backup_codes_title": "Backup-Codes",
+      "confirm_setup": "Einrichtung bestätigen",
+      "copy_codes": "Codes kopieren",
+      "download_codes": "Codes herunterladen",
+      "enter_code": "Geben Sie den Code aus Ihrer Authentifizierungs-App ein",
+      "i_have_saved": "Ich habe meine Backup-Codes gespeichert",
+      "start_setup": "Einrichtung starten",
+      "title": "TOTP-Einrichtung",
+      "warning": "Bewahren Sie Ihre Backup-Codes an einem sicheren Ort auf. Sie können sie verwenden, um wieder Zugriff auf Ihr Konto zu erhalten, falls Sie den Zugriff auf Ihre Authentifizierungs-App verlieren."
+    }
+  }
 }

@@ -14,47 +14,49 @@
   "metadata": {
     "home": {
       "title": "מפתח תוכנה | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "ברוכים הבאים לבלוג הטכנולוגי שלי! אני קוראי קראסלאן, מפתח פרונטאנד, בקאנד ומובייל מיומן ב-React, Next.js, Node.js, Java ו-React Native. אני משתף מדריכי קוד מעשיים, תובנות תעשייתיות וטיפים ל-UI/UX כדי לעזור למפתחים וחובבי טכנולוגיה להצטיין. הישארו מעודכנים, פתרו בעיות ותגדילו את המומחיות הטכנולוגית שלכם איתי!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "מפתח תוכנה",
+        "מפתח פול סטאק",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "פיתוח אתרים",
+        "פיתוח מובייל",
+        "בלוג טכנולוגי",
+        "איזמיר",
+        "טורקיה"
       ]
     },
     "blog": {
       "title": "בלוג | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "ברוכים הבאים לבלוג הטכנולוגי שלי! אני קוראי קראסלאן, מפתח פרונטאנד, בקאנד ומובייל מיומן ב-React, Next.js, Node.js, Java ו-React Native. אני משתף מדריכי קוד מעשיים, תובנות תעשייתיות וטיפים ל-UI/UX כדי לעזור למפתחים וחובבי טכנולוגיה להצטיין.",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "בלוג טכנולוגי",
+        "פיתוח אתרים",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
-        "Tutorials"
+        "תכנות",
+        "מדריכים"
       ]
     },
     "projects": {
       "title": "פרויקטים | Kuray Karaaslan",
-      "description": "גלו את תיק העבודות שלי של פרויקטים באינטרנט, מובייל, דסקטופ ותוכנות אחרות. נבנה עם React, Next.js, Node.js, Java, React Native ועוד.",
+      "description": "חקור את תיק העבודות שלי של פרויקטים באינטרנט, במובייל, בדסקטופ ובתוכנות אחרות. נבנה עם React, Next.js, Node.js, Java, React Native ועוד.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
-        "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "פרויקטים",
+        "תיק עבודות",
+        "פיתוח אתרים",
+        "פיתוח מובייל",
         "React",
         "Next.js",
         "Node.js",
@@ -64,28 +66,30 @@
     },
     "now": {
       "title": "עכשיו | Kuray Karaaslan",
-      "description": "על מה Kuray Karaaslan מתמקד כרגע — עבודה, פרויקטים צדדיים, למידה וחיים.",
+      "description": "על מה קוראי קראסלאן מתמקד כרגע — עבודה, פרויקטים צדדיים, למידה וחיים.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "מפתח תוכנה",
+        "דף עכשיו",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "מערכות מבוזרות",
+        "איזמיר",
+        "טורקיה"
       ]
     },
     "privacy_policy": {
       "title": "מדיניות פרטיות | Kuray Karaaslan",
-      "description": "מדיניות פרטיות עבור kuray.dev — למדו כיצד אנו אוספים, משתמשים ומגנים על המידע האישי שלכם.",
+      "description": "מדיניות פרטיות עבור kuray.dev — למד כיצד אנו אוספים, משתמשים ומגנים על המידע האישי שלך.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "מדיניות פרטיות",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "הגנת מידע",
+        "מידע אישי"
       ]
     },
     "terms_of_use": {
@@ -93,10 +97,10 @@
       "description": "תנאי שימוש עבור kuray.dev — כללים והנחיות לשימוש באתר זה ובשירותיו.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "תנאי שימוש",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "תנאים והגבלות",
+        "הנחיות"
       ]
     }
   },

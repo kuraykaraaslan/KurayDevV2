@@ -14,35 +14,37 @@
   "metadata": {
     "home": {
       "title": "Softwareontwikkelaar | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Welkom op mijn techblog! Ik ben Kuray Karaaslan, een frontend-, backend- en mobiele ontwikkelaar, bedreven in React, Next.js, Node.js, Java en React Native. Ik deel praktische codeertutorials, branche-inzichten en UI/UX-tips om ontwikkelaars en techliefhebbers te helpen uitblinken. Blijf op de hoogte, los problemen op en vergroot je techkennis met mij!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "Softwareontwikkelaar",
+        "Full Stack Ontwikkelaar",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "Webontwikkeling",
+        "Mobiele ontwikkeling",
+        "Tech Blog",
+        "İzmir",
+        "Turkije"
       ]
     },
     "blog": {
       "title": "Blog | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Welkom op mijn techblog! Ik ben Kuray Karaaslan, een frontend-, backend- en mobiele ontwikkelaar, bedreven in React, Next.js, Node.js, Java en React Native. Ik deel praktische codeertutorials, branche-inzichten en UI/UX-tips om ontwikkelaars en techliefhebbers te helpen uitblinken.",
       "keywords": [
         "Kuray Karaaslan",
         "Tech Blog",
-        "Web Development",
+        "Webontwikkeling",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
+        "Programmeren",
         "Tutorials"
       ]
     },
@@ -51,10 +53,10 @@
       "description": "Ontdek mijn portfolio van web-, mobiele, desktop- en andere softwareprojecten. Gebouwd met React, Next.js, Node.js, Java, React Native en meer.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
+        "Projecten",
         "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "Webontwikkeling",
+        "Mobiele Ontwikkeling",
         "React",
         "Next.js",
         "Node.js",
@@ -67,14 +69,16 @@
       "description": "Waar Kuray Karaaslan zich nu op richt — werk, nevenprojecten, leren en leven.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "Softwareontwikkelaar",
+        "Nu Pagina",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "Gedistrubueerde Systemen",
+        "İzmir",
+        "Turkije"
       ]
     },
     "privacy_policy": {
@@ -82,10 +86,10 @@
       "description": "Privacybeleid voor kuray.dev — Leer hoe we uw persoonlijke informatie verzamelen, gebruiken en beschermen.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "Privacybeleid",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "Gegevensbescherming",
+        "Persoonlijke Informatie"
       ]
     },
     "terms_of_use": {
@@ -93,10 +97,10 @@
       "description": "Gebruiksvoorwaarden voor kuray.dev — Regels en richtlijnen voor het gebruik van deze website en zijn diensten.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "Gebruiksvoorwaarden",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "Algemene Voorwaarden",
+        "Richtlijnen"
       ]
     }
   },

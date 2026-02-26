@@ -13,36 +13,38 @@
   },
   "metadata": {
     "home": {
-      "title": "Żviluppatur tas-Software | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "title": "Żviluppatur tas-Softwer | Kuray Karaaslan",
+      "description": "Merħba fil-blog tat-teknoloġija tiegħi! Jiena Kuray Karaaslan, żviluppatur frontend, backend, u mobbli b'ħiliet f'React, Next.js, Node.js, Java, u React Native. Naqsam tutorials prattiċi tal-kodifikazzjoni, għarfien tal-industrija, u pariri UI/UX biex ngħin lill-iżviluppaturi u l-entusiasti tat-teknoloġija jispikkaw. Żomm ruħek aġġornat, ssolvi problemi, u kabbar l-esperjenza teknoloġika tiegħek miegħi!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "Żviluppatur tas-Softwer",
+        "Żviluppatur Full Stack",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "Żvilupp tal-Web",
+        "Żvilupp Mobbli",
+        "Blog tat-Teknoloġija",
+        "İzmir",
+        "Turkija"
       ]
     },
     "blog": {
       "title": "Blog | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Merħba fil-blog tat-teknoloġija tiegħi! Jiena Kuray Karaaslan, żviluppatur frontend, backend, u mobbli b'ħiliet f'React, Next.js, Node.js, Java, u React Native. Naqsam tutorials prattiċi tal-kodifikazzjoni, għarfien tal-industrija, u pariri UI/UX biex ngħin lill-iżviluppaturi u l-entusiasti tat-teknoloġija jispikkaw.",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "Blog tat-Teknoloġija",
+        "Żvilupp tal-Web",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
+        "Programmazzjoni",
         "Tutorials"
       ]
     },
@@ -51,10 +53,10 @@
       "description": "Esplora l-portafoll tiegħi ta' proġetti tal-web, mobbli, desktop, u softwer ieħor. Mibni b'React, Next.js, Node.js, Java, React Native, u aktar.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
-        "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "Proġetti",
+        "Portafoll",
+        "Żvilupp tal-Web",
+        "Żvilupp Mobbli",
         "React",
         "Next.js",
         "Node.js",
@@ -67,14 +69,16 @@
       "description": "Fuq xiex qed jiffoka Kuray Karaaslan bħalissa — xogħol, proġetti sekondarji, tagħlim, u ħajja.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "Żviluppatur tas-Softwer",
+        "Paġna Issa",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "Sistemi Distribwiti",
+        "İzmir",
+        "Turkija"
       ]
     },
     "privacy_policy": {
@@ -82,10 +86,10 @@
       "description": "Politika ta' Privatezza għal kuray.dev — Tgħallem kif niġbru, nużaw, u nipproteġu l-informazzjoni personali tiegħek.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "Politika ta' Privatezza",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "Protezzjoni tad-Data",
+        "Informazzjoni Personali"
       ]
     },
     "terms_of_use": {
@@ -93,10 +97,10 @@
       "description": "Termini ta' Użu għal kuray.dev — Regoli u linji gwida għall-użu ta' dan is-sit u s-servizzi tiegħu.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "Termini ta' Użu",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "Termini u Kundizzjonijiet",
+        "Linji Gwida"
       ]
     }
   },

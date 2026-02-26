@@ -14,47 +14,49 @@
   "metadata": {
     "home": {
       "title": "Προγραμματιστής Λογισμικού | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Καλώς ήρθατε στο τεχνολογικό μου blog! Είμαι ο Kuray Karaaslan, προγραμματιστής frontend, backend και mobile με δεξιότητες σε React, Next.js, Node.js, Java και React Native. Μοιράζομαι πρακτικά μαθήματα προγραμματισμού, πληροφορίες για τη βιομηχανία και συμβουλές UI/UX για να βοηθήσω προγραμματιστές και λάτρεις της τεχνολογίας να διαπρέψουν. Μείνετε ενημερωμένοι, λύστε προβλήματα και αναπτύξτε την τεχνολογική σας εξειδίκευση μαζί μου!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "Προγραμματιστής Λογισμικού",
+        "Full Stack Προγραμματιστής",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "Ανάπτυξη Ιστού",
+        "Ανάπτυξη Κινητών",
+        "Τεχνολογικό Blog",
+        "İzmir",
+        "Τουρκία"
       ]
     },
     "blog": {
-      "title": "Ιστολόγιο | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "title": "Blog | Kuray Karaaslan",
+      "description": "Καλώς ήρθατε στο τεχνολογικό μου blog! Είμαι ο Kuray Karaaslan, προγραμματιστής frontend, backend και mobile με δεξιότητες σε React, Next.js, Node.js, Java και React Native. Μοιράζομαι πρακτικά μαθήματα προγραμματισμού, πληροφορίες για τη βιομηχανία και συμβουλές UI/UX για να βοηθήσω προγραμματιστές και λάτρεις της τεχνολογίας να διαπρέψουν.",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "Τεχνολογικό Blog",
+        "Ανάπτυξη Ιστού",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
-        "Tutorials"
+        "Προγραμματισμός",
+        "Μαθήματα"
       ]
     },
     "projects": {
       "title": "Έργα | Kuray Karaaslan",
-      "description": "Εξερευνήστε το χαρτοφυλάκιό μου από έργα λογισμικού για το web, το κινητό, την επιφάνεια εργασίας και άλλα. Δημιουργημένα με React, Next.js, Node.js, Java, React Native και άλλα.",
+      "description": "Εξερευνήστε το χαρτοφυλάκιό μου με έργα ιστού, κινητών, επιτραπέζιων και άλλων λογισμικών. Κατασκευασμένα με React, Next.js, Node.js, Java, React Native, και άλλα.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
-        "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "Έργα",
+        "Χαρτοφυλάκιο",
+        "Ανάπτυξη Ιστού",
+        "Ανάπτυξη Κινητών",
         "React",
         "Next.js",
         "Node.js",
@@ -64,39 +66,41 @@
     },
     "now": {
       "title": "Τώρα | Kuray Karaaslan",
-      "description": "Σε τι επικεντρώνεται ο Kuray Karaaslan αυτή τη στιγμή — εργασία, παράπλευρα έργα, μάθηση και ζωή.",
+      "description": "Σε τι επικεντρώνεται ο Kuray Karaaslan αυτή τη στιγμή — εργασία, παράλληλα έργα, μάθηση και ζωή.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "Προγραμματιστής Λογισμικού",
+        "Σελίδα Τώρα",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "Κατανεμημένα Συστήματα",
+        "İzmir",
+        "Τουρκία"
       ]
     },
     "privacy_policy": {
       "title": "Πολιτική Απορρήτου | Kuray Karaaslan",
-      "description": "Πολιτική Απορρήτου για το kuray.dev — Μάθετε πώς συλλέγουμε, χρησιμοποιούμε και προστατεύουμε τα προσωπικά σας δεδομένα.",
+      "description": "Πολιτική Απορρήτου για το kuray.dev — Μάθετε πώς συλλέγουμε, χρησιμοποιούμε και προστατεύουμε τις προσωπικές σας πληροφορίες.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "Πολιτική Απορρήτου",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "Προστασία Δεδομένων",
+        "Προσωπικές Πληροφορίες"
       ]
     },
     "terms_of_use": {
       "title": "Όροι Χρήσης | Kuray Karaaslan",
-      "description": "Όροι Χρήσης για το kuray.dev — Κανόνες και οδηγίες για τη χρήση αυτής της ιστοσελίδας και των υπηρεσιών της.",
+      "description": "Όροι Χρήσης για το kuray.dev — Κανόνες και οδηγίες για τη χρήση αυτού του ιστότοπου και των υπηρεσιών του.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "Όροι Χρήσης",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "Όροι και Προϋποθέσεις",
+        "Οδηγίες"
       ]
     }
   },
@@ -127,7 +131,12 @@
     "image": {
       "upload_success": "Η εικόνα ανέβηκε με επιτυχία",
       "upload_error": "Σφάλμα κατά τη μεταφόρτωση της εικόνας"
-    }
+    },
+    "cancel": "Ακύρωση",
+    "grid_view": "Προβολή Πλέγματος",
+    "refresh": "Ανανέωση",
+    "save": "Αποθήκευση",
+    "table_view": "Προβολή Πίνακα"
   },
   "pages": {
     "hero": {
@@ -255,7 +264,10 @@
     },
     "terminal_button": "Τερματικό",
     "scroll_to_top": "Μετάβαση στην κορυφή",
-    "scroll_to_bottom": "Μετάβαση στο τέλος"
+    "scroll_to_bottom": "Μετάβαση στο τέλος",
+    "toc": {
+      "title": "Πίνακας Περιεχομένων"
+    }
   },
   "settings": {
     "basic": "Βασικά",
@@ -539,6 +551,103 @@
     "selects": {
       "select_user": "Επιλογή χρήστη",
       "select_category": "Επιλογή κατηγορίας"
+    },
+    "appointments": {
+      "all_statuses": "Όλες οι Καταστάσεις",
+      "cancel": "Ακύρωση",
+      "cancel_confirm": "Είστε σίγουροι ότι θέλετε να ακυρώσετε αυτό το ραντεβού;",
+      "close": "Κλείσιμο",
+      "complete": "Ολοκλήρωση",
+      "complete_confirm": "Είστε σίγουροι ότι θέλετε να χαρακτηρίσετε αυτό το ραντεβού ως ολοκληρωμένο;",
+      "created": "Δημιουργήθηκε",
+      "date": "Ημερομηνία",
+      "datetime": "Ημερομηνία & Ώρα",
+      "details": "Λεπτομέρειες Ραντεβού",
+      "email": "Email",
+      "name": "Όνομα",
+      "next": "Επόμενο",
+      "note": "Σημείωση",
+      "phone": "Τηλέφωνο",
+      "previous": "Προηγούμενο",
+      "search_placeholder": "Αναζήτηση με όνομα ή email...",
+      "showing": "Εμφανίζονται {{count}} από {{total}} ραντεβού",
+      "status": "Κατάσταση",
+      "status_booked": "Κλεισμένο",
+      "status_cancelled": "Ακυρωμένο",
+      "status_completed": "Ολοκληρωμένο",
+      "status_pending": "Εκκρεμεί",
+      "time": "Ώρα",
+      "title": "Ραντεβού",
+      "view": "Προβολή"
+    },
+    "contacts": {
+      "action": "Ενέργεια",
+      "close": "Κλείσιμο",
+      "confirm_delete": "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή τη φόρμα επικοινωνίας;",
+      "contact": "Επικοινωνία",
+      "contact_details": "Λεπτομέρειες Επικοινωνίας",
+      "date": "Ημερομηνία",
+      "delete": "Διαγραφή",
+      "email": "Email",
+      "message": "Μήνυμα",
+      "name": "Όνομα",
+      "next": "Επόμενο",
+      "phone": "Τηλέφωνο",
+      "previous": "Προηγούμενο",
+      "reply": "Απάντηση",
+      "search_placeholder": "Αναζήτηση με όνομα, email ή μήνυμα...",
+      "showing": "Εμφάνιση {{count}} από {{total}} επαφές",
+      "title": "Φόρμες Επικοινωνίας",
+      "view": "Προβολή"
+    },
+    "media": {
+      "actions": "Ενέργειες",
+      "all_folders": "Όλοι οι Φάκελοι",
+      "alt_text": "Εναλλακτικό Κείμενο",
+      "alt_text_placeholder": "Περιγράψτε την εικόνα για προσβασιμότητα",
+      "confirm_bulk_delete": "Είστε σίγουροι ότι θέλετε να διαγράψετε {{count}} αρχεία;",
+      "confirm_delete": "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το αρχείο;",
+      "copy_url": "Αντιγραφή URL",
+      "date": "Ημερομηνία",
+      "delete": "Διαγραφή",
+      "delete_selected": "Διαγραφή Επιλεγμένων",
+      "description": "Διαχειριστείτε τα ανεβασμένα αρχεία και εικόνες σας",
+      "edit": "Επεξεργασία",
+      "filename": "Όνομα Αρχείου",
+      "folder": "Φάκελος",
+      "folders": "Φάκελοι",
+      "name": "Όνομα Εμφάνισης",
+      "next": "Επόμενο",
+      "no_files": "Δεν βρέθηκαν αρχεία",
+      "page": "Σελίδα",
+      "page_size": "Μέγεθος Σελίδας",
+      "preview": "Προεπισκόπηση",
+      "previous": "Προηγούμενο",
+      "search_placeholder": "Αναζήτηση αρχείων...",
+      "selected": "Επιλεγμένα",
+      "showing": "Εμφάνιση {{count}} από {{total}} αρχεία",
+      "size": "Μέγεθος",
+      "sync": "Συγχρονισμός από S3",
+      "title": "Βιβλιοθήκη Πολυμέσων",
+      "total_files": "Σύνολο Αρχείων",
+      "total_size": "Συνολικό Μέγεθος",
+      "upload": "Ανέβασμα"
+    },
+    "subscriptions": {
+      "action": "Ενέργεια",
+      "active": "Ενεργό",
+      "confirm_unsubscribe": "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την εγγραφή email;",
+      "email": "Email",
+      "next": "Επόμενο",
+      "previous": "Προηγούμενο",
+      "search_placeholder": "Αναζήτηση με email...",
+      "send_email": "Αποστολή Email",
+      "showing": "Εμφάνιση {{count}} από {{total}} συνδρομές",
+      "status": "Κατάσταση",
+      "subscribed_at": "Εγγραφή στις",
+      "title": "Συνδρομές",
+      "unsubscribe": "Απεγγραφή",
+      "unsubscribed": "Απεγγεγραμμένος"
     }
   },
   "auth": {

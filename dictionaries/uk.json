@@ -14,36 +14,38 @@
   "metadata": {
     "home": {
       "title": "Розробник програмного забезпечення | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Ласкаво просимо до мого технічного блогу! Я Курай Карааслан, фронтенд, бекенд і мобільний розробник, який володіє React, Next.js, Node.js, Java та React Native. Я ділюся практичними уроками з програмування, інсайтами індустрії та порадами з UI/UX, щоб допомогти розробникам і технічним ентузіастам досягти успіху. Залишайтеся в курсі, вирішуйте проблеми та розвивайте свої технічні знання разом зі мною!",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Full Stack Developer",
+        "Розробник програмного забезпечення",
+        "Full Stack розробник",
         "React",
         "Next.js",
         "Node.js",
         "TypeScript",
         "Java",
         "React Native",
-        "Web Development",
-        "Mobile Development",
-        "Tech Blog"
+        "Веб-розробка",
+        "Мобільна розробка",
+        "Технічний блог",
+        "Ізмір",
+        "Туреччина"
       ]
     },
     "blog": {
       "title": "Блог | Kuray Karaaslan",
-      "description": "Welcome to my tech blog! I'm Kuray Karaaslan, a frontend, backend, and mobile developer skilled in React, Next.js, Node.js, Java, and React Native.",
+      "description": "Ласкаво просимо до мого технічного блогу! Я Курай Карааслан, фронтенд, бекенд і мобільний розробник, який володіє React, Next.js, Node.js, Java та React Native. Я ділюся практичними уроками з програмування, інсайтами індустрії та порадами з UI/UX, щоб допомогти розробникам і технічним ентузіастам досягти успіху.",
       "keywords": [
         "Kuray Karaaslan",
-        "Tech Blog",
-        "Web Development",
+        "Технічний блог",
+        "Веб-розробка",
         "React",
         "Next.js",
         "Node.js",
         "Java",
         "React Native",
-        "Programming",
-        "Tutorials"
+        "Програмування",
+        "Уроки"
       ]
     },
     "projects": {
@@ -51,10 +53,10 @@
       "description": "Ознайомтеся з моїм портфоліо веб-, мобільних, настільних та інших програмних проектів. Створено з використанням React, Next.js, Node.js, Java, React Native та інших.",
       "keywords": [
         "Kuray Karaaslan",
-        "Projects",
-        "Portfolio",
-        "Web Development",
-        "Mobile Development",
+        "Проекти",
+        "Портфоліо",
+        "Веб-розробка",
+        "Мобільна розробка",
         "React",
         "Next.js",
         "Node.js",
@@ -64,17 +66,19 @@
     },
     "now": {
       "title": "Зараз | Kuray Karaaslan",
-      "description": "На чому зараз зосереджений Kuray Karaaslan — робота, побічні проекти, навчання та життя.",
+      "description": "На чому зараз зосереджений Курай Карааслан — робота, побічні проекти, навчання та життя.",
       "keywords": [
         "Kuray Karaaslan",
-        "Software Developer",
-        "Now Page",
+        "Розробник програмного забезпечення",
+        "Сторінка Now",
         "IoT",
         "MQTT",
         "Java Spring Boot",
         "React",
         "Next.js",
-        "Distributed Systems"
+        "Розподілені системи",
+        "Ізмір",
+        "Туреччина"
       ]
     },
     "privacy_policy": {
@@ -82,21 +86,21 @@
       "description": "Політика конфіденційності для kuray.dev — Дізнайтеся, як ми збираємо, використовуємо та захищаємо вашу особисту інформацію.",
       "keywords": [
         "Kuray Karaaslan",
-        "Privacy Policy",
+        "Політика конфіденційності",
         "kuray.dev",
-        "Data Protection",
-        "Personal Information"
+        "Захист даних",
+        "Особиста інформація"
       ]
     },
     "terms_of_use": {
       "title": "Умови використання | Kuray Karaaslan",
-      "description": "Умови використання для kuray.dev — Правила та рекомендації щодо використання цього вебсайту та його послуг.",
+      "description": "Умови використання для kuray.dev — Правила та настанови щодо використання цього вебсайту та його послуг.",
       "keywords": [
         "Kuray Karaaslan",
-        "Terms of Use",
+        "Умови використання",
         "kuray.dev",
-        "Terms and Conditions",
-        "Guidelines"
+        "Умови та положення",
+        "Настанови"
       ]
     }
   },
