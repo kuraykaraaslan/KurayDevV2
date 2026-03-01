@@ -114,7 +114,7 @@ export default function AppointmentCalendar() {
                 <h3 className="text-lg font-semibold mb-2">
                   {t('shared.calendar.available_times')}
                 </h3>
-                <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-2">
+                <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto pe-2">
                   {slotsOf(selectedDate).map((slot, idx) => {
                     const start = new Date(slot.startTime)
                     const end = new Date(slot.endTime)
@@ -128,14 +128,14 @@ export default function AppointmentCalendar() {
                       <button
                         key={idx}
                         disabled={slot.capacity <= 0}
-                        className={`btn btn-outline btn-sm btn-block text-left h-16 ${
+                        className={`btn btn-outline btn-sm btn-block text-start h-16 ${
                           isSelected ? 'btn-primary' : ''
                         } ${slot.capacity <= 0 ? 'btn-disabled cursor-not-allowed' : ''}`}
                         onClick={() => handleTimeSelect(slot)}
                       >
                         <FontAwesomeIcon
                           icon={slot.capacity <= 0 ? faX : faClock}
-                          className="mr-2"
+                          className="me-2"
                         />
                         {label} ({length} {t('shared.calendar.minutes_abbr')})
                       </button>
@@ -152,16 +152,16 @@ export default function AppointmentCalendar() {
                 <h3 className="text-lg font-semibold mb-2">{t('shared.calendar.selected_time')}</h3>
                 <p className="text-sm space-x-2">
                   <span className="font-semibold">
-                    <FontAwesomeIcon icon={faCalendar} className="mr-2" />
+                    <FontAwesomeIcon icon={faCalendar} className="me-2" />
                     {format(parseISO(selectedSlot.startTime.toString()), 'yyyy-MM-dd')}
                   </span>
                   <span className="font-semibold">
-                    <FontAwesomeIcon icon={faClock} className="mr-2" />
+                    <FontAwesomeIcon icon={faClock} className="me-2" />
                     {format(new Date(selectedSlot.startTime), 'HH:mm')} -{' '}
                     {format(new Date(selectedSlot.endTime), 'HH:mm')}
                   </span>
                   <span className="font-semibold">
-                    <FontAwesomeIcon icon={faStopwatch} className="mr-2" />
+                    <FontAwesomeIcon icon={faStopwatch} className="me-2" />
                     {differenceInMinutes(
                       new Date(selectedSlot.endTime),
                       new Date(selectedSlot.startTime)

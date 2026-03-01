@@ -158,12 +158,12 @@ const Contact = (props: ContactProps) => {
                           >
                             <span>{phone.PhoneNumber}</span>
                           </Link>
-                          <span className="ml-2">
+                          <span className="ms-2">
                             {phone.hasWhatsapp && (
                               <Link href={'https://wa.me/' + phone.noSpacePhoneNumber}>
                                 <FontAwesomeIcon
                                   icon={faWhatsapp}
-                                  className="w-5 h-5 mr-2 sm:mr-3"
+                                  className="w-5 h-5 me-2 sm:me-3"
                                 />
                               </Link>
                             )}
@@ -171,7 +171,7 @@ const Contact = (props: ContactProps) => {
                               <Link href={'https://t.me/' + phone.noSpacePhoneNumber}>
                                 <FontAwesomeIcon
                                   icon={faTelegram}
-                                  className="w-5 h-5 mr-2 sm:mr-3"
+                                  className="w-5 h-5 me-2 sm:me-3"
                                 />
                               </Link>
                             )}

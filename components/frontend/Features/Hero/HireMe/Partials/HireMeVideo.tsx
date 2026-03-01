@@ -38,8 +38,8 @@ const HireMeVideo = () => {
 
   return (
     <>
-      <button className="btn btn-ghost mr-2" onClick={handleOpenModal}>
-        <FontAwesomeIcon icon={faPlayCircle} className="mr-2 text-xl w-6 h-6" />
+      <button className="btn btn-ghost me-2" onClick={handleOpenModal}>
+        <FontAwesomeIcon icon={faPlayCircle} className="me-2 text-xl w-6 h-6" />
         Watch Video
       </button>
       <dialog id="my_modal" className="modal modal-middle" onClick={handleCloseModal}>

@@ -12,7 +12,7 @@ export default function KnowledgeGraph3DButton() {
   return (
     <div className="">
       <button onClick={openModal} className="">
-        <FontAwesomeIcon icon={faProjectDiagram} className="mr-2 text-lg" />
+        <FontAwesomeIcon icon={faProjectDiagram} className="me-2 text-lg" />
       </button>
 
       <HeadlessModal

@@ -25,7 +25,7 @@ const GitContributions = () => {
               >
                 <FontAwesomeIcon
                   icon={faGithub}
-                  className="mr-2 text-xl"
+                  className="me-2 text-xl"
                   height="20"
                   width="20"
                   aria-hidden="true"

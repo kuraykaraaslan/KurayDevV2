@@ -108,7 +108,7 @@ const SearchButton = () => {
             aria-controls="search-results"
             aria-autocomplete="list"
             className="
-              input input-bordered w-full h-12 text-base px-4 pr-10
+              input input-bordered w-full h-12 text-base px-4 pe-10
               backdrop-blur-md
               border rounded-xl
             "
@@ -119,12 +119,12 @@ const SearchButton = () => {
 
           {/* Loading İkonu: Input'un sağ tarafında, layout'u itmez */}
           {false && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <div className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400">
               <FontAwesomeIcon icon={faSpinner} spin />
             </div>
           )}
 
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+          <div className="absolute end-4 top-1/2 -translate-y-1/2 text-gray-400">
             <button
               onClick={() => {
                 toggleSearchType(SearchType.BLOG)
@@ -132,7 +132,7 @@ const SearchButton = () => {
               }}
               aria-label={t('navbar.filter_by_blog', { active: searchTypes.includes(SearchType.BLOG) ? '(active)' : '' })}
               aria-pressed={searchTypes.includes(SearchType.BLOG)}
-              className={`mr-2 px-2 py-1 rounded-full text-sm border ${
+              className={`me-2 px-2 py-1 rounded-full text-sm border ${
                 searchTypes.includes(SearchType.BLOG)
                   ? 'bg-primary text-white border-primary'
                   : 'bg-transparent text-gray-500 border-gray-300'

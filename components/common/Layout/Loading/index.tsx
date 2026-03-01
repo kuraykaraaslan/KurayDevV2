@@ -4,12 +4,12 @@ const Loading = () => {
   const { t } = useTranslation()
 
   return (
-    <div className="fixed left-0 top-0 z-50 block h-full w-full bg-white opacity-75">
+    <div className="fixed inset-0 z-50 block h-full w-full bg-white opacity-75">
       <span className="r-4 relative top-1/2 mx-auto my-0 block h-0 w-0 text-green-500 opacity-75">
         <div role="status">
           <svg
             aria-hidden="true"
-            className="mr-8 h-8 w-8 animate-spin fill-primary"
+            className="me-8 h-8 w-8 animate-spin fill-primary"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

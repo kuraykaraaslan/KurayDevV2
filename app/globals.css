@@ -19,3 +19,50 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ─── RTL support ─── */
+/* Flip gradients in RTL */
+[dir="rtl"] .bg-gradient-to-r {
+  --tw-gradient-direction: to left;
+}
+[dir="rtl"] .bg-gradient-to-l {
+  --tw-gradient-direction: to right;
+}
+
+/* Flip timeline & decorative elements for RTL */
+[dir="rtl"] .timeline-start {
+  text-align: start;
+}
+
+/* Flip drawer side for RTL – sidebar opens from right */
+[dir="rtl"] .drawer-side {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+/* Ensure prose content respects direction */
+[dir="rtl"] .prose {
+  direction: rtl;
+  text-align: right;
+}
+[dir="rtl"] .prose code,
+[dir="rtl"] .prose pre {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Skip-to-content link RTL */
+[dir="rtl"] a[href="#main-content"]:focus {
+  left: auto;
+  right: 1rem;
+}
+
+/* Flip directional icons (arrows, carets) in RTL */
+[dir="rtl"] .fa-caret-left,
+[dir="rtl"] .fa-caret-right,
+[dir="rtl"] .fa-arrow-left,
+[dir="rtl"] .fa-arrow-right,
+[dir="rtl"] .fa-chevron-left,
+[dir="rtl"] .fa-chevron-right {
+  transform: scaleX(-1);
+}

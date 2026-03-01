@@ -14,7 +14,7 @@ const Logo = ({
   iconClassName = 'text-2xl w-6',
   textClassName = 'text-lg font-bold',
 }: LogoProps) => (
-  <Link className={className} href={href} onClick={() => window.scrollTo(0, 0)} aria-label="Go to homepage">
+  <Link className={className + ' !flex-row'} href={href} onClick={() => window.scrollTo(0, 0)} aria-label="Go to homepage" dir="ltr">
     <FontAwesomeIcon icon={faCode} className={iconClassName} />
     <span className={textClassName + ' ml-1 select-none'}>kuray.dev</span>
   </Link>

@@ -106,7 +106,7 @@ const SSOLoginContent = ({ mode }: { mode: SSOLoginMode }) => {
       <button key={provider} className={classes} onClick={() => handleLogin(provider)}>
         <FontAwesomeIcon icon={config?.icon || faPeopleGroup} className="h-4 w-4" />
         {!circle && (
-          <span className="ml-2">
+          <span className="ms-2">
             {t('auth.sso.button_label', {
               provider: provider.charAt(0).toUpperCase() + provider.slice(1),
             })}
@@ -140,7 +140,7 @@ const SSOLogin = ({ mode = 'list' }: SSOLoginProps) => {
           onClick={() => (document?.getElementById('sso_modal') as HTMLDialogElement)?.showModal()}
         >
           <FontAwesomeIcon icon={faPeopleGroup} className="h-4 w-4" />
-          <span className="ml-2">{t('auth.sso.modal_button')}</span>
+          <span className="ms-2">{t('auth.sso.modal_button')}</span>
         </button>
         <dialog id="sso_modal" className="modal">
           <div className="modal-box">

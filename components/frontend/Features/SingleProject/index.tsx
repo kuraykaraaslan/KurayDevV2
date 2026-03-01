@@ -35,7 +35,7 @@ export default function Article(project: Partial<Project>) {
   const safeHTML = addHeadingIds(sanitizedHTML)
 
   return (
-    <div className="max-w-none justify-center text-left mx-auto prose mb-8 max-w-none">
+    <div className="max-w-none justify-center text-start mx-auto prose mb-8 max-w-none">
       {image && (
         <div className="relative w-full h-64 mb-12 -mt-8">
           <Image

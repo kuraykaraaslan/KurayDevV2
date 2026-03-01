@@ -18,6 +18,20 @@ export type AppLanguage = z.infer<typeof AppLanguageEnum>
 export const AVAILABLE_LANGUAGES = AppLanguageEnum.options
 export const DEFAULT_LANGUAGE: AppLanguage = 'en'
 
+// ─── RTL support ──────────────────────────────────────────────────────────────
+/** Languages that use Right-to-Left script direction */
+export const RTL_LANGUAGES: readonly AppLanguage[] = ['he'] as const
+
+/** Returns true if the given language uses RTL script direction */
+export function isRTL(lang: AppLanguage): boolean {
+  return (RTL_LANGUAGES as readonly string[]).includes(lang)
+}
+
+/** Returns 'rtl' or 'ltr' based on the language */
+export function getDirection(lang: AppLanguage): 'rtl' | 'ltr' {
+  return isRTL(lang) ? 'rtl' : 'ltr'
+}
+
 // ─── Country code resolver ────────────────────────────────────────────────────
 // Use lang.toUpperCase() if that country speaks the language, else fall back
 // to the first country where the language is primary.

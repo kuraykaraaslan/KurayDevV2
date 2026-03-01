@@ -8,7 +8,7 @@ const TimelineItems = () => {
         <div className="timeline-middle bg-base-300 p-2 rounded-full">
           <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
         </div>
-        <div className="timeline-start mb-10 md:text-end mr-3 pl-3">
+        <div className="timeline-start mb-10 md:text-end me-3 ps-3">
           <time className="font-mono italic">2024 Feb - Present</time>
           <div className="text-lg font-black">
             Software Developer <span className="text-sm italic font-normal">at</span> Roltek

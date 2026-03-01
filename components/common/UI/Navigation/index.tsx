@@ -63,7 +63,7 @@ const NavbarAuthButton = () => {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-2 w-40 bg-base-100 shadow-lg rounded-lg border border-base-300 z-50 p-2 flex flex-col gap-1">
+        <div className="absolute end-0 mt-2 w-40 bg-base-100 shadow-lg rounded-lg border border-base-300 z-50 p-2 flex flex-col gap-1">
           {(user.userRole === 'ADMIN' || user.userRole === 'AUTHOR') && (
             <Link
               href="/admin"

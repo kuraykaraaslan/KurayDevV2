@@ -65,7 +65,7 @@ const Newsletter = ({ backgroundColor }: { backgroundColor?: string }) => {
           <button
             ref={buttonRef}
             onClick={subscribe}
-            className="button bg-primary text-white text-base font-bold rounded-r-md h-12 px-6 border-primary border-l-0"
+            className="button bg-primary text-white text-base font-bold rounded-e-md h-12 px-6 border-primary border-s-0"
           >
             {t('shared.newsletter.subscribe')}
           </button>

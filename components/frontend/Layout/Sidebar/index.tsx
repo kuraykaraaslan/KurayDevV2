@@ -98,7 +98,7 @@ const Sidebar = ({ menuItems }: { menuItems: MenuItem[] }) => {
         aria-modal={isOpen}
         aria-label={t('sidebar.navigation_menu')}
         onKeyDown={handleSidebarKeyDown}
-        className="flex flex-col w-72 h-full bg-base-100 border-r border-base-200 shadow-2xl"
+        className="flex flex-col w-72 h-full bg-base-100 border-e border-base-200 shadow-2xl"
       >
         {/* Close button */}
         <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-base-200">

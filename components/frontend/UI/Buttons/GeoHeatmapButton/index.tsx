@@ -17,7 +17,7 @@ export default function GeoHeatmapButton() {
   return (
     <div className="">
       <button onClick={openModal} className="">
-        <FontAwesomeIcon icon={faMap} className="mr-2 text-lg" />
+        <FontAwesomeIcon icon={faMap} className="me-2 text-lg" />
       </button>
 
       <HeadlessModal

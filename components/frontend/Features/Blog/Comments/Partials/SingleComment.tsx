@@ -29,9 +29,9 @@ const SingleComment = ({ comment, gravatarUrl }: { comment: Comment; gravatarUrl
       <div className={'p-6 text-base rounded-lg ' + (parentId ? 'bg-base-200' : 'bg-base-300')}>
         <footer className="flex justify-between items-center mb-2">
           <div className="flex items-center">
-            <p className="inline-flex items-center mr-3 text-sm font-semibold">
+            <p className="inline-flex items-center me-3 text-sm font-semibold">
               <img
-                className="mr-2 w-6 h-6 rounded-full"
+                className="me-2 w-6 h-6 rounded-full"
                 src={gravatarUrl}
                 alt={name || t('frontend.comments.anonymous')}
               />
@@ -62,7 +62,7 @@ const SingleComment = ({ comment, gravatarUrl }: { comment: Comment; gravatarUrl
         <div className="flex items-center mt-4 space-x-4 hidden">
           <button type="button" className="flex items-center text-sm font-medium">
             <FontAwesomeIcon icon={faMessage} className="w-4 h-4" />
-            <span className="ml-1">{t('frontend.comments.reply')}</span>
+            <span className="ms-1">{t('frontend.comments.reply')}</span>
           </button>
         </div>
       </div>

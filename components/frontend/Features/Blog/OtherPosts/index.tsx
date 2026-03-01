@@ -88,12 +88,12 @@ const OtherPosts = () => {
   return (
     <div className="container mb-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-left mt-4 mb-4">{t('frontend.feed.related_articles')}</h2>
+        <h2 className="text-3xl font-bold text-start mt-4 mb-4">{t('frontend.feed.related_articles')}</h2>
         <div
           className="flex items-center transition-all duration-300 ease-in-out scroll-smooth	"
           style={{ width: 'fit-content' }}
         >
-          <button className="mr-2" onClick={handleLeft}>
+          <button className="me-2" onClick={handleLeft}>
             <FontAwesomeIcon icon={faCaretLeft} style={{ height: '1rem', width: '1rem' }} />
           </button>
           <button onClick={handleRight}>

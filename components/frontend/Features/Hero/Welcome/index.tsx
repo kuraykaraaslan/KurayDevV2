@@ -37,7 +37,7 @@ const Welcome = () => {
         }}
       >
         <div className="hero-content">
-          <div className="flex-1 max-w-2xl md:mr-4">
+          <div className="flex-1 max-w-2xl md:me-4">
             <h1 className="font-bold relative overflow-hidden animate-shake text-5xl leading-normal h-24 md:h-16">
               <TypingEffect />
             </h1>
@@ -62,7 +62,7 @@ const Welcome = () => {
               href="https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view?usp=drive_link"
               target="_blank"
             >
-              <p className="btn btn-ghost ml-2 lowercase hidden">
+              <p className="btn btn-ghost ms-2 lowercase hidden">
                 <FontAwesomeIcon icon={faLink} className="mt-1" style={{ width: '1rem' }} />
                 {t('pages.hero.resume')}
               </p>

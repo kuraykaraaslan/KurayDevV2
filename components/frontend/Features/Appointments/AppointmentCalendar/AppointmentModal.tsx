@@ -55,16 +55,16 @@ const AppointmentModal = ({
         {selectedSlot && (
           <p className="text-sm space-x-2 mb-4">
             <span className="font-semibold">
-              <FontAwesomeIcon icon={faCalendar} className="mr-2" />
+              <FontAwesomeIcon icon={faCalendar} className="me-2" />
               {format(new Date(selectedSlot.startTime), 'yyyy-MM-dd')}
             </span>
             <span className="font-semibold">
-              <FontAwesomeIcon icon={faClock} className="mr-2" />
+              <FontAwesomeIcon icon={faClock} className="me-2" />
               {format(new Date(selectedSlot.startTime), 'HH:mm')} -{' '}
               {format(new Date(selectedSlot.endTime), 'HH:mm')}
             </span>
             <span className="font-semibold">
-              <FontAwesomeIcon icon={faStopwatch} className="mr-2" />
+              <FontAwesomeIcon icon={faStopwatch} className="me-2" />
               {differenceInMinutes(
                 new Date(selectedSlot.endTime),
                 new Date(selectedSlot.startTime)
