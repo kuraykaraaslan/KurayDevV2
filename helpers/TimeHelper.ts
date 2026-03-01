@@ -1,6 +1,5 @@
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
-import Logger from '@/libs/logger'
 
 export function formatDate(date: Date | string): string {
   return new Date(date).toLocaleDateString('en-US', {
@@ -53,7 +52,7 @@ export function separateDateTimeWithTimeZone(
     const time = format(zoned, 'HH:mm')
     return { date, time }
   } catch (err: any) {
-    Logger.error('Failed to parse datetime:' + err.message)
+    console.error('Failed to parse datetime:' + err.message)
     throw new Error(`Invalid datetime format: ${datetime}`)
   }
 }

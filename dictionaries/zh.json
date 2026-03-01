@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "关闭",
+      "generate_post": "OpenAI GPT-4 - 生成帖子"
+    },
+    "appointments": {
+      "all_statuses": "所有状态",
+      "cancel": "取消",
+      "cancel_confirm": "您确定要取消此预约吗？",
+      "close": "关闭",
+      "complete": "完成",
+      "complete_confirm": "您确定要将此预约标记为已完成吗？",
+      "created": "已创建",
+      "date": "日期",
+      "datetime": "日期和时间",
+      "details": "预约详情",
+      "email": "电子邮件",
+      "name": "姓名",
+      "next": "下一步",
+      "note": "备注",
+      "phone": "电话",
+      "previous": "上一步",
+      "search_placeholder": "按姓名或电子邮件搜索...",
+      "showing": "显示 {{count}} 个，共 {{total}} 个预约",
+      "status": "状态",
+      "status_booked": "已预订",
+      "status_cancelled": "已取消",
+      "status_completed": "已完成",
+      "status_pending": "待处理",
+      "time": "时间",
+      "title": "预约",
+      "view": "查看"
+    },
+    "categories": {
+      "action": "操作",
+      "confirm_delete": "您确定要删除此类别吗？",
+      "create_category": "创建类别",
+      "delete": "删除",
+      "edit": "编辑",
+      "image": "图片",
+      "next": "下一步",
+      "posts": "帖子",
+      "previous": "上一步",
+      "search_placeholder": "搜索",
+      "showing": "显示 {{count}} 个，共 {{total}} 个类别",
+      "slug": "别名",
+      "title": "类别",
+      "view": "查看"
+    },
+    "comments": {
+      "action": "操作",
+      "approve": "批准",
+      "confirm_approve": "您确定要批准这篇文章吗？",
+      "confirm_delete": "您确定要删除这篇文章吗？",
+      "confirm_reject": "您确定要拒绝这篇文章吗？",
+      "contact": "联系",
+      "content": "内容",
+      "delete": "删除",
+      "next": "下一页",
+      "post": "发布",
+      "previous": "上一页",
+      "reject": "拒绝",
+      "search_placeholder": "搜索",
+      "showing": "显示 {{count}} 条，共 {{total}} 条评论",
+      "title": "评论"
+    },
+    "contacts": {
+      "action": "操作",
+      "close": "关闭",
+      "confirm_delete": "您确定要删除此联系表单吗？",
+      "contact": "联系",
+      "contact_details": "联系详情",
+      "date": "日期",
+      "delete": "删除",
+      "email": "电子邮件",
+      "message": "信息",
+      "name": "姓名",
+      "next": "下一页",
+      "phone": "电话",
+      "previous": "上一页",
+      "reply": "回复",
+      "search_placeholder": "按姓名、电子邮件或信息搜索...",
+      "showing": "显示 {{count}} 个，共 {{total}} 个联系人",
+      "title": "联系表单",
+      "view": "查看"
+    },
+    "media": {
+      "actions": "操作",
+      "all_folders": "所有文件夹",
+      "alt_text": "替代文本",
+      "alt_text_placeholder": "为无障碍描述图像",
+      "confirm_bulk_delete": "您确定要删除 {{count}} 个文件吗？",
+      "confirm_delete": "您确定要删除此文件吗？",
+      "copy_url": "复制 URL",
+      "date": "日期",
+      "delete": "删除",
+      "delete_selected": "删除所选",
+      "description": "管理您上传的文件和图片",
+      "edit": "编辑",
+      "filename": "文件名",
+      "folder": "文件夹",
+      "folders": "文件夹",
+      "name": "显示名称",
+      "next": "下一页",
+      "no_files": "未找到文件",
+      "page": "页面",
+      "page_size": "页面大小",
+      "preview": "预览",
+      "previous": "上一页",
+      "search_placeholder": "搜索文件...",
+      "selected": "已选择",
+      "showing": "显示 {{count}} 个，共 {{total}} 个文件",
+      "size": "大小",
+      "sync": "从 S3 同步",
+      "title": "媒体库",
+      "total_files": "文件总数",
+      "total_size": "总大小",
+      "upload": "上传"
+    },
+    "posts": {
+      "action": "操作",
+      "category": "分类",
+      "confirm_delete": "您确定要删除此文章吗？",
+      "create_post": "创建文章",
+      "delete": "删除",
+      "edit": "编辑",
+      "next": "下一页",
+      "previous": "上一页",
+      "rebuild_failed": "触发知识图重建失败。",
+      "rebuild_success": "知识图重建已触发。",
+      "rebuild_triggered": "重建已触发",
+      "rebuild_triggered_message": "知识图重建已触发。您需要刷新页面以再次触发。",
+      "reset_knowledge_graph": "重置知识图",
+      "search_placeholder": "搜索",
+      "showing": "显示 {{count}} 个，共 {{total}} 个帖子",
+      "status": "状态",
+      "title": "帖子",
+      "view": "查看"
+    },
+    "project_links": {
+      "action": "操作",
+      "delete": "删除",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "操作",
+      "confirm_delete": "您确定要删除此项目吗？",
+      "create_project": "创建项目",
+      "delete": "删除",
+      "edit": "编辑",
+      "next": "下一页",
+      "previous": "上一页",
+      "search_placeholder": "搜索",
+      "showing": "显示 {{count}} 个，共 {{total}} 个项目",
+      "tech_stack": "技术栈",
+      "title": "项目",
+      "view": "查看"
+    },
+    "selects": {
+      "select_category": "选择类别",
+      "select_user": "选择用户"
+    },
+    "slots": {
+      "add": "添加",
+      "add_manual_slot": "添加手动时段",
+      "apply_confirm": "将 {{day}} 模板应用到 {{date}}？这将覆盖现有时段。",
+      "apply_failed": "应用模板失败",
+      "apply_success": "模板已应用到 {{date}}",
+      "apply_template_date": "应用模板到日期",
+      "apply_template_week": "应用模板到周",
+      "apply_week_success": "模板已成功应用到整周",
+      "capacity": "容量",
+      "create_and_manage": "创建和管理每周每天的时段模板。",
+      "end_time": "结束时间",
+      "fetch_failed": "获取模板时段失败",
+      "generate": "生成",
+      "generated_slots": "已生成 {{count}} 个时段",
+      "interval": "间隔（分钟）",
+      "loading": "加载中...",
+      "no_slots": "没有可应用的时段",
+      "no_slots_day": "这一天没有时段",
+      "please_select_time": "请选择时间",
+      "remove_all": "全部移除",
+      "save_changes": "保存更改",
+      "save_template": "保存模板",
+      "saving": "正在保存...",
+      "select_day": "选择日期",
+      "select_time": "选择时间",
+      "slot_exists": "时段已存在",
+      "slots_failed": "更新时段失败",
+      "slots_updated": "时段更新成功",
+      "start_earlier_error": "开始时间必须早于结束时间",
+      "start_time": "开始时间",
+      "template_builder": "模板构建器",
+      "template_failed": "保存模板失败",
+      "template_saved": "模板保存成功",
+      "week_confirm": "这将覆盖从{{date}}开始的一周的现有时段。继续吗？"
+    },
+    "stats": {
+      "all_time": "所有时间",
+      "categories": "分类",
+      "comments": "评论",
+      "daily": "每日",
+      "frequency": "频率",
+      "last_5_minutes": "最近5分钟",
+      "last_hour": "最近一小时",
+      "monthly": "每月",
+      "posts": "帖子",
+      "title": "统计",
+      "total_categories": "总分类数",
+      "total_comments": "总评论数",
+      "total_posts": "总帖子数",
+      "total_users": "总用户数",
+      "total_views": "总浏览量",
+      "users": "用户",
+      "views": "浏览量",
+      "weekly": "每周",
+      "yearly": "每年"
+    },
+    "subscriptions": {
+      "action": "操作",
+      "active": "活跃",
+      "confirm_unsubscribe": "您确定要取消订阅此电子邮件吗？",
+      "email": "电子邮件",
+      "next": "下一步",
+      "previous": "上一步",
+      "search_placeholder": "通过电子邮件搜索...",
+      "send_email": "发送电子邮件",
+      "showing": "显示 {{count}} 个，共 {{total}} 个订阅",
+      "status": "状态",
+      "subscribed_at": "订阅时间",
+      "title": "订阅",
+      "unsubscribe": "取消订阅",
+      "unsubscribed": "已取消订阅"
+    },
+    "users": {
+      "action": "操作",
+      "confirm_delete": "您确定要删除此用户吗？",
+      "create_user": "创建用户",
+      "delete": "删除",
+      "delete_failed": "删除用户失败。",
+      "delete_success": "用户删除成功。",
+      "edit": "编辑",
+      "email": "电子邮件",
+      "name": "姓名",
+      "next": "下一页",
+      "previous": "上一页",
+      "role": "角色",
+      "search_placeholder": "搜索",
+      "showing": "显示 {{count}} 个，共 {{total}} 个用户",
+      "status": "状态",
+      "title": "用户"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "使用 {{provider}} 登录",
+      "close": "关闭",
+      "modal_button": "使用社交媒体登录",
+      "modal_title": "使用社交媒体登录",
+      "no_providers": "未配置 SSO 提供商。",
+      "provider_not_allowed": "不允许使用 {{provider}} 进行 SSO 登录。",
+      "redirect_error": "SSO 重定向错误。",
+      "title": "使用社交媒体登录"
+    }
+  },
+  "common": {
+    "cancel": "取消",
+    "confirm": "确认",
+    "confirm_dialog": {
+      "description": "此操作无法撤销。",
+      "title": "您确定吗？"
+    },
+    "grid_view": "网格视图",
+    "image": {
+      "upload_error": "上传图片错误",
+      "upload_success": "图片上传成功"
+    },
+    "loading": "加载中...",
+    "modal": {
+      "close_dialog": "关闭对话框"
+    },
+    "navbar": {
+      "admin_dashboard": "管理面板",
+      "login": "登录",
+      "logout": "登出",
+      "user_menu": "用户菜单",
+      "user_settings": "用户设置"
+    },
+    "per_page": "每页",
+    "refresh": "刷新",
+    "save": "保存",
+    "selected": "已选择{{count}}项",
+    "table_view": "表格视图"
+  },
+  "errors": {
+    "404": {
+      "button": "返回首页",
+      "description": "抱歉，我们找不到该页面。您可以在主页上找到很多内容。",
+      "title": "出现错误"
+    },
+    "500": {
+      "button": "返回首页",
+      "description": "服务器发生错误。",
+      "title": "内部服务器错误"
+    }
+  },
+  "footer": {
+    "github_profile": "GitHub 个人资料（在新标签页中打开）",
+    "linkedin_profile": "LinkedIn 个人资料（在新标签页中打开）",
+    "site_footer": "网站页脚",
+    "social_media_links": "社交媒体链接",
+    "x_profile": "X（前身为 Twitter）个人资料（在新标签页中打开）"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "匿名",
+      "comment_placeholder": "写评论...",
+      "comments_count": "评论",
+      "content_length_error": "内容至少应为5个字符",
+      "delete": "删除",
+      "email_placeholder": "电子邮件",
+      "error": "发生错误",
+      "fill_all_fields": "请填写所有字段",
+      "invalid_email": "请输入有效的电子邮件",
+      "name_length_error": "姓名应至少为3个字符，最多50个字符",
+      "name_placeholder": "姓名",
+      "posted_successfully": "评论发布成功",
+      "reply": "回复",
+      "submit_button": "评论"
+    },
+    "feed": {
+      "categories": "分类",
+      "latest_posts": "最新帖子",
+      "load_more": "加载更多帖子",
+      "no_more_posts": "没有更多帖子可用",
+      "other_posts": "其他文章",
+      "posts_by": "文章作者",
+      "read_more": "阅读更多",
+      "related_articles": "相关文章"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D 知识图谱",
+      "title_3d": "3D 知识图谱"
+    },
+    "offline": {
+      "offline": "您已离线！",
+      "online": "您已重新上线！"
+    },
+    "post": {
+      "by": "作者",
+      "min_read": "分钟阅读",
+      "no_date": "无日期",
+      "read_time": "{{count}} 分钟阅读",
+      "unknown_author": "未知作者",
+      "views": "浏览",
+      "views_count": "{{count}} 次浏览"
+    },
+    "scroll_to_bottom": "滚动到底部",
+    "scroll_to_top": "滚动到顶部",
+    "terminal_button": "终端",
+    "time": {
+      "a_minute_ago": "一分钟前",
+      "an_hour_ago": "一小时前",
+      "days_ago": "{{count}} 天前",
+      "hours_ago": "{{count}} 小时前",
+      "just_now": "刚刚",
+      "minutes_ago": "{{count}} 分钟前",
+      "today": "今天",
+      "yesterday": "昨天"
+    },
+    "toc": {
+      "title": "目录"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "欢迎来到我的技术博客！我是 Kuray Karaaslan，一名精通 React、Next.js、Node.js、Java 和 React Native 的前端、后端和移动开发者。我分享实用的编码教程、行业见解和 UI/UX 技巧，帮助开发者和技术爱好者取得成功。",
+      "title": "博客 | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "欢迎来到我的技术博客！我是 Kuray Karaaslan，一名精通 React、Next.js、Node.js、Java 和 React Native 的前端、后端和移动开发者。我分享实用的编码教程、行业见解和 UI/UX 技巧，帮助开发者和技术爱好者取得成功。保持更新，解决问题，与我一起提升您的技术专长！",
+      "title": "软件开发者 | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "Kuray Karaaslan 目前专注于的工作、项目、学习和生活。",
+      "title": "现在 | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "kuray.dev 的隐私政策 — 了解我们如何收集、使用和保护您的个人信息。",
+      "title": "隐私政策 | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "探索我的网页、移动、桌面及其他软件项目组合。使用 React、Next.js、Node.js、Java、React Native 等构建。",
+      "title": "项目 | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "kuray.dev 的使用条款 — 使用本网站及其服务的规则和指南。",
+      "title": "使用条款 | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "更改语言（当前：{{lang}}）",
+    "close_sidebar_menu": "关闭侧边栏菜单",
+    "filter_by_blog": "按博客筛选 {{active}}",
+    "filter_by_project": "按项目筛选 {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "主导航",
+    "no_results_found": "未找到结果",
+    "open_search": "打开搜索",
+    "open_sidebar_menu": "打开侧边栏菜单",
+    "search": "搜索",
+    "search_placeholder": "输入以搜索...",
+    "search_results": "搜索结果",
+    "select_language": "选择语言",
+    "switch_theme": "切换主题（当前：{{theme}}）"
+  },
+  "navigation": {
+    "backend": "后端",
+    "blog": "博客",
+    "contact": "联系",
+    "experience": "经验",
+    "freelance": "自由职业",
+    "github": "GitHub",
+    "home": "首页",
+    "linkedin": "LinkedIn",
+    "portfolio": "作品集",
+    "resume": "简历"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "无法验证您不是机器人。请稍后再试。",
+      "description": "沟通会带来好事。",
+      "form": {
+        "email": "电子邮件",
+        "enter_your_email": "输入您的电子邮件",
+        "enter_your_message": "输入您的信息，您可以描述您的项目、需求或任何您想分享的信息。",
+        "enter_your_name": "输入您的姓名",
+        "enter_your_phone": "输入您的电话",
+        "error": "发送信息时发生错误。请稍后再试。",
+        "loading": "正在发送您的信息...",
+        "message": "信息",
+        "name": "姓名",
+        "phone": "电话",
+        "please_fill_in_all_fields": "请填写所有字段。",
+        "send": "发送",
+        "success": "您的信息已成功发送。我会尽快回复您。"
+      },
+      "phone_and_mail": "电话和电子邮件",
+      "reveal_mail": "点击显示电子邮件",
+      "reveal_phone": "点击显示电话",
+      "send_a_message": "发送消息",
+      "social_media": "社交媒体",
+      "title": "联系"
+    },
+    "hero": {
+      "contact_me": "联系我",
+      "description": "<bold>以产品为中心的全栈开发人员</bold>，拥有<bold>3年以上经验</bold>，在<bold>前端、后端、移动端的BIM和物联网领域</bold>提供强大且可扩展的软件解决方案。专注于<bold>Java Spring Boot、React、Next.js、Node.js和PostgreSQL</bold>。擅长构建<bold>多租户SaaS平台、实时系统和支付集成</bold>。结合扎实的工程基础与<bold>创造性问题解决</bold>和<bold>清晰、系统的编码方法</bold>。",
+      "resume": "简历",
+      "typing_effect": {
+        "prefix": "我准备好",
+        "text1": "解决问题",
+        "text2": "构建产品",
+        "text3": "创造解决方案",
+        "text4": "产生影响",
+        "text5": "迎接挑战",
+        "text6": "自由职业"
+      }
+    },
+    "projects": {
+      "description": "我参与过的专业作品集。",
+      "title": "作品集"
+    },
+    "timeline": {
+      "description": "从结构工程师到软件开发人员的转变是一个学习、成长和转型的旅程。这是我职业旅程的一个缩影。",
+      "title": "我的旅程"
+    },
+    "toolbox": {
+      "backend": "后端",
+      "description": "我的工具箱里有很多工具，我一直在学习新的工具。",
+      "frontend": "前端",
+      "skills": {
+        "authentication_security": "认证与安全",
+        "caching_redis": "使用Redis缓存",
+        "clean_code": "整洁代码",
+        "cloud_infrastructure": "云基础设施（AWS）",
+        "domain_driven_design": "领域驱动设计",
+        "event_driven_architecture": "事件驱动架构",
+        "multi_tenant_saas": "多租户SaaS",
+        "payment_systems": "支付系统",
+        "performance_optimization": "性能优化",
+        "rest_api_design": "REST API设计",
+        "sql_data_modeling": "SQL与数据建模",
+        "testing_cicd": "测试与CI/CD"
+      },
+      "title": "创造力需要很多工具"
+    }
+  },
+  "settings": {
+    "basic": "基本",
+    "notifications": "通知",
+    "otp": "双重认证",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "发送验证码",
+      "sending": "正在发送验证码...",
+      "title": "安全验证",
+      "verify": "验证",
+      "verifying": "正在验证..."
+    },
+    "otp_method_card": {
+      "active": "已激活",
+      "inactive": "未激活"
+    },
+    "preferences": "偏好设置",
+    "profile": "个人资料",
+    "security": "安全",
+    "totp_setup": {
+      "backup_codes_title": "备份代码",
+      "confirm_setup": "确认设置",
+      "copy_codes": "复制代码",
+      "download_codes": "下载代码",
+      "enter_code": "输入您的身份验证应用程序中的代码",
+      "i_have_saved": "我已保存我的备份代码",
+      "start_setup": "开始设置",
+      "title": "TOTP 设置",
+      "warning": "请将备份代码存放在安全的地方。如果您无法访问身份验证应用程序，可以使用这些代码重新获得账户访问权限。"
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "发生错误",
+      "info": "信息",
+      "success": "成功",
+      "this_blog_is_available_in_only_english": "此博客仅提供英文版",
+      "warning": "警告"
+    },
+    "calendar": {
+      "appointment_created": "您的预约已创建",
+      "appointment_error": "无法创建预约",
+      "appointment_info": "预约信息",
+      "appointment_subtitle": "选择合适的日期和时间",
+      "appointment_title": "预约",
+      "available_slots": "可用时段",
+      "available_times": "可用时间",
+      "book_appointment": "预约",
+      "book_now": "立即预约",
+      "close": "关闭",
+      "close_modal": "关闭",
+      "create_appointment": "创建预约",
+      "description": "预约与我会面。",
+      "error_occurred": "发生错误",
+      "fields": {
+        "email": "您的邮箱",
+        "email_label": "邮箱",
+        "email_placeholder": "输入您的邮箱",
+        "full_name": "全名",
+        "name": "您的姓名",
+        "name_placeholder": "输入您的姓名",
+        "note": "备注",
+        "note_label": "备注",
+        "note_placeholder": "输入您的备注",
+        "phone": "您的电话",
+        "phone_label": "电话",
+        "phone_placeholder": "输入您的电话"
+      },
+      "minutes": "{{count}} 分钟",
+      "minutes_abbr": "分钟",
+      "no_available_slots": "没有可用时段",
+      "no_slots_for_day": "所选日期没有可用时间",
+      "past_date_warning": "您不能预约过去的日期。",
+      "select_slot": "请选择一个时段预约。",
+      "select_slot_first": "请先选择一个时间段",
+      "selected_time": "选择的时间",
+      "statuses": {
+        "available": "可用",
+        "booked": "已预订",
+        "cancelled": "已取消"
+      },
+      "title": "日历"
+    },
+    "footer": {
+      "all_rights_reserved": "版权所有。"
+    },
+    "geomap": {
+      "description": "通过这个互动热图探索访客在我作品集中的全球分布。地图上的每个点代表一个访客的位置，提供了我的观众来自世界各地的见解。",
+      "title": "全球访客热图",
+      "visitors": "{{count}} 位访客"
+    },
+    "newsletter": {
+      "description": "保持更新！获取所有最新和最棒的文章，直接发送到您的收件箱",
+      "email_placeholder": "输入您的电子邮件地址",
+      "error_message": "订阅时发生错误。请稍后再试。",
+      "subscribe": "订阅",
+      "success_message": "订阅成功！请检查您的电子邮件以确认。",
+      "title": "新闻通讯"
+    },
+    "status": {
+      "loading": "正在检查系统状态...",
+      "response_time": "响应时间：{{time}}毫秒",
+      "services": {
+        "api": "API",
+        "auth": "认证",
+        "aws": "AWS 服务",
+        "database": "数据库",
+        "frontend": "前端",
+        "mail": "邮件服务",
+        "openai": "OpenAI 服务",
+        "payment": "支付网关",
+        "redis": "Redis 缓存",
+        "sms": "短信服务"
+      },
+      "statuses": {
+        "degraded_performance": "性能下降",
+        "major_outage": "重大故障",
+        "operational": "正常运行",
+        "partial_outage": "部分故障"
+      },
+      "title": "系统状态",
+      "uptime": "正常运行时间：{{time}}分钟"
+    },
+    "whatsapp": {
+      "message": "你好！我是Kuray Karaaslan，我能帮你什么？"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "关闭侧边栏",
+    "menu": "菜单",
+    "mobile_navigation": "移动导航",
+    "navigation_menu": "导航菜单"
+  }
+}

@@ -53,6 +53,7 @@ export default class UserAgentService {
         city: data.city?.names?.en ?? null,
         state: data.subdivisions?.[0]?.names?.en ?? null,
         country: data.country?.names?.en ?? null,
+        countryCode: data.country?.iso_code ?? null,
         latitude: data.location?.latitude ?? null,
         longitude: data.location?.longitude ?? null,
       }

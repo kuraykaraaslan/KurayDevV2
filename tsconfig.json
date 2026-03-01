@@ -39,7 +39,7 @@
     "prisma/seed.js",
     "app/not-found.tsx",
     ".next/dev/types/**/*.ts"
-  ],
+, "middleware.ts.bak", "middleware.ts.bak"  ],
   "exclude": [
     "node_modules",
     ".next",

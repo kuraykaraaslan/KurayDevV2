@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "閉じる",
+      "generate_post": "OpenAI GPT-4 - 投稿を生成"
+    },
+    "appointments": {
+      "all_statuses": "すべてのステータス",
+      "cancel": "キャンセル",
+      "cancel_confirm": "この予約をキャンセルしてもよろしいですか？",
+      "close": "閉じる",
+      "complete": "完了",
+      "complete_confirm": "この予約を完了としてマークしてもよろしいですか？",
+      "created": "作成済み",
+      "date": "日付",
+      "datetime": "日付と時間",
+      "details": "予約の詳細",
+      "email": "メール",
+      "name": "名前",
+      "next": "次へ",
+      "note": "メモ",
+      "phone": "電話",
+      "previous": "前へ",
+      "search_placeholder": "名前またはメールで検索...",
+      "showing": "{{total}}件中{{count}}件を表示中",
+      "status": "ステータス",
+      "status_booked": "予約済み",
+      "status_cancelled": "キャンセル済み",
+      "status_completed": "完了済み",
+      "status_pending": "保留中",
+      "time": "時間",
+      "title": "予約",
+      "view": "表示"
+    },
+    "categories": {
+      "action": "アクション",
+      "confirm_delete": "このカテゴリを削除してもよろしいですか？",
+      "create_category": "カテゴリを作成",
+      "delete": "削除",
+      "edit": "編集",
+      "image": "画像",
+      "next": "次へ",
+      "posts": "投稿",
+      "previous": "前へ",
+      "search_placeholder": "検索",
+      "showing": "{{total}}件中{{count}}件を表示中",
+      "slug": "スラッグ",
+      "title": "カテゴリー",
+      "view": "表示"
+    },
+    "comments": {
+      "action": "アクション",
+      "approve": "承認",
+      "confirm_approve": "この投稿を承認してもよろしいですか？",
+      "confirm_delete": "この投稿を削除してもよろしいですか？",
+      "confirm_reject": "この投稿を拒否してもよろしいですか？",
+      "contact": "連絡先",
+      "content": "内容",
+      "delete": "削除",
+      "next": "次へ",
+      "post": "投稿",
+      "previous": "前へ",
+      "reject": "拒否",
+      "search_placeholder": "検索",
+      "showing": "{{total}}件中{{count}}件を表示",
+      "title": "コメント"
+    },
+    "contacts": {
+      "action": "アクション",
+      "close": "閉じる",
+      "confirm_delete": "このお問い合わせフォームを削除してもよろしいですか？",
+      "contact": "連絡先",
+      "contact_details": "連絡先詳細",
+      "date": "日付",
+      "delete": "削除",
+      "email": "メール",
+      "message": "メッセージ",
+      "name": "名前",
+      "next": "次へ",
+      "phone": "電話",
+      "previous": "前へ",
+      "reply": "返信",
+      "search_placeholder": "名前、メール、メッセージで検索...",
+      "showing": "{{total}}件中{{count}}件を表示",
+      "title": "お問い合わせフォーム",
+      "view": "表示"
+    },
+    "media": {
+      "actions": "アクション",
+      "all_folders": "すべてのフォルダ",
+      "alt_text": "代替テキスト",
+      "alt_text_placeholder": "アクセシビリティのために画像を説明",
+      "confirm_bulk_delete": "{{count}}個のファイルを削除してもよろしいですか？",
+      "confirm_delete": "このファイルを削除してもよろしいですか？",
+      "copy_url": "URLをコピー",
+      "date": "日付",
+      "delete": "削除",
+      "delete_selected": "選択したものを削除",
+      "description": "アップロードしたファイルと画像を管理",
+      "edit": "編集",
+      "filename": "ファイル名",
+      "folder": "フォルダー",
+      "folders": "フォルダー",
+      "name": "表示名",
+      "next": "次へ",
+      "no_files": "ファイルが見つかりません",
+      "page": "ページ",
+      "page_size": "ページサイズ",
+      "preview": "プレビュー",
+      "previous": "前へ",
+      "search_placeholder": "ファイルを検索...",
+      "selected": "選択済み",
+      "showing": "{{total}} 件中 {{count}} 件を表示",
+      "size": "サイズ",
+      "sync": "S3から同期",
+      "title": "メディアライブラリ",
+      "total_files": "ファイル総数",
+      "total_size": "総サイズ",
+      "upload": "アップロード"
+    },
+    "posts": {
+      "action": "アクション",
+      "category": "カテゴリー",
+      "confirm_delete": "この投稿を削除してもよろしいですか？",
+      "create_post": "投稿を作成",
+      "delete": "削除",
+      "edit": "編集",
+      "next": "次へ",
+      "previous": "前へ",
+      "rebuild_failed": "ナレッジグラフの再構築のトリガーに失敗しました。",
+      "rebuild_success": "ナレッジグラフの再構築がトリガーされました。",
+      "rebuild_triggered": "再構築がトリガーされました",
+      "rebuild_triggered_message": "ナレッジグラフの再構築はすでにトリガーされています。再度トリガーするにはページを更新する必要があります。",
+      "reset_knowledge_graph": "ナレッジグラフをリセット",
+      "search_placeholder": "検索",
+      "showing": "{{total}} 件中 {{count}} 件を表示中",
+      "status": "ステータス",
+      "title": "投稿",
+      "view": "表示"
+    },
+    "project_links": {
+      "action": "アクション",
+      "delete": "削除",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "アクション",
+      "confirm_delete": "このプロジェクトを削除してもよろしいですか？",
+      "create_project": "プロジェクトを作成",
+      "delete": "削除",
+      "edit": "編集",
+      "next": "次へ",
+      "previous": "前へ",
+      "search_placeholder": "検索",
+      "showing": "{{total}} 件中 {{count}} 件を表示中",
+      "tech_stack": "技術スタック",
+      "title": "プロジェクト",
+      "view": "表示"
+    },
+    "selects": {
+      "select_category": "カテゴリーを選択",
+      "select_user": "ユーザーを選択"
+    },
+    "slots": {
+      "add": "追加",
+      "add_manual_slot": "手動スロットを追加",
+      "apply_confirm": "{{day}} テンプレートを {{date}} に適用しますか？既存のスロットが上書きされます。",
+      "apply_failed": "テンプレートの適用に失敗しました",
+      "apply_success": "{{date}} にテンプレートを適用しました",
+      "apply_template_date": "日付にテンプレートを適用",
+      "apply_template_week": "週にテンプレートを適用",
+      "apply_week_success": "テンプレートが週全体に正常に適用されました",
+      "capacity": "定員",
+      "create_and_manage": "各曜日のスロットテンプレートを作成および管理します。",
+      "end_time": "終了時間",
+      "fetch_failed": "テンプレートスロットの取得に失敗しました",
+      "generate": "生成",
+      "generated_slots": "{{count}} スロットを生成しました",
+      "interval": "間隔（分）",
+      "loading": "読み込み中...",
+      "no_slots": "適用するスロットがありません",
+      "no_slots_day": "この日のスロットはありません",
+      "please_select_time": "時間を選択してください",
+      "remove_all": "すべて削除",
+      "save_changes": "変更を保存",
+      "save_template": "テンプレートを保存",
+      "saving": "保存中...",
+      "select_day": "日を選択",
+      "select_time": "時間を選択",
+      "slot_exists": "スロットは既に存在します",
+      "slots_failed": "スロットの更新に失敗しました",
+      "slots_updated": "スロットが正常に更新されました",
+      "start_earlier_error": "開始時間は終了時間より早くなければなりません",
+      "start_time": "開始時間",
+      "template_builder": "テンプレートビルダー",
+      "template_failed": "テンプレートの保存に失敗しました",
+      "template_saved": "テンプレートが正常に保存されました",
+      "week_confirm": "これは{{date}}から始まる週の既存のスロットを上書きします。続行しますか？"
+    },
+    "stats": {
+      "all_time": "全期間",
+      "categories": "カテゴリー",
+      "comments": "コメント",
+      "daily": "日次",
+      "frequency": "頻度",
+      "last_5_minutes": "直近5分",
+      "last_hour": "直近1時間",
+      "monthly": "月次",
+      "posts": "投稿",
+      "title": "統計",
+      "total_categories": "総カテゴリー数",
+      "total_comments": "総コメント数",
+      "total_posts": "総投稿数",
+      "total_users": "総ユーザー数",
+      "total_views": "総閲覧数",
+      "users": "ユーザー",
+      "views": "閲覧数",
+      "weekly": "週次",
+      "yearly": "年次"
+    },
+    "subscriptions": {
+      "action": "アクション",
+      "active": "アクティブ",
+      "confirm_unsubscribe": "このメールを購読解除してもよろしいですか？",
+      "email": "メール",
+      "next": "次へ",
+      "previous": "前へ",
+      "search_placeholder": "メールで検索...",
+      "send_email": "メールを送信",
+      "showing": "{{total}} 件中 {{count}} 件を表示",
+      "status": "ステータス",
+      "subscribed_at": "登録日",
+      "title": "サブスクリプション",
+      "unsubscribe": "購読解除",
+      "unsubscribed": "購読解除済み"
+    },
+    "users": {
+      "action": "アクション",
+      "confirm_delete": "このユーザーを削除してもよろしいですか？",
+      "create_user": "ユーザーを作成",
+      "delete": "削除",
+      "delete_failed": "ユーザーの削除に失敗しました。",
+      "delete_success": "ユーザーを削除しました。",
+      "edit": "編集",
+      "email": "メール",
+      "name": "名前",
+      "next": "次へ",
+      "previous": "前へ",
+      "role": "役割",
+      "search_placeholder": "検索",
+      "showing": "{{total}} 人中 {{count}} 人を表示",
+      "status": "ステータス",
+      "title": "ユーザー"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "{{provider}} でログイン",
+      "close": "閉じる",
+      "modal_button": "ソーシャルメディアでログイン",
+      "modal_title": "ソーシャルメディアでログイン",
+      "no_providers": "SSOプロバイダーが設定されていません。",
+      "provider_not_allowed": "{{provider}} のSSOログインは許可されていません。",
+      "redirect_error": "SSOリダイレクトエラー。",
+      "title": "ソーシャルメディアでログイン"
+    }
+  },
+  "common": {
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "confirm_dialog": {
+      "description": "この操作は元に戻せません。",
+      "title": "本当によろしいですか？"
+    },
+    "grid_view": "グリッドビュー",
+    "image": {
+      "upload_error": "画像のアップロードエラー",
+      "upload_success": "画像が正常にアップロードされました"
+    },
+    "loading": "読み込み中...",
+    "modal": {
+      "close_dialog": "ダイアログを閉じる"
+    },
+    "navbar": {
+      "admin_dashboard": "管理者ダッシュボード",
+      "login": "ログイン",
+      "logout": "ログアウト",
+      "user_menu": "ユーザーメニュー",
+      "user_settings": "ユーザー設定"
+    },
+    "per_page": "ページごと",
+    "refresh": "更新",
+    "save": "保存",
+    "selected": "{{count}} 件選択中",
+    "table_view": "テーブルビュー"
+  },
+  "errors": {
+    "404": {
+      "button": "ホームに戻る",
+      "description": "申し訳ありませんが、そのページは見つかりません。ホームページで多くのコンテンツを探索できます。",
+      "title": "問題が発生しました"
+    },
+    "500": {
+      "button": "ホームに戻る",
+      "description": "サーバーでエラーが発生しました。",
+      "title": "内部サーバーエラー"
+    }
+  },
+  "footer": {
+    "github_profile": "GitHub プロフィール（新しいタブで開く）",
+    "linkedin_profile": "LinkedIn プロフィール（新しいタブで開く）",
+    "site_footer": "サイトフッター",
+    "social_media_links": "ソーシャルメディアリンク",
+    "x_profile": "X（旧Twitter）プロフィール（新しいタブで開く）"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "匿名",
+      "comment_placeholder": "コメントを書く...",
+      "comments_count": "コメント",
+      "content_length_error": "内容は5文字以上である必要があります",
+      "delete": "削除",
+      "email_placeholder": "メール",
+      "error": "エラーが発生しました",
+      "fill_all_fields": "すべてのフィールドに入力してください",
+      "invalid_email": "有効なメールアドレスを入力してください",
+      "name_length_error": "名前は3文字以上50文字以内である必要があります",
+      "name_placeholder": "名前",
+      "posted_successfully": "コメントが正常に投稿されました",
+      "reply": "返信",
+      "submit_button": "コメント"
+    },
+    "feed": {
+      "categories": "カテゴリー",
+      "latest_posts": "最新の投稿",
+      "load_more": "さらに投稿を読み込む",
+      "no_more_posts": "これ以上の投稿はありません",
+      "other_posts": "他の投稿",
+      "posts_by": "投稿者",
+      "read_more": "もっと読む",
+      "related_articles": "関連記事"
+    },
+    "knowledge_graph": {
+      "title_2d": "2Dナレッジグラフ",
+      "title_3d": "3Dナレッジグラフ"
+    },
+    "offline": {
+      "offline": "オフラインです！",
+      "online": "オンラインに戻りました！"
+    },
+    "post": {
+      "by": "著者",
+      "min_read": "分で読む",
+      "no_date": "日付なし",
+      "read_time": "{{count}} 分で読む",
+      "unknown_author": "不明な著者",
+      "views": "ビュー",
+      "views_count": "{{count}} ビュー"
+    },
+    "scroll_to_bottom": "下までスクロール",
+    "scroll_to_top": "上までスクロール",
+    "terminal_button": "ターミナル",
+    "time": {
+      "a_minute_ago": "1分前",
+      "an_hour_ago": "1時間前",
+      "days_ago": "{{count}} 日前",
+      "hours_ago": "{{count}} 時間前",
+      "just_now": "たった今",
+      "minutes_ago": "{{count}} 分前",
+      "today": "今日",
+      "yesterday": "昨日"
+    },
+    "toc": {
+      "title": "目次"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "私の技術ブログへようこそ！私はKuray Karaaslan、React、Next.js、Node.js、Java、React Nativeに精通したフロントエンド、バックエンド、モバイル開発者です。実践的なコーディングチュートリアル、業界の洞察、UI/UXのヒントを共有し、開発者や技術愛好家が成功するためのサポートをします。",
+      "title": "ブログ | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "私の技術ブログへようこそ！私はKuray Karaaslan、React、Next.js、Node.js、Java、React Nativeに精通したフロントエンド、バックエンド、モバイル開発者です。実践的なコーディングチュートリアル、業界の洞察、UI/UXのヒントを共有し、開発者や技術愛好家が成功するためのサポートをします。最新情報を得て、問題を解決し、技術の専門知識を私と一緒に成長させましょう！",
+      "title": "ソフトウェア開発者 | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "Kuray Karaaslanが今注力していること — 仕事、副業、学習、生活。",
+      "title": "今 | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "kuray.devのプライバシーポリシー — 個人情報の収集、使用、保護方法を学びます。",
+      "title": "プライバシーポリシー | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "私のウェブ、モバイル、デスクトップ、その他のソフトウェアプロジェクトのポートフォリオを探索してください。React、Next.js、Node.js、Java、React Nativeなどで構築されています。",
+      "title": "プロジェクト | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "kuray.devの利用規約 — このウェブサイトとそのサービスの利用に関するルールとガイドライン。",
+      "title": "利用規約 | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "言語を変更（現在: {{lang}}）",
+    "close_sidebar_menu": "サイドバーメニューを閉じる",
+    "filter_by_blog": "ブログでフィルター {{active}}",
+    "filter_by_project": "プロジェクトでフィルター {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "メインナビゲーション",
+    "no_results_found": "結果が見つかりません",
+    "open_search": "検索を開く",
+    "open_sidebar_menu": "サイドバーメニューを開く",
+    "search": "検索",
+    "search_placeholder": "検索するには入力...",
+    "search_results": "検索結果",
+    "select_language": "言語を選択",
+    "switch_theme": "テーマを切り替え (現在: {{theme}})"
+  },
+  "navigation": {
+    "backend": "バックエンド",
+    "blog": "ブログ",
+    "contact": "コンタクト",
+    "experience": "経験",
+    "freelance": "フリーランス",
+    "github": "GitHub",
+    "home": "ホーム",
+    "linkedin": "LinkedIn",
+    "portfolio": "ポートフォリオ",
+    "resume": "履歴書"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "あなたがロボットでないことを確認できません。後でもう一度お試しください。",
+      "description": "話すことで良いことが起こります。",
+      "form": {
+        "email": "メール",
+        "enter_your_email": "メールアドレスを入力してください",
+        "enter_your_message": "メッセージを入力してください。プロジェクトやニーズ、共有したい情報を記述できます。",
+        "enter_your_name": "名前を入力してください",
+        "enter_your_phone": "電話番号を入力してください",
+        "error": "メッセージの送信中にエラーが発生しました。後でもう一度お試しください。",
+        "loading": "メッセージを送信中...",
+        "message": "メッセージ",
+        "name": "名前",
+        "phone": "電話番号",
+        "please_fill_in_all_fields": "すべてのフィールドに入力してください。",
+        "send": "送信",
+        "success": "メッセージが正常に送信されました。できるだけ早くご連絡いたします。"
+      },
+      "phone_and_mail": "電話とメール",
+      "reveal_mail": "クリックしてメールを表示",
+      "reveal_phone": "クリックして電話番号を表示",
+      "send_a_message": "メッセージを送信",
+      "social_media": "ソーシャルメディア",
+      "title": "お問い合わせ"
+    },
+    "hero": {
+      "contact_me": "お問い合わせ",
+      "description": "<bold>製品志向のフルスタック開発者</bold>で、<bold>3年以上の経験</bold>を持ち、<bold>フロントエンド、バックエンド、モバイルのBIMおよびIoT分野</bold>で堅牢でスケーラブルなソフトウェアソリューションを提供。<bold>Java Spring Boot、React、Next.js、Node.js、PostgreSQL</bold>を専門とし、<bold>マルチテナントSaaSプラットフォーム、リアルタイムシステム、決済統合</bold>の設計に精通。<bold>創造的な問題解決</bold>と<bold>クリーンで体系的なコーディングアプローチ</bold>を組み合わせた強力なエンジニアリング基礎を持つ。",
+      "resume": "履歴書",
+      "typing_effect": {
+        "prefix": "私は準備ができています",
+        "text1": "問題を解決する",
+        "text2": "製品を作る",
+        "text3": "ソリューションを作成する",
+        "text4": "違いを生む",
+        "text5": "挑戦を受ける",
+        "text6": "フリーランス"
+      }
+    },
+    "projects": {
+      "description": "私が手がけたプロフェッショナルなポートフォリオ。",
+      "title": "ポートフォリオ"
+    },
+    "timeline": {
+      "description": "構造エンジニアからソフトウェア開発者への転身は、学びと成長、変革の旅でした。これまでの私のプロフェッショナルな旅のスナップショットをご覧ください。",
+      "title": "私の旅"
+    },
+    "toolbox": {
+      "backend": "バックエンド",
+      "description": "ツールボックスには多くのツールがあり、常に新しいものを学んでいます。",
+      "frontend": "フロントエンド",
+      "skills": {
+        "authentication_security": "認証とセキュリティ",
+        "caching_redis": "Redisによるキャッシング",
+        "clean_code": "クリーンコード",
+        "cloud_infrastructure": "クラウドインフラストラクチャ（AWS）",
+        "domain_driven_design": "ドメイン駆動設計",
+        "event_driven_architecture": "イベント駆動アーキテクチャ",
+        "multi_tenant_saas": "マルチテナントSaaS",
+        "payment_systems": "決済システム",
+        "performance_optimization": "パフォーマンス最適化",
+        "rest_api_design": "REST API設計",
+        "sql_data_modeling": "SQLとデータモデリング",
+        "testing_cicd": "テストとCI/CD"
+      },
+      "title": "創造性には多くのツールが必要"
+    }
+  },
+  "settings": {
+    "basic": "基本",
+    "notifications": "通知",
+    "otp": "2FA",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "認証コードを送信",
+      "sending": "コードを送信中...",
+      "title": "セキュリティ確認",
+      "verify": "確認",
+      "verifying": "確認中..."
+    },
+    "otp_method_card": {
+      "active": "アクティブ",
+      "inactive": "非アクティブ"
+    },
+    "preferences": "設定",
+    "profile": "プロフィール",
+    "security": "セキュリティ",
+    "totp_setup": {
+      "backup_codes_title": "バックアップコード",
+      "confirm_setup": "セットアップを確認",
+      "copy_codes": "コードをコピー",
+      "download_codes": "コードをダウンロード",
+      "enter_code": "認証アプリからコードを入力",
+      "i_have_saved": "バックアップコードを保存しました",
+      "start_setup": "セットアップを開始",
+      "title": "TOTPセットアップ",
+      "warning": "バックアップコードを安全な場所に保管してください。認証アプリにアクセスできなくなった場合、アカウントに再アクセスするために使用できます。"
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "エラーが発生しました",
+      "info": "情報",
+      "success": "成功",
+      "this_blog_is_available_in_only_english": "このブログは英語のみで利用可能です",
+      "warning": "警告"
+    },
+    "calendar": {
+      "appointment_created": "予約が作成されました",
+      "appointment_error": "予約を作成できませんでした",
+      "appointment_info": "予約情報",
+      "appointment_subtitle": "適切な日と時間を選択してください",
+      "appointment_title": "予約",
+      "available_slots": "利用可能なスロット",
+      "available_times": "利用可能な時間",
+      "book_appointment": "予約する",
+      "book_now": "予約する",
+      "close": "閉じる",
+      "close_modal": "閉じる",
+      "create_appointment": "予約を作成",
+      "description": "私との予約を取る。",
+      "error_occurred": "エラーが発生しました",
+      "fields": {
+        "email": "あなたのメール",
+        "email_label": "メール",
+        "email_placeholder": "メールを入力",
+        "full_name": "フルネーム",
+        "name": "あなたの名前",
+        "name_placeholder": "名前を入力してください",
+        "note": "メモ",
+        "note_label": "メモ",
+        "note_placeholder": "メモを入力してください",
+        "phone": "あなたの電話番号",
+        "phone_label": "電話番号",
+        "phone_placeholder": "電話番号を入力してください"
+      },
+      "minutes": "{{count}} 分",
+      "minutes_abbr": "分",
+      "no_available_slots": "利用可能な枠がありません",
+      "no_slots_for_day": "選択した日の利用可能な時間がありません",
+      "past_date_warning": "過去の日付に予約することはできません。",
+      "select_slot": "予約する時間枠を選択してください。",
+      "select_slot_first": "まず時間枠を選択してください",
+      "selected_time": "選択された時間",
+      "statuses": {
+        "available": "利用可能",
+        "booked": "予約済み",
+        "cancelled": "キャンセル済み"
+      },
+      "title": "カレンダー"
+    },
+    "footer": {
+      "all_rights_reserved": "全著作権所有。"
+    },
+    "geomap": {
+      "description": "このインタラクティブなヒートマップを通じて、私のポートフォリオへの訪問者の世界的な分布を探索してください。地図上の各ポイントは訪問者の位置を示し、世界中のオーディエンスの出身地を把握できます。",
+      "title": "グローバル訪問者ヒートマップ",
+      "visitors": "{{count}} 人の訪問者"
+    },
+    "newsletter": {
+      "description": "最新情報をお届けします！最新の投稿をすべてメールで受け取りましょう",
+      "email_placeholder": "メールアドレスを入力してください",
+      "error_message": "購読中にエラーが発生しました。後でもう一度お試しください。",
+      "subscribe": "購読する",
+      "success_message": "購読に成功しました！確認のメールをチェックしてください。",
+      "title": "ニュースレター"
+    },
+    "status": {
+      "loading": "システムステータスを確認中...",
+      "response_time": "応答時間: {{time}}ms",
+      "services": {
+        "api": "API",
+        "auth": "認証",
+        "aws": "AWSサービス",
+        "database": "データベース",
+        "frontend": "フロントエンド",
+        "mail": "メールサービス",
+        "openai": "OpenAIサービス",
+        "payment": "決済ゲートウェイ",
+        "redis": "Redisキャッシュ",
+        "sms": "SMSサービス"
+      },
+      "statuses": {
+        "degraded_performance": "パフォーマンス低下",
+        "major_outage": "大規模障害",
+        "operational": "正常稼働",
+        "partial_outage": "部分的な障害"
+      },
+      "title": "システムステータス",
+      "uptime": "稼働時間: {{time}}分"
+    },
+    "whatsapp": {
+      "message": "こんにちは！私はKuray Karaaslanです。どのようにお手伝いできますか？"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "サイドバーを閉じる",
+    "menu": "メニュー",
+    "mobile_navigation": "モバイルナビゲーション",
+    "navigation_menu": "ナビゲーションメニュー"
+  }
+}

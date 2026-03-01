@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "關閉",
+      "generate_post": "OpenAI GPT-4 - 生成貼文"
+    },
+    "appointments": {
+      "all_statuses": "所有狀態",
+      "cancel": "取消",
+      "cancel_confirm": "您確定要取消這個預約嗎？",
+      "close": "關閉",
+      "complete": "完成",
+      "complete_confirm": "您確定要將此預約標記為已完成嗎？",
+      "created": "已建立",
+      "date": "日期",
+      "datetime": "日期和時間",
+      "details": "預約詳情",
+      "email": "電子郵件",
+      "name": "姓名",
+      "next": "下一步",
+      "note": "備註",
+      "phone": "電話",
+      "previous": "上一步",
+      "search_placeholder": "按姓名或電子郵件搜尋...",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆預約",
+      "status": "狀態",
+      "status_booked": "已預約",
+      "status_cancelled": "已取消",
+      "status_completed": "已完成",
+      "status_pending": "待定",
+      "time": "時間",
+      "title": "預約",
+      "view": "查看"
+    },
+    "categories": {
+      "action": "操作",
+      "confirm_delete": "您確定要刪除此分類嗎？",
+      "create_category": "建立分類",
+      "delete": "刪除",
+      "edit": "編輯",
+      "image": "圖片",
+      "next": "下一步",
+      "posts": "貼文",
+      "previous": "上一步",
+      "search_placeholder": "搜尋",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆分類",
+      "slug": "短網址",
+      "title": "類別",
+      "view": "查看"
+    },
+    "comments": {
+      "action": "操作",
+      "approve": "批准",
+      "confirm_approve": "您確定要批准這篇文章嗎？",
+      "confirm_delete": "您確定要刪除這篇文章嗎？",
+      "confirm_reject": "您確定要拒絕這篇文章嗎？",
+      "contact": "聯絡",
+      "content": "內容",
+      "delete": "刪除",
+      "next": "下一個",
+      "post": "發表",
+      "previous": "上一個",
+      "reject": "拒絕",
+      "search_placeholder": "搜尋",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆評論",
+      "title": "評論"
+    },
+    "contacts": {
+      "action": "操作",
+      "close": "關閉",
+      "confirm_delete": "您確定要刪除此聯絡表單嗎？",
+      "contact": "聯絡",
+      "contact_details": "聯絡詳情",
+      "date": "日期",
+      "delete": "刪除",
+      "email": "電子郵件",
+      "message": "訊息",
+      "name": "姓名",
+      "next": "下一個",
+      "phone": "電話",
+      "previous": "上一個",
+      "reply": "回覆",
+      "search_placeholder": "按姓名、電子郵件或訊息搜尋...",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆聯絡",
+      "title": "聯絡表單",
+      "view": "查看"
+    },
+    "media": {
+      "actions": "操作",
+      "all_folders": "所有資料夾",
+      "alt_text": "替代文字",
+      "alt_text_placeholder": "描述圖片以提高可及性",
+      "confirm_bulk_delete": "您確定要刪除 {{count}} 個檔案嗎？",
+      "confirm_delete": "您確定要刪除此檔案嗎？",
+      "copy_url": "複製 URL",
+      "date": "日期",
+      "delete": "刪除",
+      "delete_selected": "刪除選擇項",
+      "description": "管理您上傳的檔案和圖片",
+      "edit": "編輯",
+      "filename": "檔案名稱",
+      "folder": "資料夾",
+      "folders": "資料夾",
+      "name": "顯示名稱",
+      "next": "下一頁",
+      "no_files": "未找到檔案",
+      "page": "頁面",
+      "page_size": "頁面大小",
+      "preview": "預覽",
+      "previous": "上一頁",
+      "search_placeholder": "搜尋檔案...",
+      "selected": "已選擇",
+      "showing": "顯示 {{count}} / {{total}} 個檔案",
+      "size": "大小",
+      "sync": "從 S3 同步",
+      "title": "媒體庫",
+      "total_files": "檔案總數",
+      "total_size": "總大小",
+      "upload": "上傳"
+    },
+    "posts": {
+      "action": "操作",
+      "category": "分類",
+      "confirm_delete": "您確定要刪除此文章嗎？",
+      "create_post": "建立文章",
+      "delete": "刪除",
+      "edit": "編輯",
+      "next": "下一頁",
+      "previous": "上一頁",
+      "rebuild_failed": "觸發知識圖譜重建失敗。",
+      "rebuild_success": "已觸發知識圖譜重建。",
+      "rebuild_triggered": "已觸發重建",
+      "rebuild_triggered_message": "知識圖譜重建已觸發。您需要刷新頁面以再次觸發。",
+      "reset_knowledge_graph": "重置知識圖譜",
+      "search_placeholder": "搜尋",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆貼文",
+      "status": "狀態",
+      "title": "貼文",
+      "view": "查看"
+    },
+    "project_links": {
+      "action": "操作",
+      "delete": "刪除",
+      "url": "網址"
+    },
+    "projects": {
+      "action": "操作",
+      "confirm_delete": "您確定要刪除此專案嗎？",
+      "create_project": "建立專案",
+      "delete": "刪除",
+      "edit": "編輯",
+      "next": "下一個",
+      "previous": "上一個",
+      "search_placeholder": "搜尋",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆專案",
+      "tech_stack": "技術堆疊",
+      "title": "專案",
+      "view": "查看"
+    },
+    "selects": {
+      "select_category": "選擇類別",
+      "select_user": "選擇使用者"
+    },
+    "slots": {
+      "add": "新增",
+      "add_manual_slot": "新增手動時段",
+      "apply_confirm": "將 {{day}} 模板套用到 {{date}}？這將覆蓋現有的時段。",
+      "apply_failed": "套用模板失敗",
+      "apply_success": "模板已套用到 {{date}}",
+      "apply_template_date": "套用模板到日期",
+      "apply_template_week": "套用模板到週",
+      "apply_week_success": "模板已成功套用到整週",
+      "capacity": "容量",
+      "create_and_manage": "為每週的每一天創建和管理時段模板。",
+      "end_time": "結束時間",
+      "fetch_failed": "獲取模板時段失敗",
+      "generate": "生成",
+      "generated_slots": "已生成 {{count}} 個時段",
+      "interval": "間隔（分鐘）",
+      "loading": "加載中...",
+      "no_slots": "沒有可套用的時段",
+      "no_slots_day": "這一天沒有時段",
+      "please_select_time": "請選擇時間",
+      "remove_all": "全部移除",
+      "save_changes": "儲存變更",
+      "save_template": "儲存範本",
+      "saving": "儲存中...",
+      "select_day": "選擇日期",
+      "select_time": "選擇時間",
+      "slot_exists": "時段已存在",
+      "slots_failed": "更新時段失敗",
+      "slots_updated": "時段更新成功",
+      "start_earlier_error": "開始時間必須早於結束時間",
+      "start_time": "開始時間",
+      "template_builder": "範本建構器",
+      "template_failed": "儲存範本失敗",
+      "template_saved": "範本儲存成功",
+      "week_confirm": "這將覆蓋從 {{date}} 開始的一週現有時段。繼續？"
+    },
+    "stats": {
+      "all_time": "所有時間",
+      "categories": "分類",
+      "comments": "評論",
+      "daily": "每日",
+      "frequency": "頻率",
+      "last_5_minutes": "最近 5 分鐘",
+      "last_hour": "最近 1 小時",
+      "monthly": "每月",
+      "posts": "文章",
+      "title": "統計",
+      "total_categories": "總分類數",
+      "total_comments": "總評論數",
+      "total_posts": "總文章數",
+      "total_users": "總用戶數",
+      "total_views": "總瀏覽數",
+      "users": "用戶",
+      "views": "瀏覽",
+      "weekly": "每週",
+      "yearly": "每年"
+    },
+    "subscriptions": {
+      "action": "操作",
+      "active": "活躍",
+      "confirm_unsubscribe": "您確定要取消訂閱此電子郵件嗎？",
+      "email": "電子郵件",
+      "next": "下一步",
+      "previous": "上一步",
+      "search_placeholder": "透過電子郵件搜尋...",
+      "send_email": "發送電子郵件",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆訂閱",
+      "status": "狀態",
+      "subscribed_at": "訂閱於",
+      "title": "訂閱",
+      "unsubscribe": "取消訂閱",
+      "unsubscribed": "已取消訂閱"
+    },
+    "users": {
+      "action": "操作",
+      "confirm_delete": "確定要刪除此用戶嗎？",
+      "create_user": "建立用戶",
+      "delete": "刪除",
+      "delete_failed": "刪除用戶失敗。",
+      "delete_success": "用戶刪除成功。",
+      "edit": "編輯",
+      "email": "電子郵件",
+      "name": "名稱",
+      "next": "下一步",
+      "previous": "上一步",
+      "role": "角色",
+      "search_placeholder": "搜尋",
+      "showing": "顯示 {{count}} 筆，共 {{total}} 筆用戶",
+      "status": "狀態",
+      "title": "用戶"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "使用 {{provider}} 登入",
+      "close": "關閉",
+      "modal_button": "使用社交媒體登入",
+      "modal_title": "使用社交媒體登入",
+      "no_providers": "未配置 SSO 提供者。",
+      "provider_not_allowed": "不允許使用 {{provider}} 進行 SSO 登入。",
+      "redirect_error": "SSO 重定向錯誤。",
+      "title": "使用社交媒體登入"
+    }
+  },
+  "common": {
+    "cancel": "取消",
+    "confirm": "確認",
+    "confirm_dialog": {
+      "description": "此操作無法撤銷。",
+      "title": "你確定嗎？"
+    },
+    "grid_view": "網格視圖",
+    "image": {
+      "upload_error": "上傳圖片錯誤",
+      "upload_success": "圖片上傳成功"
+    },
+    "loading": "載入中...",
+    "modal": {
+      "close_dialog": "關閉對話框"
+    },
+    "navbar": {
+      "admin_dashboard": "管理員儀表板",
+      "login": "登入",
+      "logout": "登出",
+      "user_menu": "用戶選單",
+      "user_settings": "用戶設定"
+    },
+    "per_page": "每頁",
+    "refresh": "重新整理",
+    "save": "儲存",
+    "selected": "已選擇{{count}}項",
+    "table_view": "表格檢視"
+  },
+  "errors": {
+    "404": {
+      "button": "返回首頁",
+      "description": "抱歉，我們找不到該頁面。您可以在首頁找到許多內容。",
+      "title": "發生錯誤"
+    },
+    "500": {
+      "button": "返回首頁",
+      "description": "伺服器發生錯誤。",
+      "title": "內部伺服器錯誤"
+    }
+  },
+  "footer": {
+    "github_profile": "GitHub 個人檔案（在新標籤中開啟）",
+    "linkedin_profile": "LinkedIn 個人檔案（在新標籤中開啟）",
+    "site_footer": "網站頁腳",
+    "social_media_links": "社交媒體連結",
+    "x_profile": "X（前稱 Twitter）個人檔案（在新標籤中開啟）"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "匿名",
+      "comment_placeholder": "撰寫評論...",
+      "comments_count": "評論",
+      "content_length_error": "內容至少需有 5 個字元",
+      "delete": "刪除",
+      "email_placeholder": "電子郵件",
+      "error": "發生錯誤",
+      "fill_all_fields": "請填寫所有欄位",
+      "invalid_email": "請輸入有效的電子郵件",
+      "name_length_error": "名稱至少需有 3 個字元，最多 50 個字元",
+      "name_placeholder": "名稱",
+      "posted_successfully": "評論發表成功",
+      "reply": "回覆",
+      "submit_button": "發表評論"
+    },
+    "feed": {
+      "categories": "分類",
+      "latest_posts": "最新文章",
+      "load_more": "載入更多文章",
+      "no_more_posts": "沒有更多文章",
+      "other_posts": "其他文章",
+      "posts_by": "文章作者",
+      "read_more": "閱讀更多",
+      "related_articles": "相關文章"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D 知識圖譜",
+      "title_3d": "3D 知識圖譜"
+    },
+    "offline": {
+      "offline": "您已離線！",
+      "online": "您已重新連線！"
+    },
+    "post": {
+      "by": "作者",
+      "min_read": "分鐘閱讀",
+      "no_date": "無日期",
+      "read_time": "{{count}} 分鐘閱讀",
+      "unknown_author": "未知作者",
+      "views": "瀏覽次數",
+      "views_count": "{{count}} 次瀏覽"
+    },
+    "scroll_to_bottom": "滾動到底部",
+    "scroll_to_top": "滾動到頂部",
+    "terminal_button": "終端機",
+    "time": {
+      "a_minute_ago": "一分鐘前",
+      "an_hour_ago": "一小時前",
+      "days_ago": "{{count}} 天前",
+      "hours_ago": "{{count}} 小時前",
+      "just_now": "剛剛",
+      "minutes_ago": "{{count}} 分鐘前",
+      "today": "今天",
+      "yesterday": "昨天"
+    },
+    "toc": {
+      "title": "目錄"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "歡迎來到我的技術博客！我是 Kuray Karaaslan，一名精通 React、Next.js、Node.js、Java 和 React Native 的前端、後端和移動開發者。我分享實用的編程教程、行業見解和 UI/UX 建議，幫助開發者和技術愛好者取得成功。",
+      "title": "博客 | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "歡迎來到我的技術博客！我是 Kuray Karaaslan，一名精通 React、Next.js、Node.js、Java 和 React Native 的前端、後端和移動開發者。我分享實用的編程教程、行業見解和 UI/UX 建議，幫助開發者和技術愛好者取得成功。與我一起保持更新、解決問題並提升您的技術專業知識！",
+      "title": "軟體開發者 | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "Kuray Karaaslan 現在專注於的工作、側項目、學習和生活。",
+      "title": "現在 | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "kuray.dev 的隱私政策 — 瞭解我們如何收集、使用和保護您的個人信息。",
+      "title": "隱私政策 | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "探索我的網頁、移動、桌面和其他軟體項目組合。使用 React、Next.js、Node.js、Java、React Native 等構建。",
+      "title": "項目 | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "kuray.dev 的使用條款 — 使用本網站及其服務的規則和指南。",
+      "title": "使用條款 | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "更改語言（當前：{{lang}}）",
+    "close_sidebar_menu": "關閉側邊欄選單",
+    "filter_by_blog": "按部落格篩選 {{active}}",
+    "filter_by_project": "按專案篩選 {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "主導航",
+    "no_results_found": "找不到結果",
+    "open_search": "開啟搜尋",
+    "open_sidebar_menu": "開啟側邊欄選單",
+    "search": "搜尋",
+    "search_placeholder": "輸入以搜尋...",
+    "search_results": "搜尋結果",
+    "select_language": "選擇語言",
+    "switch_theme": "切換主題（目前：{{theme}}）"
+  },
+  "navigation": {
+    "backend": "後端",
+    "blog": "部落格",
+    "contact": "聯絡",
+    "experience": "經驗",
+    "freelance": "自由職業",
+    "github": "GitHub",
+    "home": "首頁",
+    "linkedin": "LinkedIn",
+    "portfolio": "作品集",
+    "resume": "履歷"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "無法驗證您不是機器人。請稍後再試。",
+      "description": "當我們交談時，好事會發生。",
+      "form": {
+        "email": "電子郵件",
+        "enter_your_email": "輸入您的電子郵件",
+        "enter_your_message": "輸入您的訊息，您可以描述您的專案、需求或任何您想分享的資訊。",
+        "enter_your_name": "輸入您的姓名",
+        "enter_your_phone": "輸入您的電話",
+        "error": "發送您的訊息時發生錯誤。請稍後再試。",
+        "loading": "正在發送您的訊息...",
+        "message": "訊息",
+        "name": "姓名",
+        "phone": "電話",
+        "please_fill_in_all_fields": "請填寫所有欄位。",
+        "send": "發送",
+        "success": "您的訊息已成功發送。我會盡快回覆您。"
+      },
+      "phone_and_mail": "電話和電子郵件",
+      "reveal_mail": "點擊以顯示電子郵件",
+      "reveal_phone": "點擊顯示電話",
+      "send_a_message": "發送訊息",
+      "social_media": "社交媒體",
+      "title": "聯絡"
+    },
+    "hero": {
+      "contact_me": "聯絡我",
+      "description": "<bold>專注於產品的全端開發者</bold>，擁有<bold>3年以上經驗</bold>，在<bold>前端、後端、行動裝置的BIM和IoT領域</bold>提供穩健且可擴展的軟體解決方案。專精於<bold>Java Spring Boot、React、Next.js、Node.js和PostgreSQL</bold>。擅長設計<bold>多租戶SaaS平台、即時系統和支付整合</bold>。結合強大的工程基礎與<bold>創意解決問題</bold>及<bold>乾淨、系統化的編碼方式</bold>。",
+      "resume": "履歷",
+      "typing_effect": {
+        "prefix": "我準備好",
+        "text1": "解決問題",
+        "text2": "打造產品",
+        "text3": "創造解決方案",
+        "text4": "帶來改變",
+        "text5": "接受挑戰",
+        "text6": "自由接案"
+      }
+    },
+    "projects": {
+      "description": "我參與過的專業作品集。",
+      "title": "作品集"
+    },
+    "timeline": {
+      "description": "從結構工程師轉型為軟體開發者，是一段學習、成長與轉變的旅程。這是我職業生涯的縮影。",
+      "title": "我的旅程"
+    },
+    "toolbox": {
+      "backend": "後端",
+      "description": "我的工具箱裡有很多工具，我一直在學習新的工具。",
+      "frontend": "前端",
+      "skills": {
+        "authentication_security": "身份驗證與安全",
+        "caching_redis": "使用Redis進行快取",
+        "clean_code": "乾淨的代碼",
+        "cloud_infrastructure": "雲端基礎設施（AWS）",
+        "domain_driven_design": "領域驅動設計",
+        "event_driven_architecture": "事件驅動架構",
+        "multi_tenant_saas": "多租戶SaaS",
+        "payment_systems": "支付系統",
+        "performance_optimization": "性能優化",
+        "rest_api_design": "REST API設計",
+        "sql_data_modeling": "SQL與數據建模",
+        "testing_cicd": "測試與CI/CD"
+      },
+      "title": "創意需要很多工具"
+    }
+  },
+  "settings": {
+    "basic": "基本",
+    "notifications": "通知",
+    "otp": "雙重驗證",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "發送驗證碼",
+      "sending": "正在發送驗證碼...",
+      "title": "安全驗證",
+      "verify": "驗證",
+      "verifying": "驗證中..."
+    },
+    "otp_method_card": {
+      "active": "啟用",
+      "inactive": "未啟用"
+    },
+    "preferences": "偏好設定",
+    "profile": "個人資料",
+    "security": "安全性",
+    "totp_setup": {
+      "backup_codes_title": "備份代碼",
+      "confirm_setup": "確認設定",
+      "copy_codes": "複製代碼",
+      "download_codes": "下載代碼",
+      "enter_code": "輸入您的驗證器應用程式中的代碼",
+      "i_have_saved": "我已儲存我的備份代碼",
+      "start_setup": "開始設定",
+      "title": "TOTP 設定",
+      "warning": "請將您的備份代碼儲存在安全的地方。如果您失去驗證器應用程式的存取權，您可以使用它們重新取得帳戶存取權。"
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "發生錯誤",
+      "info": "資訊",
+      "success": "成功",
+      "this_blog_is_available_in_only_english": "此部落格僅提供英文版本",
+      "warning": "警告"
+    },
+    "calendar": {
+      "appointment_created": "您的預約已建立",
+      "appointment_error": "無法建立預約",
+      "appointment_info": "預約資訊",
+      "appointment_subtitle": "選擇合適的日期和時間",
+      "appointment_title": "預約",
+      "available_slots": "可用時段",
+      "available_times": "可用時間",
+      "book_appointment": "預約",
+      "book_now": "立即預約",
+      "close": "關閉",
+      "close_modal": "關閉",
+      "create_appointment": "建立預約",
+      "description": "預約與我的會面。",
+      "error_occurred": "發生錯誤",
+      "fields": {
+        "email": "您的電子郵件",
+        "email_label": "電子郵件",
+        "email_placeholder": "輸入您的電子郵件",
+        "full_name": "全名",
+        "name": "您的姓名",
+        "name_placeholder": "輸入您的姓名",
+        "note": "備註",
+        "note_label": "備註",
+        "note_placeholder": "輸入您的備註",
+        "phone": "您的電話",
+        "phone_label": "電話",
+        "phone_placeholder": "輸入您的電話"
+      },
+      "minutes": "{{count}} 分鐘",
+      "minutes_abbr": "分鐘",
+      "no_available_slots": "沒有可用時段",
+      "no_slots_for_day": "所選日期沒有可用時間",
+      "past_date_warning": "您不能預約過去的日期。",
+      "select_slot": "請選擇一個時段來預約。",
+      "select_slot_first": "請先選擇一個時間段",
+      "selected_time": "選擇的時間",
+      "statuses": {
+        "available": "可用",
+        "booked": "已預約",
+        "cancelled": "已取消"
+      },
+      "title": "日曆"
+    },
+    "footer": {
+      "all_rights_reserved": "版權所有。"
+    },
+    "geomap": {
+      "description": "通過這個互動式熱圖探索訪問者在我作品集中的全球分佈。地圖上的每個點代表一個訪問者的位置，提供了我的受眾來自世界各地的洞察。",
+      "title": "全球訪客熱圖",
+      "visitors": "{{count}} 位訪客"
+    },
+    "newsletter": {
+      "description": "保持更新！將所有最新和最棒的文章直接發送到您的收件箱",
+      "email_placeholder": "輸入您的電子郵件地址",
+      "error_message": "訂閱時發生錯誤。請稍後再試。",
+      "subscribe": "訂閱",
+      "success_message": "訂閱成功！檢查您的電子郵件以確認。",
+      "title": "電子報"
+    },
+    "status": {
+      "loading": "正在檢查系統狀態...",
+      "response_time": "響應時間：{{time}}毫秒",
+      "services": {
+        "api": "API",
+        "auth": "身份驗證",
+        "aws": "AWS 服務",
+        "database": "數據庫",
+        "frontend": "前端",
+        "mail": "郵件服務",
+        "openai": "OpenAI 服務",
+        "payment": "支付網關",
+        "redis": "Redis 快取",
+        "sms": "SMS 服務"
+      },
+      "statuses": {
+        "degraded_performance": "效能下降",
+        "major_outage": "重大故障",
+        "operational": "運行正常",
+        "partial_outage": "部分故障"
+      },
+      "title": "系統狀態",
+      "uptime": "運行時間：{{time}}分鐘"
+    },
+    "whatsapp": {
+      "message": "你好！我是 Kuray Karaaslan，我可以怎麼幫助你？"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "關閉側邊欄",
+    "menu": "選單",
+    "mobile_navigation": "行動導航",
+    "navigation_menu": "導航選單"
+  }
+}

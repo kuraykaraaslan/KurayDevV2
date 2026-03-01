@@ -1,7 +1,7 @@
 'use client'
 
 import axiosInstance from '@/libs/axios'
-import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
+import { useEffect, useState, useCallback, useRef, useMemo, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import GenericElement, { GenericElementProps } from '../GenericElement'
@@ -36,6 +36,12 @@ interface DynamicSelectProps<T = any> extends GenericElementProps {
   debounceMs?: number
   /** Render the dropdown via portal (fixed positioning) — use inside modals with overflow:auto */
   portal?: boolean
+  /** Custom renderer for each option row in the dropdown list */
+  renderOption?: (option: DynamicSelectOption) => ReactNode
+  /** Custom renderer for the selected value shown in the trigger button */
+  renderSelected?: (option: DynamicSelectOption) => ReactNode
+  /** Show the "clear / placeholder" option at the top of the list (default: true) */
+  clearable?: boolean
 }
 
 /* ================= COMPONENT ================= */
@@ -59,6 +65,9 @@ const DynamicSelect = <T,>({
   searchable = true,
   debounceMs = 300,
   portal = false,
+  renderOption,
+  renderSelected,
+  clearable = true,
 }: DynamicSelectProps<T>) => {
   const { t } = useTranslation()
 
@@ -253,7 +262,14 @@ const DynamicSelect = <T,>({
           onMouseLeave={() => setShowTooltip(false)}
         >
           <span className={selectedValue ? '' : 'opacity-50'}>
-            {resolvedSelectedLabel || defaultPlaceholder}
+            {(() => {
+              if (!selectedValue) return defaultPlaceholder
+              if (renderSelected) {
+                const opt = options.find((o) => o.value === selectedValue)
+                if (opt) return renderSelected(opt)
+              }
+              return resolvedSelectedLabel || defaultPlaceholder
+            })()}
           </span>
 
           <svg
@@ -310,13 +326,15 @@ const DynamicSelect = <T,>({
                   </div>
                 ) : (
                   <>
-                    <button
-                      type="button"
-                      onClick={() => handleSelect('')}
-                      className="w-full px-3 py-2 text-left hover:bg-base-200 text-base-content/50"
-                    >
-                      {defaultPlaceholder}
-                    </button>
+                    {clearable && (
+                      <button
+                        type="button"
+                        onClick={() => handleSelect('')}
+                        className="w-full px-3 py-2 text-left hover:bg-base-200 text-base-content/50"
+                      >
+                        {defaultPlaceholder}
+                      </button>
+                    )}
 
                     {filteredOptions.map((option) => (
                       <button
@@ -327,7 +345,7 @@ const DynamicSelect = <T,>({
                           option.value === selectedValue ? 'bg-primary/10 text-primary' : ''
                         }`}
                       >
-                        {option.label}
+                        {renderOption ? renderOption(option) : option.label}
                       </button>
                     ))}
                   </>

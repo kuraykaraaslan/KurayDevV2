@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "Sulje",
+      "generate_post": "OpenAI GPT-4 - Luo viesti"
+    },
+    "appointments": {
+      "all_statuses": "Kaikki tilat",
+      "cancel": "Peruuta",
+      "cancel_confirm": "Haluatko varmasti peruuttaa tämän ajanvarauksen?",
+      "close": "Sulje",
+      "complete": "Valmis",
+      "complete_confirm": "Haluatko varmasti merkitä tämän ajanvarauksen valmiiksi?",
+      "created": "Luotu",
+      "date": "Päivämäärä",
+      "datetime": "Päivämäärä & Aika",
+      "details": "Ajanvarauksen tiedot",
+      "email": "Sähköposti",
+      "name": "Nimi",
+      "next": "Seuraava",
+      "note": "Huomautus",
+      "phone": "Puhelin",
+      "previous": "Edellinen",
+      "search_placeholder": "Hae nimellä tai sähköpostilla...",
+      "showing": "Näytetään {{count}} / {{total}} ajanvarauksesta",
+      "status": "Tila",
+      "status_booked": "Varattu",
+      "status_cancelled": "Peruutettu",
+      "status_completed": "Valmistunut",
+      "status_pending": "Odottaa",
+      "time": "Aika",
+      "title": "Ajanvaraukset",
+      "view": "Näytä"
+    },
+    "categories": {
+      "action": "Toiminto",
+      "confirm_delete": "Haluatko varmasti poistaa tämän kategorian?",
+      "create_category": "Luo kategoria",
+      "delete": "Poista",
+      "edit": "Muokkaa",
+      "image": "Kuva",
+      "next": "Seuraava",
+      "posts": "Viestit",
+      "previous": "Edellinen",
+      "search_placeholder": "Hae",
+      "showing": "Näytetään {{count}} / {{total}} kategoriasta",
+      "slug": "Slug",
+      "title": "Kategoriat",
+      "view": "Näytä"
+    },
+    "comments": {
+      "action": "Toiminto",
+      "approve": "Hyväksy",
+      "confirm_approve": "Haluatko varmasti hyväksyä tämän viestin?",
+      "confirm_delete": "Haluatko varmasti poistaa tämän viestin?",
+      "confirm_reject": "Haluatko varmasti hylätä tämän viestin?",
+      "contact": "Yhteystieto",
+      "content": "Sisältö",
+      "delete": "Poista",
+      "next": "Seuraava",
+      "post": "Lähetä",
+      "previous": "Edellinen",
+      "reject": "Hylkää",
+      "search_placeholder": "Hae",
+      "showing": "Näytetään {{count}} / {{total}} kommentista",
+      "title": "Kommentit"
+    },
+    "contacts": {
+      "action": "Toiminto",
+      "close": "Sulje",
+      "confirm_delete": "Haluatko varmasti poistaa tämän yhteydenottolomakkeen?",
+      "contact": "Yhteystieto",
+      "contact_details": "Yhteystiedot",
+      "date": "Päivämäärä",
+      "delete": "Poista",
+      "email": "Sähköposti",
+      "message": "Viesti",
+      "name": "Nimi",
+      "next": "Seuraava",
+      "phone": "Puhelin",
+      "previous": "Edellinen",
+      "reply": "Vastaa",
+      "search_placeholder": "Hae nimellä, sähköpostilla tai viestillä...",
+      "showing": "Näytetään {{count}} / {{total}} yhteydenotosta",
+      "title": "Yhteydenottolomakkeet",
+      "view": "Näytä"
+    },
+    "media": {
+      "actions": "Toiminnot",
+      "all_folders": "Kaikki kansiot",
+      "alt_text": "Alt-teksti",
+      "alt_text_placeholder": "Kuvaile kuva saavutettavuuden vuoksi",
+      "confirm_bulk_delete": "Haluatko varmasti poistaa {{count}} tiedostoa?",
+      "confirm_delete": "Haluatko varmasti poistaa tämän tiedoston?",
+      "copy_url": "Kopioi URL",
+      "date": "Päivämäärä",
+      "delete": "Poista",
+      "delete_selected": "Poista valitut",
+      "description": "Hallitse ladattuja tiedostojasi ja kuviasi",
+      "edit": "Muokkaa",
+      "filename": "Tiedostonimi",
+      "folder": "Kansio",
+      "folders": "Kansiot",
+      "name": "Näyttönimi",
+      "next": "Seuraava",
+      "no_files": "Tiedostoja ei löytynyt",
+      "page": "Sivu",
+      "page_size": "Sivun koko",
+      "preview": "Esikatselu",
+      "previous": "Edellinen",
+      "search_placeholder": "Etsi tiedostoja...",
+      "selected": "Valittu",
+      "showing": "Näytetään {{count}} / {{total}} tiedostoa",
+      "size": "Koko",
+      "sync": "Synkronoi S3:sta",
+      "title": "Mediakirjasto",
+      "total_files": "Tiedostoja yhteensä",
+      "total_size": "Kokonaiskoko",
+      "upload": "Lataa"
+    },
+    "posts": {
+      "action": "Toiminto",
+      "category": "Kategoria",
+      "confirm_delete": "Haluatko varmasti poistaa tämän julkaisun?",
+      "create_post": "Luo julkaisu",
+      "delete": "Poista",
+      "edit": "Muokkaa",
+      "next": "Seuraava",
+      "previous": "Edellinen",
+      "rebuild_failed": "Tietämyskartan uudelleenrakennuksen käynnistäminen epäonnistui.",
+      "rebuild_success": "Tietämyskartan uudelleenrakennus käynnistetty.",
+      "rebuild_triggered": "Uudelleenrakennus käynnistetty",
+      "rebuild_triggered_message": "Tietämyskartan uudelleenrakennus on jo käynnistetty. Sinun on päivitettävä sivu käynnistääksesi uudelleen.",
+      "reset_knowledge_graph": "Nollaa tietämyskartta",
+      "search_placeholder": "Etsi",
+      "showing": "Näytetään {{count}} / {{total}} viestiä",
+      "status": "Tila",
+      "title": "Viestit",
+      "view": "Näytä"
+    },
+    "project_links": {
+      "action": "Toiminto",
+      "delete": "Poista",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "Toiminto",
+      "confirm_delete": "Haluatko varmasti poistaa tämän projektin?",
+      "create_project": "Luo projekti",
+      "delete": "Poista",
+      "edit": "Muokkaa",
+      "next": "Seuraava",
+      "previous": "Edellinen",
+      "search_placeholder": "Hae",
+      "showing": "Näytetään {{count}} / {{total}} projektia",
+      "tech_stack": "Teknologia",
+      "title": "Projektit",
+      "view": "Näytä"
+    },
+    "selects": {
+      "select_category": "Valitse kategoria",
+      "select_user": "Valitse käyttäjä"
+    },
+    "slots": {
+      "add": "Lisää",
+      "add_manual_slot": "Lisää manuaalinen aika",
+      "apply_confirm": "Käytetäänkö {{day}} mallia päivälle {{date}}? Tämä korvaa olemassa olevat ajat.",
+      "apply_failed": "Mallin käyttö epäonnistui",
+      "apply_success": "Malli käytetty päivälle {{date}}",
+      "apply_template_date": "Käytä mallia päivälle",
+      "apply_template_week": "Käytä mallia viikolle",
+      "apply_week_success": "Mallit käytetty onnistuneesti koko viikolle",
+      "capacity": "Kapasiteetti",
+      "create_and_manage": "Luo ja hallitse aikamalleja viikon jokaiselle päivälle.",
+      "end_time": "Päättymisaika",
+      "fetch_failed": "Aikojen hakeminen epäonnistui",
+      "generate": "Luo",
+      "generated_slots": "Luotu {{count}} aikaa",
+      "interval": "Väli (minuuttia)",
+      "loading": "Ladataan...",
+      "no_slots": "Ei aikoja käytettäväksi",
+      "no_slots_day": "Ei aikoja tälle päivälle",
+      "please_select_time": "Valitse aika",
+      "remove_all": "Poista kaikki",
+      "save_changes": "Tallenna muutokset",
+      "save_template": "Tallenna malli",
+      "saving": "Tallennetaan...",
+      "select_day": "Valitse päivä",
+      "select_time": "Valitse aika",
+      "slot_exists": "Aika on jo olemassa",
+      "slots_failed": "Aikojen päivittäminen epäonnistui",
+      "slots_updated": "Ajat päivitetty onnistuneesti",
+      "start_earlier_error": "Aloitusajan on oltava ennen lopetusaikaa",
+      "start_time": "Aloitusaika",
+      "template_builder": "Mallin rakentaja",
+      "template_failed": "Mallin tallentaminen epäonnistui",
+      "template_saved": "Malli tallennettu onnistuneesti",
+      "week_confirm": "Tämä korvaa olemassa olevat ajat viikolta, joka alkaa {{date}}. Jatketaanko?"
+    },
+    "stats": {
+      "all_time": "Kaikki ajat",
+      "categories": "Kategoriat",
+      "comments": "Kommentit",
+      "daily": "Päivittäin",
+      "frequency": "Tiheys",
+      "last_5_minutes": "Viimeiset 5 minuuttia",
+      "last_hour": "Viimeinen tunti",
+      "monthly": "Kuukausittain",
+      "posts": "Julkaisut",
+      "title": "Tilastot",
+      "total_categories": "Kategorioiden kokonaismäärä",
+      "total_comments": "Kommenttien kokonaismäärä",
+      "total_posts": "Julkaisujen kokonaismäärä",
+      "total_users": "Käyttäjien kokonaismäärä",
+      "total_views": "Katselukertojen kokonaismäärä",
+      "users": "Käyttäjät",
+      "views": "Katselut",
+      "weekly": "Viikoittain",
+      "yearly": "Vuosittain"
+    },
+    "subscriptions": {
+      "action": "Toiminto",
+      "active": "Aktiivinen",
+      "confirm_unsubscribe": "Haluatko varmasti peruuttaa tämän sähköpostin tilauksen?",
+      "email": "Sähköposti",
+      "next": "Seuraava",
+      "previous": "Edellinen",
+      "search_placeholder": "Hae sähköpostilla...",
+      "send_email": "Lähetä sähköposti",
+      "showing": "Näytetään {{count}} / {{total}} tilausta",
+      "status": "Tila",
+      "subscribed_at": "Tilattu",
+      "title": "Tilaukset",
+      "unsubscribe": "Peru tilaus",
+      "unsubscribed": "Tilaus peruttu"
+    },
+    "users": {
+      "action": "Toiminto",
+      "confirm_delete": "Haluatko varmasti poistaa tämän käyttäjän?",
+      "create_user": "Luo käyttäjä",
+      "delete": "Poista",
+      "delete_failed": "Käyttäjän poistaminen epäonnistui.",
+      "delete_success": "Käyttäjä poistettu onnistuneesti.",
+      "edit": "Muokkaa",
+      "email": "Sähköposti",
+      "name": "Nimi",
+      "next": "Seuraava",
+      "previous": "Edellinen",
+      "role": "Rooli",
+      "search_placeholder": "Hae",
+      "showing": "Näytetään {{count}} / {{total}} käyttäjää",
+      "status": "Tila",
+      "title": "Käyttäjät"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "Kirjaudu sisään {{provider}}:lla",
+      "close": "Sulje",
+      "modal_button": "Kirjaudu sisään sosiaalisen median kautta",
+      "modal_title": "Kirjaudu sisään sosiaalisen median kautta",
+      "no_providers": "SSO-palveluntarjoajia ei ole määritetty.",
+      "provider_not_allowed": "SSO-kirjautuminen {{provider}}:lla ei ole sallittu.",
+      "redirect_error": "SSO-uudelleenohjausvirhe.",
+      "title": "Kirjaudu sisään sosiaalisen median kautta"
+    }
+  },
+  "common": {
+    "cancel": "Peruuta",
+    "confirm": "Vahvista",
+    "confirm_dialog": {
+      "description": "Tätä toimintoa ei voi peruuttaa.",
+      "title": "Oletko varma?"
+    },
+    "grid_view": "Ruudukkonäkymä",
+    "image": {
+      "upload_error": "Virhe kuvan lataamisessa",
+      "upload_success": "Kuva ladattu onnistuneesti"
+    },
+    "loading": "Ladataan...",
+    "modal": {
+      "close_dialog": "Sulje ikkuna"
+    },
+    "navbar": {
+      "admin_dashboard": "Ylläpitäjän hallintapaneeli",
+      "login": "Kirjaudu sisään",
+      "logout": "Kirjaudu ulos",
+      "user_menu": "Käyttäjävalikko",
+      "user_settings": "Käyttäjäasetukset"
+    },
+    "per_page": "Per sivu",
+    "refresh": "Päivitä",
+    "save": "Tallenna",
+    "selected": "{{count}} valittu",
+    "table_view": "Taulukkonäkymä"
+  },
+  "errors": {
+    "404": {
+      "button": "Palaa etusivulle",
+      "description": "Pahoittelut, emme löydä kyseistä sivua. Löydät paljon tutkittavaa etusivulta.",
+      "title": "Jotain meni pieleen"
+    },
+    "500": {
+      "button": "Palaa etusivulle",
+      "description": "Palvelimella tapahtui virhe.",
+      "title": "Sisäinen palvelinvirhe"
+    }
+  },
+  "footer": {
+    "github_profile": "GitHub-profiili (avautuu uuteen välilehteen)",
+    "linkedin_profile": "LinkedIn-profiili (avautuu uuteen välilehteen)",
+    "site_footer": "Sivun alatunniste",
+    "social_media_links": "Sosiaalisen median linkit",
+    "x_profile": "X (entinen Twitter) -profiili (avautuu uuteen välilehteen)"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "Anonyymi",
+      "comment_placeholder": "Kirjoita kommentti...",
+      "comments_count": "Kommentit",
+      "content_length_error": "Sisällön tulee olla vähintään 5 merkkiä",
+      "delete": "Poista",
+      "email_placeholder": "Sähköposti",
+      "error": "Tapahtui virhe",
+      "fill_all_fields": "Täytä kaikki kentät",
+      "invalid_email": "Anna kelvollinen sähköpostiosoite",
+      "name_length_error": "Nimen tulee olla vähintään 3 merkkiä ja enintään 50 merkkiä",
+      "name_placeholder": "Nimi",
+      "posted_successfully": "Kommentti lähetetty onnistuneesti",
+      "reply": "Vastaa",
+      "submit_button": "Kommentoi"
+    },
+    "feed": {
+      "categories": "Kategoriat",
+      "latest_posts": "Viimeisimmät julkaisut",
+      "load_more": "Lataa lisää julkaisuja",
+      "no_more_posts": "Ei enempää julkaisuja saatavilla",
+      "other_posts": "Muut julkaisut",
+      "posts_by": "Julkaisut käyttäjältä",
+      "read_more": "Lue lisää",
+      "related_articles": "Aiheeseen liittyvät artikkelit"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D Tietokaavio",
+      "title_3d": "3D Tietokaavio"
+    },
+    "offline": {
+      "offline": "Olet offline-tilassa!",
+      "online": "Olet taas online-tilassa!"
+    },
+    "post": {
+      "by": "kirjoittanut",
+      "min_read": "min lukuaika",
+      "no_date": "Ei päivämäärää",
+      "read_time": "{{count}} min lukuaika",
+      "unknown_author": "Tuntematon kirjoittaja",
+      "views": "näyttökerrat",
+      "views_count": "{{count}} näyttökertaa"
+    },
+    "scroll_to_bottom": "Selaa alas",
+    "scroll_to_top": "Selaa ylös",
+    "terminal_button": "Pääte",
+    "time": {
+      "a_minute_ago": "Minuutti sitten",
+      "an_hour_ago": "Tunti sitten",
+      "days_ago": "{{count}} päivää sitten",
+      "hours_ago": "{{count}} tuntia sitten",
+      "just_now": "Juuri nyt",
+      "minutes_ago": "{{count}} minuuttia sitten",
+      "today": "Tänään",
+      "yesterday": "Eilen"
+    },
+    "toc": {
+      "title": "Sisällysluettelo"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "Tervetuloa teknologia-blogiini! Olen Kuray Karaaslan, frontend-, backend- ja mobiilikehittäjä, joka hallitsee Reactin, Next.js:n, Node.js:n, Javan ja React Nativen. Jaan käytännön koodaustutoriaaleja, alan näkemyksiä ja UI/UX-vinkkejä auttaakseni kehittäjiä ja teknologiaharrastajia menestymään.",
+      "title": "Blogi | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "Tervetuloa teknologia-blogiini! Olen Kuray Karaaslan, frontend-, backend- ja mobiilikehittäjä, joka hallitsee Reactin, Next.js:n, Node.js:n, Javan ja React Nativen. Jaan käytännön koodaustutoriaaleja, alan näkemyksiä ja UI/UX-vinkkejä auttaakseni kehittäjiä ja teknologiaharrastajia menestymään. Pysy ajan tasalla, ratkaise ongelmia ja kehitä teknologiaosaamistasi kanssani!",
+      "title": "Ohjelmistokehittäjä | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "Mihin Kuray Karaaslan keskittyy juuri nyt — työ, sivuprojektit, oppiminen ja elämä.",
+      "title": "Nyt | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "Tietosuojakäytäntö kuray.dev-sivustolle — Opi, miten keräämme, käytämme ja suojaamme henkilökohtaisia tietojasi.",
+      "title": "Tietosuojakäytäntö | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "Tutustu verkkosivusto-, mobiili-, työpöytä- ja muihin ohjelmistoprojekteihini. Rakennettu Reactilla, Next.js:llä, Node.js:llä, Javalla, React Nativella ja muilla.",
+      "title": "Projektit | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "Käyttöehdot kuray.dev-sivustolle — Säännöt ja ohjeet tämän verkkosivuston ja sen palveluiden käyttöön.",
+      "title": "Käyttöehdot | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "Vaihda kieli (nykyinen: {{lang}})",
+    "close_sidebar_menu": "Sulje sivupalkin valikko",
+    "filter_by_blog": "Suodata blogin mukaan {{active}}",
+    "filter_by_project": "Suodata projektin mukaan {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Päävalikko",
+    "no_results_found": "Ei tuloksia",
+    "open_search": "Avaa haku",
+    "open_sidebar_menu": "Avaa sivupalkin valikko",
+    "search": "Haku",
+    "search_placeholder": "Kirjoita hakeaksesi...",
+    "search_results": "Hakutulokset",
+    "select_language": "Valitse kieli",
+    "switch_theme": "Vaihda teemaa (nykyinen: {{theme}})"
+  },
+  "navigation": {
+    "backend": "Taustajärjestelmä",
+    "blog": "Blogi",
+    "contact": "Yhteystiedot",
+    "experience": "Kokemus",
+    "freelance": "Freelance",
+    "github": "GitHub",
+    "home": "Koti",
+    "linkedin": "LinkedIn",
+    "portfolio": "Portfolio",
+    "resume": "Ansioluettelo"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "Ei voida varmistaa, ettet ole robotti. Yritä myöhemmin uudelleen.",
+      "description": "Hyviä asioita tapahtuu, kun puhumme.",
+      "form": {
+        "email": "Sähköposti",
+        "enter_your_email": "Syötä sähköpostisi",
+        "enter_your_message": "Kirjoita viestisi, voit kuvata projektisi, tarpeesi tai muuta tietoa, jonka haluat jakaa.",
+        "enter_your_name": "Syötä nimesi",
+        "enter_your_phone": "Syötä puhelinnumerosi",
+        "error": "Tapahtui virhe viestiäsi lähetettäessä. Yritä myöhemmin uudelleen.",
+        "loading": "Lähetetään viestiäsi...",
+        "message": "Viesti",
+        "name": "Nimi",
+        "phone": "Puhelin",
+        "please_fill_in_all_fields": "Täytä kaikki kentät.",
+        "send": "Lähetä",
+        "success": "Viestisi on lähetetty onnistuneesti. Otan sinuun yhteyttä mahdollisimman pian."
+      },
+      "phone_and_mail": "Puhelin ja Sähköposti",
+      "reveal_mail": "Klikkaa paljastaaksesi sähköpostin",
+      "reveal_phone": "Näytä puhelin",
+      "send_a_message": "Lähetä viesti",
+      "social_media": "Sosiaalinen media",
+      "title": "Yhteystiedot"
+    },
+    "hero": {
+      "contact_me": "Ota yhteyttä",
+      "description": "<bold>Tuotteisiin keskittynyt Full-Stack-kehittäjä</bold>, jolla on <bold>yli 3 vuoden kokemus</bold> vankkojen, skaalautuvien ohjelmistoratkaisujen toimittamisesta <bold>frontend-, backend- ja mobiilialustoilla BIM- ja IoT-alueilla.</bold> Erikoistunut <bold>Java Spring Boot, React, Next.js, Node.js ja PostgreSQL</bold>. Taitava suunnittelemaan <bold>monivuokralais-SaaS-alustoja, reaaliaikaisia järjestelmiä ja maksujärjestelmäintegraatioita.</bold> Yhdistää vahvat insinööritaidot <bold>luovaan ongelmanratkaisuun</bold> ja <bold>puhtaaseen, systemaattiseen koodauslähestymistapaan.</bold>",
+      "resume": "Ansioluettelo",
+      "typing_effect": {
+        "prefix": "Olen valmis",
+        "text1": "ratkaisemaan ongelmia",
+        "text2": "rakentamaan tuotteita",
+        "text3": "luomaan ratkaisuja",
+        "text4": "tekemään eron",
+        "text5": "haasteisiin",
+        "text6": "freelance-työhön"
+      }
+    },
+    "projects": {
+      "description": "Ammatilliset portfolioni, joissa olen työskennellyt.",
+      "title": "Portfolio"
+    },
+    "timeline": {
+      "description": "Siirtymäni rakennesuunnittelijasta ohjelmistokehittäjäksi on ollut oppimisen, kasvun ja muutoksen matka. Tässä on katsaus ammatilliseen matkaani tähän mennessä.",
+      "title": "Matkani"
+    },
+    "toolbox": {
+      "backend": "Taustajärjestelmä",
+      "description": "Työkalupakissani on paljon työkaluja, ja opin aina uusia.",
+      "frontend": "Käyttöliittymä",
+      "skills": {
+        "authentication_security": "Autentikointi ja turvallisuus",
+        "caching_redis": "Välimuisti Redisillä",
+        "clean_code": "Puhdas koodi",
+        "cloud_infrastructure": "Pilvi-infrastruktuuri (AWS)",
+        "domain_driven_design": "Domain-Driven Design",
+        "event_driven_architecture": "Tapahtumapohjainen arkkitehtuuri",
+        "multi_tenant_saas": "Monivuokralais-SaaS",
+        "payment_systems": "Maksujärjestelmät",
+        "performance_optimization": "Suorituskyvyn optimointi",
+        "rest_api_design": "REST API -suunnittelu",
+        "sql_data_modeling": "SQL ja tietomallinnus",
+        "testing_cicd": "Testaus ja CI/CD"
+      },
+      "title": "Luovuus tarvitsee paljon työkaluja"
+    }
+  },
+  "settings": {
+    "basic": "Perus",
+    "notifications": "Ilmoitukset",
+    "otp": "2FA",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "Lähetä vahvistuskoodi",
+      "sending": "Lähetetään koodia...",
+      "title": "Turvallisuuden Varmistus",
+      "verify": "Vahvista",
+      "verifying": "Vahvistetaan..."
+    },
+    "otp_method_card": {
+      "active": "Aktiivinen",
+      "inactive": "Ei aktiivinen"
+    },
+    "preferences": "Asetukset",
+    "profile": "Profiili",
+    "security": "Turvallisuus",
+    "totp_setup": {
+      "backup_codes_title": "Varmuuskoodit",
+      "confirm_setup": "Vahvista asennus",
+      "copy_codes": "Kopioi koodit",
+      "download_codes": "Lataa koodit",
+      "enter_code": "Syötä koodi todennussovelluksestasi",
+      "i_have_saved": "Olen tallentanut varmuuskoodini",
+      "start_setup": "Aloita asennus",
+      "title": "TOTP-asennus",
+      "warning": "Säilytä varmuuskoodisi turvallisessa paikassa. Voit käyttää niitä saadaksesi tilisi takaisin, jos menetät pääsyn todennussovellukseesi."
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "Tapahtui virhe",
+      "info": "Info",
+      "success": "Onnistui",
+      "this_blog_is_available_in_only_english": "Tämä blogi on saatavilla vain englanniksi",
+      "warning": "Varoitus"
+    },
+    "calendar": {
+      "appointment_created": "Ajanvarauksesi on luotu",
+      "appointment_error": "Ajanvarausta ei voitu luoda",
+      "appointment_info": "Ajanvarauksen tiedot",
+      "appointment_subtitle": "Valitse sopiva päivä ja aika",
+      "appointment_title": "Ajanvaraus",
+      "available_slots": "Vapaat ajat",
+      "available_times": "Vapaat ajat",
+      "book_appointment": "Varaa aika",
+      "book_now": "Varaa aika",
+      "close": "Sulje",
+      "close_modal": "Sulje",
+      "create_appointment": "Luo ajanvaraus",
+      "description": "Varaa aika kanssani.",
+      "error_occurred": "Tapahtui virhe",
+      "fields": {
+        "email": "Sähköpostisi",
+        "email_label": "Sähköposti",
+        "email_placeholder": "Syötä sähköpostisi",
+        "full_name": "Koko nimi",
+        "name": "Nimesi",
+        "name_placeholder": "Anna nimesi",
+        "note": "Muistiinpano",
+        "note_label": "Muistiinpano",
+        "note_placeholder": "Anna muistiinpanosi",
+        "phone": "Puhelinnumerosi",
+        "phone_label": "Puhelin",
+        "phone_placeholder": "Anna puhelinnumerosi"
+      },
+      "minutes": "{{count}} minuuttia",
+      "minutes_abbr": "min",
+      "no_available_slots": "Ei vapaita aikoja",
+      "no_slots_for_day": "Valitulle päivälle ei ole vapaita aikoja",
+      "past_date_warning": "Et voi varata aikaa menneelle päivälle.",
+      "select_slot": "Valitse aika varataksesi ajan.",
+      "select_slot_first": "Valitse ensin aika",
+      "selected_time": "Valittu aika",
+      "statuses": {
+        "available": "Vapaa",
+        "booked": "Varattu",
+        "cancelled": "Peruutettu"
+      },
+      "title": "Kalenteri"
+    },
+    "footer": {
+      "all_rights_reserved": "Kaikki oikeudet pidätetään."
+    },
+    "geomap": {
+      "description": "Tutustu vierailijoiden globaaliin jakautumiseen portfolioni kautta tämän interaktiivisen lämpökartan avulla. Jokainen piste kartalla edustaa vierailijan sijaintia, tarjoten näkemyksiä siitä, mistä yleisöni tulee ympäri maailmaa.",
+      "title": "Globaali vierailijoiden lämpökartta",
+      "visitors": "{{count}} vierailija |||| {{count}} vierailijaa"
+    },
+    "newsletter": {
+      "description": "Pysy ajan tasalla! Saat kaikki uusimmat ja parhaat julkaisut suoraan sähköpostiisi",
+      "email_placeholder": "Anna sähköpostiosoitteesi",
+      "error_message": "Tilaamisen aikana tapahtui virhe. Yritä myöhemmin uudelleen.",
+      "subscribe": "Tilaa",
+      "success_message": "Tilattu onnistuneesti! Tarkista sähköpostisi vahvistusta varten.",
+      "title": "Uutiskirje"
+    },
+    "status": {
+      "loading": "Tarkistetaan järjestelmän tilaa...",
+      "response_time": "Vasteaika: {{time}}ms",
+      "services": {
+        "api": "API",
+        "auth": "Autentikointi",
+        "aws": "AWS-palvelut",
+        "database": "Tietokanta",
+        "frontend": "Frontend",
+        "mail": "Sähköpostipalvelu",
+        "openai": "OpenAI-palvelu",
+        "payment": "Maksuväylä",
+        "redis": "Redis-välimuisti",
+        "sms": "SMS-palvelu"
+      },
+      "statuses": {
+        "degraded_performance": "Heikentynyt suorituskyky",
+        "major_outage": "Merkittävä katkos",
+        "operational": "Toiminnassa",
+        "partial_outage": "Osittainen katkos"
+      },
+      "title": "Järjestelmän tila",
+      "uptime": "Käyttöaika: {{time}}m"
+    },
+    "whatsapp": {
+      "message": "Hei! Olen Kuray Karaaslan, kuinka voin auttaa sinua?"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "Sulje sivupalkki",
+    "menu": "Valikko",
+    "mobile_navigation": "Mobiilinavigointi",
+    "navigation_menu": "Navigointivalikko"
+  }
+}

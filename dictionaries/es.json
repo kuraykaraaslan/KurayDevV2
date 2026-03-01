@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "Cerrar",
+      "generate_post": "OpenAI GPT-4 - Generar Publicación"
+    },
+    "appointments": {
+      "all_statuses": "Todos los Estados",
+      "cancel": "Cancelar",
+      "cancel_confirm": "¿Estás seguro de que deseas cancelar esta cita?",
+      "close": "Cerrar",
+      "complete": "Completar",
+      "complete_confirm": "¿Estás seguro de que deseas marcar esta cita como completada?",
+      "created": "Creado",
+      "date": "Fecha",
+      "datetime": "Fecha y Hora",
+      "details": "Detalles de la Cita",
+      "email": "Correo Electrónico",
+      "name": "Nombre",
+      "next": "Siguiente",
+      "note": "Nota",
+      "phone": "Teléfono",
+      "previous": "Anterior",
+      "search_placeholder": "Buscar por nombre o correo electrónico...",
+      "showing": "Mostrando {{count}} de {{total}} citas",
+      "status": "Estado",
+      "status_booked": "Reservado",
+      "status_cancelled": "Cancelado",
+      "status_completed": "Completado",
+      "status_pending": "Pendiente",
+      "time": "Hora",
+      "title": "Citas",
+      "view": "Ver"
+    },
+    "categories": {
+      "action": "Acción",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar esta categoría?",
+      "create_category": "Crear Categoría",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "image": "Imagen",
+      "next": "Siguiente",
+      "posts": "Publicaciones",
+      "previous": "Anterior",
+      "search_placeholder": "Buscar",
+      "showing": "Mostrando {{count}} de {{total}} categorías",
+      "slug": "Slug",
+      "title": "Categorías",
+      "view": "Ver"
+    },
+    "comments": {
+      "action": "Acción",
+      "approve": "Aprobar",
+      "confirm_approve": "¿Estás seguro de que deseas aprobar esta publicación?",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar esta publicación?",
+      "confirm_reject": "¿Estás seguro de que deseas rechazar esta publicación?",
+      "contact": "Contacto",
+      "content": "Contenido",
+      "delete": "Eliminar",
+      "next": "Siguiente",
+      "post": "Publicar",
+      "previous": "Anterior",
+      "reject": "Rechazar",
+      "search_placeholder": "Buscar",
+      "showing": "Mostrando {{count}} de {{total}} comentarios",
+      "title": "Comentarios"
+    },
+    "contacts": {
+      "action": "Acción",
+      "close": "Cerrar",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar este formulario de contacto?",
+      "contact": "Contacto",
+      "contact_details": "Detalles de contacto",
+      "date": "Fecha",
+      "delete": "Eliminar",
+      "email": "Correo electrónico",
+      "message": "Mensaje",
+      "name": "Nombre",
+      "next": "Siguiente",
+      "phone": "Teléfono",
+      "previous": "Anterior",
+      "reply": "Responder",
+      "search_placeholder": "Buscar por nombre, correo electrónico o mensaje...",
+      "showing": "Mostrando {{count}} de {{total}} contactos",
+      "title": "Formularios de contacto",
+      "view": "Ver"
+    },
+    "media": {
+      "actions": "Acciones",
+      "all_folders": "Todas las carpetas",
+      "alt_text": "Texto alternativo",
+      "alt_text_placeholder": "Describe la imagen para accesibilidad",
+      "confirm_bulk_delete": "¿Estás seguro de que deseas eliminar {{count}} archivos?",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar este archivo?",
+      "copy_url": "Copiar URL",
+      "date": "Fecha",
+      "delete": "Eliminar",
+      "delete_selected": "Eliminar seleccionados",
+      "description": "Administra tus archivos e imágenes subidos",
+      "edit": "Editar",
+      "filename": "Nombre del archivo",
+      "folder": "Carpeta",
+      "folders": "Carpetas",
+      "name": "Nombre para mostrar",
+      "next": "Siguiente",
+      "no_files": "No se encontraron archivos",
+      "page": "Página",
+      "page_size": "Tamaño de página",
+      "preview": "Vista previa",
+      "previous": "Anterior",
+      "search_placeholder": "Buscar archivos...",
+      "selected": "Seleccionado",
+      "showing": "Mostrando {{count}} de {{total}} archivos",
+      "size": "Tamaño",
+      "sync": "Sincronizar desde S3",
+      "title": "Biblioteca de medios",
+      "total_files": "Total de archivos",
+      "total_size": "Tamaño total",
+      "upload": "Subir"
+    },
+    "posts": {
+      "action": "Acción",
+      "category": "Categoría",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar esta publicación?",
+      "create_post": "Crear publicación",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "rebuild_failed": "Error al activar la reconstrucción del grafo de conocimiento.",
+      "rebuild_success": "Reconstrucción del grafo de conocimiento activada.",
+      "rebuild_triggered": "Reconstrucción activada",
+      "rebuild_triggered_message": "Reconstrucción del grafo de conocimiento ya activada. Necesitas actualizar la página para activar de nuevo.",
+      "reset_knowledge_graph": "Restablecer grafo de conocimiento",
+      "search_placeholder": "Buscar",
+      "showing": "Mostrando {{count}} de {{total}} publicaciones",
+      "status": "Estado",
+      "title": "Publicaciones",
+      "view": "Ver"
+    },
+    "project_links": {
+      "action": "Acción",
+      "delete": "Eliminar",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "Acción",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar este proyecto?",
+      "create_project": "Crear Proyecto",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "search_placeholder": "Buscar",
+      "showing": "Mostrando {{count}} de {{total}} proyectos",
+      "tech_stack": "Tecnologías",
+      "title": "Proyectos",
+      "view": "Ver"
+    },
+    "selects": {
+      "select_category": "Seleccionar Categoría",
+      "select_user": "Seleccionar Usuario"
+    },
+    "slots": {
+      "add": "Agregar",
+      "add_manual_slot": "Agregar Franja Manual",
+      "apply_confirm": "¿Aplicar plantilla de {{day}} a {{date}}? Esto sobrescribirá las franjas existentes.",
+      "apply_failed": "Error al aplicar la plantilla",
+      "apply_success": "Plantilla aplicada a {{date}}",
+      "apply_template_date": "Aplicar Plantilla a la Fecha",
+      "apply_template_week": "Aplicar Plantilla a la Semana",
+      "apply_week_success": "Plantillas aplicadas a toda la semana con éxito",
+      "capacity": "Capacidad",
+      "create_and_manage": "Crear y gestionar plantillas de franjas para cada día de la semana.",
+      "end_time": "Hora de Fin",
+      "fetch_failed": "Error al obtener las franjas de plantilla",
+      "generate": "Generar",
+      "generated_slots": "{{count}} franjas generadas",
+      "interval": "Intervalo (minutos)",
+      "loading": "Cargando...",
+      "no_slots": "No hay franjas para aplicar",
+      "no_slots_day": "No hay franjas para este día",
+      "please_select_time": "Por favor, selecciona una hora",
+      "remove_all": "Eliminar todo",
+      "save_changes": "Guardar cambios",
+      "save_template": "Guardar plantilla",
+      "saving": "Guardando...",
+      "select_day": "Seleccionar día",
+      "select_time": "Seleccionar hora",
+      "slot_exists": "El espacio ya existe",
+      "slots_failed": "Error al actualizar los espacios",
+      "slots_updated": "Espacios actualizados con éxito",
+      "start_earlier_error": "La hora de inicio debe ser anterior a la hora de fin",
+      "start_time": "Hora de inicio",
+      "template_builder": "Constructor de plantillas",
+      "template_failed": "Error al guardar la plantilla",
+      "template_saved": "Plantilla guardada con éxito",
+      "week_confirm": "Esto sobrescribirá los espacios existentes para la semana que comienza el {{date}}. ¿Continuar?"
+    },
+    "stats": {
+      "all_time": "Todo el tiempo",
+      "categories": "Categorías",
+      "comments": "Comentarios",
+      "daily": "Diario",
+      "frequency": "Frecuencia",
+      "last_5_minutes": "Últimos 5 minutos",
+      "last_hour": "Última hora",
+      "monthly": "Mensual",
+      "posts": "Publicaciones",
+      "title": "Estadísticas",
+      "total_categories": "Total de categorías",
+      "total_comments": "Total de comentarios",
+      "total_posts": "Total de publicaciones",
+      "total_users": "Total de usuarios",
+      "total_views": "Total de vistas",
+      "users": "Usuarios",
+      "views": "Vistas",
+      "weekly": "Semanal",
+      "yearly": "Anual"
+    },
+    "subscriptions": {
+      "action": "Acción",
+      "active": "Activo",
+      "confirm_unsubscribe": "¿Estás seguro de que deseas cancelar la suscripción de este correo electrónico?",
+      "email": "Correo electrónico",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "search_placeholder": "Buscar por correo electrónico...",
+      "send_email": "Enviar correo",
+      "showing": "Mostrando {{count}} de {{total}} suscripciones",
+      "status": "Estado",
+      "subscribed_at": "Suscrito el",
+      "title": "Suscripciones",
+      "unsubscribe": "Darse de baja",
+      "unsubscribed": "Dado de baja"
+    },
+    "users": {
+      "action": "Acción",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar este usuario?",
+      "create_user": "Crear usuario",
+      "delete": "Eliminar",
+      "delete_failed": "Error al eliminar el usuario.",
+      "delete_success": "Usuario eliminado con éxito.",
+      "edit": "Editar",
+      "email": "Correo electrónico",
+      "name": "Nombre",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "role": "Rol",
+      "search_placeholder": "Buscar",
+      "showing": "Mostrando {{count}} de {{total}} usuarios",
+      "status": "Estado",
+      "title": "Usuarios"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "Iniciar sesión con {{provider}}",
+      "close": "Cerrar",
+      "modal_button": "Iniciar sesión con redes sociales",
+      "modal_title": "Iniciar sesión con redes sociales",
+      "no_providers": "No hay proveedores SSO configurados.",
+      "provider_not_allowed": "El inicio de sesión SSO para {{provider}} no está permitido.",
+      "redirect_error": "Error de redirección SSO.",
+      "title": "Iniciar sesión con redes sociales"
+    }
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "confirm_dialog": {
+      "description": "Esta acción no se puede deshacer.",
+      "title": "¿Estás seguro?"
+    },
+    "grid_view": "Vista de cuadrícula",
+    "image": {
+      "upload_error": "Error al subir la imagen",
+      "upload_success": "Imagen subida con éxito"
+    },
+    "loading": "Cargando...",
+    "modal": {
+      "close_dialog": "Cerrar diálogo"
+    },
+    "navbar": {
+      "admin_dashboard": "Panel de Administración",
+      "login": "Iniciar sesión",
+      "logout": "Cerrar sesión",
+      "user_menu": "Menú de usuario",
+      "user_settings": "Configuración de usuario"
+    },
+    "per_page": "Por página",
+    "refresh": "Actualizar",
+    "save": "Guardar",
+    "selected": "{{count}} seleccionados",
+    "table_view": "Vista de tabla"
+  },
+  "errors": {
+    "404": {
+      "button": "Volver a inicio",
+      "description": "Lo sentimos, no podemos encontrar esa página. Encontrarás mucho para explorar en la página de inicio.",
+      "title": "Algo salió mal"
+    },
+    "500": {
+      "button": "Volver a inicio",
+      "description": "Ocurrió un error en el servidor.",
+      "title": "Error Interno del Servidor"
+    }
+  },
+  "footer": {
+    "github_profile": "Perfil de GitHub (se abre en una nueva pestaña)",
+    "linkedin_profile": "Perfil de LinkedIn (se abre en una nueva pestaña)",
+    "site_footer": "Pie de página del sitio",
+    "social_media_links": "Enlaces a redes sociales",
+    "x_profile": "Perfil de X (anteriormente Twitter) (se abre en una nueva pestaña)"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "Anónimo",
+      "comment_placeholder": "Escribe un comentario...",
+      "comments_count": "Comentarios",
+      "content_length_error": "El contenido debe tener al menos 5 caracteres",
+      "delete": "Eliminar",
+      "email_placeholder": "Correo electrónico",
+      "error": "Ocurrió un error",
+      "fill_all_fields": "Por favor, completa todos los campos",
+      "invalid_email": "Por favor, introduce un correo electrónico válido",
+      "name_length_error": "El nombre debe tener al menos 3 caracteres y un máximo de 50 caracteres",
+      "name_placeholder": "Nombre",
+      "posted_successfully": "Comentario publicado con éxito",
+      "reply": "Responder",
+      "submit_button": "Comentar"
+    },
+    "feed": {
+      "categories": "Categorías",
+      "latest_posts": "Últimas publicaciones",
+      "load_more": "Cargar más publicaciones",
+      "no_more_posts": "No hay más publicaciones disponibles",
+      "other_posts": "Otros Publicaciones",
+      "posts_by": "Publicaciones de",
+      "read_more": "Leer más",
+      "related_articles": "Artículos Relacionados"
+    },
+    "knowledge_graph": {
+      "title_2d": "Gráfico de Conocimiento 2D",
+      "title_3d": "Gráfico de Conocimiento 3D"
+    },
+    "offline": {
+      "offline": "¡Estás desconectado!",
+      "online": "¡Estás de nuevo en línea!"
+    },
+    "post": {
+      "by": "por",
+      "min_read": "min de lectura",
+      "no_date": "Sin Fecha",
+      "read_time": "{{count}} min de lectura",
+      "unknown_author": "Autor Desconocido",
+      "views": "vistas",
+      "views_count": "{{count}} vistas"
+    },
+    "scroll_to_bottom": "Desplazar al final",
+    "scroll_to_top": "Desplazar al inicio",
+    "terminal_button": "Terminal",
+    "time": {
+      "a_minute_ago": "Hace un minuto",
+      "an_hour_ago": "Hace una hora",
+      "days_ago": "Hace {{count}} días",
+      "hours_ago": "Hace {{count}} horas",
+      "just_now": "Justo ahora",
+      "minutes_ago": "Hace {{count}} minutos",
+      "today": "Hoy",
+      "yesterday": "Ayer"
+    },
+    "toc": {
+      "title": "Tabla de Contenidos"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "¡Bienvenido a mi blog de tecnología! Soy Kuray Karaaslan, un desarrollador frontend, backend y móvil con habilidades en React, Next.js, Node.js, Java y React Native. Comparto tutoriales prácticos de codificación, perspectivas de la industria y consejos de UI/UX para ayudar a desarrolladores y entusiastas de la tecnología a sobresalir.",
+      "title": "Blog | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "¡Bienvenido a mi blog de tecnología! Soy Kuray Karaaslan, un desarrollador frontend, backend y móvil con habilidades en React, Next.js, Node.js, Java y React Native. Comparto tutoriales prácticos de codificación, perspectivas de la industria y consejos de UI/UX para ayudar a desarrolladores y entusiastas de la tecnología a sobresalir. ¡Mantente actualizado, resuelve problemas y mejora tu experiencia tecnológica conmigo!",
+      "title": "Desarrollador de Software | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "En qué está enfocado Kuray Karaaslan ahora mismo: trabajo, proyectos paralelos, aprendizaje y vida.",
+      "title": "Ahora | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "Política de Privacidad para kuray.dev — Aprende cómo recopilamos, usamos y protegemos tu información personal.",
+      "title": "Política de Privacidad | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "Explora mi portafolio de proyectos de software web, móvil, de escritorio y otros. Construido con React, Next.js, Node.js, Java, React Native y más.",
+      "title": "Proyectos | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "Términos de Uso para kuray.dev — Reglas y directrices para usar este sitio web y sus servicios.",
+      "title": "Términos de Uso | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "Cambiar idioma (actual: {{lang}})",
+    "close_sidebar_menu": "Cerrar menú lateral",
+    "filter_by_blog": "Filtrar por blog {{active}}",
+    "filter_by_project": "Filtrar por proyecto {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Navegación principal",
+    "no_results_found": "No se encontraron resultados",
+    "open_search": "Abrir búsqueda",
+    "open_sidebar_menu": "Abrir menú lateral",
+    "search": "Buscar",
+    "search_placeholder": "Escribe para buscar...",
+    "search_results": "Resultados de búsqueda",
+    "select_language": "Seleccionar idioma",
+    "switch_theme": "Cambiar tema (actual: {{theme}})"
+  },
+  "navigation": {
+    "backend": "Backend",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "experience": "Experiencia",
+    "freelance": "Freelance",
+    "github": "GitHub",
+    "home": "Inicio",
+    "linkedin": "LinkedIn",
+    "portfolio": "Portafolio",
+    "resume": "Currículum"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "No se puede verificar que no eres un robot. Por favor, inténtalo de nuevo más tarde.",
+      "description": "Cosas buenas suceden cuando hablamos.",
+      "form": {
+        "email": "Correo electrónico",
+        "enter_your_email": "Ingresa tu correo electrónico",
+        "enter_your_message": "Ingresa tu mensaje, puedes describir tu proyecto, tus necesidades o cualquier otra información que desees compartir.",
+        "enter_your_name": "Ingresa tu nombre",
+        "enter_your_phone": "Ingresa tu teléfono",
+        "error": "Ocurrió un error al enviar tu mensaje. Por favor, inténtalo de nuevo más tarde.",
+        "loading": "Enviando tu mensaje...",
+        "message": "Mensaje",
+        "name": "Nombre",
+        "phone": "Teléfono",
+        "please_fill_in_all_fields": "Por favor, completa todos los campos.",
+        "send": "Enviar",
+        "success": "Tu mensaje ha sido enviado exitosamente. Me pondré en contacto contigo lo antes posible."
+      },
+      "phone_and_mail": "Teléfono y Correo",
+      "reveal_mail": "Haz clic para revelar el correo",
+      "reveal_phone": "Haz clic para mostrar el teléfono",
+      "send_a_message": "Enviar un mensaje",
+      "social_media": "Redes Sociales",
+      "title": "Contacto"
+    },
+    "hero": {
+      "contact_me": "Contáctame",
+      "description": "<bold>Desarrollador Full-Stack enfocado en productos</bold> con <bold>más de 3 años de experiencia</bold> entregando soluciones de software robustas y escalables en <bold>frontend, backend, móvil en dominios BIM e IoT.</bold> Especializado en <bold>Java Spring Boot, React, Next.js, Node.js y PostgreSQL</bold>. Experto en arquitectar <bold>plataformas SaaS multi-tenant, sistemas en tiempo real e integraciones de pago.</bold> Combina sólidos fundamentos de ingeniería con <bold>resolución creativa de problemas</bold> y un <bold>enfoque de codificación limpio y sistemático.</bold>",
+      "resume": "Currículum",
+      "typing_effect": {
+        "prefix": "Estoy listo para",
+        "text1": "resolver problemas",
+        "text2": "construir productos",
+        "text3": "crear soluciones",
+        "text4": "hacer la diferencia",
+        "text5": "ser desafiado",
+        "text6": "trabajar freelance"
+      }
+    },
+    "projects": {
+      "description": "Mis portafolios profesionales en los que he trabajado.",
+      "title": "Portafolio"
+    },
+    "timeline": {
+      "description": "Mi transición de Ingeniero Estructural a Desarrollador de Software ha sido un viaje de aprendizaje, crecimiento y transformación. Aquí hay una instantánea de mi trayectoria profesional hasta ahora.",
+      "title": "Mi Trayectoria"
+    },
+    "toolbox": {
+      "backend": "Backend",
+      "description": "Tengo muchas herramientas en mi caja de herramientas y siempre estoy aprendiendo nuevas.",
+      "frontend": "Frontend",
+      "skills": {
+        "authentication_security": "Autenticación y Seguridad",
+        "caching_redis": "Caché con Redis",
+        "clean_code": "Código Limpio",
+        "cloud_infrastructure": "Infraestructura en la Nube (AWS)",
+        "domain_driven_design": "Diseño Guiado por el Dominio",
+        "event_driven_architecture": "Arquitectura Dirigida por Eventos",
+        "multi_tenant_saas": "SaaS Multi-Tenant",
+        "payment_systems": "Sistemas de Pago",
+        "performance_optimization": "Optimización del Rendimiento",
+        "rest_api_design": "Diseño de API REST",
+        "sql_data_modeling": "SQL y Modelado de Datos",
+        "testing_cicd": "Pruebas y CI/CD"
+      },
+      "title": "La creatividad necesita muchas herramientas"
+    }
+  },
+  "settings": {
+    "basic": "Básico",
+    "notifications": "Notificaciones",
+    "otp": "2FA",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "Enviar Código de Verificación",
+      "sending": "Enviando Código...",
+      "title": "Verificación de seguridad",
+      "verify": "Verificar",
+      "verifying": "Verificando..."
+    },
+    "otp_method_card": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "preferences": "Preferencias",
+    "profile": "Perfil",
+    "security": "Seguridad",
+    "totp_setup": {
+      "backup_codes_title": "Códigos de respaldo",
+      "confirm_setup": "Confirmar configuración",
+      "copy_codes": "Copiar códigos",
+      "download_codes": "Descargar códigos",
+      "enter_code": "Introduce el código de tu aplicación de autenticación",
+      "i_have_saved": "He guardado mis códigos de respaldo",
+      "start_setup": "Iniciar configuración",
+      "title": "Configuración de TOTP",
+      "warning": "Guarda tus códigos de respaldo en un lugar seguro. Puedes usarlos para recuperar el acceso a tu cuenta si pierdes acceso a tu aplicación de autenticación."
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "Ocurrió un error",
+      "info": "Información",
+      "success": "Éxito",
+      "this_blog_is_available_in_only_english": "Este blog solo está disponible en inglés",
+      "warning": "Advertencia"
+    },
+    "calendar": {
+      "appointment_created": "Tu cita ha sido creada",
+      "appointment_error": "No se pudo crear la cita",
+      "appointment_info": "Información de la cita",
+      "appointment_subtitle": "Selecciona un día y hora adecuados",
+      "appointment_title": "Cita",
+      "available_slots": "Horarios disponibles",
+      "available_times": "Tiempos disponibles",
+      "book_appointment": "Reservar cita",
+      "book_now": "Reservar cita",
+      "close": "Cerrar",
+      "close_modal": "Cerrar",
+      "create_appointment": "Crear cita",
+      "description": "Reserva una cita conmigo.",
+      "error_occurred": "Ocurrió un error",
+      "fields": {
+        "email": "Tu correo electrónico",
+        "email_label": "Correo electrónico",
+        "email_placeholder": "Introduce tu correo electrónico",
+        "full_name": "Nombre completo",
+        "name": "Tu Nombre",
+        "name_placeholder": "Ingresa tu nombre",
+        "note": "Nota",
+        "note_label": "Nota",
+        "note_placeholder": "Ingresa tu nota",
+        "phone": "Tu Teléfono",
+        "phone_label": "Teléfono",
+        "phone_placeholder": "Ingresa tu teléfono"
+      },
+      "minutes": "{{count}} minutos",
+      "minutes_abbr": "min",
+      "no_available_slots": "No hay espacios disponibles",
+      "no_slots_for_day": "No hay horarios disponibles para el día seleccionado",
+      "past_date_warning": "No puedes reservar una cita para una fecha pasada.",
+      "select_slot": "Por favor selecciona un espacio para reservar una cita.",
+      "select_slot_first": "Por favor selecciona un horario primero",
+      "selected_time": "Hora Seleccionada",
+      "statuses": {
+        "available": "Disponible",
+        "booked": "Reservado",
+        "cancelled": "Cancelado"
+      },
+      "title": "Calendario"
+    },
+    "footer": {
+      "all_rights_reserved": "Todos los derechos reservados."
+    },
+    "geomap": {
+      "description": "Explora la distribución global de visitantes a mi portafolio a través de este mapa de calor interactivo. Cada punto en el mapa representa la ubicación de un visitante, proporcionando información sobre de dónde proviene mi audiencia en todo el mundo.",
+      "title": "Mapa de Calor de Visitantes Globales",
+      "visitors": "{{count}} visitante |||| {{count}} visitantes"
+    },
+    "newsletter": {
+      "description": "¡Mantente actualizado! Recibe todos los últimos y mejores artículos directamente en tu bandeja de entrada",
+      "email_placeholder": "Ingresa tu dirección de correo electrónico",
+      "error_message": "Ocurrió un error al suscribirse. Por favor, inténtalo de nuevo más tarde.",
+      "subscribe": "Suscribirse",
+      "success_message": "¡Suscripción exitosa! Revisa tus correos para la confirmación.",
+      "title": "Boletín"
+    },
+    "status": {
+      "loading": "Comprobando el estado del sistema...",
+      "response_time": "Tiempo de Respuesta: {{time}}ms",
+      "services": {
+        "api": "API",
+        "auth": "Autenticación",
+        "aws": "Servicios AWS",
+        "database": "Base de Datos",
+        "frontend": "Frontend",
+        "mail": "Servicio de Correo",
+        "openai": "Servicio OpenAI",
+        "payment": "Pasarela de Pago",
+        "redis": "Caché de Redis",
+        "sms": "Servicio de SMS"
+      },
+      "statuses": {
+        "degraded_performance": "Rendimiento degradado",
+        "major_outage": "Interrupción mayor",
+        "operational": "Operativo",
+        "partial_outage": "Interrupción parcial"
+      },
+      "title": "Estado del sistema",
+      "uptime": "Tiempo de actividad: {{time}}m"
+    },
+    "whatsapp": {
+      "message": "¡Hola! Soy Kuray Karaaslan, ¿cómo puedo ayudarte?"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "Cerrar barra lateral",
+    "menu": "Menú",
+    "mobile_navigation": "Navegación móvil",
+    "navigation_menu": "Menú de navegación"
+  }
+}

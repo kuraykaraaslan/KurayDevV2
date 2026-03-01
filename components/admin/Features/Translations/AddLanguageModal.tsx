@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { HeadlessModal } from '@/components/admin/UI/Modal'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 import axiosInstance from '@/libs/axios'
-import { LANG_NAMES, LANG_FLAGS } from '@/types/common/I18nTypes'
+import { LANG_NAMES, getLangFlagUrl, type AppLanguage } from '@/types/common/I18nTypes'
 import { deserializeAIModel } from '@/types/features/AITypes'
 
 export type TranslationFieldDef = {
@@ -147,7 +147,7 @@ ${metaSourceLines}`
 
   const langOptions = availableSourceLangs.map((l) => ({
     value: l,
-    label: `${LANG_FLAGS[l] ?? ''} ${LANG_NAMES[l] ?? l} (${l.toUpperCase()})`,
+    label: LANG_NAMES[l] ?? l,
   }))
 
   return (
@@ -156,7 +156,7 @@ ${metaSourceLines}`
       onClose={handleClose}
       title={
         <div className="flex items-center gap-2">
-          <span className="text-base-content/50 text-lg">{LANG_FLAGS[targetLang]}</span>
+          <img src={getLangFlagUrl(targetLang as AppLanguage)} alt="" className="w-5 h-5 rounded-full shrink-0 select-none opacity-60" />
           <span>Add {LANG_NAMES[targetLang] ?? targetLang} Translation</span>
         </div>
       }
@@ -224,6 +224,19 @@ ${metaSourceLines}`
             placeholder="Select source language"
             searchable={langOptions.length > 4}
             portal
+            renderOption={(opt) => (
+              <span className="flex items-center gap-2.5">
+                <img src={getLangFlagUrl(opt.value as AppLanguage)} alt="" className="w-5 h-5 rounded-full shrink-0 select-none" />
+                <span className="flex-1">{opt.label}</span>
+                <span className="text-xs font-mono text-base-content/40">{opt.value.toUpperCase()}</span>
+              </span>
+            )}
+            renderSelected={(opt) => (
+              <span className="flex items-center gap-2">
+                <img src={getLangFlagUrl(opt.value as AppLanguage)} alt="" className="w-5 h-5 rounded-full shrink-0 select-none" />
+                <span>{opt.label}</span>
+              </span>
+            )}
           />
 
           <DynamicSelect

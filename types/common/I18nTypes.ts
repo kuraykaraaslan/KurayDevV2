@@ -3,7 +3,14 @@ import { countries, languages } from 'country-data-list'
 
 // ─── Language enum ────────────────────────────────────────────────────────────
 
-export const AppLanguageEnum = z.enum(['en', 'tr', 'de', 'el', 'et', 'mt', 'nl', 'uk', 'he', 'ky'])
+export const AppLanguageEnum = z.enum([
+  // Core / mevcut
+  'en', 'tr', 'de', 'el', 'et', 'mt', 'nl', 'uk', 'he', 'ky',
+  // Türki cumhuriyetler
+  'az', 'kk', 'tt', 'tk', 'uz',
+  // Yazılım sektörü
+  'ru', 'zh', 'tw', 'ja', 'fr', 'it', 'es', 'fi',
+])
 export const AppLanguageSchema = AppLanguageEnum.default('en')
 
 export type AppLanguage = z.infer<typeof AppLanguageEnum>
@@ -16,7 +23,13 @@ export const DEFAULT_LANGUAGE: AppLanguage = 'en'
 // to the first country where the language is primary.
 // Two overrides are unavoidable: package returns wrong countries for these.
 
-const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = { en: 'GB', el: 'GR', ky: 'KG' }
+const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = {
+  en: 'GB', el: 'GR', ky: 'KG',
+  kk: 'KZ',       // Kazak → Kazakistan
+  tt: 'RU',       // Tatarca → Rusya (Tataristan egemen değil)
+  zh: 'CN',       // Çince Basit → Çin
+  tw: 'TW',       // Çince Geleneksel → Tayvan
+}
 
 function resolveCountryCode(lang: AppLanguage): string {
   if (COUNTRY_OVERRIDES[lang]) return COUNTRY_OVERRIDES[lang]!
@@ -41,6 +54,25 @@ export const LANG_FLAGS: Record<string, string> = Object.fromEntries(
     return [lang, country?.emoji ?? '']
   })
 )
+
+// ─── Geo restrictions ─────────────────────────────────────────────────────────
+// Languages hidden from the frontend selector based on user's country code.
+// Purely a UX/political decision — not a security measure.
+
+export const LANG_RESTRICTIONS: Record<string, AppLanguage[]> = {
+  TR: ['he'],       // Turkey  → hide Hebrew (Israel)
+  CN: ['tw'],       // China   → hide Taiwanese
+  TW: ['zh'],       // Taiwan  → hide Simplified Chinese
+  RU: ['uk'],       // Russia  → hide Ukrainian
+  UA: ['ru'],       // Ukraine → hide Russian
+}
+
+export function getFilteredLanguages(countryCode?: string | null): readonly AppLanguage[] {
+  if (!countryCode) return AVAILABLE_LANGUAGES
+  const blocked = LANG_RESTRICTIONS[countryCode.toUpperCase()] ?? []
+  if (blocked.length === 0) return AVAILABLE_LANGUAGES
+  return AVAILABLE_LANGUAGES.filter((l) => !blocked.includes(l))
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
