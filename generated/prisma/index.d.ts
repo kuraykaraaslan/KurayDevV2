@@ -119,6 +119,11 @@ export type GeoAnalytics = $Result.DefaultSelection<Prisma.$GeoAnalyticsPayload>
  */
 export type ShortLink = $Result.DefaultSelection<Prisma.$ShortLinkPayload>
 /**
+ * Model ShortLinkClick
+ * 
+ */
+export type ShortLinkClick = $Result.DefaultSelection<Prisma.$ShortLinkClickPayload>
+/**
  * Model Media
  * 
  */
@@ -535,6 +540,16 @@ export class PrismaClient<
     * ```
     */
   get shortLink(): Prisma.ShortLinkDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shortLinkClick`: Exposes CRUD operations for the **ShortLinkClick** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShortLinkClicks
+    * const shortLinkClicks = await prisma.shortLinkClick.findMany()
+    * ```
+    */
+  get shortLinkClick(): Prisma.ShortLinkClickDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.media`: Exposes CRUD operations for the **Media** model.
@@ -1000,6 +1015,7 @@ export namespace Prisma {
     PushSubscription: 'PushSubscription',
     GeoAnalytics: 'GeoAnalytics',
     ShortLink: 'ShortLink',
+    ShortLinkClick: 'ShortLinkClick',
     Media: 'Media'
   };
 
@@ -1016,7 +1032,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "shortLink" | "media"
+      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "shortLink" | "shortLinkClick" | "media"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2574,6 +2590,80 @@ export namespace Prisma {
           }
         }
       }
+      ShortLinkClick: {
+        payload: Prisma.$ShortLinkClickPayload<ExtArgs>
+        fields: Prisma.ShortLinkClickFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShortLinkClickFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShortLinkClickFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>
+          }
+          findFirst: {
+            args: Prisma.ShortLinkClickFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShortLinkClickFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>
+          }
+          findMany: {
+            args: Prisma.ShortLinkClickFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>[]
+          }
+          create: {
+            args: Prisma.ShortLinkClickCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>
+          }
+          createMany: {
+            args: Prisma.ShortLinkClickCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShortLinkClickCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>[]
+          }
+          delete: {
+            args: Prisma.ShortLinkClickDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>
+          }
+          update: {
+            args: Prisma.ShortLinkClickUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShortLinkClickDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShortLinkClickUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShortLinkClickUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShortLinkClickUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkClickPayload>
+          }
+          aggregate: {
+            args: Prisma.ShortLinkClickAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShortLinkClick>
+          }
+          groupBy: {
+            args: Prisma.ShortLinkClickGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShortLinkClickGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShortLinkClickCountArgs<ExtArgs>
+            result: $Utils.Optional<ShortLinkClickCountAggregateOutputType> | number
+          }
+        }
+      }
       Media: {
         payload: Prisma.$MediaPayload<ExtArgs>
         fields: Prisma.MediaFieldRefs
@@ -2777,6 +2867,7 @@ export namespace Prisma {
     pushSubscription?: PushSubscriptionOmit
     geoAnalytics?: GeoAnalyticsOmit
     shortLink?: ShortLinkOmit
+    shortLinkClick?: ShortLinkClickOmit
     media?: MediaOmit
   }
 
@@ -3059,6 +3150,37 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountTranslationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectTranslationWhereInput
+  }
+
+
+  /**
+   * Count Type ShortLinkCountOutputType
+   */
+
+  export type ShortLinkCountOutputType = {
+    clickEvents: number
+  }
+
+  export type ShortLinkCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clickEvents?: boolean | ShortLinkCountOutputTypeCountClickEventsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShortLinkCountOutputType without action
+   */
+  export type ShortLinkCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkCountOutputType
+     */
+    select?: ShortLinkCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShortLinkCountOutputType without action
+   */
+  export type ShortLinkCountOutputTypeCountClickEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShortLinkClickWhereInput
   }
 
 
@@ -25132,6 +25254,8 @@ export namespace Prisma {
     originalUrl?: boolean
     clicks?: boolean
     createdAt?: boolean
+    clickEvents?: boolean | ShortLink$clickEventsArgs<ExtArgs>
+    _count?: boolean | ShortLinkCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shortLink"]>
 
   export type ShortLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -25159,10 +25283,18 @@ export namespace Prisma {
   }
 
   export type ShortLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "originalUrl" | "clicks" | "createdAt", ExtArgs["result"]["shortLink"]>
+  export type ShortLinkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clickEvents?: boolean | ShortLink$clickEventsArgs<ExtArgs>
+    _count?: boolean | ShortLinkCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShortLinkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ShortLinkIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ShortLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ShortLink"
-    objects: {}
+    objects: {
+      clickEvents: Prisma.$ShortLinkClickPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: string
@@ -25563,6 +25695,7 @@ export namespace Prisma {
    */
   export interface Prisma__ShortLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    clickEvents<T extends ShortLink$clickEventsArgs<ExtArgs> = {}>(args?: Subset<T, ShortLink$clickEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25614,6 +25747,10 @@ export namespace Prisma {
      */
     omit?: ShortLinkOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
+    /**
      * Filter, which ShortLink to fetch.
      */
     where: ShortLinkWhereUniqueInput
@@ -25632,6 +25769,10 @@ export namespace Prisma {
      */
     omit?: ShortLinkOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
+    /**
      * Filter, which ShortLink to fetch.
      */
     where: ShortLinkWhereUniqueInput
@@ -25649,6 +25790,10 @@ export namespace Prisma {
      * Omit specific fields from the ShortLink
      */
     omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
     /**
      * Filter, which ShortLink to fetch.
      */
@@ -25698,6 +25843,10 @@ export namespace Prisma {
      */
     omit?: ShortLinkOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
+    /**
      * Filter, which ShortLink to fetch.
      */
     where?: ShortLinkWhereInput
@@ -25746,6 +25895,10 @@ export namespace Prisma {
      */
     omit?: ShortLinkOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
+    /**
      * Filter, which ShortLinks to fetch.
      */
     where?: ShortLinkWhereInput
@@ -25788,6 +25941,10 @@ export namespace Prisma {
      * Omit specific fields from the ShortLink
      */
     omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
     /**
      * The data needed to create a ShortLink.
      */
@@ -25836,6 +25993,10 @@ export namespace Prisma {
      * Omit specific fields from the ShortLink
      */
     omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
     /**
      * The data needed to update a ShortLink.
      */
@@ -25903,6 +26064,10 @@ export namespace Prisma {
      */
     omit?: ShortLinkOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
+    /**
      * The filter to search for the ShortLink to update in case it exists.
      */
     where: ShortLinkWhereUniqueInput
@@ -25929,6 +26094,10 @@ export namespace Prisma {
      */
     omit?: ShortLinkOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
+    /**
      * Filter which ShortLink to delete.
      */
     where: ShortLinkWhereUniqueInput
@@ -25949,6 +26118,30 @@ export namespace Prisma {
   }
 
   /**
+   * ShortLink.clickEvents
+   */
+  export type ShortLink$clickEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    where?: ShortLinkClickWhereInput
+    orderBy?: ShortLinkClickOrderByWithRelationInput | ShortLinkClickOrderByWithRelationInput[]
+    cursor?: ShortLinkClickWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShortLinkClickScalarFieldEnum | ShortLinkClickScalarFieldEnum[]
+  }
+
+  /**
    * ShortLink without action
    */
   export type ShortLinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25960,6 +26153,1133 @@ export namespace Prisma {
      * Omit specific fields from the ShortLink
      */
     omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShortLinkClick
+   */
+
+  export type AggregateShortLinkClick = {
+    _count: ShortLinkClickCountAggregateOutputType | null
+    _min: ShortLinkClickMinAggregateOutputType | null
+    _max: ShortLinkClickMaxAggregateOutputType | null
+  }
+
+  export type ShortLinkClickMinAggregateOutputType = {
+    id: string | null
+    shortLinkId: string | null
+    clickedAt: Date | null
+    referrer: string | null
+    ip: string | null
+    country: string | null
+    city: string | null
+    os: string | null
+    browser: string | null
+    device: string | null
+  }
+
+  export type ShortLinkClickMaxAggregateOutputType = {
+    id: string | null
+    shortLinkId: string | null
+    clickedAt: Date | null
+    referrer: string | null
+    ip: string | null
+    country: string | null
+    city: string | null
+    os: string | null
+    browser: string | null
+    device: string | null
+  }
+
+  export type ShortLinkClickCountAggregateOutputType = {
+    id: number
+    shortLinkId: number
+    clickedAt: number
+    referrer: number
+    ip: number
+    country: number
+    city: number
+    os: number
+    browser: number
+    device: number
+    _all: number
+  }
+
+
+  export type ShortLinkClickMinAggregateInputType = {
+    id?: true
+    shortLinkId?: true
+    clickedAt?: true
+    referrer?: true
+    ip?: true
+    country?: true
+    city?: true
+    os?: true
+    browser?: true
+    device?: true
+  }
+
+  export type ShortLinkClickMaxAggregateInputType = {
+    id?: true
+    shortLinkId?: true
+    clickedAt?: true
+    referrer?: true
+    ip?: true
+    country?: true
+    city?: true
+    os?: true
+    browser?: true
+    device?: true
+  }
+
+  export type ShortLinkClickCountAggregateInputType = {
+    id?: true
+    shortLinkId?: true
+    clickedAt?: true
+    referrer?: true
+    ip?: true
+    country?: true
+    city?: true
+    os?: true
+    browser?: true
+    device?: true
+    _all?: true
+  }
+
+  export type ShortLinkClickAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShortLinkClick to aggregate.
+     */
+    where?: ShortLinkClickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinkClicks to fetch.
+     */
+    orderBy?: ShortLinkClickOrderByWithRelationInput | ShortLinkClickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShortLinkClickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinkClicks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinkClicks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShortLinkClicks
+    **/
+    _count?: true | ShortLinkClickCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShortLinkClickMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShortLinkClickMaxAggregateInputType
+  }
+
+  export type GetShortLinkClickAggregateType<T extends ShortLinkClickAggregateArgs> = {
+        [P in keyof T & keyof AggregateShortLinkClick]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShortLinkClick[P]>
+      : GetScalarType<T[P], AggregateShortLinkClick[P]>
+  }
+
+
+
+
+  export type ShortLinkClickGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShortLinkClickWhereInput
+    orderBy?: ShortLinkClickOrderByWithAggregationInput | ShortLinkClickOrderByWithAggregationInput[]
+    by: ShortLinkClickScalarFieldEnum[] | ShortLinkClickScalarFieldEnum
+    having?: ShortLinkClickScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShortLinkClickCountAggregateInputType | true
+    _min?: ShortLinkClickMinAggregateInputType
+    _max?: ShortLinkClickMaxAggregateInputType
+  }
+
+  export type ShortLinkClickGroupByOutputType = {
+    id: string
+    shortLinkId: string
+    clickedAt: Date
+    referrer: string | null
+    ip: string | null
+    country: string | null
+    city: string | null
+    os: string | null
+    browser: string | null
+    device: string | null
+    _count: ShortLinkClickCountAggregateOutputType | null
+    _min: ShortLinkClickMinAggregateOutputType | null
+    _max: ShortLinkClickMaxAggregateOutputType | null
+  }
+
+  type GetShortLinkClickGroupByPayload<T extends ShortLinkClickGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShortLinkClickGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShortLinkClickGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShortLinkClickGroupByOutputType[P]>
+            : GetScalarType<T[P], ShortLinkClickGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShortLinkClickSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shortLinkId?: boolean
+    clickedAt?: boolean
+    referrer?: boolean
+    ip?: boolean
+    country?: boolean
+    city?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
+    shortLink?: boolean | ShortLinkDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shortLinkClick"]>
+
+  export type ShortLinkClickSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shortLinkId?: boolean
+    clickedAt?: boolean
+    referrer?: boolean
+    ip?: boolean
+    country?: boolean
+    city?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
+    shortLink?: boolean | ShortLinkDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shortLinkClick"]>
+
+  export type ShortLinkClickSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shortLinkId?: boolean
+    clickedAt?: boolean
+    referrer?: boolean
+    ip?: boolean
+    country?: boolean
+    city?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
+    shortLink?: boolean | ShortLinkDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shortLinkClick"]>
+
+  export type ShortLinkClickSelectScalar = {
+    id?: boolean
+    shortLinkId?: boolean
+    clickedAt?: boolean
+    referrer?: boolean
+    ip?: boolean
+    country?: boolean
+    city?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
+  }
+
+  export type ShortLinkClickOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shortLinkId" | "clickedAt" | "referrer" | "ip" | "country" | "city" | "os" | "browser" | "device", ExtArgs["result"]["shortLinkClick"]>
+  export type ShortLinkClickInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shortLink?: boolean | ShortLinkDefaultArgs<ExtArgs>
+  }
+  export type ShortLinkClickIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shortLink?: boolean | ShortLinkDefaultArgs<ExtArgs>
+  }
+  export type ShortLinkClickIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shortLink?: boolean | ShortLinkDefaultArgs<ExtArgs>
+  }
+
+  export type $ShortLinkClickPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShortLinkClick"
+    objects: {
+      shortLink: Prisma.$ShortLinkPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      shortLinkId: string
+      clickedAt: Date
+      referrer: string | null
+      ip: string | null
+      country: string | null
+      city: string | null
+      os: string | null
+      browser: string | null
+      device: string | null
+    }, ExtArgs["result"]["shortLinkClick"]>
+    composites: {}
+  }
+
+  type ShortLinkClickGetPayload<S extends boolean | null | undefined | ShortLinkClickDefaultArgs> = $Result.GetResult<Prisma.$ShortLinkClickPayload, S>
+
+  type ShortLinkClickCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShortLinkClickFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShortLinkClickCountAggregateInputType | true
+    }
+
+  export interface ShortLinkClickDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShortLinkClick'], meta: { name: 'ShortLinkClick' } }
+    /**
+     * Find zero or one ShortLinkClick that matches the filter.
+     * @param {ShortLinkClickFindUniqueArgs} args - Arguments to find a ShortLinkClick
+     * @example
+     * // Get one ShortLinkClick
+     * const shortLinkClick = await prisma.shortLinkClick.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShortLinkClickFindUniqueArgs>(args: SelectSubset<T, ShortLinkClickFindUniqueArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShortLinkClick that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShortLinkClickFindUniqueOrThrowArgs} args - Arguments to find a ShortLinkClick
+     * @example
+     * // Get one ShortLinkClick
+     * const shortLinkClick = await prisma.shortLinkClick.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShortLinkClickFindUniqueOrThrowArgs>(args: SelectSubset<T, ShortLinkClickFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShortLinkClick that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkClickFindFirstArgs} args - Arguments to find a ShortLinkClick
+     * @example
+     * // Get one ShortLinkClick
+     * const shortLinkClick = await prisma.shortLinkClick.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShortLinkClickFindFirstArgs>(args?: SelectSubset<T, ShortLinkClickFindFirstArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShortLinkClick that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkClickFindFirstOrThrowArgs} args - Arguments to find a ShortLinkClick
+     * @example
+     * // Get one ShortLinkClick
+     * const shortLinkClick = await prisma.shortLinkClick.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShortLinkClickFindFirstOrThrowArgs>(args?: SelectSubset<T, ShortLinkClickFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShortLinkClicks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkClickFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShortLinkClicks
+     * const shortLinkClicks = await prisma.shortLinkClick.findMany()
+     * 
+     * // Get first 10 ShortLinkClicks
+     * const shortLinkClicks = await prisma.shortLinkClick.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shortLinkClickWithIdOnly = await prisma.shortLinkClick.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShortLinkClickFindManyArgs>(args?: SelectSubset<T, ShortLinkClickFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShortLinkClick.
+     * @param {ShortLinkClickCreateArgs} args - Arguments to create a ShortLinkClick.
+     * @example
+     * // Create one ShortLinkClick
+     * const ShortLinkClick = await prisma.shortLinkClick.create({
+     *   data: {
+     *     // ... data to create a ShortLinkClick
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShortLinkClickCreateArgs>(args: SelectSubset<T, ShortLinkClickCreateArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShortLinkClicks.
+     * @param {ShortLinkClickCreateManyArgs} args - Arguments to create many ShortLinkClicks.
+     * @example
+     * // Create many ShortLinkClicks
+     * const shortLinkClick = await prisma.shortLinkClick.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShortLinkClickCreateManyArgs>(args?: SelectSubset<T, ShortLinkClickCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShortLinkClicks and returns the data saved in the database.
+     * @param {ShortLinkClickCreateManyAndReturnArgs} args - Arguments to create many ShortLinkClicks.
+     * @example
+     * // Create many ShortLinkClicks
+     * const shortLinkClick = await prisma.shortLinkClick.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShortLinkClicks and only return the `id`
+     * const shortLinkClickWithIdOnly = await prisma.shortLinkClick.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShortLinkClickCreateManyAndReturnArgs>(args?: SelectSubset<T, ShortLinkClickCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShortLinkClick.
+     * @param {ShortLinkClickDeleteArgs} args - Arguments to delete one ShortLinkClick.
+     * @example
+     * // Delete one ShortLinkClick
+     * const ShortLinkClick = await prisma.shortLinkClick.delete({
+     *   where: {
+     *     // ... filter to delete one ShortLinkClick
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShortLinkClickDeleteArgs>(args: SelectSubset<T, ShortLinkClickDeleteArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShortLinkClick.
+     * @param {ShortLinkClickUpdateArgs} args - Arguments to update one ShortLinkClick.
+     * @example
+     * // Update one ShortLinkClick
+     * const shortLinkClick = await prisma.shortLinkClick.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShortLinkClickUpdateArgs>(args: SelectSubset<T, ShortLinkClickUpdateArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShortLinkClicks.
+     * @param {ShortLinkClickDeleteManyArgs} args - Arguments to filter ShortLinkClicks to delete.
+     * @example
+     * // Delete a few ShortLinkClicks
+     * const { count } = await prisma.shortLinkClick.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShortLinkClickDeleteManyArgs>(args?: SelectSubset<T, ShortLinkClickDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShortLinkClicks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkClickUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShortLinkClicks
+     * const shortLinkClick = await prisma.shortLinkClick.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShortLinkClickUpdateManyArgs>(args: SelectSubset<T, ShortLinkClickUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShortLinkClicks and returns the data updated in the database.
+     * @param {ShortLinkClickUpdateManyAndReturnArgs} args - Arguments to update many ShortLinkClicks.
+     * @example
+     * // Update many ShortLinkClicks
+     * const shortLinkClick = await prisma.shortLinkClick.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShortLinkClicks and only return the `id`
+     * const shortLinkClickWithIdOnly = await prisma.shortLinkClick.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShortLinkClickUpdateManyAndReturnArgs>(args: SelectSubset<T, ShortLinkClickUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShortLinkClick.
+     * @param {ShortLinkClickUpsertArgs} args - Arguments to update or create a ShortLinkClick.
+     * @example
+     * // Update or create a ShortLinkClick
+     * const shortLinkClick = await prisma.shortLinkClick.upsert({
+     *   create: {
+     *     // ... data to create a ShortLinkClick
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShortLinkClick we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShortLinkClickUpsertArgs>(args: SelectSubset<T, ShortLinkClickUpsertArgs<ExtArgs>>): Prisma__ShortLinkClickClient<$Result.GetResult<Prisma.$ShortLinkClickPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShortLinkClicks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkClickCountArgs} args - Arguments to filter ShortLinkClicks to count.
+     * @example
+     * // Count the number of ShortLinkClicks
+     * const count = await prisma.shortLinkClick.count({
+     *   where: {
+     *     // ... the filter for the ShortLinkClicks we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShortLinkClickCountArgs>(
+      args?: Subset<T, ShortLinkClickCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShortLinkClickCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShortLinkClick.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkClickAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShortLinkClickAggregateArgs>(args: Subset<T, ShortLinkClickAggregateArgs>): Prisma.PrismaPromise<GetShortLinkClickAggregateType<T>>
+
+    /**
+     * Group by ShortLinkClick.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkClickGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShortLinkClickGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShortLinkClickGroupByArgs['orderBy'] }
+        : { orderBy?: ShortLinkClickGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShortLinkClickGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShortLinkClickGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShortLinkClick model
+   */
+  readonly fields: ShortLinkClickFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShortLinkClick.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShortLinkClickClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shortLink<T extends ShortLinkDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShortLinkDefaultArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShortLinkClick model
+   */
+  interface ShortLinkClickFieldRefs {
+    readonly id: FieldRef<"ShortLinkClick", 'String'>
+    readonly shortLinkId: FieldRef<"ShortLinkClick", 'String'>
+    readonly clickedAt: FieldRef<"ShortLinkClick", 'DateTime'>
+    readonly referrer: FieldRef<"ShortLinkClick", 'String'>
+    readonly ip: FieldRef<"ShortLinkClick", 'String'>
+    readonly country: FieldRef<"ShortLinkClick", 'String'>
+    readonly city: FieldRef<"ShortLinkClick", 'String'>
+    readonly os: FieldRef<"ShortLinkClick", 'String'>
+    readonly browser: FieldRef<"ShortLinkClick", 'String'>
+    readonly device: FieldRef<"ShortLinkClick", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShortLinkClick findUnique
+   */
+  export type ShortLinkClickFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * Filter, which ShortLinkClick to fetch.
+     */
+    where: ShortLinkClickWhereUniqueInput
+  }
+
+  /**
+   * ShortLinkClick findUniqueOrThrow
+   */
+  export type ShortLinkClickFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * Filter, which ShortLinkClick to fetch.
+     */
+    where: ShortLinkClickWhereUniqueInput
+  }
+
+  /**
+   * ShortLinkClick findFirst
+   */
+  export type ShortLinkClickFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * Filter, which ShortLinkClick to fetch.
+     */
+    where?: ShortLinkClickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinkClicks to fetch.
+     */
+    orderBy?: ShortLinkClickOrderByWithRelationInput | ShortLinkClickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShortLinkClicks.
+     */
+    cursor?: ShortLinkClickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinkClicks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinkClicks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShortLinkClicks.
+     */
+    distinct?: ShortLinkClickScalarFieldEnum | ShortLinkClickScalarFieldEnum[]
+  }
+
+  /**
+   * ShortLinkClick findFirstOrThrow
+   */
+  export type ShortLinkClickFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * Filter, which ShortLinkClick to fetch.
+     */
+    where?: ShortLinkClickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinkClicks to fetch.
+     */
+    orderBy?: ShortLinkClickOrderByWithRelationInput | ShortLinkClickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShortLinkClicks.
+     */
+    cursor?: ShortLinkClickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinkClicks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinkClicks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShortLinkClicks.
+     */
+    distinct?: ShortLinkClickScalarFieldEnum | ShortLinkClickScalarFieldEnum[]
+  }
+
+  /**
+   * ShortLinkClick findMany
+   */
+  export type ShortLinkClickFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * Filter, which ShortLinkClicks to fetch.
+     */
+    where?: ShortLinkClickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinkClicks to fetch.
+     */
+    orderBy?: ShortLinkClickOrderByWithRelationInput | ShortLinkClickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShortLinkClicks.
+     */
+    cursor?: ShortLinkClickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinkClicks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinkClicks.
+     */
+    skip?: number
+    distinct?: ShortLinkClickScalarFieldEnum | ShortLinkClickScalarFieldEnum[]
+  }
+
+  /**
+   * ShortLinkClick create
+   */
+  export type ShortLinkClickCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShortLinkClick.
+     */
+    data: XOR<ShortLinkClickCreateInput, ShortLinkClickUncheckedCreateInput>
+  }
+
+  /**
+   * ShortLinkClick createMany
+   */
+  export type ShortLinkClickCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShortLinkClicks.
+     */
+    data: ShortLinkClickCreateManyInput | ShortLinkClickCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShortLinkClick createManyAndReturn
+   */
+  export type ShortLinkClickCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShortLinkClicks.
+     */
+    data: ShortLinkClickCreateManyInput | ShortLinkClickCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShortLinkClick update
+   */
+  export type ShortLinkClickUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShortLinkClick.
+     */
+    data: XOR<ShortLinkClickUpdateInput, ShortLinkClickUncheckedUpdateInput>
+    /**
+     * Choose, which ShortLinkClick to update.
+     */
+    where: ShortLinkClickWhereUniqueInput
+  }
+
+  /**
+   * ShortLinkClick updateMany
+   */
+  export type ShortLinkClickUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShortLinkClicks.
+     */
+    data: XOR<ShortLinkClickUpdateManyMutationInput, ShortLinkClickUncheckedUpdateManyInput>
+    /**
+     * Filter which ShortLinkClicks to update
+     */
+    where?: ShortLinkClickWhereInput
+    /**
+     * Limit how many ShortLinkClicks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShortLinkClick updateManyAndReturn
+   */
+  export type ShortLinkClickUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * The data used to update ShortLinkClicks.
+     */
+    data: XOR<ShortLinkClickUpdateManyMutationInput, ShortLinkClickUncheckedUpdateManyInput>
+    /**
+     * Filter which ShortLinkClicks to update
+     */
+    where?: ShortLinkClickWhereInput
+    /**
+     * Limit how many ShortLinkClicks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShortLinkClick upsert
+   */
+  export type ShortLinkClickUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShortLinkClick to update in case it exists.
+     */
+    where: ShortLinkClickWhereUniqueInput
+    /**
+     * In case the ShortLinkClick found by the `where` argument doesn't exist, create a new ShortLinkClick with this data.
+     */
+    create: XOR<ShortLinkClickCreateInput, ShortLinkClickUncheckedCreateInput>
+    /**
+     * In case the ShortLinkClick was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShortLinkClickUpdateInput, ShortLinkClickUncheckedUpdateInput>
+  }
+
+  /**
+   * ShortLinkClick delete
+   */
+  export type ShortLinkClickDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
+    /**
+     * Filter which ShortLinkClick to delete.
+     */
+    where: ShortLinkClickWhereUniqueInput
+  }
+
+  /**
+   * ShortLinkClick deleteMany
+   */
+  export type ShortLinkClickDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShortLinkClicks to delete
+     */
+    where?: ShortLinkClickWhereInput
+    /**
+     * Limit how many ShortLinkClicks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShortLinkClick without action
+   */
+  export type ShortLinkClickDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLinkClick
+     */
+    select?: ShortLinkClickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLinkClick
+     */
+    omit?: ShortLinkClickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShortLinkClickInclude<ExtArgs> | null
   }
 
 
@@ -27393,6 +28713,22 @@ export namespace Prisma {
   };
 
   export type ShortLinkScalarFieldEnum = (typeof ShortLinkScalarFieldEnum)[keyof typeof ShortLinkScalarFieldEnum]
+
+
+  export const ShortLinkClickScalarFieldEnum: {
+    id: 'id',
+    shortLinkId: 'shortLinkId',
+    clickedAt: 'clickedAt',
+    referrer: 'referrer',
+    ip: 'ip',
+    country: 'country',
+    city: 'city',
+    os: 'os',
+    browser: 'browser',
+    device: 'device'
+  };
+
+  export type ShortLinkClickScalarFieldEnum = (typeof ShortLinkClickScalarFieldEnum)[keyof typeof ShortLinkClickScalarFieldEnum]
 
 
   export const MediaScalarFieldEnum: {
@@ -29075,6 +30411,7 @@ export namespace Prisma {
     originalUrl?: StringFilter<"ShortLink"> | string
     clicks?: IntFilter<"ShortLink"> | number
     createdAt?: DateTimeFilter<"ShortLink"> | Date | string
+    clickEvents?: ShortLinkClickListRelationFilter
   }
 
   export type ShortLinkOrderByWithRelationInput = {
@@ -29083,6 +30420,7 @@ export namespace Prisma {
     originalUrl?: SortOrder
     clicks?: SortOrder
     createdAt?: SortOrder
+    clickEvents?: ShortLinkClickOrderByRelationAggregateInput
   }
 
   export type ShortLinkWhereUniqueInput = Prisma.AtLeast<{
@@ -29094,6 +30432,7 @@ export namespace Prisma {
     originalUrl?: StringFilter<"ShortLink"> | string
     clicks?: IntFilter<"ShortLink"> | number
     createdAt?: DateTimeFilter<"ShortLink"> | Date | string
+    clickEvents?: ShortLinkClickListRelationFilter
   }, "id" | "code">
 
   export type ShortLinkOrderByWithAggregationInput = {
@@ -29118,6 +30457,86 @@ export namespace Prisma {
     originalUrl?: StringWithAggregatesFilter<"ShortLink"> | string
     clicks?: IntWithAggregatesFilter<"ShortLink"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ShortLink"> | Date | string
+  }
+
+  export type ShortLinkClickWhereInput = {
+    AND?: ShortLinkClickWhereInput | ShortLinkClickWhereInput[]
+    OR?: ShortLinkClickWhereInput[]
+    NOT?: ShortLinkClickWhereInput | ShortLinkClickWhereInput[]
+    id?: StringFilter<"ShortLinkClick"> | string
+    shortLinkId?: StringFilter<"ShortLinkClick"> | string
+    clickedAt?: DateTimeFilter<"ShortLinkClick"> | Date | string
+    referrer?: StringNullableFilter<"ShortLinkClick"> | string | null
+    ip?: StringNullableFilter<"ShortLinkClick"> | string | null
+    country?: StringNullableFilter<"ShortLinkClick"> | string | null
+    city?: StringNullableFilter<"ShortLinkClick"> | string | null
+    os?: StringNullableFilter<"ShortLinkClick"> | string | null
+    browser?: StringNullableFilter<"ShortLinkClick"> | string | null
+    device?: StringNullableFilter<"ShortLinkClick"> | string | null
+    shortLink?: XOR<ShortLinkScalarRelationFilter, ShortLinkWhereInput>
+  }
+
+  export type ShortLinkClickOrderByWithRelationInput = {
+    id?: SortOrder
+    shortLinkId?: SortOrder
+    clickedAt?: SortOrder
+    referrer?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    os?: SortOrderInput | SortOrder
+    browser?: SortOrderInput | SortOrder
+    device?: SortOrderInput | SortOrder
+    shortLink?: ShortLinkOrderByWithRelationInput
+  }
+
+  export type ShortLinkClickWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ShortLinkClickWhereInput | ShortLinkClickWhereInput[]
+    OR?: ShortLinkClickWhereInput[]
+    NOT?: ShortLinkClickWhereInput | ShortLinkClickWhereInput[]
+    shortLinkId?: StringFilter<"ShortLinkClick"> | string
+    clickedAt?: DateTimeFilter<"ShortLinkClick"> | Date | string
+    referrer?: StringNullableFilter<"ShortLinkClick"> | string | null
+    ip?: StringNullableFilter<"ShortLinkClick"> | string | null
+    country?: StringNullableFilter<"ShortLinkClick"> | string | null
+    city?: StringNullableFilter<"ShortLinkClick"> | string | null
+    os?: StringNullableFilter<"ShortLinkClick"> | string | null
+    browser?: StringNullableFilter<"ShortLinkClick"> | string | null
+    device?: StringNullableFilter<"ShortLinkClick"> | string | null
+    shortLink?: XOR<ShortLinkScalarRelationFilter, ShortLinkWhereInput>
+  }, "id">
+
+  export type ShortLinkClickOrderByWithAggregationInput = {
+    id?: SortOrder
+    shortLinkId?: SortOrder
+    clickedAt?: SortOrder
+    referrer?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    os?: SortOrderInput | SortOrder
+    browser?: SortOrderInput | SortOrder
+    device?: SortOrderInput | SortOrder
+    _count?: ShortLinkClickCountOrderByAggregateInput
+    _max?: ShortLinkClickMaxOrderByAggregateInput
+    _min?: ShortLinkClickMinOrderByAggregateInput
+  }
+
+  export type ShortLinkClickScalarWhereWithAggregatesInput = {
+    AND?: ShortLinkClickScalarWhereWithAggregatesInput | ShortLinkClickScalarWhereWithAggregatesInput[]
+    OR?: ShortLinkClickScalarWhereWithAggregatesInput[]
+    NOT?: ShortLinkClickScalarWhereWithAggregatesInput | ShortLinkClickScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShortLinkClick"> | string
+    shortLinkId?: StringWithAggregatesFilter<"ShortLinkClick"> | string
+    clickedAt?: DateTimeWithAggregatesFilter<"ShortLinkClick"> | Date | string
+    referrer?: StringNullableWithAggregatesFilter<"ShortLinkClick"> | string | null
+    ip?: StringNullableWithAggregatesFilter<"ShortLinkClick"> | string | null
+    country?: StringNullableWithAggregatesFilter<"ShortLinkClick"> | string | null
+    city?: StringNullableWithAggregatesFilter<"ShortLinkClick"> | string | null
+    os?: StringNullableWithAggregatesFilter<"ShortLinkClick"> | string | null
+    browser?: StringNullableWithAggregatesFilter<"ShortLinkClick"> | string | null
+    device?: StringNullableWithAggregatesFilter<"ShortLinkClick"> | string | null
   }
 
   export type MediaWhereInput = {
@@ -30837,6 +32256,7 @@ export namespace Prisma {
     originalUrl: string
     clicks?: number
     createdAt?: Date | string
+    clickEvents?: ShortLinkClickCreateNestedManyWithoutShortLinkInput
   }
 
   export type ShortLinkUncheckedCreateInput = {
@@ -30845,6 +32265,7 @@ export namespace Prisma {
     originalUrl: string
     clicks?: number
     createdAt?: Date | string
+    clickEvents?: ShortLinkClickUncheckedCreateNestedManyWithoutShortLinkInput
   }
 
   export type ShortLinkUpdateInput = {
@@ -30853,6 +32274,7 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clickEvents?: ShortLinkClickUpdateManyWithoutShortLinkNestedInput
   }
 
   export type ShortLinkUncheckedUpdateInput = {
@@ -30861,6 +32283,7 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clickEvents?: ShortLinkClickUncheckedUpdateManyWithoutShortLinkNestedInput
   }
 
   export type ShortLinkCreateManyInput = {
@@ -30885,6 +32308,96 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShortLinkClickCreateInput = {
+    id?: string
+    clickedAt?: Date | string
+    referrer?: string | null
+    ip?: string | null
+    country?: string | null
+    city?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
+    shortLink: ShortLinkCreateNestedOneWithoutClickEventsInput
+  }
+
+  export type ShortLinkClickUncheckedCreateInput = {
+    id?: string
+    shortLinkId: string
+    clickedAt?: Date | string
+    referrer?: string | null
+    ip?: string | null
+    country?: string | null
+    city?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
+  }
+
+  export type ShortLinkClickUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    shortLink?: ShortLinkUpdateOneRequiredWithoutClickEventsNestedInput
+  }
+
+  export type ShortLinkClickUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortLinkId?: StringFieldUpdateOperationsInput | string
+    clickedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ShortLinkClickCreateManyInput = {
+    id?: string
+    shortLinkId: string
+    clickedAt?: Date | string
+    referrer?: string | null
+    ip?: string | null
+    country?: string | null
+    city?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
+  }
+
+  export type ShortLinkClickUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ShortLinkClickUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortLinkId?: StringFieldUpdateOperationsInput | string
+    clickedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MediaCreateInput = {
@@ -32176,6 +33689,16 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type ShortLinkClickListRelationFilter = {
+    every?: ShortLinkClickWhereInput
+    some?: ShortLinkClickWhereInput
+    none?: ShortLinkClickWhereInput
+  }
+
+  export type ShortLinkClickOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ShortLinkCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
@@ -32206,6 +33729,50 @@ export namespace Prisma {
 
   export type ShortLinkSumOrderByAggregateInput = {
     clicks?: SortOrder
+  }
+
+  export type ShortLinkScalarRelationFilter = {
+    is?: ShortLinkWhereInput
+    isNot?: ShortLinkWhereInput
+  }
+
+  export type ShortLinkClickCountOrderByAggregateInput = {
+    id?: SortOrder
+    shortLinkId?: SortOrder
+    clickedAt?: SortOrder
+    referrer?: SortOrder
+    ip?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    os?: SortOrder
+    browser?: SortOrder
+    device?: SortOrder
+  }
+
+  export type ShortLinkClickMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shortLinkId?: SortOrder
+    clickedAt?: SortOrder
+    referrer?: SortOrder
+    ip?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    os?: SortOrder
+    browser?: SortOrder
+    device?: SortOrder
+  }
+
+  export type ShortLinkClickMinOrderByAggregateInput = {
+    id?: SortOrder
+    shortLinkId?: SortOrder
+    clickedAt?: SortOrder
+    referrer?: SortOrder
+    ip?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    os?: SortOrder
+    browser?: SortOrder
+    device?: SortOrder
   }
 
   export type MediaCountOrderByAggregateInput = {
@@ -32980,6 +34547,62 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ShortLinkClickCreateNestedManyWithoutShortLinkInput = {
+    create?: XOR<ShortLinkClickCreateWithoutShortLinkInput, ShortLinkClickUncheckedCreateWithoutShortLinkInput> | ShortLinkClickCreateWithoutShortLinkInput[] | ShortLinkClickUncheckedCreateWithoutShortLinkInput[]
+    connectOrCreate?: ShortLinkClickCreateOrConnectWithoutShortLinkInput | ShortLinkClickCreateOrConnectWithoutShortLinkInput[]
+    createMany?: ShortLinkClickCreateManyShortLinkInputEnvelope
+    connect?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+  }
+
+  export type ShortLinkClickUncheckedCreateNestedManyWithoutShortLinkInput = {
+    create?: XOR<ShortLinkClickCreateWithoutShortLinkInput, ShortLinkClickUncheckedCreateWithoutShortLinkInput> | ShortLinkClickCreateWithoutShortLinkInput[] | ShortLinkClickUncheckedCreateWithoutShortLinkInput[]
+    connectOrCreate?: ShortLinkClickCreateOrConnectWithoutShortLinkInput | ShortLinkClickCreateOrConnectWithoutShortLinkInput[]
+    createMany?: ShortLinkClickCreateManyShortLinkInputEnvelope
+    connect?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+  }
+
+  export type ShortLinkClickUpdateManyWithoutShortLinkNestedInput = {
+    create?: XOR<ShortLinkClickCreateWithoutShortLinkInput, ShortLinkClickUncheckedCreateWithoutShortLinkInput> | ShortLinkClickCreateWithoutShortLinkInput[] | ShortLinkClickUncheckedCreateWithoutShortLinkInput[]
+    connectOrCreate?: ShortLinkClickCreateOrConnectWithoutShortLinkInput | ShortLinkClickCreateOrConnectWithoutShortLinkInput[]
+    upsert?: ShortLinkClickUpsertWithWhereUniqueWithoutShortLinkInput | ShortLinkClickUpsertWithWhereUniqueWithoutShortLinkInput[]
+    createMany?: ShortLinkClickCreateManyShortLinkInputEnvelope
+    set?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    disconnect?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    delete?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    connect?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    update?: ShortLinkClickUpdateWithWhereUniqueWithoutShortLinkInput | ShortLinkClickUpdateWithWhereUniqueWithoutShortLinkInput[]
+    updateMany?: ShortLinkClickUpdateManyWithWhereWithoutShortLinkInput | ShortLinkClickUpdateManyWithWhereWithoutShortLinkInput[]
+    deleteMany?: ShortLinkClickScalarWhereInput | ShortLinkClickScalarWhereInput[]
+  }
+
+  export type ShortLinkClickUncheckedUpdateManyWithoutShortLinkNestedInput = {
+    create?: XOR<ShortLinkClickCreateWithoutShortLinkInput, ShortLinkClickUncheckedCreateWithoutShortLinkInput> | ShortLinkClickCreateWithoutShortLinkInput[] | ShortLinkClickUncheckedCreateWithoutShortLinkInput[]
+    connectOrCreate?: ShortLinkClickCreateOrConnectWithoutShortLinkInput | ShortLinkClickCreateOrConnectWithoutShortLinkInput[]
+    upsert?: ShortLinkClickUpsertWithWhereUniqueWithoutShortLinkInput | ShortLinkClickUpsertWithWhereUniqueWithoutShortLinkInput[]
+    createMany?: ShortLinkClickCreateManyShortLinkInputEnvelope
+    set?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    disconnect?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    delete?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    connect?: ShortLinkClickWhereUniqueInput | ShortLinkClickWhereUniqueInput[]
+    update?: ShortLinkClickUpdateWithWhereUniqueWithoutShortLinkInput | ShortLinkClickUpdateWithWhereUniqueWithoutShortLinkInput[]
+    updateMany?: ShortLinkClickUpdateManyWithWhereWithoutShortLinkInput | ShortLinkClickUpdateManyWithWhereWithoutShortLinkInput[]
+    deleteMany?: ShortLinkClickScalarWhereInput | ShortLinkClickScalarWhereInput[]
+  }
+
+  export type ShortLinkCreateNestedOneWithoutClickEventsInput = {
+    create?: XOR<ShortLinkCreateWithoutClickEventsInput, ShortLinkUncheckedCreateWithoutClickEventsInput>
+    connectOrCreate?: ShortLinkCreateOrConnectWithoutClickEventsInput
+    connect?: ShortLinkWhereUniqueInput
+  }
+
+  export type ShortLinkUpdateOneRequiredWithoutClickEventsNestedInput = {
+    create?: XOR<ShortLinkCreateWithoutClickEventsInput, ShortLinkUncheckedCreateWithoutClickEventsInput>
+    connectOrCreate?: ShortLinkCreateOrConnectWithoutClickEventsInput
+    upsert?: ShortLinkUpsertWithoutClickEventsInput
+    connect?: ShortLinkWhereUniqueInput
+    update?: XOR<XOR<ShortLinkUpdateToOneWithWhereWithoutClickEventsInput, ShortLinkUpdateWithoutClickEventsInput>, ShortLinkUncheckedUpdateWithoutClickEventsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -34853,6 +36476,120 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
+  export type ShortLinkClickCreateWithoutShortLinkInput = {
+    id?: string
+    clickedAt?: Date | string
+    referrer?: string | null
+    ip?: string | null
+    country?: string | null
+    city?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
+  }
+
+  export type ShortLinkClickUncheckedCreateWithoutShortLinkInput = {
+    id?: string
+    clickedAt?: Date | string
+    referrer?: string | null
+    ip?: string | null
+    country?: string | null
+    city?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
+  }
+
+  export type ShortLinkClickCreateOrConnectWithoutShortLinkInput = {
+    where: ShortLinkClickWhereUniqueInput
+    create: XOR<ShortLinkClickCreateWithoutShortLinkInput, ShortLinkClickUncheckedCreateWithoutShortLinkInput>
+  }
+
+  export type ShortLinkClickCreateManyShortLinkInputEnvelope = {
+    data: ShortLinkClickCreateManyShortLinkInput | ShortLinkClickCreateManyShortLinkInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShortLinkClickUpsertWithWhereUniqueWithoutShortLinkInput = {
+    where: ShortLinkClickWhereUniqueInput
+    update: XOR<ShortLinkClickUpdateWithoutShortLinkInput, ShortLinkClickUncheckedUpdateWithoutShortLinkInput>
+    create: XOR<ShortLinkClickCreateWithoutShortLinkInput, ShortLinkClickUncheckedCreateWithoutShortLinkInput>
+  }
+
+  export type ShortLinkClickUpdateWithWhereUniqueWithoutShortLinkInput = {
+    where: ShortLinkClickWhereUniqueInput
+    data: XOR<ShortLinkClickUpdateWithoutShortLinkInput, ShortLinkClickUncheckedUpdateWithoutShortLinkInput>
+  }
+
+  export type ShortLinkClickUpdateManyWithWhereWithoutShortLinkInput = {
+    where: ShortLinkClickScalarWhereInput
+    data: XOR<ShortLinkClickUpdateManyMutationInput, ShortLinkClickUncheckedUpdateManyWithoutShortLinkInput>
+  }
+
+  export type ShortLinkClickScalarWhereInput = {
+    AND?: ShortLinkClickScalarWhereInput | ShortLinkClickScalarWhereInput[]
+    OR?: ShortLinkClickScalarWhereInput[]
+    NOT?: ShortLinkClickScalarWhereInput | ShortLinkClickScalarWhereInput[]
+    id?: StringFilter<"ShortLinkClick"> | string
+    shortLinkId?: StringFilter<"ShortLinkClick"> | string
+    clickedAt?: DateTimeFilter<"ShortLinkClick"> | Date | string
+    referrer?: StringNullableFilter<"ShortLinkClick"> | string | null
+    ip?: StringNullableFilter<"ShortLinkClick"> | string | null
+    country?: StringNullableFilter<"ShortLinkClick"> | string | null
+    city?: StringNullableFilter<"ShortLinkClick"> | string | null
+    os?: StringNullableFilter<"ShortLinkClick"> | string | null
+    browser?: StringNullableFilter<"ShortLinkClick"> | string | null
+    device?: StringNullableFilter<"ShortLinkClick"> | string | null
+  }
+
+  export type ShortLinkCreateWithoutClickEventsInput = {
+    id?: string
+    code: string
+    originalUrl: string
+    clicks?: number
+    createdAt?: Date | string
+  }
+
+  export type ShortLinkUncheckedCreateWithoutClickEventsInput = {
+    id?: string
+    code: string
+    originalUrl: string
+    clicks?: number
+    createdAt?: Date | string
+  }
+
+  export type ShortLinkCreateOrConnectWithoutClickEventsInput = {
+    where: ShortLinkWhereUniqueInput
+    create: XOR<ShortLinkCreateWithoutClickEventsInput, ShortLinkUncheckedCreateWithoutClickEventsInput>
+  }
+
+  export type ShortLinkUpsertWithoutClickEventsInput = {
+    update: XOR<ShortLinkUpdateWithoutClickEventsInput, ShortLinkUncheckedUpdateWithoutClickEventsInput>
+    create: XOR<ShortLinkCreateWithoutClickEventsInput, ShortLinkUncheckedCreateWithoutClickEventsInput>
+    where?: ShortLinkWhereInput
+  }
+
+  export type ShortLinkUpdateToOneWithWhereWithoutClickEventsInput = {
+    where?: ShortLinkWhereInput
+    data: XOR<ShortLinkUpdateWithoutClickEventsInput, ShortLinkUncheckedUpdateWithoutClickEventsInput>
+  }
+
+  export type ShortLinkUpdateWithoutClickEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    clicks?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShortLinkUncheckedUpdateWithoutClickEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    clicks?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserSessionCreateManyUserInput = {
     userSessionId?: string
     accessToken: string
@@ -35375,6 +37112,54 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ShortLinkClickCreateManyShortLinkInput = {
+    id?: string
+    clickedAt?: Date | string
+    referrer?: string | null
+    ip?: string | null
+    country?: string | null
+    city?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
+  }
+
+  export type ShortLinkClickUpdateWithoutShortLinkInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ShortLinkClickUncheckedUpdateWithoutShortLinkInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ShortLinkClickUncheckedUpdateManyWithoutShortLinkInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

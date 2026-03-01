@@ -436,6 +436,34 @@ export default class UserSessionService {
   }
 
   /**
+   * Returns all active sessions for a user (for session management UI).
+   */
+  static async getActiveSessions(userId: string) {
+    const sessions = await prisma.userSession.findMany({
+      where: {
+        userId,
+        sessionExpiry: { gte: new Date() },
+      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        userSessionId: true,
+        userId: true,
+        sessionExpiry: true,
+        otpVerifyNeeded: true,
+        createdAt: true,
+        os: true,
+        browser: true,
+        device: true,
+        ip: true,
+        city: true,
+        state: true,
+        country: true,
+      },
+    })
+    return sessions
+  }
+
+  /**
    * Destroy all other sessions of the user.
    *
    * @param userSession - The current user session.
@@ -451,6 +479,20 @@ export default class UserSessionService {
 
     // 🧹 Clear all Redis caches except the current session
     const pattern = `session:${userSession.userId}:*`
+    const keys = await redisInstance.keys(pattern)
+    if (keys.length > 0) await redisInstance.del(...keys)
+  }
+
+  /**
+   * Destroy ALL sessions of the user including the current one.
+   *
+   * @param userId - The user's ID.
+   */
+  static async destroyAllSessions(userId: string): Promise<void> {
+    await prisma.userSession.deleteMany({ where: { userId } })
+
+    // 🧹 Clear all Redis caches for this user
+    const pattern = `session:${userId}:*`
     const keys = await redisInstance.keys(pattern)
     if (keys.length > 0) await redisInstance.del(...keys)
   }
@@ -480,6 +522,16 @@ export default class UserSessionService {
    * @param accessToken - The access token to authenticate.
    * @returns The authenticated user.
    */
+  static authenticateUserByRequest(args: {
+    request: NextRequest
+    requiredUserRole: 'GUEST'
+    otpVerifyBypass?: boolean
+  }): Promise<{ user: SafeUser | null; userSession: SafeUserSession | null }>
+  static authenticateUserByRequest<T extends string = 'ADMIN'>(args: {
+    request: NextRequest
+    requiredUserRole?: T
+    otpVerifyBypass?: boolean
+  }): Promise<{ user: SafeUser; userSession: SafeUserSession }>
   static async authenticateUserByRequest<T extends string = 'ADMIN'>({
     request,
     requiredUserRole = 'ADMIN' as T,

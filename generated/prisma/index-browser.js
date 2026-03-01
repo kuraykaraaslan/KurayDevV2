@@ -355,6 +355,19 @@ exports.Prisma.ShortLinkScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ShortLinkClickScalarFieldEnum = {
+  id: 'id',
+  shortLinkId: 'shortLinkId',
+  clickedAt: 'clickedAt',
+  referrer: 'referrer',
+  ip: 'ip',
+  country: 'country',
+  city: 'city',
+  os: 'os',
+  browser: 'browser',
+  device: 'device'
+};
+
 exports.Prisma.MediaScalarFieldEnum = {
   mediaId: 'mediaId',
   key: 'key',
@@ -448,6 +461,7 @@ exports.Prisma.ModelName = {
   PushSubscription: 'PushSubscription',
   GeoAnalytics: 'GeoAnalytics',
   ShortLink: 'ShortLink',
+  ShortLinkClick: 'ShortLinkClick',
   Media: 'Media'
 };
 

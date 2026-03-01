@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { SessionResponseSchema } from '@/dtos/SessionDTO'
 
 const UserAgentDataSchema = z.object({
   os: z.string().nullable(),
@@ -20,5 +21,6 @@ const SafeUserSessionSchema = z.object({
 
 export type SafeUserSession = z.infer<typeof SafeUserSessionSchema>
 export type UserAgentData = z.infer<typeof UserAgentDataSchema>
+export type SessionResponse = z.infer<typeof SessionResponseSchema>
 
 export { SafeUserSessionSchema, UserAgentDataSchema }

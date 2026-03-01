@@ -7,6 +7,7 @@ import PreferencesTab from '../Tabs/PreferencesTab'
 import OTPTab from '../Tabs/OTPTab'
 import BasicTab from '../Tabs/BasicTab'
 import NotificationsTab from '../Tabs/NotificationsTab'
+import SessionsTab from '../Tabs/SessionsTab'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
   faGear,
@@ -15,6 +16,7 @@ import {
   faRing,
   faSms,
   faUser,
+  faShieldHalved,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTranslation } from 'react-i18next'
@@ -66,6 +68,12 @@ export default function SettingsTabs() {
       label: t('settings.notifications'),
       icon: faRing,
       content: <NotificationsTab />,
+    },
+    {
+      id: 'sessions',
+      label: t('settings.sessions'),
+      icon: faShieldHalved,
+      content: <SessionsTab />,
     },
   ]
 

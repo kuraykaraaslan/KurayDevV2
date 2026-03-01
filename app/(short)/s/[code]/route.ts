@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import ShortLinkService from '@/services/ShortLinkService'
 import { ShortLinkCodeParamSchema } from '@/dtos/ShortLinkDTO'
 
 export async function GET(
-  _request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ code: string }> }
 ) {
   const raw = await params
@@ -16,7 +16,7 @@ export async function GET(
     )
   }
 
-  const originalUrl = await ShortLinkService.resolve(parsed.data.code)
+  const originalUrl = await ShortLinkService.resolve(parsed.data.code, request)
 
   if (!originalUrl) {
     return NextResponse.json({ message: 'Short link not found' }, { status: 404 })

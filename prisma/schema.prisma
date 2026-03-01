@@ -379,7 +379,27 @@ model ShortLink {
   clicks      Int      @default(0)
   createdAt   DateTime @default(now())
 
+  clickEvents ShortLinkClick[]
+
   @@index([code])
+}
+
+model ShortLinkClick {
+  id          String    @id @default(cuid())
+  shortLinkId String
+  shortLink   ShortLink @relation(fields: [shortLinkId], references: [id], onDelete: Cascade)
+
+  clickedAt   DateTime  @default(now())
+  referrer    String?
+  ip          String?
+  country     String?
+  city        String?
+  os          String?
+  browser     String?
+  device      String?
+
+  @@index([shortLinkId])
+  @@index([clickedAt])
 }
 
 model Media {
