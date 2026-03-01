@@ -1,0 +1,701 @@
+{
+  "navigation": {
+    "home": "الرئيسية",
+    "portfolio": "الأعمال",
+    "experience": "الخبرة",
+    "contact": "اتصل بنا",
+    "blog": "المدونة",
+    "freelance": "العمل الحر",
+    "github": "جيت هب",
+    "linkedin": "لينكد إن",
+    "resume": "السيرة الذاتية",
+    "backend": "الخلفية"
+  },
+  "sidebar": {
+    "close_sidebar": "إغلاق الشريط الجانبي",
+    "navigation_menu": "قائمة التنقل",
+    "menu": "القائمة",
+    "mobile_navigation": "التنقل المحمول"
+  },
+  "footer": {
+    "site_footer": "تذييل الموقع",
+    "social_media_links": "روابط وسائل التواصل الاجتماعي",
+    "x_profile": "ملف X (تويتر سابقاً) (يفتح في علامة تبويب جديدة)",
+    "github_profile": "ملف جيت هب (يفتح في علامة تبويب جديدة)",
+    "linkedin_profile": "ملف لينكد إن (يفتح في علامة تبويب جديدة)"
+  },
+  "metadata": {
+    "home": {
+      "title": "مطور برمجيات | كوراي كاراأصلان",
+      "description": "مرحباً بك في مدونتي التقنية! أنا كوراي كاراأصلان، مطور واجهات أمامية وخلفية وتطبيقات جوال متخصص في React و Next.js و Node.js و Java و React Native. أشارك دروساً برمجية عملية ونصائح تقنية.",
+      "keywords": [
+        "كوراي كاراأصلان",
+        "مطور برمجيات",
+        "مطور فول ستاك",
+        "React",
+        "Next.js",
+        "Node.js",
+        "TypeScript",
+        "Java",
+        "React Native",
+        "تطوير الويب",
+        "تطوير الجوال",
+        "مدونة تقنية",
+        "إزمير",
+        "تركيا"
+      ]
+    },
+    "blog": {
+      "title": "المدونة | كوراي كاراأصلان",
+      "description": "مرحباً بك في مدونتي التقنية! أنا كوراي كاراأصلان، مطور متخصص في React و Next.js و Node.js و Java و React Native. أشارك دروساً برمجية عملية ونصائح تقنية.",
+      "keywords": [
+        "كوراي كاراأصلان",
+        "مدونة تقنية",
+        "تطوير الويب",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native",
+        "برمجة",
+        "دروس"
+      ]
+    },
+    "projects": {
+      "title": "المشاريع | كوراي كاراأصلان",
+      "description": "استكشف محفظة مشاريعي في الويب والجوال والحاسوب وغيرها من البرمجيات.",
+      "keywords": [
+        "كوراي كاراأصلان",
+        "مشاريع",
+        "محفظة أعمال",
+        "تطوير الويب",
+        "تطوير الجوال",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Java",
+        "React Native"
+      ]
+    },
+    "now": {
+      "title": "الآن | كوراي كاراأصلان",
+      "description": "ما يركز عليه كوراي كاراأصلان حالياً — العمل والمشاريع الجانبية والتعلم والحياة.",
+      "keywords": [
+        "كوراي كاراأصلان",
+        "مطور برمجيات",
+        "صفحة الآن",
+        "IoT",
+        "MQTT",
+        "Java Spring Boot",
+        "React",
+        "Next.js",
+        "الأنظمة الموزعة",
+        "إزمير",
+        "تركيا"
+      ]
+    },
+    "privacy_policy": {
+      "title": "سياسة الخصوصية | كوراي كاراأصلان",
+      "description": "سياسة الخصوصية لـ kuray.dev — تعرف على كيفية جمع واستخدام وحماية معلوماتك الشخصية.",
+      "keywords": [
+        "كوراي كاراأصلان",
+        "سياسة الخصوصية",
+        "kuray.dev",
+        "حماية البيانات",
+        "المعلومات الشخصية"
+      ]
+    },
+    "terms_of_use": {
+      "title": "شروط الاستخدام | كوراي كاراأصلان",
+      "description": "شروط الاستخدام لـ kuray.dev — القواعد والإرشادات لاستخدام هذا الموقع وخدماته.",
+      "keywords": [
+        "كوراي كاراأصلان",
+        "شروط الاستخدام",
+        "kuray.dev",
+        "الشروط والأحكام",
+        "الإرشادات"
+      ]
+    }
+  },
+  "errors": {
+    "404": {
+      "title": "حدث خطأ ما",
+      "description": "عذراً، لا يمكننا العثور على تلك الصفحة. ستجد الكثير لاستكشافه في الصفحة الرئيسية.",
+      "button": "العودة للرئيسية"
+    },
+    "500": {
+      "title": "خطأ في الخادم الداخلي",
+      "description": "حدث خطأ في الخادم.",
+      "button": "العودة للرئيسية"
+    }
+  },
+  "navbar": {
+    "change_language": "تغيير اللغة (الحالية: {{lang}})",
+    "language": "{{lang}}",
+    "switch_theme": "تبديل السمة (الحالية: {{theme}})",
+    "main_navigation": "التنقل الرئيسي",
+    "close_sidebar_menu": "إغلاق قائمة الشريط الجانبي",
+    "open_sidebar_menu": "فتح قائمة الشريط الجانبي",
+    "open_search": "فتح البحث",
+    "search": "بحث",
+    "filter_by_blog": "تصفية حسب المدونة {{active}}",
+    "filter_by_project": "تصفية حسب المشروع {{active}}",
+    "search_results": "نتائج البحث",
+    "search_placeholder": "اكتب للبحث...",
+    "no_results_found": "لم يتم العثور على نتائج",
+    "select_language": "اختر اللغة"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "confirm_dialog": {
+      "title": "هل أنت متأكد؟",
+      "description": "لا يمكن التراجع عن هذا الإجراء."
+    },
+    "refresh": "تحديث",
+    "per_page": "لكل صفحة",
+    "selected": "{{count}} محدد",
+    "table_view": "عرض الجدول",
+    "grid_view": "عرض الشبكة",
+    "modal": {
+      "close_dialog": "إغلاق النافذة"
+    },
+    "navbar": {
+      "login": "تسجيل الدخول",
+      "user_menu": "قائمة المستخدم",
+      "admin_dashboard": "لوحة تحكم المدير",
+      "user_settings": "إعدادات المستخدم",
+      "logout": "تسجيل الخروج"
+    },
+    "image": {
+      "upload_success": "تم رفع الصورة بنجاح",
+      "upload_error": "خطأ في رفع الصورة"
+    }
+  },
+  "pages": {
+    "hero": {
+      "description": "<bold>مطور فول ستاك موجه للمنتج</bold> مع <bold>خبرة تزيد عن 3 سنوات</bold> في تقديم حلول برمجية قوية وقابلة للتوسع عبر <bold>الواجهة الأمامية والخلفية والجوال في مجالات BIM و IoT.</bold> متخصص في <bold>Java Spring Boot و React و Next.js و Node.js و PostgreSQL</bold>.",
+      "typing_effect": {
+        "prefix": "أنا مستعد لـ",
+        "suffix": "",
+        "text1": "حل المشاكل",
+        "text2": "بناء المنتجات",
+        "text3": "إنشاء الحلول",
+        "text4": "إحداث فرق",
+        "text5": "مواجهة التحديات",
+        "text6": "العمل الحر"
+      },
+      "contact_me": "تواصل معي",
+      "resume": "السيرة الذاتية"
+    },
+    "toolbox": {
+      "title": "الإبداع يحتاج إلى أدوات كثيرة",
+      "description": "لدي الكثير من الأدوات في صندوقي، وأتعلم دائماً أدوات جديدة.",
+      "frontend": "الواجهة الأمامية",
+      "backend": "الخلفية",
+      "skills": {
+        "clean_code": "كود نظيف",
+        "authentication_security": "المصادقة والأمان",
+        "rest_api_design": "تصميم REST API",
+        "sql_data_modeling": "SQL ونمذجة البيانات",
+        "multi_tenant_saas": "SaaS متعدد المستأجرين",
+        "caching_redis": "التخزين المؤقت مع Redis",
+        "payment_systems": "أنظمة الدفع",
+        "testing_cicd": "الاختبار و CI/CD",
+        "performance_optimization": "تحسين الأداء",
+        "cloud_infrastructure": "البنية التحتية السحابية (AWS)",
+        "event_driven_architecture": "الهندسة المعمارية القائمة على الأحداث",
+        "domain_driven_design": "التصميم القائم على النطاق"
+      }
+    },
+    "timeline": {
+      "title": "رحلتي",
+      "description": "انتقالي من مهندس إنشائي إلى مطور برمجيات كان رحلة من التعلم والنمو والتحول. إليك لمحة عن مسيرتي المهنية حتى الآن."
+    },
+    "projects": {
+      "title": "الأعمال",
+      "description": "محفظتي المهنية التي عملت عليها."
+    },
+    "contact": {
+      "title": "اتصل بنا",
+      "description": "تحدث معنا وستحدث أشياء رائعة.",
+      "phone_and_mail": "الهاتف والبريد الإلكتروني",
+      "social_media": "وسائل التواصل الاجتماعي",
+      "send_a_message": "أرسل رسالة",
+      "reveal_mail": "انقر لإظهار البريد الإلكتروني",
+      "reveal_phone": "انقر لإظهار الهاتف",
+      "can_not_verify_that_you_are_not_a_robot": "لا يمكن التحقق من أنك لست روبوت. يرجى المحاولة لاحقاً.",
+      "form": {
+        "name": "الاسم",
+        "enter_your_name": "أدخل اسمك",
+        "email": "البريد الإلكتروني",
+        "enter_your_email": "أدخل بريدك الإلكتروني",
+        "phone": "الهاتف",
+        "enter_your_phone": "أدخل رقم هاتفك",
+        "message": "الرسالة",
+        "enter_your_message": "أدخل رسالتك، يمكنك وصف مشروعك أو احتياجاتك أو أي معلومات أخرى تريد مشاركتها.",
+        "send": "إرسال",
+        "success": "تم إرسال رسالتك بنجاح. سأرد عليك في أقرب وقت ممكن.",
+        "error": "حدث خطأ أثناء إرسال رسالتك. يرجى المحاولة لاحقاً.",
+        "please_fill_in_all_fields": "يرجى ملء جميع الحقول.",
+        "loading": "جاري إرسال رسالتك..."
+      }
+    }
+  },
+  "frontend": {
+    "toc": {
+      "title": "جدول المحتويات"
+    },
+    "feed": {
+      "other_posts": "مقالات أخرى",
+      "related_articles": "مقالات ذات صلة",
+      "categories": "الفئات",
+      "latest_posts": "أحدث المقالات",
+      "posts_by": "مقالات بواسطة",
+      "load_more": "تحميل المزيد",
+      "no_more_posts": "لا توجد مقالات أخرى",
+      "read_more": "اقرأ المزيد"
+    },
+    "post": {
+      "by": "بواسطة",
+      "min_read": "دقيقة للقراءة",
+      "views": "مشاهدات",
+      "no_date": "بدون تاريخ",
+      "unknown_author": "مؤلف غير معروف",
+      "views_count": "{{count}} مشاهدات",
+      "read_time": "{{count}} دقيقة للقراءة"
+    },
+    "time": {
+      "days_ago": "منذ {{count}} أيام",
+      "yesterday": "أمس",
+      "hours_ago": "منذ {{count}} ساعات",
+      "an_hour_ago": "منذ ساعة",
+      "minutes_ago": "منذ {{count}} دقائق",
+      "a_minute_ago": "منذ دقيقة",
+      "just_now": "الآن",
+      "today": "اليوم"
+    },
+    "comments": {
+      "comments_count": "التعليقات",
+      "name_placeholder": "الاسم",
+      "email_placeholder": "البريد الإلكتروني",
+      "comment_placeholder": "اكتب تعليقاً...",
+      "submit_button": "علق",
+      "fill_all_fields": "يرجى ملء جميع الحقول",
+      "invalid_email": "يرجى إدخال بريد إلكتروني صحيح",
+      "name_length_error": "يجب أن يكون الاسم 3 أحرف على الأقل و 50 حرفاً كحد أقصى",
+      "content_length_error": "يجب أن يكون المحتوى 5 أحرف على الأقل",
+      "posted_successfully": "تم نشر التعليق بنجاح",
+      "error": "حدث خطأ",
+      "reply": "رد",
+      "delete": "حذف",
+      "anonymous": "مجهول"
+    },
+    "knowledge_graph": {
+      "title_2d": "رسم بياني معرفي ثنائي الأبعاد",
+      "title_3d": "رسم بياني معرفي ثلاثي الأبعاد"
+    },
+    "offline": {
+      "online": "عدت متصلاً!",
+      "offline": "أنت غير متصل!"
+    },
+    "terminal_button": "الطرفية",
+    "scroll_to_top": "انتقل للأعلى",
+    "scroll_to_bottom": "انتقل للأسفل"
+  },
+  "settings": {
+    "basic": "أساسي",
+    "profile": "الملف الشخصي",
+    "security": "الأمان",
+    "otp": "المصادقة الثنائية",
+    "preferences": "التفضيلات",
+    "notifications": "الإشعارات",
+    "otp_method_card": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "otp_confirm": {
+      "title": "التحقق الأمني",
+      "send_code": "إرسال رمز التحقق",
+      "sending": "جاري إرسال الرمز...",
+      "code_placeholder": "123456",
+      "verify": "تحقق",
+      "verifying": "جاري التحقق..."
+    },
+    "totp_setup": {
+      "title": "إعداد TOTP",
+      "backup_codes_title": "رموز النسخ الاحتياطي",
+      "warning": "احفظ رموز النسخ الاحتياطي في مكان آمن. يمكنك استخدامها لاستعادة الوصول إلى حسابك إذا فقدت الوصول إلى تطبيق المصادقة.",
+      "copy_codes": "نسخ الرموز",
+      "download_codes": "تنزيل الرموز",
+      "i_have_saved": "لقد حفظت رموز النسخ الاحتياطي",
+      "start_setup": "بدء الإعداد",
+      "enter_code": "أدخل الرمز من تطبيق المصادقة",
+      "confirm_setup": "تأكيد الإعداد"
+    }
+  },
+  "shared": {
+    "alert": {
+      "this_blog_is_available_in_only_english": "هذه المدونة متاحة باللغة الإنجليزية فقط",
+      "error": "حدث خطأ",
+      "success": "نجاح",
+      "warning": "تحذير",
+      "info": "معلومات"
+    },
+    "footer": {
+      "all_rights_reserved": "جميع الحقوق محفوظة."
+    },
+    "newsletter": {
+      "title": "النشرة الإخبارية",
+      "description": "ابق على اطلاع! احصل على جميع أحدث المقالات مباشرة في بريدك الإلكتروني",
+      "email_placeholder": "أدخل عنوان بريدك الإلكتروني",
+      "subscribe": "اشترك",
+      "success_message": "تم الاشتراك بنجاح! تحقق من بريدك الإلكتروني للتأكيد.",
+      "error_message": "حدث خطأ أثناء الاشتراك. يرجى المحاولة لاحقاً."
+    },
+    "whatsapp": {
+      "message": "مرحباً! أنا كوراي كاراأصلان، كيف يمكنني مساعدتك؟"
+    },
+    "calendar": {
+      "title": "التقويم",
+      "description": "احجز موعداً معي.",
+      "appointment_title": "موعد",
+      "appointment_subtitle": "اختر يوماً ووقتاً مناسبين",
+      "available_slots": "الفترات المتاحة",
+      "available_times": "الأوقات المتاحة",
+      "selected_time": "الوقت المحدد",
+      "no_available_slots": "لا توجد فترات متاحة",
+      "no_slots_for_day": "لا توجد أوقات متاحة لليوم المحدد",
+      "past_date_warning": "لا يمكنك حجز موعد لتاريخ ماضٍ.",
+      "select_slot": "يرجى اختيار فترة لحجز موعد.",
+      "select_slot_first": "يرجى اختيار فترة زمنية أولاً",
+      "book_now": "احجز موعد",
+      "book_appointment": "احجز موعد",
+      "create_appointment": "إنشاء موعد",
+      "appointment_created": "تم إنشاء موعدك",
+      "appointment_error": "تعذر إنشاء الموعد",
+      "appointment_info": "معلومات الموعد",
+      "minutes": "{{count}} دقائق",
+      "minutes_abbr": "د",
+      "close": "إغلاق",
+      "close_modal": "إغلاق",
+      "error_occurred": "حدث خطأ",
+      "fields": {
+        "name": "اسمك",
+        "name_placeholder": "أدخل اسمك",
+        "email": "بريدك الإلكتروني",
+        "email_placeholder": "أدخل بريدك الإلكتروني",
+        "phone": "هاتفك",
+        "phone_placeholder": "أدخل رقم هاتفك",
+        "note": "ملاحظة",
+        "note_placeholder": "أدخل ملاحظتك",
+        "full_name": "الاسم الكامل",
+        "email_label": "البريد الإلكتروني",
+        "phone_label": "الهاتف",
+        "note_label": "ملاحظة"
+      },
+      "statuses": {
+        "booked": "محجوز",
+        "cancelled": "ملغى",
+        "available": "متاح"
+      }
+    },
+    "geomap": {
+      "title": "خريطة حرارية للزوار العالميين",
+      "description": "استكشف التوزيع الجغرافي للزوار لمحفظتي من خلال هذه الخريطة التفاعلية.",
+      "visitors": "{{count}} زائر |||| {{count}} زوار"
+    },
+    "status": {
+      "title": "حالة النظام",
+      "loading": "جاري التحقق من حالة النظام...",
+      "response_time": "وقت الاستجابة: {{time}} مللي ثانية",
+      "uptime": "وقت التشغيل: {{time}} د",
+      "services": {
+        "api": "API",
+        "database": "قاعدة البيانات",
+        "auth": "المصادقة",
+        "payment": "بوابة الدفع",
+        "frontend": "الواجهة الأمامية",
+        "redis": "ذاكرة التخزين المؤقت Redis",
+        "mail": "خدمة البريد",
+        "openai": "خدمة OpenAI",
+        "aws": "خدمات AWS",
+        "sms": "خدمة الرسائل القصيرة"
+      },
+      "statuses": {
+        "operational": "يعمل",
+        "degraded_performance": "أداء منخفض",
+        "partial_outage": "انقطاع جزئي",
+        "major_outage": "انقطاع كبير"
+      }
+    }
+  },
+  "auth": {
+    "sso": {
+      "title": "تسجيل الدخول عبر وسائل التواصل الاجتماعي",
+      "no_providers": "لم يتم تكوين مزودي SSO.",
+      "provider_not_allowed": "تسجيل الدخول عبر {{provider}} غير مسموح به.",
+      "redirect_error": "خطأ في إعادة توجيه SSO.",
+      "button_label": "تسجيل الدخول عبر {{provider}}",
+      "modal_button": "تسجيل الدخول عبر وسائل التواصل الاجتماعي",
+      "modal_title": "تسجيل الدخول عبر وسائل التواصل الاجتماعي",
+      "close": "إغلاق"
+    }
+  },
+  "admin": {
+    "stats": {
+      "title": "الإحصائيات",
+      "users": "المستخدمون",
+      "posts": "المقالات",
+      "views": "المشاهدات",
+      "categories": "الفئات",
+      "comments": "التعليقات",
+      "total_users": "إجمالي المستخدمين",
+      "total_posts": "إجمالي المقالات",
+      "total_views": "إجمالي المشاهدات",
+      "total_categories": "إجمالي الفئات",
+      "total_comments": "إجمالي التعليقات",
+      "frequency": "التكرار",
+      "last_5_minutes": "آخر 5 دقائق",
+      "last_hour": "الساعة الماضية",
+      "daily": "يومي",
+      "weekly": "أسبوعي",
+      "monthly": "شهري",
+      "yearly": "سنوي",
+      "all_time": "كل الوقت"
+    },
+    "categories": {
+      "title": "الفئات",
+      "search_placeholder": "بحث",
+      "create_category": "إنشاء فئة",
+      "image": "صورة",
+      "slug": "الرابط",
+      "action": "الإجراء",
+      "edit": "تعديل",
+      "view": "عرض",
+      "posts": "المقالات",
+      "delete": "حذف",
+      "showing": "عرض {{count}} من {{total}} فئات",
+      "previous": "السابق",
+      "next": "التالي",
+      "confirm_delete": "هل أنت متأكد من حذف هذه الفئة؟"
+    },
+    "posts": {
+      "title": "المقالات",
+      "search_placeholder": "بحث",
+      "create_post": "إنشاء مقالة",
+      "reset_knowledge_graph": "إعادة تعيين الرسم البياني المعرفي",
+      "rebuild_triggered": "تم تشغيل إعادة البناء",
+      "rebuild_triggered_message": "تم تشغيل إعادة بناء الرسم البياني المعرفي مسبقاً. تحتاج إلى تحديث الصفحة للتشغيل مرة أخرى.",
+      "rebuild_success": "تم تشغيل إعادة بناء الرسم البياني المعرفي.",
+      "rebuild_failed": "فشل في تشغيل إعادة بناء الرسم البياني المعرفي.",
+      "category": "الفئة",
+      "status": "الحالة",
+      "action": "الإجراء",
+      "edit": "تعديل",
+      "view": "عرض",
+      "delete": "حذف",
+      "showing": "عرض {{count}} من {{total}} مقالات",
+      "previous": "السابق",
+      "next": "التالي",
+      "confirm_delete": "هل أنت متأكد من حذف هذه المقالة؟"
+    },
+    "users": {
+      "title": "المستخدمون",
+      "search_placeholder": "بحث",
+      "create_user": "إنشاء مستخدم",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "status": "الحالة",
+      "action": "الإجراء",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "showing": "عرض {{count}} من {{total}} مستخدمين",
+      "previous": "السابق",
+      "next": "التالي",
+      "confirm_delete": "هل أنت متأكد من حذف هذا المستخدم؟",
+      "delete_success": "تم حذف المستخدم بنجاح.",
+      "delete_failed": "فشل في حذف المستخدم."
+    },
+    "comments": {
+      "title": "التعليقات",
+      "search_placeholder": "بحث",
+      "post": "المقالة",
+      "contact": "جهة الاتصال",
+      "content": "المحتوى",
+      "action": "الإجراء",
+      "delete": "حذف",
+      "approve": "موافقة",
+      "reject": "رفض",
+      "showing": "عرض {{count}} من {{total}} تعليقات",
+      "previous": "السابق",
+      "next": "التالي",
+      "confirm_delete": "هل أنت متأكد من حذف هذه المقالة؟",
+      "confirm_approve": "هل أنت متأكد من الموافقة على هذه المقالة؟",
+      "confirm_reject": "هل أنت متأكد من رفض هذه المقالة؟"
+    },
+    "projects": {
+      "title": "المشاريع",
+      "search_placeholder": "بحث",
+      "create_project": "إنشاء مشروع",
+      "tech_stack": "التقنيات المستخدمة",
+      "action": "الإجراء",
+      "edit": "تعديل",
+      "view": "عرض",
+      "delete": "حذف",
+      "showing": "عرض {{count}} من {{total}} مشاريع",
+      "previous": "السابق",
+      "next": "التالي",
+      "confirm_delete": "هل أنت متأكد من حذف هذا المشروع؟"
+    },
+    "contacts": {
+      "title": "نماذج الاتصال",
+      "search_placeholder": "بحث بالاسم أو البريد الإلكتروني أو الرسالة...",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "contact": "جهة الاتصال",
+      "message": "الرسالة",
+      "date": "التاريخ",
+      "action": "الإجراء",
+      "view": "عرض",
+      "reply": "رد",
+      "delete": "حذف",
+      "showing": "عرض {{count}} من {{total}} جهات اتصال",
+      "previous": "السابق",
+      "next": "التالي",
+      "confirm_delete": "هل أنت متأكد من حذف نموذج الاتصال هذا؟",
+      "contact_details": "تفاصيل الاتصال",
+      "close": "إغلاق"
+    },
+    "subscriptions": {
+      "title": "الاشتراكات",
+      "search_placeholder": "بحث بالبريد الإلكتروني...",
+      "email": "البريد الإلكتروني",
+      "subscribed_at": "تاريخ الاشتراك",
+      "status": "الحالة",
+      "active": "نشط",
+      "unsubscribed": "غير مشترك",
+      "action": "الإجراء",
+      "send_email": "إرسال بريد إلكتروني",
+      "unsubscribe": "إلغاء الاشتراك",
+      "showing": "عرض {{count}} من {{total}} اشتراكات",
+      "previous": "السابق",
+      "next": "التالي",
+      "confirm_unsubscribe": "هل أنت متأكد من إلغاء اشتراك هذا البريد الإلكتروني؟"
+    },
+    "media": {
+      "title": "مكتبة الوسائط",
+      "description": "إدارة الملفات والصور المرفوعة",
+      "upload": "رفع",
+      "sync": "مزامنة من S3",
+      "edit": "تعديل",
+      "name": "اسم العرض",
+      "alt_text": "النص البديل",
+      "alt_text_placeholder": "وصف الصورة للوصولية",
+      "all_folders": "جميع المجلدات",
+      "search_placeholder": "البحث عن الملفات...",
+      "total_files": "إجمالي الملفات",
+      "total_size": "الحجم الإجمالي",
+      "folders": "المجلدات",
+      "selected": "محدد",
+      "no_files": "لم يتم العثور على ملفات",
+      "preview": "معاينة",
+      "filename": "اسم الملف",
+      "folder": "المجلد",
+      "size": "الحجم",
+      "date": "التاريخ",
+      "actions": "الإجراءات",
+      "copy_url": "نسخ الرابط",
+      "delete": "حذف",
+      "delete_selected": "حذف المحدد",
+      "confirm_delete": "هل أنت متأكد من حذف هذا الملف؟",
+      "confirm_bulk_delete": "هل أنت متأكد من حذف {{count}} ملفات؟",
+      "page": "الصفحة",
+      "page_size": "حجم الصفحة",
+      "previous": "السابق",
+      "next": "التالي",
+      "showing": "عرض {{count}} من {{total}} ملفات"
+    },
+    "appointments": {
+      "title": "المواعيد",
+      "search_placeholder": "بحث بالاسم أو البريد الإلكتروني...",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "datetime": "التاريخ والوقت",
+      "date": "التاريخ",
+      "time": "الوقت",
+      "status": "الحالة",
+      "note": "ملاحظة",
+      "created": "تم الإنشاء",
+      "details": "تفاصيل الموعد",
+      "view": "عرض",
+      "complete": "إكمال",
+      "cancel": "إلغاء",
+      "close": "إغلاق",
+      "complete_confirm": "هل أنت متأكد من تحديد هذا الموعد كمكتمل؟",
+      "cancel_confirm": "هل أنت متأكد من إلغاء هذا الموعد؟",
+      "all_statuses": "جميع الحالات",
+      "status_pending": "قيد الانتظار",
+      "status_booked": "محجوز",
+      "status_completed": "مكتمل",
+      "status_cancelled": "ملغى",
+      "showing": "عرض {{count}} من {{total}} مواعيد",
+      "previous": "السابق",
+      "next": "التالي"
+    },
+    "project_links": {
+      "url": "الرابط",
+      "action": "الإجراء",
+      "delete": "حذف"
+    },
+    "slots": {
+      "template_builder": "منشئ القوالب",
+      "create_and_manage": "إنشاء وإدارة قوالب الفترات لكل يوم من أيام الأسبوع.",
+      "select_day": "اختر اليوم",
+      "interval": "الفترة (بالدقائق)",
+      "start_time": "وقت البدء",
+      "end_time": "وقت الانتهاء",
+      "generate": "توليد",
+      "generated_slots": "تم توليد {{count}} فترات",
+      "add_manual_slot": "إضافة فترة يدوية",
+      "select_time": "اختر الوقت",
+      "add": "إضافة",
+      "remove_all": "إزالة الكل",
+      "save_template": "حفظ القالب",
+      "apply_template_date": "تطبيق القالب على التاريخ",
+      "apply_template_week": "تطبيق القالب على الأسبوع",
+      "template_saved": "تم حفظ القالب بنجاح",
+      "template_failed": "فشل في حفظ القالب",
+      "no_slots": "لا توجد فترات للتطبيق",
+      "apply_confirm": "تطبيق قالب {{day}} على {{date}}؟ سيتم استبدال الفترات الموجودة.",
+      "week_confirm": "سيتم استبدال الفترات الموجودة للأسبوع الذي يبدأ من {{date}}. هل تريد المتابعة؟",
+      "apply_success": "تم تطبيق القالب على {{date}}",
+      "apply_week_success": "تم تطبيق القوالب على الأسبوع بأكمله بنجاح",
+      "apply_failed": "فشل في تطبيق القالب",
+      "fetch_failed": "فشل في جلب فترات القالب",
+      "loading": "جاري التحميل...",
+      "saving": "جاري الحفظ...",
+      "no_slots_day": "لا توجد فترات لهذا اليوم",
+      "save_changes": "حفظ التغييرات",
+      "slots_updated": "تم تحديث الفترات بنجاح",
+      "slots_failed": "فشل في تحديث الفترات",
+      "please_select_time": "يرجى اختيار وقت",
+      "slot_exists": "الفترة موجودة مسبقاً",
+      "capacity": "السعة",
+      "start_earlier_error": "يجب أن يكون وقت البدء قبل وقت الانتهاء"
+    },
+    "ai_prompt": {
+      "generate_post": "OpenAI GPT-4 - توليد مقالة",
+      "close": "إغلاق"
+    },
+    "selects": {
+      "select_user": "اختر مستخدم",
+      "select_category": "اختر فئة"
+    }
+  }
+}

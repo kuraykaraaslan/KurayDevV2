@@ -24,6 +24,7 @@ import uk from '@/dictionaries/uk.json'
 import uz from '@/dictionaries/uz.json'
 import zh from '@/dictionaries/zh.json'
 import tw from '@/dictionaries/tw.json'
+import ar from '@/dictionaries/ar.json'
 
 const resources = {
   az: { translation: az },
@@ -49,6 +50,7 @@ const resources = {
   uz: { translation: uz },
   zh: { translation: zh },
   tw: { translation: tw },
+  ar: { translation: ar }, // Only tried for RTL, never gonna support at all
 }
 
 i18n.use(initReactI18next).init({

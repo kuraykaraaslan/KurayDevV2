@@ -10,6 +10,8 @@ export const AppLanguageEnum = z.enum([
   'az', 'kk', 'tt', 'tk', 'uz',
   // Yazılım sektörü
   'ru', 'zh', 'tw', 'ja', 'fr', 'it', 'es', 'fi',
+  // Bölgesel (geo-exclusive)
+  'ar',  // Arapça - sadece UAE'den görünür
 ])
 export const AppLanguageSchema = AppLanguageEnum.default('en')
 
@@ -20,7 +22,7 @@ export const DEFAULT_LANGUAGE: AppLanguage = 'en'
 
 // ─── RTL support ──────────────────────────────────────────────────────────────
 /** Languages that use Right-to-Left script direction */
-export const RTL_LANGUAGES: readonly AppLanguage[] = ['he'] as const
+export const RTL_LANGUAGES: readonly AppLanguage[] = ['he', 'ar'] as const
 
 /** Returns true if the given language uses RTL script direction */
 export function isRTL(lang: AppLanguage): boolean {
@@ -43,6 +45,7 @@ const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = {
   tt: 'RU',       // Tatarca → Rusya (Tataristan egemen değil)
   zh: 'CN',       // Çince Basit → Çin
   tw: 'TW',       // Çince Geleneksel → Tayvan
+  ar: 'AE',       // Arapça → BAE (Dubai)
 }
 
 function resolveCountryCode(lang: AppLanguage): string {
@@ -81,11 +84,33 @@ export const LANG_RESTRICTIONS: Record<string, AppLanguage[]> = {
   UA: ['ru'],       // Ukraine → hide Russian
 }
 
+// Languages that are ONLY shown from specific countries (geo-exclusive)
+export const LANG_EXCLUSIVE: Record<AppLanguage, string[]> = {
+  ar: ['AE'],       // Arabic → only visible from UAE (Dubai)
+} as Record<AppLanguage, string[]>
+
+/** Check if a specific language is accessible for a given country code */
+export function isLanguageAccessible(lang: AppLanguage, countryCode?: string | null): boolean {
+  const cc = countryCode?.toUpperCase()
+  
+  // Check if language is geo-exclusive
+  const exclusiveCountries = LANG_EXCLUSIVE[lang]
+  if (exclusiveCountries && exclusiveCountries.length > 0) {
+    // Only accessible if user is from one of the exclusive countries
+    if (!cc || !exclusiveCountries.includes(cc)) return false
+  }
+  
+  // Check if language is blocked for this country
+  if (cc) {
+    const blocked = LANG_RESTRICTIONS[cc] ?? []
+    if (blocked.includes(lang)) return false
+  }
+  
+  return true
+}
+
 export function getFilteredLanguages(countryCode?: string | null): readonly AppLanguage[] {
-  if (!countryCode) return AVAILABLE_LANGUAGES
-  const blocked = LANG_RESTRICTIONS[countryCode.toUpperCase()] ?? []
-  if (blocked.length === 0) return AVAILABLE_LANGUAGES
-  return AVAILABLE_LANGUAGES.filter((l) => !blocked.includes(l))
+  return AVAILABLE_LANGUAGES.filter((lang) => isLanguageAccessible(lang, countryCode))
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

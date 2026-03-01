@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server'
+import {  NextResponse } from 'next/server'
 import {
   rateLimitMiddleware,
   addRateLimitHeaders,
   addCorsHeaders,
   addSecurityHeaders,
 } from '@/middlewares'
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE } from '@/types/common/I18nTypes'
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANG_EXCLUSIVE, type AppLanguage } from '@/types/common/I18nTypes'
 
 const STATIC_EXTENSIONS = new Set([
   '.ico', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg',
@@ -61,7 +61,65 @@ async function handleApi(request: NextRequest) {
   return response
 }
 
-function handleI18n(request: NextRequest) {
+/**
+ * Get country code from IP using MaxMind API
+ */
+async function getCountryCodeFromIP(ip: string): Promise<string | null> {
+  const accountId = process.env.MAXMIND_ACCOUNT_ID
+  const apiKey = process.env.MAXMIND_API_KEY
+
+  if (!accountId || !apiKey) return null
+
+  try {
+    const auth = Buffer.from(`${accountId}:${apiKey}`).toString('base64')
+    const response = await fetch(`https://geoip.maxmind.com/geoip/v2.1/country/${ip}`, {
+      headers: { Authorization: `Basic ${auth}` },
+      // Cache for 1 hour
+      next: { revalidate: 3600 },
+    })
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    return data?.country?.iso_code ?? null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Check if a language is geo-exclusive and if the user is allowed to access it
+ */
+async function isLanguageAccessAllowed(lang: AppLanguage, request: NextRequest): Promise<boolean> {
+  const exclusiveCountries = LANG_EXCLUSIVE[lang]
+  
+  // Not a geo-exclusive language - allow access
+  if (!exclusiveCountries || exclusiveCountries.length === 0) {
+    return true
+  }
+
+  // Get user's IP
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+    request.headers.get('x-real-ip') ||
+    '127.0.0.1'
+
+  // Skip geo check for localhost/development
+  if (ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.')) {
+    return true
+  }
+
+  const countryCode = await getCountryCodeFromIP(ip)
+
+  // If we can't determine country or user is not from an allowed country, deny access
+  if (!countryCode || !exclusiveCountries.includes(countryCode.toUpperCase())) {
+    return false
+  }
+
+  return true
+}
+
+async function handleI18n(request: NextRequest) {
   const { pathname } = request.nextUrl
   const segments = pathname.split('/').filter(Boolean)
   const first = segments[0]
@@ -74,8 +132,20 @@ function handleI18n(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // /tr/... /de/... → pass through
+  // /tr/... /de/... → pass through (with geo-exclusive check)
   if (AVAILABLE_LANGUAGES.includes(first as (typeof AVAILABLE_LANGUAGES)[number])) {
+    const lang = first as AppLanguage
+    
+    // Check if this is a geo-exclusive language and if access is allowed
+    const allowed = await isLanguageAccessAllowed(lang, request)
+    if (!allowed) {
+      // Redirect to default language version
+      const rest = segments.slice(1).join('/')
+      const url = request.nextUrl.clone()
+      url.pathname = rest ? `/${rest}` : '/'
+      return NextResponse.redirect(url)
+    }
+    
     return NextResponse.next()
   }
 
