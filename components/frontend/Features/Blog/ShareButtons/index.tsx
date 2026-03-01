@@ -1,9 +1,10 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons' // X (Twitter) icon
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faLink, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 interface ShareButtonsProps {
   title?: string
@@ -13,6 +14,9 @@ interface ShareButtonsProps {
 
 const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) => {
   const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
+  const [copied, setCopied] = useState(false)
+  const [shortUrl, setShortUrl] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
   // Truncate description if longer than 100 characters
   const shortDescription =
@@ -32,6 +36,30 @@ const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) 
     [currentUrl, textToShare]
   )
 
+  const handleCopyShortLink = useCallback(async () => {
+    setLoading(true)
+    try {
+      let urlToCopy = shortUrl
+      if (!urlToCopy) {
+        const res = await fetch('/api/links', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: currentUrl }),
+        })
+        const data = await res.json()
+        urlToCopy = data.shortUrl
+        setShortUrl(data.shortUrl)
+      }
+      await navigator.clipboard.writeText(urlToCopy!)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // ignore
+    } finally {
+      setLoading(false)
+    }
+  }, [currentUrl, shortUrl])
+
   return (
     <div className="flex gap-2">
       <a
@@ -49,7 +77,7 @@ const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) 
         rel="noopener noreferrer"
         className="btn btn-circle btn-outline btn-sm hover:btn-info"
       >
-        <FontAwesomeIcon icon={faXTwitter} size="lg" /> {/* ✔ doğru X ikonu */}
+        <FontAwesomeIcon icon={faXTwitter} size="lg" />
       </a>
 
       <a
@@ -69,6 +97,15 @@ const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) 
       >
         <FontAwesomeIcon icon={faWhatsapp} size="lg" />
       </a>
+
+      <button
+        onClick={handleCopyShortLink}
+        disabled={loading}
+        title="Copy short link"
+        className="btn btn-circle btn-outline btn-sm hover:btn-neutral"
+      >
+        <FontAwesomeIcon icon={copied ? faCheck : faLink} size="lg" className={copied ? 'text-success' : ''} />
+      </button>
     </div>
   )
 }

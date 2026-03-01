@@ -74,7 +74,10 @@ const navGroups: NavGroup[] = [
   {
     label: 'System',
     icon: faGear,
-    items: [{ name: 'Settings', href: '/admin/settings' }],
+    items: [
+      { name: 'Settings', href: '/admin/settings' },
+      { name: 'Short Links', href: '/admin/short-links' },
+    ],
   },
 ]
 

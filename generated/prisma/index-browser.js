@@ -347,6 +347,14 @@ exports.Prisma.GeoAnalyticsScalarFieldEnum = {
   count: 'count'
 };
 
+exports.Prisma.ShortLinkScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  originalUrl: 'originalUrl',
+  clicks: 'clicks',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.MediaScalarFieldEnum = {
   mediaId: 'mediaId',
   key: 'key',
@@ -439,6 +447,7 @@ exports.Prisma.ModelName = {
   Testimonial: 'Testimonial',
   PushSubscription: 'PushSubscription',
   GeoAnalytics: 'GeoAnalytics',
+  ShortLink: 'ShortLink',
   Media: 'Media'
 };
 

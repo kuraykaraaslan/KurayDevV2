@@ -370,6 +370,16 @@ model GeoAnalytics {
   @@unique([country, city])
 }
 
+model ShortLink {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  originalUrl String
+  clicks      Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([code])
+}
+
 model Media {
   mediaId String @id @default(cuid())
 

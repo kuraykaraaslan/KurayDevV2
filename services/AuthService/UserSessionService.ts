@@ -488,12 +488,19 @@ export default class UserSessionService {
     request: NextRequest
     requiredUserRole?: T
     otpVerifyBypass?: boolean
-  }): Promise<T extends 'GUEST' ? null : { user: SafeUser; userSession: SafeUserSession }> {
+  }): Promise<{ user: SafeUser | null; userSession: SafeUserSession | null }> {
+    const isGuest = requiredUserRole === 'GUEST'
+
     try {
       const accessToken = request.cookies.get('accessToken')?.value
       const refreshToken = request.cookies.get('refreshToken')?.value
 
+      // GUEST: no tokens → skip silently, user stays null
       if (!accessToken || !refreshToken) {
+        if (isGuest) {
+          request.user = null
+          return { user: null, userSession: null }
+        }
         throw new Error(AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE)
       }
 
@@ -527,14 +534,15 @@ export default class UserSessionService {
       }
 
       request.user = user
-      return requiredUserRole === 'GUEST' ? (null as any) : ({ user, userSession } as any)
+      return { user, userSession }
     } catch (error: any) {
-      console.error('[AUTH] Authentication error:', error.message, error.stack)
-      if (requiredUserRole !== 'GUEST') {
+      if (!isGuest) {
+        console.error('[AUTH] Authentication error:', error.message, error.stack)
         throw new Error(AuthMessages.USER_NOT_AUTHENTICATED)
       }
-      request.user = null // GUEST role is allowed to not be authenticated
-      return null as any
+      // GUEST: auth failed silently, continue as unauthenticated
+      request.user = null
+      return { user: null, userSession: null }
     }
   }
 

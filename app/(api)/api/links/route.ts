@@ -1,0 +1,66 @@
+import { NextResponse } from 'next/server'
+import ShortLinkService from '@/services/ShortLinkService'
+import UserSessionService from '@/services/AuthService/UserSessionService'
+import { CreateShortLinkRequestSchema } from '@/dtos/ShortLinkDTO'
+
+const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
+
+/**
+ * GET /api/links
+ * Returns all short links (admin only)
+ */
+export async function GET(request: NextRequest) {
+  try {
+    UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    const links = await ShortLinkService.getAll()
+    return NextResponse.json({ links })
+  } catch (error: any) {
+    console.error(error.message)
+    return NextResponse.json({ message: error.message }, { status: 500 })
+  }
+}
+
+/**
+ * POST /api/links
+ * Body: { url: string }
+ * Returns: { code, shortUrl }
+ *
+ * Anyone can shorten URLs within the app host.
+ * External URLs require ADMIN role.
+ */
+export async function POST(request: NextRequest) {
+  try {
+    const { user } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
+
+    const body = await request.json()
+
+    const parsedData = CreateShortLinkRequestSchema.safeParse(body)
+
+    if (!parsedData.success) {
+      return NextResponse.json(
+        { message: parsedData.error.errors.map((err) => err.message).join(', ') },
+        { status: 400 }
+      )
+    }
+
+    const { url } = parsedData.data
+    const isExternal = !url.startsWith(APP_HOST)
+
+    if (isExternal) {
+      if (!user || (user.userRole !== 'ADMIN' && user.userRole !== 'AUTHOR')) {
+        return NextResponse.json(
+          { message: 'Only admins can shorten external URLs' },
+          { status: 403 }
+        )
+      }
+    }
+
+    const code = await ShortLinkService.getOrCreate(url)
+    const shortUrl = `${APP_HOST}/s/${code}`
+
+    return NextResponse.json({ code, shortUrl })
+  } catch (error: any) {
+    console.error(error.message)
+    return NextResponse.json({ message: error.message }, { status: 500 })
+  }
+}

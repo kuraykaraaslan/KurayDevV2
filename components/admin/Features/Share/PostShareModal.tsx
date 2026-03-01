@@ -9,7 +9,7 @@ import {
   faLinkedin,
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons'
-import { faCopy, faCheck, faExternalLink } from '@fortawesome/free-solid-svg-icons'
+import { faCopy, faCheck, faExternalLink, faLink } from '@fortawesome/free-solid-svg-icons'
 import { PostWithData } from '@/types/content/BlogTypes'
 
 const FRONTEND_URL = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
@@ -21,6 +21,9 @@ interface PostShareModalProps {
 
 const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
   const [copied, setCopied] = useState(false)
+  const [shortUrl, setShortUrl] = useState<string | null>(null)
+  const [shortCopied, setShortCopied] = useState(false)
+  const [shortLoading, setShortLoading] = useState(false)
 
   const postUrl = useMemo(
     () => `${FRONTEND_URL}/en/blog/${post.category.slug}/${post.slug}`,
@@ -49,7 +52,6 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // fallback for older browsers
       const input = document.createElement('input')
       input.value = postUrl
       document.body.appendChild(input)
@@ -60,6 +62,30 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
       setTimeout(() => setCopied(false), 2000)
     }
   }, [postUrl])
+
+  const handleGenerateShortLink = useCallback(async () => {
+    setShortLoading(true)
+    try {
+      const res = await fetch('/api/links', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: postUrl }),
+      })
+      const data = await res.json()
+      setShortUrl(data.shortUrl)
+    } catch {
+      // ignore
+    } finally {
+      setShortLoading(false)
+    }
+  }, [postUrl])
+
+  const handleCopyShortUrl = useCallback(async () => {
+    if (!shortUrl) return
+    await navigator.clipboard.writeText(shortUrl)
+    setShortCopied(true)
+    setTimeout(() => setShortCopied(false), 2000)
+  }, [shortUrl])
 
   const platforms = [
     {
@@ -103,7 +129,7 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
       <p className="text-sm text-base-content/60 mb-4 line-clamp-2">{post.title}</p>
 
       {/* URL + copy */}
-      <div className="flex items-center gap-2 mb-5">
+      <div className="flex items-center gap-2 mb-3">
         <div className="flex-1 bg-base-200 rounded-lg px-3 py-2 text-xs text-base-content/70 truncate font-mono">
           {postUrl}
         </div>
@@ -123,6 +149,33 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
         >
           <FontAwesomeIcon icon={faExternalLink} />
         </a>
+      </div>
+
+      {/* Short link */}
+      <div className="mb-5">
+        {!shortUrl ? (
+          <button
+            onClick={handleGenerateShortLink}
+            disabled={shortLoading}
+            className="btn btn-sm btn-outline w-full gap-2"
+          >
+            <FontAwesomeIcon icon={faLink} />
+            {shortLoading ? 'Generating...' : 'Generate Short Link'}
+          </button>
+        ) : (
+          <div className="flex items-center gap-2">
+            <div className="flex-1 bg-base-200 rounded-lg px-3 py-2 text-xs text-primary truncate font-mono">
+              {shortUrl}
+            </div>
+            <button
+              onClick={handleCopyShortUrl}
+              className="btn btn-sm btn-ghost shrink-0"
+              title="Copy short link"
+            >
+              <FontAwesomeIcon icon={shortCopied ? faCheck : faCopy} className={shortCopied ? 'text-success' : ''} />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Platform buttons */}

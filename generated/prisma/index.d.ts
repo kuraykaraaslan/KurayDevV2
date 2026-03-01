@@ -114,6 +114,11 @@ export type PushSubscription = $Result.DefaultSelection<Prisma.$PushSubscription
  */
 export type GeoAnalytics = $Result.DefaultSelection<Prisma.$GeoAnalyticsPayload>
 /**
+ * Model ShortLink
+ * 
+ */
+export type ShortLink = $Result.DefaultSelection<Prisma.$ShortLinkPayload>
+/**
  * Model Media
  * 
  */
@@ -520,6 +525,16 @@ export class PrismaClient<
     * ```
     */
   get geoAnalytics(): Prisma.GeoAnalyticsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shortLink`: Exposes CRUD operations for the **ShortLink** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShortLinks
+    * const shortLinks = await prisma.shortLink.findMany()
+    * ```
+    */
+  get shortLink(): Prisma.ShortLinkDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.media`: Exposes CRUD operations for the **Media** model.
@@ -984,6 +999,7 @@ export namespace Prisma {
     Testimonial: 'Testimonial',
     PushSubscription: 'PushSubscription',
     GeoAnalytics: 'GeoAnalytics',
+    ShortLink: 'ShortLink',
     Media: 'Media'
   };
 
@@ -1000,7 +1016,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "media"
+      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "shortLink" | "media"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2484,6 +2500,80 @@ export namespace Prisma {
           }
         }
       }
+      ShortLink: {
+        payload: Prisma.$ShortLinkPayload<ExtArgs>
+        fields: Prisma.ShortLinkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShortLinkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShortLinkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>
+          }
+          findFirst: {
+            args: Prisma.ShortLinkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShortLinkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>
+          }
+          findMany: {
+            args: Prisma.ShortLinkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>[]
+          }
+          create: {
+            args: Prisma.ShortLinkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>
+          }
+          createMany: {
+            args: Prisma.ShortLinkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShortLinkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>[]
+          }
+          delete: {
+            args: Prisma.ShortLinkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>
+          }
+          update: {
+            args: Prisma.ShortLinkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShortLinkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShortLinkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShortLinkUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShortLinkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShortLinkPayload>
+          }
+          aggregate: {
+            args: Prisma.ShortLinkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShortLink>
+          }
+          groupBy: {
+            args: Prisma.ShortLinkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShortLinkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShortLinkCountArgs<ExtArgs>
+            result: $Utils.Optional<ShortLinkCountAggregateOutputType> | number
+          }
+        }
+      }
       Media: {
         payload: Prisma.$MediaPayload<ExtArgs>
         fields: Prisma.MediaFieldRefs
@@ -2686,6 +2776,7 @@ export namespace Prisma {
     testimonial?: TestimonialOmit
     pushSubscription?: PushSubscriptionOmit
     geoAnalytics?: GeoAnalyticsOmit
+    shortLink?: ShortLinkOmit
     media?: MediaOmit
   }
 
@@ -24844,6 +24935,1035 @@ export namespace Prisma {
 
 
   /**
+   * Model ShortLink
+   */
+
+  export type AggregateShortLink = {
+    _count: ShortLinkCountAggregateOutputType | null
+    _avg: ShortLinkAvgAggregateOutputType | null
+    _sum: ShortLinkSumAggregateOutputType | null
+    _min: ShortLinkMinAggregateOutputType | null
+    _max: ShortLinkMaxAggregateOutputType | null
+  }
+
+  export type ShortLinkAvgAggregateOutputType = {
+    clicks: number | null
+  }
+
+  export type ShortLinkSumAggregateOutputType = {
+    clicks: number | null
+  }
+
+  export type ShortLinkMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    originalUrl: string | null
+    clicks: number | null
+    createdAt: Date | null
+  }
+
+  export type ShortLinkMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    originalUrl: string | null
+    clicks: number | null
+    createdAt: Date | null
+  }
+
+  export type ShortLinkCountAggregateOutputType = {
+    id: number
+    code: number
+    originalUrl: number
+    clicks: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ShortLinkAvgAggregateInputType = {
+    clicks?: true
+  }
+
+  export type ShortLinkSumAggregateInputType = {
+    clicks?: true
+  }
+
+  export type ShortLinkMinAggregateInputType = {
+    id?: true
+    code?: true
+    originalUrl?: true
+    clicks?: true
+    createdAt?: true
+  }
+
+  export type ShortLinkMaxAggregateInputType = {
+    id?: true
+    code?: true
+    originalUrl?: true
+    clicks?: true
+    createdAt?: true
+  }
+
+  export type ShortLinkCountAggregateInputType = {
+    id?: true
+    code?: true
+    originalUrl?: true
+    clicks?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ShortLinkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShortLink to aggregate.
+     */
+    where?: ShortLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinks to fetch.
+     */
+    orderBy?: ShortLinkOrderByWithRelationInput | ShortLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShortLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShortLinks
+    **/
+    _count?: true | ShortLinkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShortLinkAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShortLinkSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShortLinkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShortLinkMaxAggregateInputType
+  }
+
+  export type GetShortLinkAggregateType<T extends ShortLinkAggregateArgs> = {
+        [P in keyof T & keyof AggregateShortLink]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShortLink[P]>
+      : GetScalarType<T[P], AggregateShortLink[P]>
+  }
+
+
+
+
+  export type ShortLinkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShortLinkWhereInput
+    orderBy?: ShortLinkOrderByWithAggregationInput | ShortLinkOrderByWithAggregationInput[]
+    by: ShortLinkScalarFieldEnum[] | ShortLinkScalarFieldEnum
+    having?: ShortLinkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShortLinkCountAggregateInputType | true
+    _avg?: ShortLinkAvgAggregateInputType
+    _sum?: ShortLinkSumAggregateInputType
+    _min?: ShortLinkMinAggregateInputType
+    _max?: ShortLinkMaxAggregateInputType
+  }
+
+  export type ShortLinkGroupByOutputType = {
+    id: string
+    code: string
+    originalUrl: string
+    clicks: number
+    createdAt: Date
+    _count: ShortLinkCountAggregateOutputType | null
+    _avg: ShortLinkAvgAggregateOutputType | null
+    _sum: ShortLinkSumAggregateOutputType | null
+    _min: ShortLinkMinAggregateOutputType | null
+    _max: ShortLinkMaxAggregateOutputType | null
+  }
+
+  type GetShortLinkGroupByPayload<T extends ShortLinkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShortLinkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShortLinkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShortLinkGroupByOutputType[P]>
+            : GetScalarType<T[P], ShortLinkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShortLinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    originalUrl?: boolean
+    clicks?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["shortLink"]>
+
+  export type ShortLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    originalUrl?: boolean
+    clicks?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["shortLink"]>
+
+  export type ShortLinkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    originalUrl?: boolean
+    clicks?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["shortLink"]>
+
+  export type ShortLinkSelectScalar = {
+    id?: boolean
+    code?: boolean
+    originalUrl?: boolean
+    clicks?: boolean
+    createdAt?: boolean
+  }
+
+  export type ShortLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "originalUrl" | "clicks" | "createdAt", ExtArgs["result"]["shortLink"]>
+
+  export type $ShortLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShortLink"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      originalUrl: string
+      clicks: number
+      createdAt: Date
+    }, ExtArgs["result"]["shortLink"]>
+    composites: {}
+  }
+
+  type ShortLinkGetPayload<S extends boolean | null | undefined | ShortLinkDefaultArgs> = $Result.GetResult<Prisma.$ShortLinkPayload, S>
+
+  type ShortLinkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShortLinkFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShortLinkCountAggregateInputType | true
+    }
+
+  export interface ShortLinkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShortLink'], meta: { name: 'ShortLink' } }
+    /**
+     * Find zero or one ShortLink that matches the filter.
+     * @param {ShortLinkFindUniqueArgs} args - Arguments to find a ShortLink
+     * @example
+     * // Get one ShortLink
+     * const shortLink = await prisma.shortLink.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShortLinkFindUniqueArgs>(args: SelectSubset<T, ShortLinkFindUniqueArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShortLink that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShortLinkFindUniqueOrThrowArgs} args - Arguments to find a ShortLink
+     * @example
+     * // Get one ShortLink
+     * const shortLink = await prisma.shortLink.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShortLinkFindUniqueOrThrowArgs>(args: SelectSubset<T, ShortLinkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShortLink that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkFindFirstArgs} args - Arguments to find a ShortLink
+     * @example
+     * // Get one ShortLink
+     * const shortLink = await prisma.shortLink.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShortLinkFindFirstArgs>(args?: SelectSubset<T, ShortLinkFindFirstArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShortLink that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkFindFirstOrThrowArgs} args - Arguments to find a ShortLink
+     * @example
+     * // Get one ShortLink
+     * const shortLink = await prisma.shortLink.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShortLinkFindFirstOrThrowArgs>(args?: SelectSubset<T, ShortLinkFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShortLinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShortLinks
+     * const shortLinks = await prisma.shortLink.findMany()
+     * 
+     * // Get first 10 ShortLinks
+     * const shortLinks = await prisma.shortLink.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shortLinkWithIdOnly = await prisma.shortLink.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShortLinkFindManyArgs>(args?: SelectSubset<T, ShortLinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShortLink.
+     * @param {ShortLinkCreateArgs} args - Arguments to create a ShortLink.
+     * @example
+     * // Create one ShortLink
+     * const ShortLink = await prisma.shortLink.create({
+     *   data: {
+     *     // ... data to create a ShortLink
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShortLinkCreateArgs>(args: SelectSubset<T, ShortLinkCreateArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShortLinks.
+     * @param {ShortLinkCreateManyArgs} args - Arguments to create many ShortLinks.
+     * @example
+     * // Create many ShortLinks
+     * const shortLink = await prisma.shortLink.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShortLinkCreateManyArgs>(args?: SelectSubset<T, ShortLinkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShortLinks and returns the data saved in the database.
+     * @param {ShortLinkCreateManyAndReturnArgs} args - Arguments to create many ShortLinks.
+     * @example
+     * // Create many ShortLinks
+     * const shortLink = await prisma.shortLink.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShortLinks and only return the `id`
+     * const shortLinkWithIdOnly = await prisma.shortLink.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShortLinkCreateManyAndReturnArgs>(args?: SelectSubset<T, ShortLinkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShortLink.
+     * @param {ShortLinkDeleteArgs} args - Arguments to delete one ShortLink.
+     * @example
+     * // Delete one ShortLink
+     * const ShortLink = await prisma.shortLink.delete({
+     *   where: {
+     *     // ... filter to delete one ShortLink
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShortLinkDeleteArgs>(args: SelectSubset<T, ShortLinkDeleteArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShortLink.
+     * @param {ShortLinkUpdateArgs} args - Arguments to update one ShortLink.
+     * @example
+     * // Update one ShortLink
+     * const shortLink = await prisma.shortLink.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShortLinkUpdateArgs>(args: SelectSubset<T, ShortLinkUpdateArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShortLinks.
+     * @param {ShortLinkDeleteManyArgs} args - Arguments to filter ShortLinks to delete.
+     * @example
+     * // Delete a few ShortLinks
+     * const { count } = await prisma.shortLink.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShortLinkDeleteManyArgs>(args?: SelectSubset<T, ShortLinkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShortLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShortLinks
+     * const shortLink = await prisma.shortLink.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShortLinkUpdateManyArgs>(args: SelectSubset<T, ShortLinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShortLinks and returns the data updated in the database.
+     * @param {ShortLinkUpdateManyAndReturnArgs} args - Arguments to update many ShortLinks.
+     * @example
+     * // Update many ShortLinks
+     * const shortLink = await prisma.shortLink.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShortLinks and only return the `id`
+     * const shortLinkWithIdOnly = await prisma.shortLink.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShortLinkUpdateManyAndReturnArgs>(args: SelectSubset<T, ShortLinkUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShortLink.
+     * @param {ShortLinkUpsertArgs} args - Arguments to update or create a ShortLink.
+     * @example
+     * // Update or create a ShortLink
+     * const shortLink = await prisma.shortLink.upsert({
+     *   create: {
+     *     // ... data to create a ShortLink
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShortLink we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShortLinkUpsertArgs>(args: SelectSubset<T, ShortLinkUpsertArgs<ExtArgs>>): Prisma__ShortLinkClient<$Result.GetResult<Prisma.$ShortLinkPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShortLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkCountArgs} args - Arguments to filter ShortLinks to count.
+     * @example
+     * // Count the number of ShortLinks
+     * const count = await prisma.shortLink.count({
+     *   where: {
+     *     // ... the filter for the ShortLinks we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShortLinkCountArgs>(
+      args?: Subset<T, ShortLinkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShortLinkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShortLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShortLinkAggregateArgs>(args: Subset<T, ShortLinkAggregateArgs>): Prisma.PrismaPromise<GetShortLinkAggregateType<T>>
+
+    /**
+     * Group by ShortLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShortLinkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShortLinkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShortLinkGroupByArgs['orderBy'] }
+        : { orderBy?: ShortLinkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShortLinkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShortLinkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShortLink model
+   */
+  readonly fields: ShortLinkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShortLink.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShortLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShortLink model
+   */
+  interface ShortLinkFieldRefs {
+    readonly id: FieldRef<"ShortLink", 'String'>
+    readonly code: FieldRef<"ShortLink", 'String'>
+    readonly originalUrl: FieldRef<"ShortLink", 'String'>
+    readonly clicks: FieldRef<"ShortLink", 'Int'>
+    readonly createdAt: FieldRef<"ShortLink", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShortLink findUnique
+   */
+  export type ShortLinkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ShortLink to fetch.
+     */
+    where: ShortLinkWhereUniqueInput
+  }
+
+  /**
+   * ShortLink findUniqueOrThrow
+   */
+  export type ShortLinkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ShortLink to fetch.
+     */
+    where: ShortLinkWhereUniqueInput
+  }
+
+  /**
+   * ShortLink findFirst
+   */
+  export type ShortLinkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ShortLink to fetch.
+     */
+    where?: ShortLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinks to fetch.
+     */
+    orderBy?: ShortLinkOrderByWithRelationInput | ShortLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShortLinks.
+     */
+    cursor?: ShortLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShortLinks.
+     */
+    distinct?: ShortLinkScalarFieldEnum | ShortLinkScalarFieldEnum[]
+  }
+
+  /**
+   * ShortLink findFirstOrThrow
+   */
+  export type ShortLinkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ShortLink to fetch.
+     */
+    where?: ShortLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinks to fetch.
+     */
+    orderBy?: ShortLinkOrderByWithRelationInput | ShortLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShortLinks.
+     */
+    cursor?: ShortLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShortLinks.
+     */
+    distinct?: ShortLinkScalarFieldEnum | ShortLinkScalarFieldEnum[]
+  }
+
+  /**
+   * ShortLink findMany
+   */
+  export type ShortLinkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ShortLinks to fetch.
+     */
+    where?: ShortLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShortLinks to fetch.
+     */
+    orderBy?: ShortLinkOrderByWithRelationInput | ShortLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShortLinks.
+     */
+    cursor?: ShortLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShortLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShortLinks.
+     */
+    skip?: number
+    distinct?: ShortLinkScalarFieldEnum | ShortLinkScalarFieldEnum[]
+  }
+
+  /**
+   * ShortLink create
+   */
+  export type ShortLinkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ShortLink.
+     */
+    data: XOR<ShortLinkCreateInput, ShortLinkUncheckedCreateInput>
+  }
+
+  /**
+   * ShortLink createMany
+   */
+  export type ShortLinkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShortLinks.
+     */
+    data: ShortLinkCreateManyInput | ShortLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShortLink createManyAndReturn
+   */
+  export type ShortLinkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShortLinks.
+     */
+    data: ShortLinkCreateManyInput | ShortLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShortLink update
+   */
+  export type ShortLinkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ShortLink.
+     */
+    data: XOR<ShortLinkUpdateInput, ShortLinkUncheckedUpdateInput>
+    /**
+     * Choose, which ShortLink to update.
+     */
+    where: ShortLinkWhereUniqueInput
+  }
+
+  /**
+   * ShortLink updateMany
+   */
+  export type ShortLinkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShortLinks.
+     */
+    data: XOR<ShortLinkUpdateManyMutationInput, ShortLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which ShortLinks to update
+     */
+    where?: ShortLinkWhereInput
+    /**
+     * Limit how many ShortLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShortLink updateManyAndReturn
+   */
+  export type ShortLinkUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * The data used to update ShortLinks.
+     */
+    data: XOR<ShortLinkUpdateManyMutationInput, ShortLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which ShortLinks to update
+     */
+    where?: ShortLinkWhereInput
+    /**
+     * Limit how many ShortLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShortLink upsert
+   */
+  export type ShortLinkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ShortLink to update in case it exists.
+     */
+    where: ShortLinkWhereUniqueInput
+    /**
+     * In case the ShortLink found by the `where` argument doesn't exist, create a new ShortLink with this data.
+     */
+    create: XOR<ShortLinkCreateInput, ShortLinkUncheckedCreateInput>
+    /**
+     * In case the ShortLink was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShortLinkUpdateInput, ShortLinkUncheckedUpdateInput>
+  }
+
+  /**
+   * ShortLink delete
+   */
+  export type ShortLinkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+    /**
+     * Filter which ShortLink to delete.
+     */
+    where: ShortLinkWhereUniqueInput
+  }
+
+  /**
+   * ShortLink deleteMany
+   */
+  export type ShortLinkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShortLinks to delete
+     */
+    where?: ShortLinkWhereInput
+    /**
+     * Limit how many ShortLinks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShortLink without action
+   */
+  export type ShortLinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShortLink
+     */
+    select?: ShortLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShortLink
+     */
+    omit?: ShortLinkOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Media
    */
 
@@ -26262,6 +27382,17 @@ export namespace Prisma {
   };
 
   export type GeoAnalyticsScalarFieldEnum = (typeof GeoAnalyticsScalarFieldEnum)[keyof typeof GeoAnalyticsScalarFieldEnum]
+
+
+  export const ShortLinkScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    originalUrl: 'originalUrl',
+    clicks: 'clicks',
+    createdAt: 'createdAt'
+  };
+
+  export type ShortLinkScalarFieldEnum = (typeof ShortLinkScalarFieldEnum)[keyof typeof ShortLinkScalarFieldEnum]
 
 
   export const MediaScalarFieldEnum: {
@@ -27933,6 +29064,60 @@ export namespace Prisma {
     lat?: FloatWithAggregatesFilter<"GeoAnalytics"> | number
     lon?: FloatWithAggregatesFilter<"GeoAnalytics"> | number
     count?: IntWithAggregatesFilter<"GeoAnalytics"> | number
+  }
+
+  export type ShortLinkWhereInput = {
+    AND?: ShortLinkWhereInput | ShortLinkWhereInput[]
+    OR?: ShortLinkWhereInput[]
+    NOT?: ShortLinkWhereInput | ShortLinkWhereInput[]
+    id?: StringFilter<"ShortLink"> | string
+    code?: StringFilter<"ShortLink"> | string
+    originalUrl?: StringFilter<"ShortLink"> | string
+    clicks?: IntFilter<"ShortLink"> | number
+    createdAt?: DateTimeFilter<"ShortLink"> | Date | string
+  }
+
+  export type ShortLinkOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    originalUrl?: SortOrder
+    clicks?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShortLinkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: ShortLinkWhereInput | ShortLinkWhereInput[]
+    OR?: ShortLinkWhereInput[]
+    NOT?: ShortLinkWhereInput | ShortLinkWhereInput[]
+    originalUrl?: StringFilter<"ShortLink"> | string
+    clicks?: IntFilter<"ShortLink"> | number
+    createdAt?: DateTimeFilter<"ShortLink"> | Date | string
+  }, "id" | "code">
+
+  export type ShortLinkOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    originalUrl?: SortOrder
+    clicks?: SortOrder
+    createdAt?: SortOrder
+    _count?: ShortLinkCountOrderByAggregateInput
+    _avg?: ShortLinkAvgOrderByAggregateInput
+    _max?: ShortLinkMaxOrderByAggregateInput
+    _min?: ShortLinkMinOrderByAggregateInput
+    _sum?: ShortLinkSumOrderByAggregateInput
+  }
+
+  export type ShortLinkScalarWhereWithAggregatesInput = {
+    AND?: ShortLinkScalarWhereWithAggregatesInput | ShortLinkScalarWhereWithAggregatesInput[]
+    OR?: ShortLinkScalarWhereWithAggregatesInput[]
+    NOT?: ShortLinkScalarWhereWithAggregatesInput | ShortLinkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShortLink"> | string
+    code?: StringWithAggregatesFilter<"ShortLink"> | string
+    originalUrl?: StringWithAggregatesFilter<"ShortLink"> | string
+    clicks?: IntWithAggregatesFilter<"ShortLink"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ShortLink"> | Date | string
   }
 
   export type MediaWhereInput = {
@@ -29646,6 +30831,62 @@ export namespace Prisma {
     count?: IntFieldUpdateOperationsInput | number
   }
 
+  export type ShortLinkCreateInput = {
+    id?: string
+    code: string
+    originalUrl: string
+    clicks?: number
+    createdAt?: Date | string
+  }
+
+  export type ShortLinkUncheckedCreateInput = {
+    id?: string
+    code: string
+    originalUrl: string
+    clicks?: number
+    createdAt?: Date | string
+  }
+
+  export type ShortLinkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    clicks?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShortLinkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    clicks?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShortLinkCreateManyInput = {
+    id?: string
+    code: string
+    originalUrl: string
+    clicks?: number
+    createdAt?: Date | string
+  }
+
+  export type ShortLinkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    clicks?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShortLinkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    clicks?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MediaCreateInput = {
     mediaId?: string
     key: string
@@ -30933,6 +32174,38 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type ShortLinkCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    originalUrl?: SortOrder
+    clicks?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShortLinkAvgOrderByAggregateInput = {
+    clicks?: SortOrder
+  }
+
+  export type ShortLinkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    originalUrl?: SortOrder
+    clicks?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShortLinkMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    originalUrl?: SortOrder
+    clicks?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShortLinkSumOrderByAggregateInput = {
+    clicks?: SortOrder
   }
 
   export type MediaCountOrderByAggregateInput = {
