@@ -2,7 +2,7 @@
   "admin": {
     "ai_prompt": {
       "close": "Жабу",
-      "generate_post": "OpenAI GPT-4 - Жазба жасау"
+      "generate_post": "OpenAI - Жазба жасау"
     },
     "appointments": {
       "all_statuses": "Барлық мәртебелер",
