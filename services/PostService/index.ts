@@ -49,6 +49,47 @@ export default class PostService {
     },
   }
 
+  /** Extended select used only for single-post detail (includes series nav data) */
+  private static get postDetailSelect() {
+    return {
+      ...this.postWithDataSelect,
+      seriesEntry: {
+        select: {
+          id: true,
+          order: true,
+          seriesId: true,
+          series: {
+            select: {
+              id: true,
+              title: true,
+              slug: true,
+              description: true,
+              image: true,
+              entries: {
+                select: {
+                  id: true,
+                  order: true,
+                  postId: true,
+                  seriesId: true,
+                  post: {
+                    select: {
+                      postId: true,
+                      title: true,
+                      slug: true,
+                      status: true,
+                      image: true,
+                      category: { select: { slug: true } },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+  }
+
   static applyTranslation(post: PostWithData, lang: string): PostWithData {
     if (!post.translations?.length || lang === 'en') return post
     const t = post.translations.find((tr) => tr.lang === lang)
@@ -274,7 +315,7 @@ export default class PostService {
   static async getPostById(postId: string, lang?: string): Promise<PostWithData | null> {
     const post = (await prisma.post.findUnique({
       where: { postId },
-      select: this.postWithDataSelect,
+      select: this.postDetailSelect,
     })) as PostWithData | null
     return post ? this.applyTranslation(post, lang ?? 'en') : null
   }

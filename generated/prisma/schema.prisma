@@ -142,6 +142,33 @@ model Post {
   category     Category          @relation(fields: [categoryId], references: [categoryId])
   likes        Like[]
   translations PostTranslation[]
+  seriesEntry  PostSeriesEntry?
+}
+
+model PostSeries {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String?
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  entries PostSeriesEntry[]
+
+  @@index([slug])
+}
+
+model PostSeriesEntry {
+  id       String @id @default(cuid())
+  seriesId String
+  postId   String @unique
+  order    Int    @default(0)
+
+  series PostSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  post   Post       @relation(fields: [postId], references: [postId], onDelete: Cascade)
+
+  @@index([seriesId])
 }
 
 model PostTranslation {

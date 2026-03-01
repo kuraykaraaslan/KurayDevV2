@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { SafeUserSchema } from '../user/UserTypes'
 import { AppLanguageEnum } from '../common/I18nTypes'
+import { PostSeriesRefSchema } from './SeriesTypes'
 
 const PostTranslationSchema = z.object({
   id: z.string(),
@@ -84,6 +85,7 @@ const PostWithDataSchema = PostSchema.extend({
     updatedAt: true,
   }),
   translations: z.array(PostTranslationSchema).optional(),
+  seriesEntry: PostSeriesRefSchema.nullable().optional(),
 })
 
 const CommentWithDataSchema = CommentSchema.extend({

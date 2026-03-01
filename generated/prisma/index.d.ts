@@ -39,6 +39,16 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
 /**
+ * Model PostSeries
+ * 
+ */
+export type PostSeries = $Result.DefaultSelection<Prisma.$PostSeriesPayload>
+/**
+ * Model PostSeriesEntry
+ * 
+ */
+export type PostSeriesEntry = $Result.DefaultSelection<Prisma.$PostSeriesEntryPayload>
+/**
  * Model PostTranslation
  * 
  */
@@ -380,6 +390,26 @@ export class PrismaClient<
     * ```
     */
   get post(): Prisma.PostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.postSeries`: Exposes CRUD operations for the **PostSeries** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PostSeries
+    * const postSeries = await prisma.postSeries.findMany()
+    * ```
+    */
+  get postSeries(): Prisma.PostSeriesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.postSeriesEntry`: Exposes CRUD operations for the **PostSeriesEntry** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PostSeriesEntries
+    * const postSeriesEntries = await prisma.postSeriesEntry.findMany()
+    * ```
+    */
+  get postSeriesEntry(): Prisma.PostSeriesEntryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.postTranslation`: Exposes CRUD operations for the **PostTranslation** model.
@@ -999,6 +1029,8 @@ export namespace Prisma {
     UserSocialAccount: 'UserSocialAccount',
     VerificationToken: 'VerificationToken',
     Post: 'Post',
+    PostSeries: 'PostSeries',
+    PostSeriesEntry: 'PostSeriesEntry',
     PostTranslation: 'PostTranslation',
     Category: 'Category',
     CategoryTranslation: 'CategoryTranslation',
@@ -1032,7 +1064,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "shortLink" | "shortLinkClick" | "media"
+      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postSeries" | "postSeriesEntry" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "shortLink" | "shortLinkClick" | "media"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1403,6 +1435,154 @@ export namespace Prisma {
           count: {
             args: Prisma.PostCountArgs<ExtArgs>
             result: $Utils.Optional<PostCountAggregateOutputType> | number
+          }
+        }
+      }
+      PostSeries: {
+        payload: Prisma.$PostSeriesPayload<ExtArgs>
+        fields: Prisma.PostSeriesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostSeriesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostSeriesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>
+          }
+          findFirst: {
+            args: Prisma.PostSeriesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostSeriesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>
+          }
+          findMany: {
+            args: Prisma.PostSeriesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>[]
+          }
+          create: {
+            args: Prisma.PostSeriesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>
+          }
+          createMany: {
+            args: Prisma.PostSeriesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PostSeriesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>[]
+          }
+          delete: {
+            args: Prisma.PostSeriesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>
+          }
+          update: {
+            args: Prisma.PostSeriesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostSeriesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostSeriesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PostSeriesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>[]
+          }
+          upsert: {
+            args: Prisma.PostSeriesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesPayload>
+          }
+          aggregate: {
+            args: Prisma.PostSeriesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePostSeries>
+          }
+          groupBy: {
+            args: Prisma.PostSeriesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostSeriesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PostSeriesCountArgs<ExtArgs>
+            result: $Utils.Optional<PostSeriesCountAggregateOutputType> | number
+          }
+        }
+      }
+      PostSeriesEntry: {
+        payload: Prisma.$PostSeriesEntryPayload<ExtArgs>
+        fields: Prisma.PostSeriesEntryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostSeriesEntryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostSeriesEntryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>
+          }
+          findFirst: {
+            args: Prisma.PostSeriesEntryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostSeriesEntryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>
+          }
+          findMany: {
+            args: Prisma.PostSeriesEntryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>[]
+          }
+          create: {
+            args: Prisma.PostSeriesEntryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>
+          }
+          createMany: {
+            args: Prisma.PostSeriesEntryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PostSeriesEntryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>[]
+          }
+          delete: {
+            args: Prisma.PostSeriesEntryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>
+          }
+          update: {
+            args: Prisma.PostSeriesEntryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostSeriesEntryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostSeriesEntryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PostSeriesEntryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>[]
+          }
+          upsert: {
+            args: Prisma.PostSeriesEntryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostSeriesEntryPayload>
+          }
+          aggregate: {
+            args: Prisma.PostSeriesEntryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePostSeriesEntry>
+          }
+          groupBy: {
+            args: Prisma.PostSeriesEntryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostSeriesEntryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PostSeriesEntryCountArgs<ExtArgs>
+            result: $Utils.Optional<PostSeriesEntryCountAggregateOutputType> | number
           }
         }
       }
@@ -2851,6 +3031,8 @@ export namespace Prisma {
     userSocialAccount?: UserSocialAccountOmit
     verificationToken?: VerificationTokenOmit
     post?: PostOmit
+    postSeries?: PostSeriesOmit
+    postSeriesEntry?: PostSeriesEntryOmit
     postTranslation?: PostTranslationOmit
     category?: CategoryOmit
     categoryTranslation?: CategoryTranslationOmit
@@ -3048,6 +3230,37 @@ export namespace Prisma {
    */
   export type PostCountOutputTypeCountTranslationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostTranslationWhereInput
+  }
+
+
+  /**
+   * Count Type PostSeriesCountOutputType
+   */
+
+  export type PostSeriesCountOutputType = {
+    entries: number
+  }
+
+  export type PostSeriesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    entries?: boolean | PostSeriesCountOutputTypeCountEntriesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PostSeriesCountOutputType without action
+   */
+  export type PostSeriesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesCountOutputType
+     */
+    select?: PostSeriesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PostSeriesCountOutputType without action
+   */
+  export type PostSeriesCountOutputTypeCountEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostSeriesEntryWhereInput
   }
 
 
@@ -8032,6 +8245,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     likes?: boolean | Post$likesArgs<ExtArgs>
     translations?: boolean | Post$translationsArgs<ExtArgs>
+    seriesEntry?: boolean | Post$seriesEntryArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
@@ -8100,6 +8314,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     likes?: boolean | Post$likesArgs<ExtArgs>
     translations?: boolean | Post$translationsArgs<ExtArgs>
+    seriesEntry?: boolean | Post$seriesEntryArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8119,6 +8334,7 @@ export namespace Prisma {
       category: Prisma.$CategoryPayload<ExtArgs>
       likes: Prisma.$LikePayload<ExtArgs>[]
       translations: Prisma.$PostTranslationPayload<ExtArgs>[]
+      seriesEntry: Prisma.$PostSeriesEntryPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       postId: string
@@ -8535,6 +8751,7 @@ export namespace Prisma {
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     likes<T extends Post$likesArgs<ExtArgs> = {}>(args?: Subset<T, Post$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     translations<T extends Post$translationsArgs<ExtArgs> = {}>(args?: Subset<T, Post$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    seriesEntry<T extends Post$seriesEntryArgs<ExtArgs> = {}>(args?: Subset<T, Post$seriesEntryArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9047,6 +9264,25 @@ export namespace Prisma {
   }
 
   /**
+   * Post.seriesEntry
+   */
+  export type Post$seriesEntryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    where?: PostSeriesEntryWhereInput
+  }
+
+  /**
    * Post without action
    */
   export type PostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9062,6 +9298,2189 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PostInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PostSeries
+   */
+
+  export type AggregatePostSeries = {
+    _count: PostSeriesCountAggregateOutputType | null
+    _min: PostSeriesMinAggregateOutputType | null
+    _max: PostSeriesMaxAggregateOutputType | null
+  }
+
+  export type PostSeriesMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    description: string | null
+    image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PostSeriesMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    description: string | null
+    image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PostSeriesCountAggregateOutputType = {
+    id: number
+    title: number
+    slug: number
+    description: number
+    image: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PostSeriesMinAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    image?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PostSeriesMaxAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    image?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PostSeriesCountAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    image?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PostSeriesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostSeries to aggregate.
+     */
+    where?: PostSeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeries to fetch.
+     */
+    orderBy?: PostSeriesOrderByWithRelationInput | PostSeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostSeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PostSeries
+    **/
+    _count?: true | PostSeriesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostSeriesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostSeriesMaxAggregateInputType
+  }
+
+  export type GetPostSeriesAggregateType<T extends PostSeriesAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostSeries]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePostSeries[P]>
+      : GetScalarType<T[P], AggregatePostSeries[P]>
+  }
+
+
+
+
+  export type PostSeriesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostSeriesWhereInput
+    orderBy?: PostSeriesOrderByWithAggregationInput | PostSeriesOrderByWithAggregationInput[]
+    by: PostSeriesScalarFieldEnum[] | PostSeriesScalarFieldEnum
+    having?: PostSeriesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostSeriesCountAggregateInputType | true
+    _min?: PostSeriesMinAggregateInputType
+    _max?: PostSeriesMaxAggregateInputType
+  }
+
+  export type PostSeriesGroupByOutputType = {
+    id: string
+    title: string
+    slug: string
+    description: string | null
+    image: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PostSeriesCountAggregateOutputType | null
+    _min: PostSeriesMinAggregateOutputType | null
+    _max: PostSeriesMaxAggregateOutputType | null
+  }
+
+  type GetPostSeriesGroupByPayload<T extends PostSeriesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostSeriesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostSeriesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostSeriesGroupByOutputType[P]>
+            : GetScalarType<T[P], PostSeriesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostSeriesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    entries?: boolean | PostSeries$entriesArgs<ExtArgs>
+    _count?: boolean | PostSeriesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postSeries"]>
+
+  export type PostSeriesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["postSeries"]>
+
+  export type PostSeriesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["postSeries"]>
+
+  export type PostSeriesSelectScalar = {
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PostSeriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["postSeries"]>
+  export type PostSeriesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    entries?: boolean | PostSeries$entriesArgs<ExtArgs>
+    _count?: boolean | PostSeriesCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PostSeriesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PostSeriesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PostSeriesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostSeries"
+    objects: {
+      entries: Prisma.$PostSeriesEntryPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      slug: string
+      description: string | null
+      image: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["postSeries"]>
+    composites: {}
+  }
+
+  type PostSeriesGetPayload<S extends boolean | null | undefined | PostSeriesDefaultArgs> = $Result.GetResult<Prisma.$PostSeriesPayload, S>
+
+  type PostSeriesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostSeriesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostSeriesCountAggregateInputType | true
+    }
+
+  export interface PostSeriesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostSeries'], meta: { name: 'PostSeries' } }
+    /**
+     * Find zero or one PostSeries that matches the filter.
+     * @param {PostSeriesFindUniqueArgs} args - Arguments to find a PostSeries
+     * @example
+     * // Get one PostSeries
+     * const postSeries = await prisma.postSeries.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PostSeriesFindUniqueArgs>(args: SelectSubset<T, PostSeriesFindUniqueArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PostSeries that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PostSeriesFindUniqueOrThrowArgs} args - Arguments to find a PostSeries
+     * @example
+     * // Get one PostSeries
+     * const postSeries = await prisma.postSeries.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PostSeriesFindUniqueOrThrowArgs>(args: SelectSubset<T, PostSeriesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostSeries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesFindFirstArgs} args - Arguments to find a PostSeries
+     * @example
+     * // Get one PostSeries
+     * const postSeries = await prisma.postSeries.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PostSeriesFindFirstArgs>(args?: SelectSubset<T, PostSeriesFindFirstArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostSeries that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesFindFirstOrThrowArgs} args - Arguments to find a PostSeries
+     * @example
+     * // Get one PostSeries
+     * const postSeries = await prisma.postSeries.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PostSeriesFindFirstOrThrowArgs>(args?: SelectSubset<T, PostSeriesFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PostSeries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PostSeries
+     * const postSeries = await prisma.postSeries.findMany()
+     * 
+     * // Get first 10 PostSeries
+     * const postSeries = await prisma.postSeries.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postSeriesWithIdOnly = await prisma.postSeries.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PostSeriesFindManyArgs>(args?: SelectSubset<T, PostSeriesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PostSeries.
+     * @param {PostSeriesCreateArgs} args - Arguments to create a PostSeries.
+     * @example
+     * // Create one PostSeries
+     * const PostSeries = await prisma.postSeries.create({
+     *   data: {
+     *     // ... data to create a PostSeries
+     *   }
+     * })
+     * 
+     */
+    create<T extends PostSeriesCreateArgs>(args: SelectSubset<T, PostSeriesCreateArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PostSeries.
+     * @param {PostSeriesCreateManyArgs} args - Arguments to create many PostSeries.
+     * @example
+     * // Create many PostSeries
+     * const postSeries = await prisma.postSeries.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PostSeriesCreateManyArgs>(args?: SelectSubset<T, PostSeriesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PostSeries and returns the data saved in the database.
+     * @param {PostSeriesCreateManyAndReturnArgs} args - Arguments to create many PostSeries.
+     * @example
+     * // Create many PostSeries
+     * const postSeries = await prisma.postSeries.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PostSeries and only return the `id`
+     * const postSeriesWithIdOnly = await prisma.postSeries.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PostSeriesCreateManyAndReturnArgs>(args?: SelectSubset<T, PostSeriesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PostSeries.
+     * @param {PostSeriesDeleteArgs} args - Arguments to delete one PostSeries.
+     * @example
+     * // Delete one PostSeries
+     * const PostSeries = await prisma.postSeries.delete({
+     *   where: {
+     *     // ... filter to delete one PostSeries
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PostSeriesDeleteArgs>(args: SelectSubset<T, PostSeriesDeleteArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PostSeries.
+     * @param {PostSeriesUpdateArgs} args - Arguments to update one PostSeries.
+     * @example
+     * // Update one PostSeries
+     * const postSeries = await prisma.postSeries.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PostSeriesUpdateArgs>(args: SelectSubset<T, PostSeriesUpdateArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PostSeries.
+     * @param {PostSeriesDeleteManyArgs} args - Arguments to filter PostSeries to delete.
+     * @example
+     * // Delete a few PostSeries
+     * const { count } = await prisma.postSeries.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PostSeriesDeleteManyArgs>(args?: SelectSubset<T, PostSeriesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostSeries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PostSeries
+     * const postSeries = await prisma.postSeries.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PostSeriesUpdateManyArgs>(args: SelectSubset<T, PostSeriesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostSeries and returns the data updated in the database.
+     * @param {PostSeriesUpdateManyAndReturnArgs} args - Arguments to update many PostSeries.
+     * @example
+     * // Update many PostSeries
+     * const postSeries = await prisma.postSeries.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PostSeries and only return the `id`
+     * const postSeriesWithIdOnly = await prisma.postSeries.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PostSeriesUpdateManyAndReturnArgs>(args: SelectSubset<T, PostSeriesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PostSeries.
+     * @param {PostSeriesUpsertArgs} args - Arguments to update or create a PostSeries.
+     * @example
+     * // Update or create a PostSeries
+     * const postSeries = await prisma.postSeries.upsert({
+     *   create: {
+     *     // ... data to create a PostSeries
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PostSeries we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PostSeriesUpsertArgs>(args: SelectSubset<T, PostSeriesUpsertArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PostSeries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesCountArgs} args - Arguments to filter PostSeries to count.
+     * @example
+     * // Count the number of PostSeries
+     * const count = await prisma.postSeries.count({
+     *   where: {
+     *     // ... the filter for the PostSeries we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostSeriesCountArgs>(
+      args?: Subset<T, PostSeriesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostSeriesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PostSeries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostSeriesAggregateArgs>(args: Subset<T, PostSeriesAggregateArgs>): Prisma.PrismaPromise<GetPostSeriesAggregateType<T>>
+
+    /**
+     * Group by PostSeries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostSeriesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostSeriesGroupByArgs['orderBy'] }
+        : { orderBy?: PostSeriesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostSeriesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostSeriesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PostSeries model
+   */
+  readonly fields: PostSeriesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PostSeries.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostSeriesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    entries<T extends PostSeries$entriesArgs<ExtArgs> = {}>(args?: Subset<T, PostSeries$entriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PostSeries model
+   */
+  interface PostSeriesFieldRefs {
+    readonly id: FieldRef<"PostSeries", 'String'>
+    readonly title: FieldRef<"PostSeries", 'String'>
+    readonly slug: FieldRef<"PostSeries", 'String'>
+    readonly description: FieldRef<"PostSeries", 'String'>
+    readonly image: FieldRef<"PostSeries", 'String'>
+    readonly createdAt: FieldRef<"PostSeries", 'DateTime'>
+    readonly updatedAt: FieldRef<"PostSeries", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PostSeries findUnique
+   */
+  export type PostSeriesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeries to fetch.
+     */
+    where: PostSeriesWhereUniqueInput
+  }
+
+  /**
+   * PostSeries findUniqueOrThrow
+   */
+  export type PostSeriesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeries to fetch.
+     */
+    where: PostSeriesWhereUniqueInput
+  }
+
+  /**
+   * PostSeries findFirst
+   */
+  export type PostSeriesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeries to fetch.
+     */
+    where?: PostSeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeries to fetch.
+     */
+    orderBy?: PostSeriesOrderByWithRelationInput | PostSeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostSeries.
+     */
+    cursor?: PostSeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostSeries.
+     */
+    distinct?: PostSeriesScalarFieldEnum | PostSeriesScalarFieldEnum[]
+  }
+
+  /**
+   * PostSeries findFirstOrThrow
+   */
+  export type PostSeriesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeries to fetch.
+     */
+    where?: PostSeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeries to fetch.
+     */
+    orderBy?: PostSeriesOrderByWithRelationInput | PostSeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostSeries.
+     */
+    cursor?: PostSeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostSeries.
+     */
+    distinct?: PostSeriesScalarFieldEnum | PostSeriesScalarFieldEnum[]
+  }
+
+  /**
+   * PostSeries findMany
+   */
+  export type PostSeriesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeries to fetch.
+     */
+    where?: PostSeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeries to fetch.
+     */
+    orderBy?: PostSeriesOrderByWithRelationInput | PostSeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PostSeries.
+     */
+    cursor?: PostSeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeries.
+     */
+    skip?: number
+    distinct?: PostSeriesScalarFieldEnum | PostSeriesScalarFieldEnum[]
+  }
+
+  /**
+   * PostSeries create
+   */
+  export type PostSeriesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PostSeries.
+     */
+    data: XOR<PostSeriesCreateInput, PostSeriesUncheckedCreateInput>
+  }
+
+  /**
+   * PostSeries createMany
+   */
+  export type PostSeriesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PostSeries.
+     */
+    data: PostSeriesCreateManyInput | PostSeriesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PostSeries createManyAndReturn
+   */
+  export type PostSeriesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * The data used to create many PostSeries.
+     */
+    data: PostSeriesCreateManyInput | PostSeriesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PostSeries update
+   */
+  export type PostSeriesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PostSeries.
+     */
+    data: XOR<PostSeriesUpdateInput, PostSeriesUncheckedUpdateInput>
+    /**
+     * Choose, which PostSeries to update.
+     */
+    where: PostSeriesWhereUniqueInput
+  }
+
+  /**
+   * PostSeries updateMany
+   */
+  export type PostSeriesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PostSeries.
+     */
+    data: XOR<PostSeriesUpdateManyMutationInput, PostSeriesUncheckedUpdateManyInput>
+    /**
+     * Filter which PostSeries to update
+     */
+    where?: PostSeriesWhereInput
+    /**
+     * Limit how many PostSeries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostSeries updateManyAndReturn
+   */
+  export type PostSeriesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * The data used to update PostSeries.
+     */
+    data: XOR<PostSeriesUpdateManyMutationInput, PostSeriesUncheckedUpdateManyInput>
+    /**
+     * Filter which PostSeries to update
+     */
+    where?: PostSeriesWhereInput
+    /**
+     * Limit how many PostSeries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostSeries upsert
+   */
+  export type PostSeriesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PostSeries to update in case it exists.
+     */
+    where: PostSeriesWhereUniqueInput
+    /**
+     * In case the PostSeries found by the `where` argument doesn't exist, create a new PostSeries with this data.
+     */
+    create: XOR<PostSeriesCreateInput, PostSeriesUncheckedCreateInput>
+    /**
+     * In case the PostSeries was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostSeriesUpdateInput, PostSeriesUncheckedUpdateInput>
+  }
+
+  /**
+   * PostSeries delete
+   */
+  export type PostSeriesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+    /**
+     * Filter which PostSeries to delete.
+     */
+    where: PostSeriesWhereUniqueInput
+  }
+
+  /**
+   * PostSeries deleteMany
+   */
+  export type PostSeriesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostSeries to delete
+     */
+    where?: PostSeriesWhereInput
+    /**
+     * Limit how many PostSeries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostSeries.entries
+   */
+  export type PostSeries$entriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    where?: PostSeriesEntryWhereInput
+    orderBy?: PostSeriesEntryOrderByWithRelationInput | PostSeriesEntryOrderByWithRelationInput[]
+    cursor?: PostSeriesEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostSeriesEntryScalarFieldEnum | PostSeriesEntryScalarFieldEnum[]
+  }
+
+  /**
+   * PostSeries without action
+   */
+  export type PostSeriesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeries
+     */
+    select?: PostSeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeries
+     */
+    omit?: PostSeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PostSeriesEntry
+   */
+
+  export type AggregatePostSeriesEntry = {
+    _count: PostSeriesEntryCountAggregateOutputType | null
+    _avg: PostSeriesEntryAvgAggregateOutputType | null
+    _sum: PostSeriesEntrySumAggregateOutputType | null
+    _min: PostSeriesEntryMinAggregateOutputType | null
+    _max: PostSeriesEntryMaxAggregateOutputType | null
+  }
+
+  export type PostSeriesEntryAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type PostSeriesEntrySumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type PostSeriesEntryMinAggregateOutputType = {
+    id: string | null
+    seriesId: string | null
+    postId: string | null
+    order: number | null
+  }
+
+  export type PostSeriesEntryMaxAggregateOutputType = {
+    id: string | null
+    seriesId: string | null
+    postId: string | null
+    order: number | null
+  }
+
+  export type PostSeriesEntryCountAggregateOutputType = {
+    id: number
+    seriesId: number
+    postId: number
+    order: number
+    _all: number
+  }
+
+
+  export type PostSeriesEntryAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type PostSeriesEntrySumAggregateInputType = {
+    order?: true
+  }
+
+  export type PostSeriesEntryMinAggregateInputType = {
+    id?: true
+    seriesId?: true
+    postId?: true
+    order?: true
+  }
+
+  export type PostSeriesEntryMaxAggregateInputType = {
+    id?: true
+    seriesId?: true
+    postId?: true
+    order?: true
+  }
+
+  export type PostSeriesEntryCountAggregateInputType = {
+    id?: true
+    seriesId?: true
+    postId?: true
+    order?: true
+    _all?: true
+  }
+
+  export type PostSeriesEntryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostSeriesEntry to aggregate.
+     */
+    where?: PostSeriesEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeriesEntries to fetch.
+     */
+    orderBy?: PostSeriesEntryOrderByWithRelationInput | PostSeriesEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostSeriesEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeriesEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeriesEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PostSeriesEntries
+    **/
+    _count?: true | PostSeriesEntryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PostSeriesEntryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PostSeriesEntrySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostSeriesEntryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostSeriesEntryMaxAggregateInputType
+  }
+
+  export type GetPostSeriesEntryAggregateType<T extends PostSeriesEntryAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostSeriesEntry]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePostSeriesEntry[P]>
+      : GetScalarType<T[P], AggregatePostSeriesEntry[P]>
+  }
+
+
+
+
+  export type PostSeriesEntryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostSeriesEntryWhereInput
+    orderBy?: PostSeriesEntryOrderByWithAggregationInput | PostSeriesEntryOrderByWithAggregationInput[]
+    by: PostSeriesEntryScalarFieldEnum[] | PostSeriesEntryScalarFieldEnum
+    having?: PostSeriesEntryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostSeriesEntryCountAggregateInputType | true
+    _avg?: PostSeriesEntryAvgAggregateInputType
+    _sum?: PostSeriesEntrySumAggregateInputType
+    _min?: PostSeriesEntryMinAggregateInputType
+    _max?: PostSeriesEntryMaxAggregateInputType
+  }
+
+  export type PostSeriesEntryGroupByOutputType = {
+    id: string
+    seriesId: string
+    postId: string
+    order: number
+    _count: PostSeriesEntryCountAggregateOutputType | null
+    _avg: PostSeriesEntryAvgAggregateOutputType | null
+    _sum: PostSeriesEntrySumAggregateOutputType | null
+    _min: PostSeriesEntryMinAggregateOutputType | null
+    _max: PostSeriesEntryMaxAggregateOutputType | null
+  }
+
+  type GetPostSeriesEntryGroupByPayload<T extends PostSeriesEntryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostSeriesEntryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostSeriesEntryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostSeriesEntryGroupByOutputType[P]>
+            : GetScalarType<T[P], PostSeriesEntryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostSeriesEntrySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    seriesId?: boolean
+    postId?: boolean
+    order?: boolean
+    series?: boolean | PostSeriesDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postSeriesEntry"]>
+
+  export type PostSeriesEntrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    seriesId?: boolean
+    postId?: boolean
+    order?: boolean
+    series?: boolean | PostSeriesDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postSeriesEntry"]>
+
+  export type PostSeriesEntrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    seriesId?: boolean
+    postId?: boolean
+    order?: boolean
+    series?: boolean | PostSeriesDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postSeriesEntry"]>
+
+  export type PostSeriesEntrySelectScalar = {
+    id?: boolean
+    seriesId?: boolean
+    postId?: boolean
+    order?: boolean
+  }
+
+  export type PostSeriesEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "seriesId" | "postId" | "order", ExtArgs["result"]["postSeriesEntry"]>
+  export type PostSeriesEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    series?: boolean | PostSeriesDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+  export type PostSeriesEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    series?: boolean | PostSeriesDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+  export type PostSeriesEntryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    series?: boolean | PostSeriesDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
+  }
+
+  export type $PostSeriesEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostSeriesEntry"
+    objects: {
+      series: Prisma.$PostSeriesPayload<ExtArgs>
+      post: Prisma.$PostPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      seriesId: string
+      postId: string
+      order: number
+    }, ExtArgs["result"]["postSeriesEntry"]>
+    composites: {}
+  }
+
+  type PostSeriesEntryGetPayload<S extends boolean | null | undefined | PostSeriesEntryDefaultArgs> = $Result.GetResult<Prisma.$PostSeriesEntryPayload, S>
+
+  type PostSeriesEntryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostSeriesEntryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostSeriesEntryCountAggregateInputType | true
+    }
+
+  export interface PostSeriesEntryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostSeriesEntry'], meta: { name: 'PostSeriesEntry' } }
+    /**
+     * Find zero or one PostSeriesEntry that matches the filter.
+     * @param {PostSeriesEntryFindUniqueArgs} args - Arguments to find a PostSeriesEntry
+     * @example
+     * // Get one PostSeriesEntry
+     * const postSeriesEntry = await prisma.postSeriesEntry.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PostSeriesEntryFindUniqueArgs>(args: SelectSubset<T, PostSeriesEntryFindUniqueArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PostSeriesEntry that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PostSeriesEntryFindUniqueOrThrowArgs} args - Arguments to find a PostSeriesEntry
+     * @example
+     * // Get one PostSeriesEntry
+     * const postSeriesEntry = await prisma.postSeriesEntry.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PostSeriesEntryFindUniqueOrThrowArgs>(args: SelectSubset<T, PostSeriesEntryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostSeriesEntry that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesEntryFindFirstArgs} args - Arguments to find a PostSeriesEntry
+     * @example
+     * // Get one PostSeriesEntry
+     * const postSeriesEntry = await prisma.postSeriesEntry.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PostSeriesEntryFindFirstArgs>(args?: SelectSubset<T, PostSeriesEntryFindFirstArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PostSeriesEntry that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesEntryFindFirstOrThrowArgs} args - Arguments to find a PostSeriesEntry
+     * @example
+     * // Get one PostSeriesEntry
+     * const postSeriesEntry = await prisma.postSeriesEntry.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PostSeriesEntryFindFirstOrThrowArgs>(args?: SelectSubset<T, PostSeriesEntryFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PostSeriesEntries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesEntryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PostSeriesEntries
+     * const postSeriesEntries = await prisma.postSeriesEntry.findMany()
+     * 
+     * // Get first 10 PostSeriesEntries
+     * const postSeriesEntries = await prisma.postSeriesEntry.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postSeriesEntryWithIdOnly = await prisma.postSeriesEntry.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PostSeriesEntryFindManyArgs>(args?: SelectSubset<T, PostSeriesEntryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PostSeriesEntry.
+     * @param {PostSeriesEntryCreateArgs} args - Arguments to create a PostSeriesEntry.
+     * @example
+     * // Create one PostSeriesEntry
+     * const PostSeriesEntry = await prisma.postSeriesEntry.create({
+     *   data: {
+     *     // ... data to create a PostSeriesEntry
+     *   }
+     * })
+     * 
+     */
+    create<T extends PostSeriesEntryCreateArgs>(args: SelectSubset<T, PostSeriesEntryCreateArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PostSeriesEntries.
+     * @param {PostSeriesEntryCreateManyArgs} args - Arguments to create many PostSeriesEntries.
+     * @example
+     * // Create many PostSeriesEntries
+     * const postSeriesEntry = await prisma.postSeriesEntry.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PostSeriesEntryCreateManyArgs>(args?: SelectSubset<T, PostSeriesEntryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PostSeriesEntries and returns the data saved in the database.
+     * @param {PostSeriesEntryCreateManyAndReturnArgs} args - Arguments to create many PostSeriesEntries.
+     * @example
+     * // Create many PostSeriesEntries
+     * const postSeriesEntry = await prisma.postSeriesEntry.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PostSeriesEntries and only return the `id`
+     * const postSeriesEntryWithIdOnly = await prisma.postSeriesEntry.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PostSeriesEntryCreateManyAndReturnArgs>(args?: SelectSubset<T, PostSeriesEntryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PostSeriesEntry.
+     * @param {PostSeriesEntryDeleteArgs} args - Arguments to delete one PostSeriesEntry.
+     * @example
+     * // Delete one PostSeriesEntry
+     * const PostSeriesEntry = await prisma.postSeriesEntry.delete({
+     *   where: {
+     *     // ... filter to delete one PostSeriesEntry
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PostSeriesEntryDeleteArgs>(args: SelectSubset<T, PostSeriesEntryDeleteArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PostSeriesEntry.
+     * @param {PostSeriesEntryUpdateArgs} args - Arguments to update one PostSeriesEntry.
+     * @example
+     * // Update one PostSeriesEntry
+     * const postSeriesEntry = await prisma.postSeriesEntry.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PostSeriesEntryUpdateArgs>(args: SelectSubset<T, PostSeriesEntryUpdateArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PostSeriesEntries.
+     * @param {PostSeriesEntryDeleteManyArgs} args - Arguments to filter PostSeriesEntries to delete.
+     * @example
+     * // Delete a few PostSeriesEntries
+     * const { count } = await prisma.postSeriesEntry.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PostSeriesEntryDeleteManyArgs>(args?: SelectSubset<T, PostSeriesEntryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostSeriesEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesEntryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PostSeriesEntries
+     * const postSeriesEntry = await prisma.postSeriesEntry.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PostSeriesEntryUpdateManyArgs>(args: SelectSubset<T, PostSeriesEntryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostSeriesEntries and returns the data updated in the database.
+     * @param {PostSeriesEntryUpdateManyAndReturnArgs} args - Arguments to update many PostSeriesEntries.
+     * @example
+     * // Update many PostSeriesEntries
+     * const postSeriesEntry = await prisma.postSeriesEntry.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PostSeriesEntries and only return the `id`
+     * const postSeriesEntryWithIdOnly = await prisma.postSeriesEntry.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PostSeriesEntryUpdateManyAndReturnArgs>(args: SelectSubset<T, PostSeriesEntryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PostSeriesEntry.
+     * @param {PostSeriesEntryUpsertArgs} args - Arguments to update or create a PostSeriesEntry.
+     * @example
+     * // Update or create a PostSeriesEntry
+     * const postSeriesEntry = await prisma.postSeriesEntry.upsert({
+     *   create: {
+     *     // ... data to create a PostSeriesEntry
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PostSeriesEntry we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PostSeriesEntryUpsertArgs>(args: SelectSubset<T, PostSeriesEntryUpsertArgs<ExtArgs>>): Prisma__PostSeriesEntryClient<$Result.GetResult<Prisma.$PostSeriesEntryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PostSeriesEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesEntryCountArgs} args - Arguments to filter PostSeriesEntries to count.
+     * @example
+     * // Count the number of PostSeriesEntries
+     * const count = await prisma.postSeriesEntry.count({
+     *   where: {
+     *     // ... the filter for the PostSeriesEntries we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostSeriesEntryCountArgs>(
+      args?: Subset<T, PostSeriesEntryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostSeriesEntryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PostSeriesEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesEntryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostSeriesEntryAggregateArgs>(args: Subset<T, PostSeriesEntryAggregateArgs>): Prisma.PrismaPromise<GetPostSeriesEntryAggregateType<T>>
+
+    /**
+     * Group by PostSeriesEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostSeriesEntryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostSeriesEntryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostSeriesEntryGroupByArgs['orderBy'] }
+        : { orderBy?: PostSeriesEntryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostSeriesEntryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostSeriesEntryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PostSeriesEntry model
+   */
+  readonly fields: PostSeriesEntryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PostSeriesEntry.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostSeriesEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    series<T extends PostSeriesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostSeriesDefaultArgs<ExtArgs>>): Prisma__PostSeriesClient<$Result.GetResult<Prisma.$PostSeriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PostSeriesEntry model
+   */
+  interface PostSeriesEntryFieldRefs {
+    readonly id: FieldRef<"PostSeriesEntry", 'String'>
+    readonly seriesId: FieldRef<"PostSeriesEntry", 'String'>
+    readonly postId: FieldRef<"PostSeriesEntry", 'String'>
+    readonly order: FieldRef<"PostSeriesEntry", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PostSeriesEntry findUnique
+   */
+  export type PostSeriesEntryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeriesEntry to fetch.
+     */
+    where: PostSeriesEntryWhereUniqueInput
+  }
+
+  /**
+   * PostSeriesEntry findUniqueOrThrow
+   */
+  export type PostSeriesEntryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeriesEntry to fetch.
+     */
+    where: PostSeriesEntryWhereUniqueInput
+  }
+
+  /**
+   * PostSeriesEntry findFirst
+   */
+  export type PostSeriesEntryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeriesEntry to fetch.
+     */
+    where?: PostSeriesEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeriesEntries to fetch.
+     */
+    orderBy?: PostSeriesEntryOrderByWithRelationInput | PostSeriesEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostSeriesEntries.
+     */
+    cursor?: PostSeriesEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeriesEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeriesEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostSeriesEntries.
+     */
+    distinct?: PostSeriesEntryScalarFieldEnum | PostSeriesEntryScalarFieldEnum[]
+  }
+
+  /**
+   * PostSeriesEntry findFirstOrThrow
+   */
+  export type PostSeriesEntryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeriesEntry to fetch.
+     */
+    where?: PostSeriesEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeriesEntries to fetch.
+     */
+    orderBy?: PostSeriesEntryOrderByWithRelationInput | PostSeriesEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostSeriesEntries.
+     */
+    cursor?: PostSeriesEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeriesEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeriesEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostSeriesEntries.
+     */
+    distinct?: PostSeriesEntryScalarFieldEnum | PostSeriesEntryScalarFieldEnum[]
+  }
+
+  /**
+   * PostSeriesEntry findMany
+   */
+  export type PostSeriesEntryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which PostSeriesEntries to fetch.
+     */
+    where?: PostSeriesEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostSeriesEntries to fetch.
+     */
+    orderBy?: PostSeriesEntryOrderByWithRelationInput | PostSeriesEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PostSeriesEntries.
+     */
+    cursor?: PostSeriesEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostSeriesEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostSeriesEntries.
+     */
+    skip?: number
+    distinct?: PostSeriesEntryScalarFieldEnum | PostSeriesEntryScalarFieldEnum[]
+  }
+
+  /**
+   * PostSeriesEntry create
+   */
+  export type PostSeriesEntryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PostSeriesEntry.
+     */
+    data: XOR<PostSeriesEntryCreateInput, PostSeriesEntryUncheckedCreateInput>
+  }
+
+  /**
+   * PostSeriesEntry createMany
+   */
+  export type PostSeriesEntryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PostSeriesEntries.
+     */
+    data: PostSeriesEntryCreateManyInput | PostSeriesEntryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PostSeriesEntry createManyAndReturn
+   */
+  export type PostSeriesEntryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * The data used to create many PostSeriesEntries.
+     */
+    data: PostSeriesEntryCreateManyInput | PostSeriesEntryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PostSeriesEntry update
+   */
+  export type PostSeriesEntryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PostSeriesEntry.
+     */
+    data: XOR<PostSeriesEntryUpdateInput, PostSeriesEntryUncheckedUpdateInput>
+    /**
+     * Choose, which PostSeriesEntry to update.
+     */
+    where: PostSeriesEntryWhereUniqueInput
+  }
+
+  /**
+   * PostSeriesEntry updateMany
+   */
+  export type PostSeriesEntryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PostSeriesEntries.
+     */
+    data: XOR<PostSeriesEntryUpdateManyMutationInput, PostSeriesEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which PostSeriesEntries to update
+     */
+    where?: PostSeriesEntryWhereInput
+    /**
+     * Limit how many PostSeriesEntries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostSeriesEntry updateManyAndReturn
+   */
+  export type PostSeriesEntryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * The data used to update PostSeriesEntries.
+     */
+    data: XOR<PostSeriesEntryUpdateManyMutationInput, PostSeriesEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which PostSeriesEntries to update
+     */
+    where?: PostSeriesEntryWhereInput
+    /**
+     * Limit how many PostSeriesEntries to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PostSeriesEntry upsert
+   */
+  export type PostSeriesEntryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PostSeriesEntry to update in case it exists.
+     */
+    where: PostSeriesEntryWhereUniqueInput
+    /**
+     * In case the PostSeriesEntry found by the `where` argument doesn't exist, create a new PostSeriesEntry with this data.
+     */
+    create: XOR<PostSeriesEntryCreateInput, PostSeriesEntryUncheckedCreateInput>
+    /**
+     * In case the PostSeriesEntry was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostSeriesEntryUpdateInput, PostSeriesEntryUncheckedUpdateInput>
+  }
+
+  /**
+   * PostSeriesEntry delete
+   */
+  export type PostSeriesEntryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
+    /**
+     * Filter which PostSeriesEntry to delete.
+     */
+    where: PostSeriesEntryWhereUniqueInput
+  }
+
+  /**
+   * PostSeriesEntry deleteMany
+   */
+  export type PostSeriesEntryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostSeriesEntries to delete
+     */
+    where?: PostSeriesEntryWhereInput
+    /**
+     * Limit how many PostSeriesEntries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PostSeriesEntry without action
+   */
+  export type PostSeriesEntryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostSeriesEntry
+     */
+    select?: PostSeriesEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostSeriesEntry
+     */
+    omit?: PostSeriesEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostSeriesEntryInclude<ExtArgs> | null
   }
 
 
@@ -28519,6 +30938,29 @@ export namespace Prisma {
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
+  export const PostSeriesScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    description: 'description',
+    image: 'image',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PostSeriesScalarFieldEnum = (typeof PostSeriesScalarFieldEnum)[keyof typeof PostSeriesScalarFieldEnum]
+
+
+  export const PostSeriesEntryScalarFieldEnum: {
+    id: 'id',
+    seriesId: 'seriesId',
+    postId: 'postId',
+    order: 'order'
+  };
+
+  export type PostSeriesEntryScalarFieldEnum = (typeof PostSeriesEntryScalarFieldEnum)[keyof typeof PostSeriesEntryScalarFieldEnum]
+
+
   export const PostTranslationScalarFieldEnum: {
     id: 'id',
     postId: 'postId',
@@ -29330,6 +31772,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     likes?: LikeListRelationFilter
     translations?: PostTranslationListRelationFilter
+    seriesEntry?: XOR<PostSeriesEntryNullableScalarRelationFilter, PostSeriesEntryWhereInput> | null
   }
 
   export type PostOrderByWithRelationInput = {
@@ -29353,6 +31796,7 @@ export namespace Prisma {
     category?: CategoryOrderByWithRelationInput
     likes?: LikeOrderByRelationAggregateInput
     translations?: PostTranslationOrderByRelationAggregateInput
+    seriesEntry?: PostSeriesEntryOrderByWithRelationInput
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -29379,6 +31823,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     likes?: LikeListRelationFilter
     translations?: PostTranslationListRelationFilter
+    seriesEntry?: XOR<PostSeriesEntryNullableScalarRelationFilter, PostSeriesEntryWhereInput> | null
   }, "postId" | "slug">
 
   export type PostOrderByWithAggregationInput = {
@@ -29423,6 +31868,126 @@ export namespace Prisma {
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
+  }
+
+  export type PostSeriesWhereInput = {
+    AND?: PostSeriesWhereInput | PostSeriesWhereInput[]
+    OR?: PostSeriesWhereInput[]
+    NOT?: PostSeriesWhereInput | PostSeriesWhereInput[]
+    id?: StringFilter<"PostSeries"> | string
+    title?: StringFilter<"PostSeries"> | string
+    slug?: StringFilter<"PostSeries"> | string
+    description?: StringNullableFilter<"PostSeries"> | string | null
+    image?: StringNullableFilter<"PostSeries"> | string | null
+    createdAt?: DateTimeFilter<"PostSeries"> | Date | string
+    updatedAt?: DateTimeFilter<"PostSeries"> | Date | string
+    entries?: PostSeriesEntryListRelationFilter
+  }
+
+  export type PostSeriesOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    entries?: PostSeriesEntryOrderByRelationAggregateInput
+  }
+
+  export type PostSeriesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: PostSeriesWhereInput | PostSeriesWhereInput[]
+    OR?: PostSeriesWhereInput[]
+    NOT?: PostSeriesWhereInput | PostSeriesWhereInput[]
+    title?: StringFilter<"PostSeries"> | string
+    description?: StringNullableFilter<"PostSeries"> | string | null
+    image?: StringNullableFilter<"PostSeries"> | string | null
+    createdAt?: DateTimeFilter<"PostSeries"> | Date | string
+    updatedAt?: DateTimeFilter<"PostSeries"> | Date | string
+    entries?: PostSeriesEntryListRelationFilter
+  }, "id" | "slug">
+
+  export type PostSeriesOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PostSeriesCountOrderByAggregateInput
+    _max?: PostSeriesMaxOrderByAggregateInput
+    _min?: PostSeriesMinOrderByAggregateInput
+  }
+
+  export type PostSeriesScalarWhereWithAggregatesInput = {
+    AND?: PostSeriesScalarWhereWithAggregatesInput | PostSeriesScalarWhereWithAggregatesInput[]
+    OR?: PostSeriesScalarWhereWithAggregatesInput[]
+    NOT?: PostSeriesScalarWhereWithAggregatesInput | PostSeriesScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PostSeries"> | string
+    title?: StringWithAggregatesFilter<"PostSeries"> | string
+    slug?: StringWithAggregatesFilter<"PostSeries"> | string
+    description?: StringNullableWithAggregatesFilter<"PostSeries"> | string | null
+    image?: StringNullableWithAggregatesFilter<"PostSeries"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PostSeries"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PostSeries"> | Date | string
+  }
+
+  export type PostSeriesEntryWhereInput = {
+    AND?: PostSeriesEntryWhereInput | PostSeriesEntryWhereInput[]
+    OR?: PostSeriesEntryWhereInput[]
+    NOT?: PostSeriesEntryWhereInput | PostSeriesEntryWhereInput[]
+    id?: StringFilter<"PostSeriesEntry"> | string
+    seriesId?: StringFilter<"PostSeriesEntry"> | string
+    postId?: StringFilter<"PostSeriesEntry"> | string
+    order?: IntFilter<"PostSeriesEntry"> | number
+    series?: XOR<PostSeriesScalarRelationFilter, PostSeriesWhereInput>
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+  }
+
+  export type PostSeriesEntryOrderByWithRelationInput = {
+    id?: SortOrder
+    seriesId?: SortOrder
+    postId?: SortOrder
+    order?: SortOrder
+    series?: PostSeriesOrderByWithRelationInput
+    post?: PostOrderByWithRelationInput
+  }
+
+  export type PostSeriesEntryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    postId?: string
+    AND?: PostSeriesEntryWhereInput | PostSeriesEntryWhereInput[]
+    OR?: PostSeriesEntryWhereInput[]
+    NOT?: PostSeriesEntryWhereInput | PostSeriesEntryWhereInput[]
+    seriesId?: StringFilter<"PostSeriesEntry"> | string
+    order?: IntFilter<"PostSeriesEntry"> | number
+    series?: XOR<PostSeriesScalarRelationFilter, PostSeriesWhereInput>
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+  }, "id" | "postId">
+
+  export type PostSeriesEntryOrderByWithAggregationInput = {
+    id?: SortOrder
+    seriesId?: SortOrder
+    postId?: SortOrder
+    order?: SortOrder
+    _count?: PostSeriesEntryCountOrderByAggregateInput
+    _avg?: PostSeriesEntryAvgOrderByAggregateInput
+    _max?: PostSeriesEntryMaxOrderByAggregateInput
+    _min?: PostSeriesEntryMinOrderByAggregateInput
+    _sum?: PostSeriesEntrySumOrderByAggregateInput
+  }
+
+  export type PostSeriesEntryScalarWhereWithAggregatesInput = {
+    AND?: PostSeriesEntryScalarWhereWithAggregatesInput | PostSeriesEntryScalarWhereWithAggregatesInput[]
+    OR?: PostSeriesEntryScalarWhereWithAggregatesInput[]
+    NOT?: PostSeriesEntryScalarWhereWithAggregatesInput | PostSeriesEntryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PostSeriesEntry"> | string
+    seriesId?: StringWithAggregatesFilter<"PostSeriesEntry"> | string
+    postId?: StringWithAggregatesFilter<"PostSeriesEntry"> | string
+    order?: IntWithAggregatesFilter<"PostSeriesEntry"> | number
   }
 
   export type PostTranslationWhereInput = {
@@ -31072,6 +33637,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
     translations?: PostTranslationCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryCreateNestedOneWithoutPostInput
   }
 
   export type PostUncheckedCreateInput = {
@@ -31093,6 +33659,7 @@ export namespace Prisma {
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
     translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryUncheckedCreateNestedOneWithoutPostInput
   }
 
   export type PostUpdateInput = {
@@ -31114,6 +33681,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateInput = {
@@ -31135,6 +33703,7 @@ export namespace Prisma {
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUncheckedUpdateOneWithoutPostNestedInput
   }
 
   export type PostCreateManyInput = {
@@ -31187,6 +33756,127 @@ export namespace Prisma {
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PostSeriesCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    entries?: PostSeriesEntryCreateNestedManyWithoutSeriesInput
+  }
+
+  export type PostSeriesUncheckedCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    entries?: PostSeriesEntryUncheckedCreateNestedManyWithoutSeriesInput
+  }
+
+  export type PostSeriesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    entries?: PostSeriesEntryUpdateManyWithoutSeriesNestedInput
+  }
+
+  export type PostSeriesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    entries?: PostSeriesEntryUncheckedUpdateManyWithoutSeriesNestedInput
+  }
+
+  export type PostSeriesCreateManyInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostSeriesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostSeriesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostSeriesEntryCreateInput = {
+    id?: string
+    order?: number
+    series: PostSeriesCreateNestedOneWithoutEntriesInput
+    post: PostCreateNestedOneWithoutSeriesEntryInput
+  }
+
+  export type PostSeriesEntryUncheckedCreateInput = {
+    id?: string
+    seriesId: string
+    postId: string
+    order?: number
+  }
+
+  export type PostSeriesEntryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    series?: PostSeriesUpdateOneRequiredWithoutEntriesNestedInput
+    post?: PostUpdateOneRequiredWithoutSeriesEntryNestedInput
+  }
+
+  export type PostSeriesEntryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seriesId?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PostSeriesEntryCreateManyInput = {
+    id?: string
+    seriesId: string
+    postId: string
+    order?: number
+  }
+
+  export type PostSeriesEntryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PostSeriesEntryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seriesId?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
   }
 
   export type PostTranslationCreateInput = {
@@ -32996,6 +35686,11 @@ export namespace Prisma {
     none?: PostTranslationWhereInput
   }
 
+  export type PostSeriesEntryNullableScalarRelationFilter = {
+    is?: PostSeriesEntryWhereInput | null
+    isNot?: PostSeriesEntryWhereInput | null
+  }
+
   export type CommentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -33080,9 +35775,83 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type PostSeriesEntryListRelationFilter = {
+    every?: PostSeriesEntryWhereInput
+    some?: PostSeriesEntryWhereInput
+    none?: PostSeriesEntryWhereInput
+  }
+
+  export type PostSeriesEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostSeriesCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PostSeriesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PostSeriesMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PostSeriesScalarRelationFilter = {
+    is?: PostSeriesWhereInput
+    isNot?: PostSeriesWhereInput
+  }
+
   export type PostScalarRelationFilter = {
     is?: PostWhereInput
     isNot?: PostWhereInput
+  }
+
+  export type PostSeriesEntryCountOrderByAggregateInput = {
+    id?: SortOrder
+    seriesId?: SortOrder
+    postId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type PostSeriesEntryAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type PostSeriesEntryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    seriesId?: SortOrder
+    postId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type PostSeriesEntryMinOrderByAggregateInput = {
+    id?: SortOrder
+    seriesId?: SortOrder
+    postId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type PostSeriesEntrySumOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type PostTranslationPostIdLangCompoundUniqueInput = {
@@ -34118,6 +36887,12 @@ export namespace Prisma {
     connect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
   }
 
+  export type PostSeriesEntryCreateNestedOneWithoutPostInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutPostInput, PostSeriesEntryUncheckedCreateWithoutPostInput>
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutPostInput
+    connect?: PostSeriesEntryWhereUniqueInput
+  }
+
   export type CommentUncheckedCreateNestedManyWithoutPostInput = {
     create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
@@ -34137,6 +36912,12 @@ export namespace Prisma {
     connectOrCreate?: PostTranslationCreateOrConnectWithoutPostInput | PostTranslationCreateOrConnectWithoutPostInput[]
     createMany?: PostTranslationCreateManyPostInputEnvelope
     connect?: PostTranslationWhereUniqueInput | PostTranslationWhereUniqueInput[]
+  }
+
+  export type PostSeriesEntryUncheckedCreateNestedOneWithoutPostInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutPostInput, PostSeriesEntryUncheckedCreateWithoutPostInput>
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutPostInput
+    connect?: PostSeriesEntryWhereUniqueInput
   }
 
   export type PostUpdatekeywordsInput = {
@@ -34210,6 +36991,16 @@ export namespace Prisma {
     deleteMany?: PostTranslationScalarWhereInput | PostTranslationScalarWhereInput[]
   }
 
+  export type PostSeriesEntryUpdateOneWithoutPostNestedInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutPostInput, PostSeriesEntryUncheckedCreateWithoutPostInput>
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutPostInput
+    upsert?: PostSeriesEntryUpsertWithoutPostInput
+    disconnect?: PostSeriesEntryWhereInput | boolean
+    delete?: PostSeriesEntryWhereInput | boolean
+    connect?: PostSeriesEntryWhereUniqueInput
+    update?: XOR<XOR<PostSeriesEntryUpdateToOneWithWhereWithoutPostInput, PostSeriesEntryUpdateWithoutPostInput>, PostSeriesEntryUncheckedUpdateWithoutPostInput>
+  }
+
   export type CommentUncheckedUpdateManyWithoutPostNestedInput = {
     create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
@@ -34250,6 +37041,86 @@ export namespace Prisma {
     update?: PostTranslationUpdateWithWhereUniqueWithoutPostInput | PostTranslationUpdateWithWhereUniqueWithoutPostInput[]
     updateMany?: PostTranslationUpdateManyWithWhereWithoutPostInput | PostTranslationUpdateManyWithWhereWithoutPostInput[]
     deleteMany?: PostTranslationScalarWhereInput | PostTranslationScalarWhereInput[]
+  }
+
+  export type PostSeriesEntryUncheckedUpdateOneWithoutPostNestedInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutPostInput, PostSeriesEntryUncheckedCreateWithoutPostInput>
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutPostInput
+    upsert?: PostSeriesEntryUpsertWithoutPostInput
+    disconnect?: PostSeriesEntryWhereInput | boolean
+    delete?: PostSeriesEntryWhereInput | boolean
+    connect?: PostSeriesEntryWhereUniqueInput
+    update?: XOR<XOR<PostSeriesEntryUpdateToOneWithWhereWithoutPostInput, PostSeriesEntryUpdateWithoutPostInput>, PostSeriesEntryUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostSeriesEntryCreateNestedManyWithoutSeriesInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutSeriesInput, PostSeriesEntryUncheckedCreateWithoutSeriesInput> | PostSeriesEntryCreateWithoutSeriesInput[] | PostSeriesEntryUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutSeriesInput | PostSeriesEntryCreateOrConnectWithoutSeriesInput[]
+    createMany?: PostSeriesEntryCreateManySeriesInputEnvelope
+    connect?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+  }
+
+  export type PostSeriesEntryUncheckedCreateNestedManyWithoutSeriesInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutSeriesInput, PostSeriesEntryUncheckedCreateWithoutSeriesInput> | PostSeriesEntryCreateWithoutSeriesInput[] | PostSeriesEntryUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutSeriesInput | PostSeriesEntryCreateOrConnectWithoutSeriesInput[]
+    createMany?: PostSeriesEntryCreateManySeriesInputEnvelope
+    connect?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+  }
+
+  export type PostSeriesEntryUpdateManyWithoutSeriesNestedInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutSeriesInput, PostSeriesEntryUncheckedCreateWithoutSeriesInput> | PostSeriesEntryCreateWithoutSeriesInput[] | PostSeriesEntryUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutSeriesInput | PostSeriesEntryCreateOrConnectWithoutSeriesInput[]
+    upsert?: PostSeriesEntryUpsertWithWhereUniqueWithoutSeriesInput | PostSeriesEntryUpsertWithWhereUniqueWithoutSeriesInput[]
+    createMany?: PostSeriesEntryCreateManySeriesInputEnvelope
+    set?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    disconnect?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    delete?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    connect?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    update?: PostSeriesEntryUpdateWithWhereUniqueWithoutSeriesInput | PostSeriesEntryUpdateWithWhereUniqueWithoutSeriesInput[]
+    updateMany?: PostSeriesEntryUpdateManyWithWhereWithoutSeriesInput | PostSeriesEntryUpdateManyWithWhereWithoutSeriesInput[]
+    deleteMany?: PostSeriesEntryScalarWhereInput | PostSeriesEntryScalarWhereInput[]
+  }
+
+  export type PostSeriesEntryUncheckedUpdateManyWithoutSeriesNestedInput = {
+    create?: XOR<PostSeriesEntryCreateWithoutSeriesInput, PostSeriesEntryUncheckedCreateWithoutSeriesInput> | PostSeriesEntryCreateWithoutSeriesInput[] | PostSeriesEntryUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: PostSeriesEntryCreateOrConnectWithoutSeriesInput | PostSeriesEntryCreateOrConnectWithoutSeriesInput[]
+    upsert?: PostSeriesEntryUpsertWithWhereUniqueWithoutSeriesInput | PostSeriesEntryUpsertWithWhereUniqueWithoutSeriesInput[]
+    createMany?: PostSeriesEntryCreateManySeriesInputEnvelope
+    set?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    disconnect?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    delete?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    connect?: PostSeriesEntryWhereUniqueInput | PostSeriesEntryWhereUniqueInput[]
+    update?: PostSeriesEntryUpdateWithWhereUniqueWithoutSeriesInput | PostSeriesEntryUpdateWithWhereUniqueWithoutSeriesInput[]
+    updateMany?: PostSeriesEntryUpdateManyWithWhereWithoutSeriesInput | PostSeriesEntryUpdateManyWithWhereWithoutSeriesInput[]
+    deleteMany?: PostSeriesEntryScalarWhereInput | PostSeriesEntryScalarWhereInput[]
+  }
+
+  export type PostSeriesCreateNestedOneWithoutEntriesInput = {
+    create?: XOR<PostSeriesCreateWithoutEntriesInput, PostSeriesUncheckedCreateWithoutEntriesInput>
+    connectOrCreate?: PostSeriesCreateOrConnectWithoutEntriesInput
+    connect?: PostSeriesWhereUniqueInput
+  }
+
+  export type PostCreateNestedOneWithoutSeriesEntryInput = {
+    create?: XOR<PostCreateWithoutSeriesEntryInput, PostUncheckedCreateWithoutSeriesEntryInput>
+    connectOrCreate?: PostCreateOrConnectWithoutSeriesEntryInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type PostSeriesUpdateOneRequiredWithoutEntriesNestedInput = {
+    create?: XOR<PostSeriesCreateWithoutEntriesInput, PostSeriesUncheckedCreateWithoutEntriesInput>
+    connectOrCreate?: PostSeriesCreateOrConnectWithoutEntriesInput
+    upsert?: PostSeriesUpsertWithoutEntriesInput
+    connect?: PostSeriesWhereUniqueInput
+    update?: XOR<XOR<PostSeriesUpdateToOneWithWhereWithoutEntriesInput, PostSeriesUpdateWithoutEntriesInput>, PostSeriesUncheckedUpdateWithoutEntriesInput>
+  }
+
+  export type PostUpdateOneRequiredWithoutSeriesEntryNestedInput = {
+    create?: XOR<PostCreateWithoutSeriesEntryInput, PostUncheckedCreateWithoutSeriesEntryInput>
+    connectOrCreate?: PostCreateOrConnectWithoutSeriesEntryInput
+    upsert?: PostUpsertWithoutSeriesEntryInput
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutSeriesEntryInput, PostUpdateWithoutSeriesEntryInput>, PostUncheckedUpdateWithoutSeriesEntryInput>
   }
 
   export type PostCreateNestedOneWithoutTranslationsInput = {
@@ -35036,6 +37907,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
     translations?: PostTranslationCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryCreateNestedOneWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutAuthorInput = {
@@ -35056,6 +37928,7 @@ export namespace Prisma {
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
     translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryUncheckedCreateNestedOneWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutAuthorInput = {
@@ -35564,6 +38437,23 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PostSeriesEntryCreateWithoutPostInput = {
+    id?: string
+    order?: number
+    series: PostSeriesCreateNestedOneWithoutEntriesInput
+  }
+
+  export type PostSeriesEntryUncheckedCreateWithoutPostInput = {
+    id?: string
+    seriesId: string
+    order?: number
+  }
+
+  export type PostSeriesEntryCreateOrConnectWithoutPostInput = {
+    where: PostSeriesEntryWhereUniqueInput
+    create: XOR<PostSeriesEntryCreateWithoutPostInput, PostSeriesEntryUncheckedCreateWithoutPostInput>
+  }
+
   export type CommentUpsertWithWhereUniqueWithoutPostInput = {
     where: CommentWhereUniqueInput
     update: XOR<CommentUpdateWithoutPostInput, CommentUncheckedUpdateWithoutPostInput>
@@ -35721,6 +38611,233 @@ export namespace Prisma {
     slug?: StringFilter<"PostTranslation"> | string
   }
 
+  export type PostSeriesEntryUpsertWithoutPostInput = {
+    update: XOR<PostSeriesEntryUpdateWithoutPostInput, PostSeriesEntryUncheckedUpdateWithoutPostInput>
+    create: XOR<PostSeriesEntryCreateWithoutPostInput, PostSeriesEntryUncheckedCreateWithoutPostInput>
+    where?: PostSeriesEntryWhereInput
+  }
+
+  export type PostSeriesEntryUpdateToOneWithWhereWithoutPostInput = {
+    where?: PostSeriesEntryWhereInput
+    data: XOR<PostSeriesEntryUpdateWithoutPostInput, PostSeriesEntryUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostSeriesEntryUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    series?: PostSeriesUpdateOneRequiredWithoutEntriesNestedInput
+  }
+
+  export type PostSeriesEntryUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seriesId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PostSeriesEntryCreateWithoutSeriesInput = {
+    id?: string
+    order?: number
+    post: PostCreateNestedOneWithoutSeriesEntryInput
+  }
+
+  export type PostSeriesEntryUncheckedCreateWithoutSeriesInput = {
+    id?: string
+    postId: string
+    order?: number
+  }
+
+  export type PostSeriesEntryCreateOrConnectWithoutSeriesInput = {
+    where: PostSeriesEntryWhereUniqueInput
+    create: XOR<PostSeriesEntryCreateWithoutSeriesInput, PostSeriesEntryUncheckedCreateWithoutSeriesInput>
+  }
+
+  export type PostSeriesEntryCreateManySeriesInputEnvelope = {
+    data: PostSeriesEntryCreateManySeriesInput | PostSeriesEntryCreateManySeriesInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostSeriesEntryUpsertWithWhereUniqueWithoutSeriesInput = {
+    where: PostSeriesEntryWhereUniqueInput
+    update: XOR<PostSeriesEntryUpdateWithoutSeriesInput, PostSeriesEntryUncheckedUpdateWithoutSeriesInput>
+    create: XOR<PostSeriesEntryCreateWithoutSeriesInput, PostSeriesEntryUncheckedCreateWithoutSeriesInput>
+  }
+
+  export type PostSeriesEntryUpdateWithWhereUniqueWithoutSeriesInput = {
+    where: PostSeriesEntryWhereUniqueInput
+    data: XOR<PostSeriesEntryUpdateWithoutSeriesInput, PostSeriesEntryUncheckedUpdateWithoutSeriesInput>
+  }
+
+  export type PostSeriesEntryUpdateManyWithWhereWithoutSeriesInput = {
+    where: PostSeriesEntryScalarWhereInput
+    data: XOR<PostSeriesEntryUpdateManyMutationInput, PostSeriesEntryUncheckedUpdateManyWithoutSeriesInput>
+  }
+
+  export type PostSeriesEntryScalarWhereInput = {
+    AND?: PostSeriesEntryScalarWhereInput | PostSeriesEntryScalarWhereInput[]
+    OR?: PostSeriesEntryScalarWhereInput[]
+    NOT?: PostSeriesEntryScalarWhereInput | PostSeriesEntryScalarWhereInput[]
+    id?: StringFilter<"PostSeriesEntry"> | string
+    seriesId?: StringFilter<"PostSeriesEntry"> | string
+    postId?: StringFilter<"PostSeriesEntry"> | string
+    order?: IntFilter<"PostSeriesEntry"> | number
+  }
+
+  export type PostSeriesCreateWithoutEntriesInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostSeriesUncheckedCreateWithoutEntriesInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PostSeriesCreateOrConnectWithoutEntriesInput = {
+    where: PostSeriesWhereUniqueInput
+    create: XOR<PostSeriesCreateWithoutEntriesInput, PostSeriesUncheckedCreateWithoutEntriesInput>
+  }
+
+  export type PostCreateWithoutSeriesEntryInput = {
+    postId?: string
+    title: string
+    content: string
+    description?: string | null
+    slug: string
+    keywords?: PostCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    image?: string | null
+    status?: string
+    views?: number
+    publishedAt?: Date | string | null
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    comment?: CommentCreateNestedManyWithoutPostInput
+    author: UserCreateNestedOneWithoutPostsInput
+    category: CategoryCreateNestedOneWithoutPostsInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    translations?: PostTranslationCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutSeriesEntryInput = {
+    postId?: string
+    title: string
+    content: string
+    authorId: string
+    description?: string | null
+    slug: string
+    keywords?: PostCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    categoryId: string
+    image?: string | null
+    status?: string
+    views?: number
+    publishedAt?: Date | string | null
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    comment?: CommentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutSeriesEntryInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutSeriesEntryInput, PostUncheckedCreateWithoutSeriesEntryInput>
+  }
+
+  export type PostSeriesUpsertWithoutEntriesInput = {
+    update: XOR<PostSeriesUpdateWithoutEntriesInput, PostSeriesUncheckedUpdateWithoutEntriesInput>
+    create: XOR<PostSeriesCreateWithoutEntriesInput, PostSeriesUncheckedCreateWithoutEntriesInput>
+    where?: PostSeriesWhereInput
+  }
+
+  export type PostSeriesUpdateToOneWithWhereWithoutEntriesInput = {
+    where?: PostSeriesWhereInput
+    data: XOR<PostSeriesUpdateWithoutEntriesInput, PostSeriesUncheckedUpdateWithoutEntriesInput>
+  }
+
+  export type PostSeriesUpdateWithoutEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostSeriesUncheckedUpdateWithoutEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostUpsertWithoutSeriesEntryInput = {
+    update: XOR<PostUpdateWithoutSeriesEntryInput, PostUncheckedUpdateWithoutSeriesEntryInput>
+    create: XOR<PostCreateWithoutSeriesEntryInput, PostUncheckedCreateWithoutSeriesEntryInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutSeriesEntryInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutSeriesEntryInput, PostUncheckedUpdateWithoutSeriesEntryInput>
+  }
+
+  export type PostUpdateWithoutSeriesEntryInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    keywords?: PostUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    comment?: CommentUpdateManyWithoutPostNestedInput
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutSeriesEntryInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    keywords?: PostUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
+  }
+
   export type PostCreateWithoutTranslationsInput = {
     postId?: string
     title: string
@@ -35739,6 +38856,7 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutPostsInput
     category: CategoryCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryCreateNestedOneWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutTranslationsInput = {
@@ -35759,6 +38877,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryUncheckedCreateNestedOneWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutTranslationsInput = {
@@ -35795,6 +38914,7 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutTranslationsInput = {
@@ -35815,6 +38935,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUncheckedUpdateOneWithoutPostNestedInput
   }
 
   export type PostCreateWithoutCategoryInput = {
@@ -35835,6 +38956,7 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
     translations?: PostTranslationCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryCreateNestedOneWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutCategoryInput = {
@@ -35855,6 +38977,7 @@ export namespace Prisma {
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
     translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryUncheckedCreateNestedOneWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutCategoryInput = {
@@ -36078,6 +39201,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutPostsInput
     likes?: LikeCreateNestedManyWithoutPostInput
     translations?: PostTranslationCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryCreateNestedOneWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutCommentInput = {
@@ -36098,6 +39222,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
     translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryUncheckedCreateNestedOneWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutCommentInput = {
@@ -36183,6 +39308,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutCommentInput = {
@@ -36203,6 +39329,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUncheckedUpdateOneWithoutPostNestedInput
   }
 
   export type ProjectTranslationCreateWithoutProjectInput = {
@@ -36356,6 +39483,7 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutPostsInput
     category: CategoryCreateNestedOneWithoutPostsInput
     translations?: PostTranslationCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryCreateNestedOneWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutLikesInput = {
@@ -36376,6 +39504,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
     translations?: PostTranslationUncheckedCreateNestedManyWithoutPostInput
+    seriesEntry?: PostSeriesEntryUncheckedCreateNestedOneWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutLikesInput = {
@@ -36453,6 +39582,7 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     translations?: PostTranslationUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutLikesInput = {
@@ -36473,6 +39603,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUncheckedUpdateOneWithoutPostNestedInput
   }
 
   export type UserUpsertWithoutLikesInput = {
@@ -36811,6 +39942,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutAuthorInput = {
@@ -36831,6 +39963,7 @@ export namespace Prisma {
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUncheckedUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateManyWithoutAuthorInput = {
@@ -36984,6 +40117,30 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PostSeriesEntryCreateManySeriesInput = {
+    id?: string
+    postId: string
+    order?: number
+  }
+
+  export type PostSeriesEntryUpdateWithoutSeriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    post?: PostUpdateOneRequiredWithoutSeriesEntryNestedInput
+  }
+
+  export type PostSeriesEntryUncheckedUpdateWithoutSeriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PostSeriesEntryUncheckedUpdateManyWithoutSeriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
   export type PostCreateManyCategoryInput = {
     postId?: string
     title: string
@@ -37027,6 +40184,7 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     likes?: LikeUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutCategoryInput = {
@@ -37047,6 +40205,7 @@ export namespace Prisma {
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
     translations?: PostTranslationUncheckedUpdateManyWithoutPostNestedInput
+    seriesEntry?: PostSeriesEntryUncheckedUpdateOneWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateManyWithoutCategoryInput = {

@@ -194,6 +194,23 @@ exports.Prisma.PostScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.PostSeriesScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PostSeriesEntryScalarFieldEnum = {
+  id: 'id',
+  seriesId: 'seriesId',
+  postId: 'postId',
+  order: 'order'
+};
+
 exports.Prisma.PostTranslationScalarFieldEnum = {
   id: 'id',
   postId: 'postId',
@@ -446,6 +463,8 @@ exports.Prisma.ModelName = {
   UserSocialAccount: 'UserSocialAccount',
   VerificationToken: 'VerificationToken',
   Post: 'Post',
+  PostSeries: 'PostSeries',
+  PostSeriesEntry: 'PostSeriesEntry',
   PostTranslation: 'PostTranslation',
   Category: 'Category',
   CategoryTranslation: 'CategoryTranslation',

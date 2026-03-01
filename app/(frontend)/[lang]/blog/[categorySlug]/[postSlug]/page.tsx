@@ -13,6 +13,7 @@ import ShareButtons from '@/components/frontend/Features/Blog/ShareButtons'
 import TableOfContents from '@/components/frontend/Features/Blog/TableOfContents'
 import Breadcrumb from '@/components/common/Layout/Breadcrumb'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
+import SeriesNav from '@/components/frontend/Features/Blog/SeriesNav'
 
 const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
@@ -218,6 +219,9 @@ export default async function BlogPost({ params }: Props) {
           <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
             <Breadcrumb items={breadcrumbs} />
             <PostHeader {...post} />
+            {post.seriesEntry && (
+              <SeriesNav seriesRef={post.seriesEntry} currentPostId={post.postId} />
+            )}
             <TableOfContents content={post.content} />
             <Article {...post} />
             <ShareButtons title={post.title} url={url} />
