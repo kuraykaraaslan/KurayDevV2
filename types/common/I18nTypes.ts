@@ -9,9 +9,9 @@ export const AppLanguageEnum = z.enum([
   // Türki cumhuriyetler
   //'az', 'kk', 'tt', 'tk', 'uz',
   // Avrupa
-  'de', 'el', 'et', 'mt', 'nl', 'uk', //'he',
+  'de', //'el', 'et', 'mt', 'nl', 'uk', //'he',
   // Yazılım sektörü
-  'ru', 'zh', 'tw', 'ja', 'fr', 'it', 'es', 'fi',
+  //'ru', 'zh', 'tw', 'ja', 'fr', 'it', 'es', 'fi',
   // Bölgesel (geo-exclusive)
   //'ar',  // Arapça - sadece UAE'den görünür
 ])
@@ -43,11 +43,13 @@ export function getDirection(lang: AppLanguage): 'rtl' | 'ltr' {
 // Two overrides are unavoidable: package returns wrong countries for these.
 
 const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = {
-  en: 'GB', el: 'GR', ky: 'KG',
+  en: 'GB', 
+  //el: 'GR', 
+  ky: 'KG',
   //kk: 'KZ',       // Kazak → Kazakistan
   //tt: 'RU',       // Tatarca → Rusya (Tataristan egemen değil)
-  zh: 'CN',       // Çince Basit → Çin
-  tw: 'TW',       // Çince Geleneksel → Tayvan
+  //zh: 'CN',       // Çince Basit → Çin
+  //tw: 'TW',       // Çince Geleneksel → Tayvan
   //ar: 'AE',       // Arapça → BAE (Dubai)
 }
 
@@ -81,10 +83,10 @@ export const LANG_FLAGS: Record<string, string> = Object.fromEntries(
 
 export const LANG_RESTRICTIONS: Record<string, AppLanguage[]> = {
   //TR: ['he'],       // Turkey  → hide Hebrew (Israel)
-  CN: ['tw'],       // China   → hide Taiwanese
-  TW: ['zh'],       // Taiwan  → hide Simplified Chinese
-  RU: ['uk'],       // Russia  → hide Ukrainian
-  UA: ['ru'],       // Ukraine → hide Russian
+  //CN: ['tw'],       // China   → hide Taiwanese
+  //TW: ['zh'],       // Taiwan  → hide Simplified Chinese
+  //RU: ['uk'],       // Russia  → hide Ukrainian
+  //UA: ['ru'],       // Ukraine → hide Russian
 }
 
 // Languages that are ONLY shown from specific countries (geo-exclusive)
