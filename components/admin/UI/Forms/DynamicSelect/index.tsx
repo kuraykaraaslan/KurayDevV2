@@ -2,6 +2,7 @@
 
 import axiosInstance from '@/libs/axios'
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import GenericElement, { GenericElementProps } from '../GenericElement'
 
@@ -33,6 +34,8 @@ interface DynamicSelectProps<T = any> extends GenericElementProps {
   disabledError?: string
   searchable?: boolean
   debounceMs?: number
+  /** Render the dropdown via portal (fixed positioning) — use inside modals with overflow:auto */
+  portal?: boolean
 }
 
 /* ================= COMPONENT ================= */
@@ -55,6 +58,7 @@ const DynamicSelect = <T,>({
   disabledError,
   searchable = true,
   debounceMs = 300,
+  portal = false,
 }: DynamicSelectProps<T>) => {
   const { t } = useTranslation()
 
@@ -69,6 +73,9 @@ const DynamicSelect = <T,>({
   const [debouncedSearch, setDebouncedSearch] = useState('')
 
   const containerRef = useRef<HTMLDivElement>(null)
+  const btnRef = useRef<HTMLButtonElement>(null)
+  const portalListRef = useRef<HTMLDivElement>(null)
+  const [portalRect, setPortalRect] = useState<DOMRect | null>(null)
   const debounceTimer = useRef<NodeJS.Timeout | null>(null)
 
   /* ================= LABEL RESOLVER ================= */
@@ -198,7 +205,9 @@ const DynamicSelect = <T,>({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const inContainer = containerRef.current?.contains(event.target as Node)
+      const inPortalList = portalListRef.current?.contains(event.target as Node)
+      if (!inContainer && !inPortalList) {
         setIsOpen(false)
         setSearchTerm('')
       }
@@ -227,8 +236,15 @@ const DynamicSelect = <T,>({
     <GenericElement className={className} label={label}>
       <div ref={containerRef} className="relative">
         <button
+          ref={btnRef}
           type="button"
-          onClick={() => !disabled && setIsOpen(!isOpen)}
+          onClick={() => {
+            if (disabled) return
+            if (!isOpen && portal && btnRef.current) {
+              setPortalRect(btnRef.current.getBoundingClientRect())
+            }
+            setIsOpen(!isOpen)
+          }}
           disabled={disabled}
           className="select select-bordered w-full text-left flex items-center justify-between"
           onMouseEnter={() => {
@@ -256,60 +272,74 @@ const DynamicSelect = <T,>({
           </div>
         )}
 
-        {isOpen && !disabled && (
-          <div className="absolute z-50 mt-1 w-full bg-base-100 border border-base-300 rounded-lg shadow-lg overflow-hidden">
-            {searchable && (
-              <div className="p-2 border-b border-base-300">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder={defaultSearchPlaceholder}
-                  className="input input-bordered input-sm w-full"
-                  autoFocus
-                />
-              </div>
-            )}
-
-            <div className="max-h-48 overflow-y-auto">
-              {loading ? (
-                <div className="p-3 text-center text-base-content/50">
-                  <span className="loading loading-spinner loading-sm mr-2" />
-                  {t('admin.selects.loading')}
+        {isOpen && !disabled && (() => {
+          const dropdownContent = (
+            <div
+              ref={portal ? portalListRef : undefined}
+              style={
+                portal && portalRect
+                  ? { position: 'fixed', top: portalRect.bottom + 4, left: portalRect.left, width: portalRect.width, zIndex: 9999 }
+                  : undefined
+              }
+              className={portal ? 'bg-base-100 border border-base-300 rounded-lg shadow-lg overflow-hidden' : 'absolute z-50 mt-1 w-full bg-base-100 border border-base-300 rounded-lg shadow-lg overflow-hidden'}
+            >
+              {searchable && (
+                <div className="p-2 border-b border-base-300">
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder={defaultSearchPlaceholder}
+                    className="input input-bordered input-sm w-full"
+                    autoFocus
+                  />
                 </div>
-              ) : error ? (
-                <div className="p-3 text-center text-error">{error}</div>
-              ) : filteredOptions.length === 0 ? (
-                <div className="p-3 text-center text-base-content/50">
-                  {t('admin.selects.no_results')}
-                </div>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => handleSelect('')}
-                    className="w-full px-3 py-2 text-left hover:bg-base-200 text-base-content/50"
-                  >
-                    {defaultPlaceholder}
-                  </button>
-
-                  {filteredOptions.map((option) => (
-                    <button
-                      key={option.value}
-                      type="button"
-                      onClick={() => handleSelect(option.value)}
-                      className={`w-full px-3 py-2 text-left hover:bg-base-200 ${
-                        option.value === selectedValue ? 'bg-primary/10 text-primary' : ''
-                      }`}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </>
               )}
+
+              <div className="max-h-48 overflow-y-auto">
+                {loading ? (
+                  <div className="p-3 text-center text-base-content/50">
+                    <span className="loading loading-spinner loading-sm mr-2" />
+                    {t('admin.selects.loading')}
+                  </div>
+                ) : error ? (
+                  <div className="p-3 text-center text-error">{error}</div>
+                ) : filteredOptions.length === 0 ? (
+                  <div className="p-3 text-center text-base-content/50">
+                    {t('admin.selects.no_results')}
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleSelect('')}
+                      className="w-full px-3 py-2 text-left hover:bg-base-200 text-base-content/50"
+                    >
+                      {defaultPlaceholder}
+                    </button>
+
+                    {filteredOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => handleSelect(option.value)}
+                        className={`w-full px-3 py-2 text-left hover:bg-base-200 ${
+                          option.value === selectedValue ? 'bg-primary/10 text-primary' : ''
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )
+
+          return portal && typeof window !== 'undefined'
+            ? createPortal(dropdownContent, document.body)
+            : dropdownContent
+        })()}
       </div>
     </GenericElement>
   )

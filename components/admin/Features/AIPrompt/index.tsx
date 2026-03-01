@@ -42,7 +42,7 @@ const AIPrompt = ({
 
   const generatePost = async () => {
     await axiosInstance
-      .post('/api/ai/gpt-4o', {
+      .post('/api/ai/generate', {
         prompt,
       })
       .then((res) => {

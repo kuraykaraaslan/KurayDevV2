@@ -1,14 +1,9 @@
 import { NextResponse } from 'next/server'
-import OpenAIService from '@/services/OpenAIService'
+import { AIService } from '@/services/AIServices'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import { GPT4oRequestSchema } from '@/dtos/AIAndServicesDTO'
 import AIMessages from '@/messages/AIMessages'
 
-/**
- * POST handler for creating a new post.
- * @param request - The incoming request object
- * @returns A NextResponse containing the new post data or an error message
- */
 export async function POST(request: NextRequest) {
   try {
     await UserSessionService.authenticateUserByRequest({ request })
@@ -18,19 +13,21 @@ export async function POST(request: NextRequest) {
 
     if (!parsedData.success) {
       return NextResponse.json(
-        {
-          message: parsedData.error.errors.map((err) => err.message).join(', '),
-        },
+        { message: parsedData.error.errors.map((err) => err.message).join(', ') },
         { status: 400 }
       )
     }
 
-    const { prompt } = parsedData.data
-    const text = await OpenAIService.generateText(prompt)
-    console.log('Generated text:', text)
+    const { prompt, model, provider } = parsedData.data
+    const text = await AIService.getProvider(provider).generateText(prompt, model)
+
+    if (text === null) {
+      return NextResponse.json({ message: AIMessages.GENERATION_FAILED }, { status: 422 })
+    }
+
     return NextResponse.json({ message: AIMessages.TEXT_GENERATED_SUCCESSFULLY, text })
   } catch (error: any) {
-    console.error('Error in GPT-4o API route:', error)
+    console.error('Error in AI generate route:', error)
     return NextResponse.json(
       { message: error.message || AIMessages.GENERATION_FAILED },
       { status: 500 }

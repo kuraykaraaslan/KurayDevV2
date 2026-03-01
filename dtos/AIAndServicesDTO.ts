@@ -5,6 +5,8 @@ import ContactMessages from '@/messages/ContactMessages'
 // AI Service Request DTOs
 export const GPT4oRequestSchema = z.object({
   prompt: z.string().min(1, AIMessages.PROMPT_REQUIRED),
+  model: z.string().optional(),
+  provider: z.string().optional(),
   maxTokens: z.number().int().optional(),
   temperature: z.number().min(0).max(2).optional(),
 })

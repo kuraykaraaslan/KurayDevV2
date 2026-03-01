@@ -21,8 +21,8 @@ const CategoryTranslationSchema = z.object({
   slug: z.string(),
 })
 
-const CommentStatus = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM']).default('NOT_PUBLISHED')
-const PostStatus = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED']).default('PUBLISHED')
+const CommentStatus = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM'])
+const PostStatus = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED'])
 
 const CommentSchema = z.object({
   commentId: z.string(),
@@ -50,7 +50,7 @@ const PostSchema = z.object({
     .transform((date) => date || new Date()),
   categoryId: z.string(),
   image: z.string().nullable(),
-  status: z.string().default('PUBLISHED'),
+  status: PostStatus,
   views: z.number().default(0),
   deletedAt: z.date().nullable().optional(),
 })

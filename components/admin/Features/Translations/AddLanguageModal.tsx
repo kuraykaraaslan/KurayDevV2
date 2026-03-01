@@ -1,8 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { HeadlessModal } from '@/components/admin/UI/Modal'
+import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 import axiosInstance from '@/libs/axios'
 import { LANG_NAMES, LANG_FLAGS } from '@/types/common/I18nTypes'
+import { deserializeAIModel } from '@/types/features/AITypes'
 
 export type TranslationFieldDef = {
   key: string
@@ -17,7 +19,7 @@ interface AddLanguageModalProps {
   sourceForms: Record<string, Record<string, string>>
   availableSourceLangs: string[]
   fields: TranslationFieldDef[]
-  entityLabel?: string // e.g. "blog post", "category", "project"
+  entityLabel?: string
   onConfirm: (lang: string, prefilled?: Record<string, string>) => void
 }
 
@@ -33,6 +35,7 @@ const AddLanguageModal = ({
 }: AddLanguageModalProps) => {
   const [mode, setMode] = useState<'choose' | 'ai'>('choose')
   const [sourceLang, setSourceLang] = useState<string>('')
+  const [aiModel, setAiModel] = useState<string>('')
   const [translating, setTranslating] = useState(false)
   const [error, setError] = useState('')
 
@@ -40,6 +43,7 @@ const AddLanguageModal = ({
     setMode('choose')
     setError('')
     setSourceLang('')
+    setAiModel('')
     onClose()
   }
 
@@ -62,8 +66,6 @@ const AddLanguageModal = ({
 
     const sourceLangName = LANG_NAMES[lang] ?? lang
     const targetLangName = LANG_NAMES[targetLang] ?? targetLang
-
-    // Split fields: meta (structured text) vs richtext (separate call)
     const metaFields = fields.filter((f) => !f.isRichText)
     const richFields = fields.filter((f) => f.isRichText)
 
@@ -92,14 +94,19 @@ Source:
 ${metaSourceLines}`
 
     try {
+      const modelInfo = deserializeAIModel(aiModel)
+      if (!modelInfo) throw new Error(`Invalid AI model selection: ${aiModel}`)
+      const modelPayload = { model: modelInfo.modelName, provider: modelInfo.provider }
+
       const richPromises = richFields.map((f) =>
-        axiosInstance.post('/api/ai/gpt-4o', {
+        axiosInstance.post('/api/ai/generate', {
+          ...modelPayload,
           prompt: `Translate the following ${entityLabel} ${f.label.toLowerCase()} from ${sourceLangName} to ${targetLangName}.\nReturn ONLY the translated content. Preserve all HTML tags exactly as-is. No explanations, no markdown wrappers.\n\n${source[f.key] ?? ''}`,
         })
       )
 
       const [metaRes, ...richRes] = await Promise.all([
-        axiosInstance.post('/api/ai/gpt-4o', { prompt: metaPrompt }),
+        axiosInstance.post('/api/ai/generate', { ...modelPayload, prompt: metaPrompt }),
         ...richPromises,
       ])
 
@@ -137,6 +144,11 @@ ${metaSourceLines}`
   }
 
   const effectiveSourceLang = sourceLang || availableSourceLangs[0] || ''
+
+  const langOptions = availableSourceLangs.map((l) => ({
+    value: l,
+    label: `${LANG_FLAGS[l] ?? ''} ${LANG_NAMES[l] ?? l} (${l.toUpperCase()})`,
+  }))
 
   return (
     <HeadlessModal
@@ -186,7 +198,7 @@ ${metaSourceLines}`
             <div>
               <div className="font-semibold text-sm">Translate with AI</div>
               <div className="text-xs text-base-content/45 mt-0.5 leading-relaxed">
-                Auto-fill {fields.map((f) => f.label.toLowerCase()).join(', ')} using GPT-4o
+                Auto-fill {fields.map((f) => f.label.toLowerCase()).join(', ')} using {deserializeAIModel(aiModel)?.modelName ?? 'AI'}
               </div>
             </div>
           </button>
@@ -204,40 +216,29 @@ ${metaSourceLines}`
             Back
           </button>
 
-          <div>
-            <label className="text-xs font-medium text-base-content/50 uppercase tracking-wider mb-2 block">
-              Translate from
-            </label>
-            <div className="flex flex-col gap-1.5">
-              {availableSourceLangs.map((lang) => {
-                const isSelected = effectiveSourceLang === lang
-                return (
-                  <button
-                    key={lang}
-                    type="button"
-                    onClick={() => setSourceLang(lang)}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all text-left ${
-                      isSelected
-                        ? 'border-secondary/50 bg-secondary/8 text-secondary'
-                        : 'border-base-content/10 hover:border-base-content/20 hover:bg-base-content/5 text-base-content'
-                    }`}
-                  >
-                    <span className="text-lg leading-none">{LANG_FLAGS[lang]}</span>
-                    <div className="flex-1">
-                      <div className="text-sm font-medium">{LANG_NAMES[lang]}</div>
-                      <div className="text-xs text-base-content/40 font-mono">{lang.toUpperCase()}</div>
-                    </div>
-                    {isSelected && (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <path d="M20 6L9 17l-5-5" />
-                      </svg>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <DynamicSelect
+            label="Translate from"
+            options={langOptions}
+            selectedValue={effectiveSourceLang}
+            onValueChange={setSourceLang}
+            placeholder="Select source language"
+            searchable={langOptions.length > 4}
+            portal
+          />
 
+          <DynamicSelect
+            label="AI Model"
+            endpoint="/api/ai/models"
+            dataKey="models"
+            valueKey="id"
+            labelKey="label"
+            selectedValue={aiModel}
+            onValueChange={setAiModel}
+            placeholder="Select model"
+            portal
+          />
+
+          {/* Translation summary */}
           {effectiveSourceLang && (
             <div className="flex items-center gap-2 text-xs text-base-content/40">
               <span className="font-mono">{effectiveSourceLang.toUpperCase()}</span>
@@ -245,7 +246,7 @@ ${metaSourceLines}`
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
               <span className="font-mono">{targetLang.toUpperCase()}</span>
-              <span className="ml-1 text-base-content/30">via GPT-4o</span>
+              <span className="ml-1 text-base-content/30">via {deserializeAIModel(aiModel)?.modelName ?? 'AI'}</span>
             </div>
           )}
 
@@ -258,7 +259,7 @@ ${metaSourceLines}`
           <button
             type="button"
             onClick={handleTranslate}
-            disabled={translating || !effectiveSourceLang}
+            disabled={translating || !effectiveSourceLang || !aiModel}
             className="btn btn-secondary btn-sm w-full gap-2"
           >
             {translating ? (
