@@ -122,3 +122,7 @@ prisma/.env
 .claude
 .vscode-test
 # local env files
+
+
+#next
+next-env.d.ts
