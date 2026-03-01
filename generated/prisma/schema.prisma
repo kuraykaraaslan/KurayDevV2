@@ -120,18 +120,19 @@ model VerificationToken {
 }
 
 model Post {
-  postId      String   @id @default(cuid())
+  postId      String    @id @default(cuid())
   title       String
   content     String
   authorId    String
   description String?
-  slug        String   @unique
+  slug        String    @unique
   keywords    String[]
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   categoryId  String
   image       String?
-  status      String   @default("PUBLISHED")
-  views       Int      @default(0)
+  status      String    @default("PUBLISHED")
+  views       Int       @default(0)
+  publishedAt DateTime?
 
   updatedAt DateTime? @default(now()) @updatedAt
   deletedAt DateTime?

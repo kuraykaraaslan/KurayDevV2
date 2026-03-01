@@ -25,6 +25,7 @@ export const CreatePostRequestSchema = z.object({
   image: z.string().nullable(),
   status: PostStatusEnum.default('PUBLISHED'),
   views: z.number().default(0),
+  publishedAt: z.coerce.date().nullable().optional(),
   deletedAt: z.date().nullable().optional(),
   updatedAt: z
     .date()
@@ -51,6 +52,7 @@ export const PostResponseSchema = z.object({
   image: z.string().nullable(),
   status: PostStatusEnum.default('PUBLISHED'),
   views: z.number().default(0),
+  publishedAt: z.coerce.date().nullable().optional(),
   deletedAt: z.date().nullable().optional(),
 })
 

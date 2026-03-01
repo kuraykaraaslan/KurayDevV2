@@ -50,6 +50,7 @@ const SinglePost = () => {
   const [categoryId, setCategoryId] = useState('')
   const [status, setStatus] = useState<PostStatus>('DRAFT')
   const [createdAt, setCreatedAt] = useState<Date>(new Date())
+  const [publishedAt, setPublishedAt] = useState<Date | null>(null)
   const [views, setViews] = useState(0)
 
   // Translation state
@@ -60,7 +61,7 @@ const SinglePost = () => {
   const { clearAutoSave } = useDraftAutoSave({
     storageKey: 'post_drafts',
     id: routePostId,
-    data: { title, content, description, slug, keywords, authorId, categoryId, status, image },
+    data: { title, content, description, slug, keywords, authorId, categoryId, status, image, publishedAt },
     loading,
     onLoad: (draft) => {
       setTitle(draft.title ?? '')
@@ -72,6 +73,7 @@ const SinglePost = () => {
       setCategoryId(draft.categoryId ?? '')
       setStatus(draft.status ?? 'DRAFT')
       setImage(draft.image ?? '')
+      setPublishedAt(draft.publishedAt ? new Date(draft.publishedAt) : null)
     },
   })
 
@@ -134,6 +136,7 @@ const SinglePost = () => {
         setCategoryId(post.categoryId ?? '')
         setStatus((post.status as PostStatus) ?? 'DRAFT')
         setCreatedAt(post.createdAt ? new Date(post.createdAt) : new Date())
+        setPublishedAt(post.publishedAt ? new Date(post.publishedAt) : null)
         setViews(typeof post.views === 'number' ? post.views : 0)
 
         tr.initTranslations(
@@ -155,7 +158,7 @@ const SinglePost = () => {
     clearAutoSave()
     setTitle(''); setContent(''); setDescription(''); setSlug('')
     setKeywords([]); setAuthorId(''); setCategoryId(''); setStatus('DRAFT'); setImage('')
-    setCreatedAt(new Date()); setViews(0)
+    setCreatedAt(new Date()); setViews(0); setPublishedAt(null)
     toast.info('Draft cleared')
   }
 
@@ -204,6 +207,7 @@ const SinglePost = () => {
       const body = {
         postId: routePostId !== 'create' ? routePostId : undefined,
         title, content, description, slug, keywords, authorId, categoryId, status, createdAt, views, image,
+        publishedAt: publishedAt ?? undefined,
       }
       if (mode === 'create') {
         await axiosInstance.post('/api/posts', body)
@@ -268,13 +272,26 @@ const SinglePost = () => {
           <DynamicSelect
             label="Status"
             selectedValue={status}
-            onValueChange={(v) => setStatus(v as PostStatus)}
+            onValueChange={(v) => {
+              setStatus(v as PostStatus)
+              if (v !== 'SCHEDULED') setPublishedAt(null)
+            }}
             options={[
               { value: 'DRAFT', label: 'Draft' },
+              { value: 'SCHEDULED', label: 'Scheduled' },
               { value: 'PUBLISHED', label: 'Published' },
               { value: 'ARCHIVED', label: 'Archived' },
             ]}
           />
+          {status === 'SCHEDULED' && (
+            <DynamicDate
+              label="Publish At"
+              canBeNull
+              value={publishedAt}
+              onChange={setPublishedAt}
+              min={new Date().toISOString().slice(0, 16)}
+            />
+          )}
           <DynamicSelect
             label="Category"
             endpoint="/api/categories" dataKey="categories" valueKey="categoryId" labelKey="title"

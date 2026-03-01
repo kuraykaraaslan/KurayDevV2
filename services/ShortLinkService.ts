@@ -1,8 +1,16 @@
 import { prisma } from '@/libs/prisma'
 import UserAgentService from '@/services/UserAgentService'
+import redis from '@/libs/redis'
 
 const CODE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 const CODE_LENGTH = 6
+
+/** Redis key where pending click events are buffered */
+export const CLICK_BUFFER_KEY = 'click:buffer'
+
+/** Max clicks per IP per code per minute before tracking is skipped */
+const CLICK_RATE_LIMIT = 10
+const CLICK_RATE_WINDOW = 60 // seconds
 
 export default class ShortLinkService {
     static generateCode() {
@@ -38,47 +46,58 @@ export default class ShortLinkService {
     }
 
     /**
-     * Resolves a short code to the original URL, increments the click counter,
-     * and records click metadata for analytics.
+     * Resolves a short code to the original URL.
+     * Pushes click metadata to the Redis buffer (flushed to DB by cron).
+     * If `ip` is provided, applies per-IP rate limiting — excess clicks are
+     * still redirected but NOT tracked, preventing bot inflation.
      */
     static async resolve(code: string, request?: NextRequest): Promise<string | null> {
         const link = await prisma.shortLink.findUnique({ where: { code } })
         if (!link) return null
 
-        const clickData: {
-            shortLinkId: string
-            referrer?: string
-            ip?: string
-            country?: string
-            city?: string
-            os?: string
-            browser?: string
-            device?: string
-        } = { shortLinkId: link.id }
-
         if (request) {
             try {
-                const ua = await UserAgentService.parseRequest(request)
-                const referrer = request.headers.get('referer') ?? request.headers.get('referrer') ?? undefined
-                clickData.referrer = referrer ?? undefined
-                clickData.ip = ua.ip ?? undefined
-                clickData.country = ua.country ?? undefined
-                clickData.city = ua.city ?? undefined
-                clickData.os = ua.os ?? undefined
-                clickData.browser = ua.browser ?? undefined
-                clickData.device = ua.device ?? undefined
+                // --- Rate limit check (per IP + code) ---
+                const ip =
+                    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+                    request.headers.get('x-real-ip')?.trim() ||
+                    request.headers.get('cf-connecting-ip')?.trim()
+
+                let rateLimited = false
+                if (ip) {
+                    const rlKey = `click:rl:${code}:${ip}`
+                    const count = await redis.incr(rlKey)
+                    if (count === 1) await redis.expire(rlKey, CLICK_RATE_WINDOW)
+                    rateLimited = count > CLICK_RATE_LIMIT
+                }
+
+                if (!rateLimited) {
+                    // --- Gather metadata ---
+                    const ua = await UserAgentService.parseRequest(request).catch(() => null)
+                    const referrer =
+                        request.headers.get('referer') ??
+                        request.headers.get('referrer') ??
+                        undefined
+
+                    const clickData = {
+                        shortLinkId: link.id,
+                        referrer: referrer ?? null,
+                        ip: ua?.ip ?? null,
+                        country: ua?.country ?? null,
+                        city: ua?.city ?? null,
+                        os: ua?.os ?? null,
+                        browser: ua?.browser ?? null,
+                        device: ua?.device ?? null,
+                        clickedAt: new Date().toISOString(),
+                    }
+
+                    // --- Push to Redis buffer (flushed by cron every 5 min) ---
+                    await redis.rpush(CLICK_BUFFER_KEY, JSON.stringify(clickData))
+                }
             } catch {
-                // geo lookup failure is non-fatal
+                // tracking failure is non-fatal — redirect still works
             }
         }
-
-        await prisma.$transaction([
-            prisma.shortLink.update({
-                where: { code },
-                data: { clicks: { increment: 1 } },
-            }),
-            prisma.shortLinkClick.create({ data: clickData }),
-        ])
 
         return link.originalUrl
     }

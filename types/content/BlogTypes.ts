@@ -22,7 +22,7 @@ const CategoryTranslationSchema = z.object({
 })
 
 const CommentStatusEnum = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM'])
-const PostStatusEnum = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED'])
+const PostStatusEnum = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED', 'SCHEDULED'])
 
 const CommentSchema = z.object({
   commentId: z.string(),
@@ -52,6 +52,7 @@ const PostSchema = z.object({
   image: z.string().nullable(),
   status: PostStatusEnum.default('DRAFT'),
   views: z.number().default(0),
+  publishedAt: z.coerce.date().nullable().optional(),
   deletedAt: z.date().nullable().optional(),
 })
 

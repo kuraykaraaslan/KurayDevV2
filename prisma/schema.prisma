@@ -132,6 +132,7 @@ model Post {
   image       String?
   status      String    @default("PUBLISHED")
   views       Int       @default(0)
+  publishedAt DateTime?
 
   updatedAt   DateTime? @default(now()) @updatedAt
   deletedAt   DateTime?

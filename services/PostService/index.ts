@@ -21,6 +21,7 @@ export default class PostService {
     views: true,
     content: true,
     deletedAt: true,
+    publishedAt: true,
     category: {
       select: {
         categoryId: true,
@@ -84,6 +85,12 @@ export default class PostService {
 
     if (existingPost) {
       throw new Error('Post with the same title or slug already exists.')
+    }
+
+    // Auto-derive status from publishedAt
+    const publishedAt = (data as any).publishedAt ? new Date((data as any).publishedAt) : null
+    if (publishedAt) {
+      data.status = publishedAt > new Date() ? 'SCHEDULED' : 'PUBLISHED'
     }
 
     await redisInstance.del(this.CACHE_KEY)
@@ -187,6 +194,12 @@ export default class PostService {
 
     if (keywords && typeof keywords === 'string') {
       data.keywords = (keywords as string).split(',')
+    }
+
+    // Auto-derive status from publishedAt
+    const publishedAt = (data as any).publishedAt ? new Date((data as any).publishedAt) : null
+    if (publishedAt) {
+      data.status = publishedAt > new Date() ? 'SCHEDULED' : 'PUBLISHED'
     }
 
     // Update the post

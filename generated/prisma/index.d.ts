@@ -7785,6 +7785,7 @@ export namespace Prisma {
     image: string | null
     status: string | null
     views: number | null
+    publishedAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
   }
@@ -7801,6 +7802,7 @@ export namespace Prisma {
     image: string | null
     status: string | null
     views: number | null
+    publishedAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
   }
@@ -7818,6 +7820,7 @@ export namespace Prisma {
     image: number
     status: number
     views: number
+    publishedAt: number
     updatedAt: number
     deletedAt: number
     _all: number
@@ -7844,6 +7847,7 @@ export namespace Prisma {
     image?: true
     status?: true
     views?: true
+    publishedAt?: true
     updatedAt?: true
     deletedAt?: true
   }
@@ -7860,6 +7864,7 @@ export namespace Prisma {
     image?: true
     status?: true
     views?: true
+    publishedAt?: true
     updatedAt?: true
     deletedAt?: true
   }
@@ -7877,6 +7882,7 @@ export namespace Prisma {
     image?: true
     status?: true
     views?: true
+    publishedAt?: true
     updatedAt?: true
     deletedAt?: true
     _all?: true
@@ -7981,6 +7987,7 @@ export namespace Prisma {
     image: string | null
     status: string
     views: number
+    publishedAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
     _count: PostCountAggregateOutputType | null
@@ -8017,6 +8024,7 @@ export namespace Prisma {
     image?: boolean
     status?: boolean
     views?: boolean
+    publishedAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     comment?: boolean | Post$commentArgs<ExtArgs>
@@ -8040,6 +8048,7 @@ export namespace Prisma {
     image?: boolean
     status?: boolean
     views?: boolean
+    publishedAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -8059,6 +8068,7 @@ export namespace Prisma {
     image?: boolean
     status?: boolean
     views?: boolean
+    publishedAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -8078,11 +8088,12 @@ export namespace Prisma {
     image?: boolean
     status?: boolean
     views?: boolean
+    publishedAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"postId" | "title" | "content" | "authorId" | "description" | "slug" | "keywords" | "createdAt" | "categoryId" | "image" | "status" | "views" | "updatedAt" | "deletedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"postId" | "title" | "content" | "authorId" | "description" | "slug" | "keywords" | "createdAt" | "categoryId" | "image" | "status" | "views" | "publishedAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comment?: boolean | Post$commentArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -8122,6 +8133,7 @@ export namespace Prisma {
       image: string | null
       status: string
       views: number
+      publishedAt: Date | null
       updatedAt: Date | null
       deletedAt: Date | null
     }, ExtArgs["result"]["post"]>
@@ -8564,6 +8576,7 @@ export namespace Prisma {
     readonly image: FieldRef<"Post", 'String'>
     readonly status: FieldRef<"Post", 'String'>
     readonly views: FieldRef<"Post", 'Int'>
+    readonly publishedAt: FieldRef<"Post", 'DateTime'>
     readonly updatedAt: FieldRef<"Post", 'DateTime'>
     readonly deletedAt: FieldRef<"Post", 'DateTime'>
   }
@@ -28498,6 +28511,7 @@ export namespace Prisma {
     image: 'image',
     status: 'status',
     views: 'views',
+    publishedAt: 'publishedAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt'
   };
@@ -29308,6 +29322,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Post"> | string | null
     status?: StringFilter<"Post"> | string
     views?: IntFilter<"Post"> | number
+    publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     updatedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     comment?: CommentListRelationFilter
@@ -29330,6 +29345,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     status?: SortOrder
     views?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     comment?: CommentOrderByRelationAggregateInput
@@ -29355,6 +29371,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Post"> | string | null
     status?: StringFilter<"Post"> | string
     views?: IntFilter<"Post"> | number
+    publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     updatedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     comment?: CommentListRelationFilter
@@ -29377,6 +29394,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     status?: SortOrder
     views?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     _count?: PostCountOrderByAggregateInput
@@ -29402,6 +29420,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"Post"> | string | null
     status?: StringWithAggregatesFilter<"Post"> | string
     views?: IntWithAggregatesFilter<"Post"> | number
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
   }
@@ -31045,6 +31064,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -31067,6 +31087,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -31085,6 +31106,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -31107,6 +31129,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -31127,6 +31150,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
   }
@@ -31142,6 +31166,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -31159,6 +31184,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -32991,6 +33017,7 @@ export namespace Prisma {
     image?: SortOrder
     status?: SortOrder
     views?: SortOrder
+    publishedAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
@@ -33011,6 +33038,7 @@ export namespace Prisma {
     image?: SortOrder
     status?: SortOrder
     views?: SortOrder
+    publishedAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
@@ -33027,6 +33055,7 @@ export namespace Prisma {
     image?: SortOrder
     status?: SortOrder
     views?: SortOrder
+    publishedAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
@@ -35000,6 +35029,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -35020,6 +35050,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -35168,6 +35199,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Post"> | string | null
     status?: StringFilter<"Post"> | string
     views?: IntFilter<"Post"> | number
+    publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     updatedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
   }
@@ -35700,6 +35732,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -35721,6 +35754,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -35754,6 +35788,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -35775,6 +35810,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -35792,6 +35828,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -35812,6 +35849,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -36033,6 +36071,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutPostsInput
@@ -36054,6 +36093,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     likes?: LikeUncheckedCreateNestedManyWithoutPostInput
@@ -36136,6 +36176,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
@@ -36157,6 +36198,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
@@ -36307,6 +36349,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentCreateNestedManyWithoutPostInput
@@ -36328,6 +36371,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     comment?: CommentUncheckedCreateNestedManyWithoutPostInput
@@ -36402,6 +36446,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -36423,6 +36468,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -36635,6 +36681,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
   }
@@ -36757,6 +36804,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -36777,6 +36825,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -36796,6 +36845,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -36946,6 +36996,7 @@ export namespace Prisma {
     image?: string | null
     status?: string
     views?: number
+    publishedAt?: Date | string | null
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
   }
@@ -36969,6 +37020,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUpdateManyWithoutPostNestedInput
@@ -36989,6 +37041,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -37008,6 +37061,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     views?: IntFieldUpdateOperationsInput | number
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
