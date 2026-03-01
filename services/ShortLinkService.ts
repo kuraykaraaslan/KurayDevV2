@@ -1,6 +1,5 @@
 import { prisma } from '@/libs/prisma'
 import UserAgentService from '@/services/UserAgentService'
-import { NextRequest } from 'next/server'
 
 const CODE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 const CODE_LENGTH = 6

@@ -30,6 +30,8 @@ const SKIP_PREFIXES = [
   '/__nextjs',  // tooling edge-cases
   '/auth',
   '/admin',
+  '/api',
+  '/s',   // short links
 ]
 
 function shouldSkipI18n(pathname: string): boolean {

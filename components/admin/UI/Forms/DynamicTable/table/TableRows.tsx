@@ -12,7 +12,7 @@ function TableRows() {
       {data.map((item: any, index: number) => (
         <tr
           key={String(item[idKey]) || index}
-          className={`h-12 hover:bg-primary hover:bg-opacity-10 ${selectedIds.has(item[idKey]) ? 'bg-primary/5' : ''}`}
+          className={`h-12 hover:bg-primary/30 ${selectedIds.has(item[idKey]) ? 'bg-primary/5' : ''}`}
           onClick={(e) => {
             if ((e.ctrlKey || e.metaKey) && bulkActions?.length) {
               toggleSelect(item[idKey], index)

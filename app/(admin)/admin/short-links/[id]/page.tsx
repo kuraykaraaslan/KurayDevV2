@@ -9,6 +9,7 @@ import GenericElement from '@/components/admin/UI/Forms/GenericElement'
 import Form from '@/components/admin/UI/Forms/Form'
 import SectionCard from '@/components/admin/UI/SectionCard'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
+import CopyButton from '@/components/admin/UI/CopyButton'
 
 const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || ''
 
@@ -121,6 +122,15 @@ const SingleShortLink = () => {
             onClick: () => router.push('/admin/short-links'),
             className: 'btn-ghost',
           },
+          ...(mode === 'edit'
+            ? [
+                {
+                  text: 'Analytics',
+                  onClick: () => router.push(`/admin/short-links/${routeId}/analytics`),
+                  className: 'btn-info btn-outline',
+                },
+              ]
+            : []),
         ]}
       />
 
@@ -144,14 +154,17 @@ const SingleShortLink = () => {
 
           {mode === 'edit' && (
             <GenericElement label="Short URL">
-              <a
-                href={`${APP_HOST}/s/${code}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline text-sm font-mono"
-              >
-                {APP_HOST}/s/{code}
-              </a>
+              <div className="flex items-center gap-1">
+                <a
+                  href={`${APP_HOST}/s/${code}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline text-sm font-mono"
+                >
+                  {APP_HOST}/s/{code}
+                </a>
+                <CopyButton text={`${APP_HOST}/s/${code}`} size="xs" />
+              </div>
             </GenericElement>
           )}
 

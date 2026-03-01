@@ -10,6 +10,9 @@ import Table, {
 import { ShortLink } from '@/types/content/ShortLinkTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import CopyButton from '@/components/admin/UI/CopyButton'
+
+const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || ''
 
 const ShortLinksPage = () => {
   const { t } = useTranslation()
@@ -18,16 +21,19 @@ const ShortLinksPage = () => {
     {
       key: 'code',
       header: 'Code',
-      className: 'w-28 font-mono',
+      className: 'w-40 font-mono',
       accessor: (item) => (
-        <a
-          href={`/s/${item.code}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary hover:underline font-mono"
-        >
-          /s/{item.code}
-        </a>
+        <div className="flex items-center gap-1">
+          <a
+            href={`/s/${item.code}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline font-mono"
+          >
+            /s/{item.code}
+          </a>
+          <CopyButton text={`${APP_HOST}/s/${item.code}`} size="xs" />
+        </div>
       ),
     },
     {
@@ -57,6 +63,11 @@ const ShortLinksPage = () => {
   ]
 
   const actions: ActionButton<ShortLink>[] = [
+    {
+      label: 'Analytics',
+      href: (item) => `/admin/short-links/${item.id}/analytics`,
+      className: 'btn-info',
+    },
     {
       label: 'Edit',
       href: (item) => `/admin/short-links/${item.id}`,
