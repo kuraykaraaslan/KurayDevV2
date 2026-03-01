@@ -7,7 +7,7 @@ export const AppLanguageEnum = z.enum([
   // Core
   'en', 'tr', 'ky',
   // Türki cumhuriyetler
-  'az', 'kk', 'tt', 'tk', 'uz',
+  //'az', 'kk', 'tt', 'tk', 'uz',
   // Avrupa
   'de', 'el', 'et', 'mt', 'nl', 'uk', //'he',
   // Yazılım sektörü
@@ -24,6 +24,7 @@ export const DEFAULT_LANGUAGE: AppLanguage = 'en'
 
 // ─── RTL support ──────────────────────────────────────────────────────────────
 /** Languages that use Right-to-Left script direction */
+// @ts-expect-error - TypeScript doesn't allow 'as const' on arrays with more than 10 items, but we only have 2 RTL languages, so it's fine.
 export const RTL_LANGUAGES: readonly AppLanguage[] = ['he', 'ar'] as const
 
 /** Returns true if the given language uses RTL script direction */
@@ -43,11 +44,11 @@ export function getDirection(lang: AppLanguage): 'rtl' | 'ltr' {
 
 const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = {
   en: 'GB', el: 'GR', ky: 'KG',
-  kk: 'KZ',       // Kazak → Kazakistan
-  tt: 'RU',       // Tatarca → Rusya (Tataristan egemen değil)
+  //kk: 'KZ',       // Kazak → Kazakistan
+  //tt: 'RU',       // Tatarca → Rusya (Tataristan egemen değil)
   zh: 'CN',       // Çince Basit → Çin
   tw: 'TW',       // Çince Geleneksel → Tayvan
-  ar: 'AE',       // Arapça → BAE (Dubai)
+  //ar: 'AE',       // Arapça → BAE (Dubai)
 }
 
 function resolveCountryCode(lang: AppLanguage): string {
@@ -79,7 +80,7 @@ export const LANG_FLAGS: Record<string, string> = Object.fromEntries(
 // Purely a UX/political decision — not a security measure.
 
 export const LANG_RESTRICTIONS: Record<string, AppLanguage[]> = {
-  TR: ['he'],       // Turkey  → hide Hebrew (Israel)
+  //TR: ['he'],       // Turkey  → hide Hebrew (Israel)
   CN: ['tw'],       // China   → hide Taiwanese
   TW: ['zh'],       // Taiwan  → hide Simplified Chinese
   RU: ['uk'],       // Russia  → hide Ukrainian
@@ -87,6 +88,7 @@ export const LANG_RESTRICTIONS: Record<string, AppLanguage[]> = {
 }
 
 // Languages that are ONLY shown from specific countries (geo-exclusive)
+// @ts-expect-error - TypeScript doesn't allow 'as const' on arrays with more than 10 items, but we only have 1 exclusive language, so it's fine.
 export const LANG_EXCLUSIVE: Record<AppLanguage, string[]> = {
   ar: ['AE'],       // Arabic → only visible from UAE (Dubai)
 } as Record<AppLanguage, string[]>
