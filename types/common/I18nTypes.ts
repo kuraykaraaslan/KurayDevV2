@@ -4,14 +4,16 @@ import { countries, languages } from 'country-data-list'
 // ─── Language enum ────────────────────────────────────────────────────────────
 
 export const AppLanguageEnum = z.enum([
-  // Core / mevcut
-  'en', 'tr', 'de', 'el', 'et', 'mt', 'nl', 'uk', 'he', 'ky',
+  // Core
+  'en', 'tr', 'ky',
   // Türki cumhuriyetler
   'az', 'kk', 'tt', 'tk', 'uz',
+  // Avrupa
+  'de', 'el', 'et', 'mt', 'nl', 'uk', //'he',
   // Yazılım sektörü
   'ru', 'zh', 'tw', 'ja', 'fr', 'it', 'es', 'fi',
   // Bölgesel (geo-exclusive)
-  'ar',  // Arapça - sadece UAE'den görünür
+  //'ar',  // Arapça - sadece UAE'den görünür
 ])
 export const AppLanguageSchema = AppLanguageEnum.default('en')
 
