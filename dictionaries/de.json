@@ -136,7 +136,14 @@
     },
     "refresh": "Aktualisieren",
     "save": "Speichern",
-    "table_view": "Tabellenansicht"
+    "table_view": "Tabellenansicht",
+    "confirm": "Bestätigen",
+    "confirm_dialog": {
+      "description": "Diese Aktion kann nicht rückgängig gemacht werden.",
+      "title": "Bist du sicher?"
+    },
+    "per_page": "Pro Seite",
+    "selected": "{{count}} ausgewählt"
   },
   "pages": {
     "hero": {

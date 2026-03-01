@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "Bağla",
+      "generate_post": "OpenAI GPT-4 - Yazı Yarat"
+    },
+    "appointments": {
+      "all_statuses": "Bütün Statuslar",
+      "cancel": "Ləğv et",
+      "cancel_confirm": "Bu görüşü ləğv etmək istədiyinizə əminsiniz?",
+      "close": "Bağla",
+      "complete": "Tamamla",
+      "complete_confirm": "Bu görüşü tamamlanmış kimi işarələmək istədiyinizə əminsiniz?",
+      "created": "Yaradıldı",
+      "date": "Tarix",
+      "datetime": "Tarix və Saat",
+      "details": "Görüş Detalları",
+      "email": "Email",
+      "name": "Ad",
+      "next": "Növbəti",
+      "note": "Qeyd",
+      "phone": "Telefon",
+      "previous": "Əvvəlki",
+      "search_placeholder": "Ad və ya email ilə axtar...",
+      "showing": "{{total}} görüşdən {{count}} göstərilir",
+      "status": "Status",
+      "status_booked": "Bron edildi",
+      "status_cancelled": "Ləğv edildi",
+      "status_completed": "Tamamlandı",
+      "status_pending": "Gözləyir",
+      "time": "Saat",
+      "title": "Görüşlər",
+      "view": "Bax"
+    },
+    "categories": {
+      "action": "Əməliyyat",
+      "confirm_delete": "Bu kateqoriyanı silmək istədiyinizə əminsiniz?",
+      "create_category": "Kateqoriya Yarat",
+      "delete": "Sil",
+      "edit": "Redaktə et",
+      "image": "Şəkil",
+      "next": "Növbəti",
+      "posts": "Yazılar",
+      "previous": "Əvvəlki",
+      "search_placeholder": "Axtar",
+      "showing": "{{total}} kateqoriyadan {{count}} göstərilir",
+      "slug": "Slug",
+      "title": "Kateqoriyalar",
+      "view": "Bax"
+    },
+    "comments": {
+      "action": "Əməliyyat",
+      "approve": "Təsdiqlə",
+      "confirm_approve": "Bu yazını təsdiqləmək istədiyinizə əminsiniz?",
+      "confirm_delete": "Bu yazını silmək istədiyinizə əminsiniz?",
+      "confirm_reject": "Bu yazını rədd etmək istədiyinizə əminsiniz?",
+      "contact": "Əlaqə",
+      "content": "Məzmun",
+      "delete": "Sil",
+      "next": "Növbəti",
+      "post": "Yazı",
+      "previous": "Əvvəlki",
+      "reject": "Rədd et",
+      "search_placeholder": "Axtar",
+      "showing": "{{count}} dən {{total}} şərh göstərilir",
+      "title": "Şərhlər"
+    },
+    "contacts": {
+      "action": "Əməliyyat",
+      "close": "Bağla",
+      "confirm_delete": "Bu əlaqə formasını silmək istədiyinizə əminsiniz?",
+      "contact": "Əlaqə",
+      "contact_details": "Əlaqə Detalları",
+      "date": "Tarix",
+      "delete": "Sil",
+      "email": "Email",
+      "message": "Mesaj",
+      "name": "Ad",
+      "next": "Növbəti",
+      "phone": "Telefon",
+      "previous": "Əvvəlki",
+      "reply": "Cavab ver",
+      "search_placeholder": "Ad, email və ya mesaj ilə axtar...",
+      "showing": "{{count}} dən {{total}} əlaqə göstərilir",
+      "title": "Əlaqə Formları",
+      "view": "Bax"
+    },
+    "media": {
+      "actions": "Əməliyyatlar",
+      "all_folders": "Bütün Qovluqlar",
+      "alt_text": "Alt Mətni",
+      "alt_text_placeholder": "Görüntünü əlçatanlıq üçün təsvir edin",
+      "confirm_bulk_delete": "{{count}} faylı silmək istədiyinizə əminsiniz?",
+      "confirm_delete": "Bu faylı silmək istədiyinizə əminsiniz?",
+      "copy_url": "URL-i kopyala",
+      "date": "Tarix",
+      "delete": "Sil",
+      "delete_selected": "Seçilənləri sil",
+      "description": "Yüklənmiş fayllarınızı və şəkillərinizi idarə edin",
+      "edit": "Redaktə et",
+      "filename": "Fayl adı",
+      "folder": "Qovluq",
+      "folders": "Qovluqlar",
+      "name": "Görünən Ad",
+      "next": "Növbəti",
+      "no_files": "Fayl tapılmadı",
+      "page": "Səhifə",
+      "page_size": "Səhifə Ölçüsü",
+      "preview": "Önizləmə",
+      "previous": "Əvvəlki",
+      "search_placeholder": "Faylları axtarın...",
+      "selected": "Seçilmiş",
+      "showing": "{{total}} fayldan {{count}} göstərilir",
+      "size": "Ölçü",
+      "sync": "S3-dən sinxronizasiya et",
+      "title": "Media Kitabxanası",
+      "total_files": "Ümumi Fayllar",
+      "total_size": "Ümumi Ölçü",
+      "upload": "Yüklə"
+    },
+    "posts": {
+      "action": "Əməliyyat",
+      "category": "Kateqoriya",
+      "confirm_delete": "Bu yazını silmək istədiyinizə əminsiniz?",
+      "create_post": "Yazı Yarat",
+      "delete": "Sil",
+      "edit": "Redaktə et",
+      "next": "Növbəti",
+      "previous": "Əvvəlki",
+      "rebuild_failed": "Bilik qrafikinin yenidən qurulması baş tutmadı.",
+      "rebuild_success": "Bilik qrafikinin yenidən qurulması başladıldı.",
+      "rebuild_triggered": "Yenidən Qurma Başladıldı",
+      "rebuild_triggered_message": "Bilik qrafikinin yenidən qurulması artıq başladılıb. Yenidən başlatmaq üçün səhifəni yeniləməlisiniz.",
+      "reset_knowledge_graph": "Bilik Qrafikini Sıfırla",
+      "search_placeholder": "Axtarış",
+      "showing": "{{total}} yazıdan {{count}} göstərilir",
+      "status": "Status",
+      "title": "Yazılar",
+      "view": "Bax"
+    },
+    "project_links": {
+      "action": "Əməliyyat",
+      "delete": "Sil",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "Əməliyyat",
+      "confirm_delete": "Bu layihəni silmək istədiyinizə əminsiniz?",
+      "create_project": "Layihə Yarat",
+      "delete": "Sil",
+      "edit": "Redaktə et",
+      "next": "Növbəti",
+      "previous": "Əvvəlki",
+      "search_placeholder": "Axtar",
+      "showing": "{{total}} layihədən {{count}} göstərilir",
+      "tech_stack": "Texnologiya Yığını",
+      "title": "Layihələr",
+      "view": "Bax"
+    },
+    "selects": {
+      "select_category": "Kateqoriya Seç",
+      "select_user": "İstifadəçi Seç"
+    },
+    "slots": {
+      "add": "Əlavə et",
+      "add_manual_slot": "Əl ilə Slot Əlavə et",
+      "apply_confirm": "{{day}} şablonunu {{date}} tarixinə tətbiq edilsin? Bu, mövcud slotları əvəz edəcək.",
+      "apply_failed": "Şablonu tətbiq etmək alınmadı",
+      "apply_success": "Şablon {{date}} tarixinə tətbiq edildi",
+      "apply_template_date": "Tarixə Şablon Tətbiq et",
+      "apply_template_week": "Həftəyə Şablon Tətbiq et",
+      "apply_week_success": "Şablonlar bütün həftəyə uğurla tətbiq edildi",
+      "capacity": "Tutum",
+      "create_and_manage": "Həftənin hər günü üçün slot şablonları yaradın və idarə edin.",
+      "end_time": "Bitmə Vaxtı",
+      "fetch_failed": "Şablon slotlarını gətirmək alınmadı",
+      "generate": "Yarat",
+      "generated_slots": "{{count}} slot yaradıldı",
+      "interval": "Interval (dəqiqə)",
+      "loading": "Yüklənir...",
+      "no_slots": "Tətbiq etmək üçün slot yoxdur",
+      "no_slots_day": "Bu gün üçün slot yoxdur",
+      "please_select_time": "Zəhmət olmasa vaxt seçin",
+      "remove_all": "Hamısını Sil",
+      "save_changes": "Dəyişiklikləri Yadda Saxla",
+      "save_template": "Şablonu Yadda Saxla",
+      "saving": "Yadda Saxlanılır...",
+      "select_day": "Günü Seçin",
+      "select_time": "Vaxtı Seçin",
+      "slot_exists": "Slot artıq mövcuddur",
+      "slots_failed": "Slotları yeniləmək mümkün olmadı",
+      "slots_updated": "Slotlar uğurla yeniləndi",
+      "start_earlier_error": "Başlama vaxtı bitmə vaxtından əvvəl olmalıdır",
+      "start_time": "Başlama Vaxtı",
+      "template_builder": "Şablon Qurucusu",
+      "template_failed": "Şablonu yadda saxlamaq mümkün olmadı",
+      "template_saved": "Şablon uğurla yadda saxlanıldı",
+      "week_confirm": "Bu, {{date}} tarixindən başlayan həftə üçün mövcud slotları əvəz edəcək. Davam edilsin?"
+    },
+    "stats": {
+      "all_time": "Bütün Zamanlar",
+      "categories": "Kateqoriyalar",
+      "comments": "Şərhlər",
+      "daily": "Gündəlik",
+      "frequency": "Tezlik",
+      "last_5_minutes": "Son 5 Dəqiqə",
+      "last_hour": "Son Saat",
+      "monthly": "Aylıq",
+      "posts": "Paylaşımlar",
+      "title": "Statistika",
+      "total_categories": "Cəmi kateqoriyalar",
+      "total_comments": "Cəmi şərhlər",
+      "total_posts": "Cəmi paylaşımlar",
+      "total_users": "Cəmi istifadəçilər",
+      "total_views": "Cəmi baxışlar",
+      "users": "İstifadəçilər",
+      "views": "Baxışlar",
+      "weekly": "Həftəlik",
+      "yearly": "İllik"
+    },
+    "subscriptions": {
+      "action": "Əməliyyat",
+      "active": "Aktiv",
+      "confirm_unsubscribe": "Bu emaili abunəlikdən çıxarmaq istədiyinizə əminsiniz?",
+      "email": "Email",
+      "next": "Növbəti",
+      "previous": "Əvvəlki",
+      "search_placeholder": "E-poçt ilə axtar...",
+      "send_email": "E-poçt göndər",
+      "showing": "{{total}} abunəlikdən {{count}} göstərilir",
+      "status": "Status",
+      "subscribed_at": "Abunə olunma tarixi",
+      "title": "Abunəliklər",
+      "unsubscribe": "Abunəliyi ləğv et",
+      "unsubscribed": "Abunəlik ləğv edildi"
+    },
+    "users": {
+      "action": "Əməliyyat",
+      "confirm_delete": "Bu istifadəçini silmək istədiyinizə əminsiniz?",
+      "create_user": "İstifadəçi yarat",
+      "delete": "Sil",
+      "delete_failed": "İstifadəçini silmək alınmadı.",
+      "delete_success": "İstifadəçi uğurla silindi.",
+      "edit": "Redaktə et",
+      "email": "E-poçt",
+      "name": "Ad",
+      "next": "Növbəti",
+      "previous": "Əvvəlki",
+      "role": "Rolu",
+      "search_placeholder": "Axtar",
+      "showing": "{{total}} istifadəçidən {{count}} göstərilir",
+      "status": "Status",
+      "title": "İstifadəçilər"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "{{provider}} ilə daxil ol",
+      "close": "Bağla",
+      "modal_button": "Sosial Şəbəkə ilə daxil ol",
+      "modal_title": "Sosial Şəbəkə ilə daxil ol",
+      "no_providers": "SSO təminatçıları konfiqurasiya edilməyib.",
+      "provider_not_allowed": "{{provider}} üçün SSO girişi icazə verilmir.",
+      "redirect_error": "SSO yönləndirmə xətası.",
+      "title": "Sosial Şəbəkə ilə daxil ol"
+    }
+  },
+  "common": {
+    "cancel": "Ləğv et",
+    "confirm": "Təsdiqlə",
+    "confirm_dialog": {
+      "description": "Bu əməliyyat geri alına bilməz.",
+      "title": "Əminsiniz?"
+    },
+    "grid_view": "Şəbəkə Görünüşü",
+    "image": {
+      "upload_error": "Şəkil yükləmə xətası",
+      "upload_success": "Şəkil uğurla yükləndi"
+    },
+    "loading": "Yüklənir...",
+    "modal": {
+      "close_dialog": "Dialoqu bağla"
+    },
+    "navbar": {
+      "admin_dashboard": "Admin Paneli",
+      "login": "Daxil ol",
+      "logout": "Çıxış",
+      "user_menu": "İstifadəçi menyusu",
+      "user_settings": "İstifadəçi Parametrləri"
+    },
+    "per_page": "Səhifə başına",
+    "refresh": "Yenilə",
+    "save": "Yadda saxla",
+    "selected": "{{count}} seçildi",
+    "table_view": "Cədvəl Görünüşü"
+  },
+  "errors": {
+    "404": {
+      "button": "Ana səhifəyə qayıt",
+      "description": "Bağışlayın, bu səhifəni tapa bilmirik. Ana səhifədə kəşf edəcək çox şey var.",
+      "title": "Bir şey səhv getdi"
+    },
+    "500": {
+      "button": "Ana səhifəyə qayıt",
+      "description": "Serverdə bir xəta baş verdi.",
+      "title": "Daxili Server Xətası"
+    }
+  },
+  "footer": {
+    "github_profile": "GitHub profili (yeni tabda açılır)",
+    "linkedin_profile": "LinkedIn profili (yeni tabda açılır)",
+    "site_footer": "Sayt altlığı",
+    "social_media_links": "Sosial media bağlantıları",
+    "x_profile": "X (əvvəlki Twitter) profili (yeni tabda açılır)"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "Anonim",
+      "comment_placeholder": "Şərh yazın...",
+      "comments_count": "Şərhlər",
+      "content_length_error": "Məzmun ən azı 5 simvol olmalıdır",
+      "delete": "Sil",
+      "email_placeholder": "Email",
+      "error": "Bir xəta baş verdi",
+      "fill_all_fields": "Zəhmət olmasa bütün sahələri doldurun",
+      "invalid_email": "Zəhmət olmasa düzgün email daxil edin",
+      "name_length_error": "Ad ən azı 3 simvol və maksimum 50 simvol olmalıdır",
+      "name_placeholder": "Ad",
+      "posted_successfully": "Şərh uğurla göndərildi",
+      "reply": "Cavab ver",
+      "submit_button": "Şərh et"
+    },
+    "feed": {
+      "categories": "Kateqoriyalar",
+      "latest_posts": "Ən Son Yazılar",
+      "load_more": "Daha çox yazı yüklə",
+      "no_more_posts": "Daha çox yazı yoxdur",
+      "other_posts": "Digər Yazılar",
+      "posts_by": "Yazılar",
+      "read_more": "Daha çox oxu",
+      "related_articles": "Əlaqəli Məqalələr"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D Bilik Qrafiki",
+      "title_3d": "3D Bilik Qrafiki"
+    },
+    "offline": {
+      "offline": "Siz oflaynsınız!",
+      "online": "Siz yenidən onlaynsınız!"
+    },
+    "post": {
+      "by": "tərəfindən",
+      "min_read": "dəq oxu",
+      "no_date": "Tarix yoxdur",
+      "read_time": "{{count}} dəq oxu",
+      "unknown_author": "Naməlum Müəllif",
+      "views": "baxış",
+      "views_count": "{{count}} baxış"
+    },
+    "scroll_to_bottom": "Ən altına keç",
+    "scroll_to_top": "Ən yuxarıya keç",
+    "terminal_button": "Terminal",
+    "time": {
+      "a_minute_ago": "Bir dəqiqə əvvəl",
+      "an_hour_ago": "Bir saat əvvəl",
+      "days_ago": "{{count}} gün əvvəl",
+      "hours_ago": "{{count}} saat əvvəl",
+      "just_now": "İndi",
+      "minutes_ago": "{{count}} dəqiqə əvvəl",
+      "today": "Bu gün",
+      "yesterday": "Dünən"
+    },
+    "toc": {
+      "title": "Mündəricat"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "Texnologiya bloquma xoş gəlmisiniz! Mən Kuray Karaaslan, React, Next.js, Node.js, Java və React Native üzrə bacarıqlı frontend, backend və mobil inkişaf etdiricisiyəm. İnkişaf etdiricilərə və texnologiya həvəskarlarına müvəffəqiyyət qazandırmaq üçün praktik kodlaşdırma dərsləri, sənaye məlumatları və UI/UX məsləhətləri paylaşıram.",
+      "title": "Bloq | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "Texnologiya bloquma xoş gəlmisiniz! Mən Kuray Karaaslan, React, Next.js, Node.js, Java və React Native üzrə bacarıqlı frontend, backend və mobil inkişaf etdiricisiyəm. İnkişaf etdiricilərə və texnologiya həvəskarlarına müvəffəqiyyət qazandırmaq üçün praktik kodlaşdırma dərsləri, sənaye məlumatları və UI/UX məsləhətləri paylaşıram. Yeniliklərdən xəbərdar olun, problemləri həll edin və mənimlə texnologiya biliklərinizi artırın!",
+      "title": "Proqram Təminatı İnkişaf etdiricisi | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "Kuray Karaaslanın hazırda nəyə diqqət yetirdiyi — iş, yan layihələr, öyrənmə və həyat.",
+      "title": "İndi | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "kuray.dev üçün Məxfilik Siyasəti — Şəxsi məlumatlarınızı necə topladığımızı, istifadə etdiyimizi və qoruduğumuzu öyrənin.",
+      "title": "Məxfilik Siyasəti | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "Veb, mobil, masaüstü və digər proqram layihələrimə baxın. React, Next.js, Node.js, Java, React Native və daha çox ilə hazırlanmışdır.",
+      "title": "Layihələr | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "kuray.dev üçün İstifadə Şərtləri — Bu vebsayt və xidmətlərindən istifadə qaydaları və təlimatları.",
+      "title": "İstifadə Şərtləri | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "Dili dəyişdir (cari: {{lang}})",
+    "close_sidebar_menu": "Yan panel menyusunu bağla",
+    "filter_by_blog": "Bloq üzrə filtr {{active}}",
+    "filter_by_project": "Proyekt üzrə filtr {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Əsas naviqasiya",
+    "no_results_found": "Nəticə tapılmadı",
+    "open_search": "Axtarışı aç",
+    "open_sidebar_menu": "Yan panel menyusunu aç",
+    "search": "Axtarış",
+    "search_placeholder": "Axtarış üçün yazın...",
+    "search_results": "Axtarış nəticələri",
+    "select_language": "Dili seçin",
+    "switch_theme": "Mövzunu dəyiş (cari: {{theme}})"
+  },
+  "navigation": {
+    "backend": "Backend",
+    "blog": "Bloq",
+    "contact": "Əlaqə",
+    "experience": "Təcrübə",
+    "freelance": "Frilans",
+    "github": "GitHub",
+    "home": "Ana səhifə",
+    "linkedin": "LinkedIn",
+    "portfolio": "Portfolio",
+    "resume": "CV"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "Robot olmadığınızı təsdiq edə bilmirik. Zəhmət olmasa, bir az sonra yenidən cəhd edin.",
+      "description": "Danışanda yaxşı şeylər baş verir.",
+      "form": {
+        "email": "Email",
+        "enter_your_email": "Emailinizi daxil edin",
+        "enter_your_message": "Mesajınızı daxil edin, layihənizi, tələblərinizi və ya paylaşmaq istədiyiniz digər məlumatları təsvir edə bilərsiniz.",
+        "enter_your_name": "Adınızı daxil edin",
+        "enter_your_phone": "Telefonunuzu daxil edin",
+        "error": "Mesajınızı göndərərkən xəta baş verdi. Zəhmət olmasa, bir az sonra yenidən cəhd edin.",
+        "loading": "Mesajınız göndərilir...",
+        "message": "Mesaj",
+        "name": "Ad",
+        "phone": "Telefon",
+        "please_fill_in_all_fields": "Zəhmət olmasa, bütün sahələri doldurun.",
+        "send": "Göndər",
+        "success": "Mesajınız uğurla göndərildi. Ən qısa zamanda sizə cavab verəcəyəm."
+      },
+      "phone_and_mail": "Telefon və Email",
+      "reveal_mail": "Emaili göstərmək üçün klikləyin",
+      "reveal_phone": "Telefonu göstərmək üçün klikləyin",
+      "send_a_message": "Mesaj göndər",
+      "social_media": "Sosial Media",
+      "title": "Əlaqə"
+    },
+    "hero": {
+      "contact_me": "Mənimlə əlaqə saxlayın",
+      "description": "<bold>Məhsul yönümlü Full-Stack Developer</bold>, <bold>3+ illik təcrübə</bold> ilə <bold>ön tərəf, arxa tərəf, mobil BIM və IoT sahələrində</bold> dayanıqlı, miqyaslana bilən proqram təminatı həlləri təqdim edir. <bold>Java Spring Boot, React, Next.js, Node.js və PostgreSQL</bold> üzrə ixtisaslaşmışdır. <bold>Çox kirayəçi SaaS platformaları, real vaxt sistemləri və ödəniş inteqrasiyaları</bold> arxitekturasında bacarıqlıdır. Güclü mühəndislik əsaslarını <bold>yaradıcı problem həlli</bold> və <bold>təmiz, sistematik kodlama yanaşması</bold> ilə birləşdirir.",
+      "resume": "CV",
+      "typing_effect": {
+        "prefix": "Hazıram",
+        "text1": "problemləri həll etməyə",
+        "text2": "məhsullar yaratmağa",
+        "text3": "həllər yaratmağa",
+        "text4": "fərq yaratmağa",
+        "text5": "çağırışlara",
+        "text6": "freelance işləməyə"
+      }
+    },
+    "projects": {
+      "description": "Üzərində işlədiyim peşəkar portfoliolarım.",
+      "title": "Portfolio"
+    },
+    "timeline": {
+      "description": "Struktur mühəndisindən proqram təminatı inkişaf etdiricisinə keçidim öyrənmə, inkişaf və transformasiya ilə dolu bir səyahət oldu. Budur, indiyə qədərki peşəkar səyahətimdən bir görüntü.",
+      "title": "Mənim Səyahətim"
+    },
+    "toolbox": {
+      "backend": "Arxa tərəf",
+      "description": "Alətlər qutumda çoxlu alətlər var və həmişə yenilərini öyrənirəm.",
+      "frontend": "Ön tərəf",
+      "skills": {
+        "authentication_security": "Doğrulama və Təhlükəsizlik",
+        "caching_redis": "Redis ilə Keşləmə",
+        "clean_code": "Təmiz Kod",
+        "cloud_infrastructure": "Bulud İnfrastrukturu (AWS)",
+        "domain_driven_design": "Domen Yönümlü Dizayn",
+        "event_driven_architecture": "Hadisə Yönümlü Arxitektura",
+        "multi_tenant_saas": "Çox Kirayəçi SaaS",
+        "payment_systems": "Ödəniş Sistemləri",
+        "performance_optimization": "Performans Optimallaşdırılması",
+        "rest_api_design": "REST API Dizaynı",
+        "sql_data_modeling": "SQL və Məlumat Modelləşdirmə",
+        "testing_cicd": "Test və CI/CD"
+      },
+      "title": "Yaradıcılıq çoxlu alətlər tələb edir"
+    }
+  },
+  "settings": {
+    "basic": "Əsas",
+    "notifications": "Bildirişlər",
+    "otp": "2FA",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "Təsdiq Kodunu Göndər",
+      "sending": "Kod Göndərilir...",
+      "title": "Təhlükəsizlik Doğrulaması",
+      "verify": "Doğrula",
+      "verifying": "Doğrulanır..."
+    },
+    "otp_method_card": {
+      "active": "Aktiv",
+      "inactive": "Passiv"
+    },
+    "preferences": "Tərcihlər",
+    "profile": "Profil",
+    "security": "Təhlükəsizlik",
+    "totp_setup": {
+      "backup_codes_title": "Ehtiyat Kodları",
+      "confirm_setup": "Quraşdırmanı Təsdiqlə",
+      "copy_codes": "Kodları kopyala",
+      "download_codes": "Kodları yüklə",
+      "enter_code": "Authenticator tətbiqinizdən kodu daxil edin",
+      "i_have_saved": "Ehtiyat kodlarımı saxladım",
+      "start_setup": "Quraşdırmaya Başla",
+      "title": "TOTP Quraşdırması",
+      "warning": "Ehtiyat kodlarınızı təhlükəsiz yerdə saxlayın. Authenticator tətbiqinizə girişinizi itirsəniz, hesabınıza yenidən giriş üçün istifadə edə bilərsiniz."
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "Xəta baş verdi",
+      "info": "Məlumat",
+      "success": "Uğur",
+      "this_blog_is_available_in_only_english": "Bu bloq yalnız İngilis dilində mövcuddur",
+      "warning": "Xəbərdarlıq"
+    },
+    "calendar": {
+      "appointment_created": "Görüşünüz yaradıldı",
+      "appointment_error": "Görüş yaradıla bilmədi",
+      "appointment_info": "Görüş Məlumatı",
+      "appointment_subtitle": "Uyğun gün və vaxt seçin",
+      "appointment_title": "Görüş",
+      "available_slots": "Mövcud Vaxtlar",
+      "available_times": "Mövcud Vaxtlar",
+      "book_appointment": "Görüş Təyin Et",
+      "book_now": "Görüş Təyin Et",
+      "close": "Bağla",
+      "close_modal": "Bağla",
+      "create_appointment": "Görüş Yarat",
+      "description": "Mənimlə görüş təyin edin.",
+      "error_occurred": "Xəta baş verdi",
+      "fields": {
+        "email": "E-poçtunuz",
+        "email_label": "E-poçt",
+        "email_placeholder": "E-poçtunuzu daxil edin",
+        "full_name": "Tam Ad",
+        "name": "Adınız",
+        "name_placeholder": "Adınızı daxil edin",
+        "note": "Qeyd",
+        "note_label": "Qeyd",
+        "note_placeholder": "Qeydinizi daxil edin",
+        "phone": "Telefonunuz",
+        "phone_label": "Telefon",
+        "phone_placeholder": "Telefonunuzu daxil edin"
+      },
+      "minutes": "{{count}} dəqiqə",
+      "minutes_abbr": "dəq",
+      "no_available_slots": "Mövcud vaxtlar yoxdur",
+      "no_slots_for_day": "Seçilmiş gün üçün mövcud vaxtlar yoxdur",
+      "past_date_warning": "Keçmiş tarix üçün görüş təyin edə bilməzsiniz.",
+      "select_slot": "Görüş təyin etmək üçün vaxt seçin.",
+      "select_slot_first": "Əvvəlcə vaxt seçin",
+      "selected_time": "Seçilmiş Vaxt",
+      "statuses": {
+        "available": "Mövcuddur",
+        "booked": "Təyin olunub",
+        "cancelled": "Ləğv olunub"
+      },
+      "title": "Təqvim"
+    },
+    "footer": {
+      "all_rights_reserved": "Bütün hüquqlar qorunur."
+    },
+    "geomap": {
+      "description": "Bu interaktiv istilik xəritəsi vasitəsilə portfelimə gələn qonaqların qlobal paylanmasını araşdırın. Xəritədəki hər bir nöqtə bir ziyarətçinin yerini göstərir və auditoriyamın dünyanın harasından gəldiyini anlamağa kömək edir.",
+      "title": "Qlobal Ziyarətçilər İstilik Xəritəsi",
+      "visitors": "{{count}} ziyarətçi |||| {{count}} ziyarətçi"
+    },
+    "newsletter": {
+      "description": "Yeniliklərdən xəbərdar olun! Ən son və ən yaxşı yazıları birbaşa poçt qutunuza alın",
+      "email_placeholder": "E-poçt ünvanınızı daxil edin",
+      "error_message": "Abunə olarkən xəta baş verdi. Zəhmət olmasa, bir az sonra yenidən cəhd edin.",
+      "subscribe": "Abunə ol",
+      "success_message": "Uğurla abunə oldunuz! Təsdiq üçün e-poçtlarınızı yoxlayın.",
+      "title": "Bülleten"
+    },
+    "status": {
+      "loading": "Sistem statusu yoxlanılır...",
+      "response_time": "Cavab Vaxtı: {{time}}ms",
+      "services": {
+        "api": "API",
+        "auth": "Doğrulama",
+        "aws": "AWS Xidmətləri",
+        "database": "Verilənlər Bazası",
+        "frontend": "Frontend",
+        "mail": "Poçt Xidməti",
+        "openai": "OpenAI Xidməti",
+        "payment": "Ödəniş Qapısı",
+        "redis": "Redis Keşi",
+        "sms": "SMS Xidməti"
+      },
+      "statuses": {
+        "degraded_performance": "Zəifləmiş Performans",
+        "major_outage": "Böyük Nasazlıq",
+        "operational": "Əməliyyat",
+        "partial_outage": "Qismən Nasazlıq"
+      },
+      "title": "Sistem Statusu",
+      "uptime": "İşləmə vaxtı: {{time}} dəq"
+    },
+    "whatsapp": {
+      "message": "Salam! Mən Kuray Karaaslan, sizə necə kömək edə bilərəm?"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "Yan paneli bağla",
+    "menu": "Menyu",
+    "mobile_navigation": "Mobil naviqasiya",
+    "navigation_menu": "Naviqasiya menyusu"
+  }
+}

@@ -4,16 +4,19 @@ import 'server-only'
 const load = (p: Promise<{ default: any }>) => p.then((m) => m.default as Record<string, unknown>)
 
 const dictionaries: Record<string, () => Promise<Record<string, unknown>>> = {
+  az: () => load(import('@/dictionaries/az.json')),
   de: () => load(import('@/dictionaries/de.json')),
   el: () => load(import('@/dictionaries/el.json')),
   en: () => load(import('@/dictionaries/en.json')),
   et: () => load(import('@/dictionaries/et.json')),
   he: () => load(import('@/dictionaries/he.json')),
+  ky: () => load(import('@/dictionaries/ky.json')),
   mt: () => load(import('@/dictionaries/mt.json')),
   nl: () => load(import('@/dictionaries/nl.json')),
-  th: () => load(import('@/dictionaries/th.json')),
+  tk: () => load(import('@/dictionaries/tk.json')),
   tr: () => load(import('@/dictionaries/tr.json')),
   uk: () => load(import('@/dictionaries/uk.json')),
+  uz: () => load(import('@/dictionaries/uz.json')),
 }
 
 export async function getDictionary(lang: string) {

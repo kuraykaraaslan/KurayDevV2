@@ -3,7 +3,7 @@ import { countries, languages } from 'country-data-list'
 
 // ─── Language enum ────────────────────────────────────────────────────────────
 
-export const AppLanguageEnum = z.enum(['en', 'tr', 'de', 'el', 'et', 'mt', 'th', 'nl', 'uk', 'he'])
+export const AppLanguageEnum = z.enum(['en', 'tr', 'de', 'el', 'et', 'mt', 'nl', 'uk', 'he', 'ky'])
 export const AppLanguageSchema = AppLanguageEnum.default('en')
 
 export type AppLanguage = z.infer<typeof AppLanguageEnum>
@@ -16,7 +16,7 @@ export const DEFAULT_LANGUAGE: AppLanguage = 'en'
 // to the first country where the language is primary.
 // Two overrides are unavoidable: package returns wrong countries for these.
 
-const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = { en: 'GB', el: 'GR' }
+const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = { en: 'GB', el: 'GR', ky: 'KG' }
 
 function resolveCountryCode(lang: AppLanguage): string {
   if (COUNTRY_OVERRIDES[lang]) return COUNTRY_OVERRIDES[lang]!

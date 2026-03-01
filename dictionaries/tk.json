@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "Ýap",
+      "generate_post": "OpenAI GPT-4 - Post Döret"
+    },
+    "appointments": {
+      "all_statuses": "Ähli Statuslar",
+      "cancel": "Ýatyr",
+      "cancel_confirm": "Bu duşuşygy ýatyrmak isleýändigiňize ynanýarsyňyzmy?",
+      "close": "Ýap",
+      "complete": "Tamamla",
+      "complete_confirm": "Bu duşuşygy tamamlandy diýip bellik etmek isleýändigiňize ynanýarsyňyzmy?",
+      "created": "Döredildi",
+      "date": "Sene",
+      "datetime": "Sene & Wagt",
+      "details": "Duşuşyk Maglumaty",
+      "email": "Email",
+      "name": "At",
+      "next": "Indiki",
+      "note": "Bellik",
+      "phone": "Telefon",
+      "previous": "Öňki",
+      "search_placeholder": "At ýa-da email boýunça gözleg...",
+      "showing": "{{total}} duşuşygyň {{count}} sanysy görkezilýär",
+      "status": "Status",
+      "status_booked": "Bronlanan",
+      "status_cancelled": "Ýatyrylan",
+      "status_completed": "Tamamlanan",
+      "status_pending": "Garaşylýar",
+      "time": "Wagt",
+      "title": "Duşuşyklar",
+      "view": "Gör"
+    },
+    "categories": {
+      "action": "Hereket",
+      "confirm_delete": "Bu kategoriýany pozmak isleýändigiňize ynanýarsyňyzmy?",
+      "create_category": "Kategoriýa Döret",
+      "delete": "Poz",
+      "edit": "Üýtget",
+      "image": "Surat",
+      "next": "Indiki",
+      "posts": "Postlar",
+      "previous": "Öňki",
+      "search_placeholder": "Gözleg",
+      "showing": "{{total}} kategoriýanyň {{count}} sanysy görkezilýär",
+      "slug": "Slug",
+      "title": "Kategoriýalar",
+      "view": "Görkez"
+    },
+    "comments": {
+      "action": "Hereket",
+      "approve": "Makullamak",
+      "confirm_approve": "Bu ýazgyny makullamak isleýärsiňizmi?",
+      "confirm_delete": "Bu ýazgyny pozmak isleýärsiňizmi?",
+      "confirm_reject": "Bu ýazgyny ret etmek isleýärsiňizmi?",
+      "contact": "Habarlaşmak",
+      "content": "Mazmuny",
+      "delete": "Pozmak",
+      "next": "Indiki",
+      "post": "Ýazgy",
+      "previous": "Öňki",
+      "reject": "Ret etmek",
+      "search_placeholder": "Gözleg",
+      "showing": "{{total}} teswirden {{count}} görkezilýär",
+      "title": "Teswirler"
+    },
+    "contacts": {
+      "action": "Hereket",
+      "close": "Ýapmak",
+      "confirm_delete": "Bu habarlaşma formuny pozmak isleýärsiňizmi?",
+      "contact": "Habarlaşmak",
+      "contact_details": "Habarlaşma Maglumatlary",
+      "date": "Sene",
+      "delete": "Pozmak",
+      "email": "Email",
+      "message": "Habar",
+      "name": "At",
+      "next": "Indiki",
+      "phone": "Telefon",
+      "previous": "Öňki",
+      "reply": "Jogap bermek",
+      "search_placeholder": "At, email ýa-da habar boýunça gözleg...",
+      "showing": "{{total}} habarlaşmadan {{count}} görkezilýär",
+      "title": "Habarlaşma Formulary",
+      "view": "Görkez"
+    },
+    "media": {
+      "actions": "Hereketler",
+      "all_folders": "Ähli Bukjalar",
+      "alt_text": "Alternatiw Tekst",
+      "alt_text_placeholder": "Elýeterlilik üçin suraty beýan ediň",
+      "confirm_bulk_delete": "{{count}} faýly pozmak isleýärsiňizmi?",
+      "confirm_delete": "Bu faýly hakykatdanam pozmak isleýärsiňizmi?",
+      "copy_url": "URL-ny göçür",
+      "date": "Sene",
+      "delete": "Poz",
+      "delete_selected": "Saýlananlary poz",
+      "description": "Ýüklenen faýllaryňyzy we suratlaryňyzy dolandyryň",
+      "edit": "Üýtget",
+      "filename": "Faýl ady",
+      "folder": "Bukja",
+      "folders": "Bukjalar",
+      "name": "Görkezilen at",
+      "next": "Indiki",
+      "no_files": "Faýl tapylmady",
+      "page": "Sahypa",
+      "page_size": "Sahypa ululygy",
+      "preview": "Öňünden görmek",
+      "previous": "Öňki",
+      "search_placeholder": "Faýllary gözle...",
+      "selected": "Saýlanan",
+      "showing": "{{total}} faýlyň {{count}} sanysy görkezilýär",
+      "size": "Ululyk",
+      "sync": "S3-den sinhronizirle",
+      "title": "Media Kitaphana",
+      "total_files": "Jemi faýllar",
+      "total_size": "Jemi ululyk",
+      "upload": "Ýükle"
+    },
+    "posts": {
+      "action": "Hereket",
+      "category": "Kategoriýa",
+      "confirm_delete": "Bu ýazgyny hakykatdanam pozmak isleýärsiňizmi?",
+      "create_post": "Ýazgy döret",
+      "delete": "Poz",
+      "edit": "Üýtget",
+      "next": "Indiki",
+      "previous": "Öňki",
+      "rebuild_failed": "Bilim grafigini täzeden gurmak başartmady.",
+      "rebuild_success": "Bilim grafigini täzeden gurmak başlandy.",
+      "rebuild_triggered": "Täzeden gurmak başlandy",
+      "rebuild_triggered_message": "Bilim grafigini täzeden gurmak eýýäm başlandy. Täzeden başlatmak üçin sahypany täzeläň.",
+      "reset_knowledge_graph": "Bilim grafigini täzeden düz",
+      "search_placeholder": "Gözleg",
+      "showing": "{{count}} sanynyň {{total}} sanysy görkezilýär",
+      "status": "Status",
+      "title": "Postlar",
+      "view": "Görmek"
+    },
+    "project_links": {
+      "action": "Hereket",
+      "delete": "Öçürmek",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "Hereket",
+      "confirm_delete": "Bu taslamany hakykatdanam öçürmek isleýärsiňizmi?",
+      "create_project": "Taslama Döretmek",
+      "delete": "Öçürmek",
+      "edit": "Üýtgetmek",
+      "next": "Indiki",
+      "previous": "Öňki",
+      "search_placeholder": "Gözleg",
+      "showing": "{{count}} sanynyň {{total}} sanysy görkezilýär",
+      "tech_stack": "Tehnologiýa Toplumy",
+      "title": "Taslamalar",
+      "view": "Görmek"
+    },
+    "selects": {
+      "select_category": "Kategoriýa Saýlaň",
+      "select_user": "Ulanyjy Saýlaň"
+    },
+    "slots": {
+      "add": "Goşmak",
+      "add_manual_slot": "El bilen Slot Goşmak",
+      "apply_confirm": "{{day}} şablonyny {{date}} senesine ulanmaly? Bu bar bolan slotlary çalyşar.",
+      "apply_failed": "Şablony ulanmak başa barmady",
+      "apply_success": "Şablon {{date}} senesine ulanyldy",
+      "apply_template_date": "Şablony Senä Ulanyň",
+      "apply_template_week": "Şablony Hepdä Ulanyň",
+      "apply_week_success": "Şablonlar ähli hepdä üstünlikli ulanyldy",
+      "capacity": "Ýerlik",
+      "create_and_manage": "Hepdäniň her güni üçin slot şablonlaryny dörediň we dolandyryň.",
+      "end_time": "Gutarýan Wagt",
+      "fetch_failed": "Şablon slotlaryny almak başa barmady",
+      "generate": "Döretmek",
+      "generated_slots": "{{count}} sany slot döredildi",
+      "interval": "Aralyk (minut)",
+      "loading": "Ýüklenýär...",
+      "no_slots": "Ulanyljak slot ýok",
+      "no_slots_day": "Bu gün üçin slot ýok",
+      "please_select_time": "Wagt saýlaň",
+      "remove_all": "Hemmesini aýyr",
+      "save_changes": "Üýtgeşmeleri ýatda sakla",
+      "save_template": "Şablony ýatda sakla",
+      "saving": "Ýatda saklanýar...",
+      "select_day": "Güni saýla",
+      "select_time": "Wagty saýla",
+      "slot_exists": "Wagt aralygy eýýäm bar",
+      "slots_failed": "Wagt aralyklaryny täzeläp bolmady",
+      "slots_updated": "Wagt aralyklary üstünlikli täzelendi",
+      "start_earlier_error": "Başlaýan wagty gutarýan wagtyndan ir bolmaly",
+      "start_time": "Başlaýan wagty",
+      "template_builder": "Şablon gurujy",
+      "template_failed": "Şablony ýatda saklap bolmady",
+      "template_saved": "Şablon üstünlikli ýatda saklandy",
+      "week_confirm": "Bu {{date}}-den başlaýan hepde üçin bar bolan wagt aralyklaryny üýtgeder. Dowam edilsinmi?"
+    },
+    "stats": {
+      "all_time": "Hemişelik",
+      "categories": "Kategoriýalar",
+      "comments": "Teswirler",
+      "daily": "Günlük",
+      "frequency": "Tez-tezlik",
+      "last_5_minutes": "Soňky 5 minut",
+      "last_hour": "Soňky sagat",
+      "monthly": "Aýlyk",
+      "posts": "Postlar",
+      "title": "Statistika",
+      "total_categories": "Jemi kategoriýalar",
+      "total_comments": "Jemi teswirler",
+      "total_posts": "Jemi postlar",
+      "total_users": "Jemi ulanyjylar",
+      "total_views": "Jemi garaýyşlar",
+      "users": "Ulanyjylar",
+      "views": "Garaýyşlar",
+      "weekly": "Hepdelik",
+      "yearly": "Ýyllyk"
+    },
+    "subscriptions": {
+      "action": "Hereket",
+      "active": "Işjeň",
+      "confirm_unsubscribe": "Bu e-poçtany abunalykdan çykarmak isleýändigiňize ynanýarsyňyzmy?",
+      "email": "E-poçta",
+      "next": "Indiki",
+      "previous": "Öňki",
+      "search_placeholder": "Email boýunça gözleg...",
+      "send_email": "Email iber",
+      "showing": "{{total}} abunalyklaryň {{count}}-si görkezilýär",
+      "status": "Status",
+      "subscribed_at": "Abuna bolan wagty",
+      "title": "Abunalyklar",
+      "unsubscribe": "Abunalygy ýatyr",
+      "unsubscribed": "Abunalyk ýatyryldy"
+    },
+    "users": {
+      "action": "Hereket",
+      "confirm_delete": "Bu ulanyjyny hakykatdanam pozmak isleýärsiňizmi?",
+      "create_user": "Ulanyjy döret",
+      "delete": "Poz",
+      "delete_failed": "Ulanyjyny pozmak başa barmady.",
+      "delete_success": "Ulanyjy üstünlikli pozuldy.",
+      "edit": "Üýtget",
+      "email": "Email",
+      "name": "At",
+      "next": "Indiki",
+      "previous": "Öňki",
+      "role": "Roly",
+      "search_placeholder": "Gözleg",
+      "showing": "{{total}} ulanyjylaryň {{count}}-si görkezilýär",
+      "status": "Status",
+      "title": "Ulanyjylar"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "{{provider}} bilen gir",
+      "close": "Ýap",
+      "modal_button": "Sosial media bilen gir",
+      "modal_title": "Sosial media bilen gir",
+      "no_providers": "SSO üpjün edijiler sazlanmady.",
+      "provider_not_allowed": "{{provider}} üçin SSO girişi rugsat berilmeýär.",
+      "redirect_error": "SSO ugrukdyryş ýalňyşlygy.",
+      "title": "Sosial media bilen gir"
+    }
+  },
+  "common": {
+    "cancel": "Goýbolsun et",
+    "confirm": "Tassykla",
+    "confirm_dialog": {
+      "description": "Bu hereketi yzyna alyp bolmaz.",
+      "title": "Hakykatdanam?"
+    },
+    "grid_view": "Grid görnüşi",
+    "image": {
+      "upload_error": "Suraty ýükläp bolmady",
+      "upload_success": "Surat üstünlikli ýüklendi"
+    },
+    "loading": "Ýüklenýär...",
+    "modal": {
+      "close_dialog": "Dialogy ýap"
+    },
+    "navbar": {
+      "admin_dashboard": "Admin Paneli",
+      "login": "Giriş",
+      "logout": "Çyk",
+      "user_menu": "Ulanyjy menýusy",
+      "user_settings": "Ulanyjy sazlamalary"
+    },
+    "per_page": "Sahypa boýunça",
+    "refresh": "Täzeläň",
+    "save": "Sakla",
+    "selected": "{{count}} saýlanan",
+    "table_view": "Tablisa görnüşi"
+  },
+  "errors": {
+    "404": {
+      "button": "Baş sahypa dolan",
+      "description": "Bagyşlaň, biz şol sahypany tapyp bilemzok. Baş sahypada köp zat bar.",
+      "title": "Bir zat nädogry boldy"
+    },
+    "500": {
+      "button": "Baş sahypa dolan",
+      "description": "Serwerde ýalňyşlyk ýüze çykdy.",
+      "title": "Içerki Serwer Ýalňyşlygy"
+    }
+  },
+  "footer": {
+    "github_profile": "GitHub profili (täze penjirede açylýar)",
+    "linkedin_profile": "LinkedIn profili (täze penjirede açylýar)",
+    "site_footer": "Sahypanyň aşagy",
+    "social_media_links": "Sosial media baglanyşyklary",
+    "x_profile": "X (öňki Twitter) profili (täze penjirede açylýar)"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "Anonim",
+      "comment_placeholder": "Teswir ýazyň...",
+      "comments_count": "Teswirler",
+      "content_length_error": "Mazmuny azyndan 5 harp bolmaly",
+      "delete": "Öçür",
+      "email_placeholder": "Email",
+      "error": "Ýalňyşlyk ýüze çykdy",
+      "fill_all_fields": "Hemme meýdanlary dolduryň",
+      "invalid_email": "Dogry email giriziň",
+      "name_length_error": "Ady azyndan 3 harp we iň köp 50 harp bolmaly",
+      "name_placeholder": "Ady",
+      "posted_successfully": "Teswir üstünlikli ýerleşdirildi",
+      "reply": "Jogap ber",
+      "submit_button": "Teswir"
+    },
+    "feed": {
+      "categories": "Kategoriýalar",
+      "latest_posts": "Iň soňky ýazgylar",
+      "load_more": "Has köp ýazgy ýükle",
+      "no_more_posts": "Başga ýazgy ýok",
+      "other_posts": "Başga Ýazgylar",
+      "posts_by": "Ýazgylar",
+      "read_more": "Has Köp Okamak",
+      "related_articles": "Degişli Makalalar"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D Bilik Grafigi",
+      "title_3d": "3D Bilik Grafigi"
+    },
+    "offline": {
+      "offline": "Siz oflaýn!",
+      "online": "Siz täzeden onlaýn!"
+    },
+    "post": {
+      "by": "tarapyndan",
+      "min_read": "minut oka",
+      "no_date": "Sene ýok",
+      "read_time": "{{count}} minut oka",
+      "unknown_author": "Näbelli Awtor",
+      "views": "görmeler",
+      "views_count": "{{count}} görmeler"
+    },
+    "scroll_to_bottom": "Aşak süýş",
+    "scroll_to_top": "Ýokary süýş",
+    "terminal_button": "Terminal",
+    "time": {
+      "a_minute_ago": "Bir minut öň",
+      "an_hour_ago": "Bir sagat öň",
+      "days_ago": "{{count}} gün öň",
+      "hours_ago": "{{count}} sagat öň",
+      "just_now": "Häzir",
+      "minutes_ago": "{{count}} minut öň",
+      "today": "Şu gün",
+      "yesterday": "Düýn"
+    },
+    "toc": {
+      "title": "Mazmuny"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "Tehnologiýa bloguma hoş geldiňiz! Men Kuray Karaaslan, frontend, backend we mobil programmist, React, Next.js, Node.js, Java we React Native bilen işleşýärin. Men amaly kodlaşdyrma sapaklaryny, pudak täzeliklerini we UI/UX maslahatlaryny paýlaşýaryn, bu bolsa programmistlere we tehnologiýa höwesjeňlerine kömek edýär.",
+      "title": "Blog | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "Tehnologiýa bloguma hoş geldiňiz! Men Kuray Karaaslan, frontend, backend we mobil programmist, React, Next.js, Node.js, Java we React Native bilen işleşýärin. Men amaly kodlaşdyrma sapaklaryny, pudak täzeliklerini we UI/UX maslahatlaryny paýlaşýaryn, bu bolsa programmistlere we tehnologiýa höwesjeňlerine kömek edýär. Täzelikleri yzarlaň, meseleleri çözüň we tehnologiýa bilimleriňizi meniň bilen ösdüriň!",
+      "title": "Programmist | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "Kuray Karaaslan häzirki wagtda näme bilen meşgullanýar — iş, goşmaça taslamalar, öwrenmek we durmuş.",
+      "title": "Häzir | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "kuray.dev üçin Gizlinlik Syýasaty — Şahsy maglumatlaryňyzy nähili ýygnap, ulanýandygymyzy we gorap saklaýandygymyzy öwreniň.",
+      "title": "Gizlinlik Syýasaty | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "Web, mobil, kompýuter we beýleki programma üpjünçiligi taslamalarymy bilen tanyşyň. React, Next.js, Node.js, Java, React Native we başgalar bilen döredilen.",
+      "title": "Taslamalar | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "kuray.dev üçin Ulanyş Şertleri — Bu web sahypasyny we hyzmatlaryny ulanmak üçin düzgünler we görkezmeler.",
+      "title": "Ulanyş Şertleri | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "Dili üýtget (häzirki: {{lang}})",
+    "close_sidebar_menu": "Gapdal menýuny ýap",
+    "filter_by_blog": "Blog boýunça süzmek {{active}}",
+    "filter_by_project": "Taslama boýunça süzmek {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Esasy ugrukdyryş",
+    "no_results_found": "Netije tapylmady",
+    "open_search": "Gözleg aç",
+    "open_sidebar_menu": "Gapdal menýuny aç",
+    "search": "Gözleg",
+    "search_placeholder": "Gözlemek üçin ýazyň...",
+    "search_results": "Gözleg netijeleri",
+    "select_language": "Dili saýlaň",
+    "switch_theme": "Temany üýtget (häzirki: {{theme}})"
+  },
+  "navigation": {
+    "backend": "Arka tarap",
+    "blog": "Blog",
+    "contact": "Habarlaşmak",
+    "experience": "Tejribe",
+    "freelance": "Erkin iş",
+    "github": "GitHub",
+    "home": "Baş sahypa",
+    "linkedin": "LinkedIn",
+    "portfolio": "Portfel",
+    "resume": "Rezýume"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "Siziň robot däldigiňizi tassyklaň. Soňrak täzeden synanyşyň.",
+      "description": "Gürleşenimizde gowy zatlar bolýar.",
+      "form": {
+        "email": "Email",
+        "enter_your_email": "Email adresiňizi giriziň",
+        "enter_your_message": "Habarňyzy giriziň, taslamaňyzy, zerurlyklaryňyzy ýa-da paýlaşmak isleýän beýleki maglumatlaryňyzy beýan edip bilersiňiz.",
+        "enter_your_name": "Adyňyzy giriziň",
+        "enter_your_phone": "Telefon belgiňizi giriziň",
+        "error": "Habarňyzy ibermegiňizde säwlik ýüze çykdy. Soňrak täzeden synanyşyň.",
+        "loading": "Habarňyz iberilýär...",
+        "message": "Habar",
+        "name": "Ady",
+        "phone": "Telefon",
+        "please_fill_in_all_fields": "Hemme meýdanlary dolduryň.",
+        "send": "Ugrat",
+        "success": "Habarňyz üstünlikli iberildi. Size mümkin boldugyça tiz wagtda jogap bererin."
+      },
+      "phone_and_mail": "Telefon we Email",
+      "reveal_mail": "Emaili görkezmek üçin basyň",
+      "reveal_phone": "Telefony açmak üçin basyň",
+      "send_a_message": "Habar iberiň",
+      "social_media": "Sosial Media",
+      "title": "Habarlaşmak"
+    },
+    "hero": {
+      "contact_me": "Meniň bilen habarlaş",
+      "description": "<bold>Önüme gönükdirilen Full-Stack Öndüriji</bold>, <bold>3+ ýyl tejribe</bold> bilen <bold>frontend, backend, mobil BIM we IoT ugurlarynda</bold> güýçli, ulaldylyp bilinýän programma üpjünçiligini üpjün edýär. <bold>Java Spring Boot, React, Next.js, Node.js we PostgreSQL</bold> boýunça ýöriteleşen. <bold>Köp kärendeli SaaS platformalary, real wagt ulgamlary we töleg integrasiýalary</bold> bilen işlemekde ökde. Güýçli in engineeringenerçilik esaslaryny <bold> döredijilikli mesele çözmek</bold> we <bold> arassa, ulgamlaýyn kodlaşdyrma çemeleşmesi</bold> bilen birleşdirýär.",
+      "resume": "Rezýume",
+      "typing_effect": {
+        "prefix": "Men taýýar",
+        "text1": "meseleleri çözmäge",
+        "text2": "önümleri gurmaga",
+        "text3": "çözgütleri döretmäge",
+        "text4": "tapawut döretmäge",
+        "text5": "kynçylyk çekmäge",
+        "text6": "erkin işlemäge"
+      }
+    },
+    "projects": {
+      "description": "Işleýän hünär portfellerim.",
+      "title": "Portfel"
+    },
+    "timeline": {
+      "description": "In engineeringenerden Programma üpjünçiliginiň Öndürijisine geçmegim öwrenmek, ösüş we özgerişlik ýoludyr. Ine, şu wagta çenli hünär ýolumyň gysgaça beýany.",
+      "title": "Meniň Ýolum"
+    },
+    "toolbox": {
+      "backend": "Backend",
+      "description": "Gural gutymda köp gural bar we elmydama täze zatlary öwrenýärin.",
+      "frontend": "Frontend",
+      "skills": {
+        "authentication_security": "Autentifikasiýa we Howpsuzlyk",
+        "caching_redis": "Redis bilen Keşleme",
+        "clean_code": "Arassa Kod",
+        "cloud_infrastructure": "Bulut Infrastrukturasynyň (AWS)",
+        "domain_driven_design": "Domain-Driven Dizaýn",
+        "event_driven_architecture": "Waka-Esasly Arhitektura",
+        "multi_tenant_saas": "Köp Kärendeli SaaS",
+        "payment_systems": "Töleg Ulgamlary",
+        "performance_optimization": "Performance Optimization",
+        "rest_api_design": "REST API Dizaýn",
+        "sql_data_modeling": "SQL we Maglumat Modelirleme",
+        "testing_cicd": "Synag we CI/CD"
+      },
+      "title": "Döredijilik köp gural talap edýär"
+    }
+  },
+  "settings": {
+    "basic": "Esasy",
+    "notifications": "Bildirişler",
+    "otp": "2FA",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "Barlag Koduny Iberyň",
+      "sending": "Kod Iberyilýär...",
+      "title": "Howpsuzlyk Barlagy",
+      "verify": "Barla",
+      "verifying": "Barlanýar..."
+    },
+    "otp_method_card": {
+      "active": "Işjeň",
+      "inactive": "Işjeň däl"
+    },
+    "preferences": "Saýlawlar",
+    "profile": "Profil",
+    "security": "Howpsuzlyk",
+    "totp_setup": {
+      "backup_codes_title": "Ätiýaçlyk Kodlary",
+      "confirm_setup": "Gurnamany Tassyklamak",
+      "copy_codes": "Kodlary göçüriň",
+      "download_codes": "Kodlary ýükläň",
+      "enter_code": "Awtentifikator programmasyndan kody giriziň",
+      "i_have_saved": "Ätiýaçlyk kodlarymy sakladym",
+      "start_setup": "Gurnamany Başla",
+      "title": "TOTP Gurnama",
+      "warning": "Ätiýaçlyk kodlaryňyzy howpsuz ýerde saklaň. Awtentifikator programmasyna girip bilmeýän bolsaňyz, hasabyňyza girmegi dikeltmek üçin olary ulanyp bilersiňiz."
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "Säwlik ýüze çykdy",
+      "info": "Maglumat",
+      "success": "Üstünlik",
+      "this_blog_is_available_in_only_english": "Bu blog diňe Iňlis dilinde elýeterli",
+      "warning": "Duýduryş"
+    },
+    "calendar": {
+      "appointment_created": "Duşuşygyňyz döredildi",
+      "appointment_error": "Duşuşyk döredip bolmady",
+      "appointment_info": "Duşuşyk Maglumaty",
+      "appointment_subtitle": "Amatly gün we wagt saýlaň",
+      "appointment_title": "Duşuşyk",
+      "available_slots": "Elýeterli Wagtylar",
+      "available_times": "Elýeterli Wagtylar",
+      "book_appointment": "Duşuşyk Bellen",
+      "book_now": "Duşuşyk Bellen",
+      "close": "Ýap",
+      "close_modal": "Ýap",
+      "create_appointment": "Duşuşyk Döret",
+      "description": "Meniň bilen duşuşyk bellen.",
+      "error_occurred": "Säwlik ýüze çykdy",
+      "fields": {
+        "email": "E-poçtaňyz",
+        "email_label": "E-poçta",
+        "email_placeholder": "E-poçtaňyzy giriziň",
+        "full_name": "Doly Ady",
+        "name": "Adyňyz",
+        "name_placeholder": "Adyňyzy giriziň",
+        "note": "Bellik",
+        "note_label": "Bellik",
+        "note_placeholder": "Belliňizi giriziň",
+        "phone": "Telefon belgiňiz",
+        "phone_label": "Telefon",
+        "phone_placeholder": "Telefon belgiňizi giriziň"
+      },
+      "minutes": "{{count}} minut",
+      "minutes_abbr": "min",
+      "no_available_slots": "Elýeterli wagt ýok",
+      "no_slots_for_day": "Saýlanan gün üçin elýeterli wagt ýok",
+      "past_date_warning": "Geçen gün üçin duşuşyk belläp bilmersiňiz.",
+      "select_slot": "Duşuşyk belläp almak üçin wagt saýlaň.",
+      "select_slot_first": "Ilki bilen wagt saýlaň",
+      "selected_time": "Saýlanan wagt",
+      "statuses": {
+        "available": "Elýeterli",
+        "booked": "Bellenen",
+        "cancelled": "Ýatyrylan"
+      },
+      "title": "Senet"
+    },
+    "footer": {
+      "all_rights_reserved": "Ähli hukuklar goralan."
+    },
+    "geomap": {
+      "description": "Portfelime gelenleriň global paýlanyşyny bu interaktiw ýylylyk kartasy arkaly öwreniň. Kartadaky her nokat myhmanyň ýerleşýän ýerini görkezýär, dünýäniň nirelerinden gelýändigini görkezýär.",
+      "title": "Global Myhmanlar Kartasy",
+      "visitors": "{{count}} myhman |||| {{count}} myhmanlar"
+    },
+    "newsletter": {
+      "description": "Täzelikler bilen habarly boluň! Iň soňky we iň gowy ýazgylary göni poçta gutyňyza alyň",
+      "email_placeholder": "E-poçta salgyňyzy giriziň",
+      "error_message": "Abuna ýazylmakda säwlik ýüze çykdy. Soňrak täzeden synanyşyň.",
+      "subscribe": "Abuna ýazyl",
+      "success_message": "Üstünlikli abuna boldyňyz! Tassyklama üçin e-poçtaňyzy barlaň.",
+      "title": "Täzelikler"
+    },
+    "status": {
+      "loading": "Ulgam ýagdaýy barlanýar...",
+      "response_time": "Jogap wagty: {{time}}ms",
+      "services": {
+        "api": "API",
+        "auth": "Autentifikasiýa",
+        "aws": "AWS Hyzmatlary",
+        "database": "Maglumatlar bazasy",
+        "frontend": "Frontend",
+        "mail": "Poçta Hyzmaty",
+        "openai": "OpenAI Hyzmaty",
+        "payment": "Töleg Geçelgesi",
+        "redis": "Redis Keş",
+        "sms": "SMS Hyzmaty"
+      },
+      "statuses": {
+        "degraded_performance": "Peselenen Netije",
+        "major_outage": "Uly Näsazlyk",
+        "operational": "Işleýär",
+        "partial_outage": "Bölekleýin Näsazlyk"
+      },
+      "title": "Ulgamyň Statusy",
+      "uptime": "Iş wagty: {{time}}m"
+    },
+    "whatsapp": {
+      "message": "Salam! Men Kuray Karaaslan, size nähili kömek edip bilerin?"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "Gapdal paneli ýap",
+    "menu": "Menýu",
+    "mobile_navigation": "Mobil nawigasiýa",
+    "navigation_menu": "Nawigasiýa menýusy"
+  }
+}

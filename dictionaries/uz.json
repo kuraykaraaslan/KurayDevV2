@@ -1,0 +1,633 @@
+{
+  "admin": {
+    "ai_prompt": {
+      "close": "Yopish",
+      "generate_post": "OpenAI GPT-4 - Post yaratish"
+    },
+    "appointments": {
+      "all_statuses": "Barcha holatlar",
+      "cancel": "Bekor qilish",
+      "cancel_confirm": "Ushbu uchrashuvni bekor qilishni xohlaysizmi?",
+      "close": "Yopish",
+      "complete": "Tugatish",
+      "complete_confirm": "Ushbu uchrashuvni tugallangan deb belgilashni xohlaysizmi?",
+      "created": "Yaratilgan",
+      "date": "Sana",
+      "datetime": "Sana va vaqt",
+      "details": "Uchrashuv tafsilotlari",
+      "email": "Email",
+      "name": "Ism",
+      "next": "Keyingi",
+      "note": "Eslatma",
+      "phone": "Telefon",
+      "previous": "Oldingi",
+      "search_placeholder": "Ism yoki email bo'yicha qidirish...",
+      "showing": "{{total}} uchrashuvdan {{count}} tasi ko'rsatilmoqda",
+      "status": "Holat",
+      "status_booked": "Band qilingan",
+      "status_cancelled": "Bekor qilingan",
+      "status_completed": "Tugallangan",
+      "status_pending": "Kutilmoqda",
+      "time": "Vaqt",
+      "title": "Uchrashuvlar",
+      "view": "Ko'rish"
+    },
+    "categories": {
+      "action": "Harakat",
+      "confirm_delete": "Ushbu kategoriyani o'chirishni xohlaysizmi?",
+      "create_category": "Kategoriya yaratish",
+      "delete": "O'chirish",
+      "edit": "Tahrirlash",
+      "image": "Rasm",
+      "next": "Keyingi",
+      "posts": "Postlar",
+      "previous": "Oldingi",
+      "search_placeholder": "Qidirish",
+      "showing": "{{total}} kategoriyadan {{count}} tasi ko'rsatilmoqda",
+      "slug": "Slug",
+      "title": "Kategoriyalar",
+      "view": "Ko'rish"
+    },
+    "comments": {
+      "action": "Harakat",
+      "approve": "Tasdiqlash",
+      "confirm_approve": "Siz ushbu postni tasdiqlamoqchimisiz?",
+      "confirm_delete": "Siz ushbu postni o'chirmoqchimisiz?",
+      "confirm_reject": "Siz ushbu postni rad etmoqchimisiz?",
+      "contact": "Aloqa",
+      "content": "Mazmun",
+      "delete": "O'chirish",
+      "next": "Keyingi",
+      "post": "Post",
+      "previous": "Oldingi",
+      "reject": "Rad etish",
+      "search_placeholder": "Qidirish",
+      "showing": "{{total}} ta izohdan {{count}} tasi ko'rsatilmoqda",
+      "title": "Izohlar"
+    },
+    "contacts": {
+      "action": "Harakat",
+      "close": "Yopish",
+      "confirm_delete": "Siz ushbu aloqa formasini o'chirmoqchimisiz?",
+      "contact": "Aloqa",
+      "contact_details": "Aloqa Tafsilotlari",
+      "date": "Sana",
+      "delete": "O'chirish",
+      "email": "Email",
+      "message": "Xabar",
+      "name": "Ism",
+      "next": "Keyingi",
+      "phone": "Telefon",
+      "previous": "Oldingi",
+      "reply": "Javob berish",
+      "search_placeholder": "Ism, email yoki xabar bo'yicha qidirish...",
+      "showing": "{{total}} ta aloqadan {{count}} tasi ko'rsatilmoqda",
+      "title": "Aloqa Formalari",
+      "view": "Ko'rish"
+    },
+    "media": {
+      "actions": "Harakatlar",
+      "all_folders": "Barcha Papkalar",
+      "alt_text": "Muqobil Matn",
+      "alt_text_placeholder": "Rasmni kirish imkoniyati uchun tasvirlang",
+      "confirm_bulk_delete": "Siz {{count}} ta faylni o'chirmoqchimisiz?",
+      "confirm_delete": "Bu faylni o'chirishni xohlaysizmi?",
+      "copy_url": "URL ni nusxalash",
+      "date": "Sana",
+      "delete": "O'chirish",
+      "delete_selected": "Tanlanganlarni o'chirish",
+      "description": "Yuklangan fayllaringiz va rasmlaringizni boshqaring",
+      "edit": "Tahrirlash",
+      "filename": "Fayl nomi",
+      "folder": "Papka",
+      "folders": "Papkalar",
+      "name": "Ko'rsatiladigan nom",
+      "next": "Keyingi",
+      "no_files": "Fayllar topilmadi",
+      "page": "Sahifa",
+      "page_size": "Sahifa hajmi",
+      "preview": "Oldindan ko'rish",
+      "previous": "Oldingi",
+      "search_placeholder": "Fayllarni qidirish...",
+      "selected": "Tanlangan",
+      "showing": "{{total}} fayldan {{count}} tasi ko'rsatilmoqda",
+      "size": "Hajmi",
+      "sync": "S3 dan sinxronlash",
+      "title": "Media kutubxonasi",
+      "total_files": "Jami fayllar",
+      "total_size": "Umumiy hajm",
+      "upload": "Yuklash"
+    },
+    "posts": {
+      "action": "Harakat",
+      "category": "Kategoriya",
+      "confirm_delete": "Bu postni o'chirishni xohlaysizmi?",
+      "create_post": "Post yaratish",
+      "delete": "O'chirish",
+      "edit": "Tahrirlash",
+      "next": "Keyingi",
+      "previous": "Oldingi",
+      "rebuild_failed": "Bilim grafigini qayta qurish muvaffaqiyatsiz tugadi.",
+      "rebuild_success": "Bilim grafigini qayta qurish muvaffaqiyatli boshlandi.",
+      "rebuild_triggered": "Qayta qurish boshlandi",
+      "rebuild_triggered_message": "Bilim grafigini qayta qurish allaqachon boshlandi. Qayta boshlash uchun sahifani yangilashingiz kerak.",
+      "reset_knowledge_graph": "Bilim grafigini qayta tiklash",
+      "search_placeholder": "Qidirish",
+      "showing": "{{count}} ta postdan {{total}} tasi ko'rsatilmoqda",
+      "status": "Holat",
+      "title": "Postlar",
+      "view": "Ko'rish"
+    },
+    "project_links": {
+      "action": "Harakat",
+      "delete": "O'chirish",
+      "url": "URL"
+    },
+    "projects": {
+      "action": "Harakat",
+      "confirm_delete": "Ushbu loyihani o'chirishga ishonchingiz komilmi?",
+      "create_project": "Loyiha yaratish",
+      "delete": "O'chirish",
+      "edit": "Tahrirlash",
+      "next": "Keyingi",
+      "previous": "Oldingi",
+      "search_placeholder": "Qidirish",
+      "showing": "{{count}} ta loyihadan {{total}} tasi ko'rsatilmoqda",
+      "tech_stack": "Texnologiyalar to'plami",
+      "title": "Loyihalar",
+      "view": "Ko'rish"
+    },
+    "selects": {
+      "select_category": "Kategoriyani tanlang",
+      "select_user": "Foydalanuvchini tanlang"
+    },
+    "slots": {
+      "add": "Qo'shish",
+      "add_manual_slot": "Qo'lda vaqt qo'shish",
+      "apply_confirm": "{{day}} shablonini {{date}} ga qo'llashni xohlaysizmi? Bu mavjud vaqtlarni o'chirib tashlaydi.",
+      "apply_failed": "Shablonni qo'llashda xatolik",
+      "apply_success": "Shablon {{date}} ga qo'llandi",
+      "apply_template_date": "Sana uchun shablonni qo'llash",
+      "apply_template_week": "Hafta uchun shablonni qo'llash",
+      "apply_week_success": "Shablonlar haftaning barcha kunlariga muvaffaqiyatli qo'llandi",
+      "capacity": "Sig'im",
+      "create_and_manage": "Haftaning har kuni uchun vaqt shablonlarini yarating va boshqaring.",
+      "end_time": "Tugash vaqti",
+      "fetch_failed": "Shablon vaqtlarini olishda xatolik",
+      "generate": "Yaratish",
+      "generated_slots": "{{count}} ta vaqt yaratildi",
+      "interval": "Interval (daqiqa)",
+      "loading": "Yuklanmoqda...",
+      "no_slots": "Qo'llash uchun vaqtlar yo'q",
+      "no_slots_day": "Ushbu kun uchun vaqtlar yo'q",
+      "please_select_time": "Iltimos, vaqtni tanlang",
+      "remove_all": "Hammasini olib tashlash",
+      "save_changes": "O'zgarishlarni saqlash",
+      "save_template": "Shablonni saqlash",
+      "saving": "Saqlanmoqda...",
+      "select_day": "Kun tanlash",
+      "select_time": "Vaqt tanlash",
+      "slot_exists": "Slot allaqachon mavjud",
+      "slots_failed": "Slotlarni yangilashda xatolik",
+      "slots_updated": "Slotlar muvaffaqiyatli yangilandi",
+      "start_earlier_error": "Boshlanish vaqti tugash vaqtidan oldin bo'lishi kerak",
+      "start_time": "Boshlanish vaqti",
+      "template_builder": "Shablon yaratuvchisi",
+      "template_failed": "Shablonni saqlashda xatolik",
+      "template_saved": "Shablon muvaffaqiyatli saqlandi",
+      "week_confirm": "Bu {{date}} dan boshlanadigan hafta uchun mavjud slotlarni o'chirib tashlaydi. Davom etasizmi?"
+    },
+    "stats": {
+      "all_time": "Barcha vaqt",
+      "categories": "Kategoriyalar",
+      "comments": "Izohlar",
+      "daily": "Kunlik",
+      "frequency": "Tezlik",
+      "last_5_minutes": "Oxirgi 5 daqiqa",
+      "last_hour": "Oxirgi soat",
+      "monthly": "Oylik",
+      "posts": "Postlar",
+      "title": "Statistika",
+      "total_categories": "Jami kategoriyalar",
+      "total_comments": "Jami izohlar",
+      "total_posts": "Jami postlar",
+      "total_users": "Jami foydalanuvchilar",
+      "total_views": "Jami ko'rishlar",
+      "users": "Foydalanuvchilar",
+      "views": "Ko'rishlar",
+      "weekly": "Haftalik",
+      "yearly": "Yillik"
+    },
+    "subscriptions": {
+      "action": "Harakat",
+      "active": "Faol",
+      "confirm_unsubscribe": "Ushbu emailni obunadan chiqarishni xohlaysizmi?",
+      "email": "Email",
+      "next": "Keyingi",
+      "previous": "Oldingi",
+      "search_placeholder": "Email orqali qidirish...",
+      "send_email": "Email yuborish",
+      "showing": "{{total}} obunadan {{count}} tasi ko'rsatilmoqda",
+      "status": "Holat",
+      "subscribed_at": "Obuna bo'lgan vaqti",
+      "title": "Obunalar",
+      "unsubscribe": "Obunani bekor qilish",
+      "unsubscribed": "Obuna bekor qilindi"
+    },
+    "users": {
+      "action": "Harakat",
+      "confirm_delete": "Ushbu foydalanuvchini o'chirishni xohlaysizmi?",
+      "create_user": "Foydalanuvchi yaratish",
+      "delete": "O'chirish",
+      "delete_failed": "Foydalanuvchini o'chirish muvaffaqiyatsiz tugadi.",
+      "delete_success": "Foydalanuvchi muvaffaqiyatli o'chirildi.",
+      "edit": "Tahrirlash",
+      "email": "Email",
+      "name": "Ism",
+      "next": "Keyingi",
+      "previous": "Oldingi",
+      "role": "Rol",
+      "search_placeholder": "Qidirish",
+      "showing": "{{total}} foydalanuvchidan {{count}} tasi ko'rsatilmoqda",
+      "status": "Holat",
+      "title": "Foydalanuvchilar"
+    }
+  },
+  "auth": {
+    "sso": {
+      "button_label": "{{provider}} bilan kirish",
+      "close": "Yopish",
+      "modal_button": "Ijtimoiy tarmoqlar orqali kirish",
+      "modal_title": "Ijtimoiy tarmoqlar orqali kirish",
+      "no_providers": "SSO provayderlari sozlanmagan.",
+      "provider_not_allowed": "{{provider}} uchun SSO kirish ruxsat etilmagan.",
+      "redirect_error": "SSO yo'naltirish xatosi.",
+      "title": "Ijtimoiy tarmoqlar orqali kirish"
+    }
+  },
+  "common": {
+    "cancel": "Bekor qilish",
+    "confirm": "Tasdiqlash",
+    "confirm_dialog": {
+      "description": "Bu amalni qaytarib bo'lmaydi.",
+      "title": "Ishonchingiz komilmi?"
+    },
+    "grid_view": "Panorama ko'rinishi",
+    "image": {
+      "upload_error": "Rasm yuklashda xato",
+      "upload_success": "Rasm muvaffaqiyatli yuklandi"
+    },
+    "loading": "Yuklanmoqda...",
+    "modal": {
+      "close_dialog": "Dialogni yopish"
+    },
+    "navbar": {
+      "admin_dashboard": "Admin paneli",
+      "login": "Kirish",
+      "logout": "Chiqish",
+      "user_menu": "Foydalanuvchi menyusi",
+      "user_settings": "Foydalanuvchi sozlamalari"
+    },
+    "per_page": "Har sahifada",
+    "refresh": "Yangilash",
+    "save": "Saqlash",
+    "selected": "{{count}} tanlangan",
+    "table_view": "Jadval ko‘rinishi"
+  },
+  "errors": {
+    "404": {
+      "button": "Bosh sahifaga qaytish",
+      "description": "Kechirasiz, biz bu sahifani topa olmadik. Bosh sahifada ko‘p narsalarni topishingiz mumkin.",
+      "title": "Nimadir noto‘g‘ri ketdi"
+    },
+    "500": {
+      "button": "Bosh sahifaga qaytish",
+      "description": "Serverda xatolik yuz berdi.",
+      "title": "Ichki server xatosi"
+    }
+  },
+  "footer": {
+    "github_profile": "GitHub profili (yangi oynada ochiladi)",
+    "linkedin_profile": "LinkedIn profili (yangi oynada ochiladi)",
+    "site_footer": "Sayt pastki qismi",
+    "social_media_links": "Ijtimoiy tarmoqlar havolalari",
+    "x_profile": "X (avvalgi Twitter) profili (yangi oynada ochiladi)"
+  },
+  "frontend": {
+    "comments": {
+      "anonymous": "Anonim",
+      "comment_placeholder": "Izoh yozing...",
+      "comments_count": "Izohlar",
+      "content_length_error": "Mazmuni kamida 5 ta belgidan iborat bo‘lishi kerak",
+      "delete": "O‘chirish",
+      "email_placeholder": "Email",
+      "error": "Xatolik yuz berdi",
+      "fill_all_fields": "Iltimos, barcha maydonlarni to‘ldiring",
+      "invalid_email": "Iltimos, to‘g‘ri email kiriting",
+      "name_length_error": "Ism kamida 3 ta va maksimal 50 ta belgidan iborat bo‘lishi kerak",
+      "name_placeholder": "Ism",
+      "posted_successfully": "Izoh muvaffaqiyatli joylandi",
+      "reply": "Javob berish",
+      "submit_button": "Izoh"
+    },
+    "feed": {
+      "categories": "Kategoriyalar",
+      "latest_posts": "So‘nggi postlar",
+      "load_more": "Ko‘proq postlarni yuklash",
+      "no_more_posts": "Boshqa postlar mavjud emas",
+      "other_posts": "Boshqa postlar",
+      "posts_by": "Muallif postlari",
+      "read_more": "Batafsil o‘qish",
+      "related_articles": "Tegishli maqolalar"
+    },
+    "knowledge_graph": {
+      "title_2d": "2D Bilimlar grafigi",
+      "title_3d": "3D Bilimlar grafigi"
+    },
+    "offline": {
+      "offline": "Siz oflaynsiz!",
+      "online": "Siz yana onlaynsiz!"
+    },
+    "post": {
+      "by": "muallif",
+      "min_read": "daqiqalik o‘qish",
+      "no_date": "Sana yo‘q",
+      "read_time": "{{count}} daqiqalik o‘qish",
+      "unknown_author": "Muallif noma'lum",
+      "views": "ko‘rishlar",
+      "views_count": "{{count}} ko‘rishlar"
+    },
+    "scroll_to_bottom": "Pastga siljiting",
+    "scroll_to_top": "Tepaga siljiting",
+    "terminal_button": "Terminal",
+    "time": {
+      "a_minute_ago": "Bir daqiqa oldin",
+      "an_hour_ago": "Bir soat oldin",
+      "days_ago": "{{count}} kun oldin",
+      "hours_ago": "{{count}} soat oldin",
+      "just_now": "Hozirgina",
+      "minutes_ago": "{{count}} daqiqa oldin",
+      "today": "Bugun",
+      "yesterday": "Kecha"
+    },
+    "toc": {
+      "title": "Mundarija"
+    }
+  },
+  "metadata": {
+    "blog": {
+      "description": "Texnologiya blogimga xush kelibsiz! Men Kuray Karaaslan, frontend, backend va mobil dasturchiman, React, Next.js, Node.js, Java va React Native bo‘yicha tajribaga egaman. Men amaliy kodlash qo‘llanmalari, soha bo‘yicha tushunchalar va UI/UX bo‘yicha maslahatlar bilan dasturchilar va texnologiya ishqibozlariga yordam beraman.",
+      "title": "Blog | Kuray Karaaslan"
+    },
+    "home": {
+      "description": "Texnologiya blogimga xush kelibsiz! Men Kuray Karaaslan, frontend, backend va mobil dasturchiman, React, Next.js, Node.js, Java va React Native bo‘yicha tajribaga egaman. Men amaliy kodlash qo‘llanmalari, soha bo‘yicha tushunchalar va UI/UX bo‘yicha maslahatlar bilan dasturchilar va texnologiya ishqibozlariga yordam beraman. Yangiliklardan xabardor bo‘ling, muammolarni hal qiling va texnologiya bo‘yicha bilimlaringizni men bilan oshiring!",
+      "title": "Dasturiy ta'minot ishlab chiqaruvchisi | Kuray Karaaslan"
+    },
+    "now": {
+      "description": "Kuray Karaaslan hozir nimaga e'tibor qaratmoqda — ish, yon loyihalar, o‘rganish va hayot.",
+      "title": "Hozir | Kuray Karaaslan"
+    },
+    "privacy_policy": {
+      "description": "kuray.dev uchun Maxfiylik siyosati — Shaxsiy ma'lumotlaringizni qanday yig‘ishimiz, ishlatishimiz va himoya qilishimiz haqida bilib oling.",
+      "title": "Maxfiylik siyosati | Kuray Karaaslan"
+    },
+    "projects": {
+      "description": "Veb, mobil, ish stoli va boshqa dasturiy loyihalarim portfelini o‘rganing. React, Next.js, Node.js, Java, React Native va boshqa texnologiyalar bilan yaratilgan.",
+      "title": "Loyihalar | Kuray Karaaslan"
+    },
+    "terms_of_use": {
+      "description": "kuray.dev uchun Foydalanish shartlari — Ushbu veb-sayt va uning xizmatlaridan foydalanish qoidalari va ko‘rsatmalari.",
+      "title": "Foydalanish shartlari | Kuray Karaaslan"
+    }
+  },
+  "navbar": {
+    "change_language": "Tilni o‘zgartirish (joriy: {{lang}})",
+    "close_sidebar_menu": "Yon panel menyusini yopish",
+    "filter_by_blog": "Blog boʻyicha filtrlash {{active}}",
+    "filter_by_project": "Loyiha boʻyicha filtrlash {{active}}",
+    "language": "{{lang}}",
+    "main_navigation": "Asosiy navigatsiya",
+    "no_results_found": "Natijalar topilmadi",
+    "open_search": "Qidiruvni ochish",
+    "open_sidebar_menu": "Yon panel menyusini ochish",
+    "search": "Qidiruv",
+    "search_placeholder": "Qidirish uchun yozing...",
+    "search_results": "Qidiruv natijalari",
+    "select_language": "Tilni tanlang",
+    "switch_theme": "Mavzuni almashtirish (joriy: {{theme}})"
+  },
+  "navigation": {
+    "backend": "Backend",
+    "blog": "Blog",
+    "contact": "Aloqa",
+    "experience": "Tajriba",
+    "freelance": "Freelance",
+    "github": "GitHub",
+    "home": "Bosh sahifa",
+    "linkedin": "LinkedIn",
+    "portfolio": "Portfolio",
+    "resume": "Rezyume"
+  },
+  "pages": {
+    "contact": {
+      "can_not_verify_that_you_are_not_a_robot": "Siz robot emasligingizni tasdiqlay olmadik. Iltimos, keyinroq qayta urinib ko‘ring.",
+      "description": "Gaplashsak, yaxshi narsalar sodir bo'ladi.",
+      "form": {
+        "email": "Email",
+        "enter_your_email": "Emailingizni kiriting",
+        "enter_your_message": "Xabaringizni kiriting, loyihangizni, ehtiyojlaringizni yoki ulashmoqchi bo'lgan boshqa ma'lumotlarni tasvirlashingiz mumkin.",
+        "enter_your_name": "Ismingizni kiriting",
+        "enter_your_phone": "Telefon raqamingizni kiriting",
+        "error": "Xabaringizni yuborishda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko‘ring.",
+        "loading": "Xabaringiz yuborilmoqda...",
+        "message": "Xabar",
+        "name": "Ism",
+        "phone": "Telefon",
+        "please_fill_in_all_fields": "Iltimos, barcha maydonlarni to‘ldiring.",
+        "send": "Yuborish",
+        "success": "Xabaringiz muvaffaqiyatli yuborildi. Tez orada siz bilan bog'lanaman."
+      },
+      "phone_and_mail": "Telefon va Email",
+      "reveal_mail": "Emailni ko‘rish uchun bosing",
+      "reveal_phone": "Telefonni ko'rsatish uchun bosing",
+      "send_a_message": "Xabar yuborish",
+      "social_media": "Ijtimoiy tarmoqlar",
+      "title": "Aloqa"
+    },
+    "hero": {
+      "contact_me": "Menga murojaat qiling",
+      "description": "<bold>Mahsulotga yo'naltirilgan Full-Stack Dasturchi</bold>, <bold>3+ yillik tajriba</bold> bilan <bold>frontend, backend, mobil BIM va IoT sohalarida</bold> mustahkam, kengaytiriladigan dasturiy yechimlarni yetkazib beradi. <bold>Java Spring Boot, React, Next.js, Node.js va PostgreSQL</bold> bo'yicha ixtisoslashgan. <bold>Ko'p foydalanuvchili SaaS platformalari, real-vaqt tizimlari va to'lov integratsiyalari</bold>ni arxitektura qilishda mohir. Kuchli muhandislik asoslarini <bold>ijodiy muammolarni hal qilish</bold> va <bold>toza, tizimli kodlash yondashuvi</bold> bilan birlashtiradi.",
+      "resume": "Rezyume",
+      "typing_effect": {
+        "prefix": "Men tayyorman",
+        "text1": "muammolarni hal qilish",
+        "text2": "mahsulotlar yaratish",
+        "text3": "yechimlar yaratish",
+        "text4": "farq yaratish",
+        "text5": "qiyinchiliklarga duch kelish",
+        "text6": "freelance qilish"
+      }
+    },
+    "projects": {
+      "description": "Mening professional portfellarim, men ishlagan loyihalar.",
+      "title": "Portfolio"
+    },
+    "timeline": {
+      "description": "Mening Strukturaviy Muhandislikdan Dasturiy Ta'minot Dasturchisiga o'tishim o'rganish, o'sish va o'zgarish yo'li bo'ldi. Mana, mening professional sayohatimning qisqacha ko'rinishi.",
+      "title": "Mening Sayohatim"
+    },
+    "toolbox": {
+      "backend": "Backend",
+      "description": "Mening asboblar qutisida ko'plab vositalar bor va men doimo yangi narsalarni o'rganaman.",
+      "frontend": "Frontend",
+      "skills": {
+        "authentication_security": "Autentifikatsiya va Xavfsizlik",
+        "caching_redis": "Redis bilan keshlash",
+        "clean_code": "Toza Kod",
+        "cloud_infrastructure": "Bulutli Infratuzilma (AWS)",
+        "domain_driven_design": "Domen-Yo'naltirilgan Dizayn",
+        "event_driven_architecture": "Voqeaga-Yo'naltirilgan Arxitektura",
+        "multi_tenant_saas": "Ko'p Foydalanuvchili SaaS",
+        "payment_systems": "To'lov Tizimlari",
+        "performance_optimization": "Ishlashni Optimallashtirish",
+        "rest_api_design": "REST API Dizayni",
+        "sql_data_modeling": "SQL va Ma'lumotlarni Modellashtirish",
+        "testing_cicd": "Testlash va CI/CD"
+      },
+      "title": "Ijodkorlik ko'p vositalarni talab qiladi"
+    }
+  },
+  "settings": {
+    "basic": "Asosiy",
+    "notifications": "Bildirishnomalar",
+    "otp": "2FA",
+    "otp_confirm": {
+      "code_placeholder": "123456",
+      "send_code": "Tasdiqlash Kodini Yuborish",
+      "sending": "Kod yuborilmoqda...",
+      "title": "Xavfsizlikni tekshirish",
+      "verify": "Tasdiqlash",
+      "verifying": "Tasdiqlanmoqda..."
+    },
+    "otp_method_card": {
+      "active": "Faol",
+      "inactive": "Faol emas"
+    },
+    "preferences": "Afzalliklar",
+    "profile": "Profil",
+    "security": "Xavfsizlik",
+    "totp_setup": {
+      "backup_codes_title": "Zaxira kodlari",
+      "confirm_setup": "Sozlashni tasdiqlash",
+      "copy_codes": "Kodlarni nusxalash",
+      "download_codes": "Kodlarni yuklab olish",
+      "enter_code": "Autentifikator ilovangizdan kodni kiriting",
+      "i_have_saved": "Men zaxira kodlarimni saqladim",
+      "start_setup": "Sozlashni boshlash",
+      "title": "TOTP sozlash",
+      "warning": "Zaxira kodlaringizni xavfsiz joyda saqlang. Agar autentifikator ilovangizga kirish imkoniyatini yo'qotsangiz, ulardan hisobingizga kirishni tiklash uchun foydalanishingiz mumkin."
+    }
+  },
+  "shared": {
+    "alert": {
+      "error": "Xato yuz berdi",
+      "info": "Ma'lumot",
+      "success": "Muvaffaqiyat",
+      "this_blog_is_available_in_only_english": "Bu blog faqat ingliz tilida mavjud",
+      "warning": "Ogohlantirish"
+    },
+    "calendar": {
+      "appointment_created": "Sizning uchrashuvingiz yaratildi",
+      "appointment_error": "Uchrashuvni yaratib bo'lmadi",
+      "appointment_info": "Uchrashuv haqida ma'lumot",
+      "appointment_subtitle": "Mos kun va vaqtni tanlang",
+      "appointment_title": "Uchrashuv",
+      "available_slots": "Mavjud vaqtlar",
+      "available_times": "Mavjud vaqtlar",
+      "book_appointment": "Uchrashuvni bron qilish",
+      "book_now": "Uchrashuvni bron qilish",
+      "close": "Yopish",
+      "close_modal": "Yopish",
+      "create_appointment": "Uchrashuv yaratish",
+      "description": "Mening bilan uchrashuvni bron qiling.",
+      "error_occurred": "Xato yuz berdi",
+      "fields": {
+        "email": "Sizning emailingiz",
+        "email_label": "Email",
+        "email_placeholder": "Emailingizni kiriting",
+        "full_name": "To'liq ism",
+        "name": "Ismingiz",
+        "name_placeholder": "Ismingizni kiriting",
+        "note": "Eslatma",
+        "note_label": "Eslatma",
+        "note_placeholder": "Eslatmani kiriting",
+        "phone": "Telefoningiz",
+        "phone_label": "Telefon",
+        "phone_placeholder": "Telefon raqamingizni kiriting"
+      },
+      "minutes": "{{count}} daqiqa",
+      "minutes_abbr": "daq",
+      "no_available_slots": "Bo'sh joylar yo'q",
+      "no_slots_for_day": "Tanlangan kun uchun bo'sh vaqtlar yo'q",
+      "past_date_warning": "O'tgan sana uchun uchrashuvni belgilay olmaysiz.",
+      "select_slot": "Iltimos, uchrashuvni belgilash uchun vaqtni tanlang.",
+      "select_slot_first": "Avval vaqtni tanlang",
+      "selected_time": "Tanlangan vaqt",
+      "statuses": {
+        "available": "Mavjud",
+        "booked": "Band qilingan",
+        "cancelled": "Bekor qilingan"
+      },
+      "title": "Kalendar"
+    },
+    "footer": {
+      "all_rights_reserved": "Barcha huquqlar himoyalangan."
+    },
+    "geomap": {
+      "description": "Interaktiv issiqlik xaritasi orqali mening portfelimga tashrif buyuruvchilarning global taqsimotini o'rganing. Xaritadagi har bir nuqta tashrif buyuruvchining joylashuvini ifodalaydi, bu mening auditoriyam dunyoning qayeridan kelayotganini tushunishga yordam beradi.",
+      "title": "Global Tashrifchilar Issiqlik Xarita",
+      "visitors": "{{count}} tashrifchi |||| {{count}} tashrifchilar"
+    },
+    "newsletter": {
+      "description": "Yangiliklardan xabardor bo'ling! Eng so'nggi va eng yaxshi postlarni to'g'ridan-to'g'ri pochta qutingizga oling",
+      "email_placeholder": "Elektron pochta manzilingizni kiriting",
+      "error_message": "Obuna bo'lishda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.",
+      "subscribe": "Obuna bo'lish",
+      "success_message": "Muvaffaqiyatli obuna bo'ldingiz! Tasdiqlash uchun elektron pochtangizni tekshiring.",
+      "title": "Yangiliklar"
+    },
+    "status": {
+      "loading": "Tizim holatini tekshirish...",
+      "response_time": "Javob vaqti: {{time}}ms",
+      "services": {
+        "api": "API",
+        "auth": "Autentifikatsiya",
+        "aws": "AWS Xizmatlari",
+        "database": "Ma'lumotlar bazasi",
+        "frontend": "Frontend",
+        "mail": "Pochta Xizmati",
+        "openai": "OpenAI Xizmati",
+        "payment": "To'lov Shlyuzi",
+        "redis": "Redis kesh",
+        "sms": "SMS xizmati"
+      },
+      "statuses": {
+        "degraded_performance": "Pasaygan ishlash",
+        "major_outage": "Katta uzilish",
+        "operational": "Ishlayapti",
+        "partial_outage": "Qisman uzilish"
+      },
+      "title": "Tizim holati",
+      "uptime": "Ish vaqti: {{time}}m"
+    },
+    "whatsapp": {
+      "message": "Salom! Men Kuray Karaaslanman, sizga qanday yordam bera olaman?"
+    }
+  },
+  "sidebar": {
+    "close_sidebar": "Yon panelni yopish",
+    "menu": "Menyu",
+    "mobile_navigation": "Mobil navigatsiya",
+    "navigation_menu": "Navigatsiya menyusi"
+  }
+}

@@ -136,7 +136,14 @@
     "grid_view": "Izgara Görünümü",
     "refresh": "Yenile",
     "save": "Kaydet",
-    "table_view": "Tablo Görünümü"
+    "table_view": "Tablo Görünümü",
+    "confirm": "Onayla",
+    "confirm_dialog": {
+      "description": "Bu işlem geri alınamaz.",
+      "title": "Emin misiniz?"
+    },
+    "per_page": "Sayfa başına",
+    "selected": "{{count}} seçildi"
   },
   "pages": {
     "hero": {

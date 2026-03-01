@@ -136,7 +136,14 @@
     "image": {
       "upload_success": "התמונה הועלתה בהצלחה",
       "upload_error": "שגיאה בהעלאת התמונה"
-    }
+    },
+    "confirm": "אישור",
+    "confirm_dialog": {
+      "description": "לא ניתן לבטל פעולה זו.",
+      "title": "האם אתה בטוח?"
+    },
+    "per_page": "לכל עמוד",
+    "selected": "{{count}} נבחרו"
   },
   "pages": {
     "hero": {

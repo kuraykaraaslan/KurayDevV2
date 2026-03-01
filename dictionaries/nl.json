@@ -136,7 +136,14 @@
     "grid_view": "Rasterweergave",
     "refresh": "Verversen",
     "save": "Opslaan",
-    "table_view": "Tabelweergave"
+    "table_view": "Tabelweergave",
+    "confirm": "Bevestigen",
+    "confirm_dialog": {
+      "description": "Deze actie kan niet ongedaan worden gemaakt.",
+      "title": "Weet je het zeker?"
+    },
+    "per_page": "Per pagina",
+    "selected": "{{count}} geselecteerd"
   },
   "pages": {
     "hero": {

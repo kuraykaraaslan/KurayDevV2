@@ -136,7 +136,14 @@
     "grid_view": "Ruudustiku vaade",
     "refresh": "Värskenda",
     "save": "Salvesta",
-    "table_view": "Tabeli vaade"
+    "table_view": "Tabeli vaade",
+    "confirm": "Kinnita",
+    "confirm_dialog": {
+      "description": "Seda toimingut ei saa tagasi võtta.",
+      "title": "Oled sa kindel?"
+    },
+    "per_page": "Lehe kohta",
+    "selected": "{{count}} valitud"
   },
   "pages": {
     "hero": {

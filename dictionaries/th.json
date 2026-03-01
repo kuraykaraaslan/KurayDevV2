@@ -136,7 +136,14 @@
     "grid_view": "มุมมองตาราง",
     "refresh": "รีเฟรช",
     "save": "บันทึก",
-    "table_view": "มุมมองตาราง"
+    "table_view": "มุมมองตาราง",
+    "confirm": "ยืนยัน",
+    "confirm_dialog": {
+      "description": "ไม่สามารถยกเลิกการกระทำนี้ได้",
+      "title": "คุณแน่ใจหรือไม่?"
+    },
+    "per_page": "ต่อหน้า",
+    "selected": "เลือกแล้ว {{count}} รายการ"
   },
   "pages": {
     "hero": {

@@ -136,7 +136,14 @@
     "grid_view": "Veduta tal-Grilja",
     "refresh": "Aġġorna",
     "save": "Issejvja",
-    "table_view": "Veduta tat-Tabella"
+    "table_view": "Veduta tat-Tabella",
+    "confirm": "Ikkonferma",
+    "confirm_dialog": {
+      "description": "Din l-azzjoni ma tistax tiġi mħassra.",
+      "title": "Int żgur?"
+    },
+    "per_page": "Kull paġna",
+    "selected": "{{count}} magħżula"
   },
   "pages": {
     "hero": {
