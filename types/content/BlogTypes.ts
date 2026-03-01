@@ -21,8 +21,8 @@ const CategoryTranslationSchema = z.object({
   slug: z.string(),
 })
 
-const CommentStatus = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM'])
-const PostStatus = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED'])
+const CommentStatusEnum = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM'])
+const PostStatusEnum = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED'])
 
 const CommentSchema = z.object({
   commentId: z.string(),
@@ -32,7 +32,7 @@ const CommentSchema = z.object({
   parentId: z.string().nullable(),
   email: z.string().email().nullable(),
   name: z.string().nullable(),
-  status: CommentStatus,
+  status: CommentStatusEnum.default('NOT_PUBLISHED'),
 })
 
 const PostSchema = z.object({
@@ -50,7 +50,7 @@ const PostSchema = z.object({
     .transform((date) => date || new Date()),
   categoryId: z.string(),
   image: z.string().nullable(),
-  status: PostStatus,
+  status: PostStatusEnum.default('DRAFT'),
   views: z.number().default(0),
   deletedAt: z.date().nullable().optional(),
 })
@@ -115,6 +115,7 @@ export const KnowledgeGraphNodeSchema = z.object({
 
 export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>
 
+export type PostStatus= z.infer<typeof PostStatusEnum>
 export type Comment = z.infer<typeof CommentSchema>
 export type Post = z.infer<typeof PostSchema>
 export type Category = z.infer<typeof CategorySchema>
@@ -133,6 +134,6 @@ export {
   PostLikeSchema,
   PostTranslationSchema,
   CategoryTranslationSchema,
-  CommentStatus,
-  PostStatus,
+  CommentStatusEnum,
+  PostStatusEnum,
 }

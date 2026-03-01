@@ -18,6 +18,7 @@ import { TranslationFieldDef } from '@/components/admin/Features/Translations/Ad
 import { useTranslationState } from '@/components/admin/hooks/useTranslationState'
 import { useDraftAutoSave } from '@/components/admin/hooks/useDraftAutoSave'
 import { useSlugify } from '@/components/admin/hooks/useSlugify'
+import type { PostStatus } from '@/types/content/BlogTypes'
 
 const POST_TRANSLATION_FIELDS: TranslationFieldDef[] = [
   { key: 'title', label: 'Title' },
@@ -25,8 +26,6 @@ const POST_TRANSLATION_FIELDS: TranslationFieldDef[] = [
   { key: 'slug', label: 'Slug' },
   { key: 'content', label: 'Content', isRichText: true },
 ]
-
-type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
 
 const SinglePost = () => {
   const { user } = useGlobalStore()

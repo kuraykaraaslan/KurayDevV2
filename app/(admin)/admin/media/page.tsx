@@ -27,6 +27,7 @@ import {
 } from '@/components/admin/UI/Forms/DynamicTable'
 import { HeadlessModal, useModal } from '@/components/admin/UI/Modal'
 import { MediaFile } from '@/types/features/MediaTypes'
+import { formatDateTime } from '@/helpers/TimeHelper'
 
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes'
@@ -34,16 +35,6 @@ function formatFileSize(bytes: number): string {
   const sizes = ['Bytes', 'KB', 'MB', 'GB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-}
-
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
 }
 
 // Edit Modal
@@ -415,7 +406,7 @@ export default function MediaLibraryPage() {
       key: 'date',
       header: 'admin.media.date',
       accessor: (item) => (
-        <span className="text-sm text-base-content/50">{formatDate(item.createdAt)}</span>
+        <span className="text-sm text-base-content/50">{formatDateTime(item.createdAt)}</span>
       ),
     },
     {

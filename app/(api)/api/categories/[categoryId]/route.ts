@@ -79,7 +79,7 @@ export async function PUT(
     if (!parsedData.success) {
       return NextResponse.json(
         {
-          error: parsedData.error.errors.map((err) => err.message).join(', '),
+          message: parsedData.error.errors.map((err) => err.message).join(', '),
         },
         { status: 400 }
       )

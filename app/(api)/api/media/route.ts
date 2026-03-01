@@ -62,6 +62,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'No file provided' }, { status: 400 })
     }
 
+    if (!AWSService.allowedFolders.includes(folder)) {
+      return NextResponse.json({ message: 'Invalid folder' }, { status: 400 })
+    }
+
     const url = await AWSService.uploadFile(file, folder)
 
     if (!url) {

@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     if (!parsedData.success) {
       return NextResponse.json(
         {
-          error: parsedData.error.errors.map((err) => err.message).join(', '),
+          message: parsedData.error.errors.map((err) => err.message).join(', '),
         },
         { status: 400 }
       )
@@ -86,6 +86,6 @@ export async function POST(request: NextRequest) {
     return response
   } catch (error: any) {
     console.error(error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }

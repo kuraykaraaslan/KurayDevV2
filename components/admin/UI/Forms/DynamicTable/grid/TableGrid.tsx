@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useTableContext } from '../core/TableContext'
 import DefaultGridItem from './DefaultGridItem'
 
@@ -32,4 +33,4 @@ function TableGrid({ className = '' }: TableGridProps) {
   )
 }
 
-export default TableGrid
+export default memo(TableGrid)

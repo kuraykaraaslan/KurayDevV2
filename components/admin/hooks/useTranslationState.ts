@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
 import { LANG_NAMES } from '@/components/admin/Features/Translations/LanguageBar'
@@ -72,7 +72,7 @@ export function useTranslationState({ translationApiBase }: UseTranslationStateO
    * Returns a { value, set } pair that automatically reads/writes the correct language.
    * Usage: const titleField = tr.field('title', title, setTitle)
    */
-  const field = (key: string, enValue: string, setEN: (v: string) => void) => ({
+  const field = useCallback((key: string, enValue: string, setEN: (v: string) => void) => ({
     value: isEN ? enValue : (translationForms[activeLang]?.[key] ?? ''),
     set: (v: string) => {
       if (isEN) setEN(v)
@@ -81,7 +81,7 @@ export function useTranslationState({ translationApiBase }: UseTranslationStateO
         [activeLang]: { ...(prev[activeLang] ?? {}), [key]: v },
       }))
     },
-  })
+  }), [isEN, activeLang, translationForms])
 
   return {
     activeLang,

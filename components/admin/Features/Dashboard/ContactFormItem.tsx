@@ -1,13 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
 import { ContactForm } from '@/types/features/ContactTypes'
-
-function formatDate(date: Date | string): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  })
-}
+import { formatShortDate } from '@/helpers/TimeHelper'
 
 export default function ContactFormItem({ contact }: { contact: ContactForm }) {
   return (
@@ -19,7 +13,7 @@ export default function ContactFormItem({ contact }: { contact: ContactForm }) {
         <div className="flex items-center justify-between mb-0.5">
           <span className="text-sm font-medium text-base-content/80 truncate">{contact.name}</span>
           <span className="text-xs text-base-content/40 flex-shrink-0">
-            {contact.createdAt ? formatDate(contact.createdAt) : ''}
+            {contact.createdAt ? formatShortDate(contact.createdAt) : ''}
           </span>
         </div>
         <p className="text-xs text-base-content/50 truncate">{contact.message}</p>

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import { useTableContext } from '../core/TableContext'
@@ -75,4 +76,4 @@ function TableRows() {
   )
 }
 
-export default TableRows
+export default memo(TableRows)

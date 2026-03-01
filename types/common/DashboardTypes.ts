@@ -2,9 +2,10 @@ import { z } from 'zod'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { faNewspaper, faFolder, faUsers, faEye, faComment } from '@fortawesome/free-solid-svg-icons'
 import { GeoLocation } from '@/dtos/AnalyticsDTO'
-import { TrafficDataPoint } from '@/components/admin/Features/Dashboard/TrafficOverviewChart'
-
-export type { TrafficDataPoint }
+export interface TrafficDataPoint {
+  label: string
+  value: number
+}
 
 // Schemas
 export const StatCardSchema = z.object({

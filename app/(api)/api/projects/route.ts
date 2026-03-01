@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     if (!parsedData.success) {
       return NextResponse.json(
         {
-          error: parsedData.error.errors.map((err) => err.message).join(', '),
+          message: parsedData.error.errors.map((err) => err.message).join(', '),
         },
         { status: 400 }
       )
@@ -82,7 +82,7 @@ export async function PUT(request: NextRequest) {
     if (!parsedData.success) {
       return NextResponse.json(
         {
-          error: parsedData.error.errors.map((err) => err.message).join(', '),
+          message: parsedData.error.errors.map((err) => err.message).join(', '),
         },
         { status: 400 }
       )

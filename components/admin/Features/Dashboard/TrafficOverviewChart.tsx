@@ -1,10 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-
-export interface TrafficDataPoint {
-  label: string
-  value: number
-}
+import { TrafficDataPoint } from '@/types/common/DashboardTypes'
 
 interface TrafficOverviewChartProps {
   data: TrafficDataPoint[]

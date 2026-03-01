@@ -13,7 +13,7 @@ export async function GET(
 
   if (secret !== CRON_SECRET) {
     Logger.warn('Unauthorized cron access')
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ message:'Unauthorized' }, { status: 401 })
   }
 
   const _params = await params
@@ -22,13 +22,13 @@ export async function GET(
 
   if (!frequency.success) {
     Logger.error(`Invalid cron frequency: ${params.frequency}`)
-    return NextResponse.json({ error: 'Invalid frequency' }, { status: 400 })
+    return NextResponse.json({ message:'Invalid frequency' }, { status: 400 })
   }
 
   try {
     const result = await CronService.run(frequency.data)
     return NextResponse.json(result)
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
+    return NextResponse.json({ message:err.message }, { status: 500 })
   }
 }

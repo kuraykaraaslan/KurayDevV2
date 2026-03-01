@@ -22,6 +22,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, message: 'Knowledge graph rebuild completed.' })
   } catch (err: any) {
     console.error('[KG] rebuild failed:', err)
-    return NextResponse.json({ ok: false, error: err.message }, { status: 500 })
+    return NextResponse.json({ ok: false, message: err.message }, { status: 500 })
   }
 }

@@ -1,33 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconDefinition, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import Link from '@/libs/i18n/Link'
 import Image from 'next/image'
-
-export type Url = {
-  type?: 'GitHub' | 'Demo' | 'Other'
-  title?: string
-  icon?: IconDefinition
-  url: string
-}
-
-export type Tag = {
-  name: string
-  color: string
-  icon: IconDefinition
-}
-
-export type Service = {
-  id: string
-  image: string
-  title: string
-  description: string
-  urls: Url[]
-  tags: Tag[]
-  bgColor?: string
-  borderColor?: string
-  textColor?: string
-}
+import { Service } from '@/types/content/ProjectTypes'
 
 type SingleProjectProps = {
   service: Service

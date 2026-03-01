@@ -11,21 +11,7 @@ import { Appointment, AppointmentStatus } from '@/types/features/CalendarTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-
-function formatDate(date: Date | string): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
-
-function formatTime(date: Date | string): string {
-  return new Date(date).toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
+import { formatDate, formatTime } from '@/helpers/TimeHelper'
 
 const statusBadge = (status: AppointmentStatus) => {
   const styles: Record<AppointmentStatus, string> = {
