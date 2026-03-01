@@ -113,7 +113,42 @@ export const KnowledgeGraphNodeSchema = z.object({
   size: z.number().nullable().optional(),
 })
 
+export const KnowledgeGraphLinkSchema = z.object({
+  source: z.string(),
+  target: z.string(),
+})
+
+export const KnowledgeGraphNodePositionSchema = z.object({
+  id: z.string(),
+  x: z.number(),
+  y: z.number(),
+  vx: z.number(),
+  vy: z.number(),
+  radius: z.number(),
+  color: z.string(),
+  data: KnowledgeGraphNodeSchema,
+})
+
+export const KnowledgeGraphParticleSchema = z.object({
+  sourceId: z.string(),
+  targetId: z.string(),
+  progress: z.number(),
+  direction: z.number(),
+})
+
+export const KnowledgeGraphTooltipStateSchema = z.object({
+  visible: z.boolean(),
+  x: z.number(),
+  y: z.number(),
+  title: z.string(),
+  image: z.string().optional()
+})
+
 export type KnowledgeGraphNode = z.infer<typeof KnowledgeGraphNodeSchema>
+export type KnowledgeGraphLink = z.infer<typeof KnowledgeGraphLinkSchema>
+export type KnowledgeGraphNodePosition = z.infer<typeof KnowledgeGraphNodePositionSchema>
+export type KnowledgeGraphParticle = z.infer<typeof KnowledgeGraphParticleSchema>
+export type KnowledgeGraphTooltipState = z.infer<typeof KnowledgeGraphTooltipStateSchema>
 
 export type PostStatus= z.infer<typeof PostStatusEnum>
 export type Comment = z.infer<typeof CommentSchema>

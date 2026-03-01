@@ -3,7 +3,8 @@ import { useRef } from 'react'
 import { faApple, faAndroid, faReact, faPhp, faJava } from '@fortawesome/free-brands-svg-icons'
 import { faDesktop, faGlobe, faWind } from '@fortawesome/free-solid-svg-icons'
 
-import SingleService, { Service } from './Partials/SingleService'
+import SingleService from './Partials/SingleService'
+import { Service } from '@/types/content/ProjectTypes'
 
 const Services = () => {
   const container = useRef(null)

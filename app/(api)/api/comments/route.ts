@@ -14,16 +14,19 @@ export const runtime = 'nodejs'
 // Optional: You can set model cache path
 // env.localModelPath = '/tmp/models'; // Suitable for Vercel
 
-let toxicityModel: any = null
-
 async function loadToxicityModel() {
-  if (!toxicityModel) {
-    toxicityModel = await pipeline(
+  if (!globalThis.toxicityModelGlobal) {
+    globalThis.toxicityModelGlobal = await pipeline(
       'text-classification',
       'Xenova/toxic-bert' // Important: toxicity detection model
     )
   }
-  return toxicityModel
+  return globalThis.toxicityModelGlobal
+}
+
+declare global {
+  // eslint-disable-next-line no-var
+  var toxicityModelGlobal: any
 }
 
 export async function POST(request: NextRequest) {

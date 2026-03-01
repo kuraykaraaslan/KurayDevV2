@@ -13,19 +13,13 @@ const nextConfig = {
     ignoreBuildErrors: false
   },
 
-  reactStrictMode: true,
+  serverExternalPackages: ['@xenova/transformers', 'pg', 'openai'],
 
-  eslint: {
-    ignoreDuringBuilds: false
-  },
+  reactStrictMode: true,
 
   env: {
     APPLICATION_HOST: env.APPLICATION_HOST || 'http://localhost:3000',
     SSO_ALLOWED_PROVIDERS: env.SSO_ALLOWED_PROVIDERS || 'google,apple'
-  },
-
-  experimental: {
-    nodeMiddleware: true // Enable Node.js middleware
   },
 
   trailingSlash: false,

@@ -6,7 +6,6 @@ import { HeadlessModal } from '@/components/admin/UI/Modal'
 import { TableContext } from './TableContext'
 import type {
   ActionButton,
-  BulkAction,
   ConfirmOptions,
   SortState,
   TableProviderProps,

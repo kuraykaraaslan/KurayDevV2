@@ -1,33 +1,16 @@
 import { useEffect, useRef } from 'react'
-import { KnowledgeGraphNode } from '@/types/content/BlogTypes'
+import {
+  KnowledgeGraphNode,
+  KnowledgeGraphLink,
+  KnowledgeGraphNodePosition,
+  KnowledgeGraphParticle,
+  KnowledgeGraphTooltipState,
+} from '@/types/content/BlogTypes'
 
-type Link = { source: string; target: string }
-
-type Node = {
-  id: string
-  x: number
-  y: number
-  vx: number
-  vy: number
-  radius: number
-  color: string
-  data: KnowledgeGraphNode
-}
-
-type Particle = {
-  sourceId: string
-  targetId: string
-  progress: number
-  direction: number
-}
-
-type TooltipState = {
-  visible: boolean
-  x: number
-  y: number
-  title: string
-  image?: string
-}
+type Link = KnowledgeGraphLink
+type Node = KnowledgeGraphNodePosition
+type Particle = KnowledgeGraphParticle
+type TooltipState = KnowledgeGraphTooltipState
 
 function getCategoryColor(category: string, colorMap: Map<string, string>) {
   if (!colorMap.has(category)) {
@@ -182,7 +165,7 @@ export function useGraphCanvas(
           x: e.clientX - rect.left,
           y: e.clientY - rect.top,
           title: found.data.title,
-          image: found.data.image,
+          image: found.data.image ? found.data.image : undefined
         })
         canvas.style.cursor = 'pointer'
       } else {

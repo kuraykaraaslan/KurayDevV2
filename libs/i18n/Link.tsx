@@ -2,7 +2,8 @@
 
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
+import type { AppLanguage } from '@/types/common/I18nTypes'
+import { getCurrentLangFromPathname, localizePath } from '@/libs/i18n/localePath'
 import type { ComponentProps } from 'react'
 
 type LinkProps = ComponentProps<typeof NextLink> & { ignoreLang?: boolean }
@@ -20,24 +21,19 @@ type LinkProps = ComponentProps<typeof NextLink> & { ignoreLang?: boolean }
 export function Link({ href, ignoreLang, ...props }: LinkProps) {
   const pathname = usePathname()
 
-  const firstSegment = pathname.split('/').filter(Boolean)[0]
-  const currentLang: AppLanguage =
-    AVAILABLE_LANGUAGES.includes(firstSegment as AppLanguage) && firstSegment !== DEFAULT_LANGUAGE
-      ? (firstSegment as AppLanguage)
-      : DEFAULT_LANGUAGE
+  const currentLang: AppLanguage = getCurrentLangFromPathname(pathname)
 
   const localizeHref = (href: LinkProps['href']): LinkProps['href'] => {
-    if (ignoreLang || currentLang === DEFAULT_LANGUAGE) return href
-
     if (typeof href === 'string') {
-      // External links — unchanged
-      if (href.startsWith('http') || href.startsWith('//') || href.startsWith('mailto:')) return href
-      return `/${currentLang}${href.startsWith('/') ? href : `/${href}`}`
+      return localizePath(href, currentLang, Boolean(ignoreLang))
     }
 
     // URL object ({ pathname, query, ... })
     if (href.pathname) {
-      return { ...href, pathname: `/${currentLang}${href.pathname}` }
+      // NOTE: Next.js expects pathname to be a path, not an absolute URL.
+      // We localize + canonicalize here similarly to string hrefs.
+      const pathname = typeof href.pathname === 'string' ? href.pathname : String(href.pathname)
+      return { ...href, pathname: localizePath(pathname, currentLang, Boolean(ignoreLang)) }
     }
 
     return href

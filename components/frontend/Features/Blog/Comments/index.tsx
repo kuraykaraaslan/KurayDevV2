@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react'
 import SingleComment from './Partials/SingleComment'
 import { Comment } from '@/types/content/BlogTypes'
-import crypto from 'crypto'
 import AddComment from './Partials/AddComment'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import MD5 from 'crypto-js/md5'
 
 const Comments = ({ postId }: { postId: string }) => {
   const { t } = useTranslation()
@@ -14,12 +14,22 @@ const Comments = ({ postId }: { postId: string }) => {
   const [page, _setPage] = useState(0)
   const [pageSize, _setPageSize] = useState(10)
 
-  const fetchComments = async () => {
+  const fetchComments = async (isAppend = false) => {
     // Fetch comments for the post
     await axiosInstance
       .get(`/api/comments?postId=${postId}&page=${page}&pageSize=${pageSize}`)
       .then((response) => {
-        setComments((prevComments) => [...prevComments, ...response.data.comments])
+        if (isAppend) {
+          setComments((prevComments) => {
+            const existingIds = new Set(prevComments.map((c) => c.commentId))
+            const newComments = response.data.comments.filter(
+              (c: Comment) => !existingIds.has(c.commentId)
+            )
+            return [...prevComments, ...newComments]
+          })
+        } else {
+          setComments(response.data.comments)
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -27,8 +37,15 @@ const Comments = ({ postId }: { postId: string }) => {
   }
 
   useEffect(() => {
-    fetchComments()
-  }, [postId, page, pageSize])
+    setComments([])
+    fetchComments(false)
+  }, [postId])
+
+  useEffect(() => {
+    if (page > 0) {
+      fetchComments(true)
+    }
+  }, [page, pageSize])
 
   return (
     <section className="antialiased">
@@ -43,11 +60,8 @@ const Comments = ({ postId }: { postId: string }) => {
         </div>
 
         {comments.map((comment) => {
-          const hash256email = crypto
-            .createHash('md5')
-            .update(comment.email || '')
-            .digest('hex')
-          const gravatarUrl = `https://www.gravatar.com/avatar/${hash256email}`
+          const hash = MD5(comment.email || '').toString()
+          const gravatarUrl = `https://www.gravatar.com/avatar/${hash}`
           comment.email = null
           return (
             <SingleComment key={comment.commentId} comment={comment} gravatarUrl={gravatarUrl} />

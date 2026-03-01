@@ -1,7 +1,8 @@
 'use client'
 
 import { useRouter as useNextRouter, usePathname } from 'next/navigation'
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
+import type { AppLanguage } from '@/types/common/I18nTypes'
+import { getCurrentLangFromPathname, localizePath } from '@/libs/i18n/localePath'
 
 /**
  * Drop-in replacement for Next.js `useRouter` that automatically
@@ -17,15 +18,10 @@ export function useRouter() {
   const router = useNextRouter()
   const pathname = usePathname()
 
-  const firstSegment = pathname.split('/').filter(Boolean)[0]
-  const currentLang: AppLanguage =
-    AVAILABLE_LANGUAGES.includes(firstSegment as AppLanguage) && firstSegment !== DEFAULT_LANGUAGE
-      ? (firstSegment as AppLanguage)
-      : DEFAULT_LANGUAGE
+  const currentLang: AppLanguage = getCurrentLangFromPathname(pathname)
 
   const localize = (href: string, lang: AppLanguage = currentLang, ignoreLang = false): string => {
-    if (ignoreLang || lang === DEFAULT_LANGUAGE) return href
-    return `/${lang}${href.startsWith('/') ? href : `/${href}`}`
+    return localizePath(href, lang, ignoreLang)
   }
 
   return {

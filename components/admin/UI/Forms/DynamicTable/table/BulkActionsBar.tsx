@@ -7,7 +7,7 @@ function BulkActionsBar() {
 
   if (!bulkActions?.length || selectedIds.size === 0) return null
 
-  const selectedItems = data.filter((item) => selectedIds.has(item[idKey]))
+  const selectedItems = data.filter((item) => selectedIds.has((item as any)[idKey]))
 
   return (
     <div className="flex items-center gap-3 mt-3 px-4 py-2.5 bg-primary/10 border border-primary/20 rounded-lg">

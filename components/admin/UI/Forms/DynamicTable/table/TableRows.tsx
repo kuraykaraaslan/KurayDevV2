@@ -1,11 +1,9 @@
 import { memo } from 'react'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
 import { useTableContext } from '../core/TableContext'
 import type { ActionButton, ColumnDef } from '../core/types'
 
 function TableRows() {
-  const { t } = useTranslation()
   const { data, visibleColumns, actions, idKey, handleActionClick, bulkActions, selectedIds, toggleSelect } =
     useTableContext()
 

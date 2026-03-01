@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock, faUser, faCheckCircle, faTimesCircle, faHourglass } from '@fortawesome/free-solid-svg-icons'
 import { Appointment, AppointmentStatus } from '@/types/features/CalendarTypes'
-import { formatShortDateTime } from '@/helpers/TimeHelper'
+import { formatDateTime } from '@/helpers/TimeHelper';
 
 const statusConfig: Record<AppointmentStatus, { icon: typeof faClock; color: string }> = {
   PENDING: { icon: faHourglass, color: 'text-warning' },
