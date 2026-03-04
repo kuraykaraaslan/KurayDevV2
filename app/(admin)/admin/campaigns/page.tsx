@@ -89,8 +89,7 @@ const CampaignsPage = () => {
         <TableHeader
           title="Campaigns"
           searchPlaceholder="Search campaigns..."
-          buttonText="New Campaign"
-          buttonLink="/admin/campaigns/create"
+          buttons={[{ label: 'New Campaign', href: '/admin/campaigns/create' }]}
         />
         <TableBody />
         <TableFooter

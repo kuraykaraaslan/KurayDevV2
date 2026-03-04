@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
         const result = await SeriesService.getAll(page, pageSize, search)
         return NextResponse.json({ series: result.series, total: result.total, page, pageSize })
     } catch (error: any) {
+        console.error(error)
         return NextResponse.json({ message: error.message }, { status: 500 })
     }
 }

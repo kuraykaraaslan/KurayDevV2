@@ -64,8 +64,7 @@ const TestimonialsPage = () => {
         <TableHeader
           title="Testimonials"
           searchPlaceholder="Search testimonials..."
-          buttonText="Add Testimonial"
-          buttonLink="/admin/testimonials/create"
+          buttons={[{ label: 'Add Testimonial', href: '/admin/testimonials/create' }]}
         />
         <TableBody />
         <TableFooter

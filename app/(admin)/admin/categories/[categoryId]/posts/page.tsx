@@ -60,8 +60,7 @@ const CategoryPostsPage = () => {
         <TableHeader
           title="admin.posts.title"
           searchPlaceholder="admin.posts.search_placeholder"
-          buttonText="admin.posts.create_post"
-          buttonLink="/admin/posts/create"
+          buttons={[{ label: 'admin.posts.create_post', href: '/admin/posts/create' }]}
         />
         <TableBody />
         <TableFooter

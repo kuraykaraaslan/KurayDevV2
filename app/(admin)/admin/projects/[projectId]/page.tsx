@@ -257,8 +257,7 @@ const SingleProject = () => {
             <TableHeader
               className="p-2 -mb-8 rounded-t-lg"
               title="Project Links"
-              actionButtonText="Add Link"
-              actionButtonEvent={() => setProjectLinks([...projectLinks, ''])}
+              buttons={[{ label: 'Add Link', onClick: () => setProjectLinks([...projectLinks, '']), className: 'btn-secondary btn-sm' }]}
               titleTextClassName="text-sm font-normal"
               searchClassName="hidden"
             />

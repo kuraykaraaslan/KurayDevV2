@@ -87,8 +87,8 @@ const PostPage = () => {
           <TableHeader
             title="admin.posts.title"
             searchPlaceholder="admin.posts.search_placeholder"
-            buttonText="admin.posts.create_post"
-            buttonLink="/admin/posts/create"
+            buttons={[{ label: 'admin.posts.create_post', href: '/admin/posts/create' },
+              { label: 'admin.posts.post_series', href: '/admin/post-series', className: 'btn-secondary' }]}
             showViewToggle
             showColumnToggle
             showRefresh

@@ -9,13 +9,18 @@ import SearchInput from './SearchInput'
 import ViewToggle from './ViewToggle'
 import ColumnToggle from './ColumnToggle'
 
+export interface TableToolbarButton {
+  label: string | ReactNode
+  href?: string
+  onClick?: () => void
+  className?: string
+  disabled?: boolean
+}
+
 interface TableToolbarProps {
   title: string
   searchPlaceholder?: string
-  buttonText?: string
-  buttonLink?: string
-  actionButtonText?: string
-  actionButtonEvent?: () => void
+  buttons?: TableToolbarButton[]
   className?: string
   titleTextClassName?: string
   searchClassName?: string
@@ -29,10 +34,7 @@ interface TableToolbarProps {
 function TableToolbar({
   title,
   searchPlaceholder = 'common.search',
-  buttonText,
-  buttonLink,
-  actionButtonText,
-  actionButtonEvent,
+  buttons = [],
   className = '',
   titleTextClassName = '',
   searchClassName = '',
@@ -65,15 +67,25 @@ function TableToolbar({
           )}
           {showColumnToggle && <ColumnToggle />}
           {showViewToggle && <ViewToggle />}
-          {actionButtonText && actionButtonEvent && (
-            <button onClick={actionButtonEvent} className="btn btn-secondary">
-              {t(actionButtonText)}
-            </button>
-          )}
-          {buttonText && buttonLink && (
-            <Link href={buttonLink} className="btn btn-primary">
-              {t(buttonText)}
-            </Link>
+          {buttons.map((btn, i) =>
+            btn.href ? (
+              <Link
+                key={i}
+                href={btn.href}
+                className={`btn ${btn.className ?? 'btn-primary'}`}
+              >
+                {typeof btn.label === 'string' ? t(btn.label) : btn.label}
+              </Link>
+            ) : (
+              <button
+                key={i}
+                onClick={btn.onClick}
+                disabled={btn.disabled}
+                className={`btn ${btn.className ?? 'btn-primary'}`}
+              >
+                {typeof btn.label === 'string' ? t(btn.label) : btn.label}
+              </button>
+            )
           )}
         </div>
       </div>
@@ -85,3 +97,4 @@ function TableToolbar({
 }
 
 export default TableToolbar
+

@@ -80,8 +80,7 @@ const ProjectPage = () => {
         <TableHeader
           title="admin.projects.title"
           searchPlaceholder="admin.projects.search_placeholder"
-          buttonText="admin.projects.create_project"
-          buttonLink="/admin/projects/create"
+          buttons={[{ label: 'admin.projects.create_project', href: '/admin/projects/create' }]}
         />
         <TableBody />
         <TableFooter

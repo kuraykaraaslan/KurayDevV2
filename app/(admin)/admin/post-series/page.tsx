@@ -37,7 +37,7 @@ const SeriesPage = () => {
     ]
 
     const actions: ActionButton<SeriesRow>[] = [
-        { label: 'Edit',   href: (s) => `/admin/series/${s.id}`, className: 'btn-primary' },
+        { label: 'Edit',   href: (s) => `/admin/post-series/${s.id}`, className: 'btn-primary' },
         {
             label: 'Delete',
             onClick: async (s) => {
@@ -65,8 +65,7 @@ const SeriesPage = () => {
                 <TableHeader
                     title="Post Series"
                     searchPlaceholder="Search series..."
-                    buttonText="New Series"
-                    buttonLink="/admin/series/create"
+                    buttons={[{ label: 'New Series', href: '/admin/post-series/create' }]}
                     showRefresh
                 />
                 <TableBody />

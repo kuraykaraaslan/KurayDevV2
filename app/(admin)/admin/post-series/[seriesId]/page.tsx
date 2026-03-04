@@ -16,30 +16,7 @@ import {
     faArrowUp,
     faArrowDown,
 } from '@fortawesome/free-solid-svg-icons'
-
-interface SeriesPost {
-    postId: string
-    title: string
-    slug: string
-    status: string
-    image: string | null
-    category: { slug: string }
-}
-
-interface SeriesEntry {
-    id: string
-    order: number
-    postId: string
-    post: SeriesPost
-}
-
-interface PostSearchResult {
-    postId: string
-    title: string
-    slug: string
-    status: string
-    category: { slug: string }
-}
+import { SeriesEntry, SeriesPostStub } from '@/types/content/SeriesTypes'
 
 const SeriesEditPage = () => {
     const params   = useParams<{ seriesId: string }>()
@@ -55,7 +32,7 @@ const SeriesEditPage = () => {
     const [image,    setImage]    = useState('')
     const [entries,  setEntries]  = useState<SeriesEntry[]>([])
     const [search,   setSearch]   = useState('')
-    const [results,  setResults]  = useState<PostSearchResult[]>([])
+    const [results,  setResults]  = useState<SeriesPostStub[]>([])
     const [searching, setSearching] = useState(false)
 
     // ── Load existing series ──────────────────────────────
@@ -96,7 +73,7 @@ const SeriesEditPage = () => {
                 params: { search: q, pageSize: 8, status: 'ALL' },
             })
             const existingIds = new Set(entries.map((e) => e.postId))
-            setResults((res.data.posts ?? []).filter((p: PostSearchResult) => !existingIds.has(p.postId)))
+            setResults((res.data.posts ?? []).filter((p: SeriesPostStub) => !existingIds.has(p.postId)))
         } catch {
             /* ignore */
         } finally {
@@ -110,14 +87,15 @@ const SeriesEditPage = () => {
     }, [search, searchPosts])
 
     // ── Add post ──────────────────────────────────────────
-    const addPost = async (post: PostSearchResult) => {
+    const addPost = async (post: SeriesPostStub) => {
         if (mode === 'create') {
             // Buffer locally — will be saved after series creation
             const fakeEntry: SeriesEntry = {
                 id: `_new_${post.postId}`,
+                seriesId: seriesId ?? '',
                 order: entries.length,
                 postId: post.postId,
-                post: { ...post, image: null },
+                post: { postId: post.postId, title: post.title, slug: post.slug, status: post.status, category: post.category },
             }
             setEntries((prev) => [...prev, fakeEntry])
             setSearch('')
@@ -196,7 +174,7 @@ const SeriesEditPage = () => {
                     })
                 }
                 toast.success('Series created')
-                router.push('/admin/series')
+                router.push('/admin/post-series')
             } else {
                 await axiosInstance.put(`/api/post-series/${seriesId}`, {
                     title, slug,
@@ -204,7 +182,7 @@ const SeriesEditPage = () => {
                     image: image || null,
                 })
                 toast.success('Series saved')
-                router.push('/admin/series')
+                router.push('/admin/post-series')
             }
         } catch (e: any) {
             toast.error(e?.response?.data?.message ?? 'Save failed')
@@ -218,14 +196,14 @@ const SeriesEditPage = () => {
             className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-4xl"
             actions={[
                 { label: saving ? 'Saving…' : 'Save', onClick: handleSubmit, className: 'btn-primary', disabled: saving || loading, loading: saving },
-                { label: 'Cancel', onClick: () => router.push('/admin/series'), className: 'btn-secondary' },
+                { label: 'Cancel', onClick: () => router.push('/admin/post-series'), className: 'btn-secondary' },
             ]}
         >
             <FormHeader
                 title={mode === 'create' ? 'Create Series' : 'Edit Series'}
                 className="my-4"
                 actionButtons={[
-                    { text: 'Back to Series', className: 'btn-sm btn-primary', onClick: () => router.push('/admin/series') },
+                    { text: 'Back to Series', className: 'btn-sm btn-primary', onClick: () => router.push('/admin/post-series') },
                 ]}
             />
 

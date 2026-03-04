@@ -96,8 +96,7 @@ const ShortLinksPage = () => {
         <TableHeader
           title="Short Links"
           searchPlaceholder="Search short links..."
-          buttonText="Add Short Link"
-          buttonLink="/admin/short-links/create"
+          buttons={[{ label: 'Add Short Link', href: '/admin/short-links/create' }]}
         />
         <TableBody />
         <TableFooter
