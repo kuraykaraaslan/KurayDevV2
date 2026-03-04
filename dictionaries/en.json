@@ -313,6 +313,7 @@
     "preferences": "Preferences",
     "notifications": "Notifications",
     "sessions": "Sessions",
+    "api_keys": "API Keys",
     "otp_method_card": {
       "active": "Active",
       "inactive": "Inactive"

@@ -284,6 +284,7 @@
     "otp": "2FA",
     "preferences": "Tercihler",
     "notifications": "Bildirimler",
+    "api_keys": "API Anahtarları",
     "otp_method_card": {
       "active": "Aktif",
       "inactive": "Pasif"
@@ -307,7 +308,8 @@
       "enter_code": "Doğrulama uygulamanızdaki kodu girin",
       "confirm_setup": "Kurulumu Onayla"
     },
-    "sessions": "Oturumlar"
+    "sessions": "Oturumlar",
+    "api_keys": "API Anahtarları"
   },
   "shared": {
     "alert": {
