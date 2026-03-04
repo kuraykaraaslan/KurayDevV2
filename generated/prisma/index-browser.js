@@ -401,6 +401,18 @@ exports.Prisma.MediaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ApiKeyScalarFieldEnum = {
+  apiKeyId: 'apiKeyId',
+  userId: 'userId',
+  name: 'name',
+  prefix: 'prefix',
+  keyHash: 'keyHash',
+  lastUsedAt: 'lastUsedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -482,7 +494,8 @@ exports.Prisma.ModelName = {
   GeoAnalytics: 'GeoAnalytics',
   ShortLink: 'ShortLink',
   ShortLinkClick: 'ShortLinkClick',
-  Media: 'Media'
+  Media: 'Media',
+  ApiKey: 'ApiKey'
 };
 
 /**
