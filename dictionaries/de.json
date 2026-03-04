@@ -122,7 +122,8 @@
       "user_menu": "Benutzermenü",
       "admin_dashboard": "Admin-Dashboard",
       "logout": "Abmelden",
-      "user_settings": "Benutzereinstellungen"
+      "user_settings": "Benutzereinstellungen",
+      "back_to_site": "Zurück zur Seite"
     },
     "image": {
       "upload_success": "Image uploaded successfully",
@@ -448,7 +449,8 @@
       "showing": "Zeige {{count}} von {{total}} Beiträgen",
       "status": "Status",
       "title": "Beiträge",
-      "view": "Ansehen"
+      "view": "Ansehen",
+      "post_series": "Beitragsserie"
     },
     "project_links": {
       "action": "Aktion",
@@ -667,7 +669,8 @@
       "start_setup": "Einrichtung starten",
       "title": "TOTP-Einrichtung",
       "warning": "Bewahren Sie Ihre Backup-Codes an einem sicheren Ort auf. Sie können sie verwenden, um wieder Zugriff auf Ihr Konto zu erhalten, falls Sie den Zugriff auf Ihre Authentifizierungs-App verlieren."
-    }
+    },
+    "sessions": "Sitzungen"
   },
   "navbar": {
     "change_language": "Sprache ändern (aktuell: {{lang}})",

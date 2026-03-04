@@ -136,7 +136,8 @@
       "showing": "显示 {{count}} 个，共 {{total}} 个帖子",
       "status": "状态",
       "title": "帖子",
-      "view": "查看"
+      "view": "查看",
+      "post_series": "文章系列"
     },
     "project_links": {
       "action": "操作",
@@ -286,7 +287,8 @@
       "login": "登录",
       "logout": "登出",
       "user_menu": "用户菜单",
-      "user_settings": "用户设置"
+      "user_settings": "用户设置",
+      "back_to_site": "返回网站"
     },
     "per_page": "每页",
     "refresh": "刷新",
@@ -526,7 +528,8 @@
       "start_setup": "开始设置",
       "title": "TOTP 设置",
       "warning": "请将备份代码存放在安全的地方。如果您无法访问身份验证应用程序，可以使用这些代码重新获得账户访问权限。"
-    }
+    },
+    "sessions": "会话"
   },
   "shared": {
     "alert": {

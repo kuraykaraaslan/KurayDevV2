@@ -167,7 +167,8 @@
       "user_menu": "قائمة المستخدم",
       "admin_dashboard": "لوحة تحكم المدير",
       "user_settings": "إعدادات المستخدم",
-      "logout": "تسجيل الخروج"
+      "logout": "تسجيل الخروج",
+      "back_to_site": "العودة إلى الموقع"
     },
     "image": {
       "upload_success": "تم رفع الصورة بنجاح",
@@ -334,7 +335,8 @@
       "start_setup": "بدء الإعداد",
       "enter_code": "أدخل الرمز من تطبيق المصادقة",
       "confirm_setup": "تأكيد الإعداد"
-    }
+    },
+    "sessions": "الجلسات"
   },
   "shared": {
     "alert": {
@@ -500,7 +502,8 @@
       "showing": "عرض {{count}} من {{total}} مقالات",
       "previous": "السابق",
       "next": "التالي",
-      "confirm_delete": "هل أنت متأكد من حذف هذه المقالة؟"
+      "confirm_delete": "هل أنت متأكد من حذف هذه المقالة؟",
+      "post_series": "سلسلة المنشورات"
     },
     "users": {
       "title": "المستخدمون",

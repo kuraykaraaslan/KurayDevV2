@@ -136,7 +136,8 @@
       "showing": "顯示 {{count}} 筆，共 {{total}} 筆貼文",
       "status": "狀態",
       "title": "貼文",
-      "view": "查看"
+      "view": "查看",
+      "post_series": "文章系列"
     },
     "project_links": {
       "action": "操作",
@@ -286,7 +287,8 @@
       "login": "登入",
       "logout": "登出",
       "user_menu": "用戶選單",
-      "user_settings": "用戶設定"
+      "user_settings": "用戶設定",
+      "back_to_site": "返回網站"
     },
     "per_page": "每頁",
     "refresh": "重新整理",
@@ -526,7 +528,8 @@
       "start_setup": "開始設定",
       "title": "TOTP 設定",
       "warning": "請將您的備份代碼儲存在安全的地方。如果您失去驗證器應用程式的存取權，您可以使用它們重新取得帳戶存取權。"
-    }
+    },
+    "sessions": "會話"
   },
   "shared": {
     "alert": {

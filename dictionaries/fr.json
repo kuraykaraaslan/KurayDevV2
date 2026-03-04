@@ -136,7 +136,8 @@
       "showing": "Affichage de {{count}} sur {{total}} articles",
       "status": "Statut",
       "title": "Articles",
-      "view": "Voir"
+      "view": "Voir",
+      "post_series": "Série d'articles"
     },
     "project_links": {
       "action": "Action",
@@ -286,7 +287,8 @@
       "login": "Se connecter",
       "logout": "Se déconnecter",
       "user_menu": "Menu utilisateur",
-      "user_settings": "Paramètres utilisateur"
+      "user_settings": "Paramètres utilisateur",
+      "back_to_site": "Retour au site"
     },
     "per_page": "Par page",
     "refresh": "Rafraîchir",
@@ -526,7 +528,8 @@
       "start_setup": "Commencer l'installation",
       "title": "Installation TOTP",
       "warning": "Conservez vos codes de secours dans un endroit sûr. Vous pouvez les utiliser pour retrouver l'accès à votre compte si vous perdez l'accès à votre application d'authentification."
-    }
+    },
+    "sessions": "Sessions"
   },
   "shared": {
     "alert": {

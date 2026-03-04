@@ -136,7 +136,8 @@
       "showing": "{{total}} 件中 {{count}} 件を表示中",
       "status": "ステータス",
       "title": "投稿",
-      "view": "表示"
+      "view": "表示",
+      "post_series": "投稿シリーズ"
     },
     "project_links": {
       "action": "アクション",
@@ -286,7 +287,8 @@
       "login": "ログイン",
       "logout": "ログアウト",
       "user_menu": "ユーザーメニュー",
-      "user_settings": "ユーザー設定"
+      "user_settings": "ユーザー設定",
+      "back_to_site": "サイトに戻る"
     },
     "per_page": "ページごと",
     "refresh": "更新",
@@ -526,7 +528,8 @@
       "start_setup": "セットアップを開始",
       "title": "TOTPセットアップ",
       "warning": "バックアップコードを安全な場所に保管してください。認証アプリにアクセスできなくなった場合、アカウントに再アクセスするために使用できます。"
-    }
+    },
+    "sessions": "セッション"
   },
   "shared": {
     "alert": {

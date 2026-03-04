@@ -21,7 +21,7 @@
       "note": "Nota",
       "phone": "Teléfono",
       "previous": "Anterior",
-      "search_placeholder": "Buscar por nombre o correo electrónico...",
+      "search_placeholder": "Buscar por nombre o correo...",
       "showing": "Mostrando {{count}} de {{total}} citas",
       "status": "Estado",
       "status_booked": "Reservado",
@@ -70,7 +70,7 @@
       "close": "Cerrar",
       "confirm_delete": "¿Estás seguro de que deseas eliminar este formulario de contacto?",
       "contact": "Contacto",
-      "contact_details": "Detalles de contacto",
+      "contact_details": "Detalles del contacto",
       "date": "Fecha",
       "delete": "Eliminar",
       "email": "Correo electrónico",
@@ -80,7 +80,7 @@
       "phone": "Teléfono",
       "previous": "Anterior",
       "reply": "Responder",
-      "search_placeholder": "Buscar por nombre, correo electrónico o mensaje...",
+      "search_placeholder": "Buscar por nombre, correo o mensaje...",
       "showing": "Mostrando {{count}} de {{total}} contactos",
       "title": "Formularios de contacto",
       "view": "Ver"
@@ -98,7 +98,7 @@
       "delete_selected": "Eliminar seleccionados",
       "description": "Administra tus archivos e imágenes subidos",
       "edit": "Editar",
-      "filename": "Nombre del archivo",
+      "filename": "Nombre de archivo",
       "folder": "Carpeta",
       "folders": "Carpetas",
       "name": "Nombre para mostrar",
@@ -126,12 +126,13 @@
       "delete": "Eliminar",
       "edit": "Editar",
       "next": "Siguiente",
+      "post_series": "Serie de publicaciones",
       "previous": "Anterior",
-      "rebuild_failed": "Error al activar la reconstrucción del grafo de conocimiento.",
-      "rebuild_success": "Reconstrucción del grafo de conocimiento activada.",
+      "rebuild_failed": "Error al activar la reconstrucción del gráfico de conocimiento.",
+      "rebuild_success": "Reconstrucción del gráfico de conocimiento activada.",
       "rebuild_triggered": "Reconstrucción activada",
-      "rebuild_triggered_message": "Reconstrucción del grafo de conocimiento ya activada. Necesitas actualizar la página para activar de nuevo.",
-      "reset_knowledge_graph": "Restablecer grafo de conocimiento",
+      "rebuild_triggered_message": "Reconstrucción del gráfico de conocimiento ya activada. Necesitas refrescar la página para activar de nuevo.",
+      "reset_knowledge_graph": "Restablecer gráfico de conocimiento",
       "search_placeholder": "Buscar",
       "showing": "Mostrando {{count}} de {{total}} publicaciones",
       "status": "Estado",
@@ -163,24 +164,24 @@
     },
     "slots": {
       "add": "Agregar",
-      "add_manual_slot": "Agregar Franja Manual",
-      "apply_confirm": "¿Aplicar plantilla de {{day}} a {{date}}? Esto sobrescribirá las franjas existentes.",
+      "add_manual_slot": "Agregar Espacio Manual",
+      "apply_confirm": "¿Aplicar plantilla de {{day}} a {{date}}? Esto sobrescribirá los espacios existentes.",
       "apply_failed": "Error al aplicar la plantilla",
       "apply_success": "Plantilla aplicada a {{date}}",
       "apply_template_date": "Aplicar Plantilla a la Fecha",
       "apply_template_week": "Aplicar Plantilla a la Semana",
       "apply_week_success": "Plantillas aplicadas a toda la semana con éxito",
       "capacity": "Capacidad",
-      "create_and_manage": "Crear y gestionar plantillas de franjas para cada día de la semana.",
+      "create_and_manage": "Crear y gestionar plantillas de espacios para cada día de la semana.",
       "end_time": "Hora de Fin",
-      "fetch_failed": "Error al obtener las franjas de plantilla",
+      "fetch_failed": "Error al obtener los espacios de la plantilla",
       "generate": "Generar",
-      "generated_slots": "{{count}} franjas generadas",
+      "generated_slots": "{{count}} espacios generados",
       "interval": "Intervalo (minutos)",
       "loading": "Cargando...",
-      "no_slots": "No hay franjas para aplicar",
-      "no_slots_day": "No hay franjas para este día",
-      "please_select_time": "Por favor, selecciona una hora",
+      "no_slots": "No hay espacios para aplicar",
+      "no_slots_day": "No hay espacios para este día",
+      "please_select_time": "Por favor selecciona una hora",
       "remove_all": "Eliminar todo",
       "save_changes": "Guardar cambios",
       "save_template": "Guardar plantilla",
@@ -259,7 +260,7 @@
       "close": "Cerrar",
       "modal_button": "Iniciar sesión con redes sociales",
       "modal_title": "Iniciar sesión con redes sociales",
-      "no_providers": "No hay proveedores SSO configurados.",
+      "no_providers": "No hay proveedores de SSO configurados.",
       "provider_not_allowed": "El inicio de sesión SSO para {{provider}} no está permitido.",
       "redirect_error": "Error de redirección SSO.",
       "title": "Iniciar sesión con redes sociales"
@@ -282,7 +283,7 @@
       "close_dialog": "Cerrar diálogo"
     },
     "navbar": {
-      "admin_dashboard": "Panel de Administración",
+      "back_to_site": "Volver al sitio",
       "login": "Iniciar sesión",
       "logout": "Cerrar sesión",
       "user_menu": "Menú de usuario",
@@ -335,7 +336,7 @@
       "latest_posts": "Últimas publicaciones",
       "load_more": "Cargar más publicaciones",
       "no_more_posts": "No hay más publicaciones disponibles",
-      "other_posts": "Otros Publicaciones",
+      "other_posts": "Otras Publicaciones",
       "posts_by": "Publicaciones de",
       "read_more": "Leer más",
       "related_articles": "Artículos Relacionados"
@@ -357,7 +358,7 @@
       "views": "vistas",
       "views_count": "{{count}} vistas"
     },
-    "scroll_to_bottom": "Desplazar al final",
+    "scroll_to_bottom": "Desplazar al fondo",
     "scroll_to_top": "Desplazar al inicio",
     "terminal_button": "Terminal",
     "time": {
@@ -380,7 +381,7 @@
       "title": "Blog | Kuray Karaaslan"
     },
     "home": {
-      "description": "¡Bienvenido a mi blog de tecnología! Soy Kuray Karaaslan, un desarrollador frontend, backend y móvil con habilidades en React, Next.js, Node.js, Java y React Native. Comparto tutoriales prácticos de codificación, perspectivas de la industria y consejos de UI/UX para ayudar a desarrolladores y entusiastas de la tecnología a sobresalir. ¡Mantente actualizado, resuelve problemas y mejora tu experiencia tecnológica conmigo!",
+      "description": "¡Bienvenido a mi blog de tecnología! Soy Kuray Karaaslan, un desarrollador frontend, backend y móvil con habilidades en React, Next.js, Node.js, Java y React Native. Comparto tutoriales prácticos de codificación, perspectivas de la industria y consejos de UI/UX para ayudar a desarrolladores y entusiastas de la tecnología a sobresalir. ¡Mantente actualizado, resuelve problemas y desarrolla tu experiencia tecnológica conmigo!",
       "title": "Desarrollador de Software | Kuray Karaaslan"
     },
     "now": {
@@ -396,7 +397,7 @@
       "title": "Proyectos | Kuray Karaaslan"
     },
     "terms_of_use": {
-      "description": "Términos de Uso para kuray.dev — Reglas y directrices para usar este sitio web y sus servicios.",
+      "description": "Términos de Uso para kuray.dev — Reglas y pautas para usar este sitio web y sus servicios.",
       "title": "Términos de Uso | Kuray Karaaslan"
     }
   },
@@ -445,18 +446,18 @@
         "phone": "Teléfono",
         "please_fill_in_all_fields": "Por favor, completa todos los campos.",
         "send": "Enviar",
-        "success": "Tu mensaje ha sido enviado exitosamente. Me pondré en contacto contigo lo antes posible."
+        "success": "Tu mensaje ha sido enviado con éxito. Me pondré en contacto contigo lo antes posible."
       },
       "phone_and_mail": "Teléfono y Correo",
-      "reveal_mail": "Haz clic para revelar el correo",
-      "reveal_phone": "Haz clic para mostrar el teléfono",
+      "reveal_mail": "Haz clic para revelar el correo electrónico",
+      "reveal_phone": "Haz clic para revelar el teléfono",
       "send_a_message": "Enviar un mensaje",
       "social_media": "Redes Sociales",
       "title": "Contacto"
     },
     "hero": {
       "contact_me": "Contáctame",
-      "description": "<bold>Desarrollador Full-Stack enfocado en productos</bold> con <bold>más de 3 años de experiencia</bold> entregando soluciones de software robustas y escalables en <bold>frontend, backend, móvil en dominios BIM e IoT.</bold> Especializado en <bold>Java Spring Boot, React, Next.js, Node.js y PostgreSQL</bold>. Experto en arquitectar <bold>plataformas SaaS multi-tenant, sistemas en tiempo real e integraciones de pago.</bold> Combina sólidos fundamentos de ingeniería con <bold>resolución creativa de problemas</bold> y un <bold>enfoque de codificación limpio y sistemático.</bold>",
+      "description": "<bold>Desarrollador Full-Stack enfocado en productos</bold> con <bold>más de 3 años de experiencia</bold> entregando soluciones de software robustas y escalables en <bold>frontend, backend, móvil en dominios BIM e IoT.</bold> Especializado en <bold>Java Spring Boot, React, Next.js, Node.js y PostgreSQL</bold>. Experto en arquitectura de <bold>plataformas SaaS multi-tenant, sistemas en tiempo real e integraciones de pago.</bold> Combina sólidos fundamentos de ingeniería con <bold>resolución creativa de problemas</bold> y un <bold>enfoque de codificación limpio y sistemático.</bold>",
       "resume": "Currículum",
       "typing_effect": {
         "prefix": "Estoy listo para",
@@ -465,7 +466,7 @@
         "text3": "crear soluciones",
         "text4": "hacer la diferencia",
         "text5": "ser desafiado",
-        "text6": "trabajar freelance"
+        "text6": "trabajar como freelance"
       }
     },
     "projects": {
@@ -473,7 +474,7 @@
       "title": "Portafolio"
     },
     "timeline": {
-      "description": "Mi transición de Ingeniero Estructural a Desarrollador de Software ha sido un viaje de aprendizaje, crecimiento y transformación. Aquí hay una instantánea de mi trayectoria profesional hasta ahora.",
+      "description": "Mi transición de Ingeniero Estructural a Desarrollador de Software ha sido un viaje de aprendizaje, crecimiento y transformación. Aquí tienes un vistazo de mi trayectoria profesional hasta ahora.",
       "title": "Mi Trayectoria"
     },
     "toolbox": {
@@ -485,8 +486,8 @@
         "caching_redis": "Caché con Redis",
         "clean_code": "Código Limpio",
         "cloud_infrastructure": "Infraestructura en la Nube (AWS)",
-        "domain_driven_design": "Diseño Guiado por el Dominio",
-        "event_driven_architecture": "Arquitectura Dirigida por Eventos",
+        "domain_driven_design": "Diseño Orientado al Dominio",
+        "event_driven_architecture": "Arquitectura Orientada a Eventos",
         "multi_tenant_saas": "SaaS Multi-Tenant",
         "payment_systems": "Sistemas de Pago",
         "performance_optimization": "Optimización del Rendimiento",
@@ -504,7 +505,7 @@
     "otp_confirm": {
       "code_placeholder": "123456",
       "send_code": "Enviar Código de Verificación",
-      "sending": "Enviando Código...",
+      "sending": "Enviando código...",
       "title": "Verificación de seguridad",
       "verify": "Verificar",
       "verifying": "Verificando..."
@@ -516,6 +517,7 @@
     "preferences": "Preferencias",
     "profile": "Perfil",
     "security": "Seguridad",
+    "sessions": "Sesiones",
     "totp_setup": {
       "backup_codes_title": "Códigos de respaldo",
       "confirm_setup": "Confirmar configuración",
@@ -554,8 +556,8 @@
       "fields": {
         "email": "Tu correo electrónico",
         "email_label": "Correo electrónico",
-        "email_placeholder": "Introduce tu correo electrónico",
-        "full_name": "Nombre completo",
+        "email_placeholder": "Ingresa tu correo electrónico",
+        "full_name": "Nombre Completo",
         "name": "Tu Nombre",
         "name_placeholder": "Ingresa tu nombre",
         "note": "Nota",
@@ -589,11 +591,11 @@
       "visitors": "{{count}} visitante |||| {{count}} visitantes"
     },
     "newsletter": {
-      "description": "¡Mantente actualizado! Recibe todos los últimos y mejores artículos directamente en tu bandeja de entrada",
+      "description": "¡Mantente actualizado! Recibe todas las últimas y mejores publicaciones directamente en tu bandeja de entrada",
       "email_placeholder": "Ingresa tu dirección de correo electrónico",
       "error_message": "Ocurrió un error al suscribirse. Por favor, inténtalo de nuevo más tarde.",
       "subscribe": "Suscribirse",
-      "success_message": "¡Suscripción exitosa! Revisa tus correos para la confirmación.",
+      "success_message": "¡Suscripción exitosa! Revisa tu correo para la confirmación.",
       "title": "Boletín"
     },
     "status": {
@@ -606,18 +608,18 @@
         "database": "Base de Datos",
         "frontend": "Frontend",
         "mail": "Servicio de Correo",
-        "openai": "Servicio OpenAI",
+        "openai": "Servicio de OpenAI",
         "payment": "Pasarela de Pago",
         "redis": "Caché de Redis",
         "sms": "Servicio de SMS"
       },
       "statuses": {
-        "degraded_performance": "Rendimiento degradado",
-        "major_outage": "Interrupción mayor",
+        "degraded_performance": "Rendimiento Degradado",
+        "major_outage": "Interrupción Mayor",
         "operational": "Operativo",
-        "partial_outage": "Interrupción parcial"
+        "partial_outage": "Interrupción Parcial"
       },
-      "title": "Estado del sistema",
+      "title": "Estado del Sistema",
       "uptime": "Tiempo de actividad: {{time}}m"
     },
     "whatsapp": {

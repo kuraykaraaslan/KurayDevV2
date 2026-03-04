@@ -126,7 +126,8 @@
       "user_menu": "Kullanıcı menüsü",
       "admin_dashboard": "Yönetim Paneli",
       "user_settings": "Kullanıcı Ayarları",
-      "logout": "Çıkış Yap"
+      "logout": "Çıkış Yap",
+      "back_to_site": "Siteye Dön"
     },
     "image": {
       "upload_success": "Görsel başarıyla yüklendi",
@@ -305,7 +306,8 @@
       "start_setup": "Kurulumu Başlat",
       "enter_code": "Doğrulama uygulamanızdaki kodu girin",
       "confirm_setup": "Kurulumu Onayla"
-    }
+    },
+    "sessions": "Oturumlar"
   },
   "shared": {
     "alert": {
@@ -471,7 +473,8 @@
       "showing": "{{total}} gönderiden {{count}} tanesi gösteriliyor",
       "previous": "Önceki",
       "next": "Sonraki",
-      "confirm_delete": "Bu gönderiyi silmek istediğinize emin misiniz?"
+      "confirm_delete": "Bu gönderiyi silmek istediğinize emin misiniz?",
+      "post_series": "Gönderi Serisi"
     },
     "users": {
       "title": "Kullanıcılar",

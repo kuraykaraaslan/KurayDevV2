@@ -136,7 +136,8 @@
       "showing": "Mostrando {{count}} di {{total}} post",
       "status": "Stato",
       "title": "Post",
-      "view": "Visualizza"
+      "view": "Visualizza",
+      "post_series": "Serie di post"
     },
     "project_links": {
       "action": "Azione",
@@ -286,7 +287,8 @@
       "login": "Accedi",
       "logout": "Disconnetti",
       "user_menu": "Menu utente",
-      "user_settings": "Impostazioni utente"
+      "user_settings": "Impostazioni utente",
+      "back_to_site": "Torna al sito"
     },
     "per_page": "Per pagina",
     "refresh": "Aggiorna",
@@ -526,7 +528,8 @@
       "start_setup": "Inizia Configurazione",
       "title": "Configurazione TOTP",
       "warning": "Conserva i tuoi codici di backup in un luogo sicuro. Puoi usarli per recuperare l'accesso al tuo account se perdi l'accesso alla tua app di autenticazione."
-    }
+    },
+    "sessions": "Sessioni"
   },
   "shared": {
     "alert": {

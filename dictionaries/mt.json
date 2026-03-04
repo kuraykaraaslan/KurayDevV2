@@ -122,7 +122,8 @@
       "user_menu": "Menu tal-utent",
       "admin_dashboard": "Dashboard tal-Amministratur",
       "logout": "Oħroġ",
-      "user_settings": "Settings tal-Utent"
+      "user_settings": "Settings tal-Utent",
+      "back_to_site": "Lura għas-Sit"
     },
     "image": {
       "upload_success": "L-immaġni ittellgħet b'suċċess",
@@ -305,7 +306,8 @@
       "start_setup": "Ibda l-Setup",
       "enter_code": "Daħħal il-kodiċi mill-app tal-awtentikazzjoni tiegħek",
       "confirm_setup": "Ikkonferma s-Setup"
-    }
+    },
+    "sessions": "Sessjonijiet"
   },
   "shared": {
     "alert": {
@@ -459,7 +461,8 @@
       "showing": "Qed jintwerew {{count}} minn {{total}} postijiet",
       "previous": "Preċedenti",
       "next": "Li jmiss",
-      "confirm_delete": "Żgur li trid tħassar dan il-post?"
+      "confirm_delete": "Żgur li trid tħassar dan il-post?",
+      "post_series": "Serje ta' Postijiet"
     },
     "users": {
       "title": "Utenti",

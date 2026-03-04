@@ -136,7 +136,8 @@
       "showing": "{{total}} yazıdan {{count}} göstərilir",
       "status": "Status",
       "title": "Yazılar",
-      "view": "Bax"
+      "view": "Bax",
+      "post_series": "Post Seriyası"
     },
     "project_links": {
       "action": "Əməliyyat",
@@ -286,7 +287,8 @@
       "login": "Daxil ol",
       "logout": "Çıxış",
       "user_menu": "İstifadəçi menyusu",
-      "user_settings": "İstifadəçi Parametrləri"
+      "user_settings": "İstifadəçi Parametrləri",
+      "back_to_site": "Sayta Qayıt"
     },
     "per_page": "Səhifə başına",
     "refresh": "Yenilə",
@@ -526,7 +528,8 @@
       "start_setup": "Quraşdırmaya Başla",
       "title": "TOTP Quraşdırması",
       "warning": "Ehtiyat kodlarınızı təhlükəsiz yerdə saxlayın. Authenticator tətbiqinizə girişinizi itirsəniz, hesabınıza yenidən giriş üçün istifadə edə bilərsiniz."
-    }
+    },
+    "sessions": "Sessiyalar"
   },
   "shared": {
     "alert": {

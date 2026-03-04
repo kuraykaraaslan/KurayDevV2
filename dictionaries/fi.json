@@ -136,7 +136,8 @@
       "showing": "Näytetään {{count}} / {{total}} viestiä",
       "status": "Tila",
       "title": "Viestit",
-      "view": "Näytä"
+      "view": "Näytä",
+      "post_series": "Artikkelisarja"
     },
     "project_links": {
       "action": "Toiminto",
@@ -286,7 +287,8 @@
       "login": "Kirjaudu sisään",
       "logout": "Kirjaudu ulos",
       "user_menu": "Käyttäjävalikko",
-      "user_settings": "Käyttäjäasetukset"
+      "user_settings": "Käyttäjäasetukset",
+      "back_to_site": "Takaisin sivustolle"
     },
     "per_page": "Per sivu",
     "refresh": "Päivitä",
@@ -526,7 +528,8 @@
       "start_setup": "Aloita asennus",
       "title": "TOTP-asennus",
       "warning": "Säilytä varmuuskoodisi turvallisessa paikassa. Voit käyttää niitä saadaksesi tilisi takaisin, jos menetät pääsyn todennussovellukseesi."
-    }
+    },
+    "sessions": "Istunnot"
   },
   "shared": {
     "alert": {

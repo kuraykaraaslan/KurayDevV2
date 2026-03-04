@@ -122,7 +122,8 @@
       "user_menu": "Gebruikersmenu",
       "admin_dashboard": "Beheerdersdashboard",
       "logout": "Uitloggen",
-      "user_settings": "Gebruikersinstellingen"
+      "user_settings": "Gebruikersinstellingen",
+      "back_to_site": "Terug naar site"
     },
     "image": {
       "upload_success": "Afbeelding succesvol geüpload",
@@ -305,7 +306,8 @@
       "start_setup": "Instelling starten",
       "enter_code": "Voer de code uit uw authenticatie-app in",
       "confirm_setup": "Instelling bevestigen"
-    }
+    },
+    "sessions": "Sessies"
   },
   "shared": {
     "alert": {
@@ -459,7 +461,8 @@
       "showing": "Toont {{count}} van {{total}} berichten",
       "previous": "Vorige",
       "next": "Volgende",
-      "confirm_delete": "Weet u zeker dat u dit bericht wilt verwijderen?"
+      "confirm_delete": "Weet u zeker dat u dit bericht wilt verwijderen?",
+      "post_series": "Berichtenreeks"
     },
     "users": {
       "title": "Gebruikers",

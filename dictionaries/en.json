@@ -487,6 +487,7 @@
       "title": "Posts",
       "search_placeholder": "Search",
       "create_post": "Create Post",
+      "post_series": "Post Series",
       "reset_knowledge_graph": "Reset Knowledge Graph",
       "rebuild_triggered": "Rebuild Triggered",
       "rebuild_triggered_message": "Knowledge graph rebuild already triggered. You need to refresh the page to trigger again.",

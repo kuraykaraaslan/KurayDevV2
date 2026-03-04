@@ -136,7 +136,8 @@
       "showing": "{{count}} ta postdan {{total}} tasi ko'rsatilmoqda",
       "status": "Holat",
       "title": "Postlar",
-      "view": "Ko'rish"
+      "view": "Ko'rish",
+      "post_series": "Postlar seriyasi"
     },
     "project_links": {
       "action": "Harakat",
@@ -286,7 +287,8 @@
       "login": "Kirish",
       "logout": "Chiqish",
       "user_menu": "Foydalanuvchi menyusi",
-      "user_settings": "Foydalanuvchi sozlamalari"
+      "user_settings": "Foydalanuvchi sozlamalari",
+      "back_to_site": "Saytga qaytish"
     },
     "per_page": "Har sahifada",
     "refresh": "Yangilash",
@@ -526,7 +528,8 @@
       "start_setup": "Sozlashni boshlash",
       "title": "TOTP sozlash",
       "warning": "Zaxira kodlaringizni xavfsiz joyda saqlang. Agar autentifikator ilovangizga kirish imkoniyatini yo'qotsangiz, ulardan hisobingizga kirishni tiklash uchun foydalanishingiz mumkin."
-    }
+    },
+    "sessions": "Sessiyalar"
   },
   "shared": {
     "alert": {

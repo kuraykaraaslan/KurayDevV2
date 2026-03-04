@@ -126,7 +126,8 @@
       "user_menu": "Kasutaja menüü",
       "admin_dashboard": "Admin paneel",
       "user_settings": "Kasutaja seaded",
-      "logout": "Logi välja"
+      "logout": "Logi välja",
+      "back_to_site": "Tagasi saidile"
     },
     "image": {
       "upload_success": "Pilt on edukalt üles laetud",
@@ -305,7 +306,8 @@
       "start_setup": "Alusta seadistamist",
       "enter_code": "Sisesta kood oma autentimisrakendusest",
       "confirm_setup": "Kinnita seadistus"
-    }
+    },
+    "sessions": "Seansid"
   },
   "shared": {
     "alert": {
@@ -471,7 +473,8 @@
       "showing": "Kuvatakse {{count}} / {{total}} postitust",
       "previous": "Eelmine",
       "next": "Järgmine",
-      "confirm_delete": "Kas oled kindel, et soovid selle postituse kustutada?"
+      "confirm_delete": "Kas oled kindel, et soovid selle postituse kustutada?",
+      "post_series": "Postituste seeria"
     },
     "users": {
       "title": "Kasutajad",

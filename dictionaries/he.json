@@ -131,7 +131,8 @@
       "user_menu": "תפריט משתמש",
       "admin_dashboard": "לוח מחוונים של מנהל",
       "user_settings": "הגדרות משתמש",
-      "logout": "התנתק"
+      "logout": "התנתק",
+      "back_to_site": "חזרה לאתר"
     },
     "image": {
       "upload_success": "התמונה הועלתה בהצלחה",
@@ -305,7 +306,8 @@
       "start_setup": "התחל הגדרה",
       "enter_code": "הכנס את הקוד מאפליקציית האימות שלך",
       "confirm_setup": "אשר הגדרה"
-    }
+    },
+    "sessions": "סשנים"
   },
   "shared": {
     "alert": {
@@ -471,7 +473,8 @@
       "showing": "מציג {{count}} מתוך {{total}} פוסטים",
       "previous": "הקודם",
       "next": "הבא",
-      "confirm_delete": "האם אתה בטוח שברצונך למחוק פוסט זה?"
+      "confirm_delete": "האם אתה בטוח שברצונך למחוק פוסט זה?",
+      "post_series": "סדרת פוסטים"
     },
     "users": {
       "title": "משתמשים",
