@@ -8,9 +8,11 @@ import OTPTab from '../Tabs/OTPTab'
 import BasicTab from '../Tabs/BasicTab'
 import NotificationsTab from '../Tabs/NotificationsTab'
 import SessionsTab from '../Tabs/SessionsTab'
+import ApiKeysTab from '../Tabs/ApiKeysTab'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
   faGear,
+  faKey,
   faLock,
   faNoteSticky,
   faRing,
@@ -74,6 +76,12 @@ export default function SettingsTabs() {
       label: t('settings.sessions'),
       icon: faShieldHalved,
       content: <SessionsTab />,
+    },
+    {
+      id: 'api-keys',
+      label: t('settings.api_keys'),
+      icon: faKey,
+      content: <ApiKeysTab />,
     },
   ]
 
