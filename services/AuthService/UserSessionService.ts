@@ -6,6 +6,7 @@ import { SafeUser, SafeUserSchema } from '@/types/user/UserTypes'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 import AuthMessages from '@/messages/AuthMessages'
+import ApiKeyService from './ApiKeyService'
 
 import { v4 as uuidv4 } from 'uuid'
 import redisInstance from '@/libs/redis'
@@ -531,7 +532,7 @@ export default class UserSessionService {
     request: NextRequest
     requiredUserRole?: T
     otpVerifyBypass?: boolean
-  }): Promise<{ user: SafeUser; userSession: SafeUserSession }>
+  }): Promise<{ user: SafeUser; userSession: SafeUserSession | null }>
   static async authenticateUserByRequest<T extends string = 'ADMIN'>({
     request,
     requiredUserRole = 'ADMIN' as T,
@@ -544,6 +545,32 @@ export default class UserSessionService {
     const isGuest = requiredUserRole === 'GUEST'
 
     try {
+      // ── API Key authentication ──────────────────────────────────────────────
+      // Accepts `X-API-Key: <rawKey>` or `Authorization: Bearer kdev_<...>`
+      const rawApiKey = (() => {
+        const header = request.headers.get('x-api-key')
+        if (header) return header
+        const auth = request.headers.get('authorization')
+        if (auth?.startsWith('Bearer kdev_')) return auth.slice(7)
+        return undefined
+      })()
+
+      if (rawApiKey) {
+        const user = await ApiKeyService.authenticateByApiKey(rawApiKey)
+
+        const userRoleKeys = Object.keys(UserRole)
+        const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole)
+        const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole)
+
+        if (userRoleKeyIndex < requiredUserRoleKeyIndex) {
+          throw new Error(AuthMessages.USER_NOT_AUTHENTICATED)
+        }
+
+        request.user = user
+        return { user, userSession: null }
+      }
+      // ── End API Key authentication ─────────────────────────────────────────
+
       const accessToken = request.cookies.get('accessToken')?.value
       const refreshToken = request.cookies.get('refreshToken')?.value
 
