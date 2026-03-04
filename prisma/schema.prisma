@@ -44,6 +44,7 @@ model User {
 
   userSessions       UserSession[]
   userSocialAccounts UserSocialAccount[]
+  apiKeys            ApiKey[]
 
   // JSON Fields
   userSecurity Json? 
@@ -452,4 +453,24 @@ model Media {
 
   @@index([folder])
   @@index([uploadedBy])
+}
+
+model ApiKey {
+  apiKeyId   String    @id @default(cuid())
+
+  userId     String
+  user       User      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  name       String    // User-given label (e.g. "My CI Key")
+  prefix     String    // First 12 chars of raw key for display (e.g. "kdev_ab12cd")
+  keyHash    String    @unique // SHA-256 of the full raw key
+
+  lastUsedAt DateTime?
+  expiresAt  DateTime? // null = never expires
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([keyHash])
 }
