@@ -529,7 +529,8 @@
       "title": "TOTP Gurnama",
       "warning": "Ätiýaçlyk kodlaryňyzy howpsuz ýerde saklaň. Awtentifikator programmasyna girip bilmeýän bolsaňyz, hasabyňyza girmegi dikeltmek üçin olary ulanyp bilersiňiz."
     },
-    "sessions": "Sessiyalar"
+    "sessions": "Sessiyalar",
+    "api_keys": "API Açarlar"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "Portfelime gelenleriň global paýlanyşyny bu interaktiw ýylylyk kartasy arkaly öwreniň. Kartadaky her nokat myhmanyň ýerleşýän ýerini görkezýär, dünýäniň nirelerinden gelýändigini görkezýär.",
       "title": "Global Myhmanlar Kartasy",
-      "visitors": "{{count}} myhman |||| {{count}} myhmanlar"
+      "visitors": "{{count}} myhman |||| {{count}} myhmanlar",
+      "no_data": "Heniz myhman maglumatlary ýok",
+      "open_map": "Myhmanlar",
+      "top_countries": "Iň köp ýurtlar",
+      "total_cities": "Şäherler",
+      "total_countries": "Ýurtlar",
+      "total_visitors": "Jemi Myhmanlar",
+      "visitors_suffix": "myhmanlar"
     },
     "newsletter": {
       "description": "Täzelikler bilen habarly boluň! Iň soňky we iň gowy ýazgylary göni poçta gutyňyza alyň",
@@ -621,7 +629,8 @@
         "partial_outage": "Bölekleýin Näsazlyk"
       },
       "title": "Ulgamyň Statusy",
-      "uptime": "Iş wagty: {{time}}m"
+      "uptime": "Iş wagty: {{time}}m",
+      "open_status": "Status"
     },
     "whatsapp": {
       "message": "Salam! Men Kuray Karaaslan, size nähili kömek edip bilerin?"

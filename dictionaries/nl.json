@@ -307,7 +307,8 @@
       "enter_code": "Voer de code uit uw authenticatie-app in",
       "confirm_setup": "Instelling bevestigen"
     },
-    "sessions": "Sessies"
+    "sessions": "Sessies",
+    "api_keys": "API-sleutels"
   },
   "shared": {
     "alert": {
@@ -378,7 +379,14 @@
     "geomap": {
       "title": "Wereldwijde Bezoekers Warmtekaart",
       "description": "Ontdek de wereldwijde verspreiding van bezoekers aan mijn portfolio via deze interactieve warmtekaart. Elk punt op de kaart vertegenwoordigt de locatie van een bezoeker en biedt inzicht in waar mijn publiek vandaan komt over de hele wereld.",
-      "visitors": "{{count}} bezoeker |||| {{count}} bezoekers"
+      "visitors": "{{count}} bezoeker |||| {{count}} bezoekers",
+      "no_data": "Nog geen bezoekersgegevens",
+      "open_map": "Bezoekers",
+      "top_countries": "Toplanden",
+      "total_cities": "Steden",
+      "total_countries": "Landen",
+      "total_visitors": "Totaal aantal bezoekers",
+      "visitors_suffix": "bezoekers"
     },
     "status": {
       "title": "Systeemstatus",
@@ -402,7 +410,8 @@
         "degraded_performance": "Verminderde prestaties",
         "partial_outage": "Gedeeltige storing",
         "major_outage": "Grote storing"
-      }
+      },
+      "open_status": "Status"
     }
   },
   "admin": {

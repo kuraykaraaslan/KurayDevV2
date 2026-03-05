@@ -308,8 +308,7 @@
       "enter_code": "Doğrulama uygulamanızdaki kodu girin",
       "confirm_setup": "Kurulumu Onayla"
     },
-    "sessions": "Oturumlar",
-    "api_keys": "API Anahtarları"
+    "sessions": "Oturumlar"
   },
   "shared": {
     "alert": {
@@ -411,7 +410,8 @@
         "degraded_performance": "Düşük Performans",
         "partial_outage": "Kısmi Kesinti",
         "major_outage": "Büyük Kesinti"
-      }
+      },
+      "open_status": "Durum"
     }
   },
   "auth": {

@@ -529,7 +529,8 @@
       "title": "TOTP-asennus",
       "warning": "Säilytä varmuuskoodisi turvallisessa paikassa. Voit käyttää niitä saadaksesi tilisi takaisin, jos menetät pääsyn todennussovellukseesi."
     },
-    "sessions": "Istunnot"
+    "sessions": "Istunnot",
+    "api_keys": "API-avaimet"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "Tutustu vierailijoiden globaaliin jakautumiseen portfolioni kautta tämän interaktiivisen lämpökartan avulla. Jokainen piste kartalla edustaa vierailijan sijaintia, tarjoten näkemyksiä siitä, mistä yleisöni tulee ympäri maailmaa.",
       "title": "Globaali vierailijoiden lämpökartta",
-      "visitors": "{{count}} vierailija |||| {{count}} vierailijaa"
+      "visitors": "{{count}} vierailija |||| {{count}} vierailijaa",
+      "no_data": "Ei kävijätietoja vielä",
+      "open_map": "Kävijät",
+      "top_countries": "Huippumaat",
+      "total_cities": "Kaupungit",
+      "total_countries": "Maat",
+      "total_visitors": "Kävijöitä yhteensä",
+      "visitors_suffix": "kävijää"
     },
     "newsletter": {
       "description": "Pysy ajan tasalla! Saat kaikki uusimmat ja parhaat julkaisut suoraan sähköpostiisi",
@@ -621,7 +629,8 @@
         "partial_outage": "Osittainen katkos"
       },
       "title": "Järjestelmän tila",
-      "uptime": "Käyttöaika: {{time}}m"
+      "uptime": "Käyttöaika: {{time}}m",
+      "open_status": "Tila"
     },
     "whatsapp": {
       "message": "Hei! Olen Kuray Karaaslan, kuinka voin auttaa sinua?"

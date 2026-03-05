@@ -336,7 +336,8 @@
       "enter_code": "أدخل الرمز من تطبيق المصادقة",
       "confirm_setup": "تأكيد الإعداد"
     },
-    "sessions": "الجلسات"
+    "sessions": "الجلسات",
+    "api_keys": "مفاتيح API"
   },
   "shared": {
     "alert": {
@@ -407,7 +408,14 @@
     "geomap": {
       "title": "خريطة حرارية للزوار العالميين",
       "description": "استكشف التوزيع الجغرافي للزوار لمحفظتي من خلال هذه الخريطة التفاعلية.",
-      "visitors": "{{count}} زائر |||| {{count}} زوار"
+      "visitors": "{{count}} زائر |||| {{count}} زوار",
+      "no_data": "لا توجد بيانات زوار بعد",
+      "open_map": "الزوار",
+      "top_countries": "أهم الدول",
+      "total_cities": "المدن",
+      "total_countries": "الدول",
+      "total_visitors": "إجمالي الزوار",
+      "visitors_suffix": "زوار"
     },
     "status": {
       "title": "حالة النظام",
@@ -431,7 +439,8 @@
         "degraded_performance": "أداء منخفض",
         "partial_outage": "انقطاع جزئي",
         "major_outage": "انقطاع كبير"
-      }
+      },
+      "open_status": "الحالة"
     }
   },
   "auth": {

@@ -529,7 +529,8 @@
       "title": "TOTP sozlash",
       "warning": "Zaxira kodlaringizni xavfsiz joyda saqlang. Agar autentifikator ilovangizga kirish imkoniyatini yo'qotsangiz, ulardan hisobingizga kirishni tiklash uchun foydalanishingiz mumkin."
     },
-    "sessions": "Sessiyalar"
+    "sessions": "Sessiyalar",
+    "api_keys": "API kalitlari"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "Interaktiv issiqlik xaritasi orqali mening portfelimga tashrif buyuruvchilarning global taqsimotini o'rganing. Xaritadagi har bir nuqta tashrif buyuruvchining joylashuvini ifodalaydi, bu mening auditoriyam dunyoning qayeridan kelayotganini tushunishga yordam beradi.",
       "title": "Global Tashrifchilar Issiqlik Xarita",
-      "visitors": "{{count}} tashrifchi |||| {{count}} tashrifchilar"
+      "visitors": "{{count}} tashrifchi |||| {{count}} tashrifchilar",
+      "no_data": "Hozircha tashrif buyuruvchilar ma'lumoti yo'q",
+      "open_map": "Tashrif buyuruvchilar",
+      "top_countries": "Eng ko'p tashrif buyurilgan davlatlar",
+      "total_cities": "Shaharlar",
+      "total_countries": "Davlatlar",
+      "total_visitors": "Jami tashrif buyuruvchilar",
+      "visitors_suffix": "tashrif buyuruvchilar"
     },
     "newsletter": {
       "description": "Yangiliklardan xabardor bo'ling! Eng so'nggi va eng yaxshi postlarni to'g'ridan-to'g'ri pochta qutingizga oling",
@@ -621,7 +629,8 @@
         "partial_outage": "Qisman uzilish"
       },
       "title": "Tizim holati",
-      "uptime": "Ish vaqti: {{time}}m"
+      "uptime": "Ish vaqti: {{time}}m",
+      "open_status": "Holat"
     },
     "whatsapp": {
       "message": "Salom! Men Kuray Karaaslanman, sizga qanday yordam bera olaman?"

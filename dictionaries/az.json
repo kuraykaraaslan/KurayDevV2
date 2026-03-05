@@ -529,7 +529,8 @@
       "title": "TOTP Quraşdırması",
       "warning": "Ehtiyat kodlarınızı təhlükəsiz yerdə saxlayın. Authenticator tətbiqinizə girişinizi itirsəniz, hesabınıza yenidən giriş üçün istifadə edə bilərsiniz."
     },
-    "sessions": "Sessiyalar"
+    "sessions": "Sessiyalar",
+    "api_keys": "API Açarları"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "Bu interaktiv istilik xəritəsi vasitəsilə portfelimə gələn qonaqların qlobal paylanmasını araşdırın. Xəritədəki hər bir nöqtə bir ziyarətçinin yerini göstərir və auditoriyamın dünyanın harasından gəldiyini anlamağa kömək edir.",
       "title": "Qlobal Ziyarətçilər İstilik Xəritəsi",
-      "visitors": "{{count}} ziyarətçi |||| {{count}} ziyarətçi"
+      "visitors": "{{count}} ziyarətçi |||| {{count}} ziyarətçi",
+      "no_data": "Hələ ziyarətçi məlumatı yoxdur",
+      "open_map": "Ziyarətçilər",
+      "top_countries": "Ən Yaxşı Ölkələr",
+      "total_cities": "Şəhərlər",
+      "total_countries": "Ölkələr",
+      "total_visitors": "Ümumi Ziyarətçilər",
+      "visitors_suffix": "ziyarətçi"
     },
     "newsletter": {
       "description": "Yeniliklərdən xəbərdar olun! Ən son və ən yaxşı yazıları birbaşa poçt qutunuza alın",
@@ -621,7 +629,8 @@
         "partial_outage": "Qismən Nasazlıq"
       },
       "title": "Sistem Statusu",
-      "uptime": "İşləmə vaxtı: {{time}} dəq"
+      "uptime": "İşləmə vaxtı: {{time}} dəq",
+      "open_status": "Status"
     },
     "whatsapp": {
       "message": "Salam! Mən Kuray Karaaslan, sizə necə kömək edə bilərəm?"

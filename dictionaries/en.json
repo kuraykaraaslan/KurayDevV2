@@ -421,6 +421,7 @@
       "loading": "Checking system status...",
       "response_time": "Response Time: {{time}}ms",
       "uptime": "Uptime: {{time}}m",
+      "open_status": "Status",
       "services": {
         "api": "API",
         "database": "Database",

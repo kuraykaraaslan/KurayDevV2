@@ -307,7 +307,8 @@
       "enter_code": "Sisesta kood oma autentimisrakendusest",
       "confirm_setup": "Kinnita seadistus"
     },
-    "sessions": "Seansid"
+    "sessions": "Seansid",
+    "api_keys": "API võtmed"
   },
   "shared": {
     "alert": {
@@ -378,7 +379,14 @@
     "geomap": {
       "title": "Maailma külastajate soojuskaart",
       "description": "Avasta minu portfelli külastajate ülemaailmne jaotus selle interaktiivse soojuskaardi kaudu. Iga punkt kaardil esindab külastaja asukohta, pakkudes ülevaadet sellest, kust mu publik maailmas pärineb.",
-      "visitors": "{{count}} külastaja |||| {{count}} külastajat"
+      "visitors": "{{count}} külastaja |||| {{count}} külastajat",
+      "no_data": "Külastaja andmed puuduvad",
+      "open_map": "Külastajad",
+      "top_countries": "Parimad riigid",
+      "total_cities": "Linnad",
+      "total_countries": "Riigid",
+      "total_visitors": "Kokku külastajaid",
+      "visitors_suffix": "külastajat"
     },
     "status": {
       "title": "Süsteemi olek",
@@ -402,7 +410,8 @@
         "degraded_performance": "Vähenenud jõudlus",
         "partial_outage": "Osaline katkestus",
         "major_outage": "Tõsine katkestus"
-      }
+      },
+      "open_status": "Staatus"
     }
   },
   "auth": {

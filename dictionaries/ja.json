@@ -529,7 +529,8 @@
       "title": "TOTPセットアップ",
       "warning": "バックアップコードを安全な場所に保管してください。認証アプリにアクセスできなくなった場合、アカウントに再アクセスするために使用できます。"
     },
-    "sessions": "セッション"
+    "sessions": "セッション",
+    "api_keys": "APIキー"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "このインタラクティブなヒートマップを通じて、私のポートフォリオへの訪問者の世界的な分布を探索してください。地図上の各ポイントは訪問者の位置を示し、世界中のオーディエンスの出身地を把握できます。",
       "title": "グローバル訪問者ヒートマップ",
-      "visitors": "{{count}} 人の訪問者"
+      "visitors": "{{count}} 人の訪問者",
+      "no_data": "訪問者データはまだありません",
+      "open_map": "訪問者",
+      "top_countries": "上位の国",
+      "total_cities": "都市",
+      "total_countries": "国",
+      "total_visitors": "訪問者数",
+      "visitors_suffix": "訪問者"
     },
     "newsletter": {
       "description": "最新情報をお届けします！最新の投稿をすべてメールで受け取りましょう",
@@ -621,7 +629,8 @@
         "partial_outage": "部分的な障害"
       },
       "title": "システムステータス",
-      "uptime": "稼働時間: {{time}}分"
+      "uptime": "稼働時間: {{time}}分",
+      "open_status": "ステータス"
     },
     "whatsapp": {
       "message": "こんにちは！私はKuray Karaaslanです。どのようにお手伝いできますか？"

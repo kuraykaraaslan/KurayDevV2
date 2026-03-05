@@ -285,7 +285,14 @@
     "geomap": {
       "title": "Weltweite Besucher-Wärmekarte",
       "description": "Entdecken Sie die weltweite Verteilung der Besucher meines Portfolios durch diese interaktive Wärmekarte. Jeder Punkt auf der Karte repräsentiert den Standort eines Besuchers und bietet Einblicke darüber, woher mein Publikum weltweit kommt.",
-      "visitors": "{{count}} Besucher |||| {{count}} Besucher"
+      "visitors": "{{count}} Besucher |||| {{count}} Besucher",
+      "no_data": "Noch keine Besucherdaten",
+      "open_map": "Besucher",
+      "top_countries": "Top-Länder",
+      "total_cities": "Städte",
+      "total_countries": "Länder",
+      "total_visitors": "Gesamtbesucher",
+      "visitors_suffix": "Besucher"
     },
     "status": {
       "title": "Systemstatus",
@@ -309,7 +316,8 @@
         "degraded_performance": "Beeinträchtigte Leistung",
         "partial_outage": "Teilweise Ausfall",
         "major_outage": "Großer Ausfall"
-      }
+      },
+      "open_status": "Status"
     }
   },
   "admin": {
@@ -670,7 +678,8 @@
       "title": "TOTP-Einrichtung",
       "warning": "Bewahren Sie Ihre Backup-Codes an einem sicheren Ort auf. Sie können sie verwenden, um wieder Zugriff auf Ihr Konto zu erhalten, falls Sie den Zugriff auf Ihre Authentifizierungs-App verlieren."
     },
-    "sessions": "Sitzungen"
+    "sessions": "Sitzungen",
+    "api_keys": "API-Schlüssel"
   },
   "navbar": {
     "change_language": "Sprache ändern (aktuell: {{lang}})",

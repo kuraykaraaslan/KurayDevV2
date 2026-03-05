@@ -307,7 +307,8 @@
       "enter_code": "הכנס את הקוד מאפליקציית האימות שלך",
       "confirm_setup": "אשר הגדרה"
     },
-    "sessions": "סשנים"
+    "sessions": "סשנים",
+    "api_keys": "מפתחות API"
   },
   "shared": {
     "alert": {
@@ -378,7 +379,14 @@
     "geomap": {
       "title": "מפת חום של מבקרים גלובליים",
       "description": "חקור את הפיזור הגלובלי של מבקרי הפורטפוליו שלי דרך מפת החום האינטראקטיבית הזו. כל נקודה על המפה מייצגת מיקום של מבקר, ומספקת תובנות לגבי מאיפה קהל הקוראים מגיע מרחבי העולם.",
-      "visitors": "{{count}} מבקר |||| {{count}} מבקרים"
+      "visitors": "{{count}} מבקר |||| {{count}} מבקרים",
+      "no_data": "אין נתוני מבקרים עדיין",
+      "open_map": "מבקרים",
+      "top_countries": "מדינות מובילות",
+      "total_cities": "ערים",
+      "total_countries": "מדינות",
+      "total_visitors": "סה\"כ מבקרים",
+      "visitors_suffix": "מבקרים"
     },
     "status": {
       "title": "מצב המערכת",
@@ -402,7 +410,8 @@
         "degraded_performance": "ביצועים מופחתים",
         "partial_outage": "תקלה חלקית",
         "major_outage": "תקלה חמורה"
-      }
+      },
+      "open_status": "סטטוס"
     }
   },
   "auth": {

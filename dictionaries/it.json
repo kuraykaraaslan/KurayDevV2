@@ -529,7 +529,8 @@
       "title": "Configurazione TOTP",
       "warning": "Conserva i tuoi codici di backup in un luogo sicuro. Puoi usarli per recuperare l'accesso al tuo account se perdi l'accesso alla tua app di autenticazione."
     },
-    "sessions": "Sessioni"
+    "sessions": "Sessioni",
+    "api_keys": "Chiavi API"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "Esplora la distribuzione globale dei visitatori del mio portfolio attraverso questa mappa di calore interattiva. Ogni punto sulla mappa rappresenta la posizione di un visitatore, fornendo informazioni su da dove proviene il mio pubblico nel mondo.",
       "title": "Mappa di Calore dei Visitatori Globali",
-      "visitors": "{{count}} visitatore |||| {{count}} visitatori"
+      "visitors": "{{count}} visitatore |||| {{count}} visitatori",
+      "no_data": "Nessun dato visitatore ancora",
+      "open_map": "Visitatori",
+      "top_countries": "Paesi principali",
+      "total_cities": "Città",
+      "total_countries": "Paesi",
+      "total_visitors": "Visitatori totali",
+      "visitors_suffix": "visitatori"
     },
     "newsletter": {
       "description": "Rimani aggiornato! Ricevi tutti gli ultimi e migliori post direttamente nella tua casella di posta",
@@ -621,7 +629,8 @@
         "partial_outage": "Interruzione Parziale"
       },
       "title": "Stato del Sistema",
-      "uptime": "Tempo di attività: {{time}}m"
+      "uptime": "Tempo di attività: {{time}}m",
+      "open_status": "Stato"
     },
     "whatsapp": {
       "message": "Ciao! Sono Kuray Karaaslan, come posso aiutarti?"

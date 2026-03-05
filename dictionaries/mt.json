@@ -307,7 +307,8 @@
       "enter_code": "Daħħal il-kodiċi mill-app tal-awtentikazzjoni tiegħek",
       "confirm_setup": "Ikkonferma s-Setup"
     },
-    "sessions": "Sessjonijiet"
+    "sessions": "Sessjonijiet",
+    "api_keys": "Ċwievet tal-API"
   },
   "shared": {
     "alert": {
@@ -378,7 +379,14 @@
     "geomap": {
       "title": "Mappa tas-Sħana tal-Viżitaturi Globali",
       "description": "Esplora d-distribuzzjoni globali tal-viżitaturi għall-portafoll tiegħi permezz ta' din il-mappa tas-sħana interattiva. Kull punt fuq il-mappa jirrappreżenta l-lokazzjoni ta' viżitatur, jipprovdi għarfien dwar minn fejn ġejja l-udjenza tiegħi madwar id-dinja.",
-      "visitors": "{{count}} viżitatur |||| {{count}} viżitaturi"
+      "visitors": "{{count}} viżitatur |||| {{count}} viżitaturi",
+      "no_data": "Għad m'hemmx dejta tal-viżitaturi",
+      "open_map": "Viżitaturi",
+      "top_countries": "Pajjiżi Ewlenin",
+      "total_cities": "Bliet",
+      "total_countries": "Pajjiżi",
+      "total_visitors": "Viżitaturi Totali",
+      "visitors_suffix": "viżitaturi"
     },
     "status": {
       "title": "Stat ta' Sistema",
@@ -402,7 +410,8 @@
         "degraded_performance": "Prestazzjoni Mnaqqsa",
         "partial_outage": "Interruzzjoni Parzjali",
         "major_outage": "Interruzzjoni Kbira"
-      }
+      },
+      "open_status": "Status"
     }
   },
   "admin": {

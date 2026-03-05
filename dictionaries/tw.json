@@ -529,7 +529,8 @@
       "title": "TOTP 設定",
       "warning": "請將您的備份代碼儲存在安全的地方。如果您失去驗證器應用程式的存取權，您可以使用它們重新取得帳戶存取權。"
     },
-    "sessions": "會話"
+    "sessions": "會話",
+    "api_keys": "API 金鑰"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "通過這個互動式熱圖探索訪問者在我作品集中的全球分佈。地圖上的每個點代表一個訪問者的位置，提供了我的受眾來自世界各地的洞察。",
       "title": "全球訪客熱圖",
-      "visitors": "{{count}} 位訪客"
+      "visitors": "{{count}} 位訪客",
+      "no_data": "尚無訪客數據",
+      "open_map": "訪客",
+      "top_countries": "熱門國家",
+      "total_cities": "城市",
+      "total_countries": "國家",
+      "total_visitors": "訪客總數",
+      "visitors_suffix": "訪客"
     },
     "newsletter": {
       "description": "保持更新！將所有最新和最棒的文章直接發送到您的收件箱",
@@ -621,7 +629,8 @@
         "partial_outage": "部分故障"
       },
       "title": "系統狀態",
-      "uptime": "運行時間：{{time}}分鐘"
+      "uptime": "運行時間：{{time}}分鐘",
+      "open_status": "狀態"
     },
     "whatsapp": {
       "message": "你好！我是 Kuray Karaaslan，我可以怎麼幫助你？"

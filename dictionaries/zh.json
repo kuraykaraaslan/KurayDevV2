@@ -529,7 +529,8 @@
       "title": "TOTP 设置",
       "warning": "请将备份代码存放在安全的地方。如果您无法访问身份验证应用程序，可以使用这些代码重新获得账户访问权限。"
     },
-    "sessions": "会话"
+    "sessions": "会话",
+    "api_keys": "API 密钥"
   },
   "shared": {
     "alert": {
@@ -589,7 +590,14 @@
     "geomap": {
       "description": "通过这个互动热图探索访客在我作品集中的全球分布。地图上的每个点代表一个访客的位置，提供了我的观众来自世界各地的见解。",
       "title": "全球访客热图",
-      "visitors": "{{count}} 位访客"
+      "visitors": "{{count}} 位访客",
+      "no_data": "尚无访客数据",
+      "open_map": "访客",
+      "top_countries": "热门国家",
+      "total_cities": "城市",
+      "total_countries": "国家",
+      "total_visitors": "总访客数",
+      "visitors_suffix": "访客"
     },
     "newsletter": {
       "description": "保持更新！获取所有最新和最棒的文章，直接发送到您的收件箱",
@@ -621,7 +629,8 @@
         "partial_outage": "部分故障"
       },
       "title": "系统状态",
-      "uptime": "正常运行时间：{{time}}分钟"
+      "uptime": "正常运行时间：{{time}}分钟",
+      "open_status": "状态"
     },
     "whatsapp": {
       "message": "你好！我是Kuray Karaaslan，我能帮你什么？"
