@@ -29,6 +29,12 @@ const defaultRoleConfig: Record<
     bubbleClass: 'bg-warning/20 text-warning-content border border-warning/30 rounded-bl-md',
     align: 'justify-start',
   },
+  system: {
+    label: 'System',
+    icon: faRobot,
+    bubbleClass: '',
+    align: 'justify-center',
+  },
 }
 
 // ── Props ───────────────────────────────────────────────────────────
@@ -85,6 +91,18 @@ const ChatMessageList = ({
       {/* Messages */}
       {messages.map((msg, idx) => {
         if (msg.content === '__ADMIN_TAKEOVER__') return null
+
+        // System messages render as centered divider text
+        if (msg.role === 'system') {
+          return (
+            <div key={msg.id ?? idx} className="flex justify-center my-2">
+              <span className="text-xs text-base-content/50 italic">
+                ── {msg.content} ──
+              </span>
+            </div>
+          )
+        }
+
         const cfg = defaultRoleConfig[msg.role] ?? defaultRoleConfig.assistant
 
         return (

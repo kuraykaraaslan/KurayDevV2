@@ -829,6 +829,13 @@ export default class ChatbotService {
         await redis.del(DISCONNECT_KEY(browserId))
     }
 
+    /**
+     * Get the chatSessionId associated with a browserId (Redis lookup).
+     */
+    static async getSessionIdByBrowser(browserId: string): Promise<string | null> {
+        return redis.get(BROWSER_SESSION(browserId))
+    }
+
     // ─────────────────────── Analytics / Stats ────────────────────────
 
     /**

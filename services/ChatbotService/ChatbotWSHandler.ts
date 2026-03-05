@@ -54,6 +54,14 @@ async function handleRestore(client: WSConnectedClient, browserId: string) {
     messages,
     status: result.session.status,
   })
+
+  // Notify admins watching this session that user came back online
+  wsManager.publish('chatbot', result.session.chatSessionId, {
+    ns: 'chatbot',
+    type: 'browser_status',
+    chatSessionId: result.session.chatSessionId,
+    online: true,
+  })
 }
 
 async function handleChat(
@@ -219,6 +227,17 @@ const ChatbotWSHandler: WSFeatureHandler = {
     const browserId = client.meta.browserId as string | undefined
     if (browserId) {
       await ChatbotService.markBrowserDisconnected(browserId)
+
+      // Notify admins watching this session that user went offline
+      const chatSessionId = await ChatbotService.getSessionIdByBrowser(browserId)
+      if (chatSessionId) {
+        wsManager.publish('chatbot', chatSessionId, {
+          ns: 'chatbot',
+          type: 'browser_status',
+          chatSessionId,
+          online: false,
+        })
+      }
     }
     Logger.info(`[ChatbotWS] Client disconnected: ${client.userId}`)
   },

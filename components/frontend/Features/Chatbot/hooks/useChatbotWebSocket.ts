@@ -63,6 +63,12 @@ export function useChatbotWebSocket({
     [sendEvent],
   )
 
+  const restore = useCallback(
+    (browserId: string) =>
+      sendEvent({ ns: 'chatbot', type: 'restore', browserId }),
+    [sendEvent],
+  )
+
   const ping = useCallback(
     () => sendEvent({ ns: 'system', type: 'ping' } as unknown as ChatbotWSClientEvent),
     [sendEvent],
@@ -76,6 +82,7 @@ export function useChatbotWebSocket({
     sendChat,
     subscribe,
     sendAdminReply,
+    restore,
     ping,
     isConnected,
   }

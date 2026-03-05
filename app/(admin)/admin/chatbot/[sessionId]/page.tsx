@@ -84,6 +84,23 @@ const ChatDetailPage = () => {
         }
         break
 
+      case 'browser_status':
+        if ('chatSessionId' in event && event.chatSessionId === sessionId) {
+          const statusText = event.online
+            ? 'Kullanıcı geri döndü'
+            : 'Kullanıcı tarayıcıdan çıktı'
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `sys_${Date.now()}`,
+              role: 'system',
+              content: statusText,
+              createdAt: new Date().toISOString(),
+            },
+          ])
+        }
+        break
+
       default:
         break
     }
