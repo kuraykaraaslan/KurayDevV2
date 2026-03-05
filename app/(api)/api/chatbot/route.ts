@@ -5,6 +5,8 @@ import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AuthMessages from '@/messages/AuthMessages'
 import wsManager from '@/libs/websocket/WSManager'
 import ChatbotWSHandler from '@/services/ChatbotService/ChatbotWSHandler'
+import ChatbotService from '@/services/ChatbotService'
+import ChatbotMessages from '@/messages/ChatbotMessages'
 import Logger from '@/libs/logger'
 import type { WSBaseEvent } from '@/types/common/WebSocketTypes'
 
@@ -110,6 +112,17 @@ async function handleConnection(client: WebSocket, request: NextRequest) {
     wsManager.removeClient(client)
   })
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    const auth = await AuthMiddleware.authenticateUserByRequest({
+      request,
+      requiredUserRole: 'GUEST',
+    })
+    const user = auth.user
+    if (!user) {
+      return NextResponse.json({ message: AuthMessages.USER_NOT_AUTHENTICATED }, { status: 401 })
+    }
 
     const { searchParams } = new URL(request.url)
     const chatSessionId = searchParams.get('chatSessionId')
