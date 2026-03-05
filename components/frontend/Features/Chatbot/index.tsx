@@ -1,18 +1,17 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback, KeyboardEvent } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faRobot,
-  faPaperPlane,
   faTimes,
   faTrash,
-  faSpinner,
 } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next'
 import useGlobalStore from '@/libs/zustand'
 import { useChatbotStore } from '@/libs/zustand/chatbotStore'
 import axiosInstance from '@/libs/axios'
+import { ChatMessageList, ChatInput } from '@/components/common/UI/Chat'
 import type { ChatMessage, ChatSource } from '@/types/features/ChatbotTypes'
 
 const Chatbot = () => {
@@ -25,23 +24,7 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [sources, setSources] = useState<ChatSource[]>([])
   const [chatSessionId, setChatSessionId] = useState<string | undefined>(undefined)
-
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages, scrollToBottom])
-
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [isOpen])
+  const [sessionClosed, setSessionClosed] = useState(false)
 
   // Poll for new messages
   useEffect(() => {
@@ -52,6 +35,17 @@ const Chatbot = () => {
         const serverMessages: ChatMessage[] = (res.data.messages ?? []).filter(
           (m: ChatMessage) => m.content !== '__ADMIN_TAKEOVER__'
         )
+        // Detect closed session
+        if (res.data.session?.status === 'CLOSED' && !sessionClosed) {
+          setSessionClosed(true)
+          const closedMsg: ChatMessage = {
+            role: 'assistant',
+            content: t('shared.chatbot.session_closed'),
+          }
+          setMessages([...serverMessages, closedMsg])
+          if (!isOpen) setHasUnread(true)
+          return
+        }
         // Notify unread if new messages arrived while chat is closed
         if (serverMessages.length > messages.length && !isOpen) {
           setHasUnread(true)
@@ -96,10 +90,16 @@ const Chatbot = () => {
       }
 
       setSources(newSources ?? [])
-    } catch {
+    } catch (err: unknown) {
+      // Check if user is banned
+      const isBanned = (err as { response?: { data?: { message?: string } } })
+        ?.response?.data?.message === 'USER_BANNED'
+
       const errorMessage: ChatMessage = {
         role: 'assistant',
-        content: t('shared.chatbot.error_message'),
+        content: isBanned
+          ? t('shared.chatbot.user_banned')
+          : t('shared.chatbot.error_message'),
       }
       setMessages((prev) => [...prev, errorMessage])
     } finally {
@@ -107,17 +107,11 @@ const Chatbot = () => {
     }
   }, [input, isLoading, chatSessionId, t])
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
-    }
-  }
-
   const handleClear = () => {
     setMessages([])
     setSources([])
     setChatSessionId(undefined)
+    setSessionClosed(false)
   }
 
   // Only show for logged-in users
@@ -163,47 +157,18 @@ const Chatbot = () => {
             </div>
           </div>
 
-          {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {messages.length === 0 && (
+          {/* Messages */}
+          <ChatMessageList
+            messages={messages}
+            isLoading={isLoading}
+            loadingText={t('shared.chatbot.thinking')}
+            emptyContent={
               <div className="text-center text-base-content/50 mt-8 px-4">
                 <FontAwesomeIcon icon={faRobot} className="w-12 h-12 mb-3 opacity-30" />
                 <p className="text-sm">{t('shared.chatbot.welcome_message')}</p>
               </div>
-            )}
-
-            {messages.map((msg, idx) => {
-              if (msg.content === '__ADMIN_TAKEOVER__') return null
-              const isUser = msg.role === 'user'
-              return (
-                <div
-                  key={msg.id ?? idx}
-                  className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
-                      isUser
-                        ? 'bg-primary text-primary-content rounded-br-md'
-                        : 'bg-base-200 text-base-content rounded-bl-md'
-                    }`}
-                  >
-                    {msg.content}
-                  </div>
-                </div>
-              )
-            })}
-
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-base-200 text-base-content px-3 py-2 rounded-2xl rounded-bl-md text-sm">
-                  <FontAwesomeIcon icon={faSpinner} className="w-4 h-4 animate-spin" />
-                  <span className="ml-2">{t('shared.chatbot.thinking')}</span>
-                </div>
-              </div>
-            )}
-
-            <div ref={messagesEndRef} />
-          </div>
+            }
+          />
 
           {/* Sources */}
           {sources.length > 0 && (
@@ -227,28 +192,17 @@ const Chatbot = () => {
             </div>
           )}
 
-          {/* Input Area */}
+          {/* Input */}
           <div className="px-3 py-2 border-t border-base-300 bg-base-100">
-            <div className="flex items-end gap-2">
-              <textarea
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={t('shared.chatbot.placeholder')}
-                className="textarea textarea-bordered textarea-sm flex-1 resize-none min-h-[40px] max-h-[100px] leading-snug"
-                rows={1}
-                disabled={isLoading}
-              />
-              <button
-                onClick={handleSend}
-                disabled={!input.trim() || isLoading}
-                className="btn btn-primary btn-sm btn-circle"
-                aria-label={t('shared.chatbot.send')}
-              >
-                <FontAwesomeIcon icon={faPaperPlane} className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            <ChatInput
+              value={input}
+              onChange={setInput}
+              onSend={handleSend}
+              disabled={isLoading || sessionClosed}
+              placeholder={sessionClosed ? t('shared.chatbot.session_closed') : t('shared.chatbot.placeholder')}
+              autoFocusTrigger={isOpen}
+              variant="compact"
+            />
           </div>
         </div>
       )}

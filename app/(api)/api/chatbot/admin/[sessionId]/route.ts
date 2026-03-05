@@ -25,11 +25,13 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     const messages = await ChatbotService.getMessages(sessionId)
+    const userBanned = await ChatbotService.isUserBanned(session.userId)
 
     return NextResponse.json({
       message: ChatbotMessages.SESSION_DETAILS_FETCHED,
       session,
       messages,
+      userBanned,
     })
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : ChatbotMessages.CHATBOT_RESPONSE_FAILED
@@ -94,6 +96,21 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       case 'close':
         await ChatbotService.closeSession(sessionId)
         return NextResponse.json({ message: ChatbotMessages.SESSION_CLOSED })
+
+      case 'ban': {
+        const session = await ChatbotService.getSession(sessionId)
+        if (!session) return NextResponse.json({ message: ChatbotMessages.SESSION_NOT_FOUND }, { status: 404 })
+        await ChatbotService.banUser(session.userId)
+        await ChatbotService.closeSession(sessionId)
+        return NextResponse.json({ message: ChatbotMessages.USER_BANNED_SUCCESS })
+      }
+
+      case 'unban': {
+        const session = await ChatbotService.getSession(sessionId)
+        if (!session) return NextResponse.json({ message: ChatbotMessages.SESSION_NOT_FOUND }, { status: 404 })
+        await ChatbotService.unbanUser(session.userId)
+        return NextResponse.json({ message: ChatbotMessages.USER_UNBANNED_SUCCESS })
+      }
 
       default:
         return NextResponse.json({ message: 'Invalid action' }, { status: 400 })

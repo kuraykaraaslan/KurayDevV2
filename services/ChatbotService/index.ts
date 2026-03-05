@@ -48,8 +48,10 @@ const SESSION_KEY = (id: string) => `chatbot:session:${id}`
 const MESSAGES_KEY = (id: string) => `chatbot:messages:${id}`
 const ACTIVE_SESSIONS = 'chatbot:sessions:active' // Sorted set (score = timestamp)
 const USER_SESSIONS = (userId: string) => `chatbot:sessions:user:${userId}`
+const BAN_KEY = (userId: string) => `chatbot:ban:${userId}`
 
 const SESSION_TTL = 60 * 60 * 24 * 7 // 7 days
+const BAN_TTL = 60 * 60 // 1 hour
 const KG_NODES_KEY = 'kg:nodes'
 const RAG_TOP_K = 5
 const RAG_THRESHOLD = 0.15
@@ -149,6 +151,12 @@ export default class ChatbotService {
         sources: ChatbotSource[]
         chatSessionId: string
     }> {
+        // ── 0. Check if user is banned ─────────────────────────────────
+        const banned = await ChatbotService.isUserBanned(userId)
+        if (banned) {
+            throw new Error(ChatbotMessages.USER_BANNED)
+        }
+
         // ── 1. Resolve or create session ───────────────────────────────
         let session: StoredChatSession | undefined
 
@@ -387,6 +395,40 @@ export default class ChatbotService {
 
         Logger.info(`[ChatbotService] Admin ${adminUserId} replied in session ${chatSessionId}`)
         return msg
+    }
+
+    // ────────────────────────── Ban management ─────────────────────
+
+    /**
+     * Ban a user from chatbot for 1 hour.
+     */
+    static async banUser(userId: string): Promise<void> {
+        await redis.set(BAN_KEY(userId), '1', 'EX', BAN_TTL)
+        Logger.info(`[ChatbotService] User ${userId} banned from chatbot for 1 hour`)
+    }
+
+    /**
+     * Unban a user from chatbot.
+     */
+    static async unbanUser(userId: string): Promise<void> {
+        await redis.del(BAN_KEY(userId))
+        Logger.info(`[ChatbotService] User ${userId} unbanned from chatbot`)
+    }
+
+    /**
+     * Check if a user is currently banned.
+     */
+    static async isUserBanned(userId: string): Promise<boolean> {
+        const val = await redis.get(BAN_KEY(userId))
+        return val !== null
+    }
+
+    /**
+     * Get remaining ban time in seconds (0 if not banned).
+     */
+    static async getBanTTL(userId: string): Promise<number> {
+        const ttl = await redis.ttl(BAN_KEY(userId))
+        return ttl > 0 ? ttl : 0
     }
 
     /**

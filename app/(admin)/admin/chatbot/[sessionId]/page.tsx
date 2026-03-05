@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef, KeyboardEvent } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
@@ -8,20 +8,13 @@ import PageHeader from '@/components/admin/UI/PageHeader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faRobot,
-  faUser,
-  faUserShield,
-  faPaperPlane,
   faPlay,
   faLock,
-  faSpinner,
+  faUserShield,
+  faBan,
 } from '@fortawesome/free-solid-svg-icons'
+import { ChatMessageList, ChatInput } from '@/components/common/UI/Chat'
 import type { ChatMessage, ChatSession } from '@/types/features/ChatbotTypes'
-
-const roleConfig = {
-  user: { label: 'User', icon: faUser, bg: 'bg-primary text-primary-content', align: 'justify-end' },
-  assistant: { label: 'AI', icon: faRobot, bg: 'bg-base-200 text-base-content', align: 'justify-start' },
-  admin: { label: 'Admin', icon: faUserShield, bg: 'bg-warning/20 text-warning-content border border-warning/30', align: 'justify-start' },
-}
 
 const ChatDetailPage = () => {
   const params = useParams<{ sessionId: string }>()
@@ -33,7 +26,7 @@ const ChatDetailPage = () => {
   const [replyText, setReplyText] = useState('')
   const [sending, setSending] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [userBanned, setUserBanned] = useState(false)
 
   const fetchData = useCallback(async () => {
     if (!sessionId) return
@@ -41,6 +34,7 @@ const ChatDetailPage = () => {
       const res = await axiosInstance.get(`/api/chatbot/admin/${sessionId}`)
       setSession(res.data.session)
       setMessages(res.data.messages ?? [])
+      setUserBanned(!!res.data.userBanned)
     } catch (err) {
       console.error('Failed to fetch session', err)
       toast.error('Failed to load chat session')
@@ -53,27 +47,30 @@ const ChatDetailPage = () => {
     fetchData()
   }, [fetchData])
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
   // Auto-refresh every 5 seconds to see new messages
   useEffect(() => {
     const interval = setInterval(fetchData, 5000)
     return () => clearInterval(interval)
   }, [fetchData])
 
-  const handleAction = async (action: 'takeover' | 'release' | 'close') => {
+  const handleAction = async (action: 'takeover' | 'release' | 'close' | 'ban' | 'unban') => {
     if (!sessionId) return
     setActionLoading(true)
     try {
       await axiosInstance.patch(`/api/chatbot/admin/${sessionId}`, { action })
+      if (action === 'ban') setUserBanned(true)
+      if (action === 'unban') setUserBanned(false)
+
       toast.success(
         action === 'takeover'
           ? 'Session taken over'
           : action === 'release'
             ? 'Session released to AI'
-            : 'Session closed'
+            : action === 'ban'
+              ? 'User banned for 1 hour'
+              : action === 'unban'
+                ? 'User unbanned'
+                : 'Session closed'
       )
       await fetchData()
     } catch {
@@ -97,18 +94,6 @@ const ChatDetailPage = () => {
     } finally {
       setSending(false)
     }
-  }
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSendReply()
-    }
-  }
-
-  const formatTime = (iso: string) => {
-    const d = new Date(iso)
-    return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
   }
 
   const formatDate = (iso: string) => {
@@ -178,6 +163,26 @@ const ChatDetailPage = () => {
                 },
               ]
             : []),
+          // Ban / Unban
+          ...(userBanned
+            ? [
+                {
+                  label: 'Unban User',
+                  onClick: () => handleAction('unban'),
+                  className: 'btn-success',
+                  icon: faBan,
+                  loading: actionLoading,
+                },
+              ]
+            : [
+                {
+                  label: 'Ban User (1h)',
+                  onClick: () => handleAction('ban'),
+                  className: 'btn-error btn-outline',
+                  icon: faBan,
+                  loading: actionLoading,
+                },
+              ]),
         ]}
       />
 
@@ -206,82 +211,36 @@ const ChatDetailPage = () => {
       </div>
 
       {/* Messages */}
-      <div className="bg-base-100 rounded-xl border border-base-300 p-4 min-h-[400px] max-h-[600px] overflow-y-auto flex flex-col gap-3">
-        {messages.length === 0 && (
+      <ChatMessageList
+        messages={messages}
+        showMeta
+        showInlineSources
+        className="bg-base-100 rounded-xl border border-base-300 min-h-[400px] max-h-[600px]"
+        emptyContent={
           <div className="text-center text-base-content/40 py-12">
             <FontAwesomeIcon icon={faRobot} className="w-10 h-10 mb-2 opacity-30" />
             <p>No messages yet</p>
           </div>
-        )}
-
-        {messages.map((msg) => {
-          if (msg.content === '__ADMIN_TAKEOVER__') return null
-          const cfg = roleConfig[msg.role]
-          return (
-            <div key={msg.id} className={`flex ${cfg.align}`}>
-              <div className={`max-w-[75%] rounded-2xl px-4 py-2 ${cfg.bg}`}>
-                <div className="flex items-center gap-1.5 mb-1">
-                  <FontAwesomeIcon icon={cfg.icon} className="w-3 h-3 opacity-60" />
-                  <span className="text-[10px] font-semibold opacity-60">{cfg.label}</span>
-                  <span className="text-[10px] opacity-40">{msg.createdAt ? formatTime(msg.createdAt) : ''}</span>
-                </div>
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
-
-                {/* Sources */}
-                {msg.sources && msg.sources.length > 0 && (
-                  <div className="mt-2 pt-1 border-t border-base-content/10">
-                    <span className="text-[10px] font-semibold opacity-50">Sources:</span>
-                    <div className="flex flex-wrap gap-1 mt-0.5">
-                      {msg.sources.map((src) => (
-                        <a
-                          key={src.postId}
-                          href={`/en/blog/${src.categorySlug}/${src.slug}`}
-                          className="text-[10px] text-primary hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {src.title}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )
-        })}
-        <div ref={messagesEndRef} />
-      </div>
+        }
+      />
 
       {/* Admin Reply Input */}
       {!isClosed && (
-        <div className="mt-3 flex items-end gap-2">
-          <textarea
-            value={replyText}
-            onChange={(e) => setReplyText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={
-              canReply
-                ? 'Type your reply as admin...'
-                : 'Take over the session first to reply'
-            }
-            disabled={!canReply || sending}
-            className="textarea textarea-bordered flex-1 resize-none min-h-[48px] max-h-[120px]"
-            rows={1}
-          />
-          <button
-            onClick={handleSendReply}
-            disabled={!canReply || !replyText.trim() || sending}
-            className="btn btn-primary"
-          >
-            {sending ? (
-              <FontAwesomeIcon icon={faSpinner} className="w-4 h-4 animate-spin" />
-            ) : (
-              <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4" />
-            )}
-            Send
-          </button>
-        </div>
+        <ChatInput
+          value={replyText}
+          onChange={setReplyText}
+          onSend={handleSendReply}
+          disabled={!canReply}
+          sending={sending}
+          placeholder={
+            canReply
+              ? 'Type your reply as admin...'
+              : 'Take over the session first to reply'
+          }
+          sendLabel="Send"
+          variant="full"
+          className="mt-3"
+        />
       )}
 
       {isClosed && (
