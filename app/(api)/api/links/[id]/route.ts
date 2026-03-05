@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import ShortLinkService from '@/services/ShortLinkService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { UpdateShortLinkRequestSchema } from '@/dtos/ShortLinkDTO'
 
 /**
@@ -11,7 +11,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
     const { id } = await params
     const link = await ShortLinkService.getById(id)
     if (!link) return NextResponse.json({ message: 'Not found' }, { status: 404 })
@@ -30,7 +30,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
     const { id } = await params
     const body = await request.json()
 
@@ -57,7 +57,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
     const { id } = await params
     await ShortLinkService.delete(id)
     return NextResponse.json({ message: 'Deleted' })

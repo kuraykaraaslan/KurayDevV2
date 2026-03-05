@@ -1,4 +1,4 @@
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ChatbotService from '@/services/ChatbotService'
 import { ChatbotRequestSchema } from '@/dtos/ChatbotDTO'
 import ChatbotMessages from '@/messages/ChatbotMessages'
@@ -15,7 +15,7 @@ import AuthMessages from '@/messages/AuthMessages'
  */
 export async function POST(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import CommentService from '@/services/CommentService'
 import PostService from '@/services/PostService'
 import { CreateCommentRequestSchema } from '@/dtos/CommentDTO'
@@ -32,7 +32,7 @@ declare global {
 export async function POST(request: NextRequest) {
   try {
     // Authenticate user session
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
 
     // Determine role (ADMIN, USER, or fallback GUEST)
     const userRole = request.user?.role || 'GUEST'
@@ -124,9 +124,9 @@ export async function GET(request: NextRequest) {
     const pending = searchParams.get('pending') === 'true'
 
     if (pending) {
-      await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+      await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
     } else {
-      await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
+      await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
     }
 
     const data = {
@@ -147,7 +147,7 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest, _response: NextResponse) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const data = await request.json()
     await CommentService.updateComment(data)

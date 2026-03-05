@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SeriesService from '@/services/PostService/SeriesService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { SeriesIdParamSchema, UpdateSeriesRequestSchema } from '@/dtos/SeriesDTO'
 
 type Ctx = { params: Promise<{ seriesId: string }> }
@@ -18,7 +18,7 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
 
 export async function PUT(request: NextRequest, { params }: Ctx) {
     try {
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+        await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
         const { seriesId } = SeriesIdParamSchema.parse(await params)
         const body   = await request.json()
@@ -39,7 +39,7 @@ export async function PUT(request: NextRequest, { params }: Ctx) {
 
 export async function DELETE(request: NextRequest, { params }: Ctx) {
     try {
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+        await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
         const { seriesId } = SeriesIdParamSchema.parse(await params)
         await SeriesService.delete(seriesId)
         return NextResponse.json({ message: 'Deleted' })

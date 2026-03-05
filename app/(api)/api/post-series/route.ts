@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SeriesService from '@/services/PostService/SeriesService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { CreateSeriesRequestSchema } from '@/dtos/SeriesDTO'
 
 export async function GET(request: NextRequest) {
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+        await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
         const body   = await request.json()
         const parsed = CreateSeriesRequestSchema.safeParse(body)

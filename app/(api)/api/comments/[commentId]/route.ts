@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import CommentService from '@/services/CommentService'
 import CommentMessages from '@/messages/CommentMessages'
 
 export async function DELETE(request: NextRequest, { params }: { params: { commentId: string } }) {
   try {
     // Authenticate user session
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { commentId } = await params
 

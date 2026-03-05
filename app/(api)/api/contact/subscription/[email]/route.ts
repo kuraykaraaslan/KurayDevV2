@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import SubscriptionService from '@/services/SubscriptionService'
 import { SubscriptionMessages } from '@/messages/SubscriptionMessages'
 
@@ -8,7 +8,7 @@ export async function DELETE(
   { params }: { params: { email: string } }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { email } = await params
     const decodedEmail = decodeURIComponent(email)

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ChatbotService from '@/services/ChatbotService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 
@@ -12,7 +12,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const { sessionId } = await params
     const session = await ChatbotService.getSession(sessionId)
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({ request })
+    const { user } = await AuthMiddleware.authenticateUserByRequest({ request })
     const { sessionId } = await params
 
     const body = await request.json()
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({ request })
+    const { user } = await AuthMiddleware.authenticateUserByRequest({ request })
     const { sessionId } = await params
 
     const body = await request.json()

@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
 import { Day, Slot } from '@/types/features/CalendarTypes'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService'
 import { ApplySlotTemplateRequestSchema } from '@/dtos/SlotDTO'
 import SlotMessages from '@/messages/SlotMessages'
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ day: Day }> }) {
-  await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+  await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
   const body = await request.json()
 

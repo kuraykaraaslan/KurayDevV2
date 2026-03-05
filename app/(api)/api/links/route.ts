@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import ShortLinkService from '@/services/ShortLinkService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { CreateShortLinkRequestSchema } from '@/dtos/ShortLinkDTO'
 
 const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
@@ -11,7 +11,7 @@ const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3
  */
 export async function GET(request: NextRequest) {
   try {
-    UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
     const links = await ShortLinkService.getAll()
     return NextResponse.json({ links })
   } catch (error: any) {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
+    const { user } = await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
 
     const body = await request.json()
 

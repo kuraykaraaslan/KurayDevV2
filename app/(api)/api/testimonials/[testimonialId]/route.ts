@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import TestimonialService from '@/services/TestimonialService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import TestimonialMessages from '@/messages/TestimonialMessages'
 import { UpdateTestimonialRequestSchema } from '@/dtos/TestimonialDTO'
 
@@ -27,7 +27,7 @@ export async function PUT(
   { params }: { params: Promise<{ testimonialId: string }> }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const { testimonialId } = await params
 
@@ -56,7 +56,7 @@ export async function DELETE(
   { params }: { params: Promise<{ testimonialId: string }> }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const { testimonialId } = await params
     const testimonial = await TestimonialService.getTestimonialById(testimonialId)

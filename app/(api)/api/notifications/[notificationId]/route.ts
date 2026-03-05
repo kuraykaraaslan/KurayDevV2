@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import InAppNotificationService from '@/services/InAppNotificationService'
 
 export const runtime = 'nodejs'
@@ -10,7 +10,7 @@ export async function PATCH(
   { params }: { params: { notificationId: string } }
 ) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'ADMIN',
     })
@@ -29,7 +29,7 @@ export async function DELETE(
   { params }: { params: { notificationId: string } }
 ) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'ADMIN',
     })

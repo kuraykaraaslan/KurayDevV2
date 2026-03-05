@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService'
 import { Day, DayEnum, SlotSchema } from '@/types/features/CalendarTypes'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import SlotMessages from '@/messages/SlotMessages'
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ day: Day }> }) {
@@ -23,7 +23,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 }
 
 export async function POST(request: NextRequest) {
-  await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+  await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
   const { day, slots } = await request.json()
 

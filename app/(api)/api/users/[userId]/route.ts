@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import UserService from '@/services/UserService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { UpdateUserRequestSchema } from '@/dtos/UserDTO'
 import UserMessages from '@/messages/UserMessages'
 
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
   try {
     const { userId } = await params
 
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
 
     const user = await UserService.getById(userId)
 
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
  */
 export async function DELETE(request: NextRequest, { params }: { params: { userId: string } }) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { userId } = await params
 
@@ -62,7 +62,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { userI
  */
 export async function PUT(request: NextRequest, { params }: { params: { userId: string } }) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { userId } = await params
 

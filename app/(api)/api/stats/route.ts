@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import StatService from '@/services/StatService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { GetStatsRequestSchema } from '@/dtos/StatsDTO'
 
 /**
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { frequency } = parsedData.data
 

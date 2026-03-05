@@ -1,12 +1,12 @@
 import AppointmentService from '@/services/AppointmentService'
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 
 type RouteParams = { params: Promise<{ appointmentId: string }> }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
     
     const { appointmentId } = await params
     const body = await request.json()
@@ -22,7 +22,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
     
     const { appointmentId } = await params
     const appointment = await AppointmentService.getAppointmentById(appointmentId)

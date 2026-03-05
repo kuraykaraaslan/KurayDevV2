@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import UserService from '@/services/UserService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { CreateUserRequestSchema } from '@/dtos/UserDTO'
 
 /**
@@ -10,7 +10,7 @@ import { CreateUserRequestSchema } from '@/dtos/UserDTO'
  */
 export async function GET(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
 
     const { searchParams } = new URL(request.url)
 
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const body = await request.json()
 

@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AuthService from '@/services/AuthService'
 import AuthMessages from '@/messages/AuthMessages'
 
 export async function GET(request: NextRequest) {
   try {
     // Authenticate the user
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })

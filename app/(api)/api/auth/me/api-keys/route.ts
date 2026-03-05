@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ApiKeyService from '@/services/AuthService/ApiKeyService'
 import AuthMessages from '@/messages/AuthMessages'
 import { CreateApiKeySchema } from '@/dtos/ApiKeyDTO'
@@ -10,7 +10,7 @@ import { CreateApiKeySchema } from '@/dtos/ApiKeyDTO'
  */
 export async function GET(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })

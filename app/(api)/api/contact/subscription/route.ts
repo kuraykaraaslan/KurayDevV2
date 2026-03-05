@@ -1,12 +1,12 @@
 import {  NextResponse } from 'next/server'
 import SubscriptionService from '@/services/SubscriptionService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { SubscriptionRequestSchema } from '@/dtos/AIAndServicesDTO'
 import { SubscriptionMessages } from '@/messages/SubscriptionMessages'
 
 export async function GET(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '0', 10)

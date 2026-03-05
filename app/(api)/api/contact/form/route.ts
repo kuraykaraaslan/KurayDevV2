@@ -4,7 +4,7 @@ import InAppNotificationService from '@/services/InAppNotificationService'
 import ContactFormService from '@/services/ContactFormService'
 import MailService from '@/services/NotificationService/MailService'
 import SMSService from '@/services/NotificationService/SMSService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { ContactFormRequestSchema } from '@/dtos/AIAndServicesDTO'
 import ContactMessages from '@/messages/ContactMessages'
 import { checkForSpam } from '@/helpers/SpamProtection'
@@ -16,7 +16,7 @@ type ResponseData = {
 
 export async function GET(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '0', 10)

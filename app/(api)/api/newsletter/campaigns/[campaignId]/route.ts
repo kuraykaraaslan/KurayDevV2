@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import CampaignService from '@/services/CampaignService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { UpdateCampaignRequestSchema } from '@/dtos/CampaignDTO'
 import CampaignMessages from '@/messages/CampaignMessages'
 
@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: { campaignId: string } }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { campaignId } = await params
     const campaign = await CampaignService.getCampaignById(campaignId)
@@ -29,7 +29,7 @@ export async function PUT(
   { params }: { params: { campaignId: string } }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { campaignId } = await params
     const body = await request.json()
@@ -56,7 +56,7 @@ export async function DELETE(
   { params }: { params: { campaignId: string } }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { campaignId } = await params
     await CampaignService.deleteCampaign(campaignId)

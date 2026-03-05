@@ -1,6 +1,6 @@
 // path: app/api/auth/me/preferences/route.ts
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import UserService from '@/services/UserService'
 import RateLimiter from '@/libs/rateLimit'
 import { UpdatePreferencesRequestSchema } from '@/dtos/AuthDTO'
@@ -11,7 +11,7 @@ import AuthMessages from '@/messages/AuthMessages'
 export async function PUT(request: NextRequest) {
   try {
     await RateLimiter.checkRateLimit(request)
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
 
     const userId = request.user?.userId
     if (!userId) {
@@ -52,7 +52,7 @@ export async function PUT(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     await RateLimiter.checkRateLimit(request)
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
 
     const userId = request.user?.userId
     if (!userId) {

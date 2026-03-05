@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import OpenAIService from '@/services/OpenAIService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { DallERequestSchema } from '@/dtos/AIAndServicesDTO'
 import AIMessages from '@/messages/AIMessages'
 /**
@@ -10,7 +10,7 @@ import AIMessages from '@/messages/AIMessages'
  */
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
     const body = await request.json()
 
     const parsedData = DallERequestSchema.safeParse(body)

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import { TerminateAllQuerySchema } from '@/dtos/SessionDTO'
 
@@ -8,7 +9,7 @@ import { TerminateAllQuerySchema } from '@/dtos/SessionDTO'
  */
 export async function GET(request: NextRequest) {
   try {
-    const { user, userSession } = await UserSessionService.authenticateUserByRequest({
+    const { user, userSession } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    const { user, userSession } = await UserSessionService.authenticateUserByRequest({
+    const { user, userSession } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })

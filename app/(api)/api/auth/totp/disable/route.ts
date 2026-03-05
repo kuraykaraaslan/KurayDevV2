@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import TOTPService from '@/services/AuthService/TOTPService'
 import AuthMessages from '@/messages/AuthMessages'
 import { TOTPDisableRequestSchema } from '@/dtos/AuthDTO'
 
 export async function POST(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import CategoryService from '@/services/CategoryService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import CategoryMessages from '@/messages/CategoryMessages'
 import { UpdateCategoryRequestSchema } from '@/dtos/CategoryDTO'
 
@@ -39,7 +39,7 @@ export async function DELETE(
   { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const { categoryId } = await params
     const category = await CategoryService.getCategoryById(categoryId)
@@ -67,7 +67,7 @@ export async function PUT(
   { params }: { params: Promise<{ categoryId: string }> }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const { categoryId } = await params
 

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ChatbotService from '@/services/ChatbotService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 
@@ -9,7 +9,7 @@ import ChatbotMessages from '@/messages/ChatbotMessages'
  */
 export async function GET(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status') as 'ACTIVE' | 'CLOSED' | 'TAKEN_OVER' | null

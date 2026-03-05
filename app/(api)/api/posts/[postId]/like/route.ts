@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import PostLikeService from '@/services/PostService/LikeService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import PostMessages from '@/messages/PostMessages'
 import { LikePostRequestSchema } from '@/dtos/PostInteractionDTO'
 
 export async function POST(request: NextRequest, { params }: { params: { postId: string } }) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'GUEST' })
 
     const { postId } = await params
 

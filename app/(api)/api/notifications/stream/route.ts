@@ -1,11 +1,11 @@
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import InAppNotificationService from '@/services/InAppNotificationService'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
-  const { user } = await UserSessionService.authenticateUserByRequest({
+  const { user } = await AuthMiddleware.authenticateUserByRequest({
     request,
     requiredUserRole: 'ADMIN',
   })

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { Project } from '@/generated/prisma'
 import ProjectService from '@/services/ProjectService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { CreateProjectRequestSchema, UpdateProjectRequestSchema } from '@/dtos/ProjectDTO'
 
 /**
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
  * */
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const data = await request.json()
 
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
  * */
 export async function PUT(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const data = await request.json()
 

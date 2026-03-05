@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AWSService from '@/services/StorageService/AWSService'
 import { prisma } from '@/libs/prisma'
 
@@ -10,7 +10,7 @@ import { prisma } from '@/libs/prisma'
  */
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     // Fetch every file from S3 (no folder filter — get everything)
     const s3Files = await AWSService.listFiles()

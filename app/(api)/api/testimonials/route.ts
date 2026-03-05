@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import TestimonialService from '@/services/TestimonialService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { CreateTestimonialRequestSchema } from '@/dtos/TestimonialDTO'
 
 export async function GET(request: NextRequest) {
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const body = await request.json()
 

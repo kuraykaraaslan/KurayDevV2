@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import OTPService from '@/services/AuthService/OTPService'
 import TOTPService from '@/services/AuthService/TOTPService'
@@ -8,7 +9,7 @@ import { LoginVerifyRequestSchema } from '@/dtos/AuthDTO'
 export async function POST(request: NextRequest) {
   try {
     // Authenticate the user
-    const { user, userSession } = await UserSessionService.authenticateUserByRequest({
+    const { user, userSession } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
       otpVerifyBypass: true,

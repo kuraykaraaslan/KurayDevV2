@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SeriesService from '@/services/PostService/SeriesService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { SeriesIdParamSchema, AddSeriesEntrySchema, ReorderSeriesEntriesSchema } from '@/dtos/SeriesDTO'
 
 type Ctx = { params: Promise<{ seriesId: string }> }
@@ -8,7 +8,7 @@ type Ctx = { params: Promise<{ seriesId: string }> }
 /** Add a post to the series */
 export async function POST(request: NextRequest, { params }: Ctx) {
     try {
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+        await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
         const { seriesId } = SeriesIdParamSchema.parse(await params)
         const body   = await request.json()
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest, { params }: Ctx) {
 /** Bulk-reorder entries */
 export async function PUT(request: NextRequest, { params }: Ctx) {
     try {
-        await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+        await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
         const { seriesId } = SeriesIdParamSchema.parse(await params)
         const body   = await request.json()

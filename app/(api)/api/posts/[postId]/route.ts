@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import PostService from '@/services/PostService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import PostCoverService from '@/services/PostService/PostCoverService'
 import { UpdatePostRequestSchema } from '@/dtos/PostDTO'
@@ -41,7 +41,7 @@ export async function DELETE(
   { params }: { params: Promise<{ postId: string }> }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { postId } = await params
     const post = await PostService.getPostById(postId)
@@ -69,7 +69,7 @@ export async function PUT(
   { params }: { params: Promise<{ postId: string }> }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { postId } = await params
 

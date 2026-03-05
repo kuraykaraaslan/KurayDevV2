@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import PushNotificationService from '@/services/PushNotificationService'
 
 export const runtime = 'nodejs'
@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 /** POST /api/push/subscribe — subscribe to web push notifications */
 export async function POST(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: undefined, // any authenticated user
     })
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 /** DELETE /api/push/subscribe — unsubscribe from web push notifications */
 export async function DELETE(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: undefined,
     })

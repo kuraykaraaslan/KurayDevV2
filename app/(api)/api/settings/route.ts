@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SettingService from '@/services/SettingService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { UpdateSettingsRequestSchema } from '@/dtos/SettingsDTO'
 /**
  * GET handler for retrieving all settings.
@@ -24,7 +24,7 @@ export async function GET(_request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const body = await request.json()
 

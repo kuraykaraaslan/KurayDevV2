@@ -2,11 +2,12 @@
 
 import { NextResponse } from 'next/server'
 import AuthMessages from '@/messages/AuthMessages'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 
 export async function POST(request: NextRequest) {
   try {
-    const { userSession } = await UserSessionService.authenticateUserByRequest({
+    const { userSession } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
       otpVerifyBypass: true,

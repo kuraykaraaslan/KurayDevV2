@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 import { AIService } from '@/services/AIServices'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AIMessages from '@/messages/AIMessages'
 
 export async function GET(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
 
     const allProviders = AIService.getAllProviders()
     const results = await Promise.allSettled(allProviders.map((p) => p.getModels()))

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import ShortLinkService from '@/services/ShortLinkService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { ShortLinkIdParamSchema } from '@/dtos/ShortLinkDTO'
 
 /**
@@ -12,7 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'ADMIN',
     })

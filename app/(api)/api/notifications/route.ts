@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import InAppNotificationService from '@/services/InAppNotificationService'
 
 export const runtime = 'nodejs'
@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 /** GET /api/notifications — list all notifications for the current admin */
 export async function GET(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'ADMIN',
     })
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 /** PATCH /api/notifications — mark all notifications as read */
 export async function PATCH(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'ADMIN',
     })
@@ -40,7 +40,7 @@ export async function PATCH(request: NextRequest) {
 /** DELETE /api/notifications — clear all notifications for the current admin */
 export async function DELETE(request: NextRequest) {
   try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
+    const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'ADMIN',
     })

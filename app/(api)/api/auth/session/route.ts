@@ -1,6 +1,6 @@
 // path: app/api/auth/me/route.ts
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import RateLimiter from '@/libs/rateLimit'
 import AuthMessages from '@/messages/AuthMessages'
 
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     await RateLimiter.checkRateLimit(request)
 
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
 
     return NextResponse.json(
       {

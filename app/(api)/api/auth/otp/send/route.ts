@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import OTPService from '@/services/AuthService/OTPService'
 import AuthMessages from '@/messages/AuthMessages'
 import AuthService from '@/services/AuthService'
@@ -10,7 +10,7 @@ import { OTPSendRequestSchema } from '@/dtos/AuthDTO'
 export async function POST(request: NextRequest) {
   try {
     // Authenticate the user
-    const { user, userSession } = await UserSessionService.authenticateUserByRequest({
+    const { user, userSession } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })

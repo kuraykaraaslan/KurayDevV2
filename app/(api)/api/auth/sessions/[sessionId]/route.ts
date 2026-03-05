@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import UserSessionService from '@/services/AuthService/UserSessionService'
 import { SessionIdParamSchema } from '@/dtos/SessionDTO'
 
@@ -11,7 +12,7 @@ export async function DELETE(
   { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { user, userSession } = await UserSessionService.authenticateUserByRequest({
+    const { user, userSession } = await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'USER',
     })

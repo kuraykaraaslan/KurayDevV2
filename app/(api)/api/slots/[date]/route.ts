@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import SlotService from '@/services/AppointmentService/SlotService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { SlotSchema } from '@/types/features/CalendarTypes'
 
 /**
@@ -30,7 +30,7 @@ export async function GET(
 }
 
 export async function POST(request: NextRequest) {
-  await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+  await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
   const body = await request.json()
 

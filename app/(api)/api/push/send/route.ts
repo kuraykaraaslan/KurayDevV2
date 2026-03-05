@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import PushNotificationService from '@/services/PushNotificationService'
 
 export const runtime = 'nodejs'
@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 /** POST /api/push/send — send a push notification (admin only) */
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({
+    await AuthMiddleware.authenticateUserByRequest({
       request,
       requiredUserRole: 'ADMIN',
     })

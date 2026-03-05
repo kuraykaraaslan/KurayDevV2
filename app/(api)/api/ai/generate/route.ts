@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import { AIService } from '@/services/AIServices'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { GPT4oRequestSchema } from '@/dtos/AIAndServicesDTO'
 import AIMessages from '@/messages/AIMessages'
 
 export async function POST(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request })
+    await AuthMiddleware.authenticateUserByRequest({ request })
     const body = await request.json()
 
     const parsedData = GPT4oRequestSchema.safeParse(body)

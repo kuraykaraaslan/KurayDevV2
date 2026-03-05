@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ContactFormService from '@/services/ContactFormService'
 import ContactMessages from '@/messages/ContactMessages'
 
@@ -8,7 +8,7 @@ export async function DELETE(
   { params }: { params: { contactId: string } }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { contactId } = await params
 

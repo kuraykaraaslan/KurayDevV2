@@ -1,11 +1,11 @@
 import AppointmentService from '@/services/AppointmentService'
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { AppointmentStatus } from '@/types/features/CalendarTypes'
 
 export async function GET(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { searchParams } = new URL(request.url)
     // Extract query parameters (0-based pagination from DynamicTable)

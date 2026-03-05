@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import PostService from '@/services/PostService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import PostCoverService from '@/services/PostService/PostCoverService'
 import { CreatePostRequestSchema } from '@/dtos/PostDTO'
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const body = await request.json()
 

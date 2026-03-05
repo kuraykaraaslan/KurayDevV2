@@ -1,7 +1,7 @@
 
 import type { WebSocket, WebSocketServer } from 'ws'
 import { NextRequest } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AuthMessages from '@/messages/AuthMessages'
 import wsManager from '@/libs/websocket/WSManager'
 import ChatbotWSHandler from '@/services/ChatbotService/ChatbotWSHandler'
@@ -51,7 +51,7 @@ function safeSend(ws: WebSocket, event: Record<string, unknown>) {
 // ── Main connection handler ───────────────────────────────────────────
 
 async function handleConnection(client: WebSocket, request: NextRequest) {
-  const auth = await UserSessionService.authenticateUserByRequest({
+  const auth = await AuthMiddleware.authenticateUserByRequest({
     request,
     requiredUserRole: 'GUEST',
   })

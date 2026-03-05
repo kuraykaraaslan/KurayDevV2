@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import UserProfileService from '@/services/UserService/UserProfileService'
 import RateLimiter from '@/libs/rateLimit'
 import { UpdateProfileRequestSchema } from '@/dtos/AuthDTO'
@@ -11,7 +11,7 @@ import UserMessages from '@/messages/UserMessages'
 export async function PUT(request: NextRequest) {
   try {
     await RateLimiter.checkRateLimit(request)
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
 
     const userId = request.user?.userId
 
@@ -61,7 +61,7 @@ export async function PUT(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     await RateLimiter.checkRateLimit(request)
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'USER' })
 
     const userId = request.user?.userId
     if (!userId) {

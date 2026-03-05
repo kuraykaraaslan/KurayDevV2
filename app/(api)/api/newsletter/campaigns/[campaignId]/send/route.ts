@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import CampaignService from '@/services/CampaignService'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import CampaignMessages from '@/messages/CampaignMessages'
 
 export async function POST(
@@ -8,7 +8,7 @@ export async function POST(
   { params }: { params: { campaignId: string } }
 ) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { campaignId } = await params
     const result = await CampaignService.sendCampaign(campaignId)

@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
-import UserSessionService from '@/services/AuthService/UserSessionService'
+import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AWSService from '@/services/StorageService/AWSService'
 import { prisma } from '@/libs/prisma'
 
 export async function GET(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const { searchParams } = new URL(request.url)
     const folder = searchParams.get('folder') || undefined
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await UserSessionService.authenticateUserByRequest({ request })
+    const session = await AuthMiddleware.authenticateUserByRequest({ request })
 
     const formData = await request.formData()
     const file = formData.get('file') as File
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    await UserSessionService.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
+    await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const body = await request.json()
     const { key } = body
