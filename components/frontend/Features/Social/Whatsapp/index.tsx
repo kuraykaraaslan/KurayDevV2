@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { useTranslation } from 'react-i18next'
+import { useChatbotStore } from '@/libs/zustand/chatbotStore'
 
 const Whatsapp = () => {
   const { t } = useTranslation()
+  const chatbotOpen = useChatbotStore((s) => s.isOpen)
 
   const [count, setCount] = useState(0)
   const [sayac, setSayac] = useState<NodeJS.Timeout | null>(null)
@@ -66,7 +68,7 @@ const Whatsapp = () => {
 
   return (
     <div
-      className="fixed transition duration-1000 ease-in-out bg-[#25D366] text-white cursor-pointer shadow-lg rounded-full"
+      className={`fixed transition duration-1000 ease-in-out bg-[#25D366] text-white cursor-pointer shadow-lg rounded-full ${chatbotOpen ? '!hidden' : ''}`}
       style={{ zIndex: 103, right: '-80px', bottom: '100px' }}
       id="whatsapp"
       role="button"

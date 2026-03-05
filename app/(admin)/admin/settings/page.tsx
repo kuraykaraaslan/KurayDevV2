@@ -19,6 +19,7 @@ import {
   faServer,
   faBellSlash,
   faEnvelope,
+  faRobot,
 } from '@fortawesome/free-solid-svg-icons'
 
 const Page = () => {
@@ -35,6 +36,8 @@ const Page = () => {
     { key: 'ADMIN_EMAIL', value: '' },
     { key: 'EMAIL_FROM_NAME', value: '' },
     { key: 'NOTIFY_ON_REGISTRATION', value: 'false' },
+    { key: 'CHATBOT_SYSTEM_PROMPT', value: '' },
+    { key: 'CHATBOT_MAX_TOKENS', value: '1000' },
   ])
 
   const [settings, setSettings] = useState<Pick<Setting, 'key' | 'value'>[]>([])
@@ -233,6 +236,38 @@ const Page = () => {
                 value={getSetting('EMAIL_FROM_NAME')}
                 setValue={(v) => updateSetting('EMAIL_FROM_NAME', v)}
                 placeholder="Site Yönetimi"
+              />
+            </SectionCard>
+          </div>
+        </Form>
+      ),
+    },
+    {
+      id: 'chatbot',
+      label: 'Chatbot',
+      icon: faRobot,
+      content: (
+        <Form
+          actions={[{ label: 'Değişiklikleri Kaydet', onClick: updateSettings, className: 'btn-primary' }]}
+        >
+          <div className="grid grid-cols-1 gap-4">
+            <SectionCard
+              icon={faRobot}
+              title="Chatbot Ayarları"
+              description="AI chatbot davranışını ve yanıt limitlerini yapılandırın"
+            >
+              <DynamicText
+                label="Sistem Promptu"
+                value={getSetting('CHATBOT_SYSTEM_PROMPT')}
+                setValue={(v) => updateSetting('CHATBOT_SYSTEM_PROMPT', v)}
+                isTextarea
+                placeholder="Boş bırakılırsa varsayılan prompt kullanılır. Örn: Sen yardımsever bir AI asistanısın..."
+              />
+              <DynamicText
+                label="Maksimum Token"
+                value={getSetting('CHATBOT_MAX_TOKENS')}
+                setValue={(v) => updateSetting('CHATBOT_MAX_TOKENS', v)}
+                placeholder="1000"
               />
             </SectionCard>
           </div>

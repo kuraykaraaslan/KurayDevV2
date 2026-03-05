@@ -3,6 +3,7 @@ import Navbar from '@/components/frontend/Layout/Navbar'
 import ScrollToTop from '@/components/frontend/UI/Buttons/ScrollToTop'
 import Sidebar from '@/components/frontend/Layout/Sidebar'
 import Whatsapp from '@/components/frontend/Features/Social/Whatsapp'
+import Chatbot from '@/components/frontend/Features/Chatbot'
 import MenuItems from '@/components/frontend/Layout/MenuItems'
 import { ReactNode } from 'react'
 
@@ -34,6 +35,7 @@ export default function RootLayout({
         <Sidebar menuItems={MenuItems} />
       </div>
       <ScrollToTop />
+      <Chatbot />
       <Whatsapp />
     </>
   )

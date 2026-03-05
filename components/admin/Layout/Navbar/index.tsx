@@ -56,6 +56,7 @@ const navGroups: NavGroup[] = [
       { name: 'Contacts', href: '/admin/contacts' },
       { name: 'Subscriptions', href: '/admin/subscriptions' },
       { name: 'Campaigns', href: '/admin/campaigns' },
+      { name: 'Chatbot', href: '/admin/chatbot' },
     ],
   },
   {
