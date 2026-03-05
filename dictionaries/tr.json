@@ -697,6 +697,9 @@
     "search": "Ara",
     "search_placeholder": "Aramak için yazın...",
     "search_results": "Arama sonuçları",
+    "autocomplete_navigate": "gezin",
+    "autocomplete_select": "seç",
+    "autocomplete_close": "kapat",
     "switch_theme": "Temayı değiştir (mevcut: {{theme}})",
     "select_language": "Dil Seç"
   },

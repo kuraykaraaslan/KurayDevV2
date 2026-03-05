@@ -143,6 +143,9 @@
     "search_results": "Search results",
     "search_placeholder": "Type to search...",
     "no_results_found": "No results found",
+    "autocomplete_navigate": "navigate",
+    "autocomplete_select": "select",
+    "autocomplete_close": "close",
     "select_language": "Select Language"
   },
   "common": {
