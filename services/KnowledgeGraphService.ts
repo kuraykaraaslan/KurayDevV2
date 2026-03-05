@@ -112,6 +112,42 @@ export default class KnowledgeGraphService {
     Logger.info(`[KG] Post ${postId} updated.`)
   }
 
+  // --------------------- Public query methods ---------------------
+
+  /**
+   * Returns similar posts for a given postId using pre-computed cosine similarity links.
+   * Falls back to an empty array when the knowledge graph has no data for that post.
+   */
+  static async getSimilarPosts(
+    postId: string,
+    limit = 5
+  ): Promise<{ id: string; score: number; title: string; slug: string; categorySlug: string; image?: string }[]> {
+    const linksRaw = await redis.get(LINKS(postId))
+    if (!linksRaw) return []
+
+    const links: { id: string; s: number }[] = JSON.parse(linksRaw)
+    if (!links.length) return []
+
+    const nodes = await loadNodes()
+
+    return links
+      .sort((a, b) => b.s - a.s)
+      .slice(0, limit)
+      .filter((l) => l.s >= THRESH)
+      .map((l) => {
+        const node = nodes[l.id]
+        return {
+          id: l.id,
+          score: l.s,
+          title: node?.title ?? '',
+          slug: node?.slug ?? '',
+          categorySlug: node?.categorySlug ?? '',
+          image: node?.image ?? undefined,
+        }
+      })
+      .filter((n) => n.title !== '')
+  }
+
   /** Tam rebuild */
   private static async _fullRebuildInternal() {
     try {

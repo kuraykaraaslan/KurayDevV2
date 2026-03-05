@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { PostWithData } from '@/types/content/BlogTypes'
 import { useTranslation } from 'react-i18next'
 
-const PostCard = ({ post }: { post: PostWithData }) => {
+const PostCard = ({ post, similarityScore }: { post: PostWithData; similarityScore?: number }) => {
   const { t } = useTranslation()
   const { title, slug, createdAt, category, image } = post
 
@@ -70,7 +70,12 @@ const PostCard = ({ post }: { post: PostWithData }) => {
   }, [createdAt])
 
   return (
-    <article className={'bg-base-300 shadow-md rounded-lg min-w-[296px]'}>
+    <article className={'bg-base-300 shadow-md rounded-lg min-w-[296px] relative'}>
+      {similarityScore !== undefined && (
+        <div className="absolute top-2 right-2 z-10 badge badge-primary badge-sm text-xs font-mono">
+          {Math.round(similarityScore * 100)}% {t('frontend.feed.match')}
+        </div>
+      )}
       <Link
         href={'/blog/' + category.slug + '/' + slug}
         className="block h-32 border-b-2 border-base-300 overflow-hidden rounded-t-lg relative"
