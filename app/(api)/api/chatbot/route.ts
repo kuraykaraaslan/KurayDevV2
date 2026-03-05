@@ -1,82 +1,115 @@
-import { NextResponse } from 'next/server'
+
+import type { WebSocket, WebSocketServer } from 'ws'
+import { NextRequest } from 'next/server'
 import UserSessionService from '@/services/AuthService/UserSessionService'
-import ChatbotService from '@/services/ChatbotService'
-import { ChatbotRequestSchema } from '@/dtos/ChatbotDTO'
-import ChatbotMessages from '@/messages/ChatbotMessages'
 import AuthMessages from '@/messages/AuthMessages'
+import wsManager from '@/libs/websocket/WSManager'
+import ChatbotWSHandler from '@/services/ChatbotService/ChatbotWSHandler'
+import Logger from '@/libs/logger'
+import type { WSBaseEvent } from '@/types/common/WebSocketTypes'
 
-export async function POST(request: NextRequest) {
-  try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
-      request,
-      requiredUserRole: 'USER',
-    })
-
-    if (!user) {
-      return NextResponse.json(
-        { message: AuthMessages.USER_NOT_AUTHENTICATED },
-        { status: 401 }
-      )
-    }
-
-    const body = await request.json()
-    const parsed = ChatbotRequestSchema.safeParse(body)
-
-    if (!parsed.success) {
-      return NextResponse.json(
-        { message: parsed.error.errors.map((err) => err.message).join(', ') },
-        { status: 400 }
-      )
-    }
-
-    const { message, chatSessionId, provider, model } = parsed.data
-
-    const result = await ChatbotService.chat({
-      message,
-      chatSessionId,
-      userId: user.userId,
-      userEmail: user.email,
-      provider,
-      model,
-    })
-
-    return NextResponse.json({
-      message: ChatbotMessages.CHATBOT_RESPONSE_SUCCESS,
-      reply: result.reply,
-      sources: result.sources,
-      chatSessionId: result.chatSessionId,
-    })
-  } catch (error: unknown) {
-    const errMsg = error instanceof Error ? error.message : ChatbotMessages.CHATBOT_RESPONSE_FAILED
-    console.error('[Chatbot API] Error:', errMsg)
-
-    const status = errMsg === ChatbotMessages.RATE_LIMIT_EXCEEDED ? 429
-      : errMsg === ChatbotMessages.USER_BANNED ? 403
-      : 500
-
-    return NextResponse.json(
-      { message: errMsg },
-      { status }
-    )
-  }
-}
+// ── Register all feature handlers on first import ────────────────────
+// Add new feature handlers here as the system grows.
+wsManager.registerHandler(ChatbotWSHandler)
 
 /**
- * GET — retrieve messages for the current user's session.
+ * UPGRADE /api/chatbot — Central WebSocket endpoint.
+ *
+ * All features share this single WS connection. Messages are routed
+ * by their `ns` (namespace) field to the appropriate feature handler.
+ *
+ * Wire format (JSON):
+ *
+ * Client → Server:
+ *   { ns: "chatbot",  type: "chat", message: "...", ... }
+ *   { ns: "system",   type: "ping" }
+ *
+ * Server → Client:
+ *   { ns: "chatbot",  type: "chunk", content: "..." }
+ *   { ns: "system",   type: "pong" }
+ *   { ns: "system",   type: "connected", userId, role }
+ *   { ns: "system",   type: "error", error: "..." }
  */
-export async function GET(request: NextRequest) {
-  try {
-    const { user } = await UserSessionService.authenticateUserByRequest({
-      request,
-      requiredUserRole: 'USER',
-    })
+export function UPGRADE(
+  client: WebSocket,
+  _server: WebSocketServer,
+  request: NextRequest,
+) {
+  handleConnection(client, request).catch((err) => {
+    Logger.error(`[WS] Connection setup failed: ${err.message}`)
+    safeSend(client, { ns: 'system', type: 'error', error: AuthMessages.USER_NOT_AUTHENTICATED })
+    client.close(1008, 'Authentication failed')
+  })
+}
 
-    if (!user) {
-      return NextResponse.json(
-        { message: AuthMessages.USER_NOT_AUTHENTICATED },
-        { status: 401 }
-      )
+// ── Helpers ───────────────────────────────────────────────────────────
+
+function safeSend(ws: WebSocket, event: Record<string, unknown>) {
+  if (ws.readyState === 1) ws.send(JSON.stringify(event))
+}
+
+// ── Main connection handler ───────────────────────────────────────────
+
+async function handleConnection(client: WebSocket, request: NextRequest) {
+  const auth = await UserSessionService.authenticateUserByRequest({
+    request,
+    requiredUserRole: 'GUEST',
+  })
+
+  const user = auth.user
+  if (!user) {
+    safeSend(client, { ns: 'system', type: 'error', error: AuthMessages.USER_NOT_AUTHENTICATED })
+    client.close(1008, 'Authentication required')
+    return
+  }
+
+  const isAdmin = user.userRole === 'ADMIN' || user.userRole === 'SUPER_ADMIN'
+  const role = isAdmin ? 'admin' : 'user'
+
+  // Register client with generic WSManager
+  wsManager.registerClient(client, user.userId, role, { email: user.email })
+
+  safeSend(client, { ns: 'system', type: 'connected', userId: user.userId, role })
+
+  // ── Heartbeat ────────────────────────────────────────────────────
+  const heartbeat = setInterval(() => {
+    if (client.readyState === 1) client.ping()
+  }, 30_000)
+
+  // ── Message handler — route by namespace ─────────────────────────
+  client.on('message', async (raw) => {
+    let event: WSBaseEvent
+    try {
+      event = JSON.parse(raw.toString()) as WSBaseEvent
+    } catch {
+      safeSend(client, { ns: 'system', type: 'error', error: 'Invalid JSON' })
+      return
     }
+
+    // System-level events
+    if (event.ns === 'system') {
+      if (event.type === 'ping') {
+        safeSend(client, { ns: 'system', type: 'pong' })
+      }
+      return
+    }
+
+    // Delegate to feature handler
+    await wsManager.handleMessage(client, event)
+  })
+
+  // ── Cleanup ──────────────────────────────────────────────────────
+  client.on('close', () => {
+    clearInterval(heartbeat)
+    wsManager.removeClient(client)
+  })
+
+  client.on('error', (err) => {
+    Logger.error(`[WS] Client error: ${err.message}`)
+    clearInterval(heartbeat)
+    wsManager.removeClient(client)
+  })
+}
 
     const { searchParams } = new URL(request.url)
     const chatSessionId = searchParams.get('chatSessionId')

@@ -1,18 +1,22 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faRobot,
   faTimes,
   faTrash,
+  faWifi,
 } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next'
 import useGlobalStore from '@/libs/zustand'
 import { useChatbotStore } from '@/libs/zustand/chatbotStore'
-import axiosInstance from '@/libs/axios'
 import { ChatMessageList, ChatInput } from '@/components/common/UI/Chat'
-import type { ChatMessage, ChatSource } from '@/types/features/ChatbotTypes'
+import { useChatbotWebSocket } from './useChatbotWebSocket'
+import type { ChatMessage, ChatSource, ChatbotWSServerEvent } from '@/types/features/ChatbotTypes'
+import type { WSSystemServerEvent } from '@/types/common/WebSocketTypes'
+
+type ServerEvent = ChatbotWSServerEvent | WSSystemServerEvent
 
 const Chatbot = () => {
   const { t } = useTranslation()
@@ -25,181 +29,131 @@ const Chatbot = () => {
   const [sources, setSources] = useState<ChatSource[]>([])
   const [chatSessionId, setChatSessionId] = useState<string | undefined>(undefined)
   const [sessionClosed, setSessionClosed] = useState(false)
-  const abortRef = useRef<AbortController | null>(null)
 
-  // Poll for new messages
-  useEffect(() => {
-    if (!chatSessionId) return
-    const interval = setInterval(async () => {
-      try {
-        const res = await axiosInstance.get(`/api/chatbot?chatSessionId=${chatSessionId}`)
-        const serverMessages: ChatMessage[] = (res.data.messages ?? []).filter(
-          (m: ChatMessage) => m.content !== '__ADMIN_TAKEOVER__'
-        )
-        // Detect closed session
-        if (res.data.session?.status === 'CLOSED' && !sessionClosed) {
-          setSessionClosed(true)
-          const closedMsg: ChatMessage = {
-            role: 'assistant',
-            content: t('shared.chatbot.session_closed'),
+  // Accumulated text for current streaming response
+  const accumulatedRef = useRef('')
+  const isOpenRef = useRef(isOpen)
+  isOpenRef.current = isOpen
+
+  // ── WebSocket event handler ──────────────────────────────────────
+  const handleWSEvent = useCallback((event: ServerEvent) => {
+    switch (event.type) {
+      case 'connected':
+        break
+
+      case 'meta':
+        if ('chatSessionId' in event) {
+          setChatSessionId(event.chatSessionId)
+        }
+        break
+
+      case 'chunk':
+        if ('content' in event && event.content && event.content !== '__ADMIN_TAKEOVER__') {
+          accumulatedRef.current += event.content
+          const text = accumulatedRef.current
+          setMessages((prev) => {
+            const updated = [...prev]
+            updated[updated.length - 1] = { role: 'assistant', content: text }
+            return updated
+          })
+        }
+        break
+
+      case 'sources':
+        if ('sources' in event && event.sources) {
+          setSources(event.sources)
+        }
+        break
+
+      case 'done':
+        accumulatedRef.current = ''
+        setIsLoading(false)
+        break
+
+      case 'error': {
+        let content = t('shared.chatbot.error_message')
+        if ('error' in event) {
+          if (event.error === 'USER_BANNED') content = t('shared.chatbot.user_banned')
+          else if (event.error === 'RATE_LIMIT_EXCEEDED') content = t('shared.chatbot.rate_limit_exceeded')
+        }
+        setMessages((prev) => {
+          const updated = [...prev]
+          if (updated.length > 0 && updated[updated.length - 1].role === 'assistant') {
+            updated[updated.length - 1] = { role: 'assistant', content }
+          } else {
+            updated.push({ role: 'assistant', content })
           }
-          setMessages([...serverMessages, closedMsg])
-          if (!isOpen) setHasUnread(true)
-          return
-        }
-        // Notify unread if new messages arrived while chat is closed
-        if (serverMessages.length > messages.length && !isOpen) {
-          setHasUnread(true)
-        }
-        setMessages(serverMessages)
-      } catch {
-        // silently ignore polling errors
+          return updated
+        })
+        accumulatedRef.current = ''
+        setIsLoading(false)
+        break
       }
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [chatSessionId, isOpen, messages.length, setHasUnread])
 
-  const handleSend = useCallback(async () => {
+      case 'new_message':
+        if ('message' in event && event.message) {
+          const msg = event.message as ChatMessage
+          if (msg.content === '__ADMIN_TAKEOVER__') break
+          // Only add if not already in the list (avoid duplicates from own stream)
+          setMessages((prev) => {
+            if (msg.id && prev.some((m) => m.id === msg.id)) return prev
+            // If it's an admin message, append it
+            if (msg.role === 'admin') {
+              if (!isOpenRef.current) setHasUnread(true)
+              return [...prev, msg]
+            }
+            return prev
+          })
+        }
+        break
+
+      case 'session_update':
+        if ('status' in event && event.status === 'CLOSED') {
+          setSessionClosed(true)
+          setMessages((prev) => [
+            ...prev,
+            { role: 'assistant', content: t('shared.chatbot.session_closed') },
+          ])
+          if (!isOpenRef.current) setHasUnread(true)
+        }
+        break
+
+      case 'pong':
+        break
+    }
+  }, [t, setHasUnread])
+
+  const { isConnected, connect, disconnect, sendChat, status } = useChatbotWebSocket({
+    onEvent: handleWSEvent,
+    autoConnect: !!user,
+    reconnectDelay: 3000,
+    maxReconnects: 10,
+  })
+
+  // ── Send message ─────────────────────────────────────────────────
+  const handleSend = useCallback(() => {
     const trimmed = input.trim()
-    if (!trimmed || isLoading) return
+    if (!trimmed || isLoading || !isConnected) return
 
     const userMessage: ChatMessage = { role: 'user', content: trimmed }
     setMessages((prev) => [...prev, userMessage])
     setInput('')
     setIsLoading(true)
     setSources([])
+    accumulatedRef.current = ''
 
-    // Create a placeholder assistant message for streaming
-    const streamingMsg: ChatMessage = { role: 'assistant', content: '' }
-    setMessages((prev) => [...prev, streamingMsg])
+    // Placeholder for streaming response
+    setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
 
-    const controller = new AbortController()
-    abortRef.current = controller
-
-    try {
-      const res = await fetch('/api/chatbot/stream', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: trimmed, chatSessionId }),
-        signal: controller.signal,
-      })
-
-      if (!res.ok) {
-        const errBody = await res.json().catch(() => ({}))
-        const apiMessage = (errBody as { message?: string }).message
-
-        let content = t('shared.chatbot.error_message')
-        if (apiMessage === 'USER_BANNED' || res.status === 403) {
-          content = t('shared.chatbot.user_banned')
-        } else if (apiMessage === 'RATE_LIMIT_EXCEEDED' || res.status === 429) {
-          content = t('shared.chatbot.rate_limit_exceeded')
-        }
-
-        setMessages((prev) => {
-          const updated = [...prev]
-          updated[updated.length - 1] = { role: 'assistant', content }
-          return updated
-        })
-        return
-      }
-
-      const reader = res.body?.getReader()
-      if (!reader) throw new Error('No readable stream')
-
-      const decoder = new TextDecoder()
-      let buffer = ''
-      let accumulated = ''
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        buffer += decoder.decode(value, { stream: true })
-        const lines = buffer.split('\n')
-        buffer = lines.pop() ?? ''
-
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue
-          const raw = line.slice(6).trim()
-          if (!raw) continue
-
-          try {
-            const event = JSON.parse(raw) as {
-              type: string
-              content?: string
-              chatSessionId?: string
-              sources?: ChatSource[]
-              error?: string
-            }
-
-            switch (event.type) {
-              case 'meta':
-                if (event.chatSessionId && !chatSessionId) {
-                  setChatSessionId(event.chatSessionId)
-                }
-                break
-
-              case 'chunk':
-                if (event.content && event.content !== '__ADMIN_TAKEOVER__') {
-                  accumulated += event.content
-                  setMessages((prev) => {
-                    const updated = [...prev]
-                    updated[updated.length - 1] = { role: 'assistant', content: accumulated }
-                    return updated
-                  })
-                }
-                break
-
-              case 'sources':
-                if (event.sources) {
-                  setSources(event.sources)
-                }
-                break
-
-              case 'error': {
-                let content = t('shared.chatbot.error_message')
-                if (event.error === 'USER_BANNED') {
-                  content = t('shared.chatbot.user_banned')
-                } else if (event.error === 'RATE_LIMIT_EXCEEDED') {
-                  content = t('shared.chatbot.rate_limit_exceeded')
-                }
-                setMessages((prev) => {
-                  const updated = [...prev]
-                  updated[updated.length - 1] = { role: 'assistant', content }
-                  return updated
-                })
-                break
-              }
-
-              case 'done':
-                break
-            }
-          } catch { /* skip malformed SSE data */ }
-        }
-      }
-    } catch (err: unknown) {
-      if ((err as Error).name === 'AbortError') return
-
-      setMessages((prev) => {
-        const updated = [...prev]
-        updated[updated.length - 1] = {
-          role: 'assistant',
-          content: t('shared.chatbot.error_message'),
-        }
-        return updated
-      })
-    } finally {
-      abortRef.current = null
-      setIsLoading(false)
-    }
-  }, [input, isLoading, chatSessionId, t])
+    sendChat(trimmed, chatSessionId)
+  }, [input, isLoading, isConnected, chatSessionId, sendChat])
 
   const handleClear = () => {
-    abortRef.current?.abort()
     setMessages([])
     setSources([])
     setChatSessionId(undefined)
     setSessionClosed(false)
+    accumulatedRef.current = ''
   }
 
   // Only show for logged-in users
@@ -225,6 +179,11 @@ const Chatbot = () => {
               <span className="font-semibold text-sm">
                 {t('shared.chatbot.title')}
               </span>
+              <FontAwesomeIcon
+                icon={faWifi}
+                className={`w-3 h-3 transition-colors ${isConnected ? 'text-success' : 'text-error/60'}`}
+                title={status}
+              />
             </div>
             <div className="flex items-center gap-1">
               <button
@@ -286,8 +245,14 @@ const Chatbot = () => {
               value={input}
               onChange={setInput}
               onSend={handleSend}
-              disabled={isLoading || sessionClosed}
-              placeholder={sessionClosed ? t('shared.chatbot.session_closed') : t('shared.chatbot.placeholder')}
+              disabled={isLoading || sessionClosed || !isConnected}
+              placeholder={
+                sessionClosed
+                  ? t('shared.chatbot.session_closed')
+                  : !isConnected
+                    ? t('shared.chatbot.connecting') ?? 'Connecting...'
+                    : t('shared.chatbot.placeholder')
+              }
               autoFocusTrigger={isOpen}
               variant="compact"
             />

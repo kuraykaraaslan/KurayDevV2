@@ -76,3 +76,29 @@ export interface SystemPromptData {
   intro: string
   rules: SystemPromptRule[]
 }
+
+// ── WebSocket event types (namespace = 'chatbot') ──────────────────
+
+/** Client → Server events */
+export type ChatbotWSClientEvent =
+  | { ns: 'chatbot'; type: 'chat'; message: string; chatSessionId?: string; provider?: string; model?: string }
+  | { ns: 'chatbot'; type: 'subscribe'; chatSessionId: string }
+  | { ns: 'chatbot'; type: 'admin_reply'; chatSessionId: string; message: string }
+  | { ns: 'chatbot'; type: 'restore'; browserId: string }
+
+/** Server → Client events */
+export type ChatbotWSServerEvent =
+  | { ns: 'chatbot'; type: 'meta'; chatSessionId: string }
+  | { ns: 'chatbot'; type: 'chunk'; content: string }
+  | { ns: 'chatbot'; type: 'sources'; sources: ChatSource[] }
+  | { ns: 'chatbot'; type: 'done' }
+  | { ns: 'chatbot'; type: 'error'; error: string }
+  | { ns: 'chatbot'; type: 'new_message'; chatSessionId: string; message: ChatMessage }
+  | { ns: 'chatbot'; type: 'session_update'; chatSessionId: string; status: string; takenOverBy?: string }
+  | { ns: 'chatbot'; type: 'connected'; userId: string }
+  | { ns: 'chatbot'; type: 'history'; chatSessionId: string; messages: ChatMessage[]; status: string }
+
+/** @deprecated Use ChatbotWSClientEvent */
+export type WSClientEvent = ChatbotWSClientEvent
+/** @deprecated Use ChatbotWSServerEvent */
+export type WSServerEvent = ChatbotWSServerEvent

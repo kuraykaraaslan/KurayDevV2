@@ -6,6 +6,7 @@ import { AIService } from '@/services/AIServices'
 import Logger from '@/libs/logger'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 import SettingService from '@/services/SettingService'
+import wsManager from '@/libs/websocket/WSManager'
 import {
     StoredChatMessage,
     StoredChatSession,
@@ -50,8 +51,11 @@ const ACTIVE_SESSIONS = 'chatbot:sessions:active' // Sorted set (score = timesta
 const USER_SESSIONS = (userId: string) => `chatbot:sessions:user:${userId}`
 const BAN_KEY = (userId: string) => `chatbot:ban:${userId}`
 const RATE_LIMIT_KEY = (userId: string) => `chatbot:ratelimit:${userId}`
+const BROWSER_SESSION = (browserId: string) => `chatbot:browser:${browserId}`
+const DISCONNECT_KEY = (browserId: string) => `chatbot:disconnect:${browserId}`
 
 const SESSION_TTL = 60 * 60 * 24 * 7 // 7 days
+const SESSION_CLOSE_TIMEOUT = 60 * 5 // 5 minutes — auto-close after browser disconnect
 const BAN_TTL = 60 * 60 // 1 hour
 const USER_RATE_LIMIT = 10 // max messages per window
 const USER_RATE_WINDOW = 60 // 60 seconds
@@ -69,7 +73,7 @@ export default class ChatbotService {
     /**
      * Create a new chat session in Redis.
      */
-    static async createSession(userId: string, userEmail?: string): Promise<StoredChatSession> {
+    static async createSession(userId: string, userEmail?: string, browserId?: string): Promise<StoredChatSession> {
         const chatSessionId = `cs_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
         const now = new Date().toISOString()
 
@@ -77,6 +81,7 @@ export default class ChatbotService {
             chatSessionId,
             userId,
             userEmail,
+            browserId,
             status: 'ACTIVE',
             createdAt: now,
             updatedAt: now,
@@ -87,9 +92,12 @@ export default class ChatbotService {
         pipeline.zadd(ACTIVE_SESSIONS, Date.now(), chatSessionId)
         pipeline.sadd(USER_SESSIONS(userId), chatSessionId)
         pipeline.expire(USER_SESSIONS(userId), SESSION_TTL)
+        if (browserId) {
+            pipeline.set(BROWSER_SESSION(browserId), chatSessionId, 'EX', SESSION_TTL)
+        }
         await pipeline.exec()
 
-        Logger.info(`[ChatbotService] Session ${chatSessionId} created for user ${userId}`)
+        Logger.info(`[ChatbotService] Session ${chatSessionId} created for user ${userId}${browserId ? ` (browser: ${browserId.slice(0, 8)}...)` : ''}`)
         return session
     }
 
@@ -304,6 +312,7 @@ export default class ChatbotService {
         chatSessionId,
         userId,
         userEmail,
+        browserId,
         provider,
         model,
     }: {
@@ -311,6 +320,7 @@ export default class ChatbotService {
         chatSessionId?: string
         userId: string
         userEmail?: string
+        browserId?: string
         provider?: string
         model?: string
     }): AsyncGenerator<string, void, unknown> {
@@ -335,12 +345,28 @@ export default class ChatbotService {
             session = await ChatbotService.getSession(chatSessionId)
         }
 
+        // Try browser → session mapping if no explicit chatSessionId
+        if (!session && browserId) {
+            const browserSessionId = await redis.get(BROWSER_SESSION(browserId))
+            if (browserSessionId) {
+                const s = await ChatbotService.getSession(browserSessionId)
+                if (s && s.userId === userId && s.status !== 'CLOSED') {
+                    session = s
+                }
+            }
+        }
+
         if (!session) {
-            session = await ChatbotService.createSession(userId, userEmail)
+            session = await ChatbotService.createSession(userId, userEmail, browserId)
         }
 
         if (session.status === 'CLOSED') {
-            session = await ChatbotService.createSession(userId, userEmail)
+            session = await ChatbotService.createSession(userId, userEmail, browserId)
+        }
+
+        // Ensure browser → session mapping is up to date
+        if (browserId && session.chatSessionId) {
+            await redis.set(BROWSER_SESSION(browserId), session.chatSessionId, 'EX', SESSION_TTL)
         }
 
         // Send session ID immediately
@@ -354,6 +380,19 @@ export default class ChatbotService {
             createdAt: new Date().toISOString(),
         }
         await ChatbotService.addMessage(session.chatSessionId, userMsg)
+
+        // Notify admin subscribers about the user message
+        wsManager.publish('chatbot', session.chatSessionId, {
+            ns: 'chatbot',
+            type: 'new_message',
+            chatSessionId: session.chatSessionId,
+            message: {
+                id: userMsg.id,
+                role: 'user',
+                content: userMsg.content,
+                createdAt: userMsg.createdAt,
+            },
+        })
 
         if (!session.title) {
             session.title = message.slice(0, 80)
@@ -456,6 +495,20 @@ export default class ChatbotService {
         }
         await ChatbotService.addMessage(session.chatSessionId, aiMsg)
 
+        // Notify admin subscribers about the completed AI message
+        wsManager.publish('chatbot', session.chatSessionId, {
+            ns: 'chatbot',
+            type: 'new_message',
+            chatSessionId: session.chatSessionId,
+            message: {
+                id: aiMsg.id,
+                role: 'assistant',
+                content: aiMsg.content,
+                sources: aiMsg.sources,
+                createdAt: aiMsg.createdAt,
+            },
+        })
+
         // Send sources + done events
         if (sources.length > 0) {
             yield `data: ${JSON.stringify({ type: 'sources', sources })}\n\n`
@@ -513,6 +566,14 @@ export default class ChatbotService {
         session.takenOverBy = adminUserId
         await ChatbotService.updateSession(session)
 
+        wsManager.publish('chatbot', chatSessionId, {
+            ns: 'chatbot',
+            type: 'session_update',
+            chatSessionId,
+            status: 'TAKEN_OVER',
+            takenOverBy: adminUserId,
+        })
+
         Logger.info(`[ChatbotService] Session ${chatSessionId} taken over by admin ${adminUserId}`)
     }
 
@@ -527,6 +588,13 @@ export default class ChatbotService {
         session.takenOverBy = undefined
         await ChatbotService.updateSession(session)
 
+        wsManager.publish('chatbot', chatSessionId, {
+            ns: 'chatbot',
+            type: 'session_update',
+            chatSessionId,
+            status: 'ACTIVE',
+        })
+
         Logger.info(`[ChatbotService] Session ${chatSessionId} released back to AI`)
     }
 
@@ -539,6 +607,13 @@ export default class ChatbotService {
 
         session.status = 'CLOSED'
         await ChatbotService.updateSession(session)
+
+        wsManager.publish('chatbot', chatSessionId, {
+            ns: 'chatbot',
+            type: 'session_update',
+            chatSessionId,
+            status: 'CLOSED',
+        })
 
         Logger.info(`[ChatbotService] Session ${chatSessionId} closed`)
     }
@@ -574,7 +649,29 @@ export default class ChatbotService {
             session.status = 'TAKEN_OVER'
             session.takenOverBy = adminUserId
             await ChatbotService.updateSession(session)
+
+            wsManager.publish('chatbot', chatSessionId, {
+                ns: 'chatbot',
+                type: 'session_update',
+                chatSessionId,
+                status: 'TAKEN_OVER',
+                takenOverBy: adminUserId,
+            })
         }
+
+        // Notify connected clients about the new admin message
+        wsManager.publish('chatbot', chatSessionId, {
+            ns: 'chatbot',
+            type: 'new_message',
+            chatSessionId,
+            message: {
+                id: msg.id,
+                role: 'admin',
+                content: msg.content,
+                adminUserId: msg.adminUserId,
+                createdAt: msg.createdAt,
+            },
+        })
 
         Logger.info(`[ChatbotService] Admin ${adminUserId} replied in session ${chatSessionId}`)
         return msg
@@ -656,6 +753,80 @@ export default class ChatbotService {
         return sessions.sort(
             (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         )
+    }
+
+    // ────────────────────── Browser session lifecycle ─────────────────
+
+    /**
+     * Restore a session for a browser.
+     * If disconnected > 5 min ago → close old session, return null.
+     * Otherwise → return session + messages.
+     */
+    static async restoreSession(
+        userId: string,
+        browserId: string,
+    ): Promise<{
+        session: StoredChatSession
+        messages: StoredChatMessage[]
+    } | null> {
+        // 1. Check for existing session linked to this browser
+        const chatSessionId = await redis.get(BROWSER_SESSION(browserId))
+        if (!chatSessionId) return null
+
+        const session = await ChatbotService.getSession(chatSessionId)
+        if (!session) {
+            // Stale mapping — clean up
+            await redis.del(BROWSER_SESSION(browserId))
+            return null
+        }
+
+        // Only restore if owned by same user
+        if (session.userId !== userId) {
+            await redis.del(BROWSER_SESSION(browserId))
+            return null
+        }
+
+        // Already closed — nothing to restore
+        if (session.status === 'CLOSED') {
+            await redis.del(BROWSER_SESSION(browserId))
+            return null
+        }
+
+        // 2. Check disconnect marker
+        const disconnectedAt = await redis.get(DISCONNECT_KEY(browserId))
+        if (disconnectedAt) {
+            const elapsed = Date.now() - parseInt(disconnectedAt, 10)
+            if (elapsed > SESSION_CLOSE_TIMEOUT * 1000) {
+                // 5 min passed → close the session
+                await ChatbotService.closeSession(chatSessionId)
+                await redis.del(BROWSER_SESSION(browserId))
+                await redis.del(DISCONNECT_KEY(browserId))
+                Logger.info(`[ChatbotService] Session ${chatSessionId} auto-closed (browser offline > 5 min)`)
+                return null
+            }
+            // Still within 5 min → cancel disconnect timer
+            await redis.del(DISCONNECT_KEY(browserId))
+        }
+
+        // 3. Return session + messages
+        const messages = await ChatbotService.getMessages(chatSessionId)
+        return { session, messages }
+    }
+
+    /**
+     * Mark a browser as disconnected. If they don't reconnect within 5 min,
+     * the session will be closed on next restore attempt.
+     */
+    static async markBrowserDisconnected(browserId: string): Promise<void> {
+        await redis.set(DISCONNECT_KEY(browserId), Date.now().toString(), 'EX', SESSION_CLOSE_TIMEOUT + 60)
+        Logger.info(`[ChatbotService] Browser ${browserId.slice(0, 8)}... marked disconnected`)
+    }
+
+    /**
+     * Cancel disconnect timer (browser reconnected within 5 min).
+     */
+    static async cancelBrowserDisconnect(browserId: string): Promise<void> {
+        await redis.del(DISCONNECT_KEY(browserId))
     }
 
     // ─────────────────────── Analytics / Stats ────────────────────────

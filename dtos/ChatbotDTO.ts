@@ -33,6 +33,7 @@ export const StoredChatSessionSchema = z.object({
   chatSessionId: z.string(),
   userId: z.string(),
   userEmail: z.string().optional(),
+  browserId: z.string().optional(),
   status: ChatSessionStatusEnum,
   title: z.string().optional(),
   takenOverBy: z.string().optional(),

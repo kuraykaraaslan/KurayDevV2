@@ -12,9 +12,14 @@ import {
   faLock,
   faUserShield,
   faBan,
+  faWifi,
 } from '@fortawesome/free-solid-svg-icons'
 import { ChatMessageList, ChatInput } from '@/components/common/UI/Chat'
-import type { ChatMessage, ChatSession } from '@/types/features/ChatbotTypes'
+import { useChatbotWebSocket } from '@/components/frontend/Features/Chatbot/useChatbotWebSocket'
+import type { ChatMessage, ChatSession, ChatbotWSServerEvent } from '@/types/features/ChatbotTypes'
+import type { WSSystemServerEvent } from '@/types/common/WebSocketTypes'
+
+type ServerEvent = ChatbotWSServerEvent | WSSystemServerEvent
 
 const ChatDetailPage = () => {
   const params = useParams<{ sessionId: string }>()
@@ -28,6 +33,7 @@ const ChatDetailPage = () => {
   const [actionLoading, setActionLoading] = useState(false)
   const [userBanned, setUserBanned] = useState(false)
 
+  // ── Initial data fetch ────────────────────────────────────────────
   const fetchData = useCallback(async () => {
     if (!sessionId) return
     try {
@@ -47,12 +53,57 @@ const ChatDetailPage = () => {
     fetchData()
   }, [fetchData])
 
-  // Auto-refresh every 5 seconds to see new messages
-  useEffect(() => {
-    const interval = setInterval(fetchData, 5000)
-    return () => clearInterval(interval)
-  }, [fetchData])
+  // ── WebSocket for real-time updates ───────────────────────────────
+  const handleWSEvent = useCallback((event: ServerEvent) => {
+    switch (event.type) {
+      case 'connected':
+        // Subscription handled by useEffect below
+        break
 
+      case 'new_message':
+        if ('message' in event && event.message && event.chatSessionId === sessionId) {
+          const msg = event.message as ChatMessage
+          if (msg.content === '__ADMIN_TAKEOVER__') break
+          setMessages((prev) => {
+            if (msg.id && prev.some((m) => m.id === msg.id)) return prev
+            return [...prev, msg]
+          })
+        }
+        break
+
+      case 'session_update':
+        if ('status' in event && event.chatSessionId === sessionId) {
+          setSession((prev) => {
+            if (!prev) return prev
+            return {
+              ...prev,
+              status: event.status as ChatSession['status'],
+              takenOverBy: 'takenOverBy' in event ? event.takenOverBy : prev.takenOverBy,
+            }
+          })
+        }
+        break
+
+      default:
+        break
+    }
+  }, [sessionId])
+
+  const { isConnected, subscribe, sendAdminReply } = useChatbotWebSocket({
+    onEvent: handleWSEvent,
+    autoConnect: true,
+    reconnectDelay: 2000,
+    maxReconnects: 15,
+  })
+
+  // Subscribe once connected + sessionId ready
+  useEffect(() => {
+    if (isConnected && sessionId) {
+      subscribe(sessionId)
+    }
+  }, [isConnected, sessionId, subscribe])
+
+  // ── Admin actions (HTTP — need server-side auth/validation) ───────
   const handleAction = async (action: 'takeover' | 'release' | 'close' | 'ban' | 'unban') => {
     if (!sessionId) return
     setActionLoading(true)
@@ -72,6 +123,7 @@ const ChatDetailPage = () => {
                 ? 'User unbanned'
                 : 'Session closed'
       )
+      // Session update will arrive via WebSocket, but also fetch for safety
       await fetchData()
     } catch {
       toast.error('Action failed')
@@ -80,21 +132,29 @@ const ChatDetailPage = () => {
     }
   }
 
-  const handleSendReply = async () => {
+  // ── Admin reply via WebSocket ────────────────────────────────────
+  const handleSendReply = useCallback(async () => {
     if (!replyText.trim() || !sessionId || sending) return
     setSending(true)
     try {
-      await axiosInstance.post(`/api/chatbot/admin/${sessionId}`, {
-        message: replyText.trim(),
-      })
-      setReplyText('')
-      await fetchData()
+      if (isConnected) {
+        // Send via WebSocket — the new_message event will arrive back
+        sendAdminReply(sessionId, replyText.trim())
+        setReplyText('')
+      } else {
+        // Fallback to HTTP
+        await axiosInstance.post(`/api/chatbot/admin/${sessionId}`, {
+          message: replyText.trim(),
+        })
+        setReplyText('')
+        await fetchData()
+      }
     } catch {
       toast.error('Failed to send reply')
     } finally {
       setSending(false)
     }
-  }
+  }, [replyText, sessionId, sending, isConnected, sendAdminReply, fetchData])
 
   const formatDate = (iso: string) => {
     const d = new Date(iso)
@@ -208,6 +268,11 @@ const ChatDetailPage = () => {
             by {session.takenOverBy.slice(0, 12)}...
           </span>
         )}
+        <FontAwesomeIcon
+          icon={faWifi}
+          className={`w-3 h-3 ml-auto transition-colors ${isConnected ? 'text-success' : 'text-error/60'}`}
+          title={isConnected ? 'WebSocket connected' : 'WebSocket disconnected'}
+        />
       </div>
 
       {/* Messages */}
