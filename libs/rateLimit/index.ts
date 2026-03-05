@@ -1,6 +1,6 @@
 // libs/RateLimiter.ts
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import redisInstance from '../redis'
 
 const RATE_LIMIT = 10

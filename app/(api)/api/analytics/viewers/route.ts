@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import ViewerService from '@/services/ViewerService'
 import { ViewerHeartbeatSchema } from '@/dtos/ViewerDTO'
 

@@ -125,4 +125,7 @@ prisma/.env
 
 
 #next
+
+# chatbot datasets
+services/ChatbotService/datasets/
 next-env.d.ts
