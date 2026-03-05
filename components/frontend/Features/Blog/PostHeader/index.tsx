@@ -3,8 +3,9 @@ import Link from '@/libs/i18n/Link'
 import { PostWithData } from '@/types/content/BlogTypes'
 import PostLike from './partials/PostLike'
 import { useTranslation } from 'react-i18next'
+import { ReactNode } from 'react'
 
-const PostHeader = (post: PostWithData) => {
+const PostHeader = (post: PostWithData & { children?: ReactNode }) => {
   const { t } = useTranslation()
   const readTime = Math.ceil(post.content.split(' ').length / 200)
 
@@ -29,6 +30,7 @@ const PostHeader = (post: PostWithData) => {
         </span>
         <span className="text-primary">•</span>
         <span>{t('frontend.post.read_time', { count: readTime })}</span>
+        {post.children}
         <span className="text-primary hidden md:inline">•</span>
         <span className="hidden md:inline">
           {t('frontend.post.by')}{' '}

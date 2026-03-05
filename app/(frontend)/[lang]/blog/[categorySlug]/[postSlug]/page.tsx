@@ -8,6 +8,7 @@ import Comments from '@/components/frontend/Features/Blog/Comments'
 import OtherPosts from '@/components/frontend/Features/Blog/OtherPosts'
 import Newsletter from '@/components/frontend/Features/Newsletter'
 import PostHeader from '@/components/frontend/Features/Blog/PostHeader'
+import LiveViewerCount from '@/components/frontend/UI/LiveViewerCount'
 import MetadataHelper from '@/helpers/MetadataHelper'
 import ShareButtons from '@/components/frontend/Features/Blog/ShareButtons'
 import TableOfContents from '@/components/frontend/Features/Blog/TableOfContents'
@@ -218,7 +219,9 @@ export default async function BlogPost({ params }: Props) {
         <section className="min-h-screen bg-base-100 pt-32" id="blog">
           <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
             <Breadcrumb items={breadcrumbs} />
-            <PostHeader {...post} />
+            <PostHeader {...post}>
+              <LiveViewerCount slug={post.slug} />
+            </PostHeader>
             {post.seriesEntry && (
               <SeriesNav seriesRef={post.seriesEntry} currentPostId={post.postId} />
             )}

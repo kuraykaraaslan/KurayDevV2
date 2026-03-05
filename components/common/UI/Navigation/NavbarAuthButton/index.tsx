@@ -156,7 +156,6 @@ const NavbarAuthButton = () => {
           )}
           <Link
             href="/settings"
-            ignoreLang
             role="menuitem"
             className="px-3 py-2 rounded-md hover:bg-base-200 text-sm border-b border-base-300"
             onClick={() => setOpen(false)}
