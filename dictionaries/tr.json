@@ -350,7 +350,8 @@
       "error_message": "Üzgünüm, bir şeyler yanlış gitti. Lütfen tekrar deneyin.",
       "session_closed": "Bu oturum kapatılmıştır. Lütfen yeni bir sohbet başlatın.",
       "user_banned": "Chatbot kullanımınız geçici olarak kısıtlanmıştır. Lütfen daha sonra tekrar deneyin.",
-      "rate_limit_exceeded": "Çok hızlı mesaj gönderiyorsunuz. Lütfen biraz bekleyip tekrar deneyin."
+      "rate_limit_exceeded": "Çok hızlı mesaj gönderiyorsunuz. Lütfen biraz bekleyip tekrar deneyin.",
+      "connecting": "Bağlanıyor..."
     },
     "calendar": {
       "title": "Takvim",
