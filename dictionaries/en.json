@@ -407,7 +407,14 @@
     "geomap": {
       "title": "Global Visitors Heatmap",
       "description": "Explore the global distribution of visitors to my portfolio through this interactive heatmap. Each point on the map represents a visitor's location, providing insights into where my audience is coming from around the world.",
-      "visitors": "{{count}} visitor |||| {{count}} visitors"
+      "visitors": "{{count}} visitor |||| {{count}} visitors",
+      "visitors_suffix": "visitors",
+      "open_map": "Visitors",
+      "total_visitors": "Total Visitors",
+      "total_countries": "Countries",
+      "total_cities": "Cities",
+      "top_countries": "Top Countries",
+      "no_data": "No visitor data yet"
     },
     "status": {
       "title": "System Status",

@@ -380,7 +380,14 @@
     "geomap": {
       "title": "Küresel Ziyaretçi Isı Haritası",
       "description": "Bu etkileşimli ısı haritası aracılığıyla portföyümü ziyaret edenlerin küresel dağılımını keşfedin. Haritadaki her nokta, bir ziyaretçinin konumunu temsil eder ve izleyicilerimin dünyanın neresinden geldiğine dair içgörüler sağlar.",
-      "visitors": "{{count}} ziyaretçi |||| {{count}} ziyaretçiler"
+      "visitors": "{{count}} ziyaretçi |||| {{count}} ziyaretçiler",
+      "visitors_suffix": "ziyaretçi",
+      "open_map": "Ziyaretçiler",
+      "total_visitors": "Toplam Ziyaretçi",
+      "total_countries": "Ülkeler",
+      "total_cities": "Şehirler",
+      "top_countries": "En Çok Ziyaret Eden Ülkeler",
+      "no_data": "Henüz ziyaretçi verisi yok"
     },
     "status": {
       "title": "Sistem Durumu",
