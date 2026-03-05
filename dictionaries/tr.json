@@ -223,6 +223,12 @@
     "feed": {
       "other_posts": "Diğer Gönderiler",
       "related_articles": "İlgili Yazılar",
+      "smart_recommendations": "Sizin İçin Önerilen",
+      "smart_recommendations_description": "Bu yazılar yapay zeka tarafından içerik benzerliği analizi ile seçildi.",
+      "same_category": "Aynı Kategori",
+      "match": "eşleşme",
+      "scroll_left": "Sola kaydır",
+      "scroll_right": "Sağa kaydır",
       "categories": "Kategoriler",
       "latest_posts": "Son Gönderiler",
       "posts_by": "Yazar:",

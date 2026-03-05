@@ -254,6 +254,12 @@
     "feed": {
       "other_posts": "Other Posts",
       "related_articles": "Related Articles",
+      "smart_recommendations": "Recommended For You",
+      "smart_recommendations_description": "These articles were selected by AI based on content similarity analysis.",
+      "same_category": "Same Category",
+      "match": "match",
+      "scroll_left": "Scroll left",
+      "scroll_right": "Scroll right",
       "categories": "Categories",
       "latest_posts": "Latest Posts",
       "posts_by": "Posts by",
