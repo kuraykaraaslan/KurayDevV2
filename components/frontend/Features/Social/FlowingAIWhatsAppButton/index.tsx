@@ -5,7 +5,7 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
 import { useChatbotStore } from '@/libs/zustand/chatbotStore'
 
-const Whatsapp = () => {
+const FlowingAIWhatsAppButton = () => {
   const { toggleChatbot, hasUnread } = useChatbotStore()
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const Whatsapp = () => {
       <button
         aria-label="Open AI assistant"
         onClick={toggleChatbot}
-        className="w-1/2 h-full flex items-center justify-center bg-accent hover:bg-base-400 relative"
+        className="w-1/2 h-full flex items-center justify-center bg-accent hover:bg-accent/70 relative"
       >
         <FontAwesomeIcon icon={faRobot} className="w-5 h-5 text-white" />
 
@@ -62,7 +62,7 @@ const Whatsapp = () => {
       <button
         aria-label="Chat on WhatsApp"
         onClick={() => window.open('https://wa.me/905459223554')}
-        className="w-1/2 h-full flex items-center justify-center bg-[#25D366] hover:brightness-110"
+        className="w-1/2 h-full flex items-center justify-center bg-[#25D366] hover:bg-[#25D366]/70"
       >
         <FontAwesomeIcon icon={faWhatsapp} className="w-5 h-5 text-white" />
       </button>
@@ -71,4 +71,4 @@ const Whatsapp = () => {
   )
 }
 
-export default Whatsapp
+export default FlowingAIWhatsAppButton
