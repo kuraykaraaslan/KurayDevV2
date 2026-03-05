@@ -15,6 +15,7 @@ import DashboardWidget, { StatsGrid } from '@/components/admin/Features/Dashboar
 import StatCardItem from '@/components/admin/Features/Dashboard/StatCardItem'
 import GeoStatsItem from '@/components/admin/Features/Dashboard/GeoStatsItem'
 import TrafficOverviewChart from '@/components/admin/Features/Dashboard/TrafficOverviewChart'
+import ChatbotStatsWidget from '@/components/admin/Features/Dashboard/ChatbotStatsWidget'
 
 export default function AnalyticsPage() {
   const [stats, setStats] = useState<Stat | null>(null)
@@ -116,6 +117,11 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Chatbot analytics */}
+      <div className="mb-6">
+        <ChatbotStatsWidget />
       </div>
 
       {/* Full geo list */}

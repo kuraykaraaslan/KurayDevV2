@@ -56,6 +56,60 @@ export class AnthropicProvider extends AIBaseProvider {
     try { return JSON.parse(text) } catch { return text }
   }
 
+  async *streamText(prompt: string, model: string = 'claude-sonnet-4-6'): AsyncGenerator<string, void, unknown> {
+    const res = await fetch(`${BASE_URL}/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey(),
+        'anthropic-version': API_VERSION,
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 4000,
+        system: 'You are a Content Management System API.',
+        messages: [{ role: 'user', content: prompt }],
+        stream: true,
+      }),
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(`[AnthropicProvider] streamText failed (${res.status}): ${err}`)
+    }
+
+    const reader = res.body?.getReader()
+    if (!reader) throw new Error('[AnthropicProvider] No readable stream')
+
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() ?? ''
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+        const raw = line.slice(6).trim()
+        if (raw === '[DONE]') return
+
+        try {
+          const parsed = JSON.parse(raw) as {
+            type?: string
+            delta?: { type?: string; text?: string }
+          }
+          if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+            yield parsed.delta.text
+          }
+        } catch { /* skip malformed JSON */ }
+      }
+    }
+  }
+
   async translateMultipleKeys(
     items: { key: string; text: string }[],
     targetLanguage: string,

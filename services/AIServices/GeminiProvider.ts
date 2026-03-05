@@ -78,6 +78,55 @@ export class GeminiProvider extends AIBaseProvider {
     try { return JSON.parse(text) } catch { return text }
   }
 
+  async *streamText(prompt: string, model: string = 'gemini-2.0-flash'): AsyncGenerator<string, void, unknown> {
+    const res = await fetch(
+      `${BASE_URL}/models/${model}:streamGenerateContent?alt=sse&key=${apiKey()}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: 'You are a Content Management System API.' }] },
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 4000 },
+        }),
+      }
+    )
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(`[GeminiProvider] streamText failed (${res.status}): ${err}`)
+    }
+
+    const reader = res.body?.getReader()
+    if (!reader) throw new Error('[GeminiProvider] No readable stream')
+
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() ?? ''
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+        const raw = line.slice(6).trim()
+        if (!raw) continue
+
+        try {
+          const parsed = JSON.parse(raw) as {
+            candidates?: { content?: { parts?: { text?: string }[] } }[]
+          }
+          const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text
+          if (text) yield text
+        } catch { /* skip malformed JSON */ }
+      }
+    }
+  }
+
   async translateMultipleKeys(
     items: { key: string; text: string }[],
     targetLanguage: string,

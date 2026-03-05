@@ -49,9 +49,14 @@ export async function POST(request: NextRequest) {
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : ChatbotMessages.CHATBOT_RESPONSE_FAILED
     console.error('[Chatbot API] Error:', errMsg)
+
+    const status = errMsg === ChatbotMessages.RATE_LIMIT_EXCEEDED ? 429
+      : errMsg === ChatbotMessages.USER_BANNED ? 403
+      : 500
+
     return NextResponse.json(
       { message: errMsg },
-      { status: 500 }
+      { status }
     )
   }
 }

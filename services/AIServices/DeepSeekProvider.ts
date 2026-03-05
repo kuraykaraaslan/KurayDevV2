@@ -53,6 +53,59 @@ export class DeepSeekProvider extends AIBaseProvider {
     try { return JSON.parse(text) } catch { return text }
   }
 
+  async *streamText(prompt: string, model: string = 'deepseek-chat'): AsyncGenerator<string, void, unknown> {
+    const res = await fetch(`${BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey()}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: 'You are a Content Management System API.' },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: 4000,
+        stream: true,
+      }),
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(`[DeepSeekProvider] streamText failed (${res.status}): ${err}`)
+    }
+
+    const reader = res.body?.getReader()
+    if (!reader) throw new Error('[DeepSeekProvider] No readable stream')
+
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() ?? ''
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+        const raw = line.slice(6).trim()
+        if (raw === '[DONE]') return
+
+        try {
+          const parsed = JSON.parse(raw) as {
+            choices?: { delta?: { content?: string } }[]
+          }
+          const delta = parsed.choices?.[0]?.delta?.content
+          if (delta) yield delta
+        } catch { /* skip malformed JSON */ }
+      }
+    }
+  }
+
   async translateMultipleKeys(
     items: { key: string; text: string }[],
     targetLanguage: string,

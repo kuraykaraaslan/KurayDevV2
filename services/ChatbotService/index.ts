@@ -49,9 +49,12 @@ const MESSAGES_KEY = (id: string) => `chatbot:messages:${id}`
 const ACTIVE_SESSIONS = 'chatbot:sessions:active' // Sorted set (score = timestamp)
 const USER_SESSIONS = (userId: string) => `chatbot:sessions:user:${userId}`
 const BAN_KEY = (userId: string) => `chatbot:ban:${userId}`
+const RATE_LIMIT_KEY = (userId: string) => `chatbot:ratelimit:${userId}`
 
 const SESSION_TTL = 60 * 60 * 24 * 7 // 7 days
 const BAN_TTL = 60 * 60 // 1 hour
+const USER_RATE_LIMIT = 10 // max messages per window
+const USER_RATE_WINDOW = 60 // 60 seconds
 const KG_NODES_KEY = 'kg:nodes'
 const RAG_TOP_K = 5
 const RAG_THRESHOLD = 0.15
@@ -151,10 +154,16 @@ export default class ChatbotService {
         sources: ChatbotSource[]
         chatSessionId: string
     }> {
-        // ── 0. Check if user is banned ─────────────────────────────────
+        // ── 0a. Check if user is banned ────────────────────────────────
         const banned = await ChatbotService.isUserBanned(userId)
         if (banned) {
             throw new Error(ChatbotMessages.USER_BANNED)
+        }
+
+        // ── 0b. Per-user rate limit ────────────────────────────────────
+        const rateLimitAllowed = await ChatbotService.checkUserRateLimit(userId)
+        if (!rateLimitAllowed) {
+            throw new Error(ChatbotMessages.RATE_LIMIT_EXCEEDED)
         }
 
         // ── 1. Resolve or create session ───────────────────────────────
@@ -282,6 +291,180 @@ export default class ChatbotService {
         )
 
         return { reply, sources, chatSessionId: session.chatSessionId }
+    }
+
+    // ─────────────────────── Chat Stream (SSE) ────────────────────────
+
+    /**
+     * Stream a chatbot response via SSE.
+     * Yields JSON-encoded SSE events: { type: 'meta' | 'chunk' | 'sources' | 'done' | 'error' }
+     */
+    static async *chatStream({
+        message,
+        chatSessionId,
+        userId,
+        userEmail,
+        provider,
+        model,
+    }: {
+        message: string
+        chatSessionId?: string
+        userId: string
+        userEmail?: string
+        provider?: string
+        model?: string
+    }): AsyncGenerator<string, void, unknown> {
+        // ── 0a. Check if user is banned ────────────────────────────────
+        const banned = await ChatbotService.isUserBanned(userId)
+        if (banned) {
+            yield `data: ${JSON.stringify({ type: 'error', error: ChatbotMessages.USER_BANNED })}\n\n`
+            return
+        }
+
+        // ── 0b. Per-user rate limit ────────────────────────────────────
+        const rateLimitAllowed = await ChatbotService.checkUserRateLimit(userId)
+        if (!rateLimitAllowed) {
+            yield `data: ${JSON.stringify({ type: 'error', error: ChatbotMessages.RATE_LIMIT_EXCEEDED })}\n\n`
+            return
+        }
+
+        // ── 1. Resolve or create session ───────────────────────────────
+        let session: StoredChatSession | undefined
+
+        if (chatSessionId) {
+            session = await ChatbotService.getSession(chatSessionId)
+        }
+
+        if (!session) {
+            session = await ChatbotService.createSession(userId, userEmail)
+        }
+
+        if (session.status === 'CLOSED') {
+            session = await ChatbotService.createSession(userId, userEmail)
+        }
+
+        // Send session ID immediately
+        yield `data: ${JSON.stringify({ type: 'meta', chatSessionId: session.chatSessionId })}\n\n`
+
+        // ── 2. Persist user message ────────────────────────────────────
+        const userMsg: StoredChatMessage = {
+            id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+            role: 'user',
+            content: message,
+            createdAt: new Date().toISOString(),
+        }
+        await ChatbotService.addMessage(session.chatSessionId, userMsg)
+
+        if (!session.title) {
+            session.title = message.slice(0, 80)
+            await ChatbotService.updateSession(session)
+        }
+
+        await redis.zadd(ACTIVE_SESSIONS, Date.now(), session.chatSessionId)
+
+        // ── 3. If TAKEN_OVER by admin, skip AI ─────────────────────────
+        if (session.status === 'TAKEN_OVER') {
+            const waitingMsg: StoredChatMessage = {
+                id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                role: 'assistant',
+                content: '__ADMIN_TAKEOVER__',
+                createdAt: new Date().toISOString(),
+            }
+            await ChatbotService.addMessage(session.chatSessionId, waitingMsg)
+            yield `data: ${JSON.stringify({ type: 'chunk', content: '__ADMIN_TAKEOVER__' })}\n\n`
+            yield `data: ${JSON.stringify({ type: 'done' })}\n\n`
+            return
+        }
+
+        // ── 4. RAG retrieval ───────────────────────────────────────────
+        const [ragContext, datasetContext, faqContext] = await Promise.all([
+            ChatbotService.retrieveContext(message),
+            ChatbotService.retrieveDatasetContext(message),
+            ChatbotService.retrieveFaqContext(message),
+        ])
+
+        // ── 5. Build prompt ────────────────────────────────────────────
+        const history = await ChatbotService.getMessages(session.chatSessionId)
+        const mergedContext = [...ragContext]
+        for (const doc of datasetContext) {
+            mergedContext.push({
+                postId: doc.id,
+                title: doc.title,
+                slug: '',
+                categorySlug: doc.type,
+                score: doc.score,
+                snippet: doc.text,
+            })
+        }
+        for (const faq of faqContext) {
+            mergedContext.push({
+                postId: faq.id,
+                title: faq.question,
+                slug: '',
+                categorySlug: 'faq',
+                score: faq.score,
+                snippet: `Q: ${faq.question}\nA: ${faq.answer}`,
+            })
+        }
+
+        const previousMessages = history.slice(0, -1)
+        const systemPrompt = await ChatbotService.buildSystemPrompt(mergedContext)
+        const promptMessages = ChatbotService.buildMessages(systemPrompt, previousMessages, message)
+
+        // ── 6. Stream AI response ──────────────────────────────────────
+        const aiProvider = AIService.getProvider(provider)
+        const fullPrompt = promptMessages
+            .map((m) =>
+                `${m.role === 'system' ? '[System]' : m.role === 'user' ? '[User]' : '[Assistant]'}: ${m.content}`
+            )
+            .join('\n\n')
+
+        let fullReply = ''
+
+        try {
+            for await (const chunk of aiProvider.streamText(fullPrompt, model)) {
+                fullReply += chunk
+                yield `data: ${JSON.stringify({ type: 'chunk', content: chunk })}\n\n`
+            }
+        } catch (err) {
+            Logger.error(`[ChatbotService] Stream error: ${err}`)
+            yield `data: ${JSON.stringify({ type: 'error', error: ChatbotMessages.CHATBOT_RESPONSE_FAILED })}\n\n`
+            return
+        }
+
+        if (!fullReply) {
+            yield `data: ${JSON.stringify({ type: 'error', error: ChatbotMessages.CHATBOT_RESPONSE_FAILED })}\n\n`
+            return
+        }
+
+        // ── 7. Build sources ───────────────────────────────────────────
+        const sources: ChatbotSource[] = ragContext.map((ctx) => ({
+            postId: ctx.postId,
+            title: ctx.title,
+            slug: ctx.slug,
+            categorySlug: ctx.categorySlug,
+            score: ctx.score,
+        }))
+
+        // ── 8. Persist AI message ──────────────────────────────────────
+        const aiMsg: StoredChatMessage = {
+            id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+            role: 'assistant',
+            content: fullReply,
+            sources: sources.length > 0 ? sources : undefined,
+            createdAt: new Date().toISOString(),
+        }
+        await ChatbotService.addMessage(session.chatSessionId, aiMsg)
+
+        // Send sources + done events
+        if (sources.length > 0) {
+            yield `data: ${JSON.stringify({ type: 'sources', sources })}\n\n`
+        }
+        yield `data: ${JSON.stringify({ type: 'done' })}\n\n`
+
+        Logger.info(
+            `[ChatbotService] Session ${session.chatSessionId}: stream completed (${sources.length} sources)`
+        )
     }
 
     // ─────────────────────── Admin operations ─────────────────────────
@@ -423,6 +606,35 @@ export default class ChatbotService {
         return val !== null
     }
 
+    // ────────────────────── Per-user rate limiting ─────────────────
+
+    /**
+     * Check per-user rate limit (sliding window via Redis INCR + TTL).
+     * Returns true if allowed, false if rate limit exceeded.
+     */
+    private static async checkUserRateLimit(userId: string): Promise<boolean> {
+        try {
+            const key = RATE_LIMIT_KEY(userId)
+            const current = await redis.incr(key)
+
+            // Set TTL on first request in the window
+            if (current === 1) {
+                await redis.expire(key, USER_RATE_WINDOW)
+            }
+
+            if (current > USER_RATE_LIMIT) {
+                Logger.warn(`[ChatbotService] Rate limit exceeded for user ${userId} (${current}/${USER_RATE_LIMIT})`)
+                return false
+            }
+
+            return true
+        } catch (err) {
+            // Fail open — if Redis errors, allow the request
+            Logger.error(`[ChatbotService] Rate limit check failed: ${err}`)
+            return true
+        }
+    }
+
     /**
      * Get remaining ban time in seconds (0 if not banned).
      */
@@ -444,6 +656,69 @@ export default class ChatbotService {
         return sessions.sort(
             (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         )
+    }
+
+    // ─────────────────────── Analytics / Stats ────────────────────────
+
+    /**
+     * Get chatbot analytics stats (admin dashboard).
+     */
+    static async getStats(): Promise<{
+        totalSessions: number
+        activeSessions: number
+        closedSessions: number
+        takenOverSessions: number
+        totalMessages: number
+        avgMessagesPerSession: number
+        uniqueUsers: number
+        recentSessions: StoredChatSession[]
+    }> {
+        const allIds = await redis.zrevrange(ACTIVE_SESSIONS, 0, -1)
+
+        let activeSessions = 0
+        let closedSessions = 0
+        let takenOverSessions = 0
+        let totalMessages = 0
+        const userSet = new Set<string>()
+        const allSessions: StoredChatSession[] = []
+
+        for (const id of allIds) {
+            const s = await ChatbotService.getSession(id)
+            if (!s) {
+                await redis.zrem(ACTIVE_SESSIONS, id)
+                continue
+            }
+            allSessions.push(s)
+            userSet.add(s.userId)
+
+            if (s.status === 'ACTIVE') activeSessions++
+            else if (s.status === 'CLOSED') closedSessions++
+            else if (s.status === 'TAKEN_OVER') takenOverSessions++
+
+            const msgCount = await redis.llen(MESSAGES_KEY(id))
+            totalMessages += msgCount
+        }
+
+        const totalSessions = allSessions.length
+        const avgMessagesPerSession = totalSessions > 0
+            ? Math.round((totalMessages / totalSessions) * 10) / 10
+            : 0
+
+        // Most recent 5 sessions
+        const recentSessions = allSessions
+            .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+            .slice(0, 5)
+
+        return {
+            totalSessions,
+            activeSessions,
+            closedSessions,
+            takenOverSessions,
+            totalMessages,
+            avgMessagesPerSession,
+            uniqueUsers: userSet.size,
+            recentSessions,
+        }
     }
 
     // ─────────────────────── RAG internals ────────────────────────────

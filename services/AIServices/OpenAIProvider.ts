@@ -70,6 +70,23 @@ export class OpenAIProvider extends AIBaseProvider {
     try { return JSON.parse(text) } catch { return text }
   }
 
+  async *streamText(prompt: string, model: string = 'gpt-4o'): AsyncGenerator<string, void, unknown> {
+    const stream = await openai.chat.completions.create({
+      model,
+      messages: [
+        { role: 'system', content: 'You are a Content Management System API.' },
+        { role: 'user', content: prompt },
+      ],
+      max_completion_tokens: 4000,
+      stream: true,
+    })
+
+    for await (const chunk of stream) {
+      const delta = chunk.choices?.[0]?.delta?.content
+      if (delta) yield delta
+    }
+  }
+
   async generateImage(
     prompt: string,
     width: number = 1792,

@@ -25,6 +25,9 @@ export const RATE_LIMIT_CONFIG: Record<string, RateLimitConfig> = {
   '/api/auth/reset-password': { limit: 3 * DEV_MULTIPLIER, window: 60 },
   '/api/auth/otp': { limit: 5 * DEV_MULTIPLIER, window: 60 },
 
+  // Chatbot - AI calls are expensive
+  '/api/chatbot': { limit: 8 * DEV_MULTIPLIER, window: 60 },
+
   // Contact form - prevent spam
   '/api/contact': { limit: 3 * DEV_MULTIPLIER, window: 60 },
 

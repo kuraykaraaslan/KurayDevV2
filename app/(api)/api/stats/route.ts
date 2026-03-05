@@ -29,16 +29,21 @@ export async function POST(request: NextRequest) {
 
     const stats = await StatService.getAllStats(frequency)
 
+    const chatbotStats = await StatService.getChatbotStats()
+
     const values = {
       totalPosts: stats.totalPosts || 0,
       totalCategories: stats.totalCategories || 0,
       totalUsers: stats.totalUsers || 0,
       totalViews: stats.totalViews || 0,
       totalComments: stats.totalComments || 0,
+      totalChatSessions: stats.totalChatSessions || 0,
+      totalChatMessages: stats.totalChatMessages || 0,
     }
 
     return NextResponse.json({
       values,
+      chatbot: chatbotStats,
     })
   } catch (error: any) {
     console.error('Error in POST /api/stats:', error)

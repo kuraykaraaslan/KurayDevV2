@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import { faNewspaper, faFolder, faUsers, faEye, faComment } from '@fortawesome/free-solid-svg-icons'
+import { faNewspaper, faFolder, faUsers, faEye, faComment, faRobot, faComments } from '@fortawesome/free-solid-svg-icons'
 import { GeoLocation } from '@/dtos/AnalyticsDTO'
 export interface TrafficDataPoint {
   label: string
@@ -9,7 +9,7 @@ export interface TrafficDataPoint {
 
 // Schemas
 export const StatCardSchema = z.object({
-  key: z.enum(['totalViews', 'totalPosts', 'totalComments', 'totalUsers', 'totalCategories']),
+  key: z.enum(['totalViews', 'totalPosts', 'totalComments', 'totalUsers', 'totalCategories', 'totalChatSessions', 'totalChatMessages']),
   label: z.string(),
   icon: z.custom<IconDefinition>(),
   href: z.string().nullable(),
@@ -31,6 +31,8 @@ export const STAT_CARDS: StatCard[] = [
   { key: 'totalComments', label: 'Comments', icon: faComment, href: '/admin/comments' },
   { key: 'totalUsers', label: 'Users', icon: faUsers, href: '/admin/users' },
   { key: 'totalCategories', label: 'Categories', icon: faFolder, href: '/admin/categories' },
+  { key: 'totalChatSessions', label: 'Chat Sessions', icon: faRobot, href: '/admin/chatbot' },
+  { key: 'totalChatMessages', label: 'Chat Messages', icon: faComments, href: '/admin/chatbot' },
 ]
 
 export const STAT_FREQUENCIES: StatFrequencyOption[] = [

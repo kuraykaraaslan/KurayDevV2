@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faRobot,
@@ -25,6 +25,7 @@ const Chatbot = () => {
   const [sources, setSources] = useState<ChatSource[]>([])
   const [chatSessionId, setChatSessionId] = useState<string | undefined>(undefined)
   const [sessionClosed, setSessionClosed] = useState(false)
+  const abortRef = useRef<AbortController | null>(null)
 
   // Poll for new messages
   useEffect(() => {
@@ -68,46 +69,133 @@ const Chatbot = () => {
     setIsLoading(true)
     setSources([])
 
+    // Create a placeholder assistant message for streaming
+    const streamingMsg: ChatMessage = { role: 'assistant', content: '' }
+    setMessages((prev) => [...prev, streamingMsg])
+
+    const controller = new AbortController()
+    abortRef.current = controller
+
     try {
-      const response = await axiosInstance.post('/api/chatbot', {
-        message: trimmed,
-        chatSessionId,
+      const res = await fetch('/api/chatbot/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: trimmed, chatSessionId }),
+        signal: controller.signal,
       })
 
-      const { reply, sources: newSources, chatSessionId: newSessionId } = response.data
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}))
+        const apiMessage = (errBody as { message?: string }).message
 
-      // Persist session ID from first message
-      if (newSessionId && !chatSessionId) {
-        setChatSessionId(newSessionId)
+        let content = t('shared.chatbot.error_message')
+        if (apiMessage === 'USER_BANNED' || res.status === 403) {
+          content = t('shared.chatbot.user_banned')
+        } else if (apiMessage === 'RATE_LIMIT_EXCEEDED' || res.status === 429) {
+          content = t('shared.chatbot.rate_limit_exceeded')
+        }
+
+        setMessages((prev) => {
+          const updated = [...prev]
+          updated[updated.length - 1] = { role: 'assistant', content }
+          return updated
+        })
+        return
       }
 
-      // If reply is the admin takeover marker, don't show it
-      if (reply === '__ADMIN_TAKEOVER__') {
-        // Admin took over — don't show marker
-      } else {
-        const assistantMessage: ChatMessage = { role: 'assistant', content: reply }
-        setMessages((prev) => [...prev, assistantMessage])
-      }
+      const reader = res.body?.getReader()
+      if (!reader) throw new Error('No readable stream')
 
-      setSources(newSources ?? [])
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let accumulated = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() ?? ''
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue
+          const raw = line.slice(6).trim()
+          if (!raw) continue
+
+          try {
+            const event = JSON.parse(raw) as {
+              type: string
+              content?: string
+              chatSessionId?: string
+              sources?: ChatSource[]
+              error?: string
+            }
+
+            switch (event.type) {
+              case 'meta':
+                if (event.chatSessionId && !chatSessionId) {
+                  setChatSessionId(event.chatSessionId)
+                }
+                break
+
+              case 'chunk':
+                if (event.content && event.content !== '__ADMIN_TAKEOVER__') {
+                  accumulated += event.content
+                  setMessages((prev) => {
+                    const updated = [...prev]
+                    updated[updated.length - 1] = { role: 'assistant', content: accumulated }
+                    return updated
+                  })
+                }
+                break
+
+              case 'sources':
+                if (event.sources) {
+                  setSources(event.sources)
+                }
+                break
+
+              case 'error': {
+                let content = t('shared.chatbot.error_message')
+                if (event.error === 'USER_BANNED') {
+                  content = t('shared.chatbot.user_banned')
+                } else if (event.error === 'RATE_LIMIT_EXCEEDED') {
+                  content = t('shared.chatbot.rate_limit_exceeded')
+                }
+                setMessages((prev) => {
+                  const updated = [...prev]
+                  updated[updated.length - 1] = { role: 'assistant', content }
+                  return updated
+                })
+                break
+              }
+
+              case 'done':
+                break
+            }
+          } catch { /* skip malformed SSE data */ }
+        }
+      }
     } catch (err: unknown) {
-      // Check if user is banned
-      const isBanned = (err as { response?: { data?: { message?: string } } })
-        ?.response?.data?.message === 'USER_BANNED'
+      if ((err as Error).name === 'AbortError') return
 
-      const errorMessage: ChatMessage = {
-        role: 'assistant',
-        content: isBanned
-          ? t('shared.chatbot.user_banned')
-          : t('shared.chatbot.error_message'),
-      }
-      setMessages((prev) => [...prev, errorMessage])
+      setMessages((prev) => {
+        const updated = [...prev]
+        updated[updated.length - 1] = {
+          role: 'assistant',
+          content: t('shared.chatbot.error_message'),
+        }
+        return updated
+      })
     } finally {
+      abortRef.current = null
       setIsLoading(false)
     }
   }, [input, isLoading, chatSessionId, t])
 
   const handleClear = () => {
+    abortRef.current?.abort()
     setMessages([])
     setSources([])
     setChatSessionId(undefined)

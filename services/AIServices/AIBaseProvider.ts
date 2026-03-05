@@ -9,6 +9,9 @@ export abstract class AIBaseProvider {
   /** Generate text from a prompt using the given model. */
   abstract generateText(prompt: string, model?: string): Promise<string | null>
 
+  /** Stream text from a prompt, yielding chunks as they arrive. */
+  abstract streamText(prompt: string, model?: string): AsyncGenerator<string, void, unknown>
+
   /** Batch-translate UI string keys from source to target language. */
   abstract translateMultipleKeys(
     items: { key: string; text: string }[],

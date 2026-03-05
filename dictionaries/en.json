@@ -380,7 +380,8 @@
       "sources": "Related articles:",
       "error_message": "Sorry, something went wrong. Please try again.",
       "session_closed": "This session has been closed. Please start a new conversation.",
-      "user_banned": "You have been temporarily restricted from using the chatbot. Please try again later."
+      "user_banned": "You have been temporarily restricted from using the chatbot. Please try again later.",
+      "rate_limit_exceeded": "You're sending messages too quickly. Please wait a moment before trying again."
     },
     "calendar": {
       "title": "Calendar",
