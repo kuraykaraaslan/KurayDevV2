@@ -416,6 +416,9 @@
       "top_countries": "Top Countries",
       "no_data": "No visitor data yet"
     },
+    "viewers": {
+      "live": "{{count}} reading now"
+    },
     "status": {
       "title": "System Status",
       "loading": "Checking system status...",

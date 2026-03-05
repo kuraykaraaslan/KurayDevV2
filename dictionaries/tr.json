@@ -388,6 +388,9 @@
       "top_countries": "En Çok Ziyaret Eden Ülkeler",
       "no_data": "Henüz ziyaretçi verisi yok"
     },
+    "viewers": {
+      "live": "{{count}} kişi şu an okuyor"
+    },
     "status": {
       "title": "Sistem Durumu",
       "loading": "Sistem durumunu kontrol ediliyor...",
