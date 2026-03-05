@@ -5,6 +5,7 @@ import { faXTwitter, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-i
 import Link from '@/libs/i18n/Link'
 import { useTranslation } from 'react-i18next'
 import SystemStatusButton from '../../UI/Buttons/SystemStatusButton'
+import GeoHeatmapButton from '../../UI/Buttons/GeoHeatmapButton'
 
 const Footer = () => {
   const { t } = useTranslation()
@@ -20,6 +21,7 @@ const Footer = () => {
           © {new Date().getFullYear()} Kuray Karaaslan. {t('shared.footer.all_rights_reserved')}
         </span>
         <SystemStatusButton />
+        <GeoHeatmapButton />
       </div>
 
       <nav aria-label={t('footer.social_media_links')} className="flex flex-row flex-wrap justify-end gap-1">

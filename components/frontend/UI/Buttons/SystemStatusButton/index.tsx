@@ -1,7 +1,7 @@
 'use client'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCircle, faServer } from '@fortawesome/free-solid-svg-icons'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import SystemStatusModalContent from './content'
 import i18n from '@/libs/localize/localize'
@@ -11,12 +11,15 @@ export default function SystemStatusButton() {
 
   return (
     <>
-      <button onClick={modal.openModal}>
+      <button onClick={modal.openModal}
+        className="flex items-center gap-1 text-sm hover:text-primary transition-colors"
+        aria-label={i18n.t('shared.status.open_status')}
+      >
         <FontAwesomeIcon
-          icon={faCircle}
-          className={`text-[8px] mr-1 text-gray-300`} // color comes from content
+          icon={faServer}
+           className="text-base"
         />
-        <span className="text-sm">{i18n.t('shared.status.title')}</span>
+        <span className="text-sm hidden md:inline">{i18n.t('shared.status.title')}</span>
       </button>
 
       <HeadlessModal
