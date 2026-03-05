@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next'
 import { ChatMessageList } from '@/components/common/UI/Chat'
-import { useChatbot } from './useChatbot'
-import ChatbotHeader from './ChatbotHeader'
-import ChatbotSources from './ChatbotSources'
-import ChatbotInputBar from './ChatbotInputBar'
+import { useChatbot } from './hooks/useChatbot'
+import ChatbotHeader from './partials/ChatbotHeader'
+import ChatbotSources from './partials/ChatbotSources'
+import ChatbotInputBar from './partials/ChatbotInputBar'
 
 const Chatbot = () => {
   const { t } = useTranslation()
