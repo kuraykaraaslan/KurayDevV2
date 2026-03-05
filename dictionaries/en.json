@@ -369,6 +369,17 @@
     "whatsapp": {
       "message": "Hello! I am Kuray Karaaslan, how can I help you?"
     },
+    "chatbot": {
+      "title": "AI Assistant",
+      "welcome_message": "Hi! I'm the AI assistant. Ask me anything about the blog posts, projects, or tech topics covered here.",
+      "placeholder": "Type your message...",
+      "send": "Send",
+      "close": "Close",
+      "clear": "Clear chat",
+      "thinking": "Thinking...",
+      "sources": "Related articles:",
+      "error_message": "Sorry, something went wrong. Please try again."
+    },
     "calendar": {
       "title": "Calendar",
       "description": "Book an appointment with me.",

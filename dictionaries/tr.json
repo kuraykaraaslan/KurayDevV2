@@ -338,6 +338,17 @@
     "whatsapp": {
       "message": "Merhaba! Ben Kuray Karaaslan, size nasıl yardımcı olabilirim?"
     },
+    "chatbot": {
+      "title": "AI Asistan",
+      "welcome_message": "Merhaba! Ben AI asistanım. Blog yazıları, projeler veya burada ele alınan teknik konular hakkında bana her şeyi sorabilirsiniz.",
+      "placeholder": "Mesajınızı yazın...",
+      "send": "Gönder",
+      "close": "Kapat",
+      "clear": "Sohbeti temizle",
+      "thinking": "Düşünüyor...",
+      "sources": "İlgili yazılar:",
+      "error_message": "Üzgünüm, bir şeyler yanlış gitti. Lütfen tekrar deneyin."
+    },
     "calendar": {
       "title": "Takvim",
       "description": "Benimle bir randevu ayarlayın.",
