@@ -1,21 +1,28 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faB, faMagnifyingGlass, faP, faSpinner } from '@fortawesome/free-solid-svg-icons' // Spinner ekledik
+import { faB, faMagnifyingGlass, faP, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { ResultElement } from './partials/ResultElement'
 import { SearchResultItemType, SearchType } from '@/types/content/SearchTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import { useRouter, usePathname } from 'next/navigation'
+import { getCurrentLangFromPathname, localizePath } from '@/libs/i18n/localePath'
+
+const RESULT_ID_PREFIX = 'search-result-'
 
 const SearchButton = () => {
   const { t } = useTranslation()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const { open, openModal, closeModal } = useModal(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [results, setResults] = useState<SearchResultItemType[]>([])
   const [loading, setLoading] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
 
   const [searchTypes] = useState<SearchType[]>([SearchType.BLOG, SearchType.PROJECT])
 
@@ -29,25 +36,38 @@ const SearchButton = () => {
   }
 
   const inputRef = useRef<HTMLInputElement>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
-  // AbortController ref (to cancel old requests)
   const abortControllerRef = useRef<AbortController | null>(null)
+
+  /* Reset active index whenever results change */
+  useEffect(() => {
+    setActiveIndex(-1)
+  }, [results])
+
+  /* Reset state when modal closes */
+  useEffect(() => {
+    if (!open) {
+      setSearchQuery('')
+      setResults([])
+      setActiveIndex(-1)
+    }
+  }, [open])
 
   /** Debounce Search & Cleanup */
   useEffect(() => {
-    // If input is empty, clear results and stop
     if (searchQuery.trim().length === 0) {
       setResults([])
       setLoading(false)
       return
     }
 
-    const t = setTimeout(() => {
+    const timer = setTimeout(() => {
       search(searchQuery)
-    }, 250)
+    }, 500)
 
     return () => {
-      clearTimeout(t)
+      clearTimeout(timer)
     }
   }, [searchQuery, searchTypes])
 
@@ -62,11 +82,10 @@ const SearchButton = () => {
     setLoading(true)
 
     await axiosInstance
-      .get('/api/search' + `?q=${encodeURIComponent(q)}`)
+      .get('/api/search' + `?q=${encodeURIComponent(q)}`, { signal: controller.signal })
       .then((response) => {
         const data = response.data
 
-        // Type filter — only show results from selected categories
         const filteredResults = data.hits.filter((hit: SearchResultItemType) =>
           searchTypes.includes(hit.type)
         )
@@ -74,12 +93,76 @@ const SearchButton = () => {
         setResults(filteredResults)
       })
       .catch((error) => {
-        console.error('Search error:', error)
+        if (error?.code !== 'ERR_CANCELED') {
+          console.error('Search error:', error)
+        }
       })
       .finally(() => {
         setLoading(false)
       })
   }
+
+  /** Navigate to the selected result and close modal */
+  const navigateToResult = useCallback(
+    (item: SearchResultItemType) => {
+      const currentLang = getCurrentLangFromPathname(pathname)
+      const localizedPath = localizePath(item.path, currentLang, false)
+      closeModal()
+      router.push(localizedPath)
+    },
+    [closeModal, pathname, router]
+  )
+
+  /** Scroll the active item into view inside the results container */
+  const scrollActiveIntoView = useCallback((index: number) => {
+    const el = document.getElementById(`${RESULT_ID_PREFIX}${index}`)
+    if (el) {
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    }
+  }, [])
+
+  /** Keyboard handler for autocomplete navigation */
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (results.length === 0) return
+
+      switch (e.key) {
+        case 'ArrowDown': {
+          e.preventDefault()
+          const nextIndex = activeIndex < results.length - 1 ? activeIndex + 1 : 0
+          setActiveIndex(nextIndex)
+          scrollActiveIntoView(nextIndex)
+          break
+        }
+        case 'ArrowUp': {
+          e.preventDefault()
+          const prevIndex = activeIndex > 0 ? activeIndex - 1 : results.length - 1
+          setActiveIndex(prevIndex)
+          scrollActiveIntoView(prevIndex)
+          break
+        }
+        case 'Enter': {
+          e.preventDefault()
+          if (activeIndex >= 0 && activeIndex < results.length) {
+            navigateToResult(results[activeIndex])
+          }
+          break
+        }
+        case 'Escape': {
+          e.preventDefault()
+          if (activeIndex >= 0) {
+            setActiveIndex(-1)
+          } else {
+            closeModal()
+          }
+          break
+        }
+      }
+    },
+    [activeIndex, results, navigateToResult, scrollActiveIntoView, closeModal]
+  )
+
+  const defaultPlaceholder = t('navbar.search_placeholder')
 
   return (
     <>
@@ -98,28 +181,34 @@ const SearchButton = () => {
         title={t('navbar.search')}
         className="backdrop-blur-xl border border-base-200"
       >
-        {/* Input Wrapper - Loading ikonunu buraya koyuyoruz */}
+        {/* Search Input */}
         <div className="relative w-full mb-4">
           <input
             ref={inputRef}
             id="search-input"
             type="search"
+            role="combobox"
             aria-label={t('navbar.search')}
             aria-controls="search-results"
             aria-autocomplete="list"
+            aria-expanded={results.length > 0}
+            aria-activedescendant={
+              activeIndex >= 0 ? `${RESULT_ID_PREFIX}${activeIndex}` : undefined
+            }
             className="
               input input-bordered w-full h-12 text-base px-4 pe-10
               backdrop-blur-md
               border rounded-xl
             "
-            placeholder={t('navbar.search_placeholder')}
+            placeholder={defaultPlaceholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
 
-          {/* Loading İkonu: Input'un sağ tarafında, layout'u itmez */}
-          {false && (
-            <div className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400">
+          {/* Loading spinner */}
+          {loading && (
+            <div className="absolute end-24 top-1/2 -translate-y-1/2 text-base-content/40">
               <FontAwesomeIcon icon={faSpinner} spin />
             </div>
           )}
@@ -128,7 +217,7 @@ const SearchButton = () => {
             <button
               onClick={() => {
                 toggleSearchType(SearchType.BLOG)
-                search(searchQuery) // Trigger search when type changes
+                search(searchQuery)
               }}
               aria-label={t('navbar.filter_by_blog', { active: searchTypes.includes(SearchType.BLOG) ? '(active)' : '' })}
               aria-pressed={searchTypes.includes(SearchType.BLOG)}
@@ -143,7 +232,7 @@ const SearchButton = () => {
             <button
               onClick={() => {
                 toggleSearchType(SearchType.PROJECT)
-                search(searchQuery) // Trigger search when type changes
+                search(searchQuery)
               }}
               aria-label={t('navbar.filter_by_project', { active: searchTypes.includes(SearchType.PROJECT) ? '(active)' : '' })}
               aria-pressed={searchTypes.includes(SearchType.PROJECT)}
@@ -158,8 +247,25 @@ const SearchButton = () => {
           </div>
         </div>
 
+        {/* Keyboard hint */}
+        {results.length > 0 && (
+          <div className="flex items-center gap-3 text-xs text-base-content/40 mb-2 px-1">
+            <span>
+              <kbd className="kbd kbd-xs">↑</kbd> <kbd className="kbd kbd-xs">↓</kbd>{' '}
+              {t('navbar.autocomplete_navigate')}
+            </span>
+            <span>
+              <kbd className="kbd kbd-xs">↵</kbd> {t('navbar.autocomplete_select')}
+            </span>
+            <span>
+              <kbd className="kbd kbd-xs">esc</kbd> {t('navbar.autocomplete_close')}
+            </span>
+          </div>
+        )}
+
         {/* Results Area */}
         <div
+          ref={resultsRef}
           id="search-results"
           role="listbox"
           aria-label={t('navbar.search_results')}
@@ -167,13 +273,19 @@ const SearchButton = () => {
           aria-busy={loading}
           className={`max-h-[60vh] overflow-y-auto space-y-2 transition-opacity duration-200 ${loading ? 'opacity-50' : 'opacity-100'}`}
         >
-          {/* "Sonuç bulunamadı" sadece loading değilken ve query varken gösterilir */}
           {!loading && results.length === 0 && searchQuery.length > 0 && (
             <div className="text-gray-500 px-1 text-sm italic">{t('navbar.no_results_found')}</div>
           )}
 
           {results.map((item, i) => (
-            <ResultElement key={i} item={item} index={i} />
+            <ResultElement
+              key={`${item.path}-${i}`}
+              item={item}
+              index={i}
+              id={`${RESULT_ID_PREFIX}${i}`}
+              isActive={i === activeIndex}
+              highlightQuery={searchQuery}
+            />
           ))}
         </div>
       </HeadlessModal>
