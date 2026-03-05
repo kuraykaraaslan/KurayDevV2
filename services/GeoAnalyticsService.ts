@@ -6,16 +6,20 @@ export default class GeoAnalyticsService {
   private static userKeyPrefix = 'seen-user:'
   private static cityKeyPrefix = 'geo-city:'
 
-  // To count each user only once
+  /** Returns true if this device fingerprint has already been counted. */
   static async hasSeenUser(fingerprint: string) {
     return (await redis.exists(this.userKeyPrefix + fingerprint)) === 1
   }
 
+  /** Marks a device fingerprint as seen for 90 days. */
   static async markUserSeen(fingerprint: string) {
     await redis.set(this.userKeyPrefix + fingerprint, '1', 'EX', 60 * 60 * 24 * 90)
   }
 
-  // Main logic: both city analytics and unique user tracking
+  /**
+   * Main entry point: resolves IP → geo location, deduplicates by device
+   * fingerprint, and persists an incremented visit count per city to the DB.
+   */
   static async process(ip: string) {
     const ua = await UserAgentService.parse(undefined, ip)
     const fingerprint = ua.deviceFingerprint
@@ -24,42 +28,27 @@ export default class GeoAnalyticsService {
       return { ok: false, error: 'No fingerprint' }
     }
 
-    // If user was already counted, don't increment city count
     const alreadySeen = await this.hasSeenUser(fingerprint)
     if (alreadySeen) {
       return { ok: true, skipped: true }
     }
 
-    // Mark user as seen to avoid counting again
     await this.markUserSeen(fingerprint)
 
-    // Geo konum al
     const geo = await UserAgentService.getGeoLocationFromMaxMind(ip)
     if (!geo.latitude || !geo.longitude) {
       return { ok: true, skipped: true }
     }
 
     const country = geo.country || 'Unknown'
+    const countryCode = geo.countryCode || ''
     const city = geo.city || 'Unknown'
 
-    // City-based Redis counter
     const redisKey = `${this.cityKeyPrefix}${country}:${city}`
     const newCount = await redis.incr(redisKey)
 
-    // Update DB
-    await DBGeoService.saveOrUpdateGeo(
-      country,
-      city,
-      geo.latitude,
-      geo.longitude,
-      1 // +1 for each new user
-    )
+    await DBGeoService.saveOrUpdateGeo(country, countryCode, city, geo.latitude, geo.longitude, 1)
 
-    return {
-      ok: true,
-      country,
-      city,
-      count: newCount,
-    }
+    return { ok: true, country, countryCode, city, count: newCount }
   }
 }

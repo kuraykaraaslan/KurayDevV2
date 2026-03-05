@@ -1,7 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import GeoAnalyticsService from '@/services/GeoAnalyticsService'
 import DBGeoService from '@/services/DBGeoService'
-import { GetGeoAnalyticsRequestSchema } from '@/dtos/AnalyticsDTO'
 import GEOAnalyticsMessages from '@/messages/GEOAnalyticsMessages'
 
 export async function GET(request: NextRequest) {
@@ -11,21 +10,19 @@ export async function GET(request: NextRequest) {
       request.headers.get('x-real-ip') ||
       '127.0.0.1'
 
-    await GeoAnalyticsService.process(ip)
-    const data = await DBGeoService.getAll()
+    // Track the visitor (deduped by device fingerprint via Redis).
+    // Failures (e.g. MaxMind 403) are non-fatal; data fetch continues regardless.
+    await GeoAnalyticsService.process(ip).catch(() => undefined)
 
-    GetGeoAnalyticsRequestSchema.safeParse({})
+    // Serve from Redis cache (5-minute TTL); falls back to DB on cache miss
+    const data = await DBGeoService.getAll()
 
     return NextResponse.json({
       message: GEOAnalyticsMessages.GEO_ANALYTICS_RETRIEVED,
-      data: data,
+      data,
     })
-  } catch (error: any) {
-    return NextResponse.json(
-      {
-        message: error.message,
-      },
-      { status: 500 }
-    )
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Internal server error'
+    return NextResponse.json({ message }, { status: 500 })
   }
 }
