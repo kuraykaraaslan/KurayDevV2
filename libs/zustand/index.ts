@@ -13,6 +13,8 @@ type GlobalState = {
   setTheme: (theme: AppTheme) => void
 }
 
+const CURRENT_VERSION = 1.3
+
 export const useGlobalStore = create<GlobalState>()(
   persist(
     (set, _get) => ({
@@ -26,7 +28,24 @@ export const useGlobalStore = create<GlobalState>()(
     {
       name: 'global-storage',
       storage: createJSONStorage(() => localStorage),
-      version: 1.3,
+      version: CURRENT_VERSION,
+      migrate: (persistedState, _version) => {
+        // Eski versiyonlardan güvenli geçiş: sadece bilinen alanları al
+        const state = persistedState as Partial<GlobalState>
+        return {
+          user: state.user ?? null,
+          theme: state.theme ?? DEFAULT_THEME,
+        }
+      },
+      onRehydrateStorage: () => (_state, error) => {
+        if (error) {
+          console.warn('[zustand] Rehydration failed, resetting store:', error)
+          useGlobalStore.setState({
+            user: null,
+            theme: DEFAULT_THEME,
+          })
+        }
+      },
     }
   )
 )
