@@ -92,8 +92,47 @@ export default class UserAgentService {
     return DeviceTypeEnum.enum.Desktop
   }
 
+  /**
+   * Free fallback: ip-api.com (no credentials required, 45 req/min on free tier).
+   * Uses HTTP intentionally — server-side only, never exposed to the client.
+   */
+  private static async getGeoLocationFromIpApi(ip: string): Promise<GeoLocation> {
+    const cacheKey = `geo:ipapi:${ip}`
+    const cached = await redis.get(cacheKey)
+    if (cached) return JSON.parse(cached)
+
+    const response = await axios.get(
+      `http://ip-api.com/json/${ip}?fields=status,country,countryCode,city,regionName,lat,lon`,
+      { timeout: 5000 }
+    )
+    const d = response.data
+    if (d.status !== 'success') return { city: null, state: null, country: null }
+
+    const location: GeoLocation = {
+      city: d.city ?? null,
+      state: d.regionName ?? null,
+      country: d.country ?? null,
+      countryCode: d.countryCode ?? null,
+      latitude: d.lat ?? null,
+      longitude: d.lon ?? null,
+    }
+
+    await redis.set(cacheKey, JSON.stringify(location), 'EX', 86400)
+    return location
+  }
+
+  /**
+   * Resolves geo location: tries MaxMind first (throws if unconfigured, or returns
+   * null fields on API error); falls back to ip-api.com if MaxMind yields no country.
+   */
   public static async getGeoLocation(ip: string): Promise<GeoLocation> {
-    return UserAgentService.getGeoLocationFromMaxMind(ip)
+    try {
+      const result = await UserAgentService.getGeoLocationFromMaxMind(ip)
+      if (result.country) return result
+    } catch {
+      // MaxMind not configured — proceed to fallback
+    }
+    return UserAgentService.getGeoLocationFromIpApi(ip)
   }
 
   public static getBrowser(userAgent: string): BrowserName {
