@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -14,24 +13,11 @@ import {
   faLock,
   faHandshake,
 } from '@fortawesome/free-solid-svg-icons'
-import axiosInstance from '@/libs/axios'
+import { ChatbotStat } from '@/types/common/StatTypes'
 
-interface ChatbotStats {
-  totalSessions: number
-  activeSessions: number
-  closedSessions: number
-  takenOverSessions: number
-  totalMessages: number
-  avgMessagesPerSession: number
-  uniqueUsers: number
-  recentSessions: {
-    chatSessionId: string
-    userId: string
-    userEmail?: string
-    status: 'ACTIVE' | 'CLOSED' | 'TAKEN_OVER'
-    title?: string
-    updatedAt: string
-  }[]
+interface ChatbotStatsWidgetProps {
+  stats: ChatbotStat | null
+  loading: boolean
 }
 
 function formatNumber(n: number): string {
@@ -57,23 +43,7 @@ const STATUS_CONFIG = {
   TAKEN_OVER: { color: 'text-warning', label: 'Taken Over', icon: faHandshake },
 } as const
 
-export default function ChatbotStatsWidget() {
-  const [stats, setStats] = useState<ChatbotStats | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const res = await axiosInstance.get('/api/chatbot/admin/stats')
-        setStats(res.data)
-      } catch (err) {
-        console.error('Chatbot stats fetch error:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchStats()
-  }, [])
+export default function ChatbotStatsWidget({ stats, loading }: ChatbotStatsWidgetProps) {
 
   if (loading) {
     return (

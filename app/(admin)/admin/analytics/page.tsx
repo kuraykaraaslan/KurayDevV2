@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import axiosInstance from '@/libs/axios'
 import { GeoLocation } from '@/dtos/AnalyticsDTO'
-import { Stat, StatFrequency } from '@/types/common/StatTypes'
+import { Stat, StatFrequency, ChatbotStat } from '@/types/common/StatTypes'
 import {
   STAT_CARDS,
   STAT_FREQUENCIES,
@@ -19,6 +19,7 @@ import ChatbotStatsWidget from '@/components/admin/Features/Dashboard/ChatbotSta
 
 export default function AnalyticsPage() {
   const [stats, setStats] = useState<Stat | null>(null)
+  const [chatbotStats, setChatbotStats] = useState<ChatbotStat | null>(null)
   const [geoData, setGeoData] = useState<GeoLocation[]>([])
   const [trafficData, setTrafficData] = useState<TrafficDataPoint[]>([])
   const [geoLoading, setGeoLoading] = useState(true)
@@ -49,6 +50,7 @@ export default function AnalyticsPage() {
       try {
         const res = await axiosInstance.post('/api/stats', { frequency })
         setStats(res.data.values)
+        setChatbotStats(res.data.chatbot ?? null)
       } catch (err) {
         console.error('Analytics stats fetch error:', err)
       } finally {
@@ -121,7 +123,7 @@ export default function AnalyticsPage() {
 
       {/* Chatbot analytics */}
       <div className="mb-6">
-        <ChatbotStatsWidget />
+        <ChatbotStatsWidget stats={chatbotStats} loading={statsLoading} />
       </div>
 
       {/* Full geo list */}
