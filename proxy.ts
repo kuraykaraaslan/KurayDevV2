@@ -31,7 +31,7 @@ const SKIP_PREFIXES = [
   '/auth',
   '/admin',
   '/api',
-  '/s',   // short links
+  '/s/',  // short links
 ]
 
 function shouldSkipI18n(pathname: string): boolean {
@@ -155,6 +155,10 @@ async function handleI18n(request: NextRequest) {
   const url = request.nextUrl.clone()
   url.pathname = `/${DEFAULT_LANGUAGE}${pathname}`
   return NextResponse.rewrite(url)
+}
+
+export const config = {
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }
 
 export async function proxy(request: NextRequest) {
