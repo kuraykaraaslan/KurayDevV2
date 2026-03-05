@@ -340,7 +340,13 @@
       "other_posts": "Muut julkaisut",
       "posts_by": "Julkaisut käyttäjältä",
       "read_more": "Lue lisää",
-      "related_articles": "Aiheeseen liittyvät artikkelit"
+      "related_articles": "Aiheeseen liittyvät artikkelit",
+      "match": "ottelu",
+      "same_category": "Sama kategoria",
+      "scroll_left": "Vieritä vasemmalle",
+      "scroll_right": "Vieritä oikealle",
+      "smart_recommendations": "Suositeltu sinulle",
+      "smart_recommendations_description": "Nämä artikkelit valittiin tekoälyn toimesta sisällön samankaltaisuusanalyysin perusteella."
     },
     "knowledge_graph": {
       "title_2d": "2D Tietokaavio",
@@ -416,7 +422,10 @@
     "search_placeholder": "Kirjoita hakeaksesi...",
     "search_results": "Hakutulokset",
     "select_language": "Valitse kieli",
-    "switch_theme": "Vaihda teemaa (nykyinen: {{theme}})"
+    "switch_theme": "Vaihda teemaa (nykyinen: {{theme}})",
+    "autocomplete_close": "sulje",
+    "autocomplete_navigate": "navigoi",
+    "autocomplete_select": "valitse"
   },
   "navigation": {
     "backend": "Taustajärjestelmä",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "Hei! Olen Kuray Karaaslan, kuinka voin auttaa sinua?"
+    },
+    "chatbot": {
+      "clear": "Tyhjennä keskustelu",
+      "close": "Sulje",
+      "error_message": "Pahoittelut, jokin meni pieleen. Yritä uudelleen.",
+      "placeholder": "Kirjoita viestisi...",
+      "send": "Lähetä",
+      "sources": "Aiheeseen liittyvät artikkelit:",
+      "thinking": "Ajatellaan...",
+      "title": "AI-avustaja",
+      "welcome_message": "Hei! Olen AI-avustaja. Kysy minulta mitä tahansa täällä käsitellyistä blogikirjoituksista, projekteista tai teknologiasta."
+    },
+    "viewers": {
+      "live": "{{count}} lukee nyt"
     }
   },
   "sidebar": {

@@ -225,7 +225,13 @@
       "posts_by": "Postijiet ta'",
       "load_more": "Niżżel aktar postijiet",
       "no_more_posts": "M'hemmx aktar postijiet disponibbli",
-      "read_more": "Aqra iktar"
+      "read_more": "Aqra iktar",
+      "match": "logħba",
+      "same_category": "Stess Kategorija",
+      "scroll_left": "Skrollja lejn ix-xellug",
+      "scroll_right": "Skrollja lejn il-lemin",
+      "smart_recommendations": "Rakkomandat Għalik",
+      "smart_recommendations_description": "Dawn l-artikli ġew magħżula mill-AI bbażata fuq analiżi ta' xebh tal-kontenut."
     },
     "post": {
       "by": "minn",
@@ -412,6 +418,20 @@
         "major_outage": "Interruzzjoni Kbira"
       },
       "open_status": "Status"
+    },
+    "chatbot": {
+      "clear": "Ħassar chat",
+      "close": "Agħlaq",
+      "error_message": "Jiddispjaċini, xi ħaġa marret ħażin. Jekk jogħġbok erġa' pprova.",
+      "placeholder": "Ikteb il-messaġġ tiegħek...",
+      "send": "Ibgħat",
+      "sources": "Artikli relatati:",
+      "thinking": "Naħseb...",
+      "title": "Assistent AI",
+      "welcome_message": "Ħej! Jiena l-assistent AI. Staqsini xi ħaġa dwar il-postijiet tal-blog, proġetti, jew suġġetti tekniċi koperti hawn."
+    },
+    "viewers": {
+      "live": "{{count}} qed jaqra issa"
     }
   },
   "admin": {
@@ -695,7 +715,10 @@
     "search_placeholder": "Ittajpja biex tfittex...",
     "search_results": "Riżultati tat-tfittxija",
     "switch_theme": "Ibdel it-tema (attwali: {{theme}})",
-    "select_language": "Agħżel il-Lingwa"
+    "select_language": "Agħżel il-Lingwa",
+    "autocomplete_close": "agħlaq",
+    "autocomplete_navigate": "innaviga",
+    "autocomplete_select": "agħżel"
   },
   "sidebar": {
     "close_sidebar": "Agħlaq il-sidebar",

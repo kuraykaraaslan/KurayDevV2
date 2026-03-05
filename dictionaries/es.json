@@ -339,7 +339,13 @@
       "other_posts": "Otras Publicaciones",
       "posts_by": "Publicaciones de",
       "read_more": "Leer más",
-      "related_articles": "Artículos Relacionados"
+      "related_articles": "Artículos Relacionados",
+      "match": "coincidencia",
+      "same_category": "Misma categoría",
+      "scroll_left": "Desplazar a la izquierda",
+      "scroll_right": "Desplazar a la derecha",
+      "smart_recommendations": "Recomendado para ti",
+      "smart_recommendations_description": "Estos artículos fueron seleccionados por IA basado en un análisis de similitud de contenido."
     },
     "knowledge_graph": {
       "title_2d": "Gráfico de Conocimiento 2D",
@@ -415,7 +421,10 @@
     "search_placeholder": "Escribe para buscar...",
     "search_results": "Resultados de búsqueda",
     "select_language": "Seleccionar idioma",
-    "switch_theme": "Cambiar tema (actual: {{theme}})"
+    "switch_theme": "Cambiar tema (actual: {{theme}})",
+    "autocomplete_close": "cerrar",
+    "autocomplete_navigate": "navegar",
+    "autocomplete_select": "seleccionar"
   },
   "navigation": {
     "backend": "Backend",
@@ -633,6 +642,20 @@
     },
     "whatsapp": {
       "message": "¡Hola! Soy Kuray Karaaslan, ¿cómo puedo ayudarte?"
+    },
+    "chatbot": {
+      "clear": "Borrar chat",
+      "close": "Cerrar",
+      "error_message": "Lo siento, algo salió mal. Por favor, inténtalo de nuevo.",
+      "placeholder": "Escribe tu mensaje...",
+      "send": "Enviar",
+      "sources": "Artículos relacionados:",
+      "thinking": "Pensando...",
+      "title": "Asistente de IA",
+      "welcome_message": "¡Hola! Soy el asistente de IA. Pregúntame cualquier cosa sobre las publicaciones del blog, proyectos o temas tecnológicos cubiertos aquí."
+    },
+    "viewers": {
+      "live": "{{count}} leyendo ahora"
     }
   },
   "sidebar": {

@@ -228,7 +228,13 @@
       "posts_by": "פוסטים מאת",
       "load_more": "טען פוסטים נוספים",
       "no_more_posts": "אין עוד פוסטים זמינים",
-      "read_more": "קרא עוד"
+      "read_more": "קרא עוד",
+      "match": "התאמה",
+      "same_category": "אותה קטגוריה",
+      "scroll_left": "גלול שמאלה",
+      "scroll_right": "גלול ימינה",
+      "smart_recommendations": "מומלץ עבורך",
+      "smart_recommendations_description": "מאמרים אלו נבחרו על ידי AI בהתבסס על ניתוח דמיון תוכן."
     },
     "post": {
       "by": "מאת",
@@ -412,6 +418,20 @@
         "major_outage": "תקלה חמורה"
       },
       "open_status": "סטטוס"
+    },
+    "chatbot": {
+      "clear": "נקה צ'אט",
+      "close": "סגור",
+      "error_message": "מצטערים, משהו השתבש. אנא נסה שוב.",
+      "placeholder": "הקלד את ההודעה שלך...",
+      "send": "שלח",
+      "sources": "מאמרים קשורים:",
+      "thinking": "חושב...",
+      "title": "עוזר AI",
+      "welcome_message": "שלום! אני העוזר AI. שאל אותי כל דבר על פוסטים בבלוג, פרויקטים או נושאים טכנולוגיים שמכוסים כאן."
+    },
+    "viewers": {
+      "live": "{{count}} קוראים עכשיו"
     }
   },
   "auth": {
@@ -695,7 +715,10 @@
     "search_placeholder": "הקלד לחיפוש...",
     "search_results": "תוצאות חיפוש",
     "switch_theme": "החלף ערכת נושא (נוכחית: {{theme}})",
-    "select_language": "בחר שפה"
+    "select_language": "בחר שפה",
+    "autocomplete_close": "סגור",
+    "autocomplete_navigate": "נווט",
+    "autocomplete_select": "בחר"
   },
   "sidebar": {
     "close_sidebar": "סגור את סרגל הצד",

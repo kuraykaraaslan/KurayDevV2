@@ -340,7 +340,13 @@
       "other_posts": "Другие посты",
       "posts_by": "Посты от",
       "read_more": "Читать далее",
-      "related_articles": "Похожие статьи"
+      "related_articles": "Похожие статьи",
+      "match": "совпадение",
+      "same_category": "Та же категория",
+      "scroll_left": "Прокрутите влево",
+      "scroll_right": "Прокрутите вправо",
+      "smart_recommendations": "Рекомендуемое для вас",
+      "smart_recommendations_description": "Эти статьи были выбраны ИИ на основе анализа сходства контента."
     },
     "knowledge_graph": {
       "title_2d": "2D Граф знаний",
@@ -416,7 +422,10 @@
     "search_placeholder": "Введите текст для поиска...",
     "search_results": "Результаты поиска",
     "select_language": "Выберите язык",
-    "switch_theme": "Сменить тему (текущая: {{theme}})"
+    "switch_theme": "Сменить тему (текущая: {{theme}})",
+    "autocomplete_close": "закрыть",
+    "autocomplete_navigate": "перейти",
+    "autocomplete_select": "выбрать"
   },
   "navigation": {
     "backend": "Бэкенд",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "Здравствуйте! Я Курай Карааслан, чем могу помочь?"
+    },
+    "chatbot": {
+      "clear": "Очистить чат",
+      "close": "Закрыть",
+      "error_message": "Извините, что-то пошло не так. Пожалуйста, попробуйте еще раз.",
+      "placeholder": "Введите ваше сообщение...",
+      "send": "Отправить",
+      "sources": "Связанные статьи:",
+      "thinking": "Думаю...",
+      "title": "AI Ассистент",
+      "welcome_message": "Привет! Я AI ассистент. Спросите меня о блогах, проектах или технических темах, освещенных здесь."
+    },
+    "viewers": {
+      "live": "{{count}} читают сейчас"
     }
   },
   "sidebar": {

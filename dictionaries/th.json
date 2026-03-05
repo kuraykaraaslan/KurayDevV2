@@ -225,7 +225,13 @@
       "posts_by": "โพสต์โดย",
       "load_more": "โหลดโพสต์เพิ่มเติม",
       "no_more_posts": "ไม่มีโพสต์เพิ่มเติม",
-      "read_more": "อ่านต่อ"
+      "read_more": "อ่านต่อ",
+      "match": "ตรงกัน",
+      "same_category": "หมวดหมู่เดียวกัน",
+      "scroll_left": "เลื่อนซ้าย",
+      "scroll_right": "เลื่อนขวา",
+      "smart_recommendations": "แนะนำสำหรับคุณ",
+      "smart_recommendations_description": "บทความเหล่านี้ถูกเลือกโดย AI จากการวิเคราะห์ความคล้ายคลึงของเนื้อหา"
     },
     "post": {
       "by": "โดย",
@@ -412,6 +418,20 @@
         "major_outage": "ขัดข้องใหญ่"
       },
       "open_status": "สถานะ"
+    },
+    "chatbot": {
+      "clear": "ล้างแชท",
+      "close": "ปิด",
+      "error_message": "ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+      "placeholder": "พิมพ์ข้อความของคุณ...",
+      "send": "ส่ง",
+      "sources": "บทความที่เกี่ยวข้อง:",
+      "thinking": "กำลังคิด...",
+      "title": "ผู้ช่วย AI",
+      "welcome_message": "สวัสดี! ฉันคือผู้ช่วย AI ถามฉันได้ทุกเรื่องเกี่ยวกับบล็อกโพสต์ โครงการ หรือหัวข้อเทคโนโลยีที่ครอบคลุมที่นี่"
+    },
+    "viewers": {
+      "live": "{{count}} กำลังอ่านตอนนี้"
     }
   },
   "admin": {
@@ -695,7 +715,10 @@
     "search_placeholder": "พิมพ์เพื่อค้นหา...",
     "search_results": "ผลการค้นหา",
     "switch_theme": "เปลี่ยนธีม (ปัจจุบัน: {{theme}})",
-    "select_language": "เลือกภาษา"
+    "select_language": "เลือกภาษา",
+    "autocomplete_close": "ปิด",
+    "autocomplete_navigate": "นำทาง",
+    "autocomplete_select": "เลือก"
   },
   "sidebar": {
     "close_sidebar": "ปิดแถบด้านข้าง",

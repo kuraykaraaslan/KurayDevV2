@@ -340,7 +340,13 @@
       "other_posts": "他の投稿",
       "posts_by": "投稿者",
       "read_more": "もっと読む",
-      "related_articles": "関連記事"
+      "related_articles": "関連記事",
+      "match": "マッチ",
+      "same_category": "同じカテゴリー",
+      "scroll_left": "左にスクロール",
+      "scroll_right": "右にスクロール",
+      "smart_recommendations": "あなたへのおすすめ",
+      "smart_recommendations_description": "これらの記事は、コンテンツの類似性分析に基づいてAIが選びました。"
     },
     "knowledge_graph": {
       "title_2d": "2Dナレッジグラフ",
@@ -416,7 +422,10 @@
     "search_placeholder": "検索するには入力...",
     "search_results": "検索結果",
     "select_language": "言語を選択",
-    "switch_theme": "テーマを切り替え (現在: {{theme}})"
+    "switch_theme": "テーマを切り替え (現在: {{theme}})",
+    "autocomplete_close": "閉じる",
+    "autocomplete_navigate": "移動",
+    "autocomplete_select": "選択"
   },
   "navigation": {
     "backend": "バックエンド",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "こんにちは！私はKuray Karaaslanです。どのようにお手伝いできますか？"
+    },
+    "chatbot": {
+      "clear": "チャットをクリア",
+      "close": "閉じる",
+      "error_message": "申し訳ありませんが、問題が発生しました。もう一度お試しください。",
+      "placeholder": "メッセージを入力...",
+      "send": "送信",
+      "sources": "関連する記事:",
+      "thinking": "考え中...",
+      "title": "AIアシスタント",
+      "welcome_message": "こんにちは！私はAIアシスタントです。ブログ記事、プロジェクト、またはここで取り上げた技術トピックについて何でも聞いてください。"
+    },
+    "viewers": {
+      "live": "{{count}} 人が閲覧中"
     }
   },
   "sidebar": {

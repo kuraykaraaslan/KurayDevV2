@@ -143,7 +143,10 @@
     "search_results": "نتائج البحث",
     "search_placeholder": "اكتب للبحث...",
     "no_results_found": "لم يتم العثور على نتائج",
-    "select_language": "اختر اللغة"
+    "select_language": "اختر اللغة",
+    "autocomplete_close": "إغلاق",
+    "autocomplete_navigate": "تنقل",
+    "autocomplete_select": "تحديد"
   },
   "common": {
     "loading": "جاري التحميل...",
@@ -257,7 +260,13 @@
       "posts_by": "مقالات بواسطة",
       "load_more": "تحميل المزيد",
       "no_more_posts": "لا توجد مقالات أخرى",
-      "read_more": "اقرأ المزيد"
+      "read_more": "اقرأ المزيد",
+      "match": "مطابقة",
+      "same_category": "نفس الفئة",
+      "scroll_left": "التمرير لليسار",
+      "scroll_right": "التمرير لليمين",
+      "smart_recommendations": "موصى به لك",
+      "smart_recommendations_description": "تم اختيار هذه المقالات بواسطة الذكاء الاصطناعي بناءً على تحليل تشابه المحتوى."
     },
     "post": {
       "by": "بواسطة",
@@ -441,6 +450,20 @@
         "major_outage": "انقطاع كبير"
       },
       "open_status": "الحالة"
+    },
+    "chatbot": {
+      "clear": "مسح المحادثة",
+      "close": "إغلاق",
+      "error_message": "عذرًا، حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+      "placeholder": "اكتب رسالتك...",
+      "send": "إرسال",
+      "sources": "مقالات ذات صلة:",
+      "thinking": "تفكير...",
+      "title": "المساعد الذكي",
+      "welcome_message": "مرحبًا! أنا المساعد الذكي. اسألني عن أي شيء يتعلق بالمقالات، المشاريع، أو المواضيع التقنية التي تم تناولها هنا."
+    },
+    "viewers": {
+      "live": "{{count}} يقرأ الآن"
     }
   },
   "auth": {

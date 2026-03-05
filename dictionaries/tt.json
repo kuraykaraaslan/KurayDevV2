@@ -340,7 +340,13 @@
       "other_posts": "Башка язмалар",
       "posts_by": "Язмалар авторы",
       "read_more": "Тулырак укырга",
-      "related_articles": "Бәйле мәкаләләр"
+      "related_articles": "Бәйле мәкаләләр",
+      "match": "туры килү",
+      "same_category": "Шул ук категория",
+      "scroll_left": "Сулга әйләндерү",
+      "scroll_right": "Уңга әйләндерү",
+      "smart_recommendations": "Сезгә тәкъдим ителгән",
+      "smart_recommendations_description": "Бу мәкаләләр AI тарафыннан эчтәлек охшашлыгы анализы нигезендә сайланган."
     },
     "knowledge_graph": {
       "title_2d": "2D Белем графы",
@@ -416,7 +422,10 @@
     "search_placeholder": "Эзләү өчен языгыз...",
     "search_results": "Эзләү нәтиҗәләре",
     "select_language": "Телне сайлау",
-    "switch_theme": "Теманы алыштыру (хәзерге: {{theme}})"
+    "switch_theme": "Теманы алыштыру (хәзерге: {{theme}})",
+    "autocomplete_close": "ябу",
+    "autocomplete_navigate": "юллау",
+    "autocomplete_select": "сайлау"
   },
   "navigation": {
     "backend": "Backend",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "Сәлам! Мин Курай Карааслан, сезгә ничек ярдәм итә алам?"
+    },
+    "chatbot": {
+      "clear": "Чатны чистарту",
+      "close": "Ябу",
+      "error_message": "Гафу итегез, нидер хата китте. Зинһар, яңадан карап карагыз.",
+      "placeholder": "Хәбәрегезне языгыз...",
+      "send": "Җибәрү",
+      "sources": "Бәйле мәкаләләр:",
+      "thinking": "Уйлый...",
+      "title": "AI Ассистент",
+      "welcome_message": "Сәлам! Мин AI ассистенты. Мондагы блог язмалары, проектлар яки технология темалары турында миңа сорау бирегез."
+    },
+    "viewers": {
+      "live": "{{count}} хәзер укый"
     }
   },
   "sidebar": {

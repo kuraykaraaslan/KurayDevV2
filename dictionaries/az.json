@@ -340,7 +340,13 @@
       "other_posts": "Digər Yazılar",
       "posts_by": "Yazılar",
       "read_more": "Daha çox oxu",
-      "related_articles": "Əlaqəli Məqalələr"
+      "related_articles": "Əlaqəli Məqalələr",
+      "match": "uyğunluq",
+      "same_category": "Eyni Kateqoriya",
+      "scroll_left": "Sola sürüşdür",
+      "scroll_right": "Sağa sürüşdür",
+      "smart_recommendations": "Sizin üçün tövsiyə olunur",
+      "smart_recommendations_description": "Bu məqalələr məzmun oxşarlığı analizi əsasında AI tərəfindən seçilmişdir."
     },
     "knowledge_graph": {
       "title_2d": "2D Bilik Qrafiki",
@@ -416,7 +422,10 @@
     "search_placeholder": "Axtarış üçün yazın...",
     "search_results": "Axtarış nəticələri",
     "select_language": "Dili seçin",
-    "switch_theme": "Mövzunu dəyiş (cari: {{theme}})"
+    "switch_theme": "Mövzunu dəyiş (cari: {{theme}})",
+    "autocomplete_close": "bağla",
+    "autocomplete_navigate": "naviqasiya et",
+    "autocomplete_select": "seç"
   },
   "navigation": {
     "backend": "Backend",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "Salam! Mən Kuray Karaaslan, sizə necə kömək edə bilərəm?"
+    },
+    "chatbot": {
+      "clear": "Söhbəti təmizlə",
+      "close": "Bağla",
+      "error_message": "Bağışlayın, nəsə səhv getdi. Zəhmət olmasa, yenidən cəhd edin.",
+      "placeholder": "Mesajınızı yazın...",
+      "send": "Göndər",
+      "sources": "Əlaqəli məqalələr:",
+      "thinking": "Düşünür...",
+      "title": "AI Köməkçi",
+      "welcome_message": "Salam! Mən AI köməkçisiyəm. Buradakı blog yazıları, layihələr və ya texnologiya mövzuları haqqında mənə hər şeyi soruşa bilərsiniz."
+    },
+    "viewers": {
+      "live": "{{count}} nəfər indi oxuyur"
     }
   },
   "sidebar": {

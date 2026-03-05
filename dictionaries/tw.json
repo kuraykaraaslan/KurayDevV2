@@ -340,7 +340,13 @@
       "other_posts": "其他文章",
       "posts_by": "文章作者",
       "read_more": "閱讀更多",
-      "related_articles": "相關文章"
+      "related_articles": "相關文章",
+      "match": "符合",
+      "same_category": "相同類別",
+      "scroll_left": "向左滾動",
+      "scroll_right": "向右滾動",
+      "smart_recommendations": "為您推薦",
+      "smart_recommendations_description": "這些文章是由 AI 根據內容相似性分析選出的。"
     },
     "knowledge_graph": {
       "title_2d": "2D 知識圖譜",
@@ -416,7 +422,10 @@
     "search_placeholder": "輸入以搜尋...",
     "search_results": "搜尋結果",
     "select_language": "選擇語言",
-    "switch_theme": "切換主題（目前：{{theme}}）"
+    "switch_theme": "切換主題（目前：{{theme}}）",
+    "autocomplete_close": "關閉",
+    "autocomplete_navigate": "導航",
+    "autocomplete_select": "選擇"
   },
   "navigation": {
     "backend": "後端",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "你好！我是 Kuray Karaaslan，我可以怎麼幫助你？"
+    },
+    "chatbot": {
+      "clear": "清除聊天",
+      "close": "關閉",
+      "error_message": "抱歉，出錯了。請再試一次。",
+      "placeholder": "輸入您的消息...",
+      "send": "發送",
+      "sources": "相關文章：",
+      "thinking": "思考中...",
+      "title": "AI 助手",
+      "welcome_message": "嗨！我是 AI 助手。問我任何關於這裡的博客文章、項目或技術主題的問題。"
+    },
+    "viewers": {
+      "live": "{{count}} 人正在閱讀"
     }
   },
   "sidebar": {

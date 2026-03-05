@@ -225,7 +225,13 @@
       "posts_by": "Berichten door",
       "load_more": "Meer berichten laden",
       "no_more_posts": "Geen extra berichten beschikbaar",
-      "read_more": "Lees meer"
+      "read_more": "Lees meer",
+      "match": "overeenkomst",
+      "same_category": "Zelfde categorie",
+      "scroll_left": "Scroll naar links",
+      "scroll_right": "Scroll naar rechts",
+      "smart_recommendations": "Aanbevolen voor jou",
+      "smart_recommendations_description": "Deze artikelen zijn geselecteerd door AI op basis van inhoudsanalyse."
     },
     "post": {
       "by": "door",
@@ -412,6 +418,20 @@
         "major_outage": "Grote storing"
       },
       "open_status": "Status"
+    },
+    "chatbot": {
+      "clear": "Chat wissen",
+      "close": "Sluiten",
+      "error_message": "Sorry, er is iets misgegaan. Probeer het opnieuw.",
+      "placeholder": "Typ je bericht...",
+      "send": "Versturen",
+      "sources": "Gerelateerde artikelen:",
+      "thinking": "Denken...",
+      "title": "AI-assistent",
+      "welcome_message": "Hoi! Ik ben de AI-assistent. Vraag me alles over de blogposts, projecten of technische onderwerpen die hier worden behandeld."
+    },
+    "viewers": {
+      "live": "{{count}} lezen nu"
     }
   },
   "admin": {
@@ -695,7 +715,10 @@
     "search_placeholder": "Typ om te zoeken...",
     "search_results": "Zoekresultaten",
     "switch_theme": "Thema wisselen (huidig: {{theme}})",
-    "select_language": "Selecteer taal"
+    "select_language": "Selecteer taal",
+    "autocomplete_close": "sluiten",
+    "autocomplete_navigate": "navigeren",
+    "autocomplete_select": "selecteren"
   },
   "sidebar": {
     "close_sidebar": "Sluit zijbalk",

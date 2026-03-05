@@ -318,6 +318,20 @@
         "major_outage": "Großer Ausfall"
       },
       "open_status": "Status"
+    },
+    "chatbot": {
+      "clear": "Chat löschen",
+      "close": "Schließen",
+      "error_message": "Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+      "placeholder": "Geben Sie Ihre Nachricht ein...",
+      "send": "Senden",
+      "sources": "Verwandte Artikel:",
+      "thinking": "Denken...",
+      "title": "KI-Assistent",
+      "welcome_message": "Hallo! Ich bin der KI-Assistent. Fragen Sie mich alles über die hier behandelten Blogbeiträge, Projekte oder Technologiethemen."
+    },
+    "viewers": {
+      "live": "{{count}} lesen gerade"
     }
   },
   "admin": {
@@ -612,7 +626,13 @@
       "other_posts": "Weitere Beiträge",
       "posts_by": "Beiträge von",
       "read_more": "Weiterlesen",
-      "related_articles": "Verwandte Artikel"
+      "related_articles": "Verwandte Artikel",
+      "match": "Übereinstimmung",
+      "same_category": "Gleiche Kategorie",
+      "scroll_left": "Nach links scrollen",
+      "scroll_right": "Nach rechts scrollen",
+      "smart_recommendations": "Empfohlen für Sie",
+      "smart_recommendations_description": "Diese Artikel wurden von KI basierend auf einer Inhaltsähnlichkeitsanalyse ausgewählt."
     },
     "knowledge_graph": {
       "title_2d": "2D-Wissensgraph",
@@ -695,7 +715,10 @@
     "search_placeholder": "Zum Suchen tippen...",
     "search_results": "Suchergebnisse",
     "switch_theme": "Thema wechseln (aktuell: {{theme}})",
-    "select_language": "Sprache auswählen"
+    "select_language": "Sprache auswählen",
+    "autocomplete_close": "schließen",
+    "autocomplete_navigate": "navigieren",
+    "autocomplete_select": "auswählen"
   },
   "sidebar": {
     "close_sidebar": "Seitenleiste schließen",

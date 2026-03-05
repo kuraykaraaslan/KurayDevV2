@@ -225,7 +225,13 @@
       "posts_by": "Пости від",
       "load_more": "Завантажити більше постів",
       "no_more_posts": "Більше постів немає",
-      "read_more": "Читати далі"
+      "read_more": "Читати далі",
+      "match": "збіг",
+      "same_category": "Така ж категорія",
+      "scroll_left": "Прокрутити вліво",
+      "scroll_right": "Прокрутити вправо",
+      "smart_recommendations": "Рекомендовано для вас",
+      "smart_recommendations_description": "Ці статті були обрані AI на основі аналізу схожості контенту."
     },
     "post": {
       "by": "автор",
@@ -412,6 +418,20 @@
         "major_outage": "Суттєве відключення"
       },
       "open_status": "Статус"
+    },
+    "chatbot": {
+      "clear": "Очистити чат",
+      "close": "Закрити",
+      "error_message": "Вибачте, щось пішло не так. Будь ласка, спробуйте ще раз.",
+      "placeholder": "Введіть ваше повідомлення...",
+      "send": "Надіслати",
+      "sources": "Схожі статті:",
+      "thinking": "Думаю...",
+      "title": "AI Асистент",
+      "welcome_message": "Привіт! Я AI асистент. Запитайте мене про пости в блозі, проекти або технічні теми, які тут висвітлюються."
+    },
+    "viewers": {
+      "live": "{{count}} читають зараз"
     }
   },
   "admin": {
@@ -695,7 +715,10 @@
     "search_placeholder": "Введіть для пошуку...",
     "search_results": "Результати пошуку",
     "switch_theme": "Змінити тему (поточна: {{theme}})",
-    "select_language": "Виберіть мову"
+    "select_language": "Виберіть мову",
+    "autocomplete_close": "закрити",
+    "autocomplete_navigate": "перейти",
+    "autocomplete_select": "вибрати"
   },
   "sidebar": {
     "close_sidebar": "Закрити панель",

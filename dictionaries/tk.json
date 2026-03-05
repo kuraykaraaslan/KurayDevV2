@@ -340,7 +340,13 @@
       "other_posts": "Başga Ýazgylar",
       "posts_by": "Ýazgylar",
       "read_more": "Has Köp Okamak",
-      "related_articles": "Degişli Makalalar"
+      "related_articles": "Degişli Makalalar",
+      "match": "utgaşma",
+      "same_category": "Şuňa meňzeş kategoriýa",
+      "scroll_left": "Çepe süýşür",
+      "scroll_right": "Saga süýşür",
+      "smart_recommendations": "Siziň üçin maslahat berilýär",
+      "smart_recommendations_description": "Bu makalalar mazmun meňzeşligini seljermek esasynda AI tarapyndan saýlandy."
     },
     "knowledge_graph": {
       "title_2d": "2D Bilik Grafigi",
@@ -416,7 +422,10 @@
     "search_placeholder": "Gözlemek üçin ýazyň...",
     "search_results": "Gözleg netijeleri",
     "select_language": "Dili saýlaň",
-    "switch_theme": "Temany üýtget (häzirki: {{theme}})"
+    "switch_theme": "Temany üýtget (häzirki: {{theme}})",
+    "autocomplete_close": "ýap",
+    "autocomplete_navigate": "nawigasiýa",
+    "autocomplete_select": "saýla"
   },
   "navigation": {
     "backend": "Arka tarap",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "Salam! Men Kuray Karaaslan, size nähili kömek edip bilerin?"
+    },
+    "chatbot": {
+      "clear": "Söhbeti arassala",
+      "close": "Ýap",
+      "error_message": "Bagyşlaň, bir zat nädogry boldy. Täzeden synanyşyň.",
+      "placeholder": "Habaryňyzy ýazyň...",
+      "send": "Ugrat",
+      "sources": "Degişli makalalar:",
+      "thinking": "Oýlanýar...",
+      "title": "AI Kömekçisi",
+      "welcome_message": "Salam! Men AI kömekçisi. Bu ýerde ýerleşdirilen blog ýazgylary, taslamalar ýa-da tehnologiýa mowzuklary barada maňa islendik sorag berip bilersiňiz."
+    },
+    "viewers": {
+      "live": "{{count}} häzirki wagtda okaýar"
     }
   },
   "sidebar": {

@@ -340,7 +340,13 @@
       "other_posts": "Boshqa postlar",
       "posts_by": "Muallif postlari",
       "read_more": "Batafsil o‘qish",
-      "related_articles": "Tegishli maqolalar"
+      "related_articles": "Tegishli maqolalar",
+      "match": "mos",
+      "same_category": "Bir xil kategoriya",
+      "scroll_left": "Chapga aylantiring",
+      "scroll_right": "O'ngga aylantiring",
+      "smart_recommendations": "Siz uchun tavsiya etilgan",
+      "smart_recommendations_description": "Ushbu maqolalar AI tomonidan kontent o'xshashligi tahliliga asoslangan holda tanlangan."
     },
     "knowledge_graph": {
       "title_2d": "2D Bilimlar grafigi",
@@ -416,7 +422,10 @@
     "search_placeholder": "Qidirish uchun yozing...",
     "search_results": "Qidiruv natijalari",
     "select_language": "Tilni tanlang",
-    "switch_theme": "Mavzuni almashtirish (joriy: {{theme}})"
+    "switch_theme": "Mavzuni almashtirish (joriy: {{theme}})",
+    "autocomplete_close": "yopish",
+    "autocomplete_navigate": "harakat qilish",
+    "autocomplete_select": "tanlash"
   },
   "navigation": {
     "backend": "Backend",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "Salom! Men Kuray Karaaslanman, sizga qanday yordam bera olaman?"
+    },
+    "chatbot": {
+      "clear": "Chatni tozalash",
+      "close": "Yopish",
+      "error_message": "Kechirasiz, nimadir xato ketdi. Iltimos, qayta urinib ko'ring.",
+      "placeholder": "Xabaringizni kiriting...",
+      "send": "Yuborish",
+      "sources": "Tegishli maqolalar:",
+      "thinking": "O'ylayapman...",
+      "title": "AI yordamchisi",
+      "welcome_message": "Salom! Men AI yordamchisiman. Bu yerda yoritilgan blog postlari, loyihalar yoki texnologiya mavzulari haqida menga savol bering."
+    },
+    "viewers": {
+      "live": "{{count}} hozir o'qimoqda"
     }
   },
   "sidebar": {

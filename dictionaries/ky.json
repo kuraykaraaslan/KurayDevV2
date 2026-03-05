@@ -340,7 +340,13 @@
       "other_posts": "Башка посттор",
       "posts_by": "Посттор",
       "read_more": "Толугураак окуу",
-      "related_articles": "Тектеш макалалар"
+      "related_articles": "Тектеш макалалар",
+      "match": "дал келүү",
+      "same_category": "Бирдей категория",
+      "scroll_left": "Солго жылдыруу",
+      "scroll_right": "Оңго жылдыруу",
+      "smart_recommendations": "Сиз үчүн сунушталган",
+      "smart_recommendations_description": "Бул макалалар мазмун окшоштугун талдоо негизинде AI тарабынан тандалды."
     },
     "knowledge_graph": {
       "title_2d": "2D Билим графиги",
@@ -416,7 +422,10 @@
     "search_placeholder": "Издөө үчүн жазыңыз...",
     "search_results": "Издөө жыйынтыктары",
     "select_language": "Тилди тандоо",
-    "switch_theme": "Теманы өзгөртүү (азыркы: {{theme}})"
+    "switch_theme": "Теманы өзгөртүү (азыркы: {{theme}})",
+    "autocomplete_close": "жабуу",
+    "autocomplete_navigate": "багыттоо",
+    "autocomplete_select": "тандоо"
   },
   "navigation": {
     "backend": "Backend",
@@ -634,6 +643,20 @@
     },
     "whatsapp": {
       "message": "Салам! Мен Курай Карааслан, сизге кантип жардам бере алам?"
+    },
+    "chatbot": {
+      "clear": "Чатты тазалоо",
+      "close": "Жабуу",
+      "error_message": "Кечиресиз, бир нерсе туура эмес кетти. Кайра аракет кылыңыз.",
+      "placeholder": "Кабарды жазыңыз...",
+      "send": "Жөнөтүү",
+      "sources": "Тиешелүү макалалар:",
+      "thinking": "Ойлонууда...",
+      "title": "AI Ассистент",
+      "welcome_message": "Салам! Мен AI ассистентмин. Бул жердеги блог посттор, долбоорлор же технологиялык темалар боюнча мага суроо бериңиз."
+    },
+    "viewers": {
+      "live": "{{count}} азыр окуп жатат"
     }
   },
   "sidebar": {

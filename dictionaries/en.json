@@ -378,7 +378,9 @@
       "clear": "Clear chat",
       "thinking": "Thinking...",
       "sources": "Related articles:",
-      "error_message": "Sorry, something went wrong. Please try again."
+      "error_message": "Sorry, something went wrong. Please try again.",
+      "session_closed": "This session has been closed. Please start a new conversation.",
+      "user_banned": "You have been temporarily restricted from using the chatbot. Please try again later."
     },
     "calendar": {
       "title": "Calendar",
