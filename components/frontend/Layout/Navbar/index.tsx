@@ -20,8 +20,6 @@ const LangButton = dynamic(() => import('./Partials/LangButton'), { ssr: false }
 
 const ThemeButton = dynamic(() => import('./Partials/ThemeButton'), { ssr: false })
 
-const ChatbotButton = dynamic(() => import('./Partials/ChatbotButton'), { ssr: false })
-
 const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const { t } = useTranslation()
   const [isTopReached, setIsTopReached] = useState(true)
@@ -92,7 +90,6 @@ const Navbar = ({ menuItems }: { menuItems: MenuItem[] }) => {
           <div className="flex items-center gap-2  justify-between lg:justify-start">
             <Logo />
             <div className="flex lg:gap-2">
-              <ChatbotButton />
               <ThemeButton />
               <LangButton />
               <SearchButton />

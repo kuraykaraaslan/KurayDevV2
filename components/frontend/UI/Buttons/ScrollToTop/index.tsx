@@ -2,10 +2,8 @@
 import { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { useChatbotStore } from '@/libs/zustand/chatbotStore'
 
 const ScrollToTop = () => {
-  const chatbotOpen = useChatbotStore((s) => s.isOpen)
   useEffect(() => {
     const scrollToTopBtn = document.getElementById('scrollToTop') as HTMLElement
 
@@ -34,7 +32,7 @@ const ScrollToTop = () => {
 
   return (
     <button
-      className={`fixed transition duration-1000 ease-in-out bg-accent hover:bg-base-400 cursor-pointer p-4 shadow-lg rounded-full hover:rounded-box ${chatbotOpen ? '!hidden' : ''}`}
+      className="fixed transition duration-1000 ease-in-out bg-accent hover:bg-base-400 cursor-pointer p-4 shadow-lg rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center"
       style={{ zIndex: 100, right: '-80px', bottom: '20px' }}
       id="scrollToTop"
       onClick={() => window?.scrollTo({ top: 0, behavior: 'smooth' })}
