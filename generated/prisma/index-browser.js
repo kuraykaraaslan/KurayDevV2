@@ -359,6 +359,7 @@ exports.Prisma.PushSubscriptionScalarFieldEnum = {
 exports.Prisma.GeoAnalyticsScalarFieldEnum = {
   id: 'id',
   country: 'country',
+  countryCode: 'countryCode',
   city: 'city',
   lat: 'lat',
   lon: 'lon',

@@ -26593,6 +26593,7 @@ export namespace Prisma {
   export type GeoAnalyticsMinAggregateOutputType = {
     id: string | null
     country: string | null
+    countryCode: string | null
     city: string | null
     lat: number | null
     lon: number | null
@@ -26602,6 +26603,7 @@ export namespace Prisma {
   export type GeoAnalyticsMaxAggregateOutputType = {
     id: string | null
     country: string | null
+    countryCode: string | null
     city: string | null
     lat: number | null
     lon: number | null
@@ -26611,6 +26613,7 @@ export namespace Prisma {
   export type GeoAnalyticsCountAggregateOutputType = {
     id: number
     country: number
+    countryCode: number
     city: number
     lat: number
     lon: number
@@ -26634,6 +26637,7 @@ export namespace Prisma {
   export type GeoAnalyticsMinAggregateInputType = {
     id?: true
     country?: true
+    countryCode?: true
     city?: true
     lat?: true
     lon?: true
@@ -26643,6 +26647,7 @@ export namespace Prisma {
   export type GeoAnalyticsMaxAggregateInputType = {
     id?: true
     country?: true
+    countryCode?: true
     city?: true
     lat?: true
     lon?: true
@@ -26652,6 +26657,7 @@ export namespace Prisma {
   export type GeoAnalyticsCountAggregateInputType = {
     id?: true
     country?: true
+    countryCode?: true
     city?: true
     lat?: true
     lon?: true
@@ -26748,6 +26754,7 @@ export namespace Prisma {
   export type GeoAnalyticsGroupByOutputType = {
     id: string
     country: string
+    countryCode: string
     city: string
     lat: number
     lon: number
@@ -26776,6 +26783,7 @@ export namespace Prisma {
   export type GeoAnalyticsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     country?: boolean
+    countryCode?: boolean
     city?: boolean
     lat?: boolean
     lon?: boolean
@@ -26785,6 +26793,7 @@ export namespace Prisma {
   export type GeoAnalyticsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     country?: boolean
+    countryCode?: boolean
     city?: boolean
     lat?: boolean
     lon?: boolean
@@ -26794,6 +26803,7 @@ export namespace Prisma {
   export type GeoAnalyticsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     country?: boolean
+    countryCode?: boolean
     city?: boolean
     lat?: boolean
     lon?: boolean
@@ -26803,13 +26813,14 @@ export namespace Prisma {
   export type GeoAnalyticsSelectScalar = {
     id?: boolean
     country?: boolean
+    countryCode?: boolean
     city?: boolean
     lat?: boolean
     lon?: boolean
     count?: boolean
   }
 
-  export type GeoAnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "country" | "city" | "lat" | "lon" | "count", ExtArgs["result"]["geoAnalytics"]>
+  export type GeoAnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "country" | "countryCode" | "city" | "lat" | "lon" | "count", ExtArgs["result"]["geoAnalytics"]>
 
   export type $GeoAnalyticsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "GeoAnalytics"
@@ -26817,6 +26828,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       country: string
+      countryCode: string
       city: string
       lat: number
       lon: number
@@ -27246,6 +27258,7 @@ export namespace Prisma {
   interface GeoAnalyticsFieldRefs {
     readonly id: FieldRef<"GeoAnalytics", 'String'>
     readonly country: FieldRef<"GeoAnalytics", 'String'>
+    readonly countryCode: FieldRef<"GeoAnalytics", 'String'>
     readonly city: FieldRef<"GeoAnalytics", 'String'>
     readonly lat: FieldRef<"GeoAnalytics", 'Float'>
     readonly lon: FieldRef<"GeoAnalytics", 'Float'>
@@ -32389,6 +32402,7 @@ export namespace Prisma {
   export const GeoAnalyticsScalarFieldEnum: {
     id: 'id',
     country: 'country',
+    countryCode: 'countryCode',
     city: 'city',
     lat: 'lat',
     lon: 'lon',
@@ -34188,6 +34202,7 @@ export namespace Prisma {
     NOT?: GeoAnalyticsWhereInput | GeoAnalyticsWhereInput[]
     id?: StringFilter<"GeoAnalytics"> | string
     country?: StringFilter<"GeoAnalytics"> | string
+    countryCode?: StringFilter<"GeoAnalytics"> | string
     city?: StringFilter<"GeoAnalytics"> | string
     lat?: FloatFilter<"GeoAnalytics"> | number
     lon?: FloatFilter<"GeoAnalytics"> | number
@@ -34197,6 +34212,7 @@ export namespace Prisma {
   export type GeoAnalyticsOrderByWithRelationInput = {
     id?: SortOrder
     country?: SortOrder
+    countryCode?: SortOrder
     city?: SortOrder
     lat?: SortOrder
     lon?: SortOrder
@@ -34210,6 +34226,7 @@ export namespace Prisma {
     OR?: GeoAnalyticsWhereInput[]
     NOT?: GeoAnalyticsWhereInput | GeoAnalyticsWhereInput[]
     country?: StringFilter<"GeoAnalytics"> | string
+    countryCode?: StringFilter<"GeoAnalytics"> | string
     city?: StringFilter<"GeoAnalytics"> | string
     lat?: FloatFilter<"GeoAnalytics"> | number
     lon?: FloatFilter<"GeoAnalytics"> | number
@@ -34219,6 +34236,7 @@ export namespace Prisma {
   export type GeoAnalyticsOrderByWithAggregationInput = {
     id?: SortOrder
     country?: SortOrder
+    countryCode?: SortOrder
     city?: SortOrder
     lat?: SortOrder
     lon?: SortOrder
@@ -34236,6 +34254,7 @@ export namespace Prisma {
     NOT?: GeoAnalyticsScalarWhereWithAggregatesInput | GeoAnalyticsScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GeoAnalytics"> | string
     country?: StringWithAggregatesFilter<"GeoAnalytics"> | string
+    countryCode?: StringWithAggregatesFilter<"GeoAnalytics"> | string
     city?: StringWithAggregatesFilter<"GeoAnalytics"> | string
     lat?: FloatWithAggregatesFilter<"GeoAnalytics"> | number
     lon?: FloatWithAggregatesFilter<"GeoAnalytics"> | number
@@ -36241,6 +36260,7 @@ export namespace Prisma {
   export type GeoAnalyticsCreateInput = {
     id?: string
     country: string
+    countryCode?: string
     city: string
     lat: number
     lon: number
@@ -36250,6 +36270,7 @@ export namespace Prisma {
   export type GeoAnalyticsUncheckedCreateInput = {
     id?: string
     country: string
+    countryCode?: string
     city: string
     lat: number
     lon: number
@@ -36259,6 +36280,7 @@ export namespace Prisma {
   export type GeoAnalyticsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     lat?: FloatFieldUpdateOperationsInput | number
     lon?: FloatFieldUpdateOperationsInput | number
@@ -36268,6 +36290,7 @@ export namespace Prisma {
   export type GeoAnalyticsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     lat?: FloatFieldUpdateOperationsInput | number
     lon?: FloatFieldUpdateOperationsInput | number
@@ -36277,6 +36300,7 @@ export namespace Prisma {
   export type GeoAnalyticsCreateManyInput = {
     id?: string
     country: string
+    countryCode?: string
     city: string
     lat: number
     lon: number
@@ -36286,6 +36310,7 @@ export namespace Prisma {
   export type GeoAnalyticsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     lat?: FloatFieldUpdateOperationsInput | number
     lon?: FloatFieldUpdateOperationsInput | number
@@ -36295,6 +36320,7 @@ export namespace Prisma {
   export type GeoAnalyticsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     lat?: FloatFieldUpdateOperationsInput | number
     lon?: FloatFieldUpdateOperationsInput | number
@@ -37863,6 +37889,7 @@ export namespace Prisma {
   export type GeoAnalyticsCountOrderByAggregateInput = {
     id?: SortOrder
     country?: SortOrder
+    countryCode?: SortOrder
     city?: SortOrder
     lat?: SortOrder
     lon?: SortOrder
@@ -37878,6 +37905,7 @@ export namespace Prisma {
   export type GeoAnalyticsMaxOrderByAggregateInput = {
     id?: SortOrder
     country?: SortOrder
+    countryCode?: SortOrder
     city?: SortOrder
     lat?: SortOrder
     lon?: SortOrder
@@ -37887,6 +37915,7 @@ export namespace Prisma {
   export type GeoAnalyticsMinOrderByAggregateInput = {
     id?: SortOrder
     country?: SortOrder
+    countryCode?: SortOrder
     city?: SortOrder
     lat?: SortOrder
     lon?: SortOrder
