@@ -544,6 +544,13 @@ All workers:
 - [ ] Vercel Preview deployments with seeded test data
 - [ ] OpenAPI spec generation from Zod DTO schemas
 
+### Phase 13 — Chatbot Enhancements
+- [x] **Conversation summary / context compression** — `ChatbotRAGService.compressHistory()`: son N mesaj kalır, öncekiler AI ile özetlenir; özet `StoredChatSession.summary` alanında saklanır ve sonraki isteklerde geçmiş yerine kullanılır; uzun sohbetlerdeki token maliyetini düşürür
+- [x] **Typing indicator** — `ChatbotWSHandler`'a `handleTyping()` eklendi; admin yazdığında `{ ns: 'chatbot', type: 'typing', role: 'admin' }` eventi yayınlanır; AI akışı başladığında `{ type: 'typing', role: 'assistant' }` gönderilir; `ChatbotWSServerEvent` tipine `typing` olayı eklendi; client bileşenine animasyonlu gösterge eklendi
+- [x] **Proactive message (contextual trigger)** — blog post veya proje sayfasında 30+ saniye geçiren kullanıcıya chatbot otomatik açılır; `page_context?: string` alanı `ChatbotWSClientEvent`'e eklendi; RAG sorgusu bu sayfa başlığıyla başlar; `useChatbotStore.openChatbot()` + `IntersectionObserver` / `setTimeout` kombinasyonu ile tetiklenir; `useChatbotProactiveTrigger` hook oluşturuldu
+- [x] **Chat session export (admin only)** — `/api/chatbot/admin/[sessionId]/export` GET endpoint'i; `format=json|csv|txt` query param; `ChatSessionService.getMessages()` verisini `Content-Disposition: attachment` header'ıyla döndürür; admin paneli oturum detay sayfasına indirme butonu eklendi
+- [x] **Offline message queue** — WS bağlantısı kesildiğinde yazılan mesaj `localStorage`'a `chatbot_pending_msg` olarak kaydedilir; `useChatbotWebSocket`'in `connected` olayında bekleyen mesaj otomatik gönderilir; backend değişikliği gerektirmez
+
 ---
 
 ## 8. Technical Decisions
