@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import TOTPService from '@/services/AuthService/TOTPService'
-import AuthService from '@/services/AuthService'
+import SecurityService from '@/services/AuthService/SecurityService'
 import AuthMessages from '@/messages/AuthMessages'
 import { TOTPSetupRequestSchema } from '@/dtos/AuthDTO'
 
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       requiredUserRole: 'USER',
     })
 
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
     if (userSecurity.otpMethods.includes('TOTP_APP' as any)) {
       return NextResponse.json({ message: 'TOTP already enabled' }, { status: 400 })
     }

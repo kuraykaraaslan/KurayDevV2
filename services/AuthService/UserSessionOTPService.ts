@@ -8,7 +8,7 @@ import AuthMessages from '@/messages/AuthMessages'
 import { authenticator } from 'otplib'
 import { SafeUserSession } from '@/types/user/UserSessionTypes'
 import { SafeUser, UserSchema } from '@/types/user/UserTypes'
-import AuthService from '.'
+import SecurityService from './SecurityService'
 import {
   BCRYPT_SALT_ROUNDS,
   OTP_EXPIRY_SECONDS,
@@ -51,7 +51,7 @@ export default class UserSessionOTPService {
     if (!_user) throw new Error(AuthMessages.USER_NOT_FOUND)
 
     const user = UserSchema.parse(_user)
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
     return userSecurity.otpSecret || null
   }
 

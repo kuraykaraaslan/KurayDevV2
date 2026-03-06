@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
-import AuthService from '@/services/AuthService'
+import SecurityService from '@/services/AuthService/SecurityService'
 import AuthMessages from '@/messages/AuthMessages'
 
 export async function GET(request: NextRequest) {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
       requiredUserRole: 'USER',
     })
 
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
     return NextResponse.json({
       message: AuthMessages.SECURITY_SETTINGS_RETRIEVED,

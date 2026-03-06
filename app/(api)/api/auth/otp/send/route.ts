@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import OTPService from '@/services/AuthService/OTPService'
 import AuthMessages from '@/messages/AuthMessages'
-import AuthService from '@/services/AuthService'
+import SecurityService from '@/services/AuthService/SecurityService'
 import MailService from '@/services/NotificationService/MailService'
 import SMSService from '@/services/NotificationService/SMSService'
 import { OTPSendRequestSchema } from '@/dtos/AuthDTO'
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
 
     const { method, action } = parsedData.data
 
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
     const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action })
 

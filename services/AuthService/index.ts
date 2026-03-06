@@ -10,13 +10,9 @@ import MailService from '../NotificationService/MailService'
 import { SafeUser, SafeUserSchema, UserPreferencesSchema, UserRoleEnum } from '@/types/user/UserTypes'
 import { UserProfileSchema } from '@/types/user/UserProfileTypes'
 import AuthMessages from '@/messages/AuthMessages'
-import {
-  SafeUserSecurity,
-  UserSecurity,
-  UserSecurityDefault,
-  UserSecuritySchema,
-} from '@/types/user/UserSecurityTypes'
+import { SafeUserSecurity } from '@/types/user/UserSecurityTypes'
 import { BCRYPT_SALT_ROUNDS } from './constants'
+import SecurityService from './SecurityService'
 
 export default class AuthService {
   /**
@@ -66,7 +62,7 @@ export default class AuthService {
       throw new Error(AuthMessages.INVALID_EMAIL_OR_PASSWORD)
     }
 
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
     return {
       user: SafeUserSchema.parse(user),
@@ -111,8 +107,6 @@ export default class AuthService {
     name?: string
     phone?: string
   }): Promise<SafeUser> {
-    // TODO: Validate the input data
-
     // Check if the user already exists
     const existingUser = await UserService.getByEmail(email)
 
@@ -168,44 +162,4 @@ export default class AuthService {
     return userRoleIndex <= requiredRoleIndex
   }
 
-  public static async getUserSecurity(userId: string): Promise<{ userSecurity: UserSecurity }> {
-    const user = await prisma.user.findUnique({
-      where: { userId },
-    })
-
-    if (!user) {
-      throw new Error(AuthMessages.USER_NOT_FOUND)
-    }
-
-    return {
-      userSecurity: UserSecuritySchema.parse(
-        user.userSecurity ? user.userSecurity : UserSecurityDefault
-      ),
-    }
-  }
-
-  public static async updateUserSecurity(
-    userId: string,
-    updates: Partial<UserSecurity>
-  ): Promise<void> {
-    const user = await prisma.user.findUnique({
-      where: { userId },
-    })
-
-    if (!user) {
-      throw new Error(AuthMessages.USER_NOT_FOUND)
-    }
-
-    const updatedSecurity = {
-      ...UserSecuritySchema.parse(user.userSecurity ? user.userSecurity : UserSecurityDefault),
-      ...updates,
-    }
-
-    await prisma.user.update({
-      where: { userId },
-      data: {
-        userSecurity: updatedSecurity,
-      },
-    })
-  }
 }

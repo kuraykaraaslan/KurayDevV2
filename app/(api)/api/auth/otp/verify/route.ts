@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import OTPService from '@/services/AuthService/OTPService'
 import AuthMessages from '@/messages/AuthMessages'
-import AuthService from '@/services/AuthService'
+import SecurityService from '@/services/AuthService/SecurityService'
 import { OTPVerifyRequestSchema } from '@/dtos/AuthDTO'
 import { OTPActionEnum } from '@/types/user/UserSecurityTypes'
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     const { method, action, otpToken } = parsedData.data
 
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
     const userOTPMethods = userSecurity.otpMethods
 
@@ -36,12 +36,12 @@ export async function POST(request: NextRequest) {
 
     if (action === OTPActionEnum.Enum.enable && !userOTPMethods.includes(method)) {
       const updatedMethods = [...userOTPMethods, method]
-      await AuthService.updateUserSecurity(user.userId, { otpMethods: updatedMethods })
+      await SecurityService.updateUserSecurity(user.userId, { otpMethods: updatedMethods })
     }
 
     if (action === OTPActionEnum.Enum.disable && userOTPMethods.includes(method)) {
       const updatedMethods = userOTPMethods.filter((m) => m !== method)
-      await AuthService.updateUserSecurity(user.userId, { otpMethods: updatedMethods })
+      await SecurityService.updateUserSecurity(user.userId, { otpMethods: updatedMethods })
     }
 
     return NextResponse.json({ message: AuthMessages.OTP_VERIFIED_SUCCESSFULLY }, { status: 200 })

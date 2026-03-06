@@ -17,7 +17,7 @@ import { AuthMessages } from '@/messages/AuthMessages'
 import { SafeUser, UserSchema } from '@/types/user/UserTypes'
 import { UserSecurity } from '@/types/user/UserSecurityTypes'
 import { User as PrismaUser } from '@/generated/prisma'
-import AuthService from '..'
+import SecurityService from '../SecurityService'
 
 interface SSOProviderService {
   generateAuthUrl: () => string
@@ -199,7 +199,7 @@ export default class SSOService {
         throw new Error(SSOMessages.OAUTH_ERROR)
       }
 
-      const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+      const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
       return { user: UserSchema.parse(user), userSecurity, newUser }
     } catch (error) {

@@ -2,7 +2,7 @@ import { authenticator } from 'otplib'
 import bcrypt from 'bcrypt'
 import redis from '@/libs/redis'
 import AuthMessages from '@/messages/AuthMessages'
-import AuthService from '@/services/AuthService'
+import SecurityService from './SecurityService'
 import { SafeUser } from '@/types/user/UserTypes'
 import { SafeUserSession } from '@/types/user/UserSessionTypes'
 import { OTPAction } from '@/types/user/UserSecurityTypes'
@@ -97,7 +97,7 @@ export default class TOTPService {
       throw new Error(AuthMessages.INVALID_OTP)
     }
 
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
     const newMethods = Array.from(new Set([...(userSecurity.otpMethods || []), 'TOTP_APP']))
 
@@ -113,7 +113,7 @@ export default class TOTPService {
     for (let i = 0; i < 4; i++) codes.push(makeCode())
     const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, BCRYPT_SALT_ROUNDS)))
 
-    await AuthService.updateUserSecurity(user.userId, {
+    await SecurityService.updateUserSecurity(user.userId, {
       otpSecret: tempSecret,
       otpMethods: newMethods as any,
       otpBackupCodes: hashed as any,
@@ -126,7 +126,7 @@ export default class TOTPService {
 
   // Verify a login/authenticate action using persisted secret
   static async verifyAuthenticate({ user, otpToken }: { user: SafeUser; otpToken: string }) {
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
     if (!userSecurity.otpMethods.includes('TOTP_APP' as any) || !userSecurity.otpSecret) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD)
@@ -161,7 +161,7 @@ export default class TOTPService {
   }
 
   static async disable({ user, otpToken }: { user: SafeUser; otpToken: string }) {
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
     if (!userSecurity.otpMethods.includes('TOTP_APP' as any) || !userSecurity.otpSecret) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD)
@@ -173,7 +173,7 @@ export default class TOTPService {
     }
 
     const newMethods = (userSecurity.otpMethods || []).filter((m) => m !== 'TOTP_APP')
-    await AuthService.updateUserSecurity(user.userId, {
+    await SecurityService.updateUserSecurity(user.userId, {
       otpSecret: null,
       otpMethods: newMethods as any,
       otpBackupCodes: [],
@@ -183,7 +183,7 @@ export default class TOTPService {
 
   // Generate backup codes, store hashed; return plaintext codes to the user
   static async generateBackupCodes({ user, count = 4 }: { user: SafeUser; count?: number }) {
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
     if (!userSecurity.otpMethods.includes('TOTP_APP' as any) || !userSecurity.otpSecret) {
       throw new Error(AuthMessages.INVALID_OTP_METHOD)
     }
@@ -199,7 +199,7 @@ export default class TOTPService {
     for (let i = 0; i < count; i++) codes.push(makeCode())
     const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, 10)))
 
-    await AuthService.updateUserSecurity(user.userId, {
+    await SecurityService.updateUserSecurity(user.userId, {
       otpBackupCodes: hashed as any,
     })
 
@@ -208,7 +208,7 @@ export default class TOTPService {
 
   // Consume a backup code: verify and remove it from stored list
   static async consumeBackupCode({ user, code }: { user: SafeUser; code: string }) {
-    const { userSecurity } = await AuthService.getUserSecurity(user.userId)
+    const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
     const list = userSecurity.otpBackupCodes || []
     if (!list.length) {
       return { consumed: false }
@@ -228,7 +228,7 @@ export default class TOTPService {
     }
 
     const newList = list.filter((_, idx) => idx !== matchIndex)
-    await AuthService.updateUserSecurity(user.userId, {
+    await SecurityService.updateUserSecurity(user.userId, {
       otpBackupCodes: newList as any,
     })
 
