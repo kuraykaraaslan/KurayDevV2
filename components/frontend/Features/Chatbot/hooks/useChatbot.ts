@@ -4,12 +4,9 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import useGlobalStore from '@/libs/zustand'
 import { useChatbotStore } from '@/libs/zustand/chatbotStore'
-import { useChatbotWebSocket } from './useChatbotWebSocket'
-import type { ChatMessage, ChatSource, ChatbotWSServerEvent } from '@/types/features/ChatbotTypes'
-import type { WSSystemServerEvent } from '@/types/common/WebSocketTypes'
+import { useChatbotSSE } from './useChatbotSSE'
+import type { ChatMessage, ChatSource } from '@/types/features/ChatbotTypes'
 import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
-
-type ServerEvent = ChatbotWSServerEvent | WSSystemServerEvent
 
 export function useChatbot() {
   const { t } = useTranslation()
@@ -23,12 +20,11 @@ export function useChatbot() {
   const [sources, setSources] = useState<ChatSource[]>([])
   const [chatSessionId, setChatSessionId] = useState<string | undefined>(undefined)
   const [sessionClosed, setSessionClosed] = useState(false)
-
-  // Typing indicator auto-clear timer (admin typing expires after 4 s of silence)
-  const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [isReady, setIsReady] = useState(false)
 
   // Browser identity for session persistence
   const browserIdRef = useRef<string>('')
+  const [browserIdReady, setBrowserIdReady] = useState(false)
   useEffect(() => {
     const STORAGE_KEY = 'chatbot_browser_id'
     let id = localStorage.getItem(STORAGE_KEY)
@@ -37,54 +33,39 @@ export function useChatbot() {
       localStorage.setItem(STORAGE_KEY, id)
     }
     browserIdRef.current = id
+    setBrowserIdReady(true)
   }, [])
 
   // Accumulated text for current streaming response
   const accumulatedRef = useRef('')
   const isOpenRef = useRef(isOpen)
   isOpenRef.current = isOpen
+  const chatSessionIdRef = useRef(chatSessionId)
+  chatSessionIdRef.current = chatSessionId
 
-  // ── WebSocket event handler ──────────────────────────────────────
-  const handleWSEvent = useCallback((event: ServerEvent) => {
+  // ── SSE event handler ────────────────────────────────────────────
+  const handleSSEEvent = useCallback((event: Record<string, unknown>) => {
     switch (event.type) {
-      case 'connected':
-        if (browserIdRef.current) restore(browserIdRef.current)
-        // Flush offline pending message if any (Phase 13 — offline queue)
-        try {
-          const pendingRaw = localStorage.getItem('chatbot_pending_msg')
-          if (pendingRaw) {
-            localStorage.removeItem('chatbot_pending_msg')
-            const pending = JSON.parse(pendingRaw) as { message: string; chatSessionId?: string }
-            const pendingUserMsg: ChatMessage = { role: 'user', content: pending.message }
-            setMessages((prev) => [...prev, pendingUserMsg, { role: 'assistant', content: '' }])
-            setIsLoading(true)
-            accumulatedRef.current = ''
-            sendChat(pending.message, pending.chatSessionId)
-          }
-        } catch { /* ignore */ }
-        break
-
       case 'history':
-        if ('chatSessionId' in event) setChatSessionId(event.chatSessionId as string)
-        if ('messages' in event && Array.isArray(event.messages)) {
+        if (event.chatSessionId) setChatSessionId(event.chatSessionId as string)
+        if (Array.isArray(event.messages)) {
           setMessages(event.messages as ChatMessage[])
         }
-        if ('status' in event && event.status === 'CLOSED') {
+        if (event.status === 'CLOSED') {
           setSessionClosed(true)
         }
         break
 
       case 'meta':
-        if ('chatSessionId' in event) {
-          setChatSessionId(event.chatSessionId)
+        if (event.chatSessionId) {
+          setChatSessionId(event.chatSessionId as string)
         }
         break
 
       case 'chunk':
-        // Clear typing indicator on first chunk arrival
         setIsTyping(null)
-        if ('content' in event && event.content && event.content !== ADMIN_TAKEOVER_SENTINEL) {
-          accumulatedRef.current += event.content
+        if (event.content && event.content !== ADMIN_TAKEOVER_SENTINEL) {
+          accumulatedRef.current += event.content as string
           const text = accumulatedRef.current
           setMessages((prev) => {
             const updated = [...prev]
@@ -94,9 +75,15 @@ export function useChatbot() {
         }
         break
 
+      case 'typing':
+        if (event.role) {
+          setIsTyping({ role: event.role as 'admin' | 'assistant' })
+        }
+        break
+
       case 'sources':
-        if ('sources' in event && event.sources) {
-          setSources(event.sources)
+        if (event.sources) {
+          setSources(event.sources as ChatSource[])
         }
         break
 
@@ -108,10 +95,9 @@ export function useChatbot() {
 
       case 'error': {
         let content = t('shared.chatbot.error_message')
-        if ('error' in event) {
-          if (event.error === 'USER_BANNED') content = t('shared.chatbot.user_banned')
-          else if (event.error === 'RATE_LIMIT_EXCEEDED') content = t('shared.chatbot.rate_limit_exceeded')
-        }
+        if (event.error === 'USER_BANNED') content = t('shared.chatbot.user_banned')
+        else if (event.error === 'RATE_LIMIT_EXCEEDED') content = t('shared.chatbot.rate_limit_exceeded')
+
         setMessages((prev) => {
           const updated = [...prev]
           if (updated.length > 0 && updated[updated.length - 1].role === 'assistant') {
@@ -126,81 +112,29 @@ export function useChatbot() {
         setIsTyping(null)
         break
       }
-
-      case 'new_message':
-        if ('message' in event && event.message) {
-          const msg = event.message as ChatMessage
-          if (msg.content === ADMIN_TAKEOVER_SENTINEL) break
-          setMessages((prev) => {
-            if (msg.id && prev.some((m) => m.id === msg.id)) return prev
-            if (msg.role === 'admin') {
-              if (!isOpenRef.current) setHasUnread(true)
-              return [...prev, msg]
-            }
-            return prev
-          })
-        }
-        break
-
-      case 'session_update':
-        if ('status' in event && event.status === 'CLOSED') {
-          setSessionClosed(true)
-          setMessages((prev) => [
-            ...prev,
-            { role: 'assistant', content: t('shared.chatbot.session_closed') },
-          ])
-          if (!isOpenRef.current) setHasUnread(true)
-        }
-        break
-
-      case 'pong':
-        break
-
-      case 'typing':
-        if ('role' in event) {
-          const typingRole = event.role as 'admin' | 'assistant'
-          setIsTyping({ role: typingRole })
-          // Auto-clear admin typing indicator after 4 seconds
-          if (typingRole === 'admin') {
-            if (typingTimerRef.current) clearTimeout(typingTimerRef.current)
-            typingTimerRef.current = setTimeout(() => setIsTyping(null), 4000)
-          }
-        }
-        break
     }
-  }, [t, setHasUnread])
+  }, [t])
 
-  const { isConnected, connect, disconnect, sendChat, restore, status } = useChatbotWebSocket({
-    onEvent: handleWSEvent,
-    autoConnect: !!user,
-    reconnectDelay: 3000,
-    maxReconnects: 10,
+  const { sendChat, restore, isStreaming } = useChatbotSSE({
+    onEvent: handleSSEEvent,
   })
+
+  // ── Restore session on mount ─────────────────────────────────────
+  useEffect(() => {
+    if (!browserIdReady) return
+    const doRestore = async () => {
+      await restore(browserIdRef.current)
+      setIsReady(true)
+    }
+    doRestore()
+  }, [browserIdReady, user, restore])
 
   // ── Send message ─────────────────────────────────────────────────
   const handleSend = useCallback(() => {
     const trimmed = input.trim()
-    if (!trimmed || isLoading) return
+    if (!trimmed || isLoading || isStreaming) return
 
-    // Offline queue: save and show feedback if WS not connected (Phase 13)
-    if (!isConnected) {
-      try {
-        localStorage.setItem('chatbot_pending_msg', JSON.stringify({
-          message: trimmed,
-          chatSessionId,
-          savedAt: new Date().toISOString(),
-        }))
-      } catch { /* ignore */ }
-      setMessages((prev) => [
-        ...prev,
-        { role: 'user', content: trimmed },
-        { role: 'assistant', content: t('shared.chatbot.message_queued') },
-      ])
-      setInput('')
-      return
-    }
-
-    // Read page context set by proactive trigger (Phase 13)
+    // Read page context set by proactive trigger
     let pageContext: string | undefined
     try {
       const ctx = localStorage.getItem('chatbot_page_context')
@@ -220,8 +154,8 @@ export function useChatbot() {
     // Placeholder for streaming response
     setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
 
-    sendChat(trimmed, chatSessionId, undefined, undefined, pageContext)
-  }, [input, isLoading, isConnected, chatSessionId, sendChat, t])
+    sendChat(trimmed, chatSessionIdRef.current, undefined, undefined, pageContext, browserIdRef.current)
+  }, [input, isLoading, isStreaming, sendChat])
 
   const handleClear = useCallback(() => {
     setMessages([])
@@ -241,8 +175,8 @@ export function useChatbot() {
     isTyping,
     sources,
     sessionClosed,
-    isConnected,
-    status,
+    isConnected: isReady,
+    status: isReady ? 'connected' as const : 'connecting' as const,
     // Actions
     setInput,
     handleSend,

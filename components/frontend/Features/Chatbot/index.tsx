@@ -12,7 +12,6 @@ import ChatbotInputBar from './partials/ChatbotInputBar'
 const Chatbot = () => {
   const { t } = useTranslation()
   const {
-    user,
     isOpen,
     messages,
     input,
@@ -27,8 +26,6 @@ const Chatbot = () => {
     handleClear,
     closeChatbot,
   } = useChatbot()
-
-  if (!user) return null
 
   return (
     <>

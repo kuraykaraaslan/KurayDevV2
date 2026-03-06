@@ -3,16 +3,14 @@ import Logger from '@/libs/logger'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 import wsManager from '@/libs/websocket/WSManager'
 import { StoredChatMessage, StoredChatSession } from '@/dtos/ChatbotDTO'
+import { ChatbotStats } from '@/types/features/ChatbotTypes'
 import ChatSessionService from './ChatSessionService'
 import ChatSessionDBService from './ChatSessionDBService'
-import { ACTIVE_SESSIONS, makeMessageId } from './constants'
+import { ACTIVE_SESSIONS } from './constants'
+import { generateMessageId } from './utils'
 
 export default class ChatbotAdminService {
-    // ── Private helpers ───────────────────────────────────────────────
 
-    /**
-     * Fetch session (throwing if missing), apply status mutation, persist, and broadcast.
-     */
     private static async _setSessionStatus(
         chatSessionId: string,
         mutate: (session: StoredChatSession) => void,
@@ -35,9 +33,6 @@ export default class ChatbotAdminService {
         Logger.info(`[ChatbotAdminService] ${logMessage}`)
     }
 
-    /**
-     * Admin takes over a session — AI stops responding, admin writes manually.
-     */
     static async takeoverSession(chatSessionId: string, adminUserId: string): Promise<void> {
         await ChatbotAdminService._setSessionStatus(
             chatSessionId,
@@ -46,9 +41,6 @@ export default class ChatbotAdminService {
         )
     }
 
-    /**
-     * Admin releases a session back to AI.
-     */
     static async releaseSession(chatSessionId: string): Promise<void> {
         await ChatbotAdminService._setSessionStatus(
             chatSessionId,
@@ -57,9 +49,6 @@ export default class ChatbotAdminService {
         )
     }
 
-    /**
-     * Admin closes a session.
-     */
     static async closeSession(chatSessionId: string): Promise<void> {
         await ChatbotAdminService._setSessionStatus(
             chatSessionId,
@@ -68,9 +57,6 @@ export default class ChatbotAdminService {
         )
     }
 
-    /**
-     * Admin sends a message in a session (appears as "admin" role in the chat).
-     */
     static async adminReply({
         chatSessionId,
         message,
@@ -84,7 +70,7 @@ export default class ChatbotAdminService {
         if (!session) throw new Error(ChatbotMessages.SESSION_NOT_FOUND)
 
         const msg: StoredChatMessage = {
-            id: makeMessageId(),
+            id: generateMessageId(),
             role: 'admin',
             content: message,
             adminUserId,
@@ -94,7 +80,6 @@ export default class ChatbotAdminService {
         await ChatSessionService.addMessage(chatSessionId, msg)
         await redis.zadd(ACTIVE_SESSIONS, Date.now(), chatSessionId)
 
-        // Auto-takeover if not already
         if (session.status === 'ACTIVE') {
             session.status = 'TAKEN_OVER'
             session.takenOverBy = adminUserId
@@ -126,20 +111,7 @@ export default class ChatbotAdminService {
         return msg
     }
 
-    /**
-     * Get chatbot analytics stats (admin dashboard).
-     * Reads from PostgreSQL — captures all sessions including those expired from Redis.
-     */
-    static async getStats(): Promise<{
-        totalSessions: number
-        activeSessions: number
-        closedSessions: number
-        takenOverSessions: number
-        totalMessages: number
-        avgMessagesPerSession: number
-        uniqueUsers: number
-        recentSessions: StoredChatSession[]
-    }> {
+    static async getStats(): Promise<ChatbotStats> {
         return ChatSessionDBService.getStats()
     }
 }

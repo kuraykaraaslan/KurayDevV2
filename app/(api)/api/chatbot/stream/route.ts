@@ -2,7 +2,7 @@ import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ChatbotService from '@/services/ChatbotService'
 import { ChatbotRequestSchema } from '@/dtos/ChatbotDTO'
 import ChatbotMessages from '@/messages/ChatbotMessages'
-import AuthMessages from '@/messages/AuthMessages'
+import Logger from '@/libs/logger'
 
 /**
  * POST /api/chatbot/stream — SSE streaming chat endpoint.
@@ -15,17 +15,15 @@ import AuthMessages from '@/messages/AuthMessages'
  */
 export async function POST(request: NextRequest) {
   try {
-    const { user } = await AuthMiddleware.authenticateUserByRequest({
-      request,
-      requiredUserRole: 'USER',
-    })
-
-    if (!user) {
-      return new Response(
-        JSON.stringify({ message: AuthMessages.USER_NOT_AUTHENTICATED }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      )
-    }
+    // Try to authenticate but allow guests
+    let user: { userId: string; email: string } | null = null
+    try {
+      const auth = await AuthMiddleware.authenticateUserByRequest({
+        request,
+        requiredUserRole: 'USER',
+      })
+      user = auth.user ? { userId: auth.user.userId, email: auth.user.email } : null
+    } catch { /* guest access */ }
 
     const body = await request.json()
     const parsed = ChatbotRequestSchema.safeParse(body)
@@ -37,7 +35,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { message, chatSessionId, provider, model } = parsed.data
+    const { message, chatSessionId, browserId, provider, model } = parsed.data
+
+    // Guest must provide browserId
+    if (!user && !browserId) {
+      return new Response(
+        JSON.stringify({ message: 'browserId is required for guest access' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const effectiveUserId = user?.userId ?? `guest:${browserId}`
 
     const stream = new ReadableStream({
       async start(controller) {
@@ -46,8 +54,9 @@ export async function POST(request: NextRequest) {
           for await (const event of ChatbotService.chatStream({
             message,
             chatSessionId,
-            userId: user.userId,
-            userEmail: user.email,
+            userId: effectiveUserId,
+            userEmail: user?.email,
+            browserId,
             provider,
             model,
           })) {
@@ -74,7 +83,7 @@ export async function POST(request: NextRequest) {
     })
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : ChatbotMessages.CHATBOT_RESPONSE_FAILED
-    console.error('[Chatbot Stream API] Error:', errMsg)
+    Logger.error(`[Chatbot Stream API] ${errMsg}`)
 
     const status = errMsg === ChatbotMessages.RATE_LIMIT_EXCEEDED ? 429
       : errMsg === ChatbotMessages.USER_BANNED ? 403

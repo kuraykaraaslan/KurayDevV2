@@ -49,6 +49,7 @@ export type StoredChatSession = z.infer<typeof StoredChatSessionSchema>
 export const ChatbotRequestSchema = z.object({
   message: z.string().min(1, ChatbotMessages.MESSAGE_REQUIRED).max(2000, ChatbotMessages.MESSAGE_TOO_LONG),
   chatSessionId: z.string().optional(),
+  browserId: z.string().optional(),
   provider: z.string().optional(),
   model: z.string().optional(),
   /** Page title/context for proactive trigger enrichment (Phase 13). */

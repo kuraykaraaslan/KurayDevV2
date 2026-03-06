@@ -17,26 +17,20 @@ import {
   faDownload,
 } from '@fortawesome/free-solid-svg-icons'
 import { ChatMessageList, ChatInput } from '@/components/common/UI/Chat'
-import { useChatbotWebSocket } from '@/components/frontend/Features/Chatbot/hooks/useChatbotWebSocket'
-import type { ChatMessage, ChatSession, ChatbotWSServerEvent } from '@/types/features/ChatbotTypes'
-import type { WSSystemServerEvent } from '@/types/common/WebSocketTypes'
-
-type ServerEvent = ChatbotWSServerEvent | WSSystemServerEvent
+import type { ChatMessage } from '@/types/features/ChatbotTypes'
+import type { StoredChatSession } from '@/dtos/ChatbotDTO'
 
 const ChatDetailPage = () => {
   const params = useParams<{ sessionId: string }>()
   const sessionId = params?.sessionId
 
-  const [session, setSession] = useState<ChatSession | undefined>(undefined)
+  const [session, setSession] = useState<StoredChatSession | undefined>(undefined)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [loading, setLoading] = useState(true)
   const [replyText, setReplyText] = useState('')
   const [sending, setSending] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
   const [userBanned, setUserBanned] = useState(false)
-
-  // Debounce ref for typing events (Phase 13)
-  const typingDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // ── Initial data fetch ────────────────────────────────────────────
   const fetchData = useCallback(async () => {
@@ -58,72 +52,38 @@ const ChatDetailPage = () => {
     fetchData()
   }, [fetchData])
 
-  // ── WebSocket for real-time updates ───────────────────────────────
-  const handleWSEvent = useCallback((event: ServerEvent) => {
-    switch (event.type) {
-      case 'connected':
-        // Subscription handled by useEffect below
-        break
+  // ── Polling for real-time updates ──────────────────────────────────
+  const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const isConnected = true // Always "connected" in HTTP mode
 
-      case 'new_message':
-        if ('message' in event && event.message && event.chatSessionId === sessionId) {
-          const msg = event.message as ChatMessage
-          if (msg.content === ADMIN_TAKEOVER_SENTINEL) break
-          setMessages((prev) => {
-            if (msg.id && prev.some((m) => m.id === msg.id)) return prev
-            return [...prev, msg]
-          })
-        }
-        break
-
-      case 'session_update':
-        if ('status' in event && event.chatSessionId === sessionId) {
-          setSession((prev) => {
-            if (!prev) return prev
-            return {
-              ...prev,
-              status: event.status as ChatSession['status'],
-              takenOverBy: 'takenOverBy' in event ? event.takenOverBy : prev.takenOverBy,
-            }
-          })
-        }
-        break
-
-      case 'browser_status':
-        if ('chatSessionId' in event && event.chatSessionId === sessionId) {
-          const statusText = event.online
-            ? 'Kullanıcı geri döndü'
-            : 'Kullanıcı tarayıcıdan çıktı'
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: `sys_${Date.now()}`,
-              role: 'system',
-              content: statusText,
-              createdAt: new Date().toISOString(),
-            },
-          ])
-        }
-        break
-
-      default:
-        break
-    }
-  }, [sessionId])
-
-  const { isConnected, subscribe, sendAdminReply, sendTyping } = useChatbotWebSocket({
-    onEvent: handleWSEvent,
-    autoConnect: true,
-    reconnectDelay: 2000,
-    maxReconnects: 15,
-  })
-
-  // Subscribe once connected + sessionId ready
   useEffect(() => {
-    if (isConnected && sessionId) {
-      subscribe(sessionId)
+    if (!sessionId || loading) return
+
+    pollIntervalRef.current = setInterval(async () => {
+      try {
+        const res = await axiosInstance.get(`/api/chatbot/admin/${sessionId}`)
+        const newSession = res.data.session as StoredChatSession | undefined
+        const newMessages = (res.data.messages ?? []) as ChatMessage[]
+
+        if (newSession) {
+          setSession(newSession)
+        }
+        if (newMessages.length > 0) {
+          setMessages((prev) => {
+            // Only update if message count changed to avoid flickering
+            if (prev.length !== newMessages.length) {
+              return newMessages.filter((m) => m.content !== ADMIN_TAKEOVER_SENTINEL)
+            }
+            return prev
+          })
+        }
+      } catch { /* ignore polling errors */ }
+    }, 3000) // Poll every 3 seconds
+
+    return () => {
+      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current)
     }
-  }, [isConnected, sessionId, subscribe])
+  }, [sessionId, loading])
 
   // ── Admin actions (HTTP — need server-side auth/validation) ───────
   const handleAction = async (action: 'takeover' | 'release' | 'close' | 'ban' | 'unban') => {
@@ -154,29 +114,22 @@ const ChatDetailPage = () => {
     }
   }
 
-  // ── Admin reply via WebSocket ────────────────────────────────────
+  // ── Admin reply via HTTP ───────────────────────────────────────────
   const handleSendReply = useCallback(async () => {
     if (!replyText.trim() || !sessionId || sending) return
     setSending(true)
     try {
-      if (isConnected) {
-        // Send via WebSocket — the new_message event will arrive back
-        sendAdminReply(sessionId, replyText.trim())
-        setReplyText('')
-      } else {
-        // Fallback to HTTP
-        await axiosInstance.post(`/api/chatbot/admin/${sessionId}`, {
-          message: replyText.trim(),
-        })
-        setReplyText('')
-        await fetchData()
-      }
+      await axiosInstance.post(`/api/chatbot/admin/${sessionId}`, {
+        message: replyText.trim(),
+      })
+      setReplyText('')
+      await fetchData()
     } catch {
       toast.error('Failed to send reply')
     } finally {
       setSending(false)
     }
-  }, [replyText, sessionId, sending, isConnected, sendAdminReply, fetchData])
+  }, [replyText, sessionId, sending, fetchData])
 
   // ── Export session (Phase 13) ───────────────────────────────────
   const handleExport = useCallback((format: 'json' | 'csv' | 'txt') => {
@@ -190,18 +143,10 @@ const ChatDetailPage = () => {
     document.body.removeChild(a)
   }, [sessionId])
 
-  // ── Admin typing indicator sender (Phase 13) ────────────────────
+  // ── Admin typing handler ──────────────────────────────────────────
   const handleReplyChange = useCallback((value: string) => {
     setReplyText(value)
-    if (!isConnected || !sessionId) return
-    // Debounce: send typing event at most once every 2 s while admin types
-    if (!typingDebounceRef.current) {
-      sendTyping(sessionId)
-      typingDebounceRef.current = setTimeout(() => {
-        typingDebounceRef.current = null
-      }, 2000)
-    }
-  }, [isConnected, sessionId, sendTyping])
+  }, [])
 
   const formatDate = (iso: string) => {
     const d = new Date(iso)
@@ -325,7 +270,7 @@ const ChatDetailPage = () => {
         <FontAwesomeIcon
           icon={faWifi}
           className={`w-3 h-3 ml-auto transition-colors ${isConnected ? 'text-success' : 'text-error/60'}`}
-          title={isConnected ? 'WebSocket connected' : 'WebSocket disconnected'}
+          title={isConnected ? 'Connected' : 'Disconnected'}
         />
       </div>
 

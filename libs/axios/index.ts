@@ -159,10 +159,17 @@ axiosInstance.interceptors.response.use(
     } catch (refreshError) {
       processQueue(refreshError)
 
-      /** Redirect to login on refresh failure */
+      /** Clear stale user from store on refresh failure */
       if (typeof window !== 'undefined') {
-        const redirect = encodeURIComponent(window.location.pathname)
-        window.location.href = `/auth/login?redirect=${redirect}`
+        const { useGlobalStore } = await import('@/libs/zustand')
+        useGlobalStore.getState().clearUser()
+
+        /** Only redirect to login on auth-required pages (e.g. /admin) */
+        const pathname = window.location.pathname
+        if (pathname.startsWith('/admin')) {
+          const redirect = encodeURIComponent(pathname)
+          window.location.href = `/auth/login?redirect=${redirect}`
+        }
       }
 
       return Promise.reject(refreshError)

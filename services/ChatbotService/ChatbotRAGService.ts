@@ -13,47 +13,32 @@ import {
     PolicyItem,
     SystemPromptData,
 } from '@/types/features/ChatbotTypes'
-import path from 'path'
-import fs from 'fs'
+import ragDatasetRaw from './datasets/rag-dataset.json'
+import faqDatasetRaw from './datasets/faq-dataset.json'
+import policyDatasetRaw from './datasets/policy-dataset.json'
+import systemPromptDataRaw from './datasets/system-prompt.json'
 import {
-    KG_NODES_KEY,
-    RAG_TOP_K,
-    RAG_THRESHOLD,
-    DATASET_TOP_K,
-    DATASET_THRESHOLD,
-    FAQ_TOP_K,
-    FAQ_THRESHOLD,
-    MESSAGES_KEY,
-    SESSION_TTL,
-    HISTORY_COMPRESS_THRESHOLD,
-    HISTORY_KEEP_LAST,
-    ADMIN_TAKEOVER_SENTINEL,
+  KG_NODES_KEY,
+  RAG_TOP_K,
+  RAG_THRESHOLD,
+  DATASET_TOP_K,
+  DATASET_THRESHOLD,
+  FAQ_TOP_K,
+  FAQ_THRESHOLD,
+  MESSAGES_KEY,
+  SESSION_TTL_SECONDS,
+  HISTORY_COMPRESS_THRESHOLD,
+  HISTORY_KEEP_LAST,
+  ADMIN_TAKEOVER_SENTINEL,
 } from './constants'
 import ChatSessionService from './ChatSessionService'
 
-// ── Static datasets (gracefully degrade if missing) ─────────────────
-const DATASETS_DIR = path.join(__dirname, 'datasets')
-
-function loadJson<T>(filename: string, fallback: T): T {
-    try {
-        const filePath = path.join(DATASETS_DIR, filename)
-        if (!fs.existsSync(filePath)) return fallback
-        const raw = fs.readFileSync(filePath, 'utf-8')
-        return JSON.parse(raw) as T
-    } catch {
-        return fallback
-    }
-}
-
-const ragDataset = loadJson<{ documents: DatasetDocument[] }>('rag-dataset.json', { documents: [] })
-const faqDataset = loadJson<{ items: FaqItem[] }>('faq-dataset.json', { items: [] })
-const policyDataset = loadJson<{ policies: PolicyItem[] }>('policy-dataset.json', { policies: [] })
-const systemPromptData = loadJson<SystemPromptData>('system-prompt.json', { intro: '', rules: [] })
+const ragDataset = ragDatasetRaw as { documents: DatasetDocument[] }
+const faqDataset = faqDatasetRaw as { items: FaqItem[] }
+const policyDataset = policyDatasetRaw as { policies: PolicyItem[] }
+const systemPromptData = systemPromptDataRaw as SystemPromptData
 
 export default class ChatbotRAGService {
-    /**
-     * Retrieve relevant posts from the knowledge graph based on user query.
-     */
     static async retrieveContext(query: string): Promise<RAGContext[]> {
         try {
             const nodesRaw = await redis.get(KG_NODES_KEY)
@@ -117,9 +102,6 @@ export default class ChatbotRAGService {
         }
     }
 
-    /**
-     * Retrieve relevant documents from rag-dataset.json using embedding similarity.
-     */
     static async retrieveDatasetContext(
         query: string
     ): Promise<(DatasetDocument & { score: number })[]> {
@@ -144,9 +126,6 @@ export default class ChatbotRAGService {
         }
     }
 
-    /**
-     * Retrieve relevant FAQ entries from faq-dataset.json using embedding similarity.
-     */
     static async retrieveFaqContext(
         query: string
     ): Promise<(FaqItem & { score: number })[]> {
@@ -171,10 +150,6 @@ export default class ChatbotRAGService {
         }
     }
 
-    /**
-     * Build the system prompt with RAG context injected.
-     * Uses CHATBOT_SYSTEM_PROMPT and CHATBOT_MAX_TOKENS from admin settings.
-     */
     static async buildSystemPrompt(context: RAGContext[]): Promise<string> {
         const [promptSetting, maxTokensSetting] = await Promise.all([
             SettingService.getSettingByKey('CHATBOT_SYSTEM_PROMPT'),
@@ -223,13 +198,6 @@ export default class ChatbotRAGService {
         return `${basePrompt}${policySection}${tokenInstruction}\n\nRelevant blog content for context:\n\n${contextBlock}`
     }
 
-    /**
-     * Build the full message array for the AI provider.
-     * If `summary` is provided, it is injected as a system-level context
-     * note in place of compressed history, reducing token usage.
-     * If `pageContext` is provided, it is prepended to the current message
-     * to enrich RAG retrieval for proactive triggers (Phase 13).
-     */
     static buildMessages(
         systemPrompt: string,
         history: StoredChatMessage[],
@@ -241,7 +209,6 @@ export default class ChatbotRAGService {
             { role: 'system', content: systemPrompt },
         ]
 
-        // Inject compressed history summary if available
         if (summary) {
             messages.push({
                 role: 'system',
@@ -257,7 +224,6 @@ export default class ChatbotRAGService {
             messages.push({ role, content: msg.content })
         }
 
-        // Enrich current message with page context when provided (proactive trigger)
         const enrichedMessage = pageContext
             ? `[Page context: "${pageContext}"]\n${currentMessage}`
             : currentMessage
@@ -265,15 +231,6 @@ export default class ChatbotRAGService {
         return messages
     }
 
-    /**
-     * Compress old conversation history into a single AI-generated summary.
-     * When the session exceeds HISTORY_COMPRESS_THRESHOLD messages, the oldest
-     * messages (all but the last HISTORY_KEEP_LAST) are summarised using the
-     * provided AI provider, the summary is persisted to the session, and the
-     * Redis message list is trimmed to the recent tail.
-     *
-     * Returns the summary string, or undefined if no compression was needed.
-     */
     static async compressHistory(
         chatSessionId: string,
         generateSummary: (prompt: string, model?: string) => Promise<string>,
@@ -304,19 +261,17 @@ export default class ChatbotRAGService {
             return undefined
         }
 
-        // Persist summary to session
         const session = await ChatSessionService.getSession(chatSessionId)
         if (session) {
             session.summary = summary
             await ChatSessionService.updateSession(session)
         }
 
-        // Replace message list with the trimmed tail
         await redis.del(MESSAGES_KEY(chatSessionId))
         for (const msg of keepTail) {
             await redis.rpush(MESSAGES_KEY(chatSessionId), JSON.stringify(msg))
         }
-        await redis.expire(MESSAGES_KEY(chatSessionId), SESSION_TTL)
+        await redis.expire(MESSAGES_KEY(chatSessionId), SESSION_TTL_SECONDS)
 
         Logger.info(
             `[ChatbotRAGService] Session ${chatSessionId}: compressed ${toCompress.length} messages → summary`
@@ -324,9 +279,6 @@ export default class ChatbotRAGService {
         return summary
     }
 
-    /**
-     * Strip HTML tags from a string.
-     */
     static stripHtml(html: string): string {
         return html
             .replace(/<[^>]*>/g, ' ')

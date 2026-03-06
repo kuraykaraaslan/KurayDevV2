@@ -3,6 +3,7 @@ import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ChatSessionService from '@/services/ChatbotService/ChatSessionService'
 import ChatbotAdminService from '@/services/ChatbotService/ChatbotAdminService'
 import ChatbotModerationService from '@/services/ChatbotService/ChatbotModerationService'
+import { AdminChatReplySchema } from '@/dtos/ChatbotDTO'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 
 interface RouteParams {
@@ -50,18 +51,18 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const { sessionId } = await params
 
     const body = await request.json()
-    const messageText = body.message as string
+    const parsed = AdminChatReplySchema.safeParse({ chatSessionId: sessionId, message: body.message })
 
-    if (!messageText?.trim()) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { message: ChatbotMessages.MESSAGE_REQUIRED },
+        { message: parsed.error.errors.map((e) => e.message).join(', ') },
         { status: 400 }
       )
     }
 
     const msg = await ChatbotAdminService.adminReply({
       chatSessionId: sessionId,
-      message: messageText.trim(),
+      message: parsed.data.message.trim(),
       adminUserId: user.userId,
     })
 

@@ -63,6 +63,12 @@ export function useChatbotWebSocket({
     [sendEvent],
   )
 
+  const sendTyping = useCallback(
+    (chatSessionId: string) =>
+      sendEvent({ ns: 'chatbot', type: 'typing', chatSessionId }),
+    [sendEvent],
+  )
+
   const restore = useCallback(
     (browserId: string) =>
       sendEvent({ ns: 'chatbot', type: 'restore', browserId }),
@@ -82,6 +88,7 @@ export function useChatbotWebSocket({
     sendChat,
     subscribe,
     sendAdminReply,
+    sendTyping,
     restore,
     ping,
     isConnected,

@@ -10,15 +10,13 @@ import Logger from '@/libs/logger'
 import type { WSConnectedClient, WSBaseEvent, WSFeatureHandler } from '@/types/common/WebSocketTypes'
 import type { ChatMessage, ChatbotWSServerEvent } from '@/types/features/ChatbotTypes'
 
-// ── Helpers ───────────────────────────────────────────────────────────
 
 function send(client: WSConnectedClient, event: ChatbotWSServerEvent) {
-  if (client.ws.readyState === 1 /* OPEN */) {
+  if (client.ws.readyState === 1) {
     client.ws.send(JSON.stringify(event))
   }
 }
 
-// ── Event handlers ────────────────────────────────────────────────────
 
 async function handleRestore(client: WSConnectedClient, browserId: string) {
   if (!browserId) {
@@ -26,19 +24,15 @@ async function handleRestore(client: WSConnectedClient, browserId: string) {
     return
   }
 
-  // Store browserId in client meta for later use
   client.meta.browserId = browserId
 
-  // Cancel any pending disconnect timer
   await BrowserSessionService.cancelBrowserDisconnect(browserId)
 
   const result = await BrowserSessionService.restoreSession(client.userId, browserId)
-  if (!result) return // Nothing to restore — fresh session
+  if (!result) return
 
-  // Auto-subscribe to restored session channel
   wsManager.subscribe(client.ws, 'chatbot', result.session.chatSessionId)
 
-  // Send history back to client
   const messages: ChatMessage[] = result.messages
     .filter((m) => m.content !== ADMIN_TAKEOVER_SENTINEL)
     .map((m) => ({
@@ -58,7 +52,6 @@ async function handleRestore(client: WSConnectedClient, browserId: string) {
     status: result.session.status,
   })
 
-  // Notify admins watching this session that user came back online
   wsManager.publish('chatbot', result.session.chatSessionId, {
     ns: 'chatbot',
     type: 'browser_status',
@@ -108,15 +101,13 @@ async function handleChat(
 
         try {
           const evt = JSON.parse(raw) as ChatbotWSServerEvent
-          // Ensure ns is set on events coming from SSE format
           const nsEvt = { ...evt, ns: 'chatbot' as const }
           send(client, nsEvt)
 
-          // Auto-subscribe user to this session for real-time updates
           if (nsEvt.type === 'meta' && 'chatSessionId' in nsEvt) {
             wsManager.subscribe(client.ws, 'chatbot', nsEvt.chatSessionId)
           }
-        } catch { /* skip malformed */ }
+        } catch {}
       }
     }
   } catch (err) {
@@ -159,7 +150,6 @@ async function handleAdminReply(
     return
   }
 
-  // Broadcast typing indicator to the user before sending the reply (Phase 13)
   wsManager.publish('chatbot', chatSessionId, {
     ns: 'chatbot',
     type: 'typing',
@@ -191,12 +181,7 @@ async function handleAdminReply(
   send(client, { ns: 'chatbot', type: 'done' })
 }
 
-// ── Typing indicator handler (Phase 13) ───────────────────────────────
 
-/**
- * Broadcast an admin-typing indicator to all subscribers of the session.
- * Called when the admin client emits a 'typing' event while composing a reply.
- */
 function handleTyping(
   client: WSConnectedClient,
   chatSessionId: string,
@@ -208,8 +193,6 @@ function handleTyping(
 
   const isAdmin = client.role === 'admin'
   if (!isAdmin) {
-    // Only admins broadcast typing indicators via this event.
-    // Users' AI typing is emitted by the stream itself.
     return
   }
 
@@ -221,7 +204,6 @@ function handleTyping(
   })
 }
 
-// ── Feature handler (implements WSFeatureHandler) ─────────────────────
 
 const ChatbotWSHandler: WSFeatureHandler = {
   ns: 'chatbot',
@@ -268,7 +250,6 @@ const ChatbotWSHandler: WSFeatureHandler = {
     if (browserId) {
       await BrowserSessionService.markBrowserDisconnected(browserId)
 
-      // Notify admins watching this session that user went offline
       const chatSessionId = await BrowserSessionService.getSessionIdByBrowser(browserId)
       if (chatSessionId) {
         wsManager.publish('chatbot', chatSessionId, {

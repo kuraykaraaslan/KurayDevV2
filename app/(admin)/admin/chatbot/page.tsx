@@ -16,7 +16,7 @@ import {
   faCircle,
   faLock,
 } from '@fortawesome/free-solid-svg-icons'
-import type { ChatSession } from '@/types/features/ChatbotTypes'
+import type { StoredChatSession } from '@/dtos/ChatbotDTO'
 
 const statusConfig = {
   ACTIVE: { label: 'Active', class: 'badge-success', icon: faCircle },
@@ -37,7 +37,7 @@ const formatDate = (iso: string) => {
 const ChatSessionsPage = () => {
   const [statusFilter, setStatusFilter] = useState<string>('')
 
-  const columns: ColumnDef<ChatSession>[] = [
+  const columns: ColumnDef<StoredChatSession>[] = [
     {
       key: 'user',
       header: 'User',
@@ -87,7 +87,7 @@ const ChatSessionsPage = () => {
     },
   ]
 
-  const actions: ActionButton<ChatSession>[] = [
+  const actions: ActionButton<StoredChatSession>[] = [
     {
       label: 'View',
       href: (s) => `/admin/chatbot/${s.chatSessionId}`,
@@ -116,7 +116,7 @@ const ChatSessionsPage = () => {
   )
 
   return (
-    <TableProvider<ChatSession>
+    <TableProvider<StoredChatSession>
       apiEndpoint="/api/chatbot/admin"
       dataKey="sessions"
       idKey="chatSessionId"

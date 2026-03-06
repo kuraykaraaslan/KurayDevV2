@@ -5,6 +5,7 @@ import AuthMessages from '@/messages/AuthMessages'
 import wsManager from '@/libs/websocket/WSManager'
 import ChatbotWSHandler from '@/services/ChatbotService/handler'
 import ChatSessionService from '@/services/ChatbotService/ChatSessionService'
+import BrowserSessionService from '@/services/ChatbotService/BrowserSessionService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 import Logger from '@/libs/logger'
 import type { WSBaseEvent } from '@/types/common/WebSocketTypes'
@@ -115,22 +116,34 @@ async function handleConnection(client: WebSocket, request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const auth = await AuthMiddleware.authenticateUserByRequest({
-      request,
-      requiredUserRole: 'GUEST',
-    })
-    const user = auth.user
-    if (!user) {
-      return NextResponse.json({ message: AuthMessages.USER_NOT_AUTHENTICATED }, { status: 401 })
-    }
+    // Try to authenticate but allow guests
+    let user: { userId: string; email: string } | null = null
+    try {
+      const auth = await AuthMiddleware.authenticateUserByRequest({
+        request,
+        requiredUserRole: 'GUEST',
+      })
+      user = auth.user ? { userId: auth.user.userId, email: auth.user.email } : null
+    } catch { /* guest access */ }
 
     const { searchParams } = new URL(request.url)
     const chatSessionId = searchParams.get('chatSessionId')
+    const browserId = searchParams.get('browserId')
 
     if (chatSessionId) {
       // Get specific session + messages
       const session = await ChatSessionService.getSession(chatSessionId)
-      if (!session || session.userId !== user.userId) {
+      if (!session) {
+        return NextResponse.json(
+          { message: ChatbotMessages.SESSION_NOT_FOUND },
+          { status: 404 }
+        )
+      }
+      // Verify ownership: logged-in user must match, guest must match browserId
+      const isOwner = user
+        ? session.userId === user.userId
+        : browserId && session.browserId === browserId
+      if (!isOwner) {
         return NextResponse.json(
           { message: ChatbotMessages.SESSION_NOT_FOUND },
           { status: 404 }
@@ -138,6 +151,23 @@ export async function GET(request: NextRequest) {
       }
       const messages = await ChatSessionService.getMessages(chatSessionId)
       return NextResponse.json({ session, messages })
+    }
+
+    // Restore by browserId (works for both guest and logged-in users)
+    if (browserId) {
+      const result = await BrowserSessionService.restoreSession(
+        user?.userId ?? `guest:${browserId}`,
+        browserId,
+        !user,
+      )
+      if (result) {
+        return NextResponse.json({ session: result.session, messages: result.messages })
+      }
+      return NextResponse.json({ sessions: [] })
+    }
+
+    if (!user) {
+      return NextResponse.json({ sessions: [] })
     }
 
     // List user's sessions

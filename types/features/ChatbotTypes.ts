@@ -89,6 +89,19 @@ export const SystemPromptDataSchema = z.object({
 })
 export type SystemPromptData = z.infer<typeof SystemPromptDataSchema>
 
+// ── Admin stats ────────────────────────────────────────────────────
+export const ChatbotStatsSchema = z.object({
+  totalSessions:        z.number().int().nonnegative(),
+  activeSessions:       z.number().int().nonnegative(),
+  closedSessions:       z.number().int().nonnegative(),
+  takenOverSessions:    z.number().int().nonnegative(),
+  totalMessages:        z.number().int().nonnegative(),
+  avgMessagesPerSession: z.number().nonnegative(),
+  uniqueUsers:          z.number().int().nonnegative(),
+  recentSessions:       z.array(ChatSessionSchema),
+})
+export type ChatbotStats = z.infer<typeof ChatbotStatsSchema>
+
 // ── WebSocket event types (namespace = 'chatbot') ──────────────────
 
 const WS_NS = z.literal('chatbot')

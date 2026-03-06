@@ -3,15 +3,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next'
-import useGlobalStore from '@/libs/zustand'
 import { useChatbotStore } from '@/libs/zustand/chatbotStore'
 
 const ChatbotButton = () => {
   const { t } = useTranslation()
-  const { user } = useGlobalStore()
   const { isOpen, hasUnread, toggleChatbot } = useChatbotStore()
-
-  if (!user) return null
 
   return (
     <button

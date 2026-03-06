@@ -2,97 +2,34 @@ import { prisma } from '@/libs/prisma'
 import { Prisma } from '@/generated/prisma'
 import Logger from '@/libs/logger'
 import { StoredChatMessage, StoredChatSession, ChatSessionStatus } from '@/dtos/ChatbotDTO'
+import { ChatbotStats } from '@/types/features/ChatbotTypes'
 import type { ChatSessionStatus as PrismaStatus } from '@/generated/prisma'
 
-// ── Type helpers ─────────────────────────────────────────────────────────
-
-/**
- * Convert a DTO `StoredChatSession` (string dates, string status) into
- * Prisma-compatible input for upsert operations.
- */
-function sessionToDB(s: StoredChatSession) {
-    return {
-        chatSessionId: s.chatSessionId,
-        userId:        s.userId,
-        userEmail:     s.userEmail,
-        browserId:     s.browserId,
-        status:        s.status as PrismaStatus,
-        title:         s.title,
-        takenOverBy:   s.takenOverBy,
-        summary:       s.summary,
-        updatedAt:     new Date(s.updatedAt),
-        createdAt:     new Date(s.createdAt),
-    }
-}
-
-/** Convert a Prisma ChatSession row back to the shared DTO shape. */
-function sessionFromDB(row: {
-    chatSessionId: string
-    userId:        string
-    userEmail:     string | null
-    browserId:     string | null
-    status:        PrismaStatus
-    title:         string | null
-    takenOverBy:   string | null
-    summary:       string | null
-    createdAt:     Date
-    updatedAt:     Date
-}): StoredChatSession {
-    return {
-        chatSessionId: row.chatSessionId,
-        userId:        row.userId,
-        userEmail:     row.userEmail    ?? undefined,
-        browserId:     row.browserId    ?? undefined,
-        status:        row.status       as ChatSessionStatus,
-        title:         row.title        ?? undefined,
-        takenOverBy:   row.takenOverBy  ?? undefined,
-        summary:       row.summary      ?? undefined,
-        createdAt:     row.createdAt.toISOString(),
-        updatedAt:     row.updatedAt.toISOString(),
-    }
-}
-
-/** Convert a Prisma ChatMessage row to the shared DTO shape. */
-function messageFromDB(row: {
-    id:           string
-    chatSessionId: string
-    role:         string
-    content:      string
-    sources:      unknown
-    adminUserId:  string | null
-    createdAt:    Date
-}): StoredChatMessage {
-    return {
-        id:          row.id,
-        role:        row.role as StoredChatMessage['role'],
-        content:     row.content,
-        sources:     Array.isArray(row.sources) ? (row.sources as StoredChatMessage['sources']) : undefined,
-        adminUserId: row.adminUserId ?? undefined,
-        createdAt:   row.createdAt.toISOString(),
-    }
-}
-
-// ── Service ───────────────────────────────────────────────────────────────
 
 export default class ChatSessionDBService {
-    // ─────────────────────────── Session ──────────────────────────────
 
-    /**
-     * Create or update a ChatSession in PostgreSQL.
-     * Called on every write in ChatSessionService (dual-write pattern).
-     */
     static async upsertSession(session: StoredChatSession): Promise<void> {
         try {
-            const data = sessionToDB(session)
             await prisma.chatSession.upsert({
-                where:  { chatSessionId: data.chatSessionId },
-                create: data,
+                where: { chatSessionId: session.chatSessionId },
+                create: {
+                    chatSessionId: session.chatSessionId,
+                    userId:        session.userId,
+                    userEmail:     session.userEmail,
+                    browserId:     session.browserId,
+                    status:        session.status as PrismaStatus,
+                    title:         session.title,
+                    takenOverBy:   session.takenOverBy,
+                    summary:       session.summary,
+                    updatedAt:     new Date(session.updatedAt),
+                    createdAt:     new Date(session.createdAt),
+                },
                 update: {
-                    status:      data.status,
-                    title:       data.title,
-                    takenOverBy: data.takenOverBy,
-                    summary:     data.summary,
-                    updatedAt:   data.updatedAt,
+                    status:      session.status as PrismaStatus,
+                    title:       session.title,
+                    takenOverBy: session.takenOverBy,
+                    summary:     session.summary,
+                    updatedAt:   new Date(session.updatedAt),
                 },
             })
         } catch (err) {
@@ -100,29 +37,31 @@ export default class ChatSessionDBService {
         }
     }
 
-    /**
-     * Retrieve a session from PostgreSQL by ID.
-     * Used as Redis-miss fallback.
-     */
     static async getSession(chatSessionId: string): Promise<StoredChatSession | undefined> {
         try {
             const row = await prisma.chatSession.findUnique({
                 where: { chatSessionId },
             })
             if (!row) return undefined
-            return sessionFromDB(row)
+            return {
+                chatSessionId: row.chatSessionId,
+                userId:        row.userId,
+                userEmail:     row.userEmail    ?? undefined,
+                browserId:     row.browserId    ?? undefined,
+                status:        row.status       as ChatSessionStatus,
+                title:         row.title        ?? undefined,
+                takenOverBy:   row.takenOverBy  ?? undefined,
+                summary:       row.summary      ?? undefined,
+                createdAt:     row.createdAt.toISOString(),
+                updatedAt:     row.updatedAt.toISOString(),
+            }
         } catch (err) {
             Logger.error(`[ChatSessionDBService] getSession failed: ${err}`)
             return undefined
         }
     }
 
-    // ─────────────────────────── Messages ─────────────────────────────
 
-    /**
-     * Persist a single message to PostgreSQL.
-     * Uses upsert to be safe against duplicate message IDs.
-     */
     static async upsertMessage(chatSessionId: string, msg: StoredChatMessage): Promise<void> {
         try {
             await prisma.chatMessage.upsert({
@@ -136,17 +75,13 @@ export default class ChatSessionDBService {
                     adminUserId:  msg.adminUserId ?? undefined,
                     createdAt:    new Date(msg.createdAt),
                 },
-                update: {}, // message content is immutable — never overwrite
+                update: {},
             })
         } catch (err) {
             Logger.error(`[ChatSessionDBService] upsertMessage failed: ${err}`)
         }
     }
 
-    /**
-     * Get all messages for a session from PostgreSQL, ordered chronologically.
-     * Used as Redis-miss fallback and for admin export.
-     */
     static async getMessages(chatSessionId: string): Promise<StoredChatMessage[]> {
         try {
             const rows = await prisma.chatMessage.findMany({
@@ -162,19 +97,21 @@ export default class ChatSessionDBService {
                     createdAt:    true,
                 },
             })
-            return rows.map(messageFromDB)
+            return rows.map((row) => ({
+                id:          row.id,
+                role:        row.role as StoredChatMessage['role'],
+                content:     row.content,
+                sources:     Array.isArray(row.sources) ? (row.sources as StoredChatMessage['sources']) : undefined,
+                adminUserId: row.adminUserId ?? undefined,
+                createdAt:   row.createdAt.toISOString(),
+            }))
         } catch (err) {
             Logger.error(`[ChatSessionDBService] getMessages failed: ${err}`)
             return []
         }
     }
 
-    // ─────────────────────────── Admin queries ─────────────────────────
 
-    /**
-     * List chat sessions from PostgreSQL with pagination and optional status filter.
-     * Authoritative source for the admin panel (handles expired Redis sessions).
-     */
     static async listSessions(options?: {
         status?: ChatSessionStatus
         page?: number
@@ -220,26 +157,28 @@ export default class ChatSessionDBService {
                 prisma.chatSession.count({ where }),
             ])
 
-            return { sessions: rows.map(sessionFromDB), total }
+            return {
+                sessions: rows.map((row) => ({
+                    chatSessionId: row.chatSessionId,
+                    userId:        row.userId,
+                    userEmail:     row.userEmail    ?? undefined,
+                    browserId:     row.browserId    ?? undefined,
+                    status:        row.status       as ChatSessionStatus,
+                    title:         row.title        ?? undefined,
+                    takenOverBy:   row.takenOverBy  ?? undefined,
+                    summary:       row.summary      ?? undefined,
+                    createdAt:     row.createdAt.toISOString(),
+                    updatedAt:     row.updatedAt.toISOString(),
+                })),
+                total,
+            }
         } catch (err) {
             Logger.error(`[ChatSessionDBService] listSessions failed: ${err}`)
             return { sessions: [], total: 0 }
         }
     }
 
-    /**
-     * Aggregate stats from PostgreSQL for the admin dashboard.
-     */
-    static async getStats(): Promise<{
-        totalSessions:        number
-        activeSessions:       number
-        closedSessions:       number
-        takenOverSessions:    number
-        totalMessages:        number
-        avgMessagesPerSession: number
-        uniqueUsers:          number
-        recentSessions:       StoredChatSession[]
-    }> {
+    static async getStats(): Promise<ChatbotStats> {
         try {
             const [statusCounts, totalMessages, uniqueUsersResult, recentRows] = await Promise.all([
                 prisma.chatSession.groupBy({
@@ -286,7 +225,18 @@ export default class ChatSessionDBService {
                 totalMessages,
                 avgMessagesPerSession,
                 uniqueUsers:    uniqueUsersResult.length,
-                recentSessions: recentRows.map(sessionFromDB),
+                recentSessions: recentRows.map((row) => ({
+                    chatSessionId: row.chatSessionId,
+                    userId:        row.userId,
+                    userEmail:     row.userEmail    ?? undefined,
+                    browserId:     row.browserId    ?? undefined,
+                    status:        row.status       as ChatSessionStatus,
+                    title:         row.title        ?? undefined,
+                    takenOverBy:   row.takenOverBy  ?? undefined,
+                    summary:       row.summary      ?? undefined,
+                    createdAt:     row.createdAt.toISOString(),
+                    updatedAt:     row.updatedAt.toISOString(),
+                })),
             }
         } catch (err) {
             Logger.error(`[ChatSessionDBService] getStats failed: ${err}`)
@@ -303,9 +253,6 @@ export default class ChatSessionDBService {
         }
     }
 
-    /**
-     * Delete all DB data for a session (messages cascade via FK).
-     */
     static async deleteSession(chatSessionId: string): Promise<void> {
         try {
             await prisma.chatSession.delete({ where: { chatSessionId } })
