@@ -5,7 +5,26 @@ import ApiKeyService from './ApiKeyService'
 import UserSessionService from './UserSessionService'
 import { UserRole } from '@/generated/prisma'
 
+const API_SESSION: SafeUserSession = {
+  userSessionId: 'api-session',
+  userId: 'api-user',
+  otpVerifyNeeded: false,
+  sessionExpiry: new Date(),
+}
+
 export default class AuthMiddleware {
+
+
+  static async apiSessionCreate(user: SafeUser): Promise<SafeUserSession> {
+    const API_SESSION: SafeUserSession = {
+      userSessionId: 'api-session',
+      userId: user.userId,
+      otpVerifyNeeded: false,
+      sessionExpiry: new Date(),
+    }
+
+    return API_SESSION
+  }
   /**
    * Authenticate a user by access token or API key.
    * @param request - The NextRequest object.
@@ -22,7 +41,7 @@ export default class AuthMiddleware {
     request: NextRequest
     requiredUserRole?: T
     otpVerifyBypass?: boolean
-  }): Promise<{ user: SafeUser; userSession: SafeUserSession | null }>
+  }): Promise<{ user: SafeUser; userSession: SafeUserSession }>
   static async authenticateUserByRequest<T extends string = 'ADMIN'>({
     request,
     requiredUserRole = 'ADMIN' as T,
@@ -57,7 +76,8 @@ export default class AuthMiddleware {
         }
 
         request.user = user
-        return { user, userSession: null }
+        const apiSession = await this.apiSessionCreate(user)
+        return { user, userSession: apiSession }
       }
       // ── End API Key authentication ─────────────────────────────────────────
 
