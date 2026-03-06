@@ -34,7 +34,7 @@ Active compiler flags (`tsconfig.json`):
 
 - `any` is **forbidden**. Unknown types are declared as `unknown` and narrowed.
 - `as` (type assertion) is only permitted after a Zod `parse` call or when unavoidable for third-party library compatibility.
-- `null` is not used in new code; optionals are represented with `undefined`. Zod schemas use `z.optional()`, not `z.nullable()`.
+- optionals are represented with `undefined`. Zod schemas use `z.optional()`
 - Enums are not used; prefer `as const` objects or union string literal types.
 - Every exported type or interface must have a corresponding Zod schema in the same file or in the `dtos/` folder.
 - `TypeScript ignoreBuildErrors` is permanently `false`. Build must never fail silently.
@@ -131,8 +131,6 @@ export const createPostSchema = z.object({
 })
 export type CreatePostInput = z.infer<typeof createPostSchema>
 ```
-
-- `z.nullable()` is **not used** in new schemas. Use `z.optional()`.
 
 ---
 
