@@ -5,6 +5,7 @@ import Sidebar from '@/components/frontend/Layout/Sidebar'
 import Whatsapp from '@/components/frontend/Features/Social/FlowingAIWhatsAppButton'
 import Chatbot from '@/components/frontend/Features/Chatbot'
 import MenuItems from '@/components/frontend/Layout/MenuItems'
+import CookieConsentBanner from '@/components/common/UI/CookieConsentBanner'
 import { ReactNode } from 'react'
 
 /*
@@ -37,6 +38,7 @@ export default function RootLayout({
       <ScrollToTop />
       <Chatbot />
       <Whatsapp />
+      <CookieConsentBanner />
     </>
   )
 }

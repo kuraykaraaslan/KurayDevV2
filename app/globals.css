@@ -57,6 +57,18 @@
   right: 1rem;
 }
 
+/* ─── Cookie Consent Banner slide-up animation ─── */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* Flip directional icons (arrows, carets) in RTL */
 [dir="rtl"] .fa-caret-left,
 [dir="rtl"] .fa-caret-right,
