@@ -414,6 +414,29 @@ exports.Prisma.ApiKeyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ChatSessionScalarFieldEnum = {
+  chatSessionId: 'chatSessionId',
+  userId: 'userId',
+  userEmail: 'userEmail',
+  browserId: 'browserId',
+  status: 'status',
+  title: 'title',
+  takenOverBy: 'takenOverBy',
+  summary: 'summary',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ChatMessageScalarFieldEnum = {
+  id: 'id',
+  chatSessionId: 'chatSessionId',
+  role: 'role',
+  content: 'content',
+  sources: 'sources',
+  adminUserId: 'adminUserId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -470,6 +493,12 @@ exports.AppointmentStatus = exports.$Enums.AppointmentStatus = {
   COMPLETED: 'COMPLETED'
 };
 
+exports.ChatSessionStatus = exports.$Enums.ChatSessionStatus = {
+  ACTIVE: 'ACTIVE',
+  CLOSED: 'CLOSED',
+  TAKEN_OVER: 'TAKEN_OVER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   UserSession: 'UserSession',
@@ -496,7 +525,9 @@ exports.Prisma.ModelName = {
   ShortLink: 'ShortLink',
   ShortLinkClick: 'ShortLinkClick',
   Media: 'Media',
-  ApiKey: 'ApiKey'
+  ApiKey: 'ApiKey',
+  ChatSession: 'ChatSession',
+  ChatMessage: 'ChatMessage'
 };
 
 /**
