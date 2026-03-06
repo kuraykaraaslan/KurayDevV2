@@ -1,5 +1,8 @@
 import wsManager from '@/libs/websocket/WSManager'
 import ChatbotService from '@/services/ChatbotService'
+import BrowserSessionService from '@/services/ChatbotService/BrowserSessionService'
+import ChatbotAdminService from '@/services/ChatbotService/ChatbotAdminService'
+import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
 import { ChatbotRequestSchema } from '@/dtos/ChatbotDTO'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 import AuthMessages from '@/messages/AuthMessages'
@@ -27,9 +30,9 @@ async function handleRestore(client: WSConnectedClient, browserId: string) {
   client.meta.browserId = browserId
 
   // Cancel any pending disconnect timer
-  await ChatbotService.cancelBrowserDisconnect(browserId)
+  await BrowserSessionService.cancelBrowserDisconnect(browserId)
 
-  const result = await ChatbotService.restoreSession(client.userId, browserId)
+  const result = await BrowserSessionService.restoreSession(client.userId, browserId)
   if (!result) return // Nothing to restore — fresh session
 
   // Auto-subscribe to restored session channel
@@ -37,7 +40,7 @@ async function handleRestore(client: WSConnectedClient, browserId: string) {
 
   // Send history back to client
   const messages: ChatMessage[] = result.messages
-    .filter((m) => m.content !== '__ADMIN_TAKEOVER__')
+    .filter((m) => m.content !== ADMIN_TAKEOVER_SENTINEL)
     .map((m) => ({
       id: m.id,
       role: m.role,
@@ -118,14 +121,7 @@ async function handleChat(
     }
   } catch (err) {
     const errMsg = err instanceof Error ? err.message : ChatbotMessages.CHATBOT_RESPONSE_FAILED
-
-    if (errMsg === ChatbotMessages.RATE_LIMIT_EXCEEDED) {
-      send(client, { ns: 'chatbot', type: 'error', error: ChatbotMessages.RATE_LIMIT_EXCEEDED })
-    } else if (errMsg === ChatbotMessages.USER_BANNED) {
-      send(client, { ns: 'chatbot', type: 'error', error: ChatbotMessages.USER_BANNED })
-    } else {
-      send(client, { ns: 'chatbot', type: 'error', error: errMsg })
-    }
+    send(client, { ns: 'chatbot', type: 'error', error: errMsg })
   }
 }
 
@@ -171,7 +167,7 @@ async function handleAdminReply(
     chatSessionId,
   })
 
-  const stored = await ChatbotService.adminReply({
+  const stored = await ChatbotAdminService.adminReply({
     chatSessionId,
     message: message.trim(),
     adminUserId: client.userId,
@@ -270,10 +266,10 @@ const ChatbotWSHandler: WSFeatureHandler = {
   async onDisconnect(client: WSConnectedClient) {
     const browserId = client.meta.browserId as string | undefined
     if (browserId) {
-      await ChatbotService.markBrowserDisconnected(browserId)
+      await BrowserSessionService.markBrowserDisconnected(browserId)
 
       // Notify admins watching this session that user went offline
-      const chatSessionId = await ChatbotService.getSessionIdByBrowser(browserId)
+      const chatSessionId = await BrowserSessionService.getSessionIdByBrowser(browserId)
       if (chatSessionId) {
         wsManager.publish('chatbot', chatSessionId, {
           ns: 'chatbot',

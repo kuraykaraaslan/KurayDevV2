@@ -145,9 +145,7 @@ export default class ChatSessionService {
         }
 
         // Also fetch from DB to catch sessions that fell out of Redis entirely
-        const { sessions: dbSessions } = await ChatSessionDBService.listSessions({
-            // filter by userId by delegating to the generic DB query
-        })
+        const { sessions: dbSessions } = await ChatSessionDBService.listSessions()
         const dbFiltered = dbSessions.filter((s) => s.userId === userId)
 
         // Merge: DB is authoritative; Redis sessions may be more up-to-date for live sessions

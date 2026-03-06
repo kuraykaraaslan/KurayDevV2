@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import ChatSessionService from '@/services/ChatbotService/ChatSessionService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
+import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
 import { ChatExportFormatSchema } from '@/dtos/ChatbotDTO'
 
 interface RouteParams {
@@ -96,7 +97,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       const body =
         header +
         messages
-          .filter((m) => m.content !== '__ADMIN_TAKEOVER__')
+          .filter((m) => m.content !== ADMIN_TAKEOVER_SENTINEL)
           .map((m) => `[${m.role.toUpperCase()}] ${m.createdAt}\n${m.content}`)
           .join('\n\n')
 

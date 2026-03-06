@@ -1,7 +1,7 @@
 import redis from '@/libs/redis'
 import { prisma } from '@/libs/prisma'
 import { Stat, ChatbotStat } from '@/types/common/StatTypes'
-import ChatbotService from '@/services/ChatbotService'
+import ChatbotAdminService from '@/services/ChatbotService/ChatbotAdminService'
 
 export default class StatService {
   static REDIS_KEY = 'stats:global:'
@@ -56,7 +56,7 @@ export default class StatService {
       ])
 
     // Chatbot stats (Redis-only, not frequency-filtered)
-    const chatbot = await ChatbotService.getStats()
+    const chatbot = await ChatbotAdminService.getStats()
 
     const stats = {
       totalPosts,
@@ -82,6 +82,6 @@ export default class StatService {
    * Get detailed chatbot analytics (for the dashboard widget).
    */
   static async getChatbotStats(): Promise<ChatbotStat> {
-    return ChatbotService.getStats()
+    return ChatbotAdminService.getStats()
   }
 }

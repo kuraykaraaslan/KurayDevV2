@@ -4,7 +4,7 @@ import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AuthMessages from '@/messages/AuthMessages'
 import wsManager from '@/libs/websocket/WSManager'
 import ChatbotWSHandler from '@/services/ChatbotService/handler'
-import ChatbotService from '@/services/ChatbotService'
+import ChatSessionService from '@/services/ChatbotService/ChatSessionService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 import Logger from '@/libs/logger'
 import type { WSBaseEvent } from '@/types/common/WebSocketTypes'
@@ -129,19 +129,19 @@ export async function GET(request: NextRequest) {
 
     if (chatSessionId) {
       // Get specific session + messages
-      const session = await ChatbotService.getSession(chatSessionId)
+      const session = await ChatSessionService.getSession(chatSessionId)
       if (!session || session.userId !== user.userId) {
         return NextResponse.json(
           { message: ChatbotMessages.SESSION_NOT_FOUND },
           { status: 404 }
         )
       }
-      const messages = await ChatbotService.getMessages(chatSessionId)
+      const messages = await ChatSessionService.getMessages(chatSessionId)
       return NextResponse.json({ session, messages })
     }
 
     // List user's sessions
-    const sessions = await ChatbotService.getUserSessions(user.userId)
+    const sessions = await ChatSessionService.getUserSessions(user.userId)
     return NextResponse.json({ sessions })
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : ChatbotMessages.CHATBOT_RESPONSE_FAILED

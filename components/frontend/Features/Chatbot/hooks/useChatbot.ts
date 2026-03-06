@@ -7,6 +7,7 @@ import { useChatbotStore } from '@/libs/zustand/chatbotStore'
 import { useChatbotWebSocket } from './useChatbotWebSocket'
 import type { ChatMessage, ChatSource, ChatbotWSServerEvent } from '@/types/features/ChatbotTypes'
 import type { WSSystemServerEvent } from '@/types/common/WebSocketTypes'
+import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
 
 type ServerEvent = ChatbotWSServerEvent | WSSystemServerEvent
 
@@ -82,7 +83,7 @@ export function useChatbot() {
       case 'chunk':
         // Clear typing indicator on first chunk arrival
         setIsTyping(null)
-        if ('content' in event && event.content && event.content !== '__ADMIN_TAKEOVER__') {
+        if ('content' in event && event.content && event.content !== ADMIN_TAKEOVER_SENTINEL) {
           accumulatedRef.current += event.content
           const text = accumulatedRef.current
           setMessages((prev) => {
@@ -129,7 +130,7 @@ export function useChatbot() {
       case 'new_message':
         if ('message' in event && event.message) {
           const msg = event.message as ChatMessage
-          if (msg.content === '__ADMIN_TAKEOVER__') break
+          if (msg.content === ADMIN_TAKEOVER_SENTINEL) break
           setMessages((prev) => {
             if (msg.id && prev.some((m) => m.id === msg.id)) return prev
             if (msg.role === 'admin') {

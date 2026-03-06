@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
-import ChatbotService from '@/services/ChatbotService'
+import ChatSessionService from '@/services/ChatbotService/ChatSessionService'
+import ChatbotAdminService from '@/services/ChatbotService/ChatbotAdminService'
+import ChatbotModerationService from '@/services/ChatbotService/ChatbotModerationService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 
 interface RouteParams {
@@ -15,7 +17,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     await AuthMiddleware.authenticateUserByRequest({ request })
 
     const { sessionId } = await params
-    const session = await ChatbotService.getSession(sessionId)
+    const session = await ChatSessionService.getSession(sessionId)
 
     if (!session) {
       return NextResponse.json(
@@ -24,8 +26,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       )
     }
 
-    const messages = await ChatbotService.getMessages(sessionId)
-    const userBanned = await ChatbotService.isUserBanned(session.userId)
+    const messages = await ChatSessionService.getMessages(sessionId)
+    const userBanned = await ChatbotModerationService.isUserBanned(session.userId)
 
     return NextResponse.json({
       message: ChatbotMessages.SESSION_DETAILS_FETCHED,
@@ -57,7 +59,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       )
     }
 
-    const msg = await ChatbotService.adminReply({
+    const msg = await ChatbotAdminService.adminReply({
       chatSessionId: sessionId,
       message: messageText.trim(),
       adminUserId: user.userId,
@@ -86,29 +88,29 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     switch (action) {
       case 'takeover':
-        await ChatbotService.takeoverSession(sessionId, user.userId)
+        await ChatbotAdminService.takeoverSession(sessionId, user.userId)
         return NextResponse.json({ message: ChatbotMessages.SESSION_TAKEN_OVER })
 
       case 'release':
-        await ChatbotService.releaseSession(sessionId)
+        await ChatbotAdminService.releaseSession(sessionId)
         return NextResponse.json({ message: ChatbotMessages.SESSION_RELEASED })
 
       case 'close':
-        await ChatbotService.closeSession(sessionId)
+        await ChatbotAdminService.closeSession(sessionId)
         return NextResponse.json({ message: ChatbotMessages.SESSION_CLOSED })
 
       case 'ban': {
-        const session = await ChatbotService.getSession(sessionId)
+        const session = await ChatSessionService.getSession(sessionId)
         if (!session) return NextResponse.json({ message: ChatbotMessages.SESSION_NOT_FOUND }, { status: 404 })
-        await ChatbotService.banUser(session.userId)
-        await ChatbotService.closeSession(sessionId)
+        await ChatbotModerationService.banUser(session.userId)
+        await ChatbotAdminService.closeSession(sessionId)
         return NextResponse.json({ message: ChatbotMessages.USER_BANNED_SUCCESS })
       }
 
       case 'unban': {
-        const session = await ChatbotService.getSession(sessionId)
+        const session = await ChatSessionService.getSession(sessionId)
         if (!session) return NextResponse.json({ message: ChatbotMessages.SESSION_NOT_FOUND }, { status: 404 })
-        await ChatbotService.unbanUser(session.userId)
+        await ChatbotModerationService.unbanUser(session.userId)
         return NextResponse.json({ message: ChatbotMessages.USER_UNBANNED_SUCCESS })
       }
 

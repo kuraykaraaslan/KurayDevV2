@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
 import PageHeader from '@/components/admin/UI/PageHeader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -67,7 +68,7 @@ const ChatDetailPage = () => {
       case 'new_message':
         if ('message' in event && event.message && event.chatSessionId === sessionId) {
           const msg = event.message as ChatMessage
-          if (msg.content === '__ADMIN_TAKEOVER__') break
+          if (msg.content === ADMIN_TAKEOVER_SENTINEL) break
           setMessages((prev) => {
             if (msg.id && prev.some((m) => m.id === msg.id)) return prev
             return [...prev, msg]

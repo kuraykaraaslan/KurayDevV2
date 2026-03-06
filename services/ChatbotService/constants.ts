@@ -29,3 +29,12 @@ export const FAQ_THRESHOLD = 0.35
 export const HISTORY_COMPRESS_THRESHOLD = 20
 /** Number of recent messages to keep verbatim after compression. */
 export const HISTORY_KEEP_LAST = 10
+
+// ── Sentinel values ────────────────────────────────────────────────
+/** Placeholder content stored when an admin takes over a session. Filtered out before display. */
+export const ADMIN_TAKEOVER_SENTINEL = '__ADMIN_TAKEOVER__'
+
+// ── Shared utilities ────────────────────────────────────────────────────────
+/** Generate a unique message ID. */
+export const makeMessageId = (): string =>
+    `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`

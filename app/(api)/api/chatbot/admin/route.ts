@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
-import ChatbotService from '@/services/ChatbotService'
+import ChatSessionService from '@/services/ChatbotService/ChatSessionService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 
 /**
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '0', 10)
     const pageSize = parseInt(searchParams.get('pageSize') || '20', 10)
 
-    const { sessions, total } = await ChatbotService.listSessions({
+    const { sessions, total } = await ChatSessionService.listSessions({
       status: status || undefined,
       page,
       pageSize,

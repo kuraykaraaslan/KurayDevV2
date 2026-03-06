@@ -27,6 +27,7 @@ import {
     SESSION_TTL,
     HISTORY_COMPRESS_THRESHOLD,
     HISTORY_KEEP_LAST,
+    ADMIN_TAKEOVER_SENTINEL,
 } from './constants'
 import ChatSessionService from './ChatSessionService'
 
@@ -250,7 +251,7 @@ export default class ChatbotRAGService {
 
         const recent = history.slice(-10)
         for (const msg of recent) {
-            if (msg.content === '__ADMIN_TAKEOVER__') continue
+            if (msg.content === ADMIN_TAKEOVER_SENTINEL) continue
             const role =
                 msg.role === 'admin' ? 'assistant' : msg.role === 'user' ? 'user' : 'assistant'
             messages.push({ role, content: msg.content })
@@ -285,7 +286,7 @@ export default class ChatbotRAGService {
         const keepTail = messages.slice(messages.length - HISTORY_KEEP_LAST)
 
         const conversationText = toCompress
-            .filter((m) => m.content !== '__ADMIN_TAKEOVER__')
+            .filter((m) => m.content !== ADMIN_TAKEOVER_SENTINEL)
             .map((m) => `${m.role}: ${m.content}`)
             .join('\n')
 

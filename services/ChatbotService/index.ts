@@ -4,39 +4,97 @@ import Logger from '@/libs/logger'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 import wsManager from '@/libs/websocket/WSManager'
 import { StoredChatMessage, ChatbotSource } from '@/dtos/ChatbotDTO'
+import { RAGContext } from '@/types/features/ChatbotTypes'
 import ChatSessionService from './ChatSessionService'
 import ChatbotRAGService from './ChatbotRAGService'
 import ChatbotModerationService from './ChatbotModerationService'
-import ChatbotAdminService from './ChatbotAdminService'
-import { ACTIVE_SESSIONS, BROWSER_SESSION, SESSION_TTL } from './constants'
-
-// Re-export sub-services for direct imports
-export { default as ChatSessionService } from './ChatSessionService'
-export { default as ChatSessionDBService } from './ChatSessionDBService'
-export { default as ChatbotRAGService } from './ChatbotRAGService'
-export { default as ChatbotModerationService } from './ChatbotModerationService'
-export { default as BrowserSessionService } from './BrowserSessionService'
-export { default as ChatbotAdminService } from './ChatbotAdminService'
+import { ACTIVE_SESSIONS, BROWSER_SESSION, SESSION_TTL, ADMIN_TAKEOVER_SENTINEL, makeMessageId } from './constants'
 
 export default class ChatbotService {
-    // ── Convenience delegates (backward compatibility) ─────────────────
+    // ── Private helpers ───────────────────────────────────────────────
 
-    static createSession = ChatSessionService.createSession.bind(ChatSessionService)
-    static getSession = ChatSessionService.getSession.bind(ChatSessionService)
-    static getMessages = ChatSessionService.getMessages.bind(ChatSessionService)
-    static listSessions = ChatSessionService.listSessions.bind(ChatSessionService)
-    static getUserSessions = ChatSessionService.getUserSessions.bind(ChatSessionService)
+    /**
+     * Steps 4-6: RAG retrieval + history compression + prompt assembly.
+     * Shared between chat() and chatStream() to eliminate duplication.
+     */
+    private static async _buildRagPipeline(
+        chatSessionId: string,
+        message: string,
+        provider: string | undefined,
+        model: string | undefined,
+        pageContext: string | undefined,
+    ): Promise<{ fullPrompt: string; ragContext: RAGContext[] }> {
+        // ── 4. RAG retrieval ──────────────────────────────────────────
+        const [ragContext, datasetContext, faqContext] = await Promise.all([
+            ChatbotRAGService.retrieveContext(message),
+            ChatbotRAGService.retrieveDatasetContext(message),
+            ChatbotRAGService.retrieveFaqContext(message),
+        ])
 
-    static banUser = ChatbotModerationService.banUser.bind(ChatbotModerationService)
-    static unbanUser = ChatbotModerationService.unbanUser.bind(ChatbotModerationService)
-    static isUserBanned = ChatbotModerationService.isUserBanned.bind(ChatbotModerationService)
-    static getBanTTL = ChatbotModerationService.getBanTTL.bind(ChatbotModerationService)
+        // ── 4b. History compression (Phase 13) ────────────────────────
+        const aiProviderForCompression = AIService.getProvider(provider)
+        const sessionSummary = await ChatbotRAGService.compressHistory(
+            chatSessionId,
+            (prompt, model) => aiProviderForCompression.generateText(prompt, model).then((r) => r ?? ''),
+            model,
+        )
+        const latestSession = await ChatSessionService.getSession(chatSessionId)
 
-    static takeoverSession = ChatbotAdminService.takeoverSession.bind(ChatbotAdminService)
-    static releaseSession  = ChatbotAdminService.releaseSession.bind(ChatbotAdminService)
-    static closeSession    = ChatbotAdminService.closeSession.bind(ChatbotAdminService)
-    static adminReply      = ChatbotAdminService.adminReply.bind(ChatbotAdminService)
-    static getStats        = ChatbotAdminService.getStats.bind(ChatbotAdminService)
+        // ── 5. Build prompt ────────────────────────────────────────────
+        const history = await ChatSessionService.getMessages(chatSessionId)
+        const mergedContext = [...ragContext]
+        for (const doc of datasetContext) {
+            mergedContext.push({ postId: doc.id, title: doc.title, slug: '', categorySlug: doc.type, score: doc.score, snippet: doc.text })
+        }
+        for (const faq of faqContext) {
+            mergedContext.push({ postId: faq.id, title: faq.question, slug: '', categorySlug: 'faq', score: faq.score, snippet: `Q: ${faq.question}\nA: ${faq.answer}` })
+        }
+
+        const previousMessages = history.slice(0, -1)
+        const systemPrompt = await ChatbotRAGService.buildSystemPrompt(mergedContext)
+        const activeSummary = sessionSummary ?? latestSession?.summary
+        const promptMessages = ChatbotRAGService.buildMessages(
+            systemPrompt, previousMessages, message, activeSummary, pageContext
+        )
+
+        // ── 6. Assemble flat prompt string ────────────────────────────
+        const fullPrompt = promptMessages
+            .map((m) => `${m.role === 'system' ? '[System]' : m.role === 'user' ? '[User]' : '[Assistant]'}: ${m.content}`)
+            .join('\n\n')
+
+        return { fullPrompt, ragContext }
+    }
+
+    /**
+     * Steps 7-8: Build sources list and persist the AI reply message.
+     * Returns the persisted message and sources so callers can broadcast via WS.
+     */
+    private static async _persistAiMessage(
+        chatSessionId: string,
+        reply: string,
+        ragContext: RAGContext[],
+    ): Promise<{ aiMsg: StoredChatMessage; sources: ChatbotSource[] }> {
+        // ── 7. Build sources ──────────────────────────────────────────
+        const sources: ChatbotSource[] = ragContext.map((ctx) => ({
+            postId: ctx.postId,
+            title: ctx.title,
+            slug: ctx.slug,
+            categorySlug: ctx.categorySlug,
+            score: ctx.score,
+        }))
+
+        // ── 8. Persist AI message ─────────────────────────────────────
+        const aiMsg: StoredChatMessage = {
+            id: makeMessageId(),
+            role: 'assistant',
+            content: reply,
+            sources: sources.length > 0 ? sources : undefined,
+            createdAt: new Date().toISOString(),
+        }
+        await ChatSessionService.addMessage(chatSessionId, aiMsg)
+
+        return { aiMsg, sources }
+    }
 
     // ─────────────────────────── Chat (user) ──────────────────────────
 
@@ -87,7 +145,7 @@ export default class ChatbotService {
 
         // ── 2. Persist user message ───────────────────────────────────
         const userMsg: StoredChatMessage = {
-            id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+            id: makeMessageId(),
             role: 'user',
             content: message,
             createdAt: new Date().toISOString(),
@@ -104,76 +162,29 @@ export default class ChatbotService {
         // ── 3. Admin takeover guard ───────────────────────────────────
         if (session.status === 'TAKEN_OVER') {
             const waitingMsg: StoredChatMessage = {
-                id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                id: makeMessageId(),
                 role: 'assistant',
-                content: '__ADMIN_TAKEOVER__',
+                content: ADMIN_TAKEOVER_SENTINEL,
                 createdAt: new Date().toISOString(),
             }
             await ChatSessionService.addMessage(session.chatSessionId, waitingMsg)
-            return { reply: '__ADMIN_TAKEOVER__', sources: [], chatSessionId: session.chatSessionId }
+            return { reply: ADMIN_TAKEOVER_SENTINEL, sources: [], chatSessionId: session.chatSessionId }
         }
 
-        // ── 4. RAG retrieval ──────────────────────────────────────────
-        const [ragContext, datasetContext, faqContext] = await Promise.all([
-            ChatbotRAGService.retrieveContext(message),
-            ChatbotRAGService.retrieveDatasetContext(message),
-            ChatbotRAGService.retrieveFaqContext(message),
-        ])
-
-        // ── 4b. History compression (Phase 13) ─────────────────────
-        const aiProviderForCompression = AIService.getProvider(provider)
-        const sessionSummary = await ChatbotRAGService.compressHistory(
-            session.chatSessionId,
-            (prompt, m) => aiProviderForCompression.generateText(prompt, m).then((r) => r ?? ''),
-            model,
-        )
-        // Re-read session to pick up the persisted summary (if newly compressed)
-        const latestSession = await ChatSessionService.getSession(session.chatSessionId) ?? session
-
-        // ── 5. Build prompt ───────────────────────────────────────────
-        const history = await ChatSessionService.getMessages(session.chatSessionId)
-        const mergedContext = [...ragContext]
-        for (const doc of datasetContext) {
-            mergedContext.push({ postId: doc.id, title: doc.title, slug: '', categorySlug: doc.type, score: doc.score, snippet: doc.text })
-        }
-        for (const faq of faqContext) {
-            mergedContext.push({ postId: faq.id, title: faq.question, slug: '', categorySlug: 'faq', score: faq.score, snippet: `Q: ${faq.question}\nA: ${faq.answer}` })
-        }
-
-        const previousMessages = history.slice(0, -1)
-        const systemPrompt = await ChatbotRAGService.buildSystemPrompt(mergedContext)
-        const activeSummary = sessionSummary ?? latestSession.summary
-        const promptMessages = ChatbotRAGService.buildMessages(
-            systemPrompt, previousMessages, message, activeSummary, pageContext
+        // ── 4-6. RAG pipeline ─────────────────────────────────────────
+        const { fullPrompt, ragContext } = await ChatbotService._buildRagPipeline(
+            session.chatSessionId, message, provider, model, pageContext
         )
 
-        // ── 6. Call AI ────────────────────────────────────────────────
+        // ── 6b. Call AI ───────────────────────────────────────────────
         const aiProvider = AIService.getProvider(provider)
-        const fullPrompt = promptMessages
-            .map((m) => `${m.role === 'system' ? '[System]' : m.role === 'user' ? '[User]' : '[Assistant]'}: ${m.content}`)
-            .join('\n\n')
-
         const reply = await aiProvider.generateText(fullPrompt, model)
         if (!reply) throw new Error(ChatbotMessages.CHATBOT_RESPONSE_FAILED)
 
-        // ── 7. Build sources ──────────────────────────────────────────
-        const sources: ChatbotSource[] = ragContext.map((ctx) => ({
-            postId: ctx.postId,
-            title: ctx.title,
-            slug: ctx.slug,
-            categorySlug: ctx.categorySlug,
-            score: ctx.score,
-        }))
-
-        // ── 8. Persist AI message ─────────────────────────────────────
-        const aiMsg: StoredChatMessage = {
-            id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-            role: 'assistant',
-            content: reply,
-            sources: sources.length > 0 ? sources : undefined,
-            createdAt: new Date().toISOString(),
-        }
-        await ChatSessionService.addMessage(session.chatSessionId, aiMsg)
+        // ── 7-8. Persist AI message ───────────────────────────────────
+        const { sources } = await ChatbotService._persistAiMessage(
+            session.chatSessionId, reply, ragContext
+        )
 
         Logger.info(`[ChatbotService] Session ${session.chatSessionId}: reply generated (${sources.length} sources)`)
 
@@ -248,7 +259,7 @@ export default class ChatbotService {
 
         // ── 2. Persist user message ───────────────────────────────────
         const userMsg: StoredChatMessage = {
-            id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+            id: makeMessageId(),
             role: 'user',
             content: message,
             createdAt: new Date().toISOString(),
@@ -272,56 +283,24 @@ export default class ChatbotService {
         // ── 3. Admin takeover guard ───────────────────────────────────
         if (session.status === 'TAKEN_OVER') {
             const waitingMsg: StoredChatMessage = {
-                id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                id: makeMessageId(),
                 role: 'assistant',
-                content: '__ADMIN_TAKEOVER__',
+                content: ADMIN_TAKEOVER_SENTINEL,
                 createdAt: new Date().toISOString(),
             }
             await ChatSessionService.addMessage(session.chatSessionId, waitingMsg)
-            yield `data: ${JSON.stringify({ type: 'chunk', content: '__ADMIN_TAKEOVER__' })}\n\n`
+            yield `data: ${JSON.stringify({ type: 'chunk', content: ADMIN_TAKEOVER_SENTINEL })}\n\n`
             yield `data: ${JSON.stringify({ type: 'done' })}\n\n`
             return
         }
 
-        // ── 4. RAG retrieval ──────────────────────────────────────────
-        const [ragContext, datasetContext, faqContext] = await Promise.all([
-            ChatbotRAGService.retrieveContext(message),
-            ChatbotRAGService.retrieveDatasetContext(message),
-            ChatbotRAGService.retrieveFaqContext(message),
-        ])
-
-        // ── 4b. History compression (Phase 13) ─────────────────────
-        const aiProviderForCompression = AIService.getProvider(provider)
-        const sessionSummary = await ChatbotRAGService.compressHistory(
-            session.chatSessionId,
-            (prompt, m) => aiProviderForCompression.generateText(prompt, m).then((r) => r ?? ''),
-            model,
-        )
-        const latestSession = await ChatSessionService.getSession(session.chatSessionId) ?? session
-
-        // ── 5. Build prompt ───────────────────────────────────────
-        const history = await ChatSessionService.getMessages(session.chatSessionId)
-        const mergedContext = [...ragContext]
-        for (const doc of datasetContext) {
-            mergedContext.push({ postId: doc.id, title: doc.title, slug: '', categorySlug: doc.type, score: doc.score, snippet: doc.text })
-        }
-        for (const faq of faqContext) {
-            mergedContext.push({ postId: faq.id, title: faq.question, slug: '', categorySlug: 'faq', score: faq.score, snippet: `Q: ${faq.question}\nA: ${faq.answer}` })
-        }
-
-        const previousMessages = history.slice(0, -1)
-        const systemPrompt = await ChatbotRAGService.buildSystemPrompt(mergedContext)
-        const activeSummary = sessionSummary ?? latestSession.summary
-        const promptMessages = ChatbotRAGService.buildMessages(
-            systemPrompt, previousMessages, message, activeSummary, pageContext
+        // ── 4-6. RAG pipeline ─────────────────────────────────────────
+        const { fullPrompt, ragContext } = await ChatbotService._buildRagPipeline(
+            session.chatSessionId, message, provider, model, pageContext
         )
 
-        // ── 6. Stream AI response ─────────────────────────────────────
+        // ── 6b. Stream AI response ────────────────────────────────────
         const aiProvider = AIService.getProvider(provider)
-        const fullPrompt = promptMessages
-            .map((m) => `${m.role === 'system' ? '[System]' : m.role === 'user' ? '[User]' : '[Assistant]'}: ${m.content}`)
-            .join('\n\n')
-
         let fullReply = ''
 
         try {
@@ -340,24 +319,10 @@ export default class ChatbotService {
             return
         }
 
-        // ── 7. Build sources ──────────────────────────────────────────
-        const sources: ChatbotSource[] = ragContext.map((ctx) => ({
-            postId: ctx.postId,
-            title: ctx.title,
-            slug: ctx.slug,
-            categorySlug: ctx.categorySlug,
-            score: ctx.score,
-        }))
-
-        // ── 8. Persist AI message ─────────────────────────────────────
-        const aiMsg: StoredChatMessage = {
-            id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-            role: 'assistant',
-            content: fullReply,
-            sources: sources.length > 0 ? sources : undefined,
-            createdAt: new Date().toISOString(),
-        }
-        await ChatSessionService.addMessage(session.chatSessionId, aiMsg)
+        // ── 7-8. Persist AI message ───────────────────────────────────
+        const { aiMsg, sources } = await ChatbotService._persistAiMessage(
+            session.chatSessionId, fullReply, ragContext
+        )
 
         wsManager.publish('chatbot', session.chatSessionId, {
             ns: 'chatbot',

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRobot, faUser, faUserShield, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import type { ChatMessage } from '@/types/features/ChatbotTypes'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
 
 // ── Role config ─────────────────────────────────────────────────────
 const defaultRoleConfig: Record<
@@ -90,7 +91,7 @@ const ChatMessageList = ({
 
       {/* Messages */}
       {messages.map((msg, idx) => {
-        if (msg.content === '__ADMIN_TAKEOVER__') return null
+        if (msg.content === ADMIN_TAKEOVER_SENTINEL) return null
 
         // System messages render as centered divider text
         if (msg.role === 'system') {

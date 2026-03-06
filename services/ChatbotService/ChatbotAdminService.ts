@@ -5,70 +5,67 @@ import wsManager from '@/libs/websocket/WSManager'
 import { StoredChatMessage, StoredChatSession } from '@/dtos/ChatbotDTO'
 import ChatSessionService from './ChatSessionService'
 import ChatSessionDBService from './ChatSessionDBService'
-import { ACTIVE_SESSIONS, MESSAGES_KEY } from './constants'
+import { ACTIVE_SESSIONS, makeMessageId } from './constants'
 
 export default class ChatbotAdminService {
+    // ── Private helpers ───────────────────────────────────────────────
+
     /**
-     * Admin takes over a session — AI stops responding, admin writes manually.
+     * Fetch session (throwing if missing), apply status mutation, persist, and broadcast.
      */
-    static async takeoverSession(chatSessionId: string, adminUserId: string): Promise<void> {
+    private static async _setSessionStatus(
+        chatSessionId: string,
+        mutate: (session: StoredChatSession) => void,
+        logMessage: string,
+    ): Promise<void> {
         const session = await ChatSessionService.getSession(chatSessionId)
         if (!session) throw new Error(ChatbotMessages.SESSION_NOT_FOUND)
 
-        session.status = 'TAKEN_OVER'
-        session.takenOverBy = adminUserId
+        mutate(session)
         await ChatSessionService.updateSession(session)
 
         wsManager.publish('chatbot', chatSessionId, {
             ns: 'chatbot',
             type: 'session_update',
             chatSessionId,
-            status: 'TAKEN_OVER',
-            takenOverBy: adminUserId,
+            status: session.status,
+            ...(session.takenOverBy ? { takenOverBy: session.takenOverBy } : {}),
         })
 
-        Logger.info(`[ChatbotAdminService] Session ${chatSessionId} taken over by admin ${adminUserId}`)
+        Logger.info(`[ChatbotAdminService] ${logMessage}`)
+    }
+
+    /**
+     * Admin takes over a session — AI stops responding, admin writes manually.
+     */
+    static async takeoverSession(chatSessionId: string, adminUserId: string): Promise<void> {
+        await ChatbotAdminService._setSessionStatus(
+            chatSessionId,
+            (s) => { s.status = 'TAKEN_OVER'; s.takenOverBy = adminUserId },
+            `Session ${chatSessionId} taken over by admin ${adminUserId}`,
+        )
     }
 
     /**
      * Admin releases a session back to AI.
      */
     static async releaseSession(chatSessionId: string): Promise<void> {
-        const session = await ChatSessionService.getSession(chatSessionId)
-        if (!session) throw new Error(ChatbotMessages.SESSION_NOT_FOUND)
-
-        session.status = 'ACTIVE'
-        session.takenOverBy = undefined
-        await ChatSessionService.updateSession(session)
-
-        wsManager.publish('chatbot', chatSessionId, {
-            ns: 'chatbot',
-            type: 'session_update',
+        await ChatbotAdminService._setSessionStatus(
             chatSessionId,
-            status: 'ACTIVE',
-        })
-
-        Logger.info(`[ChatbotAdminService] Session ${chatSessionId} released back to AI`)
+            (s) => { s.status = 'ACTIVE'; s.takenOverBy = undefined },
+            `Session ${chatSessionId} released back to AI`,
+        )
     }
 
     /**
      * Admin closes a session.
      */
     static async closeSession(chatSessionId: string): Promise<void> {
-        const session = await ChatSessionService.getSession(chatSessionId)
-        if (!session) throw new Error(ChatbotMessages.SESSION_NOT_FOUND)
-
-        session.status = 'CLOSED'
-        await ChatSessionService.updateSession(session)
-
-        wsManager.publish('chatbot', chatSessionId, {
-            ns: 'chatbot',
-            type: 'session_update',
+        await ChatbotAdminService._setSessionStatus(
             chatSessionId,
-            status: 'CLOSED',
-        })
-
-        Logger.info(`[ChatbotAdminService] Session ${chatSessionId} closed`)
+            (s) => { s.status = 'CLOSED' },
+            `Session ${chatSessionId} closed`,
+        )
     }
 
     /**
@@ -87,7 +84,7 @@ export default class ChatbotAdminService {
         if (!session) throw new Error(ChatbotMessages.SESSION_NOT_FOUND)
 
         const msg: StoredChatMessage = {
-            id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+            id: makeMessageId(),
             role: 'admin',
             content: message,
             adminUserId,
