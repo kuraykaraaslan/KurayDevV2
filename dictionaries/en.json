@@ -22,7 +22,12 @@
     "social_media_links": "Social media links",
     "x_profile": "X (formerly Twitter) profile (opens in new tab)",
     "github_profile": "GitHub profile (opens in new tab)",
-    "linkedin_profile": "LinkedIn profile (opens in new tab)"
+    "linkedin_profile": "LinkedIn profile (opens in new tab)",
+    "tagline": "Full-stack developer & tech blogger. Building web, mobile, and backend solutions — sharing what I learn along the way.",
+    "quick_links": "Quick Links",
+    "connect": "Connect",
+    "available_for_freelance": "Available for freelance",
+    "built_with": "Built with Next.js & TypeScript"
   },
   "metadata": {
     "home": {

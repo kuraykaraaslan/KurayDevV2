@@ -735,7 +735,12 @@
     "linkedin_profile": "LinkedIn profili (yeni sekmede açılır)",
     "site_footer": "Site altbilgisi",
     "social_media_links": "Sosyal medya bağlantıları",
-    "x_profile": "X (eski adıyla Twitter) profili (yeni sekmede açılır)"
+    "x_profile": "X (eski adıyla Twitter) profili (yeni sekmede açılır)",
+    "tagline": "Full-stack geliştirici ve teknoloji blog yazarı. Web, mobil ve backend çözümler üretiyorum — öğrendiklerimi paylaşıyorum.",
+    "quick_links": "Hızlı Bağlantılar",
+    "connect": "İletişim",
+    "available_for_freelance": "Freelance için müsaitim",
+    "built_with": "Next.js & TypeScript ile yapıldı"
   },
   "cookieConsent": {
     "title": "Çerez Onayı",
