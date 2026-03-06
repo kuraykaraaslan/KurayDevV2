@@ -664,5 +664,12 @@
     "menu": "Menyu",
     "mobile_navigation": "Mobil navigatsiya",
     "navigation_menu": "Navigatsiya menyusi"
+  },
+  "cookieConsent": {
+    "title": "Cookie roziligi",
+    "message": "Tajribangizni yaxshilash uchun cookie fayllaridan foydalanamiz. Qabul qilish orqali rozilik bildirasiz",
+    "accept": "Hammasini qabul qilish",
+    "decline": "Rad etish",
+    "privacy_policy": "Maxfiylik siyosati"
   }
 }

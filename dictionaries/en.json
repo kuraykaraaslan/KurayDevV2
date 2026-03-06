@@ -382,7 +382,9 @@
       "session_closed": "This session has been closed. Please start a new conversation.",
       "user_banned": "You have been temporarily restricted from using the chatbot. Please try again later.",
       "rate_limit_exceeded": "You're sending messages too quickly. Please wait a moment before trying again.",
-      "connecting": "Connecting..."
+      "connecting": "Connecting...",
+      "admin_typing": "Admin is typing...",
+      "message_queued": "You're offline. Your message will be sent when the connection is restored."
     },
     "calendar": {
       "title": "Calendar",
@@ -735,5 +737,12 @@
       "select_user": "Select User",
       "select_category": "Select Category"
     }
+  },
+  "cookieConsent": {
+    "title": "Cookie Consent",
+    "message": "We use cookies to improve your experience. By accepting, you agree to our",
+    "accept": "Accept All",
+    "decline": "Decline",
+    "privacy_policy": "Privacy Policy"
   }
 }

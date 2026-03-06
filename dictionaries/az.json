@@ -664,5 +664,12 @@
     "menu": "Menyu",
     "mobile_navigation": "Mobil naviqasiya",
     "navigation_menu": "Naviqasiya menyusu"
+  },
+  "cookieConsent": {
+    "title": "Çərəz razılığı",
+    "message": "Təcrübənizi yaxşılaşdırmaq üçün çərəzlərdən istifadə edirik. Qəbul etməklə razılaşırsınız",
+    "accept": "Hamısını qəbul et",
+    "decline": "Rədd et",
+    "privacy_policy": "Gizlilik siyasəti"
   }
 }

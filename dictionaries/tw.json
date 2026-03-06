@@ -664,5 +664,12 @@
     "menu": "選單",
     "mobile_navigation": "行動導航",
     "navigation_menu": "導航選單"
+  },
+  "cookieConsent": {
+    "title": "Cookie 同意",
+    "message": "我們使用 Cookie 來改善您的體驗。透過接受，您同意我們的",
+    "accept": "全部接受",
+    "decline": "拒絕",
+    "privacy_policy": "隱私政策"
   }
 }

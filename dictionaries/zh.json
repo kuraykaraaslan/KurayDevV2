@@ -664,5 +664,12 @@
     "menu": "菜单",
     "mobile_navigation": "移动导航",
     "navigation_menu": "导航菜单"
+  },
+  "cookieConsent": {
+    "title": "Cookie 同意",
+    "message": "我们使用 Cookie 来改善您的体验。通过接受，您同意我们的",
+    "accept": "全部接受",
+    "decline": "拒绝",
+    "privacy_policy": "隐私政策"
   }
 }

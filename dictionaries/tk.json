@@ -664,5 +664,12 @@
     "menu": "Menýu",
     "mobile_navigation": "Mobil nawigasiýa",
     "navigation_menu": "Nawigasiýa menýusy"
+  },
+  "cookieConsent": {
+    "title": "Cookie ylalaşygy",
+    "message": "Tejribäňizi gowulandyrmak üçin cookie faýllaryny ulanýarys. Kabul etmek bilen ylalaşýarsyňyz",
+    "accept": "Hemmesini kabul et",
+    "decline": "Ret et",
+    "privacy_policy": "Gizlinlik syýasaty"
   }
 }

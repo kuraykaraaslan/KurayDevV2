@@ -664,5 +664,12 @@
     "menu": "メニュー",
     "mobile_navigation": "モバイルナビゲーション",
     "navigation_menu": "ナビゲーションメニュー"
+  },
+  "cookieConsent": {
+    "title": "Cookieの同意",
+    "message": "お客様の体験を向上させるためにCookieを使用しています。同意することで、",
+    "accept": "すべて受け入れる",
+    "decline": "辞退する",
+    "privacy_policy": "プライバシーポリシー"
   }
 }

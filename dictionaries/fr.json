@@ -664,5 +664,12 @@
     "menu": "Menu",
     "mobile_navigation": "Navigation mobile",
     "navigation_menu": "Menu de navigation"
+  },
+  "cookieConsent": {
+    "title": "Consentement aux cookies",
+    "message": "Nous utilisons des cookies pour améliorer votre expérience. En acceptant, vous acceptez notre",
+    "accept": "Tout accepter",
+    "decline": "Refuser",
+    "privacy_policy": "Politique de confidentialité"
   }
 }

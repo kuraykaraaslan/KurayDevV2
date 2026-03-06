@@ -732,5 +732,12 @@
     "site_footer": "Qiegħ tal-websajt",
     "social_media_links": "Ħoloq tal-midja soċjali",
     "x_profile": "Profil X (qabel Twitter) (jiftaħ f'tab ġdid)"
+  },
+  "cookieConsent": {
+    "title": "Kunsens tal-cookies",
+    "message": "Nużaw il-cookies biex intejbu l-esperjenza tiegħek. Billi taċċetta, taqbel mal-",
+    "accept": "Aċċetta kollox",
+    "decline": "Irrifjuta",
+    "privacy_policy": "Politika tal-Privatezza"
   }
 }

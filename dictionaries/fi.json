@@ -664,5 +664,12 @@
     "menu": "Valikko",
     "mobile_navigation": "Mobiilinavigointi",
     "navigation_menu": "Navigointivalikko"
+  },
+  "cookieConsent": {
+    "title": "Evästeiden suostumus",
+    "message": "Käytämme evästeitä parantaaksemme kokemustasi. Hyväksymällä hyväksyt",
+    "accept": "Hyväksy kaikki",
+    "decline": "Hylkää",
+    "privacy_policy": "Tietosuojakäytäntö"
   }
 }

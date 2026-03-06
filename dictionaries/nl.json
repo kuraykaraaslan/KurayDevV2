@@ -732,5 +732,12 @@
     "site_footer": "Site-voetnoot",
     "social_media_links": "Sociale media links",
     "x_profile": "X (voorheen Twitter) profiel (opent in nieuw tabblad)"
+  },
+  "cookieConsent": {
+    "title": "Cookie-toestemming",
+    "message": "We gebruiken cookies om uw ervaring te verbeteren. Door te accepteren, gaat u akkoord met ons",
+    "accept": "Alles accepteren",
+    "decline": "Weigeren",
+    "privacy_policy": "Privacybeleid"
   }
 }

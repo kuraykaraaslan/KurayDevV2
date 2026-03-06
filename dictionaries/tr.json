@@ -736,5 +736,12 @@
     "site_footer": "Site altbilgisi",
     "social_media_links": "Sosyal medya bağlantıları",
     "x_profile": "X (eski adıyla Twitter) profili (yeni sekmede açılır)"
+  },
+  "cookieConsent": {
+    "title": "Çerez Onayı",
+    "message": "Deneyiminizi geliştirmek için çerezler kullanıyoruz. Kabul ederek gizlilik politikamıza onay vermiş olursunuz",
+    "accept": "Tümünü Kabul Et",
+    "decline": "Reddet",
+    "privacy_policy": "Gizlilik Politikası"
   }
 }

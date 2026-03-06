@@ -732,5 +732,12 @@
     "site_footer": "Saidi jalus",
     "social_media_links": "Sotsiaalmeedia lingid",
     "x_profile": "X (endine Twitter) profiil (avaneb uues vahekaardis)"
+  },
+  "cookieConsent": {
+    "title": "Küpsiste nõusolek",
+    "message": "Kasutame küpsiseid teie kogemuse parandamiseks. Nõustudes jagate oma nõusolekut meie",
+    "accept": "Nõustu kõigiga",
+    "decline": "Keeldu",
+    "privacy_policy": "Privaatsuspoliitika"
   }
 }

@@ -732,5 +732,12 @@
     "site_footer": "Seitenfuß",
     "social_media_links": "Soziale Medien Links",
     "x_profile": "X (ehemals Twitter) Profil (öffnet in neuem Tab)"
+  },
+  "cookieConsent": {
+    "title": "Cookie-Zustimmung",
+    "message": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Durch Akzeptieren stimmen Sie zu",
+    "accept": "Alle akzeptieren",
+    "decline": "Ablehnen",
+    "privacy_policy": "Datenschutzrichtlinie"
   }
 }
