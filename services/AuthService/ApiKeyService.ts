@@ -4,13 +4,7 @@ import { SafeUser, SafeUserSchema } from '@/types/user/UserTypes'
 import AuthMessages from '@/messages/AuthMessages'
 import { ApiKeyResponse } from '@/dtos/ApiKeyDTO'
 import redisInstance from '@/libs/redis'
-
-/** Redis TTL for cached API key auth results (default: 5 minutes). */
-const API_KEY_REDIS_TTL_SECONDS = parseInt(
-  process.env.API_KEY_REDIS_TTL_SECONDS || '300'
-)
-
-const cacheKey = (keyHash: string) => `apikey:${keyHash}`
+import { API_KEY_REDIS_TTL_SECONDS, API_KEY_CACHE_KEY } from './constants'
 
 export default class ApiKeyService {
   /**
@@ -105,7 +99,7 @@ export default class ApiKeyService {
     await prisma.apiKey.delete({ where: { apiKeyId } })
 
     // Invalidate Redis cache for this key
-    await redisInstance.del(cacheKey(apiKey.keyHash))
+    await redisInstance.del(API_KEY_CACHE_KEY(apiKey.keyHash))
   }
 
   /**
@@ -116,7 +110,7 @@ export default class ApiKeyService {
    */
   static async authenticateByApiKey(rawKey: string): Promise<SafeUser> {
     const keyHash = ApiKeyService.hashKey(rawKey)
-    const redisKey = cacheKey(keyHash)
+    const redisKey = API_KEY_CACHE_KEY(keyHash)
 
     // 1️⃣ Try Redis cache first
     const cached = await redisInstance.get(redisKey)

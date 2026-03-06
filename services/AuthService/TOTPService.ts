@@ -6,19 +6,23 @@ import AuthService from '@/services/AuthService'
 import { SafeUser } from '@/types/user/UserTypes'
 import { SafeUserSession } from '@/types/user/UserSessionTypes'
 import { OTPAction } from '@/types/user/UserSecurityTypes'
+import {
+  BCRYPT_SALT_ROUNDS,
+  TOTP_STEP_SECONDS,
+  TOTP_WINDOW,
+  TOTP_DIGITS,
+  TOTP_SETUP_EXPIRY_SECONDS,
+  TOTP_ISSUER,
+  TOTP_KEY,
+} from './constants'
 
 export default class TOTPService {
-  static TOTP_STEP_SECONDS = parseInt(process.env.TOTP_STEP_SECONDS || '30')
-  static TOTP_WINDOW = parseInt(process.env.TOTP_WINDOW || '1')
-  static TOTP_DIGITS = parseInt(process.env.OTP_LENGTH || '6')
-  static SETUP_EXPIRY_SECONDS = parseInt(process.env.TOTP_SETUP_EXPIRY_SECONDS || '600')
-  static ISSUER = process.env.TOTP_ISSUER || 'Relatia'
 
   static setupOtpLib() {
     authenticator.options = {
-      step: TOTPService.TOTP_STEP_SECONDS,
-      window: TOTPService.TOTP_WINDOW,
-      digits: TOTPService.TOTP_DIGITS,
+      step: TOTP_STEP_SECONDS,
+      window: TOTP_WINDOW,
+      digits: TOTP_DIGITS,
     } as any
   }
 
@@ -29,7 +33,7 @@ export default class TOTPService {
     userSessionId: string
     action: OTPAction | 'setup'
   }) {
-    return `totp:${action}:${userSessionId}`
+    return TOTP_KEY(action, userSessionId)
   }
 
   static generateSecret() {
@@ -40,7 +44,7 @@ export default class TOTPService {
   static getOtpauthURL({ user, secret }: { user: SafeUser; secret: string }) {
     TOTPService.setupOtpLib()
     const label = user.email
-    return authenticator.keyuri(label, TOTPService.ISSUER, secret)
+    return authenticator.keyuri(label, TOTP_ISSUER, secret)
   }
 
   // Start TOTP setup: generate temporary secret and return otpauth URL
@@ -58,7 +62,7 @@ export default class TOTPService {
       userSessionId: userSession.userSessionId,
       action: 'setup',
     })
-    await redis.set(redisKey, tempSecret, 'EX', TOTPService.SETUP_EXPIRY_SECONDS)
+    await redis.set(redisKey, tempSecret, 'EX', TOTP_SETUP_EXPIRY_SECONDS)
 
     return { secret: tempSecret, otpauthUrl }
   }
@@ -107,7 +111,7 @@ export default class TOTPService {
     }
 
     for (let i = 0; i < 4; i++) codes.push(makeCode())
-    const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, 10)))
+    const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, BCRYPT_SALT_ROUNDS)))
 
     await AuthService.updateUserSecurity(user.userId, {
       otpSecret: tempSecret,

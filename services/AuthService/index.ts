@@ -16,6 +16,7 @@ import {
   UserSecurityDefault,
   UserSecuritySchema,
 } from '@/types/user/UserSecurityTypes'
+import { BCRYPT_SALT_ROUNDS } from './constants'
 
 export default class AuthService {
   /**
@@ -32,7 +33,7 @@ export default class AuthService {
    * @returns The hashed password.
    */
   static async hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, 10)
+    return bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
   }
 
   /**

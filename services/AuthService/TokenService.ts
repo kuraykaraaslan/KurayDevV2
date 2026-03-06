@@ -1,17 +1,14 @@
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 import AuthMessages from '@/messages/AuthMessages'
-
-const APPLICATION_DOMAIN = process.env.NEXT_PUBLIC_APPLICATION_DOMAIN || 'kuray.dev'
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
-const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || '1h'
-
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET
-const REFRESH_TOKEN_EXPIRES_IN: string | number = process.env.REFRESH_TOKEN_EXPIRES_IN || '7d'
-
-if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
-  throw new Error('Missing JWT secrets in environment variables.')
-}
+import {
+  APPLICATION_DOMAIN,
+  ACCESS_TOKEN_SECRET,
+  ACCESS_TOKEN_EXPIRES_IN,
+  REFRESH_TOKEN_SECRET,
+  REFRESH_TOKEN_EXPIRES_IN,
+  REFRESH_TOKEN_NOT_BEFORE,
+} from './constants'
 
 export default class TokenService {
   /**
@@ -72,7 +69,7 @@ export default class TokenService {
         issuer: APPLICATION_DOMAIN,
         audience: 'web',
         expiresIn: REFRESH_TOKEN_EXPIRES_IN,
-        notBefore: 5,
+        notBefore: REFRESH_TOKEN_NOT_BEFORE,
       }
     )
   }

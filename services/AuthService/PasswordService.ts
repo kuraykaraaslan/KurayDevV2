@@ -6,12 +6,19 @@ import AuthMessages from '@/messages/AuthMessages'
 import MailService from '../NotificationService/MailService'
 import SMSService from '../NotificationService/SMSService'
 import UserService from '../UserService'
+import {
+  BCRYPT_SALT_ROUNDS,
+  RESET_TOKEN_EXPIRY_SECONDS,
+  RESET_TOKEN_LENGTH,
+  RESET_RATE_LIMIT_MAX,
+  RESET_RATE_WINDOW_SECONDS,
+  RESET_PASSWORD_KEY,
+  RESET_PASSWORD_RATE_KEY,
+} from './constants'
 
 export default class PasswordService {
-  static RESET_TOKEN_EXPIRY_SECONDS = parseInt(process.env.RESET_TOKEN_EXPIRY_SECONDS || '3600') // 1 saat
-  static RESET_TOKEN_LENGTH = Math.max(4, parseInt(process.env.RESET_TOKEN_LENGTH || '6'))
 
-  static generateResetToken(length = this.RESET_TOKEN_LENGTH): string {
+  static generateResetToken(length = RESET_TOKEN_LENGTH): string {
     const min = Math.pow(10, length - 1)
     const max = Math.pow(10, length) - 1
     return Math.floor(min + Math.random() * (max - min))
@@ -24,11 +31,11 @@ export default class PasswordService {
   }
 
   static getRedisKey(email: string): string {
-    return `reset-password:${email.toLowerCase()}`
+    return RESET_PASSWORD_KEY(email)
   }
 
   static getRateKey(email: string): string {
-    return `reset-password-rate:${email.toLowerCase()}`
+    return RESET_PASSWORD_RATE_KEY(email)
   }
 
   static async forgotPassword({ email }: { email: string }): Promise<void> {
@@ -42,13 +49,13 @@ export default class PasswordService {
     const alreadyEmailSent = await redis.get(emailRateKey)
     if (alreadyEmailSent) {
       const emailRate = parseInt(alreadyEmailSent)
-      if (emailRate >= 5) {
+      if (emailRate >= RESET_RATE_LIMIT_MAX) {
         throw new Error(AuthMessages.RATE_LIMIT_EXCEEDED)
       } else {
-        await redis.set(emailRateKey, (emailRate + 1).toString(), 'EX', 60)
+        await redis.set(emailRateKey, (emailRate + 1).toString(), 'EX', RESET_RATE_WINDOW_SECONDS)
       }
     } else {
-      await redis.set(emailRateKey, '1', 'EX', 60)
+      await redis.set(emailRateKey, '1', 'EX', RESET_RATE_WINDOW_SECONDS)
     }
 
     // Invalidate old token
@@ -57,7 +64,7 @@ export default class PasswordService {
     // Generate and store new token
     const emailToken = this.generateResetToken()
     const hashedEmailToken = await this.hashToken(emailToken)
-    await redis.set(emailTokenKey, hashedEmailToken, 'EX', this.RESET_TOKEN_EXPIRY_SECONDS)
+    await redis.set(emailTokenKey, hashedEmailToken, 'EX', RESET_TOKEN_EXPIRY_SECONDS)
 
     // Send email
     await MailService.sendForgotPasswordEmail(
@@ -91,7 +98,7 @@ export default class PasswordService {
     await prisma.user.update({
       where: { userId: user.userId },
       data: {
-        password: await bcrypt.hash(password, 10),
+        password: await bcrypt.hash(password, BCRYPT_SALT_ROUNDS),
       },
     })
 

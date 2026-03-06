@@ -5,12 +5,11 @@ import AuthMessages from '@/messages/AuthMessages'
 import { SafeUser } from '@/types/user/UserTypes'
 import { OTPAction } from '@/types/user/UserSecurityTypes'
 import { SafeUserSession } from '@/types/user/UserSessionTypes'
+import { OTP_EXPIRY_SECONDS, OTP_LENGTH, OTP_RATE_LIMIT_SECONDS, OTP_KEY } from './constants'
 
 export default class OTPService {
-  static OTP_EXPIRY_SECONDS = parseInt(process.env.OTP_EXPIRY_SECONDS || '600')
-  static OTP_LENGTH = parseInt(process.env.OTP_LENGTH || '6')
 
-  static generateToken(length = OTPService.OTP_LENGTH): string {
+  static generateToken(length = OTP_LENGTH): string {
     const min = Math.pow(10, length - 1)
     const max = Math.pow(10, length) - 1
     return Math.floor(min + Math.random() * (max - min))
@@ -27,7 +26,7 @@ export default class OTPService {
     method: OTPMethod
     action: OTPAction | 'rate'
   }): string {
-    return `otp:${action}:${userSessionId}:${method}`
+    return OTP_KEY(action, userSessionId, method)
   }
 
   static async requestOTP({
@@ -60,8 +59,8 @@ export default class OTPService {
 
     const otpToken = this.generateToken()
     const redisKey = this.getRedisKey({ userSessionId: userSession.userSessionId, method, action })
-    await redis.set(redisKey, otpToken, 'EX', this.OTP_EXPIRY_SECONDS)
-    await redis.set(rateKey, '1', 'EX', 60)
+    await redis.set(redisKey, otpToken, 'EX', OTP_EXPIRY_SECONDS)
+    await redis.set(rateKey, '1', 'EX', OTP_RATE_LIMIT_SECONDS)
 
     return { otpToken }
   }

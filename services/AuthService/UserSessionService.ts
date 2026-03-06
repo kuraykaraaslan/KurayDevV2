@@ -6,22 +6,12 @@ import { SafeUser, SafeUserSchema } from '@/types/user/UserTypes'
 import AuthMessages from '@/messages/AuthMessages'
 import TokenService from './TokenService'
 import DeviceFingerprintService from './DeviceFingerprintService'
+import { SESSION_EXPIRY_MS, SESSION_REDIS_EXPIRY_MS, SESSION_CACHE_KEY } from './constants'
 
 import { v4 as uuidv4 } from 'uuid'
 import redisInstance from '@/libs/redis'
 import { SafeUserSecurity } from '@/types/user/UserSecurityTypes'
 import { UserSession } from '@/generated/prisma'
-
-const SESSION_EXPIRY_MS = parseInt(process.env.SESSION_EXPIRY_MS || `${1000 * 60 * 60 * 24 * 7}`) // 7 days
-const SESSION_REDIS_EXPIRY_MS = parseInt(process.env.SESSION_REDIS_EXPIRY_MS || `${1000 * 60 * 30}`) // 30 min default
-
-if (isNaN(SESSION_EXPIRY_MS)) {
-  throw new Error('Invalid SESSION_EXPIRY_MS value in environment variables.')
-}
-
-if (isNaN(SESSION_REDIS_EXPIRY_MS)) {
-  throw new Error('Invalid SESSION_REDIS_EXPIRY_MS value in environment variables.')
-}
 
 export default class UserSessionService {
   static readonly UserSessionOmitSelect = {
@@ -112,7 +102,7 @@ export default class UserSessionService {
       await DeviceFingerprintService.generateDeviceFingerprint(request)
     const { userId } = await TokenService.verifyAccessToken(accessToken, deviceFingerprint)
 
-    const cacheKey = `session:${userId}:${TokenService.hashToken(accessToken)}`
+    const cacheKey = SESSION_CACHE_KEY(userId, TokenService.hashToken(accessToken))
 
     // 1️⃣ Try from Redis cache first
     const cached = await redisInstance.get(cacheKey)
@@ -225,7 +215,7 @@ export default class UserSessionService {
         where: { userId: decoded.userId },
       })
 
-      const keys = await redisInstance.keys(`session:${decoded.userId}:*`)
+      const keys = await redisInstance.keys(SESSION_CACHE_KEY(decoded.userId, '*'))
       if (keys.length) await redisInstance.del(...keys)
 
       throw new Error(AuthMessages.REFRESH_TOKEN_REUSED)
@@ -253,7 +243,7 @@ export default class UserSessionService {
     })
 
     // Invalidate old Redis caches
-    const keys = await redisInstance.keys(`session:${session.userId}:*`)
+    const keys = await redisInstance.keys(SESSION_CACHE_KEY(session.userId, '*'))
     if (keys.length) await redisInstance.del(...keys)
 
     return {
@@ -302,7 +292,7 @@ export default class UserSessionService {
       },
     })
 
-    const pattern = `session:${userSession.userId}:*`
+    const pattern = SESSION_CACHE_KEY(userSession.userId, '*')
     const keys = await redisInstance.keys(pattern)
     if (keys.length > 0) await redisInstance.del(...keys)
   }
@@ -314,7 +304,7 @@ export default class UserSessionService {
   static async destroyAllSessions(userId: string): Promise<void> {
     await prisma.userSession.deleteMany({ where: { userId } })
 
-    const pattern = `session:${userId}:*`
+    const pattern = SESSION_CACHE_KEY(userId, '*')
     const keys = await redisInstance.keys(pattern)
     if (keys.length > 0) await redisInstance.del(...keys)
   }
@@ -332,7 +322,7 @@ export default class UserSessionService {
       where: { userSessionId: userSessionId },
     })
 
-    const pattern = `session:${userId}:${userSessionId}`
+    const pattern = SESSION_CACHE_KEY(userId, userSessionId)
     const keys = await redisInstance.keys(pattern)
     if (keys.length > 0) await redisInstance.del(...keys)
   }
@@ -352,7 +342,7 @@ export default class UserSessionService {
       data,
     })
 
-    const pattern = `session:${updatedSession.userId}:*`
+    const pattern = SESSION_CACHE_KEY(updatedSession.userId, '*')
     const keys = await redisInstance.keys(pattern)
     if (keys.length > 0) await redisInstance.del(...keys)
 
