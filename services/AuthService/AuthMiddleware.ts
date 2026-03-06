@@ -5,13 +5,6 @@ import ApiKeyService from './ApiKeyService'
 import UserSessionService from './UserSessionService'
 import { UserRole } from '@/generated/prisma'
 
-const API_SESSION: SafeUserSession = {
-  userSessionId: 'api-session',
-  userId: 'api-user',
-  otpVerifyNeeded: false,
-  sessionExpiry: new Date(),
-}
-
 export default class AuthMiddleware {
 
 
