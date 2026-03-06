@@ -1,4 +1,5 @@
 import { prisma } from '@/libs/prisma'
+import { Prisma } from '@/generated/prisma'
 import Logger from '@/libs/logger'
 import { StoredChatMessage, StoredChatSession, ChatSessionStatus } from '@/dtos/ChatbotDTO'
 import type { ChatSessionStatus as PrismaStatus } from '@/generated/prisma'
@@ -131,8 +132,8 @@ export default class ChatSessionDBService {
                     chatSessionId,
                     role:         msg.role,
                     content:      msg.content,
-                    sources:      (msg.sources ?? null) as object | null,
-                    adminUserId:  msg.adminUserId,
+                    sources:      (msg.sources ?? undefined) as Prisma.InputJsonValue,
+                    adminUserId:  msg.adminUserId ?? undefined,
                     createdAt:    new Date(msg.createdAt),
                 },
                 update: {}, // message content is immutable — never overwrite

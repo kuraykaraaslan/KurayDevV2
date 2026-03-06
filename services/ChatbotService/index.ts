@@ -7,6 +7,7 @@ import { StoredChatMessage, ChatbotSource } from '@/dtos/ChatbotDTO'
 import ChatSessionService from './ChatSessionService'
 import ChatbotRAGService from './ChatbotRAGService'
 import ChatbotModerationService from './ChatbotModerationService'
+import ChatbotAdminService from './ChatbotAdminService'
 import { ACTIVE_SESSIONS, BROWSER_SESSION, SESSION_TTL } from './constants'
 
 // Re-export sub-services for direct imports
@@ -30,6 +31,12 @@ export default class ChatbotService {
     static unbanUser = ChatbotModerationService.unbanUser.bind(ChatbotModerationService)
     static isUserBanned = ChatbotModerationService.isUserBanned.bind(ChatbotModerationService)
     static getBanTTL = ChatbotModerationService.getBanTTL.bind(ChatbotModerationService)
+
+    static takeoverSession = ChatbotAdminService.takeoverSession.bind(ChatbotAdminService)
+    static releaseSession  = ChatbotAdminService.releaseSession.bind(ChatbotAdminService)
+    static closeSession    = ChatbotAdminService.closeSession.bind(ChatbotAdminService)
+    static adminReply      = ChatbotAdminService.adminReply.bind(ChatbotAdminService)
+    static getStats        = ChatbotAdminService.getStats.bind(ChatbotAdminService)
 
     // ─────────────────────────── Chat (user) ──────────────────────────
 
@@ -117,7 +124,7 @@ export default class ChatbotService {
         const aiProviderForCompression = AIService.getProvider(provider)
         const sessionSummary = await ChatbotRAGService.compressHistory(
             session.chatSessionId,
-            (prompt, m) => aiProviderForCompression.generateText(prompt, m),
+            (prompt, m) => aiProviderForCompression.generateText(prompt, m).then((r) => r ?? ''),
             model,
         )
         // Re-read session to pick up the persisted summary (if newly compressed)
@@ -287,7 +294,7 @@ export default class ChatbotService {
         const aiProviderForCompression = AIService.getProvider(provider)
         const sessionSummary = await ChatbotRAGService.compressHistory(
             session.chatSessionId,
-            (prompt, m) => aiProviderForCompression.generateText(prompt, m),
+            (prompt, m) => aiProviderForCompression.generateText(prompt, m).then((r) => r ?? ''),
             model,
         )
         const latestSession = await ChatSessionService.getSession(session.chatSessionId) ?? session

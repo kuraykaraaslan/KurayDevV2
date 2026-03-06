@@ -46,8 +46,8 @@ export function useChatbotWebSocket({
   // ── Convenience methods ──────────────────────────────────────────
 
   const sendChat = useCallback(
-    (message: string, chatSessionId?: string, provider?: string, model?: string) =>
-      sendEvent({ ns: 'chatbot', type: 'chat', message, chatSessionId, provider, model }),
+    (message: string, chatSessionId?: string, provider?: string, model?: string, page_context?: string) =>
+      sendEvent({ ns: 'chatbot', type: 'chat', message, chatSessionId, provider, model, page_context }),
     [sendEvent],
   )
 
