@@ -23,3 +23,9 @@ export const DATASET_TOP_K = 3
 export const DATASET_THRESHOLD = 0.25
 export const FAQ_TOP_K = 3
 export const FAQ_THRESHOLD = 0.35
+
+// ── History compression constants (Phase 13) ───────────────────────
+/** Compress history when message count exceeds this threshold. */
+export const HISTORY_COMPRESS_THRESHOLD = 20
+/** Number of recent messages to keep verbatim after compression. */
+export const HISTORY_KEEP_LAST = 10

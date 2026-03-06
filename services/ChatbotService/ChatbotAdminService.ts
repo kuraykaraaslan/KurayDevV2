@@ -4,6 +4,7 @@ import ChatbotMessages from '@/messages/ChatbotMessages'
 import wsManager from '@/libs/websocket/WSManager'
 import { StoredChatMessage, StoredChatSession } from '@/dtos/ChatbotDTO'
 import ChatSessionService from './ChatSessionService'
+import ChatSessionDBService from './ChatSessionDBService'
 import { ACTIVE_SESSIONS, MESSAGES_KEY } from './constants'
 
 export default class ChatbotAdminService {
@@ -130,6 +131,7 @@ export default class ChatbotAdminService {
 
     /**
      * Get chatbot analytics stats (admin dashboard).
+     * Reads from PostgreSQL — captures all sessions including those expired from Redis.
      */
     static async getStats(): Promise<{
         totalSessions: number
@@ -141,51 +143,6 @@ export default class ChatbotAdminService {
         uniqueUsers: number
         recentSessions: StoredChatSession[]
     }> {
-        const allIds = await redis.zrevrange(ACTIVE_SESSIONS, 0, -1)
-
-        let activeSessions = 0
-        let closedSessions = 0
-        let takenOverSessions = 0
-        let totalMessages = 0
-        const userSet = new Set<string>()
-        const allSessions: StoredChatSession[] = []
-
-        for (const id of allIds) {
-            const s = await ChatSessionService.getSession(id)
-            if (!s) {
-                await redis.zrem(ACTIVE_SESSIONS, id)
-                continue
-            }
-            allSessions.push(s)
-            userSet.add(s.userId)
-
-            if (s.status === 'ACTIVE') activeSessions++
-            else if (s.status === 'CLOSED') closedSessions++
-            else if (s.status === 'TAKEN_OVER') takenOverSessions++
-
-            const msgCount = await redis.llen(MESSAGES_KEY(id))
-            totalMessages += msgCount
-        }
-
-        const totalSessions = allSessions.length
-        const avgMessagesPerSession =
-            totalSessions > 0
-                ? Math.round((totalMessages / totalSessions) * 10) / 10
-                : 0
-
-        const recentSessions = allSessions
-            .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-            .slice(0, 5)
-
-        return {
-            totalSessions,
-            activeSessions,
-            closedSessions,
-            takenOverSessions,
-            totalMessages,
-            avgMessagesPerSession,
-            uniqueUsers: userSet.size,
-            recentSessions,
-        }
+        return ChatSessionDBService.getStats()
     }
 }

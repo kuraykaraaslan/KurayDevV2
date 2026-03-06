@@ -23,7 +23,12 @@ import {
     DATASET_THRESHOLD,
     FAQ_TOP_K,
     FAQ_THRESHOLD,
+    MESSAGES_KEY,
+    SESSION_TTL,
+    HISTORY_COMPRESS_THRESHOLD,
+    HISTORY_KEEP_LAST,
 } from './constants'
+import ChatSessionService from './ChatSessionService'
 
 // ── Static datasets (gracefully degrade if missing) ─────────────────
 const DATASETS_DIR = path.join(__dirname, 'datasets')
@@ -219,15 +224,29 @@ export default class ChatbotRAGService {
 
     /**
      * Build the full message array for the AI provider.
+     * If `summary` is provided, it is injected as a system-level context
+     * note in place of compressed history, reducing token usage.
+     * If `pageContext` is provided, it is prepended to the current message
+     * to enrich RAG retrieval for proactive triggers (Phase 13).
      */
     static buildMessages(
         systemPrompt: string,
         history: StoredChatMessage[],
-        currentMessage: string
+        currentMessage: string,
+        summary?: string,
+        pageContext?: string,
     ): { role: 'system' | 'user' | 'assistant'; content: string }[] {
         const messages: { role: 'system' | 'user' | 'assistant'; content: string }[] = [
             { role: 'system', content: systemPrompt },
         ]
+
+        // Inject compressed history summary if available
+        if (summary) {
+            messages.push({
+                role: 'system',
+                content: `[Earlier conversation summary]: ${summary}`,
+            })
+        }
 
         const recent = history.slice(-10)
         for (const msg of recent) {
@@ -237,8 +256,71 @@ export default class ChatbotRAGService {
             messages.push({ role, content: msg.content })
         }
 
-        messages.push({ role: 'user', content: currentMessage })
+        // Enrich current message with page context when provided (proactive trigger)
+        const enrichedMessage = pageContext
+            ? `[Page context: "${pageContext}"]\n${currentMessage}`
+            : currentMessage
+        messages.push({ role: 'user', content: enrichedMessage })
         return messages
+    }
+
+    /**
+     * Compress old conversation history into a single AI-generated summary.
+     * When the session exceeds HISTORY_COMPRESS_THRESHOLD messages, the oldest
+     * messages (all but the last HISTORY_KEEP_LAST) are summarised using the
+     * provided AI provider, the summary is persisted to the session, and the
+     * Redis message list is trimmed to the recent tail.
+     *
+     * Returns the summary string, or undefined if no compression was needed.
+     */
+    static async compressHistory(
+        chatSessionId: string,
+        generateSummary: (prompt: string, model?: string) => Promise<string>,
+        model?: string,
+    ): Promise<string | undefined> {
+        const messages = await ChatSessionService.getMessages(chatSessionId)
+        if (messages.length <= HISTORY_COMPRESS_THRESHOLD) return undefined
+
+        const toCompress = messages.slice(0, messages.length - HISTORY_KEEP_LAST)
+        const keepTail = messages.slice(messages.length - HISTORY_KEEP_LAST)
+
+        const conversationText = toCompress
+            .filter((m) => m.content !== '__ADMIN_TAKEOVER__')
+            .map((m) => `${m.role}: ${m.content}`)
+            .join('\n')
+
+        const summaryPrompt =
+            'Summarise the following chat conversation in 2-3 concise sentences, ' +
+            'capturing the key topics and any important context:\n\n' +
+            conversationText
+
+        let summary: string
+        try {
+            summary = await generateSummary(summaryPrompt, model)
+            if (!summary) return undefined
+        } catch (err) {
+            Logger.warn(`[ChatbotRAGService] History compression failed: ${err}`)
+            return undefined
+        }
+
+        // Persist summary to session
+        const session = await ChatSessionService.getSession(chatSessionId)
+        if (session) {
+            session.summary = summary
+            await ChatSessionService.updateSession(session)
+        }
+
+        // Replace message list with the trimmed tail
+        await redis.del(MESSAGES_KEY(chatSessionId))
+        for (const msg of keepTail) {
+            await redis.rpush(MESSAGES_KEY(chatSessionId), JSON.stringify(msg))
+        }
+        await redis.expire(MESSAGES_KEY(chatSessionId), SESSION_TTL)
+
+        Logger.info(
+            `[ChatbotRAGService] Session ${chatSessionId}: compressed ${toCompress.length} messages → summary`
+        )
+        return summary
     }
 
     /**

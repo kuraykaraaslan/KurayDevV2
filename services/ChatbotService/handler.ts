@@ -73,6 +73,7 @@ async function handleChat(
     chatSessionId: event.chatSessionId,
     provider: event.provider,
     model: event.model,
+    page_context: event.page_context,
   })
 
   if (!parsed.success) {
@@ -80,7 +81,7 @@ async function handleChat(
     return
   }
 
-  const { message, chatSessionId, provider, model } = parsed.data
+  const { message, chatSessionId, provider, model, page_context } = parsed.data
   const userId = client.userId
   const userEmail = (client.meta.email as string) ?? ''
   const browserId = (client.meta.browserId as string) ?? undefined
@@ -94,6 +95,7 @@ async function handleChat(
       browserId,
       provider,
       model,
+      pageContext: page_context,
     })) {
       const lines = sseChunk.split('\n')
       for (const line of lines) {
@@ -161,6 +163,14 @@ async function handleAdminReply(
     return
   }
 
+  // Broadcast typing indicator to the user before sending the reply (Phase 13)
+  wsManager.publish('chatbot', chatSessionId, {
+    ns: 'chatbot',
+    type: 'typing',
+    role: 'admin',
+    chatSessionId,
+  })
+
   const stored = await ChatbotService.adminReply({
     chatSessionId,
     message: message.trim(),
@@ -185,6 +195,36 @@ async function handleAdminReply(
   send(client, { ns: 'chatbot', type: 'done' })
 }
 
+// ── Typing indicator handler (Phase 13) ───────────────────────────────
+
+/**
+ * Broadcast an admin-typing indicator to all subscribers of the session.
+ * Called when the admin client emits a 'typing' event while composing a reply.
+ */
+function handleTyping(
+  client: WSConnectedClient,
+  chatSessionId: string,
+) {
+  if (!chatSessionId) {
+    send(client, { ns: 'chatbot', type: 'error', error: 'chatSessionId required' })
+    return
+  }
+
+  const isAdmin = client.role === 'admin'
+  if (!isAdmin) {
+    // Only admins broadcast typing indicators via this event.
+    // Users' AI typing is emitted by the stream itself.
+    return
+  }
+
+  wsManager.publish('chatbot', chatSessionId, {
+    ns: 'chatbot',
+    type: 'typing',
+    role: 'admin',
+    chatSessionId,
+  })
+}
+
 // ── Feature handler (implements WSFeatureHandler) ─────────────────────
 
 const ChatbotWSHandler: WSFeatureHandler = {
@@ -207,6 +247,10 @@ const ChatbotWSHandler: WSFeatureHandler = {
 
         case 'admin_reply':
           await handleAdminReply(client, event.chatSessionId as string, event.message as string)
+          break
+
+        case 'typing':
+          handleTyping(client, event.chatSessionId as string)
           break
 
         default:

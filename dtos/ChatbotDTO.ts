@@ -37,6 +37,8 @@ export const StoredChatSessionSchema = z.object({
   status: ChatSessionStatusEnum,
   title: z.string().optional(),
   takenOverBy: z.string().optional(),
+  /** Compressed summary of older messages (Phase 13). */
+  summary: z.string().optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
 })
@@ -49,6 +51,8 @@ export const ChatbotRequestSchema = z.object({
   chatSessionId: z.string().optional(),
   provider: z.string().optional(),
   model: z.string().optional(),
+  /** Page title/context for proactive trigger enrichment (Phase 13). */
+  page_context: z.string().max(200).optional(),
 })
 export type ChatbotRequest = z.infer<typeof ChatbotRequestSchema>
 
@@ -60,6 +64,11 @@ export const ChatbotSourceSchema = z.object({
   score: z.number(),
 })
 export type ChatbotSource = z.infer<typeof ChatbotSourceSchema>
+
+// ── Export (Phase 13) ────────────────────────────────────────────────
+
+export const ChatExportFormatSchema = z.enum(['json', 'csv', 'txt'])
+export type ChatExportFormat = z.infer<typeof ChatExportFormatSchema>
 
 // ── Admin Schemas ────────────────────────────────────────────────────
 

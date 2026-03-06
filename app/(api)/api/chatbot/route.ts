@@ -1,14 +1,14 @@
 
 import type { WebSocket, WebSocketServer } from 'ws'
-import { NextRequest } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AuthMessages from '@/messages/AuthMessages'
 import wsManager from '@/libs/websocket/WSManager'
-import ChatbotWSHandler from '@/services/ChatbotService/ChatbotWSHandler'
+import ChatbotWSHandler from '@/services/ChatbotService/handler'
 import ChatbotService from '@/services/ChatbotService'
 import ChatbotMessages from '@/messages/ChatbotMessages'
 import Logger from '@/libs/logger'
 import type { WSBaseEvent } from '@/types/common/WebSocketTypes'
+import { NextResponse } from 'next/server'
 
 // ── Register all feature handlers on first import ────────────────────
 // Add new feature handlers here as the system grows.

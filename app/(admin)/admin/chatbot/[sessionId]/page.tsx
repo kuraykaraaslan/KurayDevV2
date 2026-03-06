@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
@@ -13,9 +13,10 @@ import {
   faUserShield,
   faBan,
   faWifi,
+  faDownload,
 } from '@fortawesome/free-solid-svg-icons'
 import { ChatMessageList, ChatInput } from '@/components/common/UI/Chat'
-import { useChatbotWebSocket } from '@/components/frontend/Features/Chatbot/useChatbotWebSocket'
+import { useChatbotWebSocket } from '@/components/frontend/Features/Chatbot/hooks/useChatbotWebSocket'
 import type { ChatMessage, ChatSession, ChatbotWSServerEvent } from '@/types/features/ChatbotTypes'
 import type { WSSystemServerEvent } from '@/types/common/WebSocketTypes'
 
@@ -32,6 +33,9 @@ const ChatDetailPage = () => {
   const [sending, setSending] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
   const [userBanned, setUserBanned] = useState(false)
+
+  // Debounce ref for typing events (Phase 13)
+  const typingDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // ── Initial data fetch ────────────────────────────────────────────
   const fetchData = useCallback(async () => {
@@ -106,7 +110,7 @@ const ChatDetailPage = () => {
     }
   }, [sessionId])
 
-  const { isConnected, subscribe, sendAdminReply } = useChatbotWebSocket({
+  const { isConnected, subscribe, sendAdminReply, sendTyping } = useChatbotWebSocket({
     onEvent: handleWSEvent,
     autoConnect: true,
     reconnectDelay: 2000,
@@ -172,6 +176,31 @@ const ChatDetailPage = () => {
       setSending(false)
     }
   }, [replyText, sessionId, sending, isConnected, sendAdminReply, fetchData])
+
+  // ── Export session (Phase 13) ───────────────────────────────────
+  const handleExport = useCallback((format: 'json' | 'csv' | 'txt') => {
+    if (!sessionId) return
+    const url = `/api/chatbot/admin/${sessionId}/export?format=${format}`
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `chat-${sessionId}.${format}`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }, [sessionId])
+
+  // ── Admin typing indicator sender (Phase 13) ────────────────────
+  const handleReplyChange = useCallback((value: string) => {
+    setReplyText(value)
+    if (!isConnected || !sessionId) return
+    // Debounce: send typing event at most once every 2 s while admin types
+    if (!typingDebounceRef.current) {
+      sendTyping(sessionId)
+      typingDebounceRef.current = setTimeout(() => {
+        typingDebounceRef.current = null
+      }, 2000)
+    }
+  }, [isConnected, sessionId, sendTyping])
 
   const formatDate = (iso: string) => {
     const d = new Date(iso)
@@ -260,6 +289,13 @@ const ChatDetailPage = () => {
                   loading: actionLoading,
                 },
               ]),
+          // Export (Phase 13)
+          {
+            label: 'Export',
+            onClick: () => handleExport('json'),
+            className: 'btn-ghost btn-sm',
+            icon: faDownload,
+          },
         ]}
       />
 
@@ -310,7 +346,7 @@ const ChatDetailPage = () => {
       {!isClosed && (
         <ChatInput
           value={replyText}
-          onChange={setReplyText}
+          onChange={handleReplyChange}
           onSend={handleSendReply}
           disabled={!canReply}
           sending={sending}

@@ -11,6 +11,7 @@ import { ACTIVE_SESSIONS, BROWSER_SESSION, SESSION_TTL } from './constants'
 
 // Re-export sub-services for direct imports
 export { default as ChatSessionService } from './ChatSessionService'
+export { default as ChatSessionDBService } from './ChatSessionDBService'
 export { default as ChatbotRAGService } from './ChatbotRAGService'
 export { default as ChatbotModerationService } from './ChatbotModerationService'
 export { default as BrowserSessionService } from './BrowserSessionService'
@@ -43,6 +44,7 @@ export default class ChatbotService {
         userEmail,
         provider,
         model,
+        pageContext,
     }: {
         message: string
         chatSessionId?: string
@@ -50,6 +52,8 @@ export default class ChatbotService {
         userEmail?: string
         provider?: string
         model?: string
+        /** Optional page title for proactive trigger enrichment (Phase 13). */
+        pageContext?: string
     }): Promise<{
         reply: string
         sources: ChatbotSource[]
@@ -109,6 +113,16 @@ export default class ChatbotService {
             ChatbotRAGService.retrieveFaqContext(message),
         ])
 
+        // ── 4b. History compression (Phase 13) ─────────────────────
+        const aiProviderForCompression = AIService.getProvider(provider)
+        const sessionSummary = await ChatbotRAGService.compressHistory(
+            session.chatSessionId,
+            (prompt, m) => aiProviderForCompression.generateText(prompt, m),
+            model,
+        )
+        // Re-read session to pick up the persisted summary (if newly compressed)
+        const latestSession = await ChatSessionService.getSession(session.chatSessionId) ?? session
+
         // ── 5. Build prompt ───────────────────────────────────────────
         const history = await ChatSessionService.getMessages(session.chatSessionId)
         const mergedContext = [...ragContext]
@@ -121,7 +135,10 @@ export default class ChatbotService {
 
         const previousMessages = history.slice(0, -1)
         const systemPrompt = await ChatbotRAGService.buildSystemPrompt(mergedContext)
-        const promptMessages = ChatbotRAGService.buildMessages(systemPrompt, previousMessages, message)
+        const activeSummary = sessionSummary ?? latestSession.summary
+        const promptMessages = ChatbotRAGService.buildMessages(
+            systemPrompt, previousMessages, message, activeSummary, pageContext
+        )
 
         // ── 6. Call AI ────────────────────────────────────────────────
         const aiProvider = AIService.getProvider(provider)
@@ -170,6 +187,7 @@ export default class ChatbotService {
         browserId,
         provider,
         model,
+        pageContext,
     }: {
         message: string
         chatSessionId?: string
@@ -178,6 +196,8 @@ export default class ChatbotService {
         browserId?: string
         provider?: string
         model?: string
+        /** Optional page title for proactive trigger enrichment (Phase 13). */
+        pageContext?: string
     }): AsyncGenerator<string, void, unknown> {
         // ── 0a. Ban check ─────────────────────────────────────────────
         if (await ChatbotModerationService.isUserBanned(userId)) {
@@ -215,6 +235,9 @@ export default class ChatbotService {
         }
 
         yield `data: ${JSON.stringify({ type: 'meta', chatSessionId: session.chatSessionId })}\n\n`
+
+        // Typing indicator: notify user AI is now processing (Phase 13)
+        yield `data: ${JSON.stringify({ type: 'typing', role: 'assistant' })}\n\n`
 
         // ── 2. Persist user message ───────────────────────────────────
         const userMsg: StoredChatMessage = {
@@ -260,7 +283,16 @@ export default class ChatbotService {
             ChatbotRAGService.retrieveFaqContext(message),
         ])
 
-        // ── 5. Build prompt ───────────────────────────────────────────
+        // ── 4b. History compression (Phase 13) ─────────────────────
+        const aiProviderForCompression = AIService.getProvider(provider)
+        const sessionSummary = await ChatbotRAGService.compressHistory(
+            session.chatSessionId,
+            (prompt, m) => aiProviderForCompression.generateText(prompt, m),
+            model,
+        )
+        const latestSession = await ChatSessionService.getSession(session.chatSessionId) ?? session
+
+        // ── 5. Build prompt ───────────────────────────────────────
         const history = await ChatSessionService.getMessages(session.chatSessionId)
         const mergedContext = [...ragContext]
         for (const doc of datasetContext) {
@@ -272,7 +304,10 @@ export default class ChatbotService {
 
         const previousMessages = history.slice(0, -1)
         const systemPrompt = await ChatbotRAGService.buildSystemPrompt(mergedContext)
-        const promptMessages = ChatbotRAGService.buildMessages(systemPrompt, previousMessages, message)
+        const activeSummary = sessionSummary ?? latestSession.summary
+        const promptMessages = ChatbotRAGService.buildMessages(
+            systemPrompt, previousMessages, message, activeSummary, pageContext
+        )
 
         // ── 6. Stream AI response ─────────────────────────────────────
         const aiProvider = AIService.getProvider(provider)

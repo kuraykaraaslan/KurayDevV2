@@ -17,6 +17,7 @@ const Chatbot = () => {
     messages,
     input,
     isLoading,
+    isTyping,
     sources,
     sessionClosed,
     isConnected,
@@ -59,6 +60,22 @@ const Chatbot = () => {
               </div>
             }
           />
+
+          {/* Typing indicator (Phase 13) */}
+          {isTyping && !isLoading && (
+            <div className="flex items-center gap-2 px-4 pb-1">
+              <span className="flex gap-1">
+                <span className="w-1.5 h-1.5 bg-base-content/40 rounded-full animate-bounce [animation-delay:0ms]" />
+                <span className="w-1.5 h-1.5 bg-base-content/40 rounded-full animate-bounce [animation-delay:150ms]" />
+                <span className="w-1.5 h-1.5 bg-base-content/40 rounded-full animate-bounce [animation-delay:300ms]" />
+              </span>
+              <span className="text-xs text-base-content/40">
+                {isTyping.role === 'admin'
+                  ? t('shared.chatbot.admin_typing')
+                  : t('shared.chatbot.thinking')}
+              </span>
+            </div>
+          )}
 
           <ChatbotSources sources={sources} />
 
