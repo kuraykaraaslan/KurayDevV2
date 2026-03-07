@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "パスワードをリセット"
+    },
+    "branding": {
+      "feature_built": "開発者によって作られた、ウェブのために",
+      "feature_i18n": "25以上の言語で利用可能",
+      "feature_security": "デフォルトでプライベートかつ安全",
+      "headline_line1": "コードを書く。",
+      "headline_line2": "創造する。",
+      "tagline": "開発者の個人的なコーナー — ポートフォリオ、ブログ、プロジェクトなど。"
     }
   },
   "common": {

@@ -728,6 +728,14 @@
     },
     "reset_password": {
       "title": "Şifreyi Sıfırla"
+    },
+    "branding": {
+      "feature_built": "Bir geliştirici tarafından, web için oluşturuldu",
+      "feature_i18n": "25+ dilde mevcut",
+      "feature_security": "Varsayılan olarak özel ve güvenli",
+      "headline_line1": "Kod. Yaz.",
+      "headline_line2": "Yarat.",
+      "tagline": "Bir geliştiricinin kişisel köşesi — portföy, blog, projeler ve daha fazlası."
     }
   },
   "admin": {

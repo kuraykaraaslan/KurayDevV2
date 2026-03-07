@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "Şifrəni Sıfırla"
+    },
+    "branding": {
+      "feature_built": "Veb üçün, bir inkişaf etdirici tərəfindən hazırlanmışdır",
+      "feature_i18n": "25+ dildə mövcuddur",
+      "feature_security": "Özəl və təhlükəsiz standart olaraq",
+      "headline_line1": "Kod. Yaz.",
+      "headline_line2": "Yarat.",
+      "tagline": "İnkişaf etdiricinin şəxsi küncü — portfel, bloq, layihələr və daha çox."
     }
   },
   "common": {

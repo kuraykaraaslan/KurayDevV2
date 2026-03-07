@@ -765,6 +765,14 @@
     },
     "reset_password": {
       "title": "إعادة تعيين كلمة المرور"
+    },
+    "branding": {
+      "feature_built": "مصمم من قبل مطور، للويب",
+      "feature_i18n": "متاح بأكثر من 25 لغة",
+      "feature_security": "خاص وآمن بشكل افتراضي",
+      "headline_line1": "كود. اكتب.",
+      "headline_line2": "أنشئ.",
+      "tagline": "ركن شخصي للمطور — معرض أعمال، مدونة، مشاريع والمزيد."
     }
   },
   "admin": {

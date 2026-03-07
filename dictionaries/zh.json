@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "重置密码"
+    },
+    "branding": {
+      "feature_built": "由开发者打造，为网络而生",
+      "feature_i18n": "支持25种以上语言",
+      "feature_security": "默认私密和安全",
+      "headline_line1": "编码。写作。",
+      "headline_line2": "创造。",
+      "tagline": "开发者的个人角落——作品集、博客、项目等。"
     }
   },
   "common": {

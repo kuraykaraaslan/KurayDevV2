@@ -1049,6 +1049,14 @@
     },
     "reset_password": {
       "title": "Passwort zurücksetzen"
+    },
+    "branding": {
+      "feature_built": "Von einem Entwickler gebaut, für das Web",
+      "feature_i18n": "Verfügbar in über 25 Sprachen",
+      "feature_security": "Standardmäßig privat & sicher",
+      "headline_line1": "Code. Schreiben.",
+      "headline_line2": "Erstellen.",
+      "tagline": "Persönliche Ecke eines Entwicklers — Portfolio, Blog, Projekte und mehr."
     }
   },
   "frontend": {

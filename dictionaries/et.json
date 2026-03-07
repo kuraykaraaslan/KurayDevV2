@@ -728,6 +728,14 @@
     },
     "reset_password": {
       "title": "Lähtesta parool"
+    },
+    "branding": {
+      "feature_built": "Loodud arendaja poolt, veebi jaoks",
+      "feature_i18n": "Saadaval enam kui 25 keeles",
+      "feature_security": "Privaatne ja turvaline vaikimisi",
+      "headline_line1": "Kodeeri. Kirjuta.",
+      "headline_line2": "Loo.",
+      "tagline": "Arendaja isiklik nurgake — portfoolio, blogi, projektid ja rohkem."
     }
   },
   "admin": {

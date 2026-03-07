@@ -728,6 +728,14 @@
     },
     "reset_password": {
       "title": "איפוס סיסמה"
+    },
+    "branding": {
+      "feature_built": "נבנה על ידי מפתח, עבור הרשת",
+      "feature_i18n": "זמין ביותר מ-25 שפות",
+      "feature_security": "פרטי ומאובטח כברירת מחדל",
+      "headline_line1": "קוד. כתוב.",
+      "headline_line2": "צור.",
+      "tagline": "הפינה האישית של מפתח — תיק עבודות, בלוג, פרויקטים ועוד."
     }
   },
   "admin": {

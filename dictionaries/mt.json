@@ -1293,6 +1293,14 @@
     },
     "reset_password": {
       "title": "Irrisettja l-Password"
+    },
+    "branding": {
+      "feature_built": "Mibni minn żviluppatur, għall-web",
+      "feature_i18n": "Disponibbli f'25+ lingwa",
+      "feature_security": "Privat u sigur b'mod awtomatiku",
+      "headline_line1": "Kodiċi. Ikteb.",
+      "headline_line2": "Oħloq.",
+      "tagline": "Rokna personali ta' żviluppatur — portafoll, blog, proġetti u aktar."
     }
   },
   "navbar": {

@@ -1293,6 +1293,14 @@
     },
     "reset_password": {
       "title": "Wachtwoord resetten"
+    },
+    "branding": {
+      "feature_built": "Gebouwd door een ontwikkelaar, voor het web",
+      "feature_i18n": "Beschikbaar in 25+ talen",
+      "feature_security": "Privé & standaard beveiligd",
+      "headline_line1": "Code. Schrijf.",
+      "headline_line2": "Creëer.",
+      "tagline": "Persoonlijke hoek van een ontwikkelaar — portfolio, blog, projecten en meer."
     }
   },
   "navbar": {

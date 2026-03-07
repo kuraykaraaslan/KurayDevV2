@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "Reimposta Password"
+    },
+    "branding": {
+      "feature_built": "Creato da uno sviluppatore, per il web",
+      "feature_i18n": "Disponibile in oltre 25 lingue",
+      "feature_security": "Privato e sicuro di default",
+      "headline_line1": "Codice. Scrivi.",
+      "headline_line2": "Crea.",
+      "tagline": "Angolo personale di uno sviluppatore — portfolio, blog, progetti e altro."
     }
   },
   "common": {

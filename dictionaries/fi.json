@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "Nollaa salasana"
+    },
+    "branding": {
+      "feature_built": "Kehittäjän tekemä, verkkoa varten",
+      "feature_i18n": "Saatavilla yli 25 kielellä",
+      "feature_security": "Yksityinen ja turvallinen oletuksena",
+      "headline_line1": "Koodaa. Kirjoita.",
+      "headline_line2": "Luo.",
+      "tagline": "Kehittäjän henkilökohtainen nurkkaus — portfolio, blogi, projektit ja paljon muuta."
     }
   },
   "common": {

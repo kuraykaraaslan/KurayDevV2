@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "Restablecer contraseña"
+    },
+    "branding": {
+      "feature_built": "Creado por un desarrollador, para la web",
+      "feature_i18n": "Disponible en más de 25 idiomas",
+      "feature_security": "Privado y seguro por defecto",
+      "headline_line1": "Código. Escribe.",
+      "headline_line2": "Crea.",
+      "tagline": "Rincón personal de un desarrollador: portafolio, blog, proyectos y más."
     }
   },
   "common": {

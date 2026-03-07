@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "重設密碼"
+    },
+    "branding": {
+      "feature_built": "由開發者打造，為網路而生",
+      "feature_i18n": "提供超過25種語言",
+      "feature_security": "預設私密與安全",
+      "headline_line1": "編碼。寫作。",
+      "headline_line2": "創造。",
+      "tagline": "開發者的個人角落——作品集、博客、項目等。"
     }
   },
   "common": {

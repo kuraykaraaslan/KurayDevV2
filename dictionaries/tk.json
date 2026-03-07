@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "Paroly täzeden düzmek"
+    },
+    "branding": {
+      "feature_built": "Özbaşyna web üçin döredilen",
+      "feature_i18n": "25+ dilden gowrak elýeterli",
+      "feature_security": "Şahsy we howpsuzlyk boýunça deslapky",
+      "headline_line1": "Kod. Ýaz.",
+      "headline_line2": "Döret.",
+      "tagline": "Özbaşdak künjek — portfel, blog, taslamalar we has köp."
     }
   },
   "common": {

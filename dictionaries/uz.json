@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "Parolni tiklash"
+    },
+    "branding": {
+      "feature_built": "Dasturchi tomonidan yaratilgan, veb uchun",
+      "feature_i18n": "25+ tilda mavjud",
+      "feature_security": "Maxfiy va xavfsiz",
+      "headline_line1": "Kod. Yozing.",
+      "headline_line2": "Yaratish.",
+      "tagline": "Dasturchining shaxsiy burchagi — portfel, blog, loyihalar va boshqalar."
     }
   },
   "common": {

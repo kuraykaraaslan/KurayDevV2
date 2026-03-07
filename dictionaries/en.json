@@ -703,6 +703,14 @@
     }
   },
   "auth": {
+    "branding": {
+      "headline_line1": "Code. Write.",
+      "headline_line2": "Create.",
+      "tagline": "Personal corner of a developer — portfolio, blog, projects and more.",
+      "feature_security": "Private & secure by default",
+      "feature_built": "Built by a developer, for the web",
+      "feature_i18n": "Available in 25+ languages"
+    },
     "sso": {
       "title": "Login with Social Media",
       "no_providers": "No SSO providers configured.",

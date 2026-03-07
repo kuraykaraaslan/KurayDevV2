@@ -626,6 +626,14 @@
     },
     "reset_password": {
       "title": "Réinitialiser le mot de passe"
+    },
+    "branding": {
+      "feature_built": "Conçu par un développeur, pour le web",
+      "feature_i18n": "Disponible en plus de 25 langues",
+      "feature_security": "Privé et sécurisé par défaut",
+      "headline_line1": "Coder. Écrire.",
+      "headline_line2": "Créer.",
+      "tagline": "Coin personnel d'un développeur — portfolio, blog, projets et plus encore."
     }
   },
   "common": {
