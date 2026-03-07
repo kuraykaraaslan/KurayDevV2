@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import GenericElement from '@/components/admin/UI/Forms/GenericElement'
@@ -14,6 +15,7 @@ import CopyButton from '@/components/admin/UI/CopyButton'
 const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || ''
 
 const SingleShortLink = () => {
+  const { t } = useTranslation()
   const params = useParams<{ id: string }>()
   const routeId = params?.id
   const router = useRouter()
@@ -44,7 +46,7 @@ const SingleShortLink = () => {
         const res = await axiosInstance.get(`/api/links/${routeId}`)
         const link = res.data?.link
         if (!link) {
-          toast.error('Short link not found')
+          toast.error(t('admin.short_links.not_found'))
           return
         }
         if (cancelled) return
@@ -52,7 +54,7 @@ const SingleShortLink = () => {
         setCode(link.code ?? '')
         setClicks(link.clicks ?? 0)
       } catch (error: any) {
-        toast.error(error?.response?.data?.message ?? 'Failed to load short link')
+        toast.error(error?.response?.data?.message ?? t('admin.short_links.load_failed'))
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -67,27 +69,27 @@ const SingleShortLink = () => {
     try {
       if (mode === 'create') {
         await axiosInstance.post('/api/links', { url: originalUrl })
-        toast.success('Short link created')
+        toast.success(t('admin.short_links.created_success'))
       } else {
         await axiosInstance.patch(`/api/links/${routeId}`, { originalUrl, code })
-        toast.success('Short link updated')
+        toast.success(t('admin.short_links.updated_success'))
       }
       router.push('/admin/short-links')
     } catch (error: any) {
-      toast.error(error?.response?.data?.message ?? 'Failed to save short link')
+      toast.error(error?.response?.data?.message ?? t('admin.short_links.save_failed'))
     } finally {
       setSaving(false)
     }
   }
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this short link?')) return
+    if (!confirm(t('admin.short_links.delete_confirm'))) return
     try {
       await axiosInstance.delete(`/api/links/${routeId}`)
-      toast.success('Short link deleted')
+      toast.success(t('admin.short_links.deleted_success'))
       router.push('/admin/short-links')
     } catch (error: any) {
-      toast.error(error?.response?.data?.message ?? 'Failed to delete short link')
+      toast.error(error?.response?.data?.message ?? t('admin.short_links.delete_failed'))
     }
   }
 
@@ -115,17 +117,17 @@ const SingleShortLink = () => {
       ]}
     >
       <FormHeader
-        title={mode === 'create' ? 'New Short Link' : 'Edit Short Link'}
+        title={mode === 'create' ? t('admin.short_links.new_title') : t('admin.short_links.edit_title')}
         actionButtons={[
           {
-            text: '← Back',
+            text: t('admin.short_links.back'),
             onClick: () => router.push('/admin/short-links'),
             className: 'btn-ghost',
           },
           ...(mode === 'edit'
             ? [
                 {
-                  text: 'Analytics',
+                  text: t('admin.short_links.analytics_btn'),
                   onClick: () => router.push(`/admin/short-links/${routeId}/analytics`),
                   className: 'btn-info btn-outline',
                 },
@@ -135,17 +137,16 @@ const SingleShortLink = () => {
       />
 
       <div className="grid grid-cols-1 gap-4">
-        <SectionCard icon={faLink} title="Link Details" description="Configure the short link">
+          <SectionCard icon={faLink} title={t('admin.short_links.link_details_title')} description={t('admin.short_links.link_details_description')}>
           <DynamicText
-            label="Original URL"
-            placeholder="https://example.com/some/long/path"
+            label={t('admin.short_links.original_url_label')}
             value={originalUrl}
             setValue={setOriginalUrl}
           />
 
           {mode === 'edit' && (
             <DynamicText
-              label="Short Code"
+              label={t('admin.short_links.short_code_label')}
               placeholder="abc123"
               value={code}
               setValue={setCode}
@@ -153,7 +154,7 @@ const SingleShortLink = () => {
           )}
 
           {mode === 'edit' && (
-            <GenericElement label="Short URL">
+            <GenericElement label={t('admin.short_links.short_url_label')}>
               <div className="flex items-center gap-1">
                 <a
                   href={`${APP_HOST}/s/${code}`}
@@ -169,7 +170,7 @@ const SingleShortLink = () => {
           )}
 
           {mode === 'edit' && (
-            <GenericElement label="Total Clicks">
+            <GenericElement label={t('admin.short_links.total_clicks_label')}>
               <span className="badge badge-neutral badge-lg">{clicks}</span>
             </GenericElement>
           )}

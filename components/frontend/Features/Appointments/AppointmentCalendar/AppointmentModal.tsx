@@ -6,13 +6,18 @@ import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
 import { FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import HeadlessModal from '@/components/admin/UI/Modal'
 
 const AppointmentModal = ({
   selectedSlot,
   preloadRange,
+  open,
+  onClose,
 }: {
   selectedSlot: Slot | null
   preloadRange: () => Promise<void>
+  open: boolean
+  onClose: () => void
 }) => {
   const { t } = useTranslation()
 
@@ -38,7 +43,7 @@ const AppointmentModal = ({
       if (res.data?.success) {
         toast.success(t('shared.calendar.appointment_created'))
         await preloadRange()
-        ;(document.getElementById('appt_modal') as HTMLDialogElement)?.close()
+        onClose()
       } else {
         toast.error(res.data?.message || t('shared.calendar.appointment_error'))
       }
@@ -49,11 +54,13 @@ const AppointmentModal = ({
   }
 
   return (
-    <dialog id="appt_modal" className="modal">
-      <div className="modal-box">
-        <h3 className="font-bold text-lg mb-4">{t('shared.calendar.appointment_info')}</h3>
-        {selectedSlot && (
-          <p className="text-sm space-x-2 mb-4">
+    <HeadlessModal
+      open={open}
+      onClose={onClose}
+      title={t('shared.calendar.appointment_info')}
+    >
+      {selectedSlot && (
+        <p className="text-sm space-x-2 mb-4">
             <span className="font-semibold">
               <FontAwesomeIcon icon={faCalendar} className="me-2" />
               {format(new Date(selectedSlot.startTime), 'yyyy-MM-dd')}
@@ -99,16 +106,7 @@ const AppointmentModal = ({
             {t('shared.calendar.create_appointment')}
           </button>
         </form>
-
-        <div className="modal-action">
-          <form method="dialog" className="w-full">
-            <button className="btn btn-secondary btn-block">
-              {t('shared.calendar.close_modal')}
-            </button>
-          </form>
-        </div>
-      </div>
-    </dialog>
+    </HeadlessModal>
   )
 }
 export default AppointmentModal

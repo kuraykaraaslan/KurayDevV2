@@ -173,7 +173,7 @@ const ImageLoad = ({
           onClick={uploadImage}
           disabled={!outputBlob || uploading}
         >
-          {uploading ? 'Uploading...' : 'Upload Image'}
+          {uploading ? t('common.image_load.uploading') : t('common.image_load.upload')}
         </button>
 
         <button
@@ -182,7 +182,7 @@ const ImageLoad = ({
           onClick={removeImage}
           disabled={!image}
         >
-          Remove Image
+          {t('common.image_load.remove')}
         </button>
       </div>
 
@@ -214,10 +214,10 @@ const ImageLoad = ({
 
             <div className="flex justify-end gap-2 mt-4">
               <button className="btn btn-ghost" onClick={() => setRawImage(null)}>
-                Cancel
+                {t('common.image_load.cancel')}
               </button>
               <button className="btn btn-primary" onClick={applyCrop}>
-                Apply Crop
+                {t('common.image_load.apply_crop')}
               </button>
             </div>
           </div>

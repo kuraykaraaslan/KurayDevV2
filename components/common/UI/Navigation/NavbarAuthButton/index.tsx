@@ -143,7 +143,7 @@ const NavbarAuthButton = () => {
           onKeyDown={handleMenuKeyDown}
           className="absolute end-0 mt-2 w-40 bg-base-100 shadow-lg rounded-lg border border-base-300 z-50 p-2 flex flex-col gap-1"
         >
-          {isInAdmin && (
+          {isInAdmin ? (
             <Link
               href="/"
               ignoreLang
@@ -152,6 +152,16 @@ const NavbarAuthButton = () => {
               onClick={() => setOpen(false)}
             >
               {t('common.navbar.back_to_site')}
+            </Link>
+          ) : (
+            <Link
+              href="/admin"
+              ignoreLang
+              role="menuitem"
+              className="px-3 py-2 rounded-md hover:bg-base-200 text-sm"
+              onClick={() => setOpen(false)}
+            >
+              {t('common.navbar.go_to_admin')}
             </Link>
           )}
           <Link

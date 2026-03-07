@@ -1,9 +1,13 @@
+'use client'
+
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { faCode } from '@fortawesome/free-solid-svg-icons'
 import { ReactNode } from 'react'
 
 export default function LinksLayout({ children }: { children: ReactNode }) {
+  const { t } = useTranslation()
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-base-200">
@@ -30,7 +34,7 @@ export default function LinksLayout({ children }: { children: ReactNode }) {
                 <span className="text-xl">kuray.dev</span>
               </Link>
             </div>
-            <h1 className="text-3xl font-bold text-center mb-4">Links</h1>
+            <h1 className="text-3xl font-bold text-center mb-4">{t('my_links.title')}</h1>
             <div className="w-full">{children}</div>
           </div>
         </div>

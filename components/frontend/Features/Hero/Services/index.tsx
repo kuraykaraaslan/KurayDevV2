@@ -1,5 +1,6 @@
 'use client'
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { faApple, faAndroid, faReact, faPhp, faJava } from '@fortawesome/free-brands-svg-icons'
 import { faDesktop, faGlobe, faWind } from '@fortawesome/free-solid-svg-icons'
 
@@ -7,14 +8,14 @@ import SingleService from './Partials/SingleService'
 import { Service } from '@/types/content/ProjectTypes'
 
 const Services = () => {
+  const { t } = useTranslation()
   const container = useRef(null)
   const projects: Service[] = [
     {
       id: '1',
       image: '/assets/img/services/phone.jpg',
-      title: 'Mobile App Development',
-      description:
-        'I develop mobile applications for both Android and iOS platforms. i use the latest technologies and tools to deliver high-quality applications.',
+      title: t('pages.hero.services.mobile_title'),
+      description: t('pages.hero.services.mobile_description'),
       urls: [],
       tags: [
         { name: 'Android', color: 'bg-green-200', icon: faAndroid },
@@ -25,9 +26,8 @@ const Services = () => {
     {
       id: '2',
       image: '/assets/img/services/web.jpg',
-      title: 'Web Development',
-      description:
-        'I can help you build a website or web app using React, Next.js that looks great on all devices.',
+      title: t('pages.hero.services.web_title'),
+      description: t('pages.hero.services.web_description'),
       urls: [],
       tags: [
         { name: 'React', color: 'bg-blue-200', icon: faReact },
@@ -38,9 +38,8 @@ const Services = () => {
     {
       id: '3',
       image: '/assets/img/services/admin.jpg',
-      title: 'Backend Development',
-      description:
-        'Have a project that requires a backend? I can help you build a scalable and secure backend using Node.js, Express, and Postgresql.',
+      title: t('pages.hero.services.backend_title'),
+      description: t('pages.hero.services.backend_description'),
       urls: [],
       tags: [
         { name: 'Node.js', color: 'bg-green-200', icon: faWind },
@@ -51,10 +50,9 @@ const Services = () => {
     {
       id: '4',
       image: '/assets/img/services/other2.jpg',
-      title: 'Something Else',
+      title: t('pages.hero.services.other_title'),
       bgColor: 'bg-base-200',
-      description:
-        'I  can help you with your custom software development needs. Contact us to discuss your project. like setting up a CI/CD pipeline, writing tests, or deploying your app.',
+      description: t('pages.hero.services.other_description'),
       urls: [],
       tags: [],
     },
@@ -68,9 +66,9 @@ const Services = () => {
           ref={container}
         >
           <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8 -mt-8 lg-mt-0">
-            <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">My Services</h2>
+            <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">{t('pages.hero.services.title')}</h2>
             <p className="font-light sm:text-xl">
-              i offer a wide range of services to help you build your dream project.
+              {t('pages.hero.services.description')}
             </p>
           </div>
           <div className="grid gap-8 lg:grid-cols-2">

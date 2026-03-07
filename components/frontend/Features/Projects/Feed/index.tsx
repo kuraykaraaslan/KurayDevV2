@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Project } from '@/types/content/ProjectTypes'
 import axiosInstance from '@/libs/axios'
 import SingleProject from '@/components/frontend/Features/Hero/Projects/Partials/SingleProject'
@@ -20,6 +21,7 @@ const PLATFORM_FILTERS = [
 ]
 
 export default function ProjectsFeed() {
+  const { t } = useTranslation()
   const [allProjects, setAllProjects] = useState<Project[]>([])
   const [filter, setFilter] = useState('')
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
@@ -48,9 +50,9 @@ export default function ProjectsFeed() {
       <div className="px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6">
         {/* Header */}
         <div className="mx-auto max-w-screen-sm text-center lg:mb-8 -mt-8 lg:mt-0">
-          <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">My Projects</h1>
+          <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">{t('pages.projects.feed_title')}</h1>
           <p className="font-light sm:text-xl">
-            Explore my portfolio of web, mobile, desktop, and other software projects.
+            {t('pages.projects.feed_description')}
           </p>
         </div>
 
@@ -60,7 +62,7 @@ export default function ProjectsFeed() {
             className={`btn btn-primary btn-sm ${filter === '' ? 'btn-active' : ''}`}
             onClick={() => handleFilter('')}
           >
-            All
+            {t('pages.projects.filter_all')}
           </button>
           {PLATFORM_FILTERS.map((tag) => (
             <button
@@ -80,7 +82,7 @@ export default function ProjectsFeed() {
           </div>
         ) : visible.length === 0 ? (
           <div className="flex justify-center items-center h-48 text-base-content/50">
-            No projects found.
+            {t('pages.projects.no_projects')}
           </div>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mt-4">
@@ -97,14 +99,14 @@ export default function ProjectsFeed() {
               className="btn btn-primary"
               onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
             >
-              Load More
+              {t('pages.projects.load_more')}
             </button>
           </div>
         )}
 
         {!loading && !hasMore && visible.length > 0 && (
           <div className="flex justify-center mt-10 mb-6 text-base-content/40 text-sm">
-            All {filter ? `${filter} ` : ''}projects loaded
+            {t('pages.projects.all_loaded', { filter: filter ? `${filter} ` : '' })}
           </div>
         )}
       </div>

@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNodes } from '@fortawesome/free-solid-svg-icons'
 import Link from '@/libs/i18n/Link'
@@ -9,6 +10,7 @@ import WorldMap from 'react-svg-worldmap'
 const HireMeVideo = dynamic(() => import('./Partials/HireMeVideo'), { ssr: false })
 
 const HireMe = () => {
+  const { t } = useTranslation()
   const [_dotColor, setDotColor] = useState('#ffffff')
 
   useEffect(() => {
@@ -66,14 +68,14 @@ const HireMe = () => {
           <div className="hero-content">
             <div className="flex-1 max-w-2xl">
               <div className="max-w-lg me-4">
-                <h2 className="text-5xl font-bold">Seamless Freelance Experience</h2>
+                <h2 className="text-5xl font-bold">{t('pages.hero.hire_me.heading')}</h2>
                 <p className="py-6">
-                  Have a project in mind? Let&apos;s work together to make it a reality.
+                  {t('pages.hero.hire_me.description')}
                 </p>
                 <HireMeVideo />
                 <Link className="btn btn-primary" href="/freelance#services">
                   <FontAwesomeIcon icon={faCircleNodes} className="me-2 text-xl w-6 h-6" />
-                  My Services
+                  {t('pages.hero.hire_me.cta')}
                 </Link>
               </div>
             </div>

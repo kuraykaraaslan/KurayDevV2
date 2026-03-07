@@ -11,6 +11,7 @@ import AppointmentModal from './AppointmentModal'
 import dynamic from 'next/dynamic'
 import LoadingElement from '@/components/frontend/UI/Content/LoadingElement'
 import { useTranslation } from 'react-i18next'
+import { useModal } from '@/components/admin/UI/Modal'
 
 const Calendar = dynamic(() => import('react-calendar'), {
   ssr: false,
@@ -22,6 +23,7 @@ export default function AppointmentCalendar() {
   const [availableSlots, setAvailableSlots] = useState<Slot[]>([])
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null)
+  const { open: modalOpen, openModal, closeModal } = useModal()
   const today = new Date()
 
   /** Format date as yyyy-MM-dd */
@@ -171,9 +173,7 @@ export default function AppointmentCalendar() {
                 </p>
                 <button
                   className="btn btn-primary btn-block mt-4"
-                  onClick={() =>
-                    (document.getElementById('appt_modal') as HTMLDialogElement)?.showModal()
-                  }
+                  onClick={() => openModal()}
                 >
                   {t('shared.calendar.book_now')}
                 </button>
@@ -183,7 +183,7 @@ export default function AppointmentCalendar() {
         </div>
       </div>
 
-      <AppointmentModal selectedSlot={selectedSlot} preloadRange={preloadRange} />
+      <AppointmentModal selectedSlot={selectedSlot} preloadRange={preloadRange} open={modalOpen} onClose={closeModal} />
     </section>
   )
 }

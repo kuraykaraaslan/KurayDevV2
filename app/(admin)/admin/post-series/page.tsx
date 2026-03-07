@@ -9,6 +9,7 @@ import {
     ActionButton,
 } from '@/components/admin/UI/Forms/DynamicTable'
 import axiosInstance from '@/libs/axios'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 interface SeriesRow {
@@ -22,13 +23,14 @@ interface SeriesRow {
 }
 
 const SeriesPage = () => {
+    const { t } = useTranslation()
     const columns: ColumnDef<SeriesRow>[] = [
-        { key: 'title',       header: 'Title',       accessor: (s) => s.title,       sortable: true },
-        { key: 'slug',        header: 'Slug',        accessor: (s) => s.slug,        hideOnMobile: true },
-        { key: 'description', header: 'Description', accessor: (s) => s.description ?? '—', hideOnMobile: true },
+        { key: 'title',       header: t('admin.post_series.col_title'),       accessor: (s) => s.title,       sortable: true },
+        { key: 'slug',        header: t('admin.post_series.col_slug'),        accessor: (s) => s.slug,        hideOnMobile: true },
+        { key: 'description', header: t('admin.post_series.col_description'), accessor: (s) => s.description ?? '—', hideOnMobile: true },
         {
             key: 'posts',
-            header: 'Posts',
+            header: t('admin.post_series.col_posts'),
             accessor: (s) => {
                 const count = s._count?.entries ?? s.entries?.length ?? 0
                 return <span className="badge badge-neutral">{count}</span>
@@ -37,16 +39,16 @@ const SeriesPage = () => {
     ]
 
     const actions: ActionButton<SeriesRow>[] = [
-        { label: 'Edit',   href: (s) => `/admin/post-series/${s.id}`, className: 'btn-primary' },
+        { label: t('common.edit'),   href: (s) => `/admin/post-series/${s.id}`, className: 'btn-primary' },
         {
-            label: 'Delete',
+            label: t('common.delete'),
             onClick: async (s) => {
-                if (!confirm(`Delete series "${s.title}"? This will unlink all posts from it.`)) return
+                if (!confirm(`${t('admin.post_series.delete_confirm')} "${s.title}"?`)) return
                 try {
                     await axiosInstance.delete(`/api/post-series/${s.id}`)
-                    toast.success('Series deleted')
+                    toast.success(t('admin.post_series.deleted_success'))
                 } catch (e: any) {
-                    toast.error(e?.response?.data?.message ?? 'Delete failed')
+                    toast.error(e?.response?.data?.message ?? t('admin.post_series.delete_failed'))
                 }
             },
             className: 'btn-error',
@@ -63,16 +65,16 @@ const SeriesPage = () => {
         >
             <Table>
                 <TableHeader
-                    title="Post Series"
-                    searchPlaceholder="Search series..."
-                    buttons={[{ label: 'New Series', href: '/admin/post-series/create' }]}
+                    title={t('admin.post_series.title')}
+                    searchPlaceholder={t('admin.post_series.search_placeholder')}
+                    buttons={[{ label: t('admin.post_series.new_series'), href: '/admin/post-series/create' }]}
                     showRefresh
                 />
                 <TableBody />
                 <TableFooter
-                    showingText="Showing"
-                    previousText="Previous"
-                    nextText="Next"
+                    showingText={t('common.showing')}
+                    previousText={t('common.previous')}
+                    nextText={t('common.next')}
                 />
             </Table>
         </TableProvider>

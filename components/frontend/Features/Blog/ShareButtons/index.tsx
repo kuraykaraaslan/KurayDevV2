@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons'
@@ -13,6 +14,7 @@ interface ShareButtonsProps {
 }
 
 const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) => {
+  const { t } = useTranslation()
   const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
   const [copied, setCopied] = useState(false)
   const [shortUrl, setShortUrl] = useState<string | null>(null)
@@ -101,7 +103,7 @@ const ShareButtons = ({ title = '', description = '', url }: ShareButtonsProps) 
       <button
         onClick={handleCopyShortLink}
         disabled={loading}
-        title="Copy short link"
+        title={t('admin.share.copy_short_link')}
         className="btn btn-circle btn-outline btn-sm hover:btn-neutral"
       >
         <FontAwesomeIcon icon={copied ? faCheck : faLink} size="lg" className={copied ? 'text-success' : ''} />

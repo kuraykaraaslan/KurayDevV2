@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
 import PageHeader from '@/components/admin/UI/PageHeader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,6 +22,7 @@ import type { ChatMessage } from '@/types/features/ChatbotTypes'
 import type { StoredChatSession } from '@/dtos/ChatbotDTO'
 
 const ChatDetailPage = () => {
+  const { t } = useTranslation()
   const params = useParams<{ sessionId: string }>()
   const sessionId = params?.sessionId
 
@@ -42,7 +44,7 @@ const ChatDetailPage = () => {
       setUserBanned(!!res.data.userBanned)
     } catch (err) {
       console.error('Failed to fetch session', err)
-      toast.error('Failed to load chat session')
+      toast.error(t('admin.chatbot_sessions.load_error'))
     } finally {
       setLoading(false)
     }
@@ -96,19 +98,19 @@ const ChatDetailPage = () => {
 
       toast.success(
         action === 'takeover'
-          ? 'Session taken over'
+          ? t('admin.chatbot_sessions.action_takeover_success')
           : action === 'release'
-            ? 'Session released to AI'
+            ? t('admin.chatbot_sessions.action_release_success')
             : action === 'ban'
-              ? 'User banned for 1 hour'
+              ? t('admin.chatbot_sessions.action_ban_success')
               : action === 'unban'
-                ? 'User unbanned'
-                : 'Session closed'
+                ? t('admin.chatbot_sessions.action_unban_success')
+                : t('admin.chatbot_sessions.action_close_success')
       )
       // Session update will arrive via WebSocket, but also fetch for safety
       await fetchData()
     } catch {
-      toast.error('Action failed')
+      toast.error(t('admin.chatbot_sessions.action_failed'))
     } finally {
       setActionLoading(false)
     }
@@ -125,7 +127,7 @@ const ChatDetailPage = () => {
       setReplyText('')
       await fetchData()
     } catch {
-      toast.error('Failed to send reply')
+      toast.error(t('admin.chatbot_sessions.send_failed'))
     } finally {
       setSending(false)
     }
@@ -165,7 +167,7 @@ const ChatDetailPage = () => {
     return (
       <div className="container mx-auto p-4">
         <PageHeader title="Session Not Found" backHref="/admin/chatbot" />
-        <p className="text-base-content/50 mt-4">This chat session does not exist or has expired.</p>
+        <p className="text-base-content/50 mt-4">{t('admin.chatbot_sessions.session_expired')}</p>
       </div>
     )
   }
@@ -188,14 +190,14 @@ const ChatDetailPage = () => {
             ? [
                 isTakenOver
                   ? {
-                      label: 'Release to AI',
+                      label: t('admin.chatbot_sessions.action_release'),
                       onClick: () => handleAction('release'),
                       className: 'btn-info',
                       icon: faPlay,
                       loading: actionLoading,
                     }
                   : {
-                      label: 'Take Over',
+                      label: t('admin.chatbot_sessions.action_takeover'),
                       onClick: () => handleAction('takeover'),
                       className: 'btn-warning',
                       icon: faUserShield,
@@ -207,7 +209,7 @@ const ChatDetailPage = () => {
           ...(!isClosed
             ? [
                 {
-                  label: 'Close Session',
+                  label: t('admin.chatbot_sessions.action_close'),
                   onClick: () => handleAction('close'),
                   className: 'btn-error',
                   icon: faLock,
@@ -219,7 +221,7 @@ const ChatDetailPage = () => {
           ...(userBanned
             ? [
                 {
-                  label: 'Unban User',
+                  label: t('admin.chatbot_sessions.action_unban'),
                   onClick: () => handleAction('unban'),
                   className: 'btn-success',
                   icon: faBan,
@@ -228,7 +230,7 @@ const ChatDetailPage = () => {
               ]
             : [
                 {
-                  label: 'Ban User (1h)',
+                  label: t('admin.chatbot_sessions.action_ban'),
                   onClick: () => handleAction('ban'),
                   className: 'btn-error btn-outline',
                   icon: faBan,
@@ -237,7 +239,7 @@ const ChatDetailPage = () => {
               ]),
           // Export (Phase 13)
           {
-            label: 'Export',
+            label: t('common.export'),
             onClick: () => handleExport('json'),
             className: 'btn-ghost btn-sm',
             icon: faDownload,
@@ -257,10 +259,10 @@ const ChatDetailPage = () => {
           }`}
         >
           {session.status === 'ACTIVE'
-            ? 'AI Responding'
+            ? t('admin.chatbot_sessions.status_ai_responding')
             : session.status === 'TAKEN_OVER'
-              ? 'Admin Responding'
-              : 'Closed'}
+              ? t('admin.chatbot_sessions.status_admin_responding')
+              : t('admin.chatbot_sessions.status_closed')}
         </span>
         {session.takenOverBy && (
           <span className="text-xs text-base-content/50">
@@ -283,7 +285,7 @@ const ChatDetailPage = () => {
         emptyContent={
           <div className="text-center text-base-content/40 py-12">
             <FontAwesomeIcon icon={faRobot} className="w-10 h-10 mb-2 opacity-30" />
-            <p>No messages yet</p>
+            <p>{t('admin.chatbot_sessions.no_messages')}</p>
           </div>
         }
       />
@@ -298,10 +300,10 @@ const ChatDetailPage = () => {
           sending={sending}
           placeholder={
             canReply
-              ? 'Type your reply as admin...'
-              : 'Take over the session first to reply'
+              ? t('admin.chatbot_sessions.reply_placeholder')
+              : t('admin.chatbot_sessions.takeover_first')
           }
-          sendLabel="Send"
+          sendLabel={t('common.send')}
           variant="full"
           className="mt-3"
         />
@@ -310,7 +312,7 @@ const ChatDetailPage = () => {
       {isClosed && (
         <div className="mt-3 text-center text-base-content/50 bg-base-200 rounded-lg py-3">
           <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-2" />
-          This session is closed
+          {t('admin.chatbot_sessions.session_closed_msg')}
         </div>
       )}
     </div>

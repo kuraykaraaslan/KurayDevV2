@@ -3,37 +3,23 @@ import { createRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 
 const HireMeVideo = () => {
   const [playing, setPlaying] = useState(false)
   const player = createRef<any>()
+  const { open, openModal, closeModal } = useModal()
 
   const handleOpenModal = () => {
-    const modal = document.getElementById('my_modal')
-
-    if (!modal) {
-      return
-    }
-
-    ;(document.getElementById('my_modal') as HTMLDialogElement)?.showModal()
-    // wait for the modal to open
+    openModal()
     setTimeout(() => {
-      //player.current?.seekTo(0);
       setPlaying(true)
     }, 1000)
   }
 
   const handleCloseModal = () => {
-    const modal = document.getElementById('my_modal')
-
-    if (!modal) {
-      return
-    }
-
-    //player.current?.seekTo(0);
     setPlaying(false)
-    ;(document.getElementById('my_modal') as HTMLDialogElement)?.close()
-    setPlaying(false)
+    closeModal()
   }
 
   return (
@@ -42,8 +28,14 @@ const HireMeVideo = () => {
         <FontAwesomeIcon icon={faPlayCircle} className="me-2 text-xl w-6 h-6" />
         Watch Video
       </button>
-      <dialog id="my_modal" className="modal modal-middle" onClick={handleCloseModal}>
-        <div className="modal-box p-0">
+      <HeadlessModal
+        open={open}
+        onClose={handleCloseModal}
+        showClose={false}
+        size="lg"
+        className="!bg-black overflow-hidden"
+      >
+        <div className="-m-4">
           <ReactPlayer
             src="https://www.youtube.com/watch?v=eJO5HU_7_1w?modestbranding=1&rel=0&showinfo=0&autoplay=1"
             controls={true}
@@ -52,7 +44,7 @@ const HireMeVideo = () => {
             ref={player}
           />
         </div>
-      </dialog>
+      </HeadlessModal>
     </>
   )
 }

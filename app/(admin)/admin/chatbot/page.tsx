@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import Table, {
   TableProvider,
   TableHeader,
@@ -35,12 +36,13 @@ const formatDate = (iso: string) => {
 }
 
 const ChatSessionsPage = () => {
+  const { t } = useTranslation()
   const [statusFilter, setStatusFilter] = useState<string>('')
 
   const columns: ColumnDef<StoredChatSession>[] = [
     {
       key: 'user',
-      header: 'User',
+      header: t('admin.chatbot_sessions.col_user'),
       accessor: (s) => (
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faUser} className="w-3 h-3 text-base-content/50" />
@@ -53,7 +55,7 @@ const ChatSessionsPage = () => {
     },
     {
       key: 'title',
-      header: 'Topic',
+      header: t('admin.chatbot_sessions.col_topic'),
       accessor: (s) => (
         <span className="text-sm line-clamp-1 max-w-[200px]" title={s.title}>
           {s.title || 'No title'}
@@ -62,7 +64,7 @@ const ChatSessionsPage = () => {
     },
     {
       key: 'status',
-      header: 'Status',
+      header: t('admin.chatbot_sessions.col_status'),
       accessor: (s) => {
         const cfg = statusConfig[s.status]
         return (
@@ -75,13 +77,13 @@ const ChatSessionsPage = () => {
     },
     {
       key: 'createdAt',
-      header: 'Started',
+      header: t('admin.chatbot_sessions.col_started'),
       accessor: (s) => <span className="text-xs text-base-content/60">{formatDate(s.createdAt)}</span>,
       hideOnMobile: true,
     },
     {
       key: 'updatedAt',
-      header: 'Last Activity',
+      header: t('admin.chatbot_sessions.col_last_activity'),
       accessor: (s) => <span className="text-xs text-base-content/60">{formatDate(s.updatedAt)}</span>,
       hideOnMobile: true,
     },
@@ -89,7 +91,7 @@ const ChatSessionsPage = () => {
 
   const actions: ActionButton<StoredChatSession>[] = [
     {
-      label: 'View',
+      label: t('common.view'),
       href: (s) => `/admin/chatbot/${s.chatSessionId}`,
       className: 'btn-primary',
     },
@@ -109,7 +111,7 @@ const ChatSessionsPage = () => {
           onClick={() => setStatusFilter(s)}
           className={`btn btn-sm ${statusFilter === s ? 'btn-primary' : 'btn-ghost'}`}
         >
-          {s === '' ? 'All' : statusConfig[s as keyof typeof statusConfig]?.label ?? s}
+          {s === '' ? t('admin.chatbot_sessions.filter_all') : statusConfig[s as keyof typeof statusConfig]?.label ?? s}
         </button>
       ))}
     </div>
@@ -127,12 +129,12 @@ const ChatSessionsPage = () => {
     >
       <Table>
         <TableHeader
-          title="Chat Sessions"
+          title={t('admin.chatbot_sessions.title')}
           showRefresh
           toolbarContent={statusFilterButtons}
           toolbarPosition="below"
         />
-        <TableBody emptyText="No chat sessions found" />
+        <TableBody emptyText={t('admin.chatbot_sessions.empty')} />
         <TableFooter />
       </Table>
     </TableProvider>

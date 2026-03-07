@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons'
 import axiosInstance from '@/libs/axios'
@@ -21,6 +22,7 @@ function urlBase64ToUint8Array(base64String: string) {
  * Can be placed in admin navbar or user settings.
  */
 export default function PushNotificationToggle() {
+  const { t } = useTranslation()
   const [isSupported, setIsSupported] = useState(false)
   const [subscription, setSubscription] = useState<PushSubscription | null>(
     null
@@ -82,15 +84,15 @@ export default function PushNotificationToggle() {
   if (!isSupported) return null
 
   return (
-    <div className="tooltip tooltip-bottom" data-tip={subscription ? 'Disable push notifications' : 'Enable push notifications'}>
+    <div className="tooltip tooltip-bottom" data-tip={subscription ? t('admin.notifications.disable_push') : t('admin.notifications.enable_push')}>
       <button
         onClick={subscription ? unsubscribe : subscribe}
         disabled={loading}
         className="btn btn-ghost btn-circle btn-sm"
         aria-label={
           subscription
-            ? 'Disable push notifications'
-            : 'Enable push notifications'
+            ? t('admin.notifications.disable_push')
+            : t('admin.notifications.enable_push')
         }
       >
         <FontAwesomeIcon

@@ -4,8 +4,10 @@ import SettingsTabs from '@/components/frontend/Features/Settings/SettingsTabs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import useGlobalStore from '@/libs/zustand'
+import { useTranslation } from 'react-i18next'
 
 export default function SettingsPage() {
+  const { t } = useTranslation()
   const { user } = useGlobalStore()
 
   if (!user) {
@@ -17,9 +19,9 @@ export default function SettingsPage() {
       <div className="max-w-screen-xl mx-auto">
         {/* Page Header */}
         <div className="space-y-2 mb-6">
-          <h1 className="text-4xl font-bold text-base-content">Ayarlar</h1>
+          <h1 className="text-4xl font-bold text-base-content">{t('settings.title')}</h1>
           <p className="text-base-content/70">
-            Hesap ayarlarınızı yönetin ve tercihlerinizi özelleştirin
+            {t('settings.description')}
           </p>
         </div>
 
@@ -30,7 +32,7 @@ export default function SettingsPage() {
               {user.userProfile.profilePicture ? (
                 <img
                   src={user?.userProfile.profilePicture}
-                  alt={user?.userProfile.name || 'Profil'}
+                  alt={user?.userProfile.name || t('settings.profile_alt')}
                   className="w-16 h-16 rounded-full object-cover border-2 border-base-200"
                 />
               ) : (
@@ -40,11 +42,11 @@ export default function SettingsPage() {
               )}
               <div>
                 <h2 className="card-title text-xl text-base-content">
-                  {user.userProfile.name || 'Kullanıcı'}
+                  {user.userProfile.name || t('settings.user_fallback')}
                 </h2>
                 <p className="text-sm text-base-content/70">{user?.email}</p>
                 <p className="text-xs text-base-content/60 mt-1">
-                  Üyelik Tarihi:{' '}
+                  {t('settings.member_since')}{' '}
                   {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('tr-TR') : '-'}
                 </p>
               </div>

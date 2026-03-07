@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { createRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import LoadingElement from '@/components/frontend/UI/Content/LoadingElement'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 
 const ReactPlayer = dynamic(() => import('react-player'), {
   ssr: false,
@@ -13,23 +14,18 @@ const ReactPlayer = dynamic(() => import('react-player'), {
 const MyImageVideoDialog = () => {
   const [playing, setPlaying] = useState(false)
   const player = createRef<any>()
+  const { open, openModal, closeModal } = useModal()
 
   const handleOpenModal = () => {
-    const modal = document.getElementById('my_video') as HTMLDialogElement | null
-    if (!modal) return
-    modal.showModal()
+    openModal()
     setTimeout(() => {
-      //player.current?.seekTo(0);
       setPlaying(true)
     }, 600)
   }
 
   const handleCloseModal = () => {
-    const modal = document.getElementById('my_video') as HTMLDialogElement | null
-    if (!modal) return
-    //player.current?.seekTo(0);
     setPlaying(false)
-    modal.close()
+    closeModal()
   }
 
   return (
@@ -38,11 +34,14 @@ const MyImageVideoDialog = () => {
         <FontAwesomeIcon icon={faPlayCircle} className="text-white w-48 h-48 m-auto" size="3x" />
       </div>
 
-      <dialog id="my_video" className="modal" onClick={handleCloseModal}>
-        <div
-          className="modal-box max-w-5xl w-full p-0 bg-black"
-          onClick={(e) => e.stopPropagation()}
-        >
+      <HeadlessModal
+        open={open}
+        onClose={handleCloseModal}
+        showClose={false}
+        size="xl"
+        className="!bg-black overflow-hidden"
+      >
+        <div className="-m-4">
           <ReactPlayer
             src="https://www.youtube.com/watch?v=oJN50oOlW-c?modestbranding=1&rel=0&showinfo=0"
             controls
@@ -52,7 +51,7 @@ const MyImageVideoDialog = () => {
             ref={player}
           />
         </div>
-      </dialog>
+      </HeadlessModal>
     </>
   )
 }

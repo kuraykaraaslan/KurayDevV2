@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import Table, {
   TableProvider,
   TableHeader,
@@ -7,6 +8,7 @@ import Table, {
   ColumnDef,
   ActionButton,
 } from '@/components/admin/UI/Forms/DynamicTable'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { ContactForm } from '@/types/features/ContactTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
@@ -14,6 +16,8 @@ import { formatDateTime as formatDate } from '@/helpers/TimeHelper'
 
 const ContactsPage = () => {
   const { t } = useTranslation()
+  const { open, openModal, closeModal } = useModal()
+  const [selectedContact, setSelectedContact] = useState<ContactForm | null>(null)
 
   const columns: ColumnDef<ContactForm>[] = [
     {
@@ -55,40 +59,9 @@ const ContactsPage = () => {
   const actions: ActionButton<ContactForm>[] = [
     {
       label: 'admin.contacts.view',
-      onClick: async (c) => {
-        const modal = document.getElementById('contact-modal') as HTMLDialogElement
-        if (modal) {
-          const content = document.getElementById('contact-modal-content')
-          if (content) {
-            content.innerHTML = `
-              <div class="space-y-4">
-                <div>
-                  <label class="text-xs font-medium text-base-content/60">${t('admin.contacts.name')}</label>
-                  <p class="text-sm">${c.name}</p>
-                </div>
-                <div>
-                  <label class="text-xs font-medium text-base-content/60">${t('admin.contacts.email')}</label>
-                  <p class="text-sm">${c.email}</p>
-                </div>
-                ${c.phone ? `
-                <div>
-                  <label class="text-xs font-medium text-base-content/60">${t('admin.contacts.phone')}</label>
-                  <p class="text-sm">${c.phone}</p>
-                </div>
-                ` : ''}
-                <div>
-                  <label class="text-xs font-medium text-base-content/60">${t('admin.contacts.message')}</label>
-                  <p class="text-sm whitespace-pre-wrap">${c.message}</p>
-                </div>
-                <div>
-                  <label class="text-xs font-medium text-base-content/60">${t('admin.contacts.date')}</label>
-                  <p class="text-sm">${c.createdAt ? formatDate(c.createdAt) : '-'}</p>
-                </div>
-              </div>
-            `
-          }
-          modal.showModal()
-        }
+      onClick: (c) => {
+        setSelectedContact(c)
+        openModal()
       },
       className: 'btn-primary',
     },
@@ -136,20 +109,38 @@ const ContactsPage = () => {
       </TableProvider>
 
       {/* Modal for viewing contact details */}
-      <dialog id="contact-modal" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg mb-4">{t('admin.contacts.contact_details')}</h3>
-          <div id="contact-modal-content"></div>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">{t('admin.contacts.close')}</button>
-            </form>
+      <HeadlessModal
+        open={open}
+        onClose={closeModal}
+        title={t('admin.contacts.contact_details')}
+      >
+        {selectedContact && (
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs font-medium text-base-content/60">{t('admin.contacts.name')}</label>
+              <p className="text-sm">{selectedContact.name}</p>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-base-content/60">{t('admin.contacts.email')}</label>
+              <p className="text-sm">{selectedContact.email}</p>
+            </div>
+            {selectedContact.phone && (
+              <div>
+                <label className="text-xs font-medium text-base-content/60">{t('admin.contacts.phone')}</label>
+                <p className="text-sm">{selectedContact.phone}</p>
+              </div>
+            )}
+            <div>
+              <label className="text-xs font-medium text-base-content/60">{t('admin.contacts.message')}</label>
+              <p className="text-sm whitespace-pre-wrap">{selectedContact.message}</p>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-base-content/60">{t('admin.contacts.date')}</label>
+              <p className="text-sm">{selectedContact.createdAt ? formatDate(selectedContact.createdAt) : '-'}</p>
+            </div>
           </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+        )}
+      </HeadlessModal>
     </>
   )
 }

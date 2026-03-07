@@ -38,17 +38,6 @@ const MenuItems = [
   },
   //{ id: "freelance", page: '/freelance', name: 'freelance', external: false, onlyAdmin: false, hideTextOnDesktop: false },
   {
-    id: 'backend',
-    page: '/admin',
-    name: 'backend',
-    external: false,
-    onlyAdmin: true,
-    hideTextOnDesktop: true,
-    icon: faShield,
-    textColour: 'text-primary',
-    ignoreLang: true,
-  },
-  {
     id: 'github',
     page: 'https://github.com/kuraykaraaslan',
     name: 'github',

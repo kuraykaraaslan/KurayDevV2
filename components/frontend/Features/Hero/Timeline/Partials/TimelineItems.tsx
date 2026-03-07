@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next'
 import { faBriefcase, faUniversity } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const TimelineItems = () => {
+  const { t } = useTranslation()
   return (
     <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical pt-2">
       <li>
@@ -9,18 +11,12 @@ const TimelineItems = () => {
           <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
         </div>
         <div className="timeline-start mb-10 md:text-end me-3 ps-3">
-          <time className="font-mono italic">2024 Feb - Present</time>
+          <time className="font-mono italic">{t('pages.timeline.items.roltek_period')}</time>
           <div className="text-lg font-black">
-            Software Developer <span className="text-sm italic font-normal">at</span> Roltek
-            Technology
+            {t('pages.timeline.items.roltek_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.roltek_company')}
           </div>
-          <span className="text-sm max-w-2xl">
-            • Communication between IoT Devices and Servers using the MQTT, Websocket, SNMP, and
-            REST. <br />
-            • Developing serverside application with Java Spring, deploying and maintenance. <br />•
-            Developing clientside application with Typescript React, deploying and maintenance.{' '}
-            <br />
-            • Network management and monitoring. <br />
+          <span className="text-sm max-w-2xl whitespace-pre-line">
+            {t('pages.timeline.items.roltek_desc')}
           </span>
         </div>
         <hr />
@@ -31,17 +27,12 @@ const TimelineItems = () => {
           <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
         </div>
         <div className="timeline-end mb-10 ml-3">
-          <time className="font-mono italic">2021 Dec - 2023 Sep</time>
+          <time className="font-mono italic">{t('pages.timeline.items.kuray_yapi_period')}</time>
           <div className="text-lg font-black">
-            Structural Engineer <span className="text-sm italic font-normal">at</span> Kuray Yapı
-            Construction
+            {t('pages.timeline.items.kuray_yapi_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.kuray_yapi_company')}
           </div>
-          <span className="text-sm">
-            • Developing turnkey construction projects. <br />
-            • Building Information Modeling (BIM) projects. <br />
-            • Architectural, Structural floor plans and details. <br />
-            • Interior architectural projects and applying them to the project. <br />
-            • Construction management and planning of the project. <br />
+          <span className="text-sm whitespace-pre-line">
+            {t('pages.timeline.items.kuray_yapi_desc')}
           </span>
         </div>
         <hr />
@@ -52,14 +43,12 @@ const TimelineItems = () => {
           <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
         </div>
         <div className="timeline-start mb-10 md:text-end pl-3">
-          <time className="font-mono italic">2020 Dec - 2021 Dec</time>
+          <time className="font-mono italic">{t('pages.timeline.items.cadbim_period')}</time>
           <div className="text-lg font-black">
-            BIM Specialist <span className="text-sm italic font-normal">at</span> CADBIM
+            {t('pages.timeline.items.cadbim_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.cadbim_company')}
           </div>
-          <span className="text-sm">
-            • Building Information Modeling (BIM) consultancy services. <br />
-            • Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel. <br />
-            • Application development with Autodesk API using C#, PHP Rest API. <br />
+          <span className="text-sm whitespace-pre-line">
+            {t('pages.timeline.items.cadbim_desc')}
           </span>
         </div>
         <hr />
@@ -70,10 +59,9 @@ const TimelineItems = () => {
           <FontAwesomeIcon icon={faUniversity} className="h-5 w-5" />
         </div>
         <div className="timeline-end mb-10 ml-3">
-          <time className="font-mono italic">2015 Sep - 2021 Feb</time>
+          <time className="font-mono italic">{t('pages.timeline.items.deu_period')}</time>
           <div className="text-lg font-black">
-            Civil Engineering <span className="text-sm italic font-normal">at</span> Dokuz Eylül
-            University
+            {t('pages.timeline.items.deu_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.deu_company')}
           </div>
         </div>
       </li>

@@ -1,11 +1,13 @@
 'use client'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
 import { useChatbotStore } from '@/libs/zustand/chatbotStore'
 
 const FlowingAIWhatsAppButton = () => {
+  const { t } = useTranslation()
   const { toggleChatbot, hasUnread } = useChatbotStore()
 
   useEffect(() => {
@@ -47,7 +49,7 @@ const FlowingAIWhatsAppButton = () => {
 
       {/* AI */}
       <button
-        aria-label="Open AI assistant"
+        aria-label={t('frontend.open_ai_assistant')}
         onClick={toggleChatbot}
         className="w-1/2 h-full flex items-center justify-center bg-accent hover:bg-accent/70 relative"
       >
@@ -60,7 +62,7 @@ const FlowingAIWhatsAppButton = () => {
 
       {/* WhatsApp */}
       <button
-        aria-label="Chat on WhatsApp"
+        aria-label={t('frontend.chat_on_whatsapp')}
         onClick={() => window.open('https://wa.me/905459223554')}
         className="w-1/2 h-full flex items-center justify-center bg-[#25D366] hover:bg-[#25D366]/70"
       >

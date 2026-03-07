@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import axiosInstance from '@/libs/axios'
+import { useTranslation } from 'react-i18next'
 import { GeoLocation } from '@/dtos/AnalyticsDTO'
 import { Stat, StatFrequency, ChatbotStat } from '@/types/common/StatTypes'
 import {
@@ -18,6 +19,7 @@ import TrafficOverviewChart from '@/components/admin/Features/Dashboard/TrafficO
 import ChatbotStatsWidget from '@/components/admin/Features/Dashboard/ChatbotStatsWidget'
 
 export default function AnalyticsPage() {
+  const { t } = useTranslation()
   const [stats, setStats] = useState<Stat | null>(null)
   const [chatbotStats, setChatbotStats] = useState<ChatbotStat | null>(null)
   const [geoData, setGeoData] = useState<GeoLocation[]>([])
@@ -65,7 +67,7 @@ export default function AnalyticsPage() {
 
   return (
     <div className="w-full">
-      <PageHeader title="Analytics" description="Traffic, geographic data and content statistics" />
+      <PageHeader title={t('admin.analytics.title')} description={t('admin.analytics.description')} />
 
       {/* Frequency selector */}
       <div className="flex flex-wrap gap-2 mb-6">
@@ -96,26 +98,26 @@ export default function AnalyticsPage() {
 
       {/* Traffic + summary */}
       <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <DashboardWidget title="Traffic Overview" loading={false} isEmpty={false} emptyMessage="">
+        <DashboardWidget title={t('admin.analytics.traffic_overview')} loading={false} isEmpty={false} emptyMessage="">
           <TrafficOverviewChart data={trafficData} loading={geoLoading} />
         </DashboardWidget>
 
         <div className="rounded-lg border border-base-300 bg-base-200 overflow-hidden">
           <div className="px-5 py-4 border-b border-base-300">
-            <h2 className="text-sm font-semibold text-base-content">Visit Summary</h2>
+            <h2 className="text-sm font-semibold text-base-content">{t('admin.analytics.visit_summary')}</h2>
           </div>
           <div className="p-6 grid grid-cols-2 gap-4">
             <div className="text-center p-4 rounded-lg bg-base-300/50">
               <div className="text-3xl font-bold text-base-content">
                 {geoLoading ? '—' : totalVisits.toLocaleString()}
               </div>
-              <div className="text-xs text-base-content/50 mt-1">Total Visits</div>
+              <div className="text-xs text-base-content/50 mt-1">{t('admin.analytics.total_visits')}</div>
             </div>
             <div className="text-center p-4 rounded-lg bg-base-300/50">
               <div className="text-3xl font-bold text-base-content">
                 {geoLoading ? '—' : uniqueCountries}
               </div>
-              <div className="text-xs text-base-content/50 mt-1">Unique Countries</div>
+              <div className="text-xs text-base-content/50 mt-1">{t('admin.analytics.unique_countries')}</div>
             </div>
           </div>
         </div>
@@ -128,10 +130,10 @@ export default function AnalyticsPage() {
 
       {/* Full geo list */}
       <DashboardWidget
-        title={`Geographic Data${!geoLoading ? ` — ${uniqueCountries} countries` : ''}`}
+        title={`${t('admin.analytics.geo_data')}${!geoLoading ? ` — ${uniqueCountries} ${t('admin.analytics.countries')}` : ''}`}
         loading={geoLoading}
         isEmpty={geoData.length === 0}
-        emptyMessage="No geographic data available."
+        emptyMessage={t('admin.dashboard.no_geo_data')}
       >
         <div className="grid md:grid-cols-2">
           {geoData.map((loc, idx) => (

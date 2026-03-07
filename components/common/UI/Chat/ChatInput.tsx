@@ -1,6 +1,7 @@
 'use client'
 
 import { KeyboardEvent, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
@@ -28,12 +29,14 @@ const ChatInput = ({
   onSend,
   disabled = false,
   sending = false,
-  placeholder = 'Type a message...',
+  placeholder,
   sendLabel,
   autoFocusTrigger,
   className = '',
   variant = 'compact',
 }: ChatInputProps) => {
+  const { t } = useTranslation()
+  const resolvedPlaceholder = placeholder ?? t('common.type_message')
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
@@ -58,7 +61,7 @@ const ChatInput = ({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder={placeholder}
+        placeholder={resolvedPlaceholder}
         disabled={disabled || sending}
         className={`textarea textarea-bordered flex-1 resize-none ${
           isCompact
@@ -71,7 +74,7 @@ const ChatInput = ({
         onClick={onSend}
         disabled={disabled || !value.trim() || sending}
         className={`btn btn-primary ${isCompact ? 'btn-sm btn-circle' : ''}`}
-        aria-label="Send"
+        aria-label={t('common.send')}
       >
         {sending ? (
           <FontAwesomeIcon icon={faSpinner} className="w-4 h-4 animate-spin" />

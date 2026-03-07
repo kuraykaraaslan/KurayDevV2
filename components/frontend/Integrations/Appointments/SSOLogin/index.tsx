@@ -3,6 +3,7 @@ import { useMemo, useCallback } from 'react'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -131,28 +132,25 @@ const SSOLoginContent = ({ mode }: { mode: SSOLoginMode }) => {
 
 const SSOLogin = ({ mode = 'list' }: SSOLoginProps) => {
   const { t } = useTranslation()
+  const { open, openModal, closeModal } = useModal()
 
   if (mode === 'modal') {
     return (
       <>
         <button
           className="btn btn-primary btn-block text-sm text-white font-semibold leading-6"
-          onClick={() => (document?.getElementById('sso_modal') as HTMLDialogElement)?.showModal()}
+          onClick={openModal}
         >
           <FontAwesomeIcon icon={faPeopleGroup} className="h-4 w-4" />
           <span className="ms-2">{t('auth.sso.modal_button')}</span>
         </button>
-        <dialog id="sso_modal" className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">{t('auth.sso.modal_title')}</h3>
-            <SSOLoginContent mode="list" />
-            <div className="modal-action">
-              <form method="dialog">
-                <button className="btn">{t('auth.sso.close')}</button>
-              </form>
-            </div>
-          </div>
-        </dialog>
+        <HeadlessModal
+          open={open}
+          onClose={closeModal}
+          title={t('auth.sso.modal_title')}
+        >
+          <SSOLoginContent mode="list" />
+        </HeadlessModal>
       </>
     )
   }

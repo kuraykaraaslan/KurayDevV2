@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 interface UserProfileInfoProps {
   displayName: string
   username?: string | null
@@ -12,8 +14,7 @@ export default function UserProfileInfo({
   bio,
   profilePicture,
   createdAt,
-}: UserProfileInfoProps) {
-  return (
+}: UserProfileInfoProps) {  const { t } = useTranslation()  return (
     <div className="relative -mt-20 mb-8">
       {/* Avatar */}
       <div className="mb-4">
@@ -37,7 +38,7 @@ export default function UserProfileInfo({
       {/* Name + badge */}
       <div className="flex flex-wrap items-center gap-3 mb-1">
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">{displayName}</h1>
-        <span className="badge badge-primary">Author</span>
+          <span className="badge badge-primary">{t('frontend.user_profile.author')}</span>
       </div>
 
       {/* Username handle */}
@@ -48,7 +49,7 @@ export default function UserProfileInfo({
       {/* Member since */}
       {createdAt && (
         <p className="text-xs text-base-content/40 mb-3 font-mono">
-          Member since {new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+          {t('frontend.user_profile.member_since')} {new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
         </p>
       )}
 

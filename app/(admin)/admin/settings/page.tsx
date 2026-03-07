@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import axiosInstance from '@/libs/axios'
+import { useTranslation } from 'react-i18next'
 import { Setting } from '@/types/common/SettingTypes'
 import Tabs, { Tab } from '@/components/admin/UI/Tabs'
 import Form from '@/components/admin/UI/Forms/Form'
@@ -23,6 +24,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 const Page = () => {
+  const { t } = useTranslation()
   const [defaultSettings, _setDefaultSettings] = useState<Pick<Setting, 'key' | 'value'>[]>([
     { key: 'ALLOW_REGISTRATION', value: 'true' },
     { key: 'MAINTENANCE_MODE', value: 'false' },
@@ -81,26 +83,26 @@ const Page = () => {
   const tabs: Tab[] = [
     {
       id: 'general',
-      label: 'Genel',
+      label: t('admin.admin_settings.tab_general'),
       icon: faGear,
       content: (
         <Form
-          actions={[{ label: 'Değişiklikleri Kaydet', onClick: updateSettings, className: 'btn-primary' }]}
+          actions={[{ label: t('admin.admin_settings.save_changes'), onClick: updateSettings, className: 'btn-primary' }]}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <SectionCard
               icon={faGlobe}
-              title="Site Bilgileri"
-              description="Sitenizin genel kimlik bilgilerini düzenleyin"
+              title={t('admin.admin_settings.site_info_title')}
+              description={t('admin.admin_settings.site_info_description')}
             >
               <DynamicText
-                label="Site Adı"
+                label={t('admin.admin_settings.site_name_label')}
                 value={getSetting('SITE_NAME')}
                 setValue={(v) => updateSetting('SITE_NAME', v)}
-                placeholder="Sitenizin adını girin"
+                placeholder={t('admin.admin_settings.site_name_placeholder')}
               />
               <DynamicText
-                label="Site Açıklaması"
+                label={t('admin.admin_settings.site_description_label')}
                 value={getSetting('SITE_DESCRIPTION')}
                 setValue={(v) => updateSetting('SITE_DESCRIPTION', v)}
                 isTextarea
@@ -109,18 +111,18 @@ const Page = () => {
 
             <SectionCard
               icon={faSlidersH}
-              title="Site Davranışı"
-              description="Sitenizin genel işleyiş tercihlerini ayarlayın"
+              title={t('admin.admin_settings.site_behavior_title')}
+              description={t('admin.admin_settings.site_behavior_description')}
             >
               <DynamicToggle
-                label="Kayıt İzni"
-                description="Yeni kullanıcıların sisteme kaydolmasına izin ver"
+                label={t('admin.admin_settings.allow_registration_label')}
+                description={t('admin.admin_settings.allow_registration_description')}
                 checked={getSetting('ALLOW_REGISTRATION') === 'true'}
                 onChange={(v) => updateSetting('ALLOW_REGISTRATION', v ? 'true' : 'false')}
               />
               <DynamicToggle
-                label="Bakım Modu"
-                description="Siteyi bakım moduna al, ziyaretçilere bakım sayfası gösterilir"
+                label={t('admin.admin_settings.maintenance_mode_label')}
+                description={t('admin.admin_settings.maintenance_mode_description')}
                 checked={getSetting('MAINTENANCE_MODE') === 'true'}
                 onChange={(v) => updateSetting('MAINTENANCE_MODE', v ? 'true' : 'false')}
               />
@@ -131,21 +133,21 @@ const Page = () => {
     },
     {
       id: 'security',
-      label: 'Güvenlik',
+      label: t('admin.admin_settings.tab_security'),
       icon: faShieldHalved,
       content: (
         <Form
-          actions={[{ label: 'Değişiklikleri Kaydet', onClick: updateSettings, className: 'btn-primary' }]}
+          actions={[{ label: t('admin.admin_settings.save_changes'), onClick: updateSettings, className: 'btn-primary' }]}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <SectionCard
               icon={faUserShield}
-              title="Hesap Güvenliği"
-              description="Kullanıcı hesaplarına ilişkin güvenlik kuralları"
+              title={t('admin.admin_settings.account_security_title')}
+              description={t('admin.admin_settings.account_security_description')}
             >
               <DynamicToggle
-                label="E-posta Doğrulama Zorunluluğu"
-                description="Kayıt sonrası e-posta adresi doğrulanmadan giriş yapılamasın"
+                label={t('admin.admin_settings.email_verification_label')}
+                description={t('admin.admin_settings.email_verification_description')}
                 checked={getSetting('REQUIRE_EMAIL_VERIFICATION') === 'true'}
                 onChange={(v) => updateSetting('REQUIRE_EMAIL_VERIFICATION', v ? 'true' : 'false')}
               />
@@ -153,17 +155,17 @@ const Page = () => {
 
             <SectionCard
               icon={faLockOpen}
-              title="Giriş Sınırlamaları"
-              description="Başarısız giriş denemelerine karşı koruma ayarları"
+              title={t('admin.admin_settings.login_limits_title')}
+              description={t('admin.admin_settings.login_limits_description')}
             >
               <DynamicText
-                label="Maksimum Giriş Denemesi"
+                label={t('admin.admin_settings.max_login_attempts_label')}
                 value={getSetting('MAX_LOGIN_ATTEMPTS')}
                 setValue={(v) => updateSetting('MAX_LOGIN_ATTEMPTS', v)}
                 placeholder="5"
               />
               <DynamicText
-                label="Oturum Zaman Aşımı (dakika)"
+                label={t('admin.admin_settings.session_timeout_label')}
                 value={getSetting('SESSION_TIMEOUT')}
                 setValue={(v) => updateSetting('SESSION_TIMEOUT', v)}
                 placeholder="60"
@@ -173,18 +175,18 @@ const Page = () => {
             <div className="lg:col-span-2">
               <SectionCard
                 icon={faServer}
-                title="Domain Kısıtlamaları"
-                description="Yalnızca belirtilen domain'lerden kayıt yapılmasına izin ver. Boş bırakılırsa kısıtlama uygulanmaz."
+                title={t('admin.admin_settings.domain_restrictions_title')}
+                description={t('admin.admin_settings.domain_restrictions_description')}
               >
                 <DynamicCommaSeperatedText
-                  label="İzin Verilen E-posta Domain'leri"
+                  label={t('admin.admin_settings.allowed_domains_label')}
                   values={
                     getSetting('ALLOWED_DOMAINS')
                       ? getSetting('ALLOWED_DOMAINS').split(',').filter(Boolean)
                       : []
                   }
                   setValues={(v) => updateSetting('ALLOWED_DOMAINS', v.join(','))}
-                  placeholder="örn: example.com, company.org"
+                  placeholder={t('admin.admin_settings.allowed_domains_placeholder')}
                 />
               </SectionCard>
             </div>
@@ -194,27 +196,27 @@ const Page = () => {
     },
     {
       id: 'notifications',
-      label: 'Bildirimler',
+      label: t('admin.admin_settings.tab_notifications'),
       icon: faBell,
       content: (
         <Form
-          actions={[{ label: 'Değişiklikleri Kaydet', onClick: updateSettings, className: 'btn-primary' }]}
+          actions={[{ label: t('admin.admin_settings.save_changes'), onClick: updateSettings, className: 'btn-primary' }]}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <SectionCard
               icon={faBellSlash}
-              title="Bildirim Tercihleri"
-              description="Hangi durumlarda bildirim gönderileceğini seçin"
+              title={t('admin.admin_settings.notification_prefs_title')}
+              description={t('admin.admin_settings.notification_prefs_description')}
             >
               <DynamicToggle
-                label="E-posta Bildirimleri"
-                description="Sistem genelinde e-posta bildirimlerini etkinleştir"
+                label={t('admin.admin_settings.email_notifications_label')}
+                description={t('admin.admin_settings.email_notifications_description')}
                 checked={getSetting('ENABLE_EMAIL_NOTIFICATIONS') === 'true'}
                 onChange={(v) => updateSetting('ENABLE_EMAIL_NOTIFICATIONS', v ? 'true' : 'false')}
               />
               <DynamicToggle
-                label="Yeni Kayıt Bildirimi"
-                description="Yeni kullanıcı kaydında admin'e bildirim gönderilsin"
+                label={t('admin.admin_settings.notify_on_registration_label')}
+                description={t('admin.admin_settings.notify_on_registration_description')}
                 checked={getSetting('NOTIFY_ON_REGISTRATION') === 'true'}
                 onChange={(v) => updateSetting('NOTIFY_ON_REGISTRATION', v ? 'true' : 'false')}
               />
@@ -222,20 +224,20 @@ const Page = () => {
 
             <SectionCard
               icon={faEnvelope}
-              title="E-posta Ayarları"
-              description="Gönderilen e-postalarda kullanılacak bilgiler"
+              title={t('admin.admin_settings.email_settings_title')}
+              description={t('admin.admin_settings.email_settings_description')}
             >
               <DynamicText
-                label="Admin E-posta Adresi"
+                label={t('admin.admin_settings.admin_email_label')}
                 value={getSetting('ADMIN_EMAIL')}
                 setValue={(v) => updateSetting('ADMIN_EMAIL', v)}
                 placeholder="admin@example.com"
               />
               <DynamicText
-                label="Gönderici Adı"
+                label={t('admin.admin_settings.sender_name_label')}
                 value={getSetting('EMAIL_FROM_NAME')}
                 setValue={(v) => updateSetting('EMAIL_FROM_NAME', v)}
-                placeholder="Site Yönetimi"
+                placeholder={t('admin.admin_settings.sender_name_placeholder')}
               />
             </SectionCard>
           </div>
@@ -244,27 +246,27 @@ const Page = () => {
     },
     {
       id: 'chatbot',
-      label: 'Chatbot',
+      label: t('admin.admin_settings.tab_chatbot'),
       icon: faRobot,
       content: (
         <Form
-          actions={[{ label: 'Değişiklikleri Kaydet', onClick: updateSettings, className: 'btn-primary' }]}
+          actions={[{ label: t('admin.admin_settings.save_changes'), onClick: updateSettings, className: 'btn-primary' }]}
         >
           <div className="grid grid-cols-1 gap-4">
             <SectionCard
               icon={faRobot}
-              title="Chatbot Ayarları"
-              description="AI chatbot davranışını ve yanıt limitlerini yapılandırın"
+              title={t('admin.admin_settings.chatbot_settings_title')}
+              description={t('admin.admin_settings.chatbot_settings_description')}
             >
               <DynamicText
-                label="Sistem Promptu"
+                label={t('admin.admin_settings.system_prompt_label')}
                 value={getSetting('CHATBOT_SYSTEM_PROMPT')}
                 setValue={(v) => updateSetting('CHATBOT_SYSTEM_PROMPT', v)}
                 isTextarea
-                placeholder="Boş bırakılırsa varsayılan prompt kullanılır. Örn: Sen yardımsever bir AI asistanısın..."
+                placeholder={t('admin.admin_settings.system_prompt_placeholder')}
               />
               <DynamicText
-                label="Maksimum Token"
+                label={t('admin.admin_settings.max_tokens_label')}
                 value={getSetting('CHATBOT_MAX_TOKENS')}
                 setValue={(v) => updateSetting('CHATBOT_MAX_TOKENS', v)}
                 placeholder="1000"
@@ -280,8 +282,8 @@ const Page = () => {
     <div className="container mx-auto">
       <div className="flex flex-col md:flex-row justify-between md:items-center mb-2">
         <div>
-          <h1 className="text-3xl font-bold">Ayarlar</h1>
-          <p className="text-sm text-base-content/50 mt-1">Sistem genelindeki yapılandırma seçenekleri</p>
+          <h1 className="text-3xl font-bold">{t('admin.admin_settings.title')}</h1>
+          <p className="text-sm text-base-content/50 mt-1">{t('admin.admin_settings.description')}</p>
         </div>
       </div>
 

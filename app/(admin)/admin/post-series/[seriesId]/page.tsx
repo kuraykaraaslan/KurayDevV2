@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 import Form from '@/components/admin/UI/Forms/Form'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
@@ -19,6 +20,7 @@ import {
 import { SeriesEntry, SeriesPostStub } from '@/types/content/SeriesTypes'
 
 const SeriesEditPage = () => {
+    const { t } = useTranslation()
     const params   = useParams<{ seriesId: string }>()
     const router   = useRouter()
     const seriesId = params?.seriesId
@@ -48,7 +50,7 @@ const SeriesEditPage = () => {
                 setImage(s.image ?? '')
                 setEntries(s.entries ?? [])
             })
-            .catch((e) => toast.error(e?.response?.data?.message ?? 'Failed to load series'))
+            .catch((e) => toast.error(e?.response?.data?.message ?? t('admin.post_series.load_failed')))
             .finally(() => setLoading(false))
     }, [seriesId, mode])
 
@@ -110,9 +112,9 @@ const SeriesEditPage = () => {
             setEntries((prev) => [...prev, res.data.entry])
             setSearch('')
             setResults([])
-            toast.success('Post added to series')
+            toast.success(t('admin.post_series.post_added'))
         } catch (e: any) {
-            toast.error(e?.response?.data?.message ?? 'Failed to add post')
+            toast.error(e?.response?.data?.message ?? t('admin.post_series.add_post_failed'))
         }
     }
 
@@ -125,9 +127,9 @@ const SeriesEditPage = () => {
         try {
             await axiosInstance.delete(`/api/post-series/${seriesId}/entries/${entry.postId}`)
             setEntries((prev) => prev.filter((e) => e.id !== entry.id))
-            toast.success('Post removed')
+            toast.success(t('admin.post_series.post_removed'))
         } catch (e: any) {
-            toast.error(e?.response?.data?.message ?? 'Failed to remove post')
+            toast.error(e?.response?.data?.message ?? t('admin.post_series.remove_post_failed'))
         }
     }
 
@@ -147,7 +149,7 @@ const SeriesEditPage = () => {
                     entries: withOrder.map((e) => ({ postId: e.postId, order: e.order })),
                 })
             } catch {
-                toast.error('Failed to save order')
+                toast.error(t('admin.post_series.save_order_failed'))
             }
         }
     }
@@ -155,7 +157,7 @@ const SeriesEditPage = () => {
     // ── Save series ───────────────────────────────────────
     const handleSubmit = async () => {
         if (!title.trim() || !slug.trim()) {
-            toast.error('Title and slug are required')
+            toast.error(t('admin.post_series.title_slug_required'))
             return
         }
         setSaving(true)
@@ -173,7 +175,7 @@ const SeriesEditPage = () => {
                         postId: e.postId, order: e.order,
                     })
                 }
-                toast.success('Series created')
+                toast.success(t('admin.post_series.created_success'))
                 router.push('/admin/post-series')
             } else {
                 await axiosInstance.put(`/api/post-series/${seriesId}`, {
@@ -181,11 +183,11 @@ const SeriesEditPage = () => {
                     description: desc || null,
                     image: image || null,
                 })
-                toast.success('Series saved')
+                toast.success(t('admin.post_series.saved_success'))
                 router.push('/admin/post-series')
             }
         } catch (e: any) {
-            toast.error(e?.response?.data?.message ?? 'Save failed')
+            toast.error(e?.response?.data?.message ?? t('admin.post_series.save_failed'))
         } finally {
             setSaving(false)
         }
@@ -195,31 +197,31 @@ const SeriesEditPage = () => {
         <Form
             className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-4xl"
             actions={[
-                { label: saving ? 'Saving…' : 'Save', onClick: handleSubmit, className: 'btn-primary', disabled: saving || loading, loading: saving },
-                { label: 'Cancel', onClick: () => router.push('/admin/post-series'), className: 'btn-secondary' },
+                { label: saving ? t('admin.post_series.saving') : t('common.save'), onClick: handleSubmit, className: 'btn-primary', disabled: saving || loading, loading: saving },
+                { label: t('common.cancel'), onClick: () => router.push('/admin/post-series'), className: 'btn-secondary' },
             ]}
         >
             <FormHeader
-                title={mode === 'create' ? 'Create Series' : 'Edit Series'}
+                title={mode === 'create' ? t('admin.post_series.create_title') : t('admin.post_series.edit_title')}
                 className="my-4"
                 actionButtons={[
-                    { text: 'Back to Series', className: 'btn-sm btn-primary', onClick: () => router.push('/admin/post-series') },
+                    { text: t('admin.post_series.back'), className: 'btn-sm btn-primary', onClick: () => router.push('/admin/post-series') },
                 ]}
             />
 
-            <DynamicText label="Title"       placeholder="Series title"  value={title} setValue={setTitle} size="md" />
-            <DynamicText label="Slug"        placeholder="series-slug"   value={slug}  setValue={setSlug}  size="md" />
-            <DynamicText label="Description" placeholder="Optional description" value={desc} setValue={setDesc} size="md" isTextarea />
+            <DynamicText label={t('admin.post_series.field_title')}       placeholder={t('admin.post_series.field_title_placeholder')}  value={title} setValue={setTitle} size="md" />
+            <DynamicText label={t('admin.post_series.field_slug')}        placeholder={t('admin.post_series.field_slug_placeholder')}   value={slug}  setValue={setSlug}  size="md" />
+            <DynamicText label={t('admin.post_series.field_description')} placeholder={t('admin.post_series.field_desc_placeholder')} value={desc} setValue={setDesc} size="md" isTextarea />
 
-            <GenericElement label="Cover Image">
+            <GenericElement label={t('admin.post_series.cover_image_label')}>
                 <ImageLoad image={image} setImage={setImage} uploadFolder="series" toast={toast} />
             </GenericElement>
 
             {/* ── Posts in this series ── */}
-            <GenericElement label="Posts in this series">
+            <GenericElement label={t('admin.post_series.posts_in_series')}>
                 <div className="flex flex-col gap-2">
                     {entries.length === 0 && (
-                        <p className="text-base-content/40 text-sm italic">No posts yet. Search below to add.</p>
+                        <p className="text-base-content/40 text-sm italic">{t('admin.post_series.no_posts_yet')}</p>
                     )}
                     {entries.map((entry, i) => (
                         <div
@@ -247,19 +249,19 @@ const SeriesEditPage = () => {
             </GenericElement>
 
             {/* ── Add post search ── */}
-            <GenericElement label="Add a post">
+            <GenericElement label={t('admin.post_series.add_post_label')}>
                 <div className="relative">
                     <input
                         type="text"
                         className="input input-bordered w-full"
-                        placeholder="Search by title…"
+                        placeholder={t('admin.post_series.search_placeholder')}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     {(results.length > 0 || searching) && (
                         <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-base-200 rounded-lg shadow-lg border border-base-300 overflow-hidden">
                             {searching && (
-                                <div className="p-3 text-sm text-base-content/50">Searching…</div>
+                                <div className="p-3 text-sm text-base-content/50">{t('admin.post_series.searching')}</div>
                             )}
                             {results.map((p) => (
                                 <button

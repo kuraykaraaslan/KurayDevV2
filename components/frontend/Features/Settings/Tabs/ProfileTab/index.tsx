@@ -10,9 +10,11 @@ import DynamicToggle from '@/components/admin/UI/Forms/DynamicToggle'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import SocialLinksInput from './partials/SocialLinksInput'
 import ImageLoad from '@/components/common/UI/Images/ImageLoad'
+import { useTranslation } from 'react-i18next'
 
 export default function ProfileTab() {
   const { user, setUser } = useGlobalStore()
+  const { t } = useTranslation()
 
   const [userProfile, setUserProfile] = useState<UserProfile>(
     user?.userProfile || UserProfileDefault
@@ -20,7 +22,6 @@ export default function ProfileTab() {
   const [saving, setSaving] = useState(false)
 
   const handleUsernameChange = (val: string) => {
-    // lowercase, sadece a-z 0-9 ve _ karakterlerine izin ver
     const sanitized = val.toLowerCase().replace(/[^a-z0-9_]/g, '')
     setUserProfile({ ...userProfile, username: sanitized || null })
   }
@@ -39,10 +40,10 @@ export default function ProfileTab() {
           ...user,
           userProfile: res.data.userProfile,
         })
-        toast.success('Profil başarıyla güncellendi')
+        toast.success(t('settings.profile_tab.toast_success'))
       })
       .catch((err) => {
-        toast.error(err.response?.data?.message || 'Profil güncellenirken hata oluştu')
+        toast.error(err.response?.data?.message || t('settings.profile_tab.toast_error'))
       })
       .finally(() => {
         setSaving(false)
@@ -51,14 +52,14 @@ export default function ProfileTab() {
 
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
-      <FormHeader title="Profil Ayarları" titleClassName="text-lg" />
+      <FormHeader title={t('settings.profile_tab.title')} titleClassName="text-lg" />
       <p className="text-sm text-base-content/70 -mt-4">
-        Profilini düzenle ve sosyal medya bağlantılarını ekle.
+        {t('settings.profile_tab.description')}
       </p>
 
       <DynamicText
-        label="İsim"
-        placeholder="Adınız Soyadınız"
+        label={t('settings.profile_tab.name_label')}
+        placeholder={t('settings.profile_tab.name_placeholder')}
         value={userProfile.name || ''}
         setValue={(val) => setUserProfile({ ...userProfile, name: val })}
       />
@@ -66,7 +67,7 @@ export default function ProfileTab() {
       {/* Username */}
       <div className="form-control w-full">
         <label className="label">
-          <span className="label-text font-semibold">Kullanıcı Adı</span>
+          <span className="label-text font-semibold">{t('settings.profile_tab.username_label')}</span>
           {userProfile.username && (
             <span className="label-text-alt text-base-content/40 font-mono">
               /users/{userProfile.username}
@@ -78,7 +79,7 @@ export default function ProfileTab() {
           <input
             type="text"
             className="flex-1 bg-transparent text-sm"
-            placeholder="kullanici_adi"
+            placeholder="username"
             value={userProfile.username || ''}
             onChange={(e) => handleUsernameChange(e.target.value)}
             maxLength={32}
@@ -86,21 +87,21 @@ export default function ProfileTab() {
         </div>
         <label className="label">
           <span className="label-text-alt text-base-content/40">
-            Sadece küçük harf, rakam ve alt çizgi (_). Boş bırakılırsa kullanıcı ID kullanılır.
+            {t('settings.profile_tab.username_hint')}
           </span>
         </label>
       </div>
 
       <DynamicText
-        label="Biyografi"
-        placeholder="Kendinizi kısaca tanıtın..."
+        label={t('settings.profile_tab.biography_label')}
+        placeholder={t('settings.profile_tab.biography_placeholder')}
         value={userProfile.biography || ''}
         setValue={(val) => setUserProfile({ ...userProfile, biography: val })}
         isTextarea
       />
 
       <ImageLoad
-        label="Profil Fotoğrafı"
+        label={t('settings.profile_tab.profile_picture_label')}
         image={userProfile.profilePicture || ''}
         setImage={(val) => setUserProfile({ ...userProfile, profilePicture: val })}
         uploadFolder="users"
@@ -111,7 +112,7 @@ export default function ProfileTab() {
       />
 
       <ImageLoad
-        label="Kapak Fotoğrafı"
+        label={t('settings.profile_tab.cover_image_label')}
         image={userProfile.headerImage || ''}
         setImage={(val) => setUserProfile({ ...userProfile, headerImage: val })}
         uploadFolder="users"
@@ -126,19 +127,19 @@ export default function ProfileTab() {
         onChange={(links) => setUserProfile({ ...userProfile, socialLinks: links })}
       />
 
-      {/* Gizlilik */}
+      {/* Privacy */}
       <div className="border-t border-base-300 pt-4">
-        <p className="text-sm font-semibold mb-3">Gizlilik</p>
+        <p className="text-sm font-semibold mb-3">{t('settings.profile_tab.privacy_title')}</p>
         <DynamicToggle
-          label="Profili arama motorlarından gizle"
-          description="Açık olduğunda profil sayfan Google ve diğer arama motorları tarafından indexlenmez."
+          label={t('settings.profile_tab.hide_profile_label')}
+          description={t('settings.profile_tab.hide_profile_description')}
           checked={userProfile.hideProfileFromIndex ?? true}
           onChange={(val) => setUserProfile({ ...userProfile, hideProfileFromIndex: val })}
         />
       </div>
 
       <button onClick={handleSave} disabled={saving} className="btn btn-primary w-full">
-        {saving ? 'Kaydediliyor...' : 'Profili Kaydet'}
+        {saving ? t('settings.profile_tab.saving') : t('settings.profile_tab.save')}
       </button>
     </div>
   )

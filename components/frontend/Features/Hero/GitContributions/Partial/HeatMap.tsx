@@ -1,9 +1,11 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import axiosInstance from '@/libs/axios'
 import { Weeks, GraphQLRes } from '@/types/common/GitTypes'
 
 const HeatMap = () => {
+  const { t } = useTranslation()
   const [weeks, setWeeks] = useState<Weeks>([])
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const HeatMap = () => {
                   <div
                     key={j}
                     className="relative w-4 h-4 bg-base-200 border border-base-200 shadow"
-                    title={`${day.date} - ${day.contributionCount} contributions`}
+                    title={t('pages.hero.git_contributions.contributions_tooltip', { date: day.date, count: day.contributionCount })}
                   >
                     <div
                       className="absolute w-4 h-4 bg-base-200"

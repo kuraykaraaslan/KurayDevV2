@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core'
 import {
   SortableContext,
@@ -30,7 +31,7 @@ function SortableRow({ id, children }: { id: string; children: React.ReactNode }
         {...attributes}
         {...listeners}
         className="cursor-grab px-2 text-base-content/50"
-        title="Sürükle"
+        title="drag"
       >
         ☰
       </button>
@@ -48,6 +49,7 @@ type Props = {
 }
 
 export default function SocialLinksInput({ value, onChange }: Props) {
+  const { t } = useTranslation()
   const sorted = useMemo(() => [...value].sort((a, b) => a.order - b.order), [value])
 
   /* ---------- DND ---------- */
@@ -94,9 +96,9 @@ export default function SocialLinksInput({ value, onChange }: Props) {
   return (
     <div className="form-control w-full space-y-3">
       <label className="label flex justify-between items-center">
-        <span className="label-text font-semibold">Sosyal Medya Bağlantıları</span>
+        <span className="label-text font-semibold">{t('settings.profile_tab.social_links_title')}</span>
         <button type="button" className="btn btn-xs btn-outline" onClick={addLink}>
-          Bağlantı Ekle
+          {t('settings.profile_tab.add_link')}
         </button>
       </label>
 
@@ -134,7 +136,7 @@ export default function SocialLinksInput({ value, onChange }: Props) {
                   className="btn btn-sm btn-outline btn-error"
                   onClick={() => deleteItem(item.id)}
                 >
-                  Delete
+                  {t('settings.profile_tab.delete_link')}
                 </button>
               </SortableRow>
             ))}

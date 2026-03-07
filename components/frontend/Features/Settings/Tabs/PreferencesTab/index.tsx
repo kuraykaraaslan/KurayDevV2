@@ -13,9 +13,11 @@ import {
 import * as countriesAndTimezones from 'countries-and-timezones'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import { useTranslation } from 'react-i18next'
 
 export default function PreferencesTab() {
   const { user, setUser } = useGlobalStore()
+  const { t } = useTranslation()
 
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(
     user?.userPreferences || UserPreferencesDefault
@@ -36,10 +38,10 @@ export default function PreferencesTab() {
           ...user,
           userPreferences: res.data.userPreferences,
         })
-        toast.success('Tercihler başarıyla güncellendi')
+        toast.success(t('settings.preferences_tab.toast_success'))
       })
       .catch((err) => {
-        toast.error('Tercihler güncellenirken hata oluştu')
+        toast.error(t('settings.preferences_tab.toast_error'))
         console.error(err)
       })
       .finally(() => {
@@ -70,22 +72,22 @@ export default function PreferencesTab() {
   ]
 
   const timeFormatOptions = [
-    { value: '24H', label: '24 Saat' },
-    { value: '12H', label: '12 Saat' },
+    { value: '24H', label: t('settings.preferences_tab.time_format_24h') },
+    { value: '12H', label: t('settings.preferences_tab.time_format_12h') },
   ]
 
   const firstDayOptions = [
-    { value: 'MON', label: 'Pazartesi' },
-    { value: 'SUN', label: 'Pazar' },
+    { value: 'MON', label: t('settings.preferences_tab.monday') },
+    { value: 'SUN', label: t('settings.preferences_tab.sunday') },
   ]
 
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-4">
-      <FormHeader title="Kişisel Tercihler" titleClassName="text-lg" />
-      <p className="text-sm text-base-content/70 -mt-2">Bildirim ve uygulama ayarlarını yönet.</p>
+      <FormHeader title={t('settings.preferences_tab.title')} titleClassName="text-lg" />
+      <p className="text-sm text-base-content/70 -mt-2">{t('settings.preferences_tab.description')}</p>
 
       <DynamicSelect
-        label="Dil"
+        label={t('settings.preferences_tab.language_label')}
         options={languageOptions}
         selectedValue={userPreferences.language || 'EN'}
         onValueChange={(val) =>
@@ -95,7 +97,7 @@ export default function PreferencesTab() {
       />
 
       <DynamicSelect
-        label="Tema"
+        label={t('settings.preferences_tab.theme_label')}
         options={themeOptions}
         selectedValue={userPreferences.theme || 'SYSTEM'}
         onValueChange={(val) =>
@@ -105,7 +107,7 @@ export default function PreferencesTab() {
       />
 
       <DynamicSelect
-        label="Zaman Dilimi"
+        label={t('settings.preferences_tab.timezone_label')}
         options={timezoneOptions}
         selectedValue={userPreferences.timezone || 'UTC'}
         onValueChange={(val) => setUserPreferences({ ...userPreferences, timezone: val })}
@@ -113,7 +115,7 @@ export default function PreferencesTab() {
       />
 
       <DynamicSelect
-        label="Tarih Formatı"
+        label={t('settings.preferences_tab.date_format_label')}
         options={dateFormatOptions}
         selectedValue={userPreferences.dateFormat || 'DD/MM/YYYY'}
         onValueChange={(val) =>
@@ -126,7 +128,7 @@ export default function PreferencesTab() {
       />
 
       <DynamicSelect
-        label="Saat Formatı"
+        label={t('settings.preferences_tab.time_format_label')}
         options={timeFormatOptions}
         selectedValue={userPreferences.timeFormat || '24H'}
         onValueChange={(val) =>
@@ -139,7 +141,7 @@ export default function PreferencesTab() {
       />
 
       <DynamicSelect
-        label="Haftanın İlk Günü"
+        label={t('settings.preferences_tab.first_day_label')}
         options={firstDayOptions}
         selectedValue={userPreferences.firstDayOfWeek || 'MON'}
         onValueChange={(val) =>
@@ -152,7 +154,7 @@ export default function PreferencesTab() {
       />
 
       <button onClick={handleSave} disabled={saving} className="btn btn-primary w-full">
-        {saving ? 'Kaydediliyor...' : 'Kaydet'}
+        {saving ? t('settings.preferences_tab.saving') : t('settings.preferences_tab.save')}
       </button>
     </div>
   )

@@ -1,9 +1,11 @@
 'use client'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 const ScrollToTop = () => {
+  const { t } = useTranslation()
   useEffect(() => {
     const scrollToTopBtn = document.getElementById('scrollToTop') as HTMLElement
 
@@ -36,7 +38,7 @@ const ScrollToTop = () => {
       style={{ zIndex: 100, right: '-80px', bottom: '20px' }}
       id="scrollToTop"
       onClick={() => window?.scrollTo({ top: 0, behavior: 'smooth' })}
-      aria-label="Scroll to top"
+      aria-label={t('frontend.scroll_to_top')}
     >
       <FontAwesomeIcon icon={faArrowUp} className="text-l text-white w-8 h-8 md:w-6 md:h-6" aria-hidden="true" />
     </button>

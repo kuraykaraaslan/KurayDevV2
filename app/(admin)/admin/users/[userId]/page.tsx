@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
@@ -10,6 +11,7 @@ import Form from '@/components/admin/UI/Forms/Form'
 import { UserRole, UserStatus } from '@/types/user/UserTypes'
 
 const SingleUser = () => {
+  const { t } = useTranslation()
   const params = useParams<{ userId: string }>()
   const routeUserId = params?.userId
   const router = useRouter()
@@ -45,7 +47,7 @@ const SingleUser = () => {
         const user = res.data?.user
 
         if (!user) {
-          toast.error('User not found')
+          toast.error(t('admin.users_form.not_found'))
           return
         }
         if (cancelled) return
@@ -58,7 +60,7 @@ const SingleUser = () => {
         setImage(user.userProfile?.image ?? user.image ?? '')
       } catch (error: any) {
         console.error(error)
-        toast.error(error?.response?.data?.message ?? 'Failed to load user')
+        toast.error(error?.response?.data?.message ?? t('admin.users_form.load_failed'))
       } 
     }
 
@@ -71,9 +73,9 @@ const SingleUser = () => {
   const handleSubmit = async () => {
     const errors: string[] = []
 
-    if (!name.trim()) errors.push('Name is required')
-    if (!email.trim()) errors.push('Email is required')
-    if (mode === 'create' && !password.trim()) errors.push('Password is required')
+    if (!name.trim()) errors.push(t('admin.users_form.name_required'))
+    if (!email.trim()) errors.push(t('admin.users_form.email_required'))
+    if (mode === 'create' && !password.trim()) errors.push(t('admin.users_form.password_required'))
 
     if (errors.length) {
       errors.forEach((msg) => toast.error(msg))
@@ -97,14 +99,14 @@ const SingleUser = () => {
     try {
       if (mode === 'create') {
         await axiosInstance.post('/api/users', body)
-        toast.success('User created successfully')
+        toast.success(t('admin.users_form.created_success'))
       } else {
         await axiosInstance.put(`/api/users/${routeUserId}`, { userId: routeUserId, ...body })
-        toast.success('User updated successfully')
+        toast.success(t('admin.users_form.updated_success'))
       }
       router.push('/admin/users')
     } catch (error: any) {
-      toast.error(error?.response?.data?.message ?? 'Save failed')
+      toast.error(error?.response?.data?.message ?? t('admin.users_form.save_failed'))
     }
   }
 
@@ -113,74 +115,74 @@ const SingleUser = () => {
       className="mx-auto mb-8 bg-base-300 p-6 rounded-lg shadow max-w-7xl"
       actions={[
         {
-          label: 'Save',
+          label: t('common.save'),
           onClick: handleSubmit,
           className: 'btn-primary',
         },
         {
-          label: 'Cancel',
+          label: t('common.cancel'),
           onClick: () => router.push('/admin/users'),
           className: 'btn-secondary',
         },
       ]}
     >
       <FormHeader
-        title={mode === 'create' ? 'Create User' : 'Edit User'}
+        title={mode === 'create' ? t('admin.users_form.create_title') : t('admin.users_form.edit_title')}
         className="my-4"
         actionButtons={[
           {
-            text: 'Back to Users',
+            text: t('admin.users_form.back'),
             className: 'btn-sm btn-primary',
             onClick: () => router.push('/admin/users'),
           },
         ]}
       />
 
-      <DynamicText label="Name" placeholder="Name" value={name} setValue={setName} size="md" />
+      <DynamicText label={t('admin.users_form.name_label')} placeholder={t('admin.users_form.name_label')} value={name} setValue={setName} size="md" />
 
       <DynamicText
-        label="Email"
-        placeholder="Email"
+        label={t('admin.users_form.email_label')}
+        placeholder={t('admin.users_form.email_label')}
         value={email}
         setValue={setEmail}
         size="md"
       />
 
       <DynamicText
-        label="Phone"
-        placeholder="Phone (optional)"
+        label={t('admin.users_form.phone_label')}
+        placeholder={t('admin.users_form.phone_optional')}
         value={phone}
         setValue={setPhone}
         size="md"
       />
 
       <DynamicText
-        label={mode === 'create' ? 'Password' : 'Password (leave empty to keep current)'}
-        placeholder="Password"
+        label={mode === 'create' ? t('admin.users_form.password_label') : t('admin.users_form.password_keep_empty')}
+        placeholder={t('admin.users_form.password_label')}
         value={password}
         setValue={setPassword}
         size="md"
       />
 
       <DynamicSelect
-        label="Role"
+        label={t('admin.users_form.role_label')}
         selectedValue={userRole}
         onValueChange={(value) => setUserRole(value as UserRole)}
         options={[
-          { value: 'USER', label: 'User' },
-          { value: 'AUTHOR', label: 'Author' },
-          { value: 'ADMIN', label: 'Admin' },
+          { value: 'USER', label: t('admin.users_form.role_user') },
+          { value: 'AUTHOR', label: t('admin.users_form.role_author') },
+          { value: 'ADMIN', label: t('admin.users_form.role_admin') },
         ]}
       />
 
       <DynamicSelect
-        label="Status"
+        label={t('admin.users_form.status_label')}
         selectedValue={userStatus}
         onValueChange={(value) => setUserStatus(value as UserStatus)}
         options={[
-          { value: 'ACTIVE', label: 'Active' },
-          { value: 'INACTIVE', label: 'Inactive' },
-          { value: 'BANNED', label: 'Banned' },
+          { value: 'ACTIVE', label: t('admin.users_form.status_active') },
+          { value: 'INACTIVE', label: t('admin.users_form.status_inactive') },
+          { value: 'BANNED', label: t('admin.users_form.status_banned') },
         ]}
       />
       

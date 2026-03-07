@@ -7,6 +7,7 @@ import Table, {
   ColumnDef,
   ActionButton,
 } from '@/components/admin/UI/Forms/DynamicTable'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { Appointment, AppointmentStatus } from '@/types/features/CalendarTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
@@ -29,6 +30,7 @@ const statusBadge = (status: AppointmentStatus) => {
 
 const AppointmentsPage = () => {
   const { t } = useTranslation()
+  const { open, openModal, closeModal } = useModal()
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
   const [statusFilter, setStatusFilter] = useState<string>('ALL')
 
@@ -81,10 +83,9 @@ const AppointmentsPage = () => {
   const actions: ActionButton<Appointment>[] = [
     {
       label: 'admin.appointments.view',
-      onClick: async (a) => {
+      onClick: (a) => {
         setSelectedAppointment(a)
-        const modal = document.getElementById('appointment-modal') as HTMLDialogElement
-        modal?.showModal()
+        openModal()
       },
       className: 'btn-primary',
     },
@@ -152,52 +153,54 @@ const AppointmentsPage = () => {
       </TableProvider>
 
       {/* Modal for viewing appointment details */}
-      <dialog id="appointment-modal" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg mb-4">{t('admin.appointments.details')}</h3>
-          {selectedAppointment && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-medium text-base-content/60">
-                    {t('admin.appointments.name')}
-                  </label>
-                  <p className="text-sm">{selectedAppointment.name}</p>
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-base-content/60">
-                    {t('admin.appointments.status')}
-                  </label>
-                  <p>{statusBadge(selectedAppointment.status)}</p>
-                </div>
+      <HeadlessModal
+        open={open}
+        onClose={closeModal}
+        title={t('admin.appointments.details')}
+      >
+        {selectedAppointment && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-medium text-base-content/60">
+                  {t('admin.appointments.name')}
+                </label>
+                <p className="text-sm">{selectedAppointment.name}</p>
               </div>
               <div>
                 <label className="text-xs font-medium text-base-content/60">
-                  {t('admin.appointments.email')}
+                  {t('admin.appointments.status')}
                 </label>
-                <p className="text-sm">{selectedAppointment.email}</p>
+                <p>{statusBadge(selectedAppointment.status)}</p>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-base-content/60">
+                {t('admin.appointments.email')}
+              </label>
+              <p className="text-sm">{selectedAppointment.email}</p>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-base-content/60">
+                {t('admin.appointments.phone')}
+              </label>
+              <p className="text-sm">{selectedAppointment.phone || '-'}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-medium text-base-content/60">
+                  {t('admin.appointments.date')}
+                </label>
+                <p className="text-sm">{formatDate(selectedAppointment.startTime)}</p>
               </div>
               <div>
                 <label className="text-xs font-medium text-base-content/60">
-                  {t('admin.appointments.phone')}
+                  {t('admin.appointments.time')}
                 </label>
-                <p className="text-sm">{selectedAppointment.phone || '-'}</p>
+                <p className="text-sm">
+                  {formatTime(selectedAppointment.startTime)} - {formatTime(selectedAppointment.endTime)}
+                </p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-medium text-base-content/60">
-                    {t('admin.appointments.date')}
-                  </label>
-                  <p className="text-sm">{formatDate(selectedAppointment.startTime)}</p>
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-base-content/60">
-                    {t('admin.appointments.time')}
-                  </label>
-                  <p className="text-sm">
-                    {formatTime(selectedAppointment.startTime)} - {formatTime(selectedAppointment.endTime)}
-                  </p>
-                </div>
               </div>
               {selectedAppointment.note && (
                 <div>
@@ -217,16 +220,7 @@ const AppointmentsPage = () => {
               </div>
             </div>
           )}
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">{t('admin.appointments.close')}</button>
-            </form>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+      </HeadlessModal>
     </>
   )
 }

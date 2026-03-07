@@ -1,10 +1,12 @@
 'use client'
+import { useTranslation } from 'react-i18next'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
 import KnowledgeGraph2D from './index'
 
 export default function KnowledgeGraph2DButton() {
+  const { t } = useTranslation()
   const { open, openModal, closeModal } = useModal()
 
   return (
@@ -16,7 +18,7 @@ export default function KnowledgeGraph2DButton() {
       <HeadlessModal
         open={open}
         onClose={closeModal}
-        title="3D Knowledge Graph"
+        title={t('frontend.knowledge_graph.title_3d')}
         size="lg" // modal size more controlled
         className="!max-w-5xl" // width limited
       >

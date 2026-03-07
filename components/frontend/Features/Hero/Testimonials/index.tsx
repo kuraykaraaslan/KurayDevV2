@@ -1,10 +1,12 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Testimonial } from '@/types/ui/TestimonialTypes'
 import axiosInstance from '@/libs/axios'
 import SingleTestimonial from './Partials/SingleTestimonial'
 
 const Testimonials = () => {
+  const { t } = useTranslation()
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
 
   useEffect(() => {
@@ -30,10 +32,9 @@ const Testimonials = () => {
       <div className="container px-6 py-4 mx-auto mx-4 pb-0 md:pb-20">
         <div className="grid items-center gap-4 xl:grid-cols-5">
           <div className="max-w-2xl mx-auto my-8 space-y-4 text-center xl:col-span-2 xl:text-left">
-            <h2 className="text-4xl font-bold">What People Say</h2>
+            <h2 className="text-4xl font-bold">{t('pages.hero.testimonials.title')}</h2>
             <p className="">
-              I&apos;ve worked with some amazing people and companies. Here&apos;s what they have to
-              say about me.
+              {t('pages.hero.testimonials.description')}
             </p>
           </div>
           <div className="p-6 xl:col-span-3 pt-0">

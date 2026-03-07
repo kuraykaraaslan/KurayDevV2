@@ -15,6 +15,7 @@ import {
   faBan,
 } from '@fortawesome/free-solid-svg-icons'
 
+import { useTranslation } from 'react-i18next'
 import { SessionResponse } from '@/types/user/UserSessionTypes'
 
 function DeviceIcon({ device }: { device: string | null }) {
@@ -25,6 +26,7 @@ function DeviceIcon({ device }: { device: string | null }) {
 }
 
 export default function SessionsTab() {
+  const { t } = useTranslation()
   const [sessions, setSessions] = useState<SessionResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [terminating, setTerminating] = useState<string | null>(null)
@@ -36,7 +38,7 @@ export default function SessionsTab() {
       const res = await axiosInstance.get('/api/auth/sessions')
       setSessions(res.data.sessions)
     } catch {
-      toast.error('Oturumlar yüklenemedi')
+      toast.error(t('settings.sessions_tab.toast_load_error'))
     } finally {
       setLoading(false)
     }
@@ -47,42 +49,42 @@ export default function SessionsTab() {
   }, [fetchSessions])
 
   const terminateSession = async (sessionId: string) => {
-    if (!confirm('Bu oturumu sonlandırmak istediğinizden emin misiniz?')) return
+    if (!confirm(t('settings.sessions_tab.confirm_terminate'))) return
     setTerminating(sessionId)
     try {
       await axiosInstance.delete(`/api/auth/sessions/${sessionId}`)
-      toast.success('Oturum sonlandırıldı')
+      toast.success(t('settings.sessions_tab.toast_terminated'))
       setSessions((prev) => prev.filter((s) => s.userSessionId !== sessionId))
     } catch (err: any) {
-      toast.error(err.response?.data?.message ?? 'Oturum sonlandırılamadı')
+      toast.error(err.response?.data?.message ?? t('settings.sessions_tab.toast_error'))
     } finally {
       setTerminating(null)
     }
   }
 
   const terminateAllOthers = async () => {
-    if (!confirm('Mevcut oturum dışındaki tüm oturumları sonlandırmak istediğinizden emin misiniz?')) return
+    if (!confirm(t('settings.sessions_tab.confirm_terminate_others'))) return
     setTerminatingAll(true)
     try {
       await axiosInstance.delete('/api/auth/sessions')
-      toast.success('Diğer tüm oturumlar sonlandırıldı')
+      toast.success(t('settings.sessions_tab.toast_terminated_others'))
       setSessions((prev) => prev.filter((s) => s.isCurrent))
     } catch (err: any) {
-      toast.error(err.response?.data?.message ?? 'İşlem başarısız')
+      toast.error(err.response?.data?.message ?? t('settings.sessions_tab.toast_error'))
     } finally {
       setTerminatingAll(false)
     }
   }
 
   const terminateAll = async () => {
-    if (!confirm('Tüm oturumlar sonlandırılacak ve çıkış yapılacak. Devam etmek istiyor musunuz?')) return
+    if (!confirm(t('settings.sessions_tab.confirm_terminate_all'))) return
     setTerminatingAll(true)
     try {
       await axiosInstance.delete('/api/auth/sessions?all=true')
-      toast.success('Tüm oturumlar sonlandırıldı')
+      toast.success(t('settings.sessions_tab.toast_terminated_all'))
       window.location.href = '/'
     } catch (err: any) {
-      toast.error(err.response?.data?.message ?? 'İşlem başarısız')
+      toast.error(err.response?.data?.message ?? t('settings.sessions_tab.toast_error'))
       setTerminatingAll(false)
     }
   }
@@ -94,9 +96,9 @@ export default function SessionsTab() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">Aktif Oturumlar</h2>
+          <h2 className="text-lg font-semibold">{t('settings.sessions_tab.title')}</h2>
           <p className="text-sm text-base-content/60 mt-0.5">
-            Hesabınıza bağlı cihaz ve tarayıcıları yönetin.
+            {t('settings.sessions_tab.description')}
           </p>
         </div>
         <div className="flex gap-2">
@@ -104,7 +106,7 @@ export default function SessionsTab() {
             onClick={fetchSessions}
             disabled={loading}
             className="btn btn-sm btn-ghost"
-            title="Yenile"
+            title={t('settings.sessions_tab.refresh_title')}
           >
             <FontAwesomeIcon icon={faRotateRight} className={loading ? 'animate-spin' : ''} />
           </button>
@@ -115,7 +117,7 @@ export default function SessionsTab() {
               className="btn btn-sm btn-error btn-outline gap-1"
             >
               <FontAwesomeIcon icon={faBan} />
-              {terminatingAll ? 'Sonlandırılıyor...' : 'Diğerlerini Kapat'}
+              {terminatingAll ? t('settings.sessions_tab.terminating') : t('settings.sessions_tab.terminate_others_btn')}
             </button>
           )}
           {sessions.length > 0 && (
@@ -125,7 +127,7 @@ export default function SessionsTab() {
               className="btn btn-sm btn-error gap-1"
             >
               <FontAwesomeIcon icon={faTrash} />
-              {terminatingAll ? 'Sonlandırılıyor...' : 'Hepsini Sonlandır'}
+              {terminatingAll ? t('settings.sessions_tab.terminating') : t('settings.sessions_tab.terminate_all_btn')}
             </button>
           )}
         </div>
@@ -137,7 +139,7 @@ export default function SessionsTab() {
           <span className="loading loading-spinner loading-md" />
         </div>
       ) : sessions.length === 0 ? (
-        <p className="text-sm text-base-content/50 text-center py-8">Aktif oturum bulunamadı.</p>
+        <p className="text-sm text-base-content/50 text-center py-8">{t('settings.sessions_tab.no_sessions')}</p>
       ) : (
         <div className="space-y-3">
           {sessions
@@ -164,11 +166,11 @@ export default function SessionsTab() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-medium text-sm truncate">
-                      {session.browser ?? 'Bilinmeyen tarayıcı'}
+                      {session.browser ?? t('settings.sessions_tab.unknown_browser')}
                       {session.os ? ` / ${session.os}` : ''}
                     </span>
                     {session.isCurrent && (
-                      <span className="badge badge-primary badge-sm">Mevcut</span>
+                      <span className="badge badge-primary badge-sm">{t('settings.sessions_tab.current_badge')}</span>
                     )}
                   </div>
                   <div className="flex items-center gap-3 mt-1 flex-wrap">
@@ -185,10 +187,10 @@ export default function SessionsTab() {
                       </span>
                     )}
                     <span className="text-xs text-base-content/40">
-                      Giriş: {new Date(session.createdAt).toLocaleString('tr-TR')}
+                      {t('settings.sessions_tab.login_at')} {new Date(session.createdAt).toLocaleString()}
                     </span>
                     <span className="text-xs text-base-content/40">
-                      Süre: {new Date(session.sessionExpiry).toLocaleString('tr-TR')}
+                      {t('settings.sessions_tab.expires_at')} {new Date(session.sessionExpiry).toLocaleString()}
                     </span>
                   </div>
                 </div>
@@ -199,7 +201,7 @@ export default function SessionsTab() {
                     onClick={() => terminateSession(session.userSessionId)}
                     disabled={terminating === session.userSessionId}
                     className="btn btn-sm btn-ghost text-error shrink-0"
-                    title="Oturumu sonlandır"
+                    title={t('settings.sessions_tab.terminate_title')}
                   >
                     {terminating === session.userSessionId ? (
                       <span className="loading loading-spinner loading-xs" />

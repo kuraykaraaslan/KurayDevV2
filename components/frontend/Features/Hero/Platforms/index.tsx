@@ -1,7 +1,9 @@
 'use client'
+import { useTranslation } from 'react-i18next'
 import SinglePlatform from './Partials/SinglePlatform'
 
 const Platforms = () => {
+  const { t } = useTranslation()
   const platforms = [
     {
       name: 'Fiveer',
@@ -34,10 +36,9 @@ const Platforms = () => {
     <section className="py-12 bg-base-200 ">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-20 text-center">
-          <span className="text-center font-medium mb-4 block">Active on different platforms</span>
+          <span className="text-center font-medium mb-4 block">{t('pages.hero.platforms.subtitle')}</span>
           <h2 className="text-4xl text-center font-bold">
-            I&apos;m available on the following platforms. You can hire me on any of these
-            platforms.
+            {t('pages.hero.platforms.title')}
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">

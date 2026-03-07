@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import GenericElement from '@/components/admin/UI/Forms/GenericElement'
@@ -20,6 +21,7 @@ const statusBadge = (status: Campaign['status']) => {
 }
 
 const SingleCampaign = () => {
+  const { t } = useTranslation()
   const localStorageKey = 'campaign_drafts'
 
   const params = useParams<{ campaignId: string }>()
@@ -66,7 +68,7 @@ const SingleCampaign = () => {
         const campaign = res.data?.campaign
 
         if (!campaign) {
-          toast.error('Campaign not found')
+          toast.error(t('admin.campaigns.not_found'))
           return
         }
         if (cancelled) return
@@ -76,7 +78,7 @@ const SingleCampaign = () => {
         setContent(campaign.content ?? '')
         setStatus(campaign.status ?? 'DRAFT')
       } catch (error: any) {
-        toast.error(error?.response?.data?.message ?? 'Failed to load campaign')
+        toast.error(error?.response?.data?.message ?? t('admin.campaigns.load_failed'))
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -123,7 +125,7 @@ const SingleCampaign = () => {
       setSubject(draft.subject ?? '')
       setContent(draft.content ?? '')
 
-      toast.info('Draft loaded from browser')
+      toast.info(t('admin.campaigns.draft_loaded'))
     } catch (err) {
       console.error('Draft load error', err)
     }
@@ -134,15 +136,15 @@ const SingleCampaign = () => {
     setTitle('')
     setSubject('')
     setContent('')
-    toast.info('Draft cleared')
+    toast.info(t('admin.campaigns.draft_cleared'))
   }
 
   const handleSubmit = async () => {
     const errors: string[] = []
 
-    if (!title.trim()) errors.push('Title is required')
-    if (!subject.trim()) errors.push('Subject is required')
-    if (!content.trim()) errors.push('Content is required')
+    if (!title.trim()) errors.push(t('admin.campaigns.title_required'))
+    if (!subject.trim()) errors.push(t('admin.campaigns.subject_required'))
+    if (!content.trim()) errors.push(t('admin.campaigns.content_required'))
 
     if (errors.length) {
       errors.forEach((msg) => toast.error(msg))
@@ -155,34 +157,34 @@ const SingleCampaign = () => {
     try {
       if (mode === 'create') {
         const res = await axiosInstance.post('/api/newsletter/campaigns', body)
-        toast.success('Campaign created successfully')
+        toast.success(t('admin.campaigns.created_success'))
         clearAutoSave()
         router.push(`/admin/campaigns/${res.data.campaign.campaignId}`)
       } else {
         await axiosInstance.put(`/api/newsletter/campaigns/${routeCampaignId}`, body)
-        toast.success('Campaign updated successfully')
+        toast.success(t('admin.campaigns.updated_success'))
         clearAutoSave()
         router.push('/admin/campaigns')
       }
     } catch (error: any) {
-      toast.error(error?.response?.data?.message ?? 'Save failed')
+      toast.error(error?.response?.data?.message ?? t('admin.campaigns.save_failed'))
     } finally {
       setSaving(false)
     }
   }
 
   const handleSend = async () => {
-    if (!confirm('Send this campaign to all active subscribers? This cannot be undone.')) return
+    if (!confirm(t('admin.campaigns.send_confirm'))) return
 
     setSending(true)
     try {
       const res = await axiosInstance.post(
         `/api/newsletter/campaigns/${routeCampaignId}/send`
       )
-      toast.success(`Campaign sent to ${res.data.sentCount} subscribers`)
+      toast.success(t('admin.campaigns.sent_success', { count: res.data.sentCount }))
       setStatus('SENT')
     } catch (error: any) {
-      toast.error(error?.response?.data?.message ?? 'Send failed')
+      toast.error(error?.response?.data?.message ?? t('admin.campaigns.send_failed'))
     } finally {
       setSending(false)
     }
@@ -197,7 +199,7 @@ const SingleCampaign = () => {
         isDraft
           ? [
               {
-                label: saving ? 'Saving...' : 'Save',
+                label: saving ? t('admin.campaigns.saving') : t('common.save'),
                 onClick: handleSubmit,
                 className: 'btn-primary',
                 disabled: saving || loading,
@@ -206,7 +208,7 @@ const SingleCampaign = () => {
               ...(mode === 'edit'
                 ? [
                     {
-                      label: sending ? 'Sending...' : 'Send to All Subscribers',
+                      label: sending ? t('admin.campaigns.sending') : t('admin.campaigns.send_to_all'),
                       onClick: handleSend,
                       className: 'btn-success',
                       disabled: sending || saving,
@@ -215,14 +217,14 @@ const SingleCampaign = () => {
                   ]
                 : []),
               {
-                label: 'Cancel',
-                onClick: () => router.push('/admin/campaigns'),
-                className: 'btn-secondary',
-              },
-            ]
+              label: t('common.cancel'),
+              onClick: () => router.push('/admin/campaigns'),
+              className: 'btn-secondary',
+            },
+          ]
           : [
               {
-                label: 'Back to Campaigns',
+                label: t('admin.campaigns.back'),
                 onClick: () => router.push('/admin/campaigns'),
                 className: 'btn-secondary',
               },
@@ -230,20 +232,20 @@ const SingleCampaign = () => {
       }
     >
       <FormHeader
-        title={mode === 'create' ? 'New Campaign' : 'Edit Campaign'}
+        title={mode === 'create' ? t('admin.campaigns.new_title') : t('admin.campaigns.edit_title')}
         className="my-4"
         actionButtons={[
           ...(isDraft && mode === 'edit'
             ? [
                 {
-                  text: 'Clear Draft',
+                  text: t('admin.campaigns.clear_draft'),
                   className: 'btn-sm btn-error btn-outline',
                   onClick: handleClearDraft,
                 },
               ]
             : []),
           {
-            text: 'Back to Campaigns',
+            text: t('admin.campaigns.back'),
             className: 'btn-sm btn-primary',
             onClick: () => router.push('/admin/campaigns'),
           },
@@ -252,34 +254,34 @@ const SingleCampaign = () => {
 
       {mode === 'edit' && (
         <div className="mb-4 flex items-center gap-2">
-          <span className="text-sm text-base-content/60">Status:</span>
+          <span className="text-sm text-base-content/60">{t('common.status')}:</span>
           {statusBadge(status)}
         </div>
       )}
 
       {!isDraft && mode === 'edit' && (
         <div className="alert alert-info mb-4">
-          <span>This campaign has been sent and can no longer be edited.</span>
+          <span>{t('admin.campaigns.sent_readonly')}</span>
         </div>
       )}
 
       <DynamicText
-        label="Campaign Title"
-        placeholder="Internal name (not visible to subscribers)"
+        label={t('admin.campaigns.title_label')}
+        placeholder={t('admin.campaigns.title_placeholder')}
         value={title}
         setValue={isDraft ? setTitle : () => {}}
         size="md"
       />
 
       <DynamicText
-        label="Email Subject"
-        placeholder="Subject line subscribers will see"
+        label={t('admin.campaigns.subject_label')}
+        placeholder={t('admin.campaigns.subject_placeholder')}
         value={subject}
         setValue={isDraft ? setSubject : () => {}}
         size="md"
       />
 
-      <GenericElement label="Email Content">
+      <GenericElement label={t('admin.campaigns.content_label')}>
         {isDraft ? (
           <Editor value={content} onChange={setContent} />
         ) : (

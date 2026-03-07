@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 import { faMousePointer, faGlobe, faWindowMaximize, faCalendar } from '@fortawesome/free-solid-svg-icons'
 import { ShortLinkAnalyticsResponse } from '@/dtos/ShortLinkDTO'
 import PageHeader from '@/components/admin/UI/PageHeader'
@@ -15,6 +16,7 @@ import CopyButton from '@/components/admin/UI/CopyButton'
 const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || ''
 
 export default function ShortLinkAnalyticsPage() {
+  const { t } = useTranslation()
   const params = useParams<{ id: string }>()
   const router = useRouter()
   const [data, setData] = useState<ShortLinkAnalyticsResponse | null>(null)
@@ -26,7 +28,7 @@ export default function ShortLinkAnalyticsPage() {
       const res = await axiosInstance.get(`/api/links/${params.id}/analytics`)
       setData(res.data.analytics)
     } catch (error: any) {
-      toast.error(error?.response?.data?.message ?? 'Failed to load analytics')
+      toast.error(error?.response?.data?.message ?? t('admin.short_links.analytics_load_failed'))
     } finally {
       setLoading(false)
     }
@@ -46,7 +48,7 @@ export default function ShortLinkAnalyticsPage() {
 
   if (!data) {
     return (
-      <div className="p-8 text-center text-base-content/50">Short link not found.</div>
+      <div className="p-8 text-center text-base-content/50">{t('admin.short_links.not_found')}</div>
     )
   }
 
@@ -56,7 +58,7 @@ export default function ShortLinkAnalyticsPage() {
     <div className="w-full space-y-6 p-4 md:p-6">
       {/* Header */}
       <PageHeader
-        title="Analytics"
+        title={t('admin.analytics.title')}
         subtitle={
           <>
             <a
@@ -79,10 +81,10 @@ export default function ShortLinkAnalyticsPage() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCardItem label="Total Clicks" value={data.totalClicks} icon={faMousePointer} href={null} loading={false} />
-        <StatCardItem label="Countries" value={uniqueCountries} icon={faGlobe} href={null} loading={false} />
-        <StatCardItem label="Browsers" value={data.byBrowser.length} icon={faWindowMaximize} href={null} loading={false} />
-        <StatCardItem label="Days active" value={data.clicksOverTime.length} icon={faCalendar} href={null} loading={false} />
+        <StatCardItem label={t('admin.short_links.stat_total_clicks')} value={data.totalClicks} icon={faMousePointer} href={null} loading={false} />
+        <StatCardItem label={t('admin.analytics.countries')} value={uniqueCountries} icon={faGlobe} href={null} loading={false} />
+        <StatCardItem label={t('admin.short_links.stat_browsers')} value={data.byBrowser.length} icon={faWindowMaximize} href={null} loading={false} />
+        <StatCardItem label={t('admin.short_links.stat_days_active')} value={data.clicksOverTime.length} icon={faCalendar} href={null} loading={false} />
       </div>
 
       {/* Daily chart */}
@@ -90,11 +92,11 @@ export default function ShortLinkAnalyticsPage() {
 
       {/* Breakdowns grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        <BreakdownCard title="By Country" items={data.byCountry} />
-        <BreakdownCard title="By Referrer" items={data.byReferrer} />
-        <BreakdownCard title="By Browser" items={data.byBrowser} />
-        <BreakdownCard title="By OS" items={data.byOS} />
-        <BreakdownCard title="By Device" items={data.byDevice} />
+        <BreakdownCard title={t('admin.short_links.breakdown_country')} items={data.byCountry} />
+        <BreakdownCard title={t('admin.short_links.breakdown_referrer')} items={data.byReferrer} />
+        <BreakdownCard title={t('admin.short_links.breakdown_browser')} items={data.byBrowser} />
+        <BreakdownCard title={t('admin.short_links.breakdown_os')} items={data.byOS} />
+        <BreakdownCard title={t('admin.short_links.breakdown_device')} items={data.byDevice} />
       </div>
     </div>
   )

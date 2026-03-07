@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Link from '@/libs/i18n/Link'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -5,14 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import HeatMap from './Partial/HeatMap'
 
 const GitContributions = () => {
+  const { t } = useTranslation()
   return (
     <>
       <div className="hero min-h-screen bg-base-100 hidden lg:flex items-center justify-center">
         <div className="hero-content text-center">
           <div className="">
-            <h2 className="text-5xl font-bold">a unstoppable developer</h2>
+            <h2 className="text-5xl font-bold">{t('pages.hero.git_contributions.title')}</h2>
             <p className="py-6">
-              After switching to the software industry, I continued to develop without a break.
+              {t('pages.hero.git_contributions.description')}
             </p>
             <HeatMap />
             <div className="flex justify-center py-6">
@@ -20,7 +22,7 @@ const GitContributions = () => {
                 href="https://github.com/kuraykaraaslan"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="View my GitHub profile (opens in new tab)"
+                aria-label={t('pages.hero.git_contributions.aria_label')}
                 className="btn btn-primary"
               >
                 <FontAwesomeIcon
@@ -30,7 +32,7 @@ const GitContributions = () => {
                   width="20"
                   aria-hidden="true"
                 />
-                View my GitHub profile
+                {t('pages.hero.git_contributions.view_github')}
               </Link>
             </div>
           </div>
