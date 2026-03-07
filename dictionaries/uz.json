@@ -601,7 +601,9 @@
       "password_too_short": "Parol kamida 6 ta belgidan iborat bo‘lishi kerak.",
       "sign_in": "Kirish",
       "success": "Kirish muvaffaqiyatli",
-      "title": "Xush kelibsiz!"
+      "title": "Xush kelibsiz!",
+      "forgot_password_link": "Parolni unutdingizmi?",
+      "welcome_back": "Qaytib kelganingizdan xursandmiz!"
     },
     "logout": {
       "title": "Chiqish..."

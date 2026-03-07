@@ -601,7 +601,9 @@
       "password_too_short": "パスワードは6文字以上である必要があります。",
       "sign_in": "サインイン",
       "success": "ログイン成功",
-      "title": "お帰りなさい！"
+      "title": "お帰りなさい！",
+      "forgot_password_link": "パスワードをお忘れですか？",
+      "welcome_back": "お帰りなさい！"
     },
     "logout": {
       "title": "ログアウト中..."

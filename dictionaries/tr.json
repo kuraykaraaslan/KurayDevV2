@@ -703,7 +703,9 @@
       "password_too_short": "Şifre en az 6 karakter içermelidir.",
       "sign_in": "Giriş yap",
       "success": "Giriş başarılı",
-      "title": "Tekrar hoş geldiniz!"
+      "title": "Tekrar hoş geldiniz!",
+      "forgot_password_link": "Şifrenizi mi unuttunuz?",
+      "welcome_back": "Tekrar hoş geldiniz!"
     },
     "logout": {
       "title": "Çıkış yapılıyor..."

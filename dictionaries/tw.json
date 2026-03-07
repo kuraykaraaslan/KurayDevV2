@@ -601,7 +601,9 @@
       "password_too_short": "密碼必須至少包含 6 個字符。",
       "sign_in": "登入",
       "success": "登入成功",
-      "title": "歡迎回來！"
+      "title": "歡迎回來！",
+      "forgot_password_link": "忘記密碼？",
+      "welcome_back": "歡迎回來！"
     },
     "logout": {
       "title": "正在登出..."

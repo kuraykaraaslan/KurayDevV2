@@ -601,7 +601,9 @@
       "password_too_short": "Şifrə ən azı 6 simvol içərməlidir.",
       "sign_in": "Daxil ol",
       "success": "Giriş uğurlu oldu",
-      "title": "Yenidən xoş gəldiniz!"
+      "title": "Yenidən xoş gəldiniz!",
+      "forgot_password_link": "Şifrəni unutmusunuz?",
+      "welcome_back": "Xoş gəldiniz!"
     },
     "logout": {
       "title": "Çıxış edilir..."

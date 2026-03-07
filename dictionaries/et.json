@@ -703,7 +703,9 @@
       "password_too_short": "Parool peab sisaldama vähemalt 6 tähemärki.",
       "sign_in": "Logi sisse",
       "success": "Sisselogimine õnnestus",
-      "title": "Tere tulemast tagasi!"
+      "title": "Tere tulemast tagasi!",
+      "forgot_password_link": "Unustasid parooli?",
+      "welcome_back": "Tere tulemast tagasi!"
     },
     "logout": {
       "title": "Logitakse välja..."

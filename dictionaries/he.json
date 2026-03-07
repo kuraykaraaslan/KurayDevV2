@@ -703,7 +703,9 @@
       "password_too_short": "הסיסמה חייבת להכיל לפחות 6 תווים.",
       "sign_in": "התחבר",
       "success": "התחברות הצליחה",
-      "title": "ברוך שובך!"
+      "title": "ברוך שובך!",
+      "forgot_password_link": "שכחת סיסמה?",
+      "welcome_back": "ברוך שובך!"
     },
     "logout": {
       "title": "מתנתק..."

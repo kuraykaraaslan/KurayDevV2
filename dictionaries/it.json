@@ -601,7 +601,9 @@
       "password_too_short": "La password deve contenere almeno 6 caratteri.",
       "sign_in": "Accedi",
       "success": "Accesso riuscito",
-      "title": "Bentornato!"
+      "title": "Bentornato!",
+      "forgot_password_link": "Password dimenticata?",
+      "welcome_back": "Bentornato!"
     },
     "logout": {
       "title": "Disconnessione in corso..."

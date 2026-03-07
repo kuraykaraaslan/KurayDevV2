@@ -601,7 +601,9 @@
       "password_too_short": "Salasanassa on oltava vähintään 6 merkkiä.",
       "sign_in": "Kirjaudu sisään",
       "success": "Kirjautuminen onnistui",
-      "title": "Tervetuloa takaisin!"
+      "title": "Tervetuloa takaisin!",
+      "forgot_password_link": "Unohtuiko salasana?",
+      "welcome_back": "Tervetuloa takaisin!"
     },
     "logout": {
       "title": "Kirjaudutaan ulos..."

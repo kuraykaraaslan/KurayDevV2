@@ -601,7 +601,9 @@
       "password_too_short": "密码必须包含至少 6 个字符。",
       "sign_in": "登录",
       "success": "登录成功",
-      "title": "欢迎回来！"
+      "title": "欢迎回来！",
+      "forgot_password_link": "忘记密码？",
+      "welcome_back": "欢迎回来！"
     },
     "logout": {
       "title": "正在注销..."

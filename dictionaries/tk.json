@@ -601,7 +601,9 @@
       "password_too_short": "Parol azyndan 6 harp bolmaly.",
       "sign_in": "Giriň",
       "success": "Giriş üstünlikli",
-      "title": "Hoş geldiňiz!"
+      "title": "Hoş geldiňiz!",
+      "forgot_password_link": "Parolyňyzy ýatdan çykardyňyzmy?",
+      "welcome_back": "Hoş geldiňiz!"
     },
     "logout": {
       "title": "Çykylýar..."

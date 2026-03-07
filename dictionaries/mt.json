@@ -1268,7 +1268,9 @@
       "password_too_short": "Il-password trid fiha mill-inqas 6 karattri.",
       "sign_in": "Idħol",
       "success": "Login b'suċċess",
-      "title": "Merħba lura!"
+      "title": "Merħba lura!",
+      "forgot_password_link": "Insejt il-password?",
+      "welcome_back": "Merħba lura!"
     },
     "logout": {
       "title": "Qed toħroġ..."

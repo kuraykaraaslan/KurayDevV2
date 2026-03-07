@@ -1268,7 +1268,9 @@
       "password_too_short": "Wachtwoord moet minimaal 6 tekens bevatten.",
       "sign_in": "Inloggen",
       "success": "Succesvol ingelogd",
-      "title": "Welkom terug!"
+      "title": "Welkom terug!",
+      "forgot_password_link": "Wachtwoord vergeten?",
+      "welcome_back": "Welkom terug!"
     },
     "logout": {
       "title": "Uitloggen..."

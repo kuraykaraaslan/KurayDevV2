@@ -601,7 +601,9 @@
       "password_too_short": "La contraseña debe contener al menos 6 caracteres.",
       "sign_in": "Iniciar sesión",
       "success": "Inicio de sesión exitoso",
-      "title": "¡Bienvenido de nuevo!"
+      "title": "¡Bienvenido de nuevo!",
+      "forgot_password_link": "¿Olvidaste tu contraseña?",
+      "welcome_back": "¡Bienvenido de nuevo!"
     },
     "logout": {
       "title": "Cerrando sesión..."

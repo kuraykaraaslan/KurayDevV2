@@ -601,7 +601,9 @@
       "password_too_short": "Le mot de passe doit contenir au moins 6 caractères.",
       "sign_in": "Se connecter",
       "success": "Connexion réussie",
-      "title": "Bon retour !"
+      "title": "Bon retour !",
+      "forgot_password_link": "Mot de passe oublié ?",
+      "welcome_back": "Bon retour !"
     },
     "logout": {
       "title": "Déconnexion..."
