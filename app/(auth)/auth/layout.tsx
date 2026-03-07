@@ -4,72 +4,88 @@ import Link from 'next/link'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { usePathname } from 'next/navigation'
-import { faCode } from '@fortawesome/free-solid-svg-icons'
+import { faCode, faShieldHalved, faBolt, faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { ReactNode, Suspense } from 'react'
 import SSOLogin from '@/components/frontend/Integrations/Appointments/SSOLogin'
 import { useTranslation } from 'react-i18next'
+import AuthGridBackground from '@/components/auth/AuthGridBackground'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  //Create a context to store the user's authentication status
   const { t } = useTranslation()
   const pathname = usePathname()
 
   const titles = [
-    {
-      path: '/auth/login',
-      title: t('auth.login.welcome_back'),
-    },
-    {
-      path: '/auth/register',
-      title: t('auth.register.title'),
-    },
-    {
-      path: '/auth/forgot-password',
-      title: t('auth.forgot_password.title'),
-    },
-    {
-      path: '/auth/reset-password',
-      title: t('auth.reset_password.title'),
-    },
-    {
-      path: '/auth/logout',
-      title: t('auth.logout.title'),
-    },
+    { path: '/auth/login', title: t('auth.login.welcome_back') },
+    { path: '/auth/register', title: t('auth.register.title') },
+    { path: '/auth/forgot-password', title: t('auth.forgot_password.title') },
+    { path: '/auth/reset-password', title: t('auth.reset_password.title') },
+    { path: '/auth/logout', title: t('auth.logout.title') },
+  ]
+
+  const pageTitle = titles.find((item) => pathname?.startsWith(item.path))?.title
+
+  const features = [
+    { icon: faShieldHalved, label: t('auth.branding.feature_security') },
+    { icon: faBolt, label: t('auth.branding.feature_built') },
+    { icon: faGlobe, label: t('auth.branding.feature_i18n') },
   ]
 
   return (
     <Suspense>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-base-200">
-        <div className="rounded-lg shadow-md w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 min-h-screen md:min-h-[600px] rounded-lg shadow-md bg-base-100 border border-base-300">
-          <div className="col-span-1 hidden md:block rounded-l-lg">
-            <div
-              className="flex flex-col items-center justify-center  rounded-l-lg"
-              style={{
-                backgroundImage: 'url(/assets/img/kuraykaraaslan.jpg)',
+      <div className="min-h-screen bg-base-200 flex items-center justify-center p-4">
+        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 rounded-2xl shadow-xl overflow-hidden border border-base-300 bg-base-100">
 
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                height: '100%',
-              }}
-            ></div>
+          {/* Left branding panel */}
+          <div className="hidden md:flex flex-col justify-between bg-primary text-primary-content p-10 relative overflow-hidden">
+            <AuthGridBackground />
+
+            <Link href="/" className="relative flex items-center gap-2 text-primary-content/90 hover:text-primary-content transition-colors">
+              <FontAwesomeIcon icon={faCode} className="w-5 h-5" />
+              <span className="font-bold text-lg tracking-tight">kuray.dev</span>
+            </Link>
+
+            <div className="relative space-y-3">
+              <h2 className="text-3xl font-bold leading-snug">
+                {t('auth.branding.headline_line1')}<br />{t('auth.branding.headline_line2')}
+              </h2>
+              <p className="text-primary-content/70 text-sm leading-relaxed">
+                {t('auth.branding.tagline')}
+              </p>
+            </div>
+
+            <ul className="relative space-y-3">
+              {features.map((f) => (
+                <li key={f.label} className="flex items-center gap-3 text-sm text-primary-content/80">
+                  <FontAwesomeIcon icon={f.icon} className="w-4 h-4 shrink-0" />
+                  <span>{f.label}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="col-span-1 flex flex-col items-center justify-center w-full p-8 pt-0">
-            <div className="flex items-center justify-center mb-3">
-              <Link
-                href="/"
-                className="flex items-center justify-center space-x-2 font-bold text-4xl"
-              >
-                <FontAwesomeIcon icon={faCode} className="w-8 h-8" />
-                <span className="text-xl">kuray.dev</span>
+
+          {/* Right form panel */}
+          <div className="flex flex-col justify-center px-8 py-10 gap-6">
+            {/* Mobile logo */}
+            <div className="flex md:hidden justify-center">
+              <Link href="/" className="flex items-center gap-2 font-bold text-lg">
+                <FontAwesomeIcon icon={faCode} className="w-5 h-5" />
+                <span>kuray.dev</span>
               </Link>
             </div>
-            <h1 className="text-2xl font-bold text-center mb-4">
-              {titles?.find((item) => pathname?.startsWith(item.path))?.title}
-            </h1>
+
+            {pageTitle && (
+              <div className="space-y-1">
+                <h1 className="text-2xl font-bold">{pageTitle}</h1>
+                <p className="text-sm text-base-content/50">{t('auth.login.email_placeholder')}</p>
+              </div>
+            )}
+
             <div className="w-full">
               {children}
-              <div className="flex items-center justify-center mt-4 mb-4">
-                <span className="text-sm font-semibold">{t('common.or')}</span>
+              <div className="flex items-center gap-3 my-5">
+                <span className="flex-1 h-px bg-base-300" />
+                <span className="text-xs text-base-content/40 uppercase tracking-widest">{t('common.or')}</span>
+                <span className="flex-1 h-px bg-base-300" />
               </div>
               <SSOLogin mode="pins" />
             </div>
