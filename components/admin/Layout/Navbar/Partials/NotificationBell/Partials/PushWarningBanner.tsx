@@ -1,3 +1,6 @@
+'use client'
+
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 
@@ -8,6 +11,7 @@ interface PushWarningBannerProps {
 }
 
 export function PushWarningBanner({ pushDenied, pushLoading, onSubscribe }: PushWarningBannerProps) {
+  const { t } = useTranslation()
   return (
     <div className="px-4 py-3 bg-warning/10 border-b border-warning/20">
       <div className="flex items-start gap-2.5">
@@ -15,16 +19,16 @@ export function PushWarningBanner({ pushDenied, pushLoading, onSubscribe }: Push
         <div className="flex-1 min-w-0">
           {pushDenied ? (
             <>
-              <p className="text-xs font-semibold text-warning">Push notifications blocked</p>
+              <p className="text-xs font-semibold text-warning">{t('admin.notifications.push_blocked_title')}</p>
               <p className="text-[11px] text-base-content/60 mt-0.5 leading-snug">
-                You have blocked notifications in your browser settings. Please allow notifications from site settings to receive push alerts.
+                {t('admin.notifications.push_blocked_description')}
               </p>
             </>
           ) : (
             <>
-              <p className="text-xs font-semibold text-warning">Push notifications are off</p>
+              <p className="text-xs font-semibold text-warning">{t('admin.notifications.push_off_title')}</p>
               <p className="text-[11px] text-base-content/60 mt-0.5 leading-snug">
-                Enable push notifications so you never miss an update.
+                {t('admin.notifications.push_off_description')}
               </p>
               <button
                 type="button"
@@ -32,7 +36,7 @@ export function PushWarningBanner({ pushDenied, pushLoading, onSubscribe }: Push
                 disabled={pushLoading}
                 className="mt-1.5 text-[11px] font-semibold text-primary hover:underline disabled:opacity-50"
               >
-                {pushLoading ? 'Enabling…' : 'Enable now'}
+                {pushLoading ? t('admin.notifications.enabling') : t('admin.notifications.enable_now')}
               </button>
             </>
           )}

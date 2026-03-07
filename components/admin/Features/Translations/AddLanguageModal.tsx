@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { HeadlessModal } from '@/components/admin/UI/Modal'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 import axiosInstance from '@/libs/axios'
@@ -33,6 +34,7 @@ const AddLanguageModal = ({
   entityLabel = 'content',
   onConfirm,
 }: AddLanguageModalProps) => {
+  const { t } = useTranslation()
   const [mode, setMode] = useState<'choose' | 'ai'>('choose')
   const [sourceLang, setSourceLang] = useState<string>('')
   const [aiModel, setAiModel] = useState<string>('')
@@ -57,7 +59,7 @@ const AddLanguageModal = ({
     const source = sourceForms[lang] ?? {}
 
     if (!source['title']?.trim()) {
-      setError('Source content has no title to translate')
+      setError(t('admin.translations.no_title_error'))
       return
     }
 
@@ -137,7 +139,7 @@ ${metaSourceLines}`
       onConfirm(targetLang, prefilled)
       handleClose()
     } catch (err: any) {
-      setError(err?.response?.data?.message ?? err?.message ?? 'Translation failed')
+      setError(err?.response?.data?.message ?? err?.message ?? t('admin.translations.failed'))
     } finally {
       setTranslating(false)
     }
@@ -164,7 +166,7 @@ ${metaSourceLines}`
     >
       {mode === 'choose' ? (
         <div className="flex flex-col gap-3">
-          <p className="text-sm text-base-content/50 mb-1">How do you want to start?</p>
+          <p className="text-sm text-base-content/50 mb-1">{t('admin.translations.how_to_start')}</p>
 
           <button
             type="button"
@@ -178,9 +180,9 @@ ${metaSourceLines}`
               </svg>
             </div>
             <div>
-              <div className="font-semibold text-sm">Start from scratch</div>
+              <div className="font-semibold text-sm">{t('admin.translations.start_from_scratch')}</div>
               <div className="text-xs text-base-content/45 mt-0.5 leading-relaxed">
-                Open an empty form and write content manually
+                {t('admin.translations.start_from_scratch_description')}
               </div>
             </div>
           </button>
@@ -196,7 +198,7 @@ ${metaSourceLines}`
               </svg>
             </div>
             <div>
-              <div className="font-semibold text-sm">Translate with AI</div>
+              <div className="font-semibold text-sm">{t('admin.translations.translate_with_ai')}</div>
               <div className="text-xs text-base-content/45 mt-0.5 leading-relaxed">
                 Auto-fill {fields.map((f) => f.label.toLowerCase()).join(', ')} using {deserializeAIModel(aiModel)?.modelName ?? 'AI'}
               </div>
@@ -213,15 +215,15 @@ ${metaSourceLines}`
             <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M19 12H5M5 12l7 7M5 12l7-7" />
             </svg>
-            Back
+            {t('admin.translations.back')}
           </button>
 
           <DynamicSelect
-            label="Translate from"
+            label={t('admin.translations.translate_from')}
             options={langOptions}
             selectedValue={effectiveSourceLang}
             onValueChange={setSourceLang}
-            placeholder="Select source language"
+            placeholder={t('admin.translations.select_source_language')}
             searchable={langOptions.length > 4}
             portal
             renderOption={(opt) => (
@@ -240,14 +242,14 @@ ${metaSourceLines}`
           />
 
           <DynamicSelect
-            label="AI Model"
+            label={t('admin.translations.ai_model')}
             endpoint="/api/ai/models"
             dataKey="models"
             valueKey="id"
             labelKey="label"
             selectedValue={aiModel}
             onValueChange={setAiModel}
-            placeholder="Select model"
+            placeholder={t('admin.translations.select_model')}
             portal
           />
 
@@ -278,14 +280,14 @@ ${metaSourceLines}`
             {translating ? (
               <>
                 <span className="loading loading-spinner loading-xs" />
-                Translating...
+                {t('admin.translations.translating')}
               </>
             ) : (
               <>
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                 </svg>
-                Translate to {LANG_NAMES[targetLang] ?? targetLang}
+                {t('admin.translations.translate_to', { lang: LANG_NAMES[targetLang] ?? targetLang })}
               </>
             )}
           </button>

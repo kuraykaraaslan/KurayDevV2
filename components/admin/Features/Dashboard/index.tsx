@@ -1,3 +1,6 @@
+'use client'
+
+import { useTranslation } from 'react-i18next'
 import { ReactNode } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,6 +23,7 @@ export default function DashboardWidget({
   emptyMessage,
   children,
 }: DashboardWidgetProps) {
+  const { t } = useTranslation()
   return (
     <div className="rounded-lg border border-base-300 bg-base-200 overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-base-300">
@@ -29,7 +33,7 @@ export default function DashboardWidget({
             href={viewAllHref}
             className="text-xs flex items-center gap-1 text-primary transition-colors"
           >
-            View all
+            {t('common.view_all')}
             <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
           </Link>
         )}

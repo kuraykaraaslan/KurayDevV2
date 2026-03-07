@@ -1,4 +1,5 @@
 import { useState, KeyboardEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import GenericElement, { GenericElementProps } from '../GenericElement'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -16,10 +17,12 @@ const DynamicCommaSeperatedText: React.FC<DynamicCommaSeperatedTextProps> = ({
   className = '',
   values,
   setValues,
-  placeholder = 'Yazın ve virgül veya Enter ile ekleyin...',
+  placeholder,
   size = 'md',
   disabled = false,
 }) => {
+  const { t } = useTranslation()
+  const resolvedPlaceholder = placeholder ?? t('admin.dynamic_comma_text.placeholder')
   const [inputValue, setInputValue] = useState('')
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
   const [editValue, setEditValue] = useState('')
@@ -138,7 +141,7 @@ const DynamicCommaSeperatedText: React.FC<DynamicCommaSeperatedTextProps> = ({
           <input
             type="text"
             className="flex-1 min-w-32 bg-transparent border-none"
-            placeholder={values.length === 0 ? placeholder : ''}
+            placeholder={values.length === 0 ? resolvedPlaceholder : ''}
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -146,7 +149,7 @@ const DynamicCommaSeperatedText: React.FC<DynamicCommaSeperatedTextProps> = ({
           />
         )}
       </div>
-      <p className="text-xs text-base-content/60 mt-1">Düzenlemek için çift tıklayın</p>
+      <p className="text-xs text-base-content/60 mt-1">{t('admin.dynamic_comma_text.double_click_edit')}</p>
     </GenericElement>
   )
 }

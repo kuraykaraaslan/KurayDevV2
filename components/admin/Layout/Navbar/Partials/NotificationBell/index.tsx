@@ -1,5 +1,6 @@
 'use client'
 import { useRef, useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons'
 import { usePushNotifications } from './Hooks/usePushNotifications'
@@ -7,6 +8,7 @@ import { useNotifications } from './Hooks/useNotifications'
 import { NotificationDropdown } from './Partials/NotificationDropdown'
 
 const NotificationBell = () => {
+  const { t } = useTranslation()
   const ref = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
 
@@ -50,7 +52,7 @@ const NotificationBell = () => {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className="relative flex items-center justify-center w-9 h-9 rounded-lg hover:bg-base-200 transition-colors"
-        aria-label="Notifications"
+        aria-label={t('admin.notifications.title')}
       >
         <FontAwesomeIcon
           icon={pushSubscription ? faBell : faBellSlash}

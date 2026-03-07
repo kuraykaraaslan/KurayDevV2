@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { GeoLocation } from '@/dtos/AnalyticsDTO'
 
 export default function GeoStatsItem({ location }: { location: GeoLocation }) {
+  const { t } = useTranslation()
   const locationName = [location.city, location.country].filter(Boolean).join(', ') || 'Unknown'
 
   return (
@@ -12,7 +14,7 @@ export default function GeoStatsItem({ location }: { location: GeoLocation }) {
       </div>
       <span className="text-sm text-base-content/80 truncate flex-1">{locationName}</span>
       <span className="text-xs px-2 py-0.5 rounded bg-base-content/5 text-base-content/50">
-        {location.visitCount ?? 1} visits
+        {t('admin.dashboard.visits', { count: location.visitCount ?? 1 })}
       </span>
     </div>
   )

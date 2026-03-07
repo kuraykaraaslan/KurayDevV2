@@ -3,6 +3,7 @@ import axiosInstance from '@/libs/axios'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTranslation } from 'react-i18next'
+import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 
 const AIPrompt = ({
   setTitle,
@@ -24,6 +25,7 @@ const AIPrompt = ({
   const { t } = useTranslation()
 
   const [internalContent, setInternalContent] = useState('')
+  const { open, openModal, closeModal } = useModal()
 
   const prompt = `
         create a post for this prompt: \n
@@ -76,35 +78,25 @@ const AIPrompt = ({
       })
   }
 
-  const openModal = () => {
-    if (document.getElementById('my_modal_4')) {
-      ;(document.getElementById('my_modal_4') as HTMLDialogElement)?.showModal()
-    }
-  }
-
   return (
     <>
-      <dialog id="my_modal_4" className="modal">
-        <div className="modal-box w-11/12 max-w-5xl">
-          <h3 className="font-bold text-lg">{t('admin.ai_prompt.generate_post')}</h3>
-          <div className="modal-body w-full">
-            <textarea
-              className="textarea h-64 w-full mt-4"
-              value={internalContent}
-              onChange={(e) => setInternalContent(e.target.value)}
-            ></textarea>
-            <button className="btn btn-primary mt-2" onClick={generatePost}>
-              {t('admin.ai_prompt.generate_post')}
-            </button>
-          </div>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button, it will close the modal */}
-              <button className="btn">{t('admin.ai_prompt.close')}</button>
-            </form>
-          </div>
+      <HeadlessModal
+        open={open}
+        onClose={closeModal}
+        title={t('admin.ai_prompt.generate_post')}
+        size="xl"
+      >
+        <div className="modal-body w-full">
+          <textarea
+            className="textarea h-64 w-full mt-4"
+            value={internalContent}
+            onChange={(e) => setInternalContent(e.target.value)}
+          ></textarea>
+          <button className="btn btn-primary mt-2" onClick={generatePost}>
+            {t('admin.ai_prompt.generate_post')}
+          </button>
         </div>
-      </dialog>
+      </HeadlessModal>
       <button className="btn bg-yellow-400 h-12" onClick={openModal}>
         <FontAwesomeIcon icon={faRobot} className="mr-2" /> {t('admin.ai_prompt.generate_post')}
       </button>

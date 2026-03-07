@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
@@ -42,6 +43,7 @@ const PageHeader = ({
   className = '',
   children,
 }: PageHeaderProps) => {
+  const { t } = useTranslation()
   const showBack = onBack || backHref
 
   return (
@@ -98,7 +100,7 @@ const PageHeader = ({
             onClick={onRefresh}
             disabled={refreshing}
             className="btn btn-ghost btn-sm"
-            title="Refresh"
+            title={t('common.refresh')}
           >
             <FontAwesomeIcon icon={faRotateRight} className={refreshing ? 'animate-spin' : ''} />
           </button>

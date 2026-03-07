@@ -19,6 +19,7 @@ import NotificationBell from './Partials/NotificationBell'
 import Logo from '@/components/common/Layout/Logo'
 import dynamic from 'next/dynamic'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { useTranslation } from 'react-i18next'
 
 const NavbarAuthButton = dynamic(
   () => import('@/components/common/UI/Navigation/NavbarAuthButton'),
@@ -27,60 +28,6 @@ const NavbarAuthButton = dynamic(
 
 type NavItem = { name: string; href: string }
 type NavGroup = { label: string; icon: IconDefinition; items: NavItem[] }
-
-const navGroups: NavGroup[] = [
-  {
-    label: 'Dashboard',
-    icon: faHouse,
-    items: [
-      { name: 'Overview', href: '/admin' },
-      { name: 'Analytics', href: '/admin/analytics' },
-    ],
-  },
-  {
-    label: 'Content',
-    icon: faNewspaper,
-    items: [
-      { name: 'Projects', href: '/admin/projects' },
-      { name: 'Categories', href: '/admin/categories' },
-      { name: 'Posts', href: '/admin/posts' },
-      { name: 'Comments', href: '/admin/comments' },
-      { name: 'Testimonials', href: '/admin/testimonials' },
-      { name: 'Media', href: '/admin/media' },
-    ],
-  },
-  {
-    label: 'Communication',
-    icon: faEnvelope,
-    items: [
-      { name: 'Contacts', href: '/admin/contacts' },
-      { name: 'Subscriptions', href: '/admin/subscriptions' },
-      { name: 'Campaigns', href: '/admin/campaigns' },
-      { name: 'Chatbot', href: '/admin/chatbot' },
-    ],
-  },
-  {
-    label: 'Scheduling',
-    icon: faCalendarDays,
-    items: [
-      { name: 'Appointments', href: '/admin/appointments' },
-      { name: 'Slots', href: '/admin/slots' },
-    ],
-  },
-  {
-    label: 'Users',
-    icon: faUsers,
-    items: [{ name: 'Users', href: '/admin/users' }],
-  },
-  {
-    label: 'System',
-    icon: faGear,
-    items: [
-      { name: 'Settings', href: '/admin/settings' },
-      { name: 'Short Links', href: '/admin/short-links' },
-    ],
-  },
-]
 
 // ─── Desktop Dropdown ────────────────────────────────────────────────────────
 
@@ -194,8 +141,63 @@ const MobileAccordion = ({
 // ─── Main Navbar ─────────────────────────────────────────────────────────────
 
 const Navbar = () => {
+  const { t } = useTranslation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev)
+
+  const navGroups: NavGroup[] = [
+    {
+      label: t('admin.navbar.group_dashboard'),
+      icon: faHouse,
+      items: [
+        { name: t('admin.navbar.item_overview'), href: '/admin' },
+        { name: t('admin.navbar.item_analytics'), href: '/admin/analytics' },
+      ],
+    },
+    {
+      label: t('admin.navbar.group_content'),
+      icon: faNewspaper,
+      items: [
+        { name: t('admin.navbar.item_projects'), href: '/admin/projects' },
+        { name: t('admin.navbar.item_categories'), href: '/admin/categories' },
+        { name: t('admin.navbar.item_posts'), href: '/admin/posts' },
+        { name: t('admin.navbar.item_comments'), href: '/admin/comments' },
+        { name: t('admin.navbar.item_testimonials'), href: '/admin/testimonials' },
+        { name: t('admin.navbar.item_media'), href: '/admin/media' },
+      ],
+    },
+    {
+      label: t('admin.navbar.group_communication'),
+      icon: faEnvelope,
+      items: [
+        { name: t('admin.navbar.item_contacts'), href: '/admin/contacts' },
+        { name: t('admin.navbar.item_subscriptions'), href: '/admin/subscriptions' },
+        { name: t('admin.navbar.item_campaigns'), href: '/admin/campaigns' },
+        { name: t('admin.navbar.item_chatbot'), href: '/admin/chatbot' },
+      ],
+    },
+    {
+      label: t('admin.navbar.group_scheduling'),
+      icon: faCalendarDays,
+      items: [
+        { name: t('admin.navbar.item_appointments'), href: '/admin/appointments' },
+        { name: t('admin.navbar.item_slots'), href: '/admin/slots' },
+      ],
+    },
+    {
+      label: t('admin.navbar.group_users'),
+      icon: faUsers,
+      items: [{ name: t('admin.navbar.item_users'), href: '/admin/users' }],
+    },
+    {
+      label: t('admin.navbar.group_system'),
+      icon: faGear,
+      items: [
+        { name: t('admin.navbar.item_settings'), href: '/admin/settings' },
+        { name: t('admin.navbar.item_short_links'), href: '/admin/short-links' },
+      ],
+    },
+  ]
 
   // Close on route change
   const pathname = usePathname()

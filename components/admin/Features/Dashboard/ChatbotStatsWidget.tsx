@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslation } from 'react-i18next'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -26,15 +27,15 @@ function formatNumber(n: number): string {
   return String(n)
 }
 
-function timeAgo(dateStr: string): string {
+function timeAgo(dateStr: string, t: (key: string, opts?: object) => string): string {
   const diff = Date.now() - new Date(dateStr).getTime()
   const mins = Math.floor(diff / 60000)
-  if (mins < 1) return 'just now'
-  if (mins < 60) return `${mins}m ago`
+  if (mins < 1) return t('admin.chatbot_widget.just_now')
+  if (mins < 60) return t('admin.chatbot_widget.mins_ago', { count: mins })
   const hours = Math.floor(mins / 60)
-  if (hours < 24) return `${hours}h ago`
+  if (hours < 24) return t('admin.chatbot_widget.hours_ago', { count: hours })
   const days = Math.floor(hours / 24)
-  return `${days}d ago`
+  return t('admin.chatbot_widget.days_ago', { count: days })
 }
 
 const STATUS_CONFIG = {
@@ -44,12 +45,13 @@ const STATUS_CONFIG = {
 } as const
 
 export default function ChatbotStatsWidget({ stats, loading }: ChatbotStatsWidgetProps) {
+  const { t } = useTranslation()
 
   if (loading) {
     return (
       <div className="rounded-lg border border-base-300 bg-base-200 overflow-hidden">
         <div className="px-5 py-4 border-b border-base-300">
-          <h2 className="text-sm font-semibold text-base-content">Chatbot</h2>
+          <h2 className="text-sm font-semibold text-base-content">{t('admin.chatbot_widget.title')}</h2>
         </div>
         <div className="px-5 py-8 flex justify-center">
           <FontAwesomeIcon icon={faSpinner} className="w-5 h-5 animate-spin text-primary" />
@@ -62,24 +64,24 @@ export default function ChatbotStatsWidget({ stats, loading }: ChatbotStatsWidge
     return (
       <div className="rounded-lg border border-base-300 bg-base-200 overflow-hidden">
         <div className="px-5 py-4 border-b border-base-300">
-          <h2 className="text-sm font-semibold text-base-content">Chatbot</h2>
+          <h2 className="text-sm font-semibold text-base-content">{t('admin.chatbot_widget.title')}</h2>
         </div>
-        <p className="px-5 py-6 text-sm text-base-content/40">Failed to load chatbot stats.</p>
+        <p className="px-5 py-6 text-sm text-base-content/40">{t('admin.chatbot_widget.load_failed')}</p>
       </div>
     )
   }
 
   const statItems = [
-    { label: 'Total Sessions', value: stats.totalSessions, icon: faRobot, color: 'text-primary' },
-    { label: 'Total Messages', value: stats.totalMessages, icon: faComments, color: 'text-info' },
-    { label: 'Unique Users', value: stats.uniqueUsers, icon: faUsers, color: 'text-secondary' },
-    { label: 'Avg Msgs/Session', value: stats.avgMessagesPerSession, icon: faEnvelope, color: 'text-accent' },
+    { label: t('admin.chatbot_widget.total_sessions'), value: stats.totalSessions, icon: faRobot, color: 'text-primary' },
+    { label: t('admin.chatbot_widget.total_messages'), value: stats.totalMessages, icon: faComments, color: 'text-info' },
+    { label: t('admin.chatbot_widget.unique_users'), value: stats.uniqueUsers, icon: faUsers, color: 'text-secondary' },
+    { label: t('admin.chatbot_widget.avg_msgs_per_session'), value: stats.avgMessagesPerSession, icon: faEnvelope, color: 'text-accent' },
   ]
 
   const sessionBreakdown = [
-    { label: 'Active', value: stats.activeSessions, color: 'bg-success' },
-    { label: 'Closed', value: stats.closedSessions, color: 'bg-base-content/30' },
-    { label: 'Taken Over', value: stats.takenOverSessions, color: 'bg-warning' },
+    { label: t('admin.chatbot_widget.active'), value: stats.activeSessions, color: 'bg-success' },
+    { label: t('admin.chatbot_widget.closed'), value: stats.closedSessions, color: 'bg-base-content/30' },
+    { label: t('admin.chatbot_widget.taken_over'), value: stats.takenOverSessions, color: 'bg-warning' },
   ]
 
   const totalForBar = stats.totalSessions || 1
@@ -90,13 +92,13 @@ export default function ChatbotStatsWidget({ stats, loading }: ChatbotStatsWidge
       <div className="flex items-center justify-between px-5 py-4 border-b border-base-300">
         <h2 className="text-sm font-semibold text-base-content flex items-center gap-2">
           <FontAwesomeIcon icon={faRobot} className="w-4 h-4 text-primary" />
-          Chatbot Analytics
+          {t('admin.chatbot_widget.chatbot_analytics')}
         </h2>
         <Link
           href="/admin/chatbot"
           className="text-xs flex items-center gap-1 text-primary transition-colors"
         >
-          View all
+          {t('common.view_all')}
           <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
         </Link>
       </div>
@@ -118,7 +120,7 @@ export default function ChatbotStatsWidget({ stats, loading }: ChatbotStatsWidge
 
       {/* Session breakdown bar */}
       <div className="px-5 pb-4">
-        <div className="text-xs text-base-content/60 mb-2 font-medium">Session Breakdown</div>
+        <div className="text-xs text-base-content/60 mb-2 font-medium">{t('admin.chatbot_widget.session_breakdown')}</div>
         <div className="flex rounded-full overflow-hidden h-2.5 bg-base-300">
           {sessionBreakdown.map((item) => {
             const pct = (item.value / totalForBar) * 100
@@ -149,7 +151,7 @@ export default function ChatbotStatsWidget({ stats, loading }: ChatbotStatsWidge
       {stats.recentSessions.length > 0 && (
         <div className="border-t border-base-300">
           <div className="px-5 py-3">
-            <div className="text-xs text-base-content/60 font-medium">Recent Sessions</div>
+            <div className="text-xs text-base-content/60 font-medium">{t('admin.chatbot_widget.recent_sessions')}</div>
           </div>
           <div className="divide-y divide-base-300">
             {stats.recentSessions.map((session) => {
@@ -166,14 +168,14 @@ export default function ChatbotStatsWidget({ stats, loading }: ChatbotStatsWidge
                   />
                   <div className="flex-1 min-w-0">
                     <div className="text-xs text-base-content truncate">
-                      {session.title || 'Untitled session'}
+                      {session.title || t('admin.chatbot_widget.untitled_session')}
                     </div>
                     <div className="text-[10px] text-base-content/40">
                       {session.userEmail || session.userId.slice(0, 12)}
                     </div>
                   </div>
                   <div className="text-[10px] text-base-content/40 whitespace-nowrap">
-                    {timeAgo(session.updatedAt)}
+                    {timeAgo(session.updatedAt, t)}
                   </div>
                 </Link>
               )

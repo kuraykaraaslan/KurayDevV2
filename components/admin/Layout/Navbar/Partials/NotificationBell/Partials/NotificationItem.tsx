@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import type { Notification } from '@/types/common/NotificationTypes'
@@ -10,6 +11,7 @@ interface NotificationItemProps {
 }
 
 export function NotificationItem({ notification: n, onNavigate, onMarkAsRead, onDelete }: NotificationItemProps) {
+  const { t } = useTranslation()
   return (
     <li
       className={`flex items-start gap-3 px-4 py-3 transition-colors ${
@@ -38,7 +40,7 @@ export function NotificationItem({ notification: n, onNavigate, onMarkAsRead, on
         {!n.isRead && (
           <button
             type="button"
-            title="Mark as read"
+            title={t('admin.notifications.mark_as_read')}
             onClick={() => onMarkAsRead(n.notificationId)}
             className="p-1 rounded hover:bg-base-300 text-base-content/40 hover:text-success transition-colors"
           >
@@ -47,7 +49,7 @@ export function NotificationItem({ notification: n, onNavigate, onMarkAsRead, on
         )}
         <button
           type="button"
-          title="Delete"
+          title={t('common.delete')}
           onClick={() => onDelete(n.notificationId)}
           className="p-1 rounded hover:bg-base-300 text-base-content/40 hover:text-error transition-colors"
         >

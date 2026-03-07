@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { TrafficDataPoint } from '@/types/common/DashboardTypes'
@@ -8,6 +9,7 @@ interface TrafficOverviewChartProps {
 }
 
 export default function TrafficOverviewChart({ data, loading }: TrafficOverviewChartProps) {
+  const { t } = useTranslation()
   if (loading) {
     return (
       <div className="px-5 py-8 flex justify-center">
@@ -17,7 +19,7 @@ export default function TrafficOverviewChart({ data, loading }: TrafficOverviewC
   }
 
   if (data.length === 0) {
-    return <p className="px-5 py-6 text-sm text-base-content/40">No traffic data available.</p>
+    return <p className="px-5 py-6 text-sm text-base-content/40">{t('admin.dashboard.no_traffic_data')}</p>
   }
 
   const maxValue = Math.max(...data.map((d) => d.value), 1)
@@ -46,8 +48,8 @@ export default function TrafficOverviewChart({ data, loading }: TrafficOverviewC
         ))}
       </div>
       <div className="mt-3 flex items-center justify-between text-xs text-base-content/50">
-        <span>Total: {data.reduce((sum, d) => sum + d.value, 0).toLocaleString()} visits</span>
-        <span>Last 7 days</span>
+        <span>{t('admin.dashboard.traffic_total', { count: data.reduce((sum, d) => sum + d.value, 0).toLocaleString() })}</span>
+        <span>{t('admin.dashboard.last_7_days')}</span>
       </div>
     </div>
   )

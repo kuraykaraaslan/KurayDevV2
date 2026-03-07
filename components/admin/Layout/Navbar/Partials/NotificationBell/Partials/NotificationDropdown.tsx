@@ -1,3 +1,6 @@
+'use client'
+
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faBellSlash } from '@fortawesome/free-solid-svg-icons'
 import type { Notification } from '@/types/common/NotificationTypes'
@@ -37,6 +40,7 @@ export function NotificationDropdown({
   onClearAll,
   onNavigate,
 }: NotificationDropdownProps) {
+  const { t } = useTranslation()
   return (
     <div className="absolute right-0 top-full mt-2 w-80 rounded-xl shadow-lg border border-base-300 bg-base-100 z-50 overflow-hidden">
       {showPushWarning && (
@@ -50,7 +54,9 @@ export function NotificationDropdown({
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-base-200">
         <span className="text-xs font-semibold text-base-content/60 uppercase tracking-wide">
-          Notifications {unreadCount > 0 && `(${unreadCount} new)`}
+          {unreadCount > 0
+            ? t('admin.notifications.title_new', { count: unreadCount })
+            : t('admin.notifications.title')}
         </span>
         <div className="flex items-center gap-2">
           {notifications.length > 0 && (
@@ -60,19 +66,19 @@ export function NotificationDropdown({
                   type="button"
                   onClick={onMarkAllAsRead}
                   className="text-xs text-base-content/40 hover:text-success transition-colors flex items-center gap-1"
-                  title="Mark all as read"
+                  title={t('admin.notifications.mark_all_read')}
                 >
                   <FontAwesomeIcon icon={faCheck} className="w-2.5 h-2.5" />
-                  Mark all read
+                  {t('admin.notifications.mark_all_read')}
                 </button>
               )}
               <button
                 type="button"
                 onClick={onClearAll}
                 className="text-xs text-base-content/40 hover:text-error transition-colors"
-                title="Clear all"
+                title={t('admin.notifications.clear_all')}
               >
-                Clear all
+                {t('admin.notifications.clear_all')}
               </button>
             </>
           )}
@@ -82,7 +88,7 @@ export function NotificationDropdown({
               onClick={onUnsubscribe}
               disabled={pushLoading}
               className="text-xs text-base-content/40 hover:text-warning transition-colors flex items-center gap-1 disabled:opacity-50"
-              title="Disable push notifications"
+              title={t('admin.notifications.disable_push')}
             >
               <FontAwesomeIcon icon={faBellSlash} className="w-2.5 h-2.5" />
             </button>
@@ -92,7 +98,7 @@ export function NotificationDropdown({
 
       {/* List */}
       {notifications.length === 0 ? (
-        <div className="px-4 py-6 text-sm text-base-content/50 text-center">All caught up!</div>
+        <div className="px-4 py-6 text-sm text-base-content/50 text-center">{t('admin.notifications.all_caught_up')}</div>
       ) : (
         <ul className="max-h-80 overflow-y-auto divide-y divide-base-200">
           {notifications.map((n) => (

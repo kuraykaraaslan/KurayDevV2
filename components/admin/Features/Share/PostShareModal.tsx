@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { HeadlessModal } from '@/components/admin/UI/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -20,6 +21,7 @@ interface PostShareModalProps {
 }
 
 const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
+  const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
   const [shortUrl, setShortUrl] = useState<string | null>(null)
   const [shortCopied, setShortCopied] = useState(false)
@@ -122,7 +124,7 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
     <HeadlessModal
       open={true}
       onClose={onClose}
-      title="Share Post"
+      title={t('admin.share.share_post')}
       size="sm"
     >
       {/* Post title */}
@@ -136,7 +138,7 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
         <button
           onClick={handleCopy}
           className="btn btn-sm btn-ghost shrink-0"
-          title="Copy link"
+          title={t('admin.share.copy_link')}
         >
           <FontAwesomeIcon icon={copied ? faCheck : faCopy} className={copied ? 'text-success' : ''} />
         </button>
@@ -145,7 +147,7 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-sm btn-ghost shrink-0"
-          title="Open post"
+          title={t('admin.share.open_post')}
         >
           <FontAwesomeIcon icon={faExternalLink} />
         </a>
@@ -160,7 +162,7 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
             className="btn btn-sm btn-outline w-full gap-2"
           >
             <FontAwesomeIcon icon={faLink} />
-            {shortLoading ? 'Generating...' : 'Generate Short Link'}
+            {shortLoading ? t('admin.share.generating') : t('admin.share.generate_short_link')}
           </button>
         ) : (
           <div className="flex items-center gap-2">
@@ -170,7 +172,7 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
             <button
               onClick={handleCopyShortUrl}
               className="btn btn-sm btn-ghost shrink-0"
-              title="Copy short link"
+              title={t('admin.share.copy_short_link')}
             >
               <FontAwesomeIcon icon={shortCopied ? faCheck : faCopy} className={shortCopied ? 'text-success' : ''} />
             </button>

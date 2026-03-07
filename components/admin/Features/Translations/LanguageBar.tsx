@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AVAILABLE_LANGUAGES, LANG_NAMES, getLangFlagUrl, type AppLanguage } from '@/types/common/I18nTypes'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 
@@ -32,6 +33,7 @@ const LanguageBar = ({
   const [sourceLang, setSourceLang] = useState(sourceLangProp)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
+  const { t } = useTranslation()
 
   const tabs = [sourceLang, ...addedLangs.filter((l) => l !== sourceLang)]
 
@@ -81,7 +83,7 @@ const LanguageBar = ({
             </svg>
           </span>
           <span className="text-sm font-medium text-base-content/70 tracking-wide">
-            Content Language
+            {t('admin.translations.content_language')}
           </span>
         </div>
 
@@ -204,7 +206,7 @@ const LanguageBar = ({
               <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M12 5v14M5 12h14" />
               </svg>
-              Add language
+              {t('admin.translations.add_language')}
             </button>
 
             {showDropdown && (
@@ -214,7 +216,7 @@ const LanguageBar = ({
                   <input
                     ref={searchRef}
                     type="text"
-                    placeholder="Search language..."
+                    placeholder={t('admin.translations.search_language')}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="input input-sm w-full bg-base-200/50 border-none text-sm"
@@ -224,7 +226,7 @@ const LanguageBar = ({
                 {/* Language list */}
                 <div className="max-h-56 overflow-y-auto py-1">
                   {filteredAvailable.length === 0 ? (
-                    <p className="text-center text-xs text-base-content/40 py-4">No results</p>
+                    <p className="text-center text-xs text-base-content/40 py-4">{t('admin.translations.no_results')}</p>
                   ) : (
                     filteredAvailable.map((lang) => (
                       <button

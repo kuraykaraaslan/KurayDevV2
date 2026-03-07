@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState, useMemo, ReactNode } from 'react'
 import axiosInstance from '@/libs/axios'
+import { useTranslation } from 'react-i18next'
 import { PostWithData, CommentWithData } from '@/types/content/BlogTypes'
 import { Stat } from '@/types/common/StatTypes'
 import { Subscription } from '@/types/common/SubscriptionTypes'
@@ -27,6 +28,7 @@ interface DashboardWidgetConfig {
 
 
 export default function DashboardPage() {
+  const { t } = useTranslation()
   const [stats, setStats] = useState<Stat | null>(null)
   const [recentPosts, setRecentPosts] = useState<PostWithData[]>([])
   const [popularPosts, setPopularPosts] = useState<PostWithData[]>([])
@@ -95,11 +97,11 @@ export default function DashboardPage() {
         key: 'recent-posts',
         component: (
           <DashboardWidget
-            title="Recent Posts"
+            title={t('admin.dashboard.recent_posts')}
             viewAllHref="/admin/posts"
             loading={loading}
             isEmpty={recentPosts.length === 0}
-            emptyMessage="No posts yet."
+            emptyMessage={t('admin.dashboard.no_posts')}
           >
             {recentPosts.map((post) => (
               <RecentPostItem key={post.postId} post={post} />
@@ -111,11 +113,11 @@ export default function DashboardPage() {
         key: 'pending-comments',
         component: (
           <DashboardWidget
-            title="Pending Comments"
+            title={t('admin.dashboard.pending_comments')}
             viewAllHref="/admin/comments"
             loading={loading}
             isEmpty={pendingComments.length === 0}
-            emptyMessage="No pending comments."
+            emptyMessage={t('admin.dashboard.no_comments')}
           >
             {pendingComments.map((comment) => (
               <PendingCommentItem key={comment.commentId} comment={comment} />
@@ -127,11 +129,11 @@ export default function DashboardPage() {
         key: 'popular-posts',
         component: (
           <DashboardWidget
-            title="Popular Posts"
+            title={t('admin.dashboard.popular_posts')}
             viewAllHref="/admin/posts"
             loading={loading}
             isEmpty={popularPosts.length === 0}
-            emptyMessage="No popular posts yet."
+            emptyMessage={t('admin.dashboard.no_popular_posts')}
           >
             {popularPosts.map((post) => (
               <PopularPostItem key={post.postId} post={post} />
@@ -143,11 +145,11 @@ export default function DashboardPage() {
         key: 'subscriptions',
         component: (
           <DashboardWidget
-            title="New Subscriptions"
+            title={t('admin.dashboard.new_subscriptions')}
             viewAllHref="/admin/subscriptions"
             loading={loading}
             isEmpty={subscriptions.length === 0}
-            emptyMessage="No subscriptions yet."
+            emptyMessage={t('admin.dashboard.no_subscriptions')}
           >
             {subscriptions.map((sub) => (
               <SubscriptionItem key={sub.email} subscription={sub} />
@@ -159,11 +161,11 @@ export default function DashboardPage() {
         key: 'appointments',
         component: (
           <DashboardWidget
-            title="Appointments"
+            title={t('admin.dashboard.appointments')}
             viewAllHref="/admin/appointments"
             loading={loading}
             isEmpty={appointments.length === 0}
-            emptyMessage="No appointments scheduled."
+            emptyMessage={t('admin.dashboard.no_appointments')}
           >
             {appointments.map((apt) => (
               <AppointmentItem key={apt.appointmentId} appointment={apt} />
@@ -175,11 +177,11 @@ export default function DashboardPage() {
         key: 'contact-forms',
         component: (
           <DashboardWidget
-            title="Contact Forms"
+            title={t('admin.dashboard.contact_forms')}
             viewAllHref="/admin/contacts"
             loading={loading}
             isEmpty={contactForms.length === 0}
-            emptyMessage="No contact forms yet."
+            emptyMessage={t('admin.dashboard.no_contact_forms')}
           >
             {contactForms.map((contact) => (
               <ContactFormItem key={contact.contactId} contact={contact} />
@@ -191,7 +193,7 @@ export default function DashboardPage() {
         key: 'traffic-overview',
         component: (
           <DashboardWidget
-            title="Traffic Overview"
+            title={t('admin.dashboard.traffic_overview')}
             viewAllHref="/admin/analytics"
             loading={false}
             isEmpty={false}
@@ -205,11 +207,11 @@ export default function DashboardPage() {
         key: 'geo-stats',
         component: (
           <DashboardWidget
-            title="Geographic Stats"
+            title={t('admin.dashboard.geo_stats')}
             viewAllHref="/admin/analytics"
             loading={loading}
             isEmpty={geoData.length === 0}
-            emptyMessage="No geographic data available."
+            emptyMessage={t('admin.dashboard.no_geo_data')}
           >
             {geoData.map((loc, idx) => (
               <GeoStatsItem key={loc.id || idx} location={loc} />
@@ -223,7 +225,7 @@ export default function DashboardPage() {
 
   return (
     <div className="w-full">
-      <PageHeader title="Dashboard" description="Overview of your content and activity" />
+      <PageHeader title={t('admin.dashboard.title')} description={t('admin.dashboard.description')} />
 
       <StatsGrid>
         {STAT_CARDS.map(({ key, label, icon, href }) => (
