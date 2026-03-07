@@ -1,7 +1,5 @@
 'use client'
 import axiosInstance from '@/libs/axios'
-import { faQuestion } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { MouseEvent, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -167,19 +165,16 @@ const LoginPage = () => {
         </div>
 
         <div>
-          <div className="flex items-center justify-between"></div>
-          <div className="relative mt-2">
+          <div className="flex items-center justify-between mb-1">
+            <span />
             <Link
-              className="absolute inset-y-0 right-2 pl-3 flex items-center"
               href="/auth/forgot-password"
+              className="text-sm font-medium text-primary hover:underline"
             >
-              <button
-                type="button"
-                className="text-primary hover:text-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-md text-sm font-medium"
-              >
-                <FontAwesomeIcon icon={faQuestion} />
-              </button>
+              {t('auth.login.forgot_password_link')}
             </Link>
+          </div>
+          <div className="relative mt-2">
             <input
               id="password"
               name="password"
