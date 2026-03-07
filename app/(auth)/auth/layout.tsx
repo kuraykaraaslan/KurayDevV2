@@ -7,32 +7,33 @@ import { usePathname } from 'next/navigation'
 import { faCode } from '@fortawesome/free-solid-svg-icons'
 import { ReactNode, Suspense } from 'react'
 import SSOLogin from '@/components/frontend/Integrations/Appointments/SSOLogin'
+import { useTranslation } from 'react-i18next'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   //Create a context to store the user's authentication status
-
+  const { t } = useTranslation()
   const pathname = usePathname()
 
   const titles = [
     {
       path: '/auth/login',
-      title: 'Welcome back!',
+      title: t('auth.login.welcome_back'),
     },
     {
       path: '/auth/register',
-      title: 'Create an account',
+      title: t('auth.register.title'),
     },
     {
       path: '/auth/forgot-password',
-      title: 'Forgot Password',
+      title: t('auth.forgot_password.title'),
     },
     {
       path: '/auth/reset-password',
-      title: 'Reset Password',
+      title: t('auth.reset_password.title'),
     },
     {
       path: '/auth/logout',
-      title: 'Logging out...',
+      title: t('auth.logout.title'),
     },
   ]
 
@@ -68,7 +69,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <div className="w-full">
               {children}
               <div className="flex items-center justify-center mt-4 mb-4">
-                <span className="text-sm font-semibold">Or</span>
+                <span className="text-sm font-semibold">{t('common.or')}</span>
               </div>
               <SSOLogin mode="pins" />
             </div>

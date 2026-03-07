@@ -9,8 +9,10 @@ import { useGlobalStore } from '@/libs/zustand'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { OTPActionEnum, OTPMethod } from '@/types/user/UserSecurityTypes'
 import OTPConfirmModal from '@/components/frontend/Features/Settings/Tabs/OTPTab/partials/OTPConfirmModal'
+import { useTranslation } from 'react-i18next'
 
 const LoginPage = () => {
+  const { t } = useTranslation()
   const emailRegex = /\S+@\S+\.\S+/
   const passwordRegex = /^.{6,}$/
 
@@ -45,24 +47,22 @@ const LoginPage = () => {
     }
 
     if (typeof email !== 'string') {
-      toast.error('Invalid email address.')
+      toast.error(t('auth.login.invalid_email'))
       return
     }
 
     if (typeof password !== 'string') {
-      toast.error('Password must contain at least 6 characters.')
+      toast.error(t('auth.login.password_too_short'))
       return
     }
 
     if (!emailRegex.test(email)) {
-      toast.error('Invalid email address.')
+      toast.error(t('auth.login.invalid_email'))
       return
     }
 
     if (!passwordRegex.test(password)) {
-      toast.error(
-        'Password must contain at least 8 characters, one uppercase, one lowercase, one number.'
-      )
+      toast.error(t('auth.login.password_requirements'))
       return
     }
 
@@ -82,11 +82,11 @@ const LoginPage = () => {
           setOtpModalOpen(true)
           return
         }
-        toast.success('Login successful')
+        toast.success(t('auth.login.success'))
         router.push('/')
       })
       .catch((err) => {
-        toast.error(err.response?.data?.error || 'Login failed')
+        toast.error(err.response?.data?.error || t('auth.login.failed'))
       })
   }
 
@@ -100,10 +100,10 @@ const LoginPage = () => {
         action: OTPActionEnum.Enum.authenticate,
       })
       setOtpSent(true)
-      toast.success('OTP gönderildi')
+      toast.success(t('auth.login.otp_sent'))
       setTimeout(() => otpInputRef.current?.focus(), 100)
     } catch {
-      toast.error('OTP gönderilemedi')
+      toast.error(t('auth.login.otp_send_failed'))
     } finally {
       setSendingOtp(false)
     }
@@ -122,11 +122,11 @@ const LoginPage = () => {
           action: OTPActionEnum.Enum.authenticate,
         })
         .then(() => {
-          toast.success('OTP doğrulandı')
+          toast.success(t('auth.login.otp_verified'))
           router.push(searchParams.get('redirect') || '/')
         })
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'OTP doğrulanamadı')
+      toast.error(err?.response?.data?.message || t('auth.login.otp_verify_failed'))
     } finally {
       setVerifyingOtp(false)
     }
@@ -141,11 +141,11 @@ const LoginPage = () => {
             type="button"
             className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
           >
-            <span className="flex items-center justify-center">Create an account</span>
+            <span className="flex items-center justify-center">{t('auth.login.create_account_link')}</span>
           </Link>
         </div>
         <div className="flex items-center justify-center">
-          <span className="text-sm font-semibold">Or</span>
+          <span className="text-sm font-semibold">{t('common.or')}</span>
         </div>
         <div>
           <div className="mt-2">
@@ -158,7 +158,7 @@ const LoginPage = () => {
               value={email as string}
               onChange={(e) => setEmail(e.target.value)}
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-              placeholder="Email address"
+              placeholder={t('auth.login.email_placeholder')}
               className={
                 'block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4'
               }
@@ -188,7 +188,7 @@ const LoginPage = () => {
               value={password as string}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
-              placeholder="Password"
+              placeholder={t('auth.login.password_placeholder')}
               className={
                 'block w-full rounded-lg border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-primary sm:text-sm sm:leading-6 h-12 p-4'
               }
@@ -202,7 +202,7 @@ const LoginPage = () => {
             disabled={!email || !password}
             className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
           >
-            Sign in
+            {t('auth.login.sign_in')}
           </button>
         </div>
       </div>

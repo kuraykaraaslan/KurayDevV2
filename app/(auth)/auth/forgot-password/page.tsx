@@ -1,10 +1,12 @@
 'use client'
 import { MouseEvent, useEffect, useState } from 'react'
 import axiosInstance from '@/libs/axios'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { useSearchParams } from 'next/navigation'
 
 const ForgotPasswordPage = () => {
+  const { t } = useTranslation()
   const searchParams = useSearchParams()
 
   const emailRegex = /\S+@\S+\.\S+/
@@ -37,7 +39,7 @@ const ForgotPasswordPage = () => {
 
     if (step === 1) {
       if (!email || emailRegex.test(email) === false) {
-        toast.error('Email is required.')
+        toast.error(t('auth.forgot_password.email_required'))
         return
       }
 
@@ -50,7 +52,7 @@ const ForgotPasswordPage = () => {
             console.error(res.data.error)
             return
           }
-          toast.success('Verification code sent to your email.')
+          toast.success(t('auth.forgot_password.code_sent'))
           setStep(2)
         })
         .catch((error) => {
@@ -76,7 +78,7 @@ const ForgotPasswordPage = () => {
             console.error(res.data.error)
             return
           }
-          toast.success('Password reset successfully.')
+          toast.success(t('auth.reset_password.success'))
         })
         .catch((error) => {
           toast.error(error.response.data.error)
@@ -91,7 +93,7 @@ const ForgotPasswordPage = () => {
           <div className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6">
-                Email address
+                {t('auth.forgot_password.email_label')}
               </label>
               <div className="mt-2">
                 <input
@@ -113,7 +115,7 @@ const ForgotPasswordPage = () => {
                 className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
                 onClick={handleSubmit}
               >
-                Send Verification Code
+                {t('auth.forgot_password.send_code')}
               </button>
             </div>
           </div>
@@ -122,7 +124,7 @@ const ForgotPasswordPage = () => {
         <div className="space-y-6">
           <div>
             <label htmlFor="verificationCode" className="block text-sm font-medium leading-6">
-              Verification Code
+              {t('auth.forgot_password.verification_code_label')}
             </label>
             <div className="mt-2">
               <input
@@ -140,7 +142,7 @@ const ForgotPasswordPage = () => {
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium leading-6">
-              New Password
+              {t('auth.reset_password.new_password_label')}
             </label>
             <div className="mt-2">
               <input
@@ -158,7 +160,7 @@ const ForgotPasswordPage = () => {
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium leading-6">
-              Confirm Password
+              {t('auth.reset_password.confirm_password_label')}
             </label>
             <div className="mt-2">
               <input
@@ -180,7 +182,7 @@ const ForgotPasswordPage = () => {
               className="block w-full py-2.5 bg-primary font-semibold rounded-lg shadow-md text-white"
               onClick={handleSubmit}
             >
-              Reset Password
+              {t('auth.reset_password.button')}
             </button>
           </div>
         </div>
