@@ -17,6 +17,7 @@
     "vercel-build": "npx prisma generate && npx prisma migrate deploy && npm run build",
     "analyze": "ANALYZE=true next build",
     "translate": "npx tsx scripts/translate-and-add-missing-keys.ts all",
+    "translate:clean": "npx tsx scripts/remove-unused-dictionary-keys.ts",
     "user:create": "npx tsx scripts/user-create.ts"
   },
   "dependencies": {
