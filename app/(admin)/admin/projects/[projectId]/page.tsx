@@ -279,6 +279,7 @@ const SingleProject = () => {
               buttons={[{ label: 'Add Link', onClick: () => setProjectLinks([...projectLinks, '']), className: 'btn-secondary btn-sm' }]}
               titleTextClassName="text-sm font-normal"
               searchClassName="hidden"
+              showExport
             />
             <TableBody emptyText="No links added yet." />
           </TableProvider>

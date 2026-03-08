@@ -43,6 +43,12 @@ export default function NotificationsTab() {
       })
   }
 
+  const newsletterTopics = preferences.newsletterTopics ?? {
+    blogDigest: true,
+    announcements: true,
+    events: true,
+  }
+
   return (
     <div className="bg-base-100 border border-base-300 rounded-xl shadow-sm p-6 space-y-6">
       <FormHeader title={t('settings.notifications_tab.title')} titleClassName="text-lg" />
@@ -75,6 +81,54 @@ export default function NotificationsTab() {
         checked={preferences.newsletter ?? true}
         onChange={(checked) => setPrefs((p) => ({ ...p, newsletter: checked }))}
       />
+
+      {/* Newsletter Topic Preferences — shown only when newsletter is enabled */}
+      {(preferences.newsletter ?? true) && (
+        <div className="border border-base-300 rounded-lg p-4 space-y-3">
+          <p className="text-sm font-medium text-base-content">
+            {t('settings.notifications_tab.newsletter_topics_title')}
+          </p>
+          <p className="text-xs text-base-content/60">
+            {t('settings.notifications_tab.newsletter_topics_description')}
+          </p>
+
+          <DynamicToggle
+            label={t('settings.notifications_tab.topic_blog_digest_label')}
+            description={t('settings.notifications_tab.topic_blog_digest_description')}
+            checked={newsletterTopics.blogDigest}
+            onChange={(checked) =>
+              setPrefs((p) => ({
+                ...p,
+                newsletterTopics: { ...newsletterTopics, blogDigest: checked },
+              }))
+            }
+          />
+
+          <DynamicToggle
+            label={t('settings.notifications_tab.topic_announcements_label')}
+            description={t('settings.notifications_tab.topic_announcements_description')}
+            checked={newsletterTopics.announcements}
+            onChange={(checked) =>
+              setPrefs((p) => ({
+                ...p,
+                newsletterTopics: { ...newsletterTopics, announcements: checked },
+              }))
+            }
+          />
+
+          <DynamicToggle
+            label={t('settings.notifications_tab.topic_events_label')}
+            description={t('settings.notifications_tab.topic_events_description')}
+            checked={newsletterTopics.events}
+            onChange={(checked) =>
+              setPrefs((p) => ({
+                ...p,
+                newsletterTopics: { ...newsletterTopics, events: checked },
+              }))
+            }
+          />
+        </div>
+      )}
 
       <button onClick={handleSave} disabled={saving} className="btn btn-primary w-full">
         {saving ? t('settings.notifications_tab.saving') : t('settings.notifications_tab.save')}
