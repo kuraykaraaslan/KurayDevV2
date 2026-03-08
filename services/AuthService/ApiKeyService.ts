@@ -2,9 +2,16 @@ import crypto from 'crypto'
 import { prisma } from '@/libs/prisma'
 import { SafeUser, SafeUserSchema } from '@/types/user/UserTypes'
 import AuthMessages from '@/messages/AuthMessages'
-import { ApiKeyResponse } from '@/dtos/ApiKeyDTO'
+import { ApiKeyQuotaStatus, ApiKeyResponse } from '@/dtos/ApiKeyDTO'
 import redisInstance from '@/libs/redis'
-import { API_KEY_REDIS_TTL_SECONDS, API_KEY_CACHE_KEY } from './constants'
+import {
+  API_KEY_REDIS_TTL_SECONDS,
+  API_KEY_CACHE_KEY,
+  API_KEY_DAILY_USAGE_KEY,
+  API_KEY_MONTHLY_USAGE_KEY,
+  API_KEY_DAILY_USAGE_TTL_SECONDS,
+  API_KEY_MONTHLY_USAGE_TTL_SECONDS,
+} from './constants'
 
 export default class ApiKeyService {
   /**
@@ -29,11 +36,15 @@ export default class ApiKeyService {
    * @param userId - Owner's user ID.
    * @param name   - Human-readable label for the key.
    * @param expiresAt - Optional expiry date; omit for a non-expiring key.
+   * @param dailyLimit - Optional max requests per calendar day.
+   * @param monthlyLimit - Optional max requests per calendar month.
    */
   static async create(
     userId: string,
     name: string,
-    expiresAt?: Date
+    expiresAt?: Date,
+    dailyLimit?: number,
+    monthlyLimit?: number
   ): Promise<{ apiKey: ApiKeyResponse; rawKey: string }> {
     const rawKey = ApiKeyService.generateRawKey()
     const keyHash = ApiKeyService.hashKey(rawKey)
@@ -46,11 +57,15 @@ export default class ApiKeyService {
         prefix,
         keyHash,
         expiresAt: expiresAt ?? undefined,
+        dailyLimit: dailyLimit ?? undefined,
+        monthlyLimit: monthlyLimit ?? undefined,
       },
       select: {
         apiKeyId: true,
         name: true,
         prefix: true,
+        dailyLimit: true,
+        monthlyLimit: true,
         lastUsedAt: true,
         expiresAt: true,
         createdAt: true,
@@ -72,6 +87,8 @@ export default class ApiKeyService {
         apiKeyId: true,
         name: true,
         prefix: true,
+        dailyLimit: true,
+        monthlyLimit: true,
         lastUsedAt: true,
         expiresAt: true,
         createdAt: true,
@@ -103,10 +120,12 @@ export default class ApiKeyService {
   }
 
   /**
-   * Authenticates a request via a plain-text API key.
+   * Authenticates a request via a plain-text API key, then increments
+   * and enforces per-key daily/monthly usage quotas.
    * Updates `lastUsedAt` on success.
    * @param rawKey - The full raw API key value from the request header.
    * @returns The `SafeUser` that owns the key.
+   * @throws {Error} `API_KEY_DAILY_LIMIT_EXCEEDED` or `API_KEY_MONTHLY_LIMIT_EXCEEDED` when quota is breached.
    */
   static async authenticateByApiKey(rawKey: string): Promise<SafeUser> {
     const keyHash = ApiKeyService.hashKey(rawKey)
@@ -115,7 +134,14 @@ export default class ApiKeyService {
     // 1️⃣ Try Redis cache first
     const cached = await redisInstance.get(redisKey)
     if (cached) {
-      return JSON.parse(cached) as SafeUser
+      const cachedData = JSON.parse(cached) as CachedApiKeyData
+      await ApiKeyService.checkAndIncrementUsage(
+        cachedData.apiKeyId,
+        cachedData.dailyLimit,
+        cachedData.monthlyLimit,
+        cachedData.keyName,
+      )
+      return cachedData.safeUser
     }
 
     // 2️⃣ Fall back to DB
@@ -134,7 +160,7 @@ export default class ApiKeyService {
 
     const safeUser = SafeUserSchema.parse(apiKey.user)
 
-    // 3️⃣ Cache the result — TTL is capped by key expiry if set
+    // 3️⃣ Cache the resolved key + quota config — TTL is capped by key expiry if set
     const ttl = apiKey.expiresAt
       ? Math.min(
           API_KEY_REDIS_TTL_SECONDS,
@@ -143,10 +169,25 @@ export default class ApiKeyService {
       : API_KEY_REDIS_TTL_SECONDS
 
     if (ttl > 0) {
-      await redisInstance.setex(redisKey, ttl, JSON.stringify(safeUser))
+      const cachePayload: CachedApiKeyData = {
+        safeUser,
+        apiKeyId: apiKey.apiKeyId,
+        keyName: apiKey.name,
+        dailyLimit: apiKey.dailyLimit,
+        monthlyLimit: apiKey.monthlyLimit,
+      }
+      await redisInstance.setex(redisKey, ttl, JSON.stringify(cachePayload))
     }
 
-    // 4️⃣ Fire-and-forget last-used update (non-critical path)
+    // 4️⃣ Enforce quota (after caching — increments usage counters)
+    await ApiKeyService.checkAndIncrementUsage(
+      apiKey.apiKeyId,
+      apiKey.dailyLimit,
+      apiKey.monthlyLimit,
+      apiKey.name,
+    )
+
+    // 5️⃣ Fire-and-forget last-used update (non-critical path)
     prisma.apiKey
       .update({
         where: { apiKeyId: apiKey.apiKeyId },
@@ -158,4 +199,109 @@ export default class ApiKeyService {
 
     return safeUser
   }
+
+  /**
+   * Increments the daily and monthly usage counters for an API key in Redis
+   * and throws if either configured limit is exceeded.
+   * Also fires an admin notification email the first time a limit is hit.
+   * @param apiKeyId    - The key's database ID (used as the Redis namespace).
+   * @param dailyLimit  - Configured daily cap; `null` means unlimited.
+   * @param monthlyLimit - Configured monthly cap; `null` means unlimited.
+   * @param keyName     - Human-readable label — used only in the admin notification.
+   */
+  static async checkAndIncrementUsage(
+    apiKeyId: string,
+    dailyLimit: number | null,
+    monthlyLimit: number | null,
+    keyName: string,
+  ): Promise<ApiKeyQuotaStatus> {
+    const now = new Date()
+    const dateKey = now.toISOString().slice(0, 10)         // 'YYYY-MM-DD'
+    const monthKey = now.toISOString().slice(0, 7)         // 'YYYY-MM'
+
+    const dailyRedisKey   = API_KEY_DAILY_USAGE_KEY(apiKeyId, dateKey)
+    const monthlyRedisKey = API_KEY_MONTHLY_USAGE_KEY(apiKeyId, monthKey)
+
+    // Atomically increment both counters; set TTL on first write
+    const [rawDaily, rawMonthly] = await Promise.all([
+      redisInstance.incr(dailyRedisKey),
+      redisInstance.incr(monthlyRedisKey),
+    ])
+
+    // Set TTL only on first increment (value transitions from 0 → 1)
+    if (rawDaily === 1) {
+      await redisInstance.expire(dailyRedisKey, API_KEY_DAILY_USAGE_TTL_SECONDS)
+    }
+    if (rawMonthly === 1) {
+      await redisInstance.expire(monthlyRedisKey, API_KEY_MONTHLY_USAGE_TTL_SECONDS)
+    }
+
+    const dailyExceeded   = dailyLimit   !== null && rawDaily   > dailyLimit
+    const monthlyExceeded = monthlyLimit !== null && rawMonthly > monthlyLimit
+
+    // Fire admin notification the first time a limit is breached (counter == limit + 1)
+    if (dailyLimit !== null && rawDaily === dailyLimit + 1) {
+      ApiKeyService.notifyAdminQuotaExceeded(apiKeyId, keyName, 'daily', rawDaily, dailyLimit).catch(
+        () => undefined // fire-and-forget — never block the request
+      )
+    }
+    if (monthlyLimit !== null && rawMonthly === monthlyLimit + 1) {
+      ApiKeyService.notifyAdminQuotaExceeded(apiKeyId, keyName, 'monthly', rawMonthly, monthlyLimit).catch(
+        () => undefined
+      )
+    }
+
+    if (dailyExceeded) {
+      throw new Error(AuthMessages.API_KEY_DAILY_LIMIT_EXCEEDED)
+    }
+    if (monthlyExceeded) {
+      throw new Error(AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED)
+    }
+
+    return {
+      dailyCount: rawDaily,
+      monthlyCount: rawMonthly,
+      dailyLimit,
+      monthlyLimit,
+      dailyExceeded: false,
+      monthlyExceeded: false,
+    }
+  }
+
+  /**
+   * Sends a one-off email to the configured admin address when an API key
+   * first exceeds its daily or monthly quota.
+   * This method is always called fire-and-forget — errors are swallowed by the caller.
+   */
+  private static async notifyAdminQuotaExceeded(
+    apiKeyId: string,
+    keyName: string,
+    period: 'daily' | 'monthly',
+    count: number,
+    limit: number,
+  ): Promise<void> {
+    // Lazy import to avoid circular dependency with MailService
+    const { default: MailService } = await import('@/services/NotificationService/MailService')
+    if (!MailService.INFORM_MAIL) return
+
+    const subject = `[API Quota] Key "${keyName}" has exceeded its ${period} limit`
+    const html = `
+      <p>API key <strong>${keyName}</strong> (ID: <code>${apiKeyId}</code>) has exceeded its <strong>${period}</strong> usage quota.</p>
+      <ul>
+        <li>Limit: ${limit.toLocaleString()} requests</li>
+        <li>Current count: ${count.toLocaleString()} requests</li>
+      </ul>
+      <p>Subsequent requests will receive HTTP 429 until the ${period === 'daily' ? 'next calendar day' : 'next calendar month'} begins.</p>
+    `
+    await MailService.sendMail(MailService.INFORM_MAIL, subject, html)
+  }
+}
+
+// ── Internal cache structure ─────────────────────────────────────────────────
+interface CachedApiKeyData {
+  safeUser: SafeUser
+  apiKeyId: string
+  keyName: string
+  dailyLimit: number | null
+  monthlyLimit: number | null
 }

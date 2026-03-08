@@ -20,6 +20,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ apiKeys })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : AuthMessages.UNKNOWN_ERROR
+    if (
+      message === AuthMessages.API_KEY_DAILY_LIMIT_EXCEEDED ||
+      message === AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED
+    ) {
+      return NextResponse.json({ message }, { status: 429 })
+    }
     return NextResponse.json({ message }, { status: 401 })
   }
 }
@@ -48,11 +54,23 @@ export async function POST(request: NextRequest) {
 
     const expiresAt = parsed.data.expiresAt ? new Date(parsed.data.expiresAt) : undefined
 
-    const { apiKey, rawKey } = await ApiKeyService.create(user.userId, parsed.data.name, expiresAt)
+    const { apiKey, rawKey } = await ApiKeyService.create(
+      user.userId,
+      parsed.data.name,
+      expiresAt,
+      parsed.data.dailyLimit,
+      parsed.data.monthlyLimit,
+    )
 
     return NextResponse.json({ apiKey, rawKey }, { status: 201 })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : AuthMessages.UNKNOWN_ERROR
+    if (
+      message === AuthMessages.API_KEY_DAILY_LIMIT_EXCEEDED ||
+      message === AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED
+    ) {
+      return NextResponse.json({ message }, { status: 429 })
+    }
     return NextResponse.json({ message }, { status: 500 })
   }
 }

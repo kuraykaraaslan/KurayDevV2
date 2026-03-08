@@ -24,6 +24,12 @@ export async function DELETE(
     return NextResponse.json({ message: AuthMessages.API_KEY_DELETED })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : AuthMessages.UNKNOWN_ERROR
+    if (
+      message === AuthMessages.API_KEY_DAILY_LIMIT_EXCEEDED ||
+      message === AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED
+    ) {
+      return NextResponse.json({ message }, { status: 429 })
+    }
     const status = message === AuthMessages.API_KEY_NOT_FOUND ? 404 : 500
     return NextResponse.json({ message }, { status })
   }

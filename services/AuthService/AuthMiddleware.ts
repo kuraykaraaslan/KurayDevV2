@@ -118,6 +118,14 @@ export default class AuthMiddleware {
       request.user = user
       return { user, userSession }
     } catch (error: any) {
+      // Quota exceeded errors must surface as-is so the handler can return 429
+      if (
+        error?.message === AuthMessages.API_KEY_DAILY_LIMIT_EXCEEDED ||
+        error?.message === AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED
+      ) {
+        throw error
+      }
+
       if (!isGuest) {
         console.error('[AUTH] Authentication error:', error.message, error.stack)
         throw new Error(AuthMessages.USER_NOT_AUTHENTICATED)

@@ -12,6 +12,14 @@ export const ThemeSchema = ThemeEnum.default('SYSTEM')
 export const LanguageEnum = AppLanguageEnum
 export const LanguageSchema = AppLanguageEnum.default('en')
 
+export const NewsletterTopicsSchema = z.object({
+  blogDigest: z.boolean().default(true),
+  announcements: z.boolean().default(true),
+  events: z.boolean().default(true),
+})
+
+export type NewsletterTopics = z.infer<typeof NewsletterTopicsSchema>
+
 export const UserPreferencesSchema = z.object({
   theme: ThemeEnum.optional().default('SYSTEM'),
   language: z.preprocess(
@@ -22,6 +30,11 @@ export const UserPreferencesSchema = z.object({
   smsNotifications: z.boolean().optional().default(false),
   pushNotifications: z.boolean().optional().default(true),
   newsletter: z.boolean().optional().default(true),
+  newsletterTopics: NewsletterTopicsSchema.optional().default({
+    blogDigest: true,
+    announcements: true,
+    events: true,
+  }),
   timezone: z.string().default('UTC'),
   dateFormat: z.enum(['DD/MM/YYYY', 'MM/DD/YYYY']).default('DD/MM/YYYY'),
   timeFormat: z.enum(['24H', '12H']).default('24H'),
@@ -35,6 +48,11 @@ export const UserPreferencesDefault: z.infer<typeof UserPreferencesSchema> = {
   smsNotifications: false,
   pushNotifications: true,
   newsletter: true,
+  newsletterTopics: {
+    blogDigest: true,
+    announcements: true,
+    events: true,
+  },
   timezone: 'UTC',
   dateFormat: 'DD/MM/YYYY',
   timeFormat: '24H',
