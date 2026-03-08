@@ -3,6 +3,7 @@
 import { Editor } from '@tinymce/tinymce-react'
 import type { Editor as TinyMCEEditorInstance } from 'tinymce'
 import axiosInstance from '@/libs/axios'
+import { useGlobalStore } from '@/libs/zustand'
 import { registerVideoMenuButton } from './partials/videoButton'
 import { registerAudioMenuButton } from './partials/audioButton'
 import { registerFileMenuButton } from './partials/fileButton'
@@ -29,6 +30,9 @@ const TinyMCEEditor = ({
   value: string
   onChange: (value: string) => void
 }) => {
+  const { theme } = useGlobalStore()
+  const isDark = theme === 'dark'
+
   const image_upload_handler = (blobInfo: BlobInfo, _progress: (n: number) => void) =>
     new Promise<string>((resolve, reject) => {
       const formData = new FormData()
@@ -42,6 +46,7 @@ const TinyMCEEditor = ({
 
   return (
     <Editor
+      key={theme}
       apiKey={NEXT_PUBLIC_TINYMCE_API_KEY}
       value={value}
       id="tinymce-editor"
@@ -49,6 +54,8 @@ const TinyMCEEditor = ({
       init={{
         height: 500,
         menubar: false,
+        skin: isDark ? 'oxide-dark' : 'oxide',
+        content_css: isDark ? 'dark' : 'default',
         plugins: [
           'advlist',
           'autolink',
@@ -75,7 +82,7 @@ const TinyMCEEditor = ({
           'alignleft aligncenter alignright alignjustify | ' +
           'bullist numlist outdent indent | removeformat | code | help',
         content_style:
-          'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; background-color: transparent; }',
+          'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }',
         images_upload_handler: image_upload_handler as any,
         media_live_embeds: true,
         setup: setupCustomButtons,
