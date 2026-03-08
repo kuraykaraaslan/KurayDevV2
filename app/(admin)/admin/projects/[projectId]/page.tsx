@@ -17,6 +17,13 @@ import { TranslationFieldDef } from '@/components/admin/Features/Translations/Ad
 import { useTranslationState } from '@/components/admin/hooks/useTranslationState'
 import { useDraftAutoSave } from '@/components/admin/hooks/useDraftAutoSave'
 import { useSlugify } from '@/components/admin/hooks/useSlugify'
+import ContentScoreBar from '@/components/admin/UI/Forms/ContentScoreBar'
+import {
+  TITLE_SCORE_RULES,
+  DESCRIPTION_SCORE_RULES,
+  CONTENT_SCORE_RULES,
+  SLUG_SCORE_RULES,
+} from '@/components/admin/UI/Forms/ContentScoreBar/rules'
 
 const PROJECT_TRANSLATION_FIELDS: TranslationFieldDef[] = [
   { key: 'title', label: 'Title' },
@@ -200,7 +207,10 @@ const SingleProject = () => {
         enSourceForm={{ title, description, slug, content }}
       />
 
-      <DynamicText label="Title" placeholder="Title" value={titleField.value} setValue={titleField.set} size="md" />
+      <div className="flex flex-col gap-1">
+        <DynamicText label="Title" placeholder="Title" value={titleField.value} setValue={titleField.set} size="md" />
+        <ContentScoreBar value={titleField.value} rules={TITLE_SCORE_RULES} label="SEO Başlık" />
+      </div>
 
       {tr.isEN && (
         <DynamicSelect
@@ -215,12 +225,21 @@ const SingleProject = () => {
         />
       )}
 
-      <GenericElement label="Content">
-        <Editor value={contentField.value} onChange={contentField.set} />
-      </GenericElement>
+      <div className="flex flex-col gap-1">
+        <GenericElement label="Content">
+          <Editor value={contentField.value} onChange={contentField.set} />
+        </GenericElement>
+        <ContentScoreBar value={contentField.value} rules={CONTENT_SCORE_RULES} label="İçerik Kalitesi" />
+      </div>
 
-      <DynamicText label="Description" placeholder="Description" value={descriptionField.value} setValue={descriptionField.set} size="md" isTextarea />
-      <DynamicText label="Slug" placeholder="Slug" value={slugField.value} setValue={slugField.set} size="md" />
+      <div className="flex flex-col gap-1">
+        <DynamicText label="Description" placeholder="Description" value={descriptionField.value} setValue={descriptionField.set} size="md" isTextarea />
+        <ContentScoreBar value={descriptionField.value} rules={DESCRIPTION_SCORE_RULES} label="Meta Description" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <DynamicText label="Slug" placeholder="Slug" value={slugField.value} setValue={slugField.set} size="md" />
+        <ContentScoreBar value={slugField.value} rules={SLUG_SCORE_RULES} label="URL / Slug" />
+      </div>
 
       {tr.isEN && (
         <>
