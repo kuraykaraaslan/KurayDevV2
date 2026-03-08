@@ -499,6 +499,15 @@ All workers:
 - [ ] Settings UI: all Setting table keys exposed as typed form fields
 - [ ] Audit log: record admin actions to a log table
 
+### Phase 7b — CMS / Blog Sprint (Sıradaki)
+- [ ] **Şifre Korumalı Post** — `Post.accessPassword` hash alanı; okuyucu şifre formu → `PostAccessService.verify()` → Redis cookie ile erişim; `PostAccessDTO`
+- [ ] **Yorum Zinciri (Threaded Comments)** — `Comment.parentId` alanı; 2 seviye iç içe yanıt; `CommentService.getThreaded(postId)` hiyerarşik çıktı; daha derin cevaplar flatten
+- [ ] **Okuma Geçmişi (Reading History)** — `localStorage` tabanlı son okunanlar listesi; scroll ile okuma yüzdesi takibi; profil/sidebar'da "Son okunanlar" bileşeni; sunucu değişikliği gerektirmez
+- [ ] **Sosyal Paylaşım Sayacı** — Twitter/X, LinkedIn, WhatsApp paylaşım butonları; `/api/posts/[id]/share` POST endpoint; `Post.shareCount` Redis buffer → Prisma flush
+- [ ] **Tam Metin Arama + Facet Filtresi** — `/search` endpoint'ine kategori, yazar, tarih aralığı, dil facet filtresi; PostgreSQL `tsvector` veya embedding skoru ile sıralama; `/[lang]/search` sayfası
+- [ ] **Editoryal Skor (Content Score)** — SEO skoru (başlık uzunluğu, meta, alt text, iç link), okunabilirlik ve AI kalite puanı; `ContentScoreService`; admin listesinde skor bazlı filtreleme
+- [ ] **Özel Yönlendirme Yöneticisi (Custom Redirects)** — `Redirect` tablosu; admin'den 301/302 kural tanımlama; middleware'de DB lookup; `RedirectService`; `next.config.mjs` statik redirect bağımlılığını ortadan kaldırır
+
 ### Phase 8 — Performance & Observability
 - [ ] Next.js `use cache` / `unstable_cache` adoption for expensive RSC data
 - [ ] Prisma query profiling: identify N+1 queries, add missing indexes
@@ -630,6 +639,222 @@ All workers:
 | `@dnd-kit/core` | Accessible drag-and-drop for media reorder, slot templates |
 | `winston` | Structured logging with multiple transports; log level control |
 | `@aws-sdk/client-s3` | Official AWS SDK v3; tree-shakeable; S3/R2/MinIO compatible |
+
+### Phase 14 — Roadmap Backlog (Önerilen Özellikler)
+
+> Durum: `[x]` yapıldı · `[ ]` yapılacak · `[~]` sistemde mevcut · `—` henüz karar verilmedi
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 1 | **Tag (Etiket) Sistemi** — Post ve projelerde kesişen etiketler; `TagService`, `PostTag`/`ProjectTag` ilişkileri; `/[lang]/tags/[slug]` SEO sayfaları | `[ ]` |
+| 2 | **İçerik A/B Testi** — Post başlığı/CTA varyant deneyleri; Redis tabanlı kullanıcı-varyant tayini; `ABTestService` + `ExperimentDTO` | `—` |
+| 3 | **İçerik Tazeleme & Audit** — 6+ ay güncellenmemiş post tespiti; `CronService` daily job; `NotificationService` ile yazar bildirimi | `—` |
+| 4 | **Kod Snippet Galerisi** — Sözdizimi vurgulu snippet paylaşımı; dil/etiket/kopya sayısı takibi; post'a embed; `SnippetService` | `—` |
+| 5 | **Changelog / Release Notes** — Sürüm bazlı değişiklik günlüğü; MAJOR/MINOR/PATCH; RSC zaman çizelgesi sayfası; ayrı RSS feed | `[x]` |
+| 6 | **Public API / Geliştirici Portalı** — `ApiKeyDTO` üzerine key bazlı rate limit; kullanım istatistikleri dashboard'u; `/api/docs` OpenAPI sayfası | `[ ]` |
+| 7 | **Webhook Sistemi** — Dışa gönderilen event hook'ları (post yayın, randevu, yorum); BullMQ retry/dead-letter; `WebhookService` + `WebhookDTO` | `[ ]` |
+| 8 | **Dosya Paylaşım Linkleri** — Süreli presigned URL üretimi; indirme sayacı; `Media` modeline `shareExpiry`; `FileShareService` | `—` |
+| 9 | **Event / Webinar Sistemi** — `AppointmentService` üzerine çok katılımcılı etkinlik takvimi; kapasite limiti; BullMQ hatırlatma e-postası/push | `[ ]` |
+| 10 | **Takvim Senkronizasyonu** — Google Calendar / Outlook çift yönlü sync; OAuth token `SocialAccountService` şablonuyla; BullMQ sync job | `[ ]` |
+| 11 | **İçerik Değerlendirme & NPS Widget** — Post/proje başına 1–5 yıldız + kısa metin; `RatingService`; admin kalite dashboard'u | `—` |
+| 12 | **Taslak Onay Süreci (Editorial Workflow)** — `DRAFT → REVIEW → APPROVED → PUBLISHED`; `PostStatus` enum genişletme; SSE bildirim | `[ ]` |
+| 13 | **Bekleme Listesi (Waitlist)** — E-posta toplama sayfası; onay maili; toplu duyuru BullMQ; `WaitlistService` | `—` |
+| 14 | **Haber Akışı (Activity Feed)** — Kullanıcı bazlı aktivite akışı; `NotificationService` üzerine; SSE stream mevcut altyapısıyla | `—` |
+| 15 | **AI ile Yorum Moderasyonu** — Kayıt anında spam/toxicity skoru; eşiğe göre otomatik `PENDING/REJECTED`; `CommentService` hook | `[x]` |
+| 16 | **AI ile Çok Dilli E-posta Şablonları** — 26-locale şablon üretimi; `CampaignService`'e AI auto-translate; `MailTemplateDTO` | `—` |
+| 17 | **Podcast / Ses İçeriği** — Post'a ses dosyası; `StorageService` yükleme; audio player komponenti; Whisper ile transkript + timestamp | `[ ]` |
+| 18 | **Çok Kanallı Bildirim Entegrasyonları** — Slack/Discord/Telegram webhook; admin olayları anlık iletimi; `IntegrationService` pattern | `—` |
+| 19 | **Portföy Case Study** — `ProjectService`'e bağlı vaka analizi modülü; sorun→çözüm→sonuç; metrikler; `CaseStudyDTO` + SEO sayfası | `—` |
+| 20 | **Public Yol Haritası (Roadmap)** — Oylanabilir özellik roadmap; `PLANNED/IN_PROGRESS/DONE`; `RoadmapService` + `VoteService` | `[~]` |
+
+---
+
+### Phase 15 — CMS & Blog Özellikleri (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 41 | **Taslak Otomatik Kayıt (Auto-save)** — TinyMCE değişikliğinde 30 sn debounce ile Redis'e yaz (`draft:post:{userId}:{postId}`); editörde "Son kayıt: X dakika önce" göstergesi; `PostService.autosave()` + `AutosaveDTO` | `[ ]` |
+| 42 | **İçerik Şablonları (Post Templates)** — Admin'de yeniden kullanılabilir yazı şablonları; `PostTemplate` tablosu; yeni post oluştururken şablon seçimi; `PostTemplateService` + TinyMCE entegrasyonu | `[ ]` |
+| 43 | **Post Klonlama (Duplicate Post)** — Tek tıkla mevcut bir postu `DRAFT` olarak kopyalama; başlığa "Kopya —" prefix; çeviriler dahil klonlama; `PostService.duplicate()` | `[ ]` |
+| 44 | **İçerik Sona Erme Tarihi (Content Expiry)** — Post/projeye `expiresAt` alanı; `CronService` daily job ile `PUBLISHED → ARCHIVED` geçişi; admin'de yaklaşan sona erme listesi | `[ ]` |
+| 45 | **Öne Çıkan / Sabitlenmiş Post (Pinned Posts)** — Kategori ve anasayfa listelerinde `isPinned: true` postları en üstte göster; admin'de pin toggle; `PostService.pin()` ile maksimum 3 pin limiti | `[ ]` |
+| 46 | **Şifre Korumalı Post (Password Protected)** — Post başına `accessPassword` hash alanı; okuyucu şifre formu gönderir → `PostAccessService.verify()` → Redis'te session cookie ile erişim izni; `PostAccessDTO` | `[ ]` |
+| 47 | **İçerik Takvimi (Content Calendar)** — Admin'de aylık/haftalık görünümde `SCHEDULED`, `PUBLISHED`, `DRAFT` postların takvim görünümü; `@dnd-kit` ile sürükle-bırak tarih değiştirme; `CronService` ile senkron | `[ ]` |
+| 48 | **Yorum Zinciri (Nested / Threaded Comments)** — `Comment` modeline `parentId` alanı; iç içe 2 seviye yanıt desteği (daha derin flatten edilir); `CommentService.getThreaded(postId)` ile hiyerarşik çıktı | `[ ]` |
+| 49 | **Okuma Geçmişi (Reading History)** — Oturumlular hangi postları okuduğunu `ReadingHistory` tablosunda tut; profil sayfasında "Son okunanlar" + devam oku yüzdesi; Redis scroll-depth event buffer | `[ ]` |
+| 50 | **Tam Metin Arama + Facet Filtresi (Advanced Search)** — `search` endpoint'ine kategori, yazar, tarih aralığı, dil facet filtresi; PostgreSQL `tsvector` veya mevcut embedding ile sıralama; `/[lang]/search` sayfası | `[ ]` |
+| 51 | **Bölüm / Paralel İçerik Blokları (Content Blocks)** — Post içinde metin dışı bloklar: callout, info box, code, quiz sorusu; `PostBlock` tablosu; TinyMCE özel plugin olarak; `BlockRendererService` | `[ ]` |
+| 52 | **Misafir Yazar Başvurusu (Guest Author Submission)** — Kayıtsız kullanıcı makalesi gönderme formu; `SUBMITTED` status; admin onay akışı (Phase 12 editorial workflow ile uyumlu); `GuestSubmissionService` | `[ ]` |
+| 53 | **Bülten Otomatik Özeti (Newsletter Digest Auto-compose)** — `CampaignService`'e haftalık en çok okunan postları otomatik derleyen AI destekli bülten taslağı oluşturma; `CronService` weekly job; admin önizleme + gönder | `[ ]` |
+| 54 | **Post Okuma Süresi (Read Time Estimate)** — İçerik kaydedilirken `helpers/` içinde `calculateReadTime(content)` pure fn ile kelime sayısı bazlı süre hesaplama; `Post.readTimeMinutes` alanı; post kartlarında gösterim | `[ ]` |
+| 55 | **Sosyal Paylaşım Sayacı (Share Counter)** — Post sayfasında Twitter/X, LinkedIn, WhatsApp paylaşım butonları; `/api/posts/[id]/share` POST endpoint ile `Post.shareCount` artırma; Redis buffer → Prisma flush | `[ ]` |
+| 56 | **Post Yazdır / PDF İndir (Print / PDF Export)** — Okuyucu için `/[lang]/blog/[...]/print` route'u; CSS print stylesheet; veya BullMQ ile arka planda PDF üret → S3'e yükle → indirme linki ver; `PostExportService` | `[ ]` |
+| 57 | **Özel Yönlendirme Yöneticisi (Custom Redirects)** — Admin'den URL rename/taşıma sonrası 301/302 redirect kuralları; `Redirect` tablosu; `next.config.mjs` dynamic redirects yerine middleware'de DB lookup; `RedirectService` | `[ ]` |
+| 58 | **İçerik Puanlama (Editorial Score)** — Her post için SEO skoru (başlık uzunluğu, meta description, alt text, iç link sayısı), okunabilirlik skoru ve AI içerik kalite puanı. Admin listesinde filtreleme. `ContentScoreService` | `[ ]` |
+| 59 | **Embed & Widget API (Post Embed)** — `/api/widget/posts` mevcut; buna JS snippet oluşturucu ekleme; üçüncü taraf sitelerde `<iframe>` veya `<script>` ile post kartı gösterebilme; CORS control admin'den | `[ ]` |
+| 60 | **Çoklu Yazar Profil Sayfası (Author Hub)** — `/[lang]/authors/[username]` sayfası: biyografi, istatistikler (toplam post, toplam görüntülenme, en popüler post), sosyal linkler, abone ol butonu. `UserProfileService` genişletmesi | `[ ]` |
+
+---
+
+### Phase 16 — Editor & CMS Derinlik (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 61 | **Otomatik İçindekiler (Auto TOC)** — Post kaydedilirken `h2/h3` başlıklardan `tocUtils.ts` (mevcut) ile TOC JSON üretimi; `Post.toc` alanı; okuyucu sayfasında sticky sidebar TOC bileşeni; aktif başlık scroll takibi | `[ ]` |
+| 62 | **Taslak Paylaşım Linki (Draft Preview Link)** — Yayınlanmamış post için `/preview/[token]` route; `PostPreviewToken` tablosu; Redis'te TTL 48h; editörden "Önizleme Linkini paylaş" butonu; giriş gerektirmez | `[ ]` |
+| 63 | **Eş Zamanlı Düzenleme Kilidi (Edit Lock / Mutex)** — Post açıldığında Redis'te `lock:post:{postId}` SETEX 60 sn; başka bir admin aynı postu açarsa "X kişisi düzenliyor" uyarısı; heartbeat ile kilit uzatma | `[ ]` |
+| 64 | **Dipnot & Alıntı Sistemi (Footnotes / Citations)** — TinyMCE'ye `[^1]` footnote eklentisi; `PostFootnote` tablosu; sayfa altında otomatik numaralı dipnot listesi; akademik/hukuki içerik için Chicago/APA format desteği | `[ ]` |
+| 65 | **Bağlantı Kontrolü (Broken Link Checker)** — `CronService` weekly job ile yayındaki postlardaki tüm dış linkleri `fetch(HEAD)` ile kontrol; kırık link `PostLinkIssue` tablosuna yaz; admin'de uyarı paneli. `LinkCheckerService` | `[ ]` |
+| 66 | **Kanonik URL Yönetimi (Canonical Manager)** — Her post'a özel `canonicalUrl` alanı (sendikasyon için); `MetadataHelper.generate()` bu alanı önceliker; admin'de "canonical farklı kaynak" uyarısı | `[ ]` |
+| 67 | **İçerik İçe Aktarma (Import from WordPress / RSS)** — Admin'den WordPress XML export veya RSS URL ile toplu post içe aktarma; başlık/içerik/tarih/kategori eşlemesi; `DRAFT` olarak oluştur; `ContentImportService` | `[ ]` |
+| 68 | **Seri Okuma İlerleme Takibi (Series Progress Bar)** — Bir serinin kaçıncı yazısında olunduğuna dair `localStorage` tabanlı ilerleme çubuğu; "X/N tamamlandı" göstergesi; seri sayfasında checkout listesi; `SeriesService` değişiklik gerektirmez | `[ ]` |
+| 69 | **Görsel Odak Noktası Seçici (Image Focal Point)** — `Media` modeline `focalX / focalY` float alanı; medya editöründe tıkla-seç UI; `next/image` `object-position` değerine bağlanır; kırpma sırasında önemli alan korunur | `[ ]` |
+| 70 | **AI Akıllı İç Linkleme Önerisi (Smart Internal Linking)** — Post taslağı kaydedilirken `LocalEmbedService` ile içerik embedding'i alınır; en yüksek cosine benzerliğe sahip 5 yayındaki post önerilir; editörde "İç link önerileri" yan panel | `[ ]` |
+| 71 | **İçerik Heatmap (Scroll & Click Analytics)** — Okuyucu sayfasına anonim scroll-depth + tıklama olayı gönderen küçük `<script>`; `/api/analytics/heatmap` endpoint; `PostHeatmap` tablosu; admin'de görsel ısı haritası | `[ ]` |
+| 72 | **Çok Adımlı Anket / Quiz Bloğu (Post Quiz)** — Post içinde gömülü çok şıklı quiz; `PostQuiz` ve `QuizAttempt` tabloları; doğru cevap açıklaması; tamamlama yüzdesi istatistiği; `QuizService` | `[ ]` |
+| 73 | **İçerik Kopyalama Tespiti (Plagiarism Check)** — Post taslağı AI'ya gönderilir; benzer web içeriğiyle karşılaştırma sorgusu döndürür; admin'de "Orijinallik raporu" paneli; `AIServices` extension + `ContentCheckDTO` | `[ ]` |
+| 74 | **Sponsorlu / Bağlı İçerik Etiketi (Content Disclosure)** — Post başına `isSponsored`, `affiliateDisclosure` alanları; frontend'de otomatik yasal uyarı banner; admin düzenleme formuna toggle. GDPR/FTC uyumu | `[ ]` |
+| 75 | **Gelişmiş Arama Önbelleği (Search Cache Layer)** — Arama sorgularını `search:{hash}` anahtarıyla Redis'te 10 dk cache; önbellek ısınma: en popüler 50 sorgu `CronService` hourly job ile yeniler; `SearchCacheService` | `[ ]` |
+| 76 | **Post Sürüm Karşılaştırma (Revision Diff)** — `PostRevision` tablosu (önerilen #21) üzerine; admin'de iki sürüm arasında satır bazlı diff görünümü; `diffChars` (pure JS, bağımlılıksız) ile renk kodlu değişiklik listesi | `[ ]` |
+| 77 | **TinyMCE Kelime Hedefi (Writing Goals)** — Editörde hedef kelime sayısı ayarlanabilir progress bar; hedef dolduğunda kutlama bildirimi; değer `localStorage`'da tutulur; `wordcount` plugin mevcut, üzerine UI katmanı | `[ ]` |
+| 78 | **Metin Okuma (TTS / Read Aloud)** — Post sayfasında "Sesli Oku" butonu; tarayıcı `SpeechSynthesis API` + AI TTS fallback (OpenAI TTS); okuma dili post locale'inden alınır; `TtsService` | `[ ]` |
+| 79 | **RSS Aboneliği Yöneticisi (RSS Subscription Tracker)** — `/feed.xml` çağrılarında `User-Agent` ve IP'ye göre abone tahmini; `RssSubscriber` tablosu; admin'de benzersiz RSS okuyucu sayısı istatistiği | `[ ]` |
+| 80 | **Etiket Bulutu & Taksonomi Yöneticisi (Tag Cloud)** — Etiket sistemi (#41) üzerine; frontend'de etiket kullanım frekansına göre font boyutu değişen tag cloud bileşeni; admin'de birleştir/yeniden adlandır/sil toplu etiket yönetimi | `[ ]` |
+
+---
+
+### Phase 17 — Gelişmiş CMS & İçerik Büyümesi (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 81 | **Bülten Tercih Merkezi (Newsletter Preference Center)** — Abone çıkma yerine konu bazlı tercih seçimi (blog özeti, duyurular, etkinlikler); `SubscriptionPreference` tablosu; her kampanyaya konu etiketi; `SubscriptionService` genişletmesi | `[ ]` |
+| 82 | **İçerik Takvimi E-posta Özeti (Weekly Digest to Admin)** — `CronService` weekly job ile o haftanın en çok okunan/yorum alan/paylaşılan postlarını admin'e özet e-posta; `MailService` üzerinden; template `MailTemplateDTO` | `[ ]` |
+| 83 | **Çok Dilli Slug Yönetimi (Localized Slugs)** — Her `PostTranslation` kaydına dil bazlı benzersiz slug; `/[lang]/blog/[categorySlug]/[localizedPostSlug]` route desteği; mevcut `PostTranslationSchema`'ya `slug` alanı eklenmesi | `[ ]` |
+| 84 | **Mobil Uygulama Push İçerik Bildirimi (App-style Post Push)** — Yeni post yayınlandığında mevcut web-push altyapısıyla title + cover image + kısa açıklama içeren zengin push; `PushNotificationService.sendToAll()` + `PushService` extension | `[ ]` |
+| 85 | **Sosyal Medya Otomatik Paylaşım (Auto Social Publish)** — Post `PUBLISHED` geçişinde BullMQ job ile Twitter/X, LinkedIn API'a özetle paylaşım; `SocialPublishService`; admin'den hangi ağlara paylaşılacağı toggle; `IntegrationService` pattern | `[ ]` |
+| 86 | **Okuyucu Anket Bloğu (Inline Poll)** — Post içine gömülü tek soruluk anket bloğu; `Poll` ve `PollVote` tabloları; oy verince sonuç grafiği gösterilir; IP/session başına tek oy limiti (Redis); `PollService` | `[ ]` |
+| 87 | **Kişiselleştirilmiş İçerik Önerileri (Personalized Feed)** — Oturumumdaki kullanıcının okuma geçmişi (#49) + beğenileri baz alınarak `LocalEmbedService` cosine ile kişisel "Senin için öneriler" listesi; `/api/posts/recommended` endpoint | `[ ]` |
+| 88 | **Kategori Hiyerarşisi (Nested Categories)** — `Category` modeline `parentId` alanı; admin'de ağaç görünümü; `@dnd-kit` ile sürükle-bırak sıralama; breadcrumb zinciri RSC'de otomatik üretim; `CategoryService.getTree()` | `[ ]` |
+| 89 | **Yorum E-posta Aboneliği (Comment Watch)** — Yorum bırakan kullanıcıya "Bu yazıya yeni yorum gelince bildir" opt-in; `CommentWatch` tablosu; BullMQ `emails` kuyruğu üzerinden bildirim; çıkış linki her mailde | `[ ]` |
+| 90 | **İçerik Lisans Etiketi (Creative Commons / License Badge)** — Post başına CC BY / CC BY-SA / All Rights Reserved seçimi; frontend'de otomatik lisans rozeti ve hukuki özet; `MetadataHelper`'a structured data (schema.org `license` field) eklenmesi | `[ ]` |
+| 91 | **Özel 404 Sayfası Yöneticisi (404 Manager)** — Admin'den özel 404 içeriği (başlık, açıklama, CTA linki) düzenleme; `Settings` tablosu üzerinden; `not-found.tsx` bu ayarı RSC ile okur; sıfır yeni tablo | `[ ]` |
+| 92 | **Pano Kısayolları & Widget'lar (Dashboard Widgets)** — Admin dashboard'una sürükle-bırak `@dnd-kit` widget düzenleyici; kullanıcı başına hangi widget'ların gösterileceğini `UserPreferences` JSON alanında sakla; mevcut dashboard bileşenleri modüler hale getirilir | `[ ]` |
+| 93 | **API Kullanım Kotası (API Usage Quota per Key)** — `ApiKey` modeline `dailyLimit` ve `monthlyLimit` alanları; Redis `INCR api:usage:{keyId}:{date}` ile istek sayımı; limit aşımında 429 ve admin bildirimi; `ApiKeyService` genişletmesi | `[ ]` |
+| 94 | **İçerik Güncelleme Geçmişi Bildirimi (Update Notification)** — "Bu yazı güncellendi" post başı banner; `Post.lastSignificantUpdateAt` alanı; admin "önemli güncelleme" işareti; zaten okumuş okuyuculara push bildirimi | `[ ]` |
+| 95 | **Görsel Karşılaştırma Kaydırıcısı (Before/After Slider)** — TinyMCE'ye iki görsel yüklenince özel `<before-after>` custom element; CSS scroll snap ile %100 tarayıcı uyumu; case study ve portfolyo için; `BlockRendererService` extension | `[ ]` |
+| 96 | **Zamanlayıcılı İçerik Gösterimi (Countdown Reveal)** — Post veya bölüm bloğuna `revealAt` tarihi; bu tarihten önce gizli/blur placeholder, sonra otomatik göster; Redis TTL + RSC revalidation ile sunucu tarafı kontrol | `[ ]` |
+| 97 | **Chatbot Bilgi Tabanı Sync (Knowledge Base → Chatbot)** — Yeni post yayınlandığında BullMQ job ile `LocalEmbedService` embedding hesaplanır, `KnowledgeGraph` vektör tablosuna eklenir; chatbot RAG sorguları her zaman güncel içeriği görür | `[ ]` |
+| 98 | **Okuma Hedefleri (Reading Goals / Streak)** — Günlük/haftalık post okuma hedefi; `localStorage` tabanlı seri (streak) sayacı; 7 günlük seri dolduğunda konfeti animasyonu + rozetler (#26 ile uyumlu); sıfır backend değişikliği | `[ ]` |
+| 99 | **İçerik Gömme Koruması (Embed Rate Limit)** — `/api/widget/posts` endpoint'ine kaynak domain bazlı rate limit; izin verilen domain whitelist `Settings` tablosunda; ihlalde 403 + admin bildirimi; `middlewares/rateLimit.ts` genişletmesi | `[ ]` |
+| 100 | **Çoklu Tema Desteği (Per-Post Theme Override)** — Post başına özel renk paleti veya hero gradient; `Post.themeOverride` JSON alanı; RSC'de `<style>` tag inject; admin renk seçici; anasayfa grid'de post kartına yansır | `[ ]` |
+
+---
+
+### Phase 18 — Yaratıcı & Deneysel Özellikler (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 101 | **Canlı Blog (Live Blog)** — Konferans, yayın, etkinlik için gerçek zamanlı güncellenen post formatı; `LiveBlogEntry` tablosu; `POST /api/posts/[id]/live` endpoint; SSE kanalı `ns:'liveblog'` ile okuyucuya anlık entry push; "CANLI" rozeti | `[ ]` |
+| 102 | **Distraction-Free Okuma Modu** — Okuyucu sayfasında tek tıkla tüm nav/sidebar gizlenir; font büyür, arka plan kararır; üstte scroll-based ilerleme çubuğu; `localStorage`'da tercih saklanır; sıfır backend değişikliği | `[ ]` |
+| 103 | **Geçici / Ephemeral Post (Story Formatı)** — `Post.ephemeralExpiresAt` alanı; 12-72 saat sonra `CronService` cleanup; post sayfasında geri sayım banner; bir kez okunabilir mod seçeneği (Redis `view:once:{postId}:{ip}`) | `[ ]` |
+| 104 | **Dinamik Kişiselleştirilmiş İçerik** — Post gövdesinde `{{username}}`, `{{city}}`, `{{locale}}` placeholder'ları; RSC render anında session + GEO IP verisiyle sunucu tarafı doldurma; `ContentPersonalizationService`; client-side JS gerektirmez | `[ ]` |
+| 105 | **oEmbed Provider** — Sitenin oEmbed sağlayıcısı olması; `/api/oembed?url=...` endpoint; standart JSON/XML response (title, thumbnail, html embed kodu); Discord, Slack, Notion'da URL yapıştırınca önizleme açılır; `OEmbedService` | `[ ]` |
+| 106 | **Yazar İletişim Kutusu (Letter to Author)** — Post sayfasında "Yazara Özel Mesaj" formu; `AuthorMessage` tablosu; admin'de özel mesaj kutusu + yanıt; public değil; yazara SSE bildirimi; spam koruması `SpamProtection` mevcut | `[ ]` |
+| 107 | **İnteraktif Kod Oyun Alanı (Code Playground)** — Post içinde çalıştırılabilir kod bloğu; `<iframe>` sandbox veya StackBlitz `sdk.embedProject()` ile sıfır build maliyeti; TinyMCE'ye `codesample` üzerine "Run" butonu eklenir; `CodePlaygroundBlock` | `[ ]` |
+| 108 | **Yapay Zeka Destekli Alt Text Zorunluluğu (AI Alt Enforcer)** — Media library'ye yüklenen görselde `alt` boş ise OpenAI Vision ile otomatik alt text üretimi; `ContentScoreService`'e puan katkısı; admin'de "alt text eksik" uyarı listesi; `MediaService` hook | `[ ]` |
+| 109 | **Yorum Emoji Tepkileri (Comment Reactions)** — Yorum başına 👍 ❤️ 🔥 🤔 😂 tepkisi; `CommentReaction` tablosu; Redis buffer → batch flush (`LikeService` pattern); animasyonlu tepki picker; okuyucu başına bir tepki limiti | `[ ]` |
+| 110 | **Yazma Maratonu / Pomodoro Modu (Writing Sprint)** — Editörde 25 dk geri sayımlı yazma oturumu; süre dolunca otomatik kayıt + "bugün X kelime yazdın" tebrik bildirimi; `WritingSprint` tablosunda session istatistikleri; `wordcount` plugin ile entegre | `[ ]` |
+| 111 | **Görsel Kahve / Bağış Butonu (Tip Jar)** — Post sayfasında "Bu içeriği destekle" butonu; Ko-fi / Buy Me a Coffee veya Stripe Payment Link; `Post.tipUrl` alanı; admin'den per-post toggle; ödeme dışarıda işlenir, entegrasyon sıfır | `[ ]` |
+| 112 | **Topluluk Yorum Öne Çıkarma (Community Spotlight)** — Admin beğendiği okuyucu yorumunu "öne çıkar"; post sayfasında büyük pull-quote bloğu olarak gösterilir; `Comment.isSpotlight` boolean; `CommentService.spotlight()` | `[ ]` |
+| 113 | **İçerik Kopyalama Kalkanı (Anti-Copy Shield)** — `Post.copyProtected` boolean; admin toggle; aktifse `user-select:none` + `contextmenu` + `copy` event engeli; SSR'de `<meta name="robots" content="noarchive">`; TinyMCE'nin editor içini etkilemez | `[ ]` |
+| 114 | **Yazar Portfolyo PDF (CV Export)** — Kullanıcının tüm postları, projeleri, istatistikleri ve biyografisiyle hazırlanan PDF özgeçmiş; BullMQ job + `@react-pdf/renderer`; hazır olunca maile gönderilir + S3'ten 24h indirme linki | `[ ]` |
+| 115 | **Satır İçi Zaman Çizelgesi Bloğu (Timeline Block)** — Post içine yatay/dikey zaman çizelgesi ekleme; adım başına tarih + başlık + kısa açıklama; TinyMCE custom block; `BlockRendererService`'e yeni tür; vaka analizleri ve tarihsel içerikler için | `[ ]` |
+| 116 | **Şiir / Dize Formatı (Verse Mode Block)** — TinyMCE'ye `verse` blok tipi; `white-space:pre-wrap` ile tam satır koruması; şiir başlığı + yazar + yayın tarihi metadata; schema.org `CreativeWork` structured data; seçim engeli opsiyonel | `[ ]` |
+| 117 | **Canlı Ziyaretçi Haritası (Live Visitor Map)** — Admin dashboard'unda şu an sitede olan ziyaretçilerin GEO konumlarını gösteren canlı nokta haritası; Redis `SETEX visitor:{session}` 30 sn TTL; SSE `/api/analytics/visitors/live`; `GeoAnalyticsService` extension | `[ ]` |
+| 118 | **EPUB / Zip Arşiv İndirimi (Content Archive Download)** — Kullanıcı okuma listesindeki postları veya tüm içerikleri EPUB ya da ZIP olarak indirebilir; BullMQ ile paket hazırlama; S3'e geçici 1 saatlik presigned URL; `ArchiveExportService` | `[ ]` |
+| 119 | **FAQ Otomatik Üretici (AI FAQ Generator)** — Post kaydedilirken AI ile "Bu yazıdan çıkabilecek 5 soru-cevap" üretimi; `PostFAQ` tablosu; post sayfasında accordion; `MetadataHelper`'a FAQPage JSON-LD eklenmesi; SEO rich snippet | `[ ]` |
+| 120 | **İçerik Satışı / Pay-per-Article** — Abonelik gerektirmeden tek seferlik makale erişimi; Stripe Checkout veya Payment Link; `ArticleAccess` tablosu; Redis'te `access:{userId}:{postId}` TTL; `Post.isPaid + priceUsd` alanları; `PaywallService` | `[ ]` |
+
+---
+
+### Phase 19 — Platform Olgunluğu & Ağ Etkileri (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 121 | **İşbirlikli Post Düzenleme (Co-Editing)** — `libs/websocket/` üzerine; aynı postu açan iki admin birbirinin cursor pozisyonunu görür; karakter bazlı operational transform (lite CRDT); `CoEditSession` Redis hash; kilitleme (#63) ile birlikte çalışır | `[ ]` |
+| 122 | **Topluluk Çeviri Katkısı (Community Translations)** — Okuyucular eksik dil çevirisi gönderebilir; `CommunityTranslation` tablosu `status: PENDING/ACCEPTED/REJECTED`; admin onay sonrası `PostTranslation`'a merge; katkı sahibine rozet (#26) | `[ ]` |
+| 123 | **Terim Sözlüğü & Hover Tooltip (Glossary)** — Site geneli teknik terim sözlüğü; `GlossaryTerm` tablosu; post renderında eşleşen terimler otomatik underline + hover tooltip; `/[lang]/glossary` liste sayfası; `GlossaryService` | `[ ]` |
+| 124 | **İçerik Yaşlanma Banner (Freshness Warning)** — Yayın tarihi 18+ ay geçmişse post başına otomatik sarı uyarı banner; `Post.lastVerifiedAt` alanı; admin "Doğruladım" butonu bannerı kapatır; RSC'de hesaplama, client değişikliği yok | `[ ]` |
+| 125 | **Kategori E-posta Aboneliği (Category Follow)** — Okuyucu belirli kategoriyi takip eder; yeni post yayınlandığında BullMQ `emails` kuyruğu; `CategorySubscription` tablosu; "Takipten çık" linki her mailde; `SubscriptionService` genişletmesi | `[ ]` |
+| 126 | **Sesli Arama (Voice Search)** — Tarayıcı `SpeechRecognition API`; mikrofon ikonuna basılınca sessiz dinleme; metin mevcut arama kutusuna inject edilir; `useVoiceSearch` hook; sıfır backend değişikliği | `[ ]` |
+| 127 | **Komut Paleti (Command Palette)** — `Cmd+K` / `Ctrl+K` ile spotlight benzeri modal; post arama, admin sayfalarına hızlı navigasyon, tema değiştir, kısayol rehberi; Zustand + `KeyboardEvent`; `useCommandPalette` hook | `[ ]` |
+| 128 | **Okunabilirlik Skoru (Flesch-Kincaid)** — Post kaydedilirken `helpers/calculateReadability(html)` pure fn; 0–100 arası Flesch skoru; `Post.readabilityScore` alanı; editörde canlı renk kodlu gösterge (yeşil/sarı/kırmızı); `ContentScoreService` entegrasyonu | `[ ]` |
+| 129 | **Coğrafi Kısıtlı İçerik (Geo-gated Posts)** — `Post.allowedCountries` JSON dizi; middleware'de `GeoAnalyticsService` IP→ülke çözümlemesiyle kontrol; engellenen ülkede özel 403; admin harita seçici UI; mevcut GEO altyapısını sıfır maliyetle kullanır | `[ ]` |
+| 130 | **İçerik Koleksiyonu / Derleme Sayfası (Curated Collection)** — Admin seçilen postlardan tematik koleksiyon oluşturur; `Collection` + `CollectionPost` tabloları; `/[lang]/collections/[slug]` bağımsız SEO sayfası; post kartlarında "koleksiyon" rozeti | `[ ]` |
+| 131 | **Bülten Herkese Açık Arşiv (Newsletter Archive)** — Gönderilen kampanyaların public `/[lang]/newsletter/archive` sayfası; `Campaign.isPublicArchive` boolean; HTML içerik S3/R2'de; `CampaignService`'e minimal ek; abone olmayanlara keşif kanalı | `[ ]` |
+| 132 | **İç Link Hover Önizleme (Hovercard)** — Post içindeki dahili linklerin üzerine gelince küçük floating kart (başlık, açıklama, cover); `GET /api/posts/preview?slug=` endpoint; debounced fetch; `isomorphic-dompurify` ile XSS güvenli | `[ ]` |
+| 133 | **Erişilebilirlik Denetçisi (A11y Checker)** — Post kaydedilirken görselsiz `alt` boşluğu, başlık hiyerarşisi kırığı, link metni "buraya tıkla" gibi WCAG AA ihlalleri tespiti; `A11yCheckerService`; editörde ihlal listesi panel; ContentScore (+puan) | `[ ]` |
+| 134 | **Anonim Soru Kutusu (Anonymous Q&A)** — Post sayfasında isim/üyelik gerektirmez soru formu; `AnonQuestion` tablosu; admin panelde cevapla; cevaplananlar post altında herkese açık accordion; spam koruması `SpamProtection.check()` mevcut | `[ ]` |
+| 135 | **Yorum Konusu AI Özeti (Comment Thread Summary)** — Bir post 10+ yoruma ulaşınca `AIServices` ile yorum temalarını özetleme; "Okuyucular şunları tartışıyor: …" kutusu; `CommentService.summarize(postId)`; BullMQ tetiklemesi; `CronService` hourly | `[ ]` |
+| 136 | **E-posta Doğrulama Kapısı (Email Gate)** — Premium içerik veya downloadable asset'e ulaşmadan önce e-posta doğrulama (üyelik şart değil); `GateToken` tablosu; Redis TTL 7 gün; doğrulama linki `MailService`; GDPR opt-in checkbox | `[ ]` |
+| 137 | **Editoryal Görsel Notu (Asset Editorial Note)** — `Media` modeline `editorialNote` (bağlam, kaynak, lisans) alanı; editörde görseli seçince caption alanı otomatik doldurulur; medya kütüphanesinde notlu görseller filtrelenebilir | `[ ]` |
+| 138 | **Mevsimsel Site Teması (Seasonal Skin)** — `Settings`'te tarih aralıklı dekorasyon CSS class tanımı (Noel, Yılbaşı, Ramazan, vb.); `CronService` daily job ile otomatik aktivasyon/deaktivasyon; admin manuel override toggle | `[ ]` |
+| 139 | **Okuyucu Profil Rozetleri Showcase** — Kullanıcının kazandığı rozetlerin (#26) halka açık profil sayfasında kategori bazlı vitrin; rozet başına tooltip açıklama; `/[lang]/users/[username]` sayfasına ek bölüm; backend değişikliği minimal | `[ ]` |
+| 140 | **Akıllı Görsel Placeholder (Blurhash on Upload)** — Media yüklenirken `blurhash` algoritmasıyla `Media.blurHash` alanı üretilir; `next/image` `placeholder="blur"` ile anlık yükleme; `StorageService` upload pipeline hook; Lighthouse CLS puanını iyileştirir | `[ ]` |
+
+---
+
+### Phase 20 — Derinlik, Otomasyon & Bağlantısallık (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 141 | **Kayıp Trafik Kurtarma (Exit-Intent Banner)** — Kullanıcı sekmeyi kapatmaya yaklaştığında (mouse viewport dışı) bülten aboneliği veya ilgili post öneren hafif overlay; `IntersectionObserver` + `mouseleave` kombinasyonu; `localStorage` ile kapatma hatırlanır; sıfır backend | `[ ]` |
+| 142 | **İçerik Özeti Widget (TL;DR Block)** — Post başına AI ile otomatik üretilen veya admin tarafından yazılan 3 maddelik özet kutusu; `Post.tldr` JSON array alanı; editörde "AI ile oluştur" butonu; okuma süresinden önce gösterilir | `[ ]` |
+| 143 | **Yazar Yayın Akışı (Author RSS per User)** — Her yazar için `/[lang]/authors/[username]/feed.xml` özel RSS akışı; mevcut `SitemapService` / RSS altyapısı üzerine; `UserProfileService`'e `generateFeed()` metodu | `[ ]` |
+| 144 | **Gelişmiş Medya Metaveri Editörü (EXIF Strip / Embed)** — Yüklenen fotoğraflarda EXIF (GPS, cihaz adı) otomatik temizleme (gizlilik); sanatsal içeriklerde isteğe bağlı sakla; `StorageService` upload hook; `Media.exifStripped` boolean | `[ ]` |
+| 145 | **Video Altyazı Yöneticisi (Subtitle Manager)** — `Media` modeline `.vtt` / `.srt` altyazı dosyası alanı; medya kütüphanesinde altyazı yükleme; post içi `<video>` tag'ine `<track>` otomatik eklenmesi; çok dil altyazı desteği | `[ ]` |
+| 146 | **Log Canlı Akışı (Admin Log Stream)** — Winston log dosyasını Redis PubSub üzerinden `/api/admin/logs/stream` SSE endpoint'ine köprüleme; admin panelde gerçek zamanlı log tail; log seviye filtresi (info/warn/error); `LogStreamService` | `[ ]` |
+| 147 | **Ödül Kampanyası (Referral Program)** — Davet linki (`/invite/[code]`); kayıt olan kişi + davet eden kullanıcıya rozet/puan; `Referral` tablosu; `CronService` ile aylık top referrer istatistikleri; `ReferralService` | `[ ]` |
+| 148 | **Fiyatlandırma Sayfası Yöneticisi (Pricing Page Builder)** — Admin'den plan adı, fiyat, özellik listesi, vurgu rengi olan fiyat kartı yönetimi; `PricingPlan` tablosu; `/[lang]/pricing` RSC sayfası; Stripe entegrasyonuyla bağlanabilir | `[ ]` |
+| 149 | **Yayın Öncesi Kontrol Listesi (Pre-publish Checklist)** — Post DRAFT → PUBLISHED geçişini bloke eden modal; "SEO açıklaması dolu mu?", "cover img var mı?", "okunabilirlik 60+?" gibi kontroller; her kural `ContentScoreService`'ten beslenir; tümü geçerse yayınla | `[ ]` |
+| 150 | **Tarayıcı Sekmesi Canlı Sayaç (Tab Activity Pulse)** — Sayfa arka plana alındığında sekme başlığı `(3) Blog — kuray.dev` formatında okunmamış yorum/bildirim sayısı gösterir; Zustand notification store'a subscriber; `document.title` manipülasyonu; sıfır backend | `[ ]` |
+| 151 | **İçerik Erişim Günlüğü (Post Access Log)** — Admin ve author rolünün hangi postu ne zaman görüntülediği / düzenlediği `ContentAccessLog` tablosuna yazılır; GDPR silme akışında cascade temizlenir; admin'de "Kim baktı?" panel | `[ ]` |
+| 152 | **Çoklu Medya Format Dönüştürücü (Transcoder Queue)** — Yüklenen görsel için BullMQ ile AVIF + WebP versiyonları üretimi; `Media.avifUrl / webpUrl` alanları; `next/image` `srcSet` kaynağı olarak kullanılır; `StorageService` extension | `[ ]` |
+| 153 | **Şablon Pazar Yeri (Template Marketplace)** — Post şablonlarının (#42) import/export JSON formatı; admin'den `template.json` dışa aktar / içe aktar; uzun vadede topluluk şablonları; `PostTemplateService.exportJson()` / `importJson()` | `[ ]` |
+| 154 | **Hedef Kitle Segmenti (Audience Segment)** — `UserSegment` tablosu (yeni kayıt, aktif okuyucu, yüksek etkileşim vb.); kampanya gönderiminde segment filtresi; `CampaignService.sendToSegment(segmentId)`; mevcut `SubscriptionService` üzerine | `[ ]` |
+| 155 | **İçerik Dondurma (Content Freeze)** — `Post.isFrozen` boolean; dondurulmuş postlar güncelleme / silme işlemlerine kilitlenir; yalnızca `ADMIN` unlock edebilir; yasal veya arşiv amaçlı; `PostService.update()` başında guard kontrolü | `[ ]` |
+| 156 | **Otomatik Sosyal Görsel Üretici (OG Image Generator)** — `POST /api/og` route; post başlığı + yazar adı + kategori rengiyle dinamik `ImageResponse` (Next.js `@vercel/og`); `MetadataHelper`'da `openGraph.images` kaynağına bağlanır; Cloudinary gerekmez | `[ ]` |
+| 157 | **Randevu Hatırlatma SMS / Email Zinciri** — Randevu saatinden 24 saat ve 1 saat önce BullMQ `emails` + `sms` kuyruğuna hatırlatma job eklenir; `AppointmentService.scheduleReminders()` booking sırasında tetiklenir; mevcut `NotificationService` altyapısı | `[ ]` |
+| 158 | **İçerik Başvuru Önizlemesi (Cited-By Backlink)** — Başka postlar birbirini `[[postSlug]]` söz dizimiyle referans gösterir; `PostReference` tablosu; her post sayfasında "Bu yazıyı referans alan yazılar" bölümü; `ReferenceService.resolve()` | `[ ]` |
+| 159 | **Çoklu Dil Anlık Önizleme (Locale Switcher Preview)** — Admin editöründe dil seçilince sağ panelde o dilin çevirisini gerçek zamanlı önizleme; `PostTranslationService.getForLocale()` AJAX; kaydetmeden görüntüleme; TinyMCE readonly panel | `[ ]` |
+| 160 | **Ziyaretçi Hedefleme Mesajı (Smart CTA)** — Ziyaretçi ilk kez mi, dönen mi, kayıtlı mı; `localStorage` + session varlığına göre post sayfasında farklı CTA gösterilir ("Üye ol", "Hoş geldin back!", "Premium'a geç"); `SmartCtaService`; tamamen istemci taraflı karar | `[ ]` |
+
+---
+
+### Phase 21 — Ekosistem, Güven & Mikro-Deneyimler (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 161 | **Dijital İmza & Blokzincir Zaman Damgası (Content Notarization)** — Post yayınında SHA-256 hash'i hesaplanır, `Post.contentHash` alanına yazılır; Ethereum / OpenTimestamps API ile isteğe bağlı zincir kaydı; içerik değiştirilse hash uyuşmaz; `NotarizationService` | `[ ]` |
+| 162 | **Okuyucu Davranış Funnel Görselleştirici (Behavior Sankey)** — Anasayfa → kategori → post → yorum veya çıkış yollarının Sankey diyagramıyla gösterimi; mevcut GEO analytics event'leri üzerine sayfa bazlı geçiş kaydı; admin'de interaktif SVG diyagram | `[ ]` |
+| 163 | **Aktif Geri Sayım Sayacı (Live Countdown Widget)** — Post veya sayfaya `<countdown>` bloğu eklenebilir; etkinlik, yayın tarihi, indirim bitimine geri sayım; `CountdownBlock`; saat dilimi `UserPreferences.timezone`'dan okunur; SSR ile başlangıç değeri hesaplanır | `[ ]` |
+| 164 | **Makale Alıntı Üretici (Citation Export)** — Post sayfasında "Bu yazıyı alıntıla" butonu; APA, MLA, BibTeX formatlarında metin üretimi; tarayıcı panoya kopyalama; `helpers/generateCitation(post)` pure fn; yazar biyografi + yayın tarihi + URL | `[ ]` |
+| 165 | **İçerik Doğrulama Rozeti (Fact-checked Badge)** — Admin "Doğrulandı" veya "Editörce İncelendi" işareti; `Post.factCheckStatus` enum; öne çıkan rozetle post başlığı yanında görünür; schema.org `ClaimReview` structured data; güven sinyali | `[ ]` |
+| 166 | **Yorum Moderasyon Kuyruğu (Moderation Queue)** — `CommentStatus.PENDING` yorumlar için admin'de dedicated moderasyon sayfası; onay/red/spam toplu işlem; klavye kısayolları `j/k/a/r/s`; karar anında SSE yayını; `CommentService.bulkModerate()` | `[ ]` |
+| 167 | **Arama Otomatik Tamamlama (Search Autocomplete)** — Arama kutusuna yazılırken `GET /api/search/suggest?q=` endpoint; Redis'te son 100 popüler sorgu önbelleği; başlık + kategori + etiket önerileri; debounce 200ms; `SearchSuggestService` | `[ ]` |
+| 168 | **Kullanıcı İstatistik Özeti (User Stats Card)** — Profil sayfasında toplam okuma süresi, okunan post, verilen yorum, kazanılan rozet sayıları animasyonlu sayaç ile; `UserStatsService.aggregate(userId)`; Redis 1h cache; `/[lang]/users/[username]` genişletmesi | `[ ]` |
+| 169 | **Bildirim Snoooze (Notification Snooze)** — Kullanıcı bildirimi şimdi değil 1/4/24 saat sonra hatırlat diyebilir; `Notification.snoozeUntil` alanı; BullMQ'da snooze job; SSE'de `snoozeUntil` geçmişse tekrar göster; Zustand store filter | `[ ]` |
+| 170 | **Post Beğeni Animasyonu (Reaction Burst)** — Beğeni butonuna tıklandığında SVG konfeti / kalp patlama animasyonu; tamamen CSS `@keyframes`; mevcut `LikeService` API yanıtına bağlı; Framer Motion gerekmez; `useLikeAnimation` hook | `[ ]` |
+| 171 | **Arşiv Makinesi Entegrasyonu (Wayback Machine Link)** — Post sayfasında "Arşivlenmiş sürümleri gör" linki; `https://web.archive.org/web/*/` + canonical URL; yeni sekme; sıfır backend; dış bağımlılık yalnızca dış URL | `[ ]` |
+| 172 | **Dinamik Robots.txt Yöneticisi** — Admin'den `robots.txt` içeriğini form üzerinden düzenleme; `Settings` tablosunda `robots_txt` key; `GET /robots.txt` route handler DB'den okur; `UserAgent` bazlı farklı kural setleri destekler | `[ ]` |
+| 173 | **Akıllı Yeniden Yayın (Smart Republish)** — Düşük trafikli eski postu AI ile yeniden özetleyip "Güncellendi" başlığıyla yeniden öne çıkar; `Post.republishedAt` alanı; orijinal yayın tarihi korunur; `CronService` monthly job öneri listesi; admin onayı | `[ ]` |
+| 174 | **İçerik Katkı Panosu (Leaderboard)** — En çok post yazan, en çok yorum alan, en çok oy toplayan yazarların skor tablosu; Redis `ZADD leaderboard:{month}` sorted set; `/[lang]/leaderboard` sayfası; aylık sıfırlama `CronService` | `[ ]` |
+| 175 | **Taslak Gönder (Submit for Review) Butonu** — `AUTHOR` rolü "İncelemeye Gönder" butonuna basar → `PostStatus.REVIEW`; admin'e SSE bildirimi; editörde durum rozeti değişir; mevcut editorial workflow (#12) için frontend katmanı | `[ ]` |
+| 176 | **Çoklu Kampanya Zamanlayıcısı (Campaign Scheduler)** — `Campaign.scheduledAt` alanı; `CronService` hourly job belirlenen saatte BullMQ `emails` kuyruğuna alır; admin takvimde kampanya tarihlerini görür; `CampaignService.scheduleDispatch()` | `[ ]` |
+| 177 | **Gömülü Harita Bloğu (Map Embed Block)** — TinyMCE'ye adres veya koordinat girilen özel blok; Leaflet.js (açık kaynak, Mapbox gerektirmez) ile SSR-safe embed; `MapBlock`; `BlockRendererService` extension; etkinlik ve mekan içerikleri için | `[ ]` |
+| 178 | **Webhook Test Konsolu** — Admin'de webhook endpoint'lerine test event gönderme; örnek payload seçimi; HTTP yanıtı + latency + header görüntüleme; geliştirme kolaylığı; `WebhookService.test(webhookId, eventType)` extension (#7 ile uyumlu) | `[ ]` |
+| 179 | **Kısmen Gizli İçerik (Blur Spoiler Block)** — Post içine blur'lanmış spoiler bloğu; okuyucu "Görmek istiyorum" butonuna basarsa blur kalkar; `localStorage`'da karar saklanır; tamamen client CSS; tiyatro/film/kitap inceleme yazıları için | `[ ]` |
+| 180 | **Admin Koyu/Açık Tema Zamanlayıcısı (Scheduled Theme Switch)** — `UserPreferences.theme` `SYSTEM` dışında ise belirli saatlerde otomatik tema geçişi; örn. 21:00–07:00 arası `DARK`; `CronService` değil, client taraflı `setTimeout` ile `localStorage` yazma; Zustand theme store bağlantısı | `[ ]` |
 
 ---
 
