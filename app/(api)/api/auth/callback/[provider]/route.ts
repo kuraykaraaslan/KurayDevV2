@@ -5,6 +5,7 @@ import UserSessionService from '@/services/AuthService/UserSessionService'
 import SSOService from '@/services/AuthService/SSOService'
 import MailService from '@/services/NotificationService/MailService'
 import { SSOMessages } from '@/messages/SSOMessages'
+import { SSOCallbackRequestSchema } from '@/dtos/AuthDTO'
 
 export async function GET(
   request: NextRequest,
@@ -89,16 +90,18 @@ export async function POST(
 ) {
   const { provider } = await params
 
-  const { code } = await request.json()
-
-  if (!code) {
-    //redirect to frontend
-    NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.CODE_NOT_FOUND}`
+  const body = await request.json()
+  
+  const parsed = SSOCallbackRequestSchema.safeParse(body)
+  if (!parsed.success) {
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_APPLICATION_HOST}/auth/login?error=${SSOMessages.INVALID_REQUEST}`
     )
   }
 
-  const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code as string)
+  const { code } = parsed.data
+
+  const { user, userSecurity, newUser } = await SSOService.authCallback(provider, code)
 
   if (!user) {
     //redirect to frontend

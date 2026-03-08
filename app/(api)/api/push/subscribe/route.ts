@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import PushNotificationService from '@/services/PushNotificationService'
+import { SubscribePushRequestSchema } from '@/dtos/PushNotificationDTO'
+import PushNotificationMessages from '@/messages/PushNotificationMessages'
 
 export const runtime = 'nodejs'
 
@@ -13,18 +15,20 @@ export async function POST(request: NextRequest) {
     })
 
     const body = await request.json()
-    const { endpoint, keys } = body
-
-    if (!endpoint || !keys?.p256dh || !keys?.auth) {
+    
+    const parsed = SubscribePushRequestSchema.safeParse(body)
+    if (!parsed.success) {
       return NextResponse.json(
-        { message: 'Invalid push subscription payload' },
+        { message: 'Validation failed', errors: parsed.error.flatten() },
         { status: 400 }
       )
     }
 
+    const { endpoint, keys } = parsed.data
+
     await PushNotificationService.subscribe(user.userId, { endpoint, keys })
 
-    return NextResponse.json({ message: 'Subscribed to push notifications' })
+    return NextResponse.json({ message: PushNotificationMessages.SUBSCRIPTION_SUCCESS })
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 })
   }

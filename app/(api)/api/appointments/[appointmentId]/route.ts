@@ -1,6 +1,8 @@
 import AppointmentService from '@/services/AppointmentService'
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
+import { UpdateAppointmentRequestSchema } from '@/dtos/AppointmentDTO'
+import AppointmentMessages from '@/messages/AppointmentMessages'
 
 type RouteParams = { params: Promise<{ appointmentId: string }> }
 
@@ -11,7 +13,15 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     const { appointmentId } = await params
     const body = await request.json()
     
-    const updated = await AppointmentService.updateAppointment(appointmentId, body)
+    const parsed = UpdateAppointmentRequestSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { message: 'Validation failed', errors: parsed.error.flatten() },
+        { status: 400 }
+      )
+    }
+    
+    const updated = await AppointmentService.updateAppointment(appointmentId, parsed.data)
     
     return NextResponse.json(updated)
   } catch (error: any) {

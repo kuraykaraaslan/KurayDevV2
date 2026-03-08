@@ -15,7 +15,7 @@ interface RouteParams {
  * Export a chat session's messages as a downloadable file.
  *
  * Query params:
- *   format  — "json" (default) | "csv" | "txt"
+ *   format  — "JSON" (default) | "CSV" | "TXT"
  *
  * Access: ADMIN role only.
  */
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     // Validate export format
     const { searchParams } = new URL(request.url)
-    const rawFormat = searchParams.get('format') ?? 'json'
+    const rawFormat = searchParams.get('format')?.toUpperCase() ?? 'JSON'
     const parsedFormat = ChatExportFormatSchema.safeParse(rawFormat)
     if (!parsedFormat.success) {
       return NextResponse.json(
@@ -48,10 +48,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const messages = await ChatSessionService.getMessages(sessionId)
 
     const safeId = sessionId.replace(/[^a-zA-Z0-9_-]/g, '')
-    const filename = `chat-${safeId}.${format}`
+    const filename = `chat-${safeId}.${format.toLowerCase()}`
 
     // ── JSON ──────────────────────────────────────────────────────────
-    if (format === 'json') {
+    if (format === 'JSON') {
       const body = JSON.stringify(
         {
           session: {
@@ -84,7 +84,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     // ── TXT ───────────────────────────────────────────────────────────
-    if (format === 'txt') {
+    if (format === 'TXT') {
       const header = [
         `Chat Session: ${session.title ?? sessionId}`,
         `User: ${session.userEmail ?? session.userId}`,

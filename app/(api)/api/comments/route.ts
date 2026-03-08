@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import CommentService from '@/services/CommentService'
 import PostService from '@/services/PostService'
-import { CreateCommentRequestSchema } from '@/dtos/CommentDTO'
+import { CreateCommentRequestSchema, UpdateCommentRequestSchema } from '@/dtos/CommentDTO'
 import CommentMessages from '@/messages/CommentMessages'
 import { pipeline } from '@xenova/transformers'
 import { CommentStatus } from '@/generated/prisma'
@@ -153,10 +153,19 @@ export async function PUT(request: NextRequest, _response: NextResponse) {
   try {
     await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
-    const data = await request.json()
-    await CommentService.updateComment(data)
+    const body = await request.json()
+    
+    const parsed = UpdateCommentRequestSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { message: 'Validation failed', errors: parsed.error.flatten() },
+        { status: 400 }
+      )
+    }
 
-    return NextResponse.json({ message: 'Comment updated successfully.' })
+    await CommentService.updateComment(parsed.data)
+
+    return NextResponse.json({ message: CommentMessages.COMMENT_UPDATED_SUCCESSFULLY })
   } catch (error: any) {
     console.error(error.message)
     return NextResponse.json({ message: error.message }, { status: 500 })

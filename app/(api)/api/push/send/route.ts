@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import PushNotificationService from '@/services/PushNotificationService'
+import { SendPushNotificationRequestSchema } from '@/dtos/PushNotificationDTO'
+import PushNotificationMessages from '@/messages/PushNotificationMessages'
 
 export const runtime = 'nodejs'
 
@@ -13,14 +15,16 @@ export async function POST(request: NextRequest) {
     })
 
     const body = await request.json()
-    const { title, body: notifBody, url, target } = body
-
-    if (!title || !notifBody) {
+    
+    const parsed = SendPushNotificationRequestSchema.safeParse(body)
+    if (!parsed.success) {
       return NextResponse.json(
-        { message: 'title and body are required' },
+        { message: 'Validation failed', errors: parsed.error.flatten() },
         { status: 400 }
       )
     }
+
+    const { title, body: notifBody, url, target } = parsed.data
 
     const payload = {
       title,
@@ -35,7 +39,7 @@ export async function POST(request: NextRequest) {
       await PushNotificationService.sendToAll(payload)
     }
 
-    return NextResponse.json({ message: 'Push notification sent' })
+    return NextResponse.json({ message: PushNotificationMessages.NOTIFICATION_SENT })
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 })
   }

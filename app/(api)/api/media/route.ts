@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import AWSService from '@/services/StorageService/AWSService'
 import { prisma } from '@/libs/prisma'
+import { DeleteMediaRequestSchema } from '@/dtos/MediaDTO'
+import MediaMessages from '@/messages/MediaMessages'
 
 export async function GET(request: NextRequest) {
   try {
@@ -103,18 +105,23 @@ export async function DELETE(request: NextRequest) {
     await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
 
     const body = await request.json()
-    const { key } = body
-
-    if (!key) {
-      return NextResponse.json({ message: 'No file key provided' }, { status: 400 })
+    
+    const parsed = DeleteMediaRequestSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { message: 'Validation failed', errors: parsed.error.flatten() },
+        { status: 400 }
+      )
     }
+
+    const { key } = parsed.data
 
     await AWSService.deleteFile(key)
 
     // Remove from DB — deleteMany to avoid throwing if key was never tracked
     await prisma.media.deleteMany({ where: { key } })
 
-    return NextResponse.json({ message: 'File deleted successfully' })
+    return NextResponse.json({ message: MediaMessages.MEDIA_DELETED_SUCCESS })
   } catch (error: any) {
     console.error('Error deleting media:', error)
     return NextResponse.json({ message: error.message }, { status: 500 })
