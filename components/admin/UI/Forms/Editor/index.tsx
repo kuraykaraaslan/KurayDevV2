@@ -8,6 +8,7 @@ import { registerVideoMenuButton } from './partials/videoButton'
 import { registerAudioMenuButton } from './partials/audioButton'
 import { registerFileMenuButton } from './partials/fileButton'
 import { registerMediaLibraryButton } from './partials/mediaLibraryButton'
+import { registerMapButton } from './partials/mapButton'
 
 const NEXT_PUBLIC_TINYMCE_API_KEY = process.env.NEXT_PUBLIC_TINYMCE_API_KEY
 
@@ -18,6 +19,7 @@ interface BlobInfo {
 
 function setupCustomButtons(editor: TinyMCEEditorInstance): void {
   registerMediaLibraryButton(editor)
+  registerMapButton(editor)
   registerVideoMenuButton(editor)
   registerAudioMenuButton(editor)
   registerFileMenuButton(editor)
@@ -77,7 +79,7 @@ const TinyMCEEditor = ({
           'codesample',
         ],
         toolbar:
-          'undo redo | blocks | medialibrary | image media videomenu audiomenu filemenu | ' +
+          'undo redo | blocks | medialibrary mapbutton | image media videomenu audiomenu filemenu | ' +
           'bold italic forecolor | ' +
           'alignleft aligncenter alignright alignjustify | ' +
           'bullist numlist outdent indent | removeformat | code | help',
