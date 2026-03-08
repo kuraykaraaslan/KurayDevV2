@@ -37,7 +37,7 @@ export function useOTP(
 
     try {
       setSendingOtp(true)
-      await axiosInstance.post('/api/auth/me/security/send', {
+      await axiosInstance.post('/api/auth/otp/send', {
         method: pendingMethod,
         action: pendingAction,
       })
@@ -57,7 +57,7 @@ export function useOTP(
     try {
       setVerifying(true)
 
-      const verifyRes = await axiosInstance.post('/api/auth/me/security/verify', {
+      const verifyRes = await axiosInstance.post('/api/auth/otp/verify', {
         otpToken: otpCode,
         method: pendingMethod,
         action: pendingAction,
@@ -91,6 +91,7 @@ export function useOTP(
     userSecurity,
 
     // Email/SMS OTP state
+    pendingMethod,
     modalOpen,
     otpCode,
     otpSent,

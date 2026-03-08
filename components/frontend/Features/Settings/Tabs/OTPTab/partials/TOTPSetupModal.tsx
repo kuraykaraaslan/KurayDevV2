@@ -3,6 +3,12 @@
 import { useEffect, useState } from 'react'
 import HeadlessModal from '@/components/admin/UI/Modal'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faCheck,
+  faCopy,
+  faDownload,
+} from '@fortawesome/free-solid-svg-icons'
 
 type Props = {
   open: boolean
@@ -26,32 +32,33 @@ export default function TOTPSetupModal(props: Props) {
     loadingSetup,
     verifying,
     backupCodes = [],
-    onStartSetup,
     onVerify,
     onChangeCode,
     onClose,
   } = props
 
   const [acknowledged, setAcknowledged] = useState(false)
+  const [copyDone, setCopyDone] = useState(false)
 
-  // reset state when modal re-opens
   useEffect(() => {
     if (!open) {
       setAcknowledged(false)
+      setCopyDone(false)
     }
   }, [open])
 
   const isShowingBackupCodes = backupCodes.length > 0
+  const step = isShowingBackupCodes ? 3 : otpauthUrl ? 2 : 1
 
   const qrSrc = otpauthUrl
-    ? `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
-        otpauthUrl
-      )}`
+    ? `https://api.qrserver.com/v1/create-qr-code/?size=176x176&data=${encodeURIComponent(otpauthUrl)}`
     : null
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(backupCodes.join('\n'))
+    setCopyDone(true)
     setAcknowledged(true)
+    setTimeout(() => setCopyDone(false), 2000)
   }
 
   const handleDownload = () => {
@@ -64,6 +71,12 @@ export default function TOTPSetupModal(props: Props) {
     URL.revokeObjectURL(url)
     setAcknowledged(true)
   }
+
+  const stepLabels = [
+    t('settings.totp_setup.title'),
+    t('settings.totp_setup.enter_code'),
+    t('settings.totp_setup.backup_codes_title'),
+  ]
 
   return (
     <HeadlessModal
@@ -78,92 +91,140 @@ export default function TOTPSetupModal(props: Props) {
       closeOnBackdrop={false}
       closeOnEsc={false}
     >
+      {/* Step progress dots */}
+      <div className="flex justify-center items-center gap-2 mb-5">
+        {[1, 2, 3].map((s, i) => (
+          <div key={s} className="flex items-center gap-2">
+            <div className="flex flex-col items-center gap-1">
+              <div
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all duration-300 ${
+                  s < step
+                    ? 'bg-primary border-primary text-primary-content'
+                    : s === step
+                    ? 'border-primary text-primary bg-primary/10'
+                    : 'border-base-300 text-base-content/30 bg-base-100'
+                }`}
+              >
+                {s < step ? (
+                  <FontAwesomeIcon icon={faCheck} className="w-3 h-3" />
+                ) : (
+                  s
+                )}
+              </div>
+              <span
+                className={`text-xs font-medium hidden sm:block whitespace-nowrap ${
+                  s === step ? 'text-primary' : s < step ? 'text-base-content/60' : 'text-base-content/30'
+                }`}
+              >
+                {stepLabels[i]}
+              </span>
+            </div>
+            {i < 2 && (
+              <div
+                className={`w-6 h-0.5 mb-4 rounded-full transition-all duration-300 ${
+                  step > s ? 'bg-primary' : 'bg-base-300'
+                }`}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
       <div className="space-y-4">
-        {/* ================= BACKUP CODES FLOW ================= */}
+        {/* ═══════════ STEP 3 — BACKUP CODES ═══════════ */}
         {isShowingBackupCodes ? (
           <>
-            <div className="alert alert-warning">
-              <span>{t('settings.totp_setup.warning')}</span>
+            <div className="alert alert-warning py-3">
+              <span className="text-sm">{t('settings.totp_setup.warning')}</span>
             </div>
 
-            <div className="bg-base-200 p-4 rounded-lg space-y-2">
+            <div className="grid grid-cols-2 gap-2">
               {backupCodes.map((c, idx) => (
-                <div key={idx} className="font-mono text-sm select-all p-2 bg-base-100 rounded">
+                <div
+                  key={idx}
+                  className="font-mono text-sm text-center py-2.5 px-3 bg-base-200 rounded-lg select-all tracking-widest border border-base-300"
+                >
                   {c}
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col gap-2">
-              <button onClick={handleCopy} className="btn btn-outline w-full">
-                {t('settings.totp_setup.copy_codes')}
+            <div className="flex gap-2">
+              <button onClick={handleCopy} className="btn btn-outline btn-sm flex-1 gap-2">
+                <FontAwesomeIcon icon={faCopy} className="w-3.5 h-3.5" />
+                {copyDone ? '✓ Copied!' : t('settings.totp_setup.copy_codes')}
               </button>
-
-              <button onClick={handleDownload} className="btn btn-outline w-full">
+              <button onClick={handleDownload} className="btn btn-outline btn-sm flex-1 gap-2">
+                <FontAwesomeIcon icon={faDownload} className="w-3.5 h-3.5" />
                 {t('settings.totp_setup.download_codes')}
               </button>
             </div>
 
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-start gap-3 cursor-pointer p-3 rounded-lg hover:bg-base-200/60 transition-colors">
               <input
                 type="checkbox"
-                className="checkbox checkbox-primary"
+                className="checkbox checkbox-primary checkbox-sm mt-0.5 flex-shrink-0"
                 checked={acknowledged}
                 onChange={(e) => setAcknowledged(e.target.checked)}
               />
-              <span className="text-sm">{t('settings.totp_setup.i_have_saved')}</span>
+              <span className="text-sm text-base-content/70 leading-snug">
+                {t('settings.totp_setup.i_have_saved')}
+              </span>
             </label>
 
             <button onClick={onClose} disabled={!acknowledged} className="btn btn-primary w-full">
-              OK
+              Done
             </button>
           </>
         ) : (
-          /* ================= SETUP FLOW ================= */
+          /* ══════════ STEPS 1 & 2 — SETUP & VERIFY ══════════ */
           <>
-            {!otpauthUrl && (
-              <button
-                onClick={onStartSetup}
-                disabled={loadingSetup}
-                className="btn btn-primary w-full"
-              >
-                {loadingSetup
-                  ? t('frontend.loading')
-                  : t('settings.totp_setup.start_setup')}
-              </button>
+            {/* Loading spinner while generating QR */}
+            {loadingSetup && !otpauthUrl && (
+              <div className="flex flex-col items-center gap-3 py-8">
+                <span className="loading loading-spinner loading-md text-primary" />
+                <p className="text-sm text-base-content/50">Setting up authenticator...</p>
+              </div>
             )}
 
             {otpauthUrl && (
               <>
-                <div className="flex flex-col items-center gap-3">
-                  {qrSrc && (
-                    <img
-                      src={qrSrc}
-                      alt="Authenticator QR"
-                      className="rounded border border-base-300"
-                      width={180}
-                      height={180}
-                    />
-                  )}
-
-                  <p className="text-sm text-base-content/70 text-center">
-                    {t('settings.totp_setup.enter_code')}
-                  </p>
-
-                  <div className="textarea textarea-bordered w-full text-xs break-all select-all">
-                    {otpauthUrl}
+                {/* QR code */}
+                <div className="flex justify-center">
+                  <div className="p-3 bg-white rounded-xl border-2 border-base-300 shadow-sm inline-block">
+                    {qrSrc && (
+                      <img
+                        src={qrSrc}
+                        alt="Authenticator QR"
+                        width={176}
+                        height={176}
+                        className="block"
+                      />
+                    )}
                   </div>
                 </div>
 
-                <div className="divider my-2" />
+                {/* Manual entry */}
+                <details className="group">
+                  <summary className="cursor-pointer text-xs text-center text-base-content/40 hover:text-base-content/70 transition-colors list-none">
+                    ▸ Can&apos;t scan? Enter secret manually
+                  </summary>
+                  <div className="mt-2 p-3 bg-base-200 rounded-lg font-mono text-xs break-all select-all text-base-content/60 border border-base-300">
+                    {otpauthUrl}
+                  </div>
+                </details>
+
+                <div className="divider my-0 text-xs text-base-content/40">
+                  {t('settings.totp_setup.enter_code')}
+                </div>
 
                 <input
                   maxLength={6}
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={code}
-                  onChange={(e) => onChangeCode(e.target.value)}
-                  className="input input-bordered w-full text-center text-2xl tracking-widest font-mono"
+                  onChange={(e) => onChangeCode(e.target.value.replace(/\D/g, ''))}
+                  className="input input-bordered w-full text-center text-3xl tracking-[0.6em] font-mono h-14 focus:border-primary"
                   placeholder={t('settings.otp_confirm.code_placeholder')}
                 />
 
@@ -172,9 +233,14 @@ export default function TOTPSetupModal(props: Props) {
                   disabled={verifying || code.length !== 6}
                   className="btn btn-primary w-full"
                 >
-                  {verifying
-                    ? t('settings.otp_confirm.verifying')
-                    : t('settings.totp_setup.confirm_setup')}
+                  {verifying ? (
+                    <>
+                      <span className="loading loading-spinner loading-xs" />
+                      {t('settings.otp_confirm.verifying')}
+                    </>
+                  ) : (
+                    t('settings.totp_setup.confirm_setup')
+                  )}
                 </button>
               </>
             )}
