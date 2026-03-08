@@ -99,15 +99,24 @@ export default class UserService {
     pageSize,
     search,
     userId,
+    sortKey,
+    sortDir,
   }: {
     page: number
     pageSize: number
     search?: string
     userId?: string
+    sortKey?: string
+    sortDir?: 'asc' | 'desc'
   }): Promise<{ users: SafeUser[]; total: number }> {
+    const ALLOWED_SORT_KEYS: Record<string, string> = { email: 'email', userRole: 'userRole', createdAt: 'createdAt' }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
+
     const queryOptions = {
       skip: page * pageSize,
       take: pageSize,
+      orderBy: { [resolvedSortKey]: resolvedSortDir },
       where: {
         userId: userId ? userId : undefined,
         OR: [

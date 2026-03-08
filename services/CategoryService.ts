@@ -91,7 +91,9 @@ export default class CategoryService {
   static async getAllCategories(
     page: number,
     pageSize: number,
-    search?: string
+    search?: string,
+    sortKey?: string,
+    sortDir?: 'asc' | 'desc',
   ): Promise<{ categories: CategoryWithTranslations[]; total: number }> {
     if (search && this.sqlInjectionRegex.test(search)) {
       throw new Error('Invalid search query.')
@@ -107,10 +109,15 @@ export default class CategoryService {
         }
       : {}
 
+    const ALLOWED_SORT_KEYS: Record<string, string> = { title: 'title', slug: 'slug', createdAt: 'createdAt', updatedAt: 'updatedAt' }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
+
     const categories = await prisma.category.findMany({
       where,
       skip: page * pageSize,
       take: pageSize,
+      orderBy: { [resolvedSortKey]: resolvedSortDir },
       select: categoryWithTranslationsSelect,
     })
 

@@ -46,26 +46,37 @@ export default class ContactFormService {
   static async getAllContactForms(
     page: number,
     pageSize: number,
-    search?: string
+    search?: string,
+    sortKey?: string,
+    sortDir?: 'asc' | 'desc',
   ): Promise<{ contactForms: ContactForm[]; total: number }> {
     if (search && this.sqlInjectionRegex.test(search)) {
       throw new Error('Invalid search query.')
     }
 
+    const ALLOWED_SORT_KEYS: Record<string, string> = { name: 'name', email: 'email', createdAt: 'createdAt' }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
+
+    const where = search
+      ? {
+          OR: [
+            { name: { contains: search } },
+            { email: { contains: search } },
+            { message: { contains: search } },
+            { phone: { contains: search } },
+          ],
+        }
+      : {}
+
     const contactForms = await prisma.contactForm.findMany({
       take: pageSize,
       skip: page * pageSize,
-      where: {
-        OR: [
-          { name: { contains: search } },
-          { email: { contains: search } },
-          { message: { contains: search } },
-          { phone: { contains: search } },
-        ],
-      },
+      where,
+      orderBy: { [resolvedSortKey]: resolvedSortDir },
     })
 
-    const total = await prisma.contactForm.count()
+    const total = await prisma.contactForm.count({ where })
 
     return { contactForms, total }
   }

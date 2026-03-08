@@ -11,6 +11,8 @@ export default class SubscriptionService {
     pageSize?: number
     includeDeleted?: boolean
     search?: string
+    sortKey?: string
+    sortDir?: 'asc' | 'desc'
   }): Promise<{ subscriptions: Subscription[]; total: number }> {
     const where = {
       deletedAt: data.includeDeleted ? undefined : null,
@@ -22,14 +24,16 @@ export default class SubscriptionService {
       }),
     }
 
+    const ALLOWED_SORT_KEYS: Record<string, string> = { email: 'email', createdAt: 'createdAt' }
+    const resolvedSortKey = (data.sortKey && ALLOWED_SORT_KEYS[data.sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = data.sortDir === 'asc' ? 'asc' : 'desc'
+
     const [subscriptions, total] = await prisma.$transaction([
       prisma.subscription.findMany({
         where,
         skip: data.page && data.pageSize ? data.page * data.pageSize : undefined,
         take: data.pageSize ? data.pageSize : undefined,
-        orderBy: {
-          createdAt: 'desc',
-        },
+        orderBy: { [resolvedSortKey]: resolvedSortDir },
       }),
       prisma.subscription.count({ where }),
     ])

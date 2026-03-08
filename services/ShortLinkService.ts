@@ -105,10 +105,28 @@ export default class ShortLinkService {
     /**
      * Returns all short links (for admin panel).
      */
-    static async getAll() {
-        return prisma.shortLink.findMany({
-            orderBy: { createdAt: 'desc' },
-        })
+    static async getAll(params?: { page?: number; pageSize?: number; search?: string; sortKey?: string; sortDir?: 'asc' | 'desc' }) {
+        const page = params?.page ?? 0
+        const pageSize = params?.pageSize ?? 50
+        const ALLOWED_SORT_KEYS: Record<string, string> = { code: 'code', createdAt: 'createdAt' }
+        const resolvedSortKey = (params?.sortKey && ALLOWED_SORT_KEYS[params.sortKey]) ?? 'createdAt'
+        const resolvedSortDir: 'asc' | 'desc' = params?.sortDir === 'asc' ? 'asc' : 'desc'
+
+        const where = params?.search
+          ? { OR: [{ code: { contains: params.search } }, { originalUrl: { contains: params.search } }] }
+          : {}
+
+        const [links, total] = await prisma.$transaction([
+          prisma.shortLink.findMany({
+            where,
+            skip: page * pageSize,
+            take: pageSize,
+            orderBy: { [resolvedSortKey]: resolvedSortDir },
+          }),
+          prisma.shortLink.count({ where }),
+        ])
+
+        return { links, total }
     }
 
     /**

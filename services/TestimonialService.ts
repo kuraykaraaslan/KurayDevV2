@@ -34,7 +34,9 @@ export default class TestimonialService {
   static async getAllTestimonials(
     page: number,
     pageSize: number,
-    search?: string
+    search?: string,
+    sortKey?: string,
+    sortDir?: 'asc' | 'desc',
   ): Promise<{ testimonials: Testimonial[]; total: number }> {
     if (search && this.sqlInjectionRegex.test(search)) {
       throw new Error('Invalid search query.')
@@ -50,12 +52,16 @@ export default class TestimonialService {
         }
       : {}
 
+    const ALLOWED_SORT_KEYS: Record<string, string> = { name: 'name', title: 'title', status: 'status', createdAt: 'createdAt' }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
+
     const [testimonials, total] = await Promise.all([
       prisma.testimonial.findMany({
         where,
         skip: page * pageSize,
         take: pageSize,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { [resolvedSortKey]: resolvedSortDir },
       }),
       prisma.testimonial.count({ where }),
     ])

@@ -117,9 +117,15 @@ export default class ChatSessionDBService {
         page?: number
         pageSize?: number
         search?: string
+        sortKey?: string
+        sortDir?: 'asc' | 'desc'
     }): Promise<{ sessions: StoredChatSession[]; total: number }> {
         const page     = options?.page     ?? 0
         const pageSize = options?.pageSize ?? 20
+
+        const ALLOWED_SORT_KEYS: Record<string, string> = { title: 'title', userEmail: 'userEmail', status: 'status', createdAt: 'createdAt', updatedAt: 'updatedAt' }
+        const resolvedSortKey = (options?.sortKey && ALLOWED_SORT_KEYS[options.sortKey]) ?? 'updatedAt'
+        const resolvedSortDir: 'asc' | 'desc' = options?.sortDir === 'asc' ? 'asc' : 'desc'
 
         try {
             const where = {
@@ -138,7 +144,7 @@ export default class ChatSessionDBService {
             const [rows, total] = await Promise.all([
                 prisma.chatSession.findMany({
                     where,
-                    orderBy: { updatedAt: 'desc' },
+                    orderBy: { [resolvedSortKey]: resolvedSortDir },
                     skip:    page * pageSize,
                     take:    pageSize,
                     select: {

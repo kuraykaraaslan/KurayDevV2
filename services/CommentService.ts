@@ -69,25 +69,27 @@ export default class CommentService {
     search?: string
     postId?: string
     pending?: boolean
+    sortKey?: string
+    sortDir?: 'asc' | 'desc'
   }): Promise<{ comments: CommentWithData[]; total: number }> {
-    const { page, pageSize, search, postId, pending } = data
+    const { page, pageSize, search, postId, pending, sortKey, sortDir } = data
 
     // Validate search query
     if (search && this.sqlInjectionRegex.test(search)) {
       throw new Error('SQL injection detected.')
     }
 
+    const ALLOWED_SORT_KEYS: Record<string, string> = { content: 'content', name: 'name', email: 'email', status: 'status', createdAt: 'createdAt' }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
+
     const comments = await prisma.comment.findMany({
       where: {
         postId,
-        content: {
-          contains: search,
-        },
+        content: { contains: search },
         status: pending ? undefined : 'PUBLISHED',
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: { [resolvedSortKey]: resolvedSortDir },
       skip: page * pageSize,
       take: pageSize,
       select: {

@@ -34,17 +34,21 @@ const seriesSelect = {
 
 export default class SeriesService {
     // ── List ──────────────────────────────────────────────
-    static async getAll(page = 0, pageSize = 20, search?: string) {
+    static async getAll(page = 0, pageSize = 20, search?: string, sortKey?: string, sortDir?: 'asc' | 'desc') {
         const where = search
             ? { title: { contains: search, mode: 'insensitive' as const } }
             : {}
+
+        const ALLOWED_SORT_KEYS: Record<string, string> = { title: 'title', slug: 'slug', createdAt: 'createdAt', updatedAt: 'updatedAt' }
+        const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+        const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
 
         const [series, total] = await prisma.$transaction([
             prisma.postSeries.findMany({
                 where,
                 skip: page * pageSize,
                 take: pageSize,
-                orderBy: { createdAt: 'desc' },
+                orderBy: { [resolvedSortKey]: resolvedSortDir },
                 select: {
                     ...seriesSelect,
                     _count: { select: { entries: true } },

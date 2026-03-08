@@ -124,8 +124,10 @@ export default class AppointmentService {
     email?: string
     name?: string
     search?: string
+    sortKey?: string
+    sortDir?: 'asc' | 'desc'
   }): Promise<{ appointments: Appointment[]; total: number }> {
-    const { page, pageSize, startDate, endDate, status, appointmentId, email, name, search } = params
+    const { page, pageSize, startDate, endDate, status, appointmentId, email, name, search, sortKey, sortDir } = params
     
     const where: any = {}
     
@@ -145,12 +147,16 @@ export default class AppointmentService {
       if (name) where.name = { contains: name, mode: 'insensitive' }
     }
 
+    const ALLOWED_SORT_KEYS: Record<string, string> = { name: 'name', email: 'email', status: 'status', startTime: 'startTime', endTime: 'endTime', createdAt: 'createdAt' }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
+
     const [appointments, total] = await prisma.$transaction([
       prisma.appointment.findMany({
         skip: page * pageSize,
         take: pageSize,
         where,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { [resolvedSortKey]: resolvedSortDir },
       }),
       prisma.appointment.count({ where }),
     ])

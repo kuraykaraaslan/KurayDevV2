@@ -158,18 +158,30 @@ export default class PostService {
     slug?: string
     createdAfter?: Date
     lang?: string
+    sortKey?: string
+    sortDir?: 'asc' | 'desc'
   }): Promise<{ posts: PostWithData[]; total: number }> {
-    const { page, pageSize, search, categoryId, status, authorId, postId, slug, lang } = data
+    const { page, pageSize, search, categoryId, status, authorId, postId, slug, lang, sortKey, sortDir } = data
 
     //ALL, PUBLISHED, DRAFT
 
     const now = new Date()
+    const ALLOWED_SORT_KEYS: Record<string, string> = {
+      title: 'title',
+      slug: 'slug',
+      status: 'status',
+      createdAt: 'createdAt',
+      publishedAt: 'publishedAt',
+    }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
+
     // Get posts by search query
     const query = {
       skip: page * pageSize,
       take: pageSize,
       orderBy: {
-        createdAt: 'desc',
+        [resolvedSortKey]: resolvedSortDir,
       },
       select: this.postWithDataSelect,
       where: {

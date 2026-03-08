@@ -16,13 +16,19 @@ export default class ProjectService {
     projectSlug?: string
     search?: string
     onlyPublished?: boolean
+    sortKey?: string
+    sortDir?: 'asc' | 'desc'
   }): Promise<{ projects: ProjectWithTranslations[]; total: number }> {
-    const { page, pageSize, search, onlyPublished, projectId, projectSlug } = data
+    const { page, pageSize, search, onlyPublished, projectId, projectSlug, sortKey, sortDir } = data
 
     // Validate search query
     if (search && this.sqlInjectionRegex.test(search)) {
       throw new Error('Invalid search query.')
     }
+
+    const ALLOWED_SORT_KEYS: Record<string, string> = { title: 'title', slug: 'slug', status: 'status', createdAt: 'createdAt', updatedAt: 'updatedAt' }
+    const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = sortDir === 'asc' ? 'asc' : 'desc'
 
     // Get posts by search query
     const query = {
@@ -78,7 +84,7 @@ export default class ProjectService {
         slug: projectSlug ? projectSlug : undefined,
       },
       orderBy: {
-        createdAt: 'desc' as const,
+        [resolvedSortKey]: resolvedSortDir,
       },
     }
 

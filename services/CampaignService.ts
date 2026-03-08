@@ -9,6 +9,8 @@ export default class CampaignService {
     page?: number
     pageSize?: number
     search?: string
+    sortKey?: string
+    sortDir?: 'asc' | 'desc'
   }): Promise<{ campaigns: Campaign[]; total: number }> {
     const where = {
       ...(data.search && {
@@ -19,12 +21,16 @@ export default class CampaignService {
       }),
     }
 
+    const ALLOWED_SORT_KEYS: Record<string, string> = { title: 'title', subject: 'subject', status: 'status', createdAt: 'createdAt' }
+    const resolvedSortKey = (data.sortKey && ALLOWED_SORT_KEYS[data.sortKey]) ?? 'createdAt'
+    const resolvedSortDir: 'asc' | 'desc' = data.sortDir === 'asc' ? 'asc' : 'desc'
+
     const [campaigns, total] = await prisma.$transaction([
       prisma.campaign.findMany({
         where,
         skip: data.page && data.pageSize ? data.page * data.pageSize : undefined,
         take: data.pageSize ? data.pageSize : undefined,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { [resolvedSortKey]: resolvedSortDir },
       }),
       prisma.campaign.count({ where }),
     ])
