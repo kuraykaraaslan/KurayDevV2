@@ -109,7 +109,7 @@ function openMapDialog(editor: Editor): void {
         if (isNaN(lat) || isNaN(lng)) {
           editor.notificationManager.open({
             text: 'Lütfen geçerli enlem ve boylam değerleri girin.',
-            type: 'warn',
+            type: 'warning',
             timeout: 3000,
           })
           return
@@ -123,7 +123,7 @@ function openMapDialog(editor: Editor): void {
         if (!code) {
           editor.notificationManager.open({
             text: 'iframe kodunu yapıştırın.',
-            type: 'warn',
+            type: 'warning',
             timeout: 3000,
           })
           return
@@ -134,7 +134,7 @@ function openMapDialog(editor: Editor): void {
         if (!srcMatch) {
           editor.notificationManager.open({
             text: 'Geçerli bir Google Maps iframe kodu bulunamadı.',
-            type: 'warn',
+            type: 'warning',
             timeout: 3000,
           })
           return
@@ -144,7 +144,7 @@ function openMapDialog(editor: Editor): void {
         if (!src.startsWith('https://www.google.com/maps/')) {
           editor.notificationManager.open({
             text: 'Yalnızca Google Maps embed URL\'leri desteklenir.',
-            type: 'warn',
+            type: 'warning',
             timeout: 3000,
           })
           return

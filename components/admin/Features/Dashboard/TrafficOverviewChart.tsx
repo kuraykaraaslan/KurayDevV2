@@ -48,7 +48,7 @@ export default function TrafficOverviewChart({ data, loading }: TrafficOverviewC
         ))}
       </div>
       <div className="mt-3 flex items-center justify-between text-xs text-base-content/50">
-        <span>{t('admin.dashboard.traffic_total', { count: data.reduce((sum, d) => sum + d.value, 0).toLocaleString() })}</span>
+        <span>{t('admin.dashboard.traffic_total', { count: data.reduce((sum, d) => sum + d.value, 0) })}</span>
         <span>{t('admin.dashboard.last_7_days')}</span>
       </div>
     </div>

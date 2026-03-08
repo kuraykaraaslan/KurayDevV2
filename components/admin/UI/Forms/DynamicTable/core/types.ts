@@ -1,5 +1,4 @@
 import { ReactNode } from 'react'
-import type { TableSearchParamState } from '../hooks/useTableSearchParams'
 
 export type ViewMode = 'table' | 'grid'
 
