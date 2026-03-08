@@ -25,9 +25,15 @@ import {
 import { StoredPasskey } from '@/types/user/UserSecurityTypes'
 import { SafeUser } from '@/types/user/UserTypes'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 const RP_NAME = process.env.WEBAUTHN_RP_NAME ?? 'KurayDev'
-const RP_ID = process.env.WEBAUTHN_RP_ID ?? APPLICATION_DOMAIN
-const ORIGIN = process.env.WEBAUTHN_ORIGIN ?? `https://${APPLICATION_DOMAIN}`
+const RP_ID = process.env.WEBAUTHN_RP_ID ?? (isDev ? 'localhost' : APPLICATION_DOMAIN)
+const ORIGIN =
+  process.env.WEBAUTHN_ORIGIN ??
+  (isDev
+    ? `http://localhost:${process.env.PORT ?? 3000}`
+    : `https://${APPLICATION_DOMAIN}`)
 
 export default class WebAuthnService {
   // ── Registration ──────────────────────────────────────────────────────────
