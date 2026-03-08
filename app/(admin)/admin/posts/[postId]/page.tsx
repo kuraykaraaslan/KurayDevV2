@@ -20,183 +20,13 @@ import { useDraftAutoSave } from '@/components/admin/hooks/useDraftAutoSave'
 import { useSlugify } from '@/components/admin/hooks/useSlugify'
 import type { PostStatus } from '@/types/content/BlogTypes'
 import ContentScoreBar from '@/components/admin/UI/Forms/ContentScoreBar'
-import type { ScoreRule } from '@/components/admin/UI/Forms/ContentScoreBar'
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-const countWordsInHtml = (html: string): number =>
-  html
-    .replace(/<[^>]*>/g, ' ')
-    .trim()
-    .split(/\s+/)
-    .filter((w) => w.length > 0).length
-
-// ---------------------------------------------------------------------------
-// Content Score Rules
-// ---------------------------------------------------------------------------
-const TITLE_SCORE_RULES: ScoreRule[] = [
-  {
-    label: 'Dolu',
-    check: (v) => v.trim().length > 0,
-    points: 10,
-    hint: 'Başlık boş olamaz',
-  },
-  {
-    label: '≥20 karakter',
-    check: (v) => v.trim().length >= 20,
-    points: 15,
-    hint: 'En az 20 karakter olmalı',
-  },
-  {
-    label: '50-60 karakter',
-    check: (v) => v.trim().length >= 50 && v.trim().length <= 60,
-    points: 25,
-    hint: 'SEO için ideal başlık uzunluğu 50-60 karakter',
-  },
-  {
-    label: '≤70 karakter',
-    check: (v) => v.trim().length > 0 && v.trim().length <= 70,
-    points: 15,
-    hint: '70 karakterden uzun başlıklar arama sonuçlarında kesilebilir',
-  },
-]
-
-const DESCRIPTION_SCORE_RULES: ScoreRule[] = [
-  {
-    label: 'Dolu',
-    check: (v) => v.trim().length > 0,
-    points: 10,
-    hint: 'Meta description boş olamaz',
-  },
-  {
-    label: '≥80 karakter',
-    check: (v) => v.trim().length >= 80,
-    points: 15,
-    hint: 'En az 80 karakter olmalı',
-  },
-  {
-    label: '120-160 karakter',
-    check: (v) => v.trim().length >= 120 && v.trim().length <= 160,
-    points: 30,
-    hint: 'SEO için ideal meta description: 120-160 karakter',
-  },
-  {
-    label: '≤170 karakter',
-    check: (v) => v.trim().length > 0 && v.trim().length <= 170,
-    points: 10,
-    hint: '170 karakterden uzun açıklamalar arama sonuçlarında kesilebilir',
-  },
-]
-
-const CONTENT_SCORE_RULES: ScoreRule[] = [
-  {
-    label: 'Dolu',
-    check: (v) => v.replace(/<[^>]*>/g, '').trim().length > 0,
-    points: 5,
-    hint: 'İçerik boş olamaz',
-  },
-  {
-    label: '≥300 kelime',
-    check: (v) => countWordsInHtml(v) >= 300,
-    points: 15,
-    hint: 'İçerik en az 300 kelime olmalı',
-  },
-  {
-    label: '≥600 kelime',
-    check: (v) => countWordsInHtml(v) >= 600,
-    points: 15,
-    hint: 'SEO için ideal: 600+ kelime',
-  },
-  {
-    label: 'Görsel',
-    check: (v) => /<img\b/i.test(v),
-    points: 15,
-    hint: 'En az bir görsel ekleyin',
-  },
-  {
-    label: 'Alt text',
-    check: (v) => {
-      const imgs = v.match(/<img\b[^>]*>/gi) ?? []
-      if (imgs.length === 0) return false
-      return imgs.every((img) => /\balt\s*=\s*["'][^"']+["']/i.test(img))
-    },
-    points: 25,
-    hint: 'Tüm görsellerin dolu alt text içermesi gerekiyor',
-  },
-  {
-    label: 'Link',
-    check: (v) => /<a\s/i.test(v),
-    points: 10,
-    hint: 'En az bir link ekleyin',
-  },
-]
-
-const SLUG_SCORE_RULES: ScoreRule[] = [
-  {
-    label: 'Dolu',
-    check: (v) => v.trim().length > 0,
-    points: 10,
-    hint: 'Slug boş olamaz',
-  },
-  {
-    label: 'Küçük harf',
-    check: (v) => v.trim().length > 0 && v === v.toLowerCase(),
-    points: 20,
-    hint: 'Slug büyük harf içermemeli',
-  },
-  {
-    label: 'Boşluk yok',
-    check: (v) => v.trim().length > 0 && !/\s/.test(v),
-    points: 20,
-    hint: 'Slug boşluk içermemeli',
-  },
-  {
-    label: 'a-z 0-9 tire',
-    check: (v) => /^[a-z0-9-]+$/.test(v),
-    points: 20,
-    hint: 'Slug sadece küçük harf, rakam ve tire içermeli',
-  },
-  {
-    label: '≤75 karakter',
-    check: (v) => v.trim().length > 0 && v.length <= 75,
-    points: 15,
-    hint: 'Slug 75 karakterden kısa olmalı',
-  },
-]
-
-const KEYWORDS_SCORE_RULES: ScoreRule[] = [
-  {
-    label: '≥1 kelime',
-    check: (v) => v.split(',').filter((k) => k.trim().length > 0).length >= 1,
-    points: 15,
-    hint: 'En az bir anahtar kelime ekleyin',
-  },
-  {
-    label: '≥3 kelime',
-    check: (v) => v.split(',').filter((k) => k.trim().length > 0).length >= 3,
-    points: 25,
-    hint: 'En az 3 anahtar kelime önerilir',
-  },
-  {
-    label: '≤10 kelime',
-    check: (v) => {
-      const count = v.split(',').filter((k) => k.trim().length > 0).length
-      return count > 0 && count <= 10
-    },
-    points: 15,
-    hint: 'En fazla 10 anahtar kelime kullanın',
-  },
-  {
-    label: 'Kısa kelimeler',
-    check: (v) => {
-      const keywords = v.split(',').filter((k) => k.trim().length > 0)
-      return keywords.length > 0 && keywords.every((k) => k.trim().length <= 50)
-    },
-    points: 10,
-    hint: 'Her anahtar kelime 50 karakterden kısa olmalı',
-  },
-]
+import {
+  TITLE_SCORE_RULES,
+  DESCRIPTION_SCORE_RULES,
+  CONTENT_SCORE_RULES,
+  SLUG_SCORE_RULES,
+  KEYWORDS_SCORE_RULES,
+} from '@/components/admin/UI/Forms/ContentScoreBar/rules'
 
 const POST_TRANSLATION_FIELDS: TranslationFieldDef[] = [
   { key: 'title', label: 'Title' },
@@ -444,8 +274,8 @@ const SinglePost = () => {
       />
 
       <div className="flex flex-col gap-1">
-        <ContentScoreBar value={titleField.value} rules={TITLE_SCORE_RULES} label="SEO Başlık" />
         <DynamicText label="Title" placeholder="Title" value={titleField.value} setValue={titleField.set} size="md" />
+        <ContentScoreBar value={titleField.value} rules={TITLE_SCORE_RULES} label="SEO Başlık" />
       </div>
 
       {tr.isEN && (
@@ -485,31 +315,31 @@ const SinglePost = () => {
       )}
 
       <div className="flex flex-col gap-1">
-        <ContentScoreBar value={contentField.value} rules={CONTENT_SCORE_RULES} label="İçerik Kalitesi" />
         <GenericElement label="Content">
           <Editor value={contentField.value || ''} onChange={contentField.set} />
         </GenericElement>
+        <ContentScoreBar value={contentField.value} rules={CONTENT_SCORE_RULES} label="İçerik Kalitesi" />
       </div>
 
       <div className="flex flex-col gap-1">
-        <ContentScoreBar value={descriptionField.value} rules={DESCRIPTION_SCORE_RULES} label="Meta Description" />
         <DynamicText label="Description" placeholder="Description" value={descriptionField.value} setValue={descriptionField.set} size="md" isTextarea />
+        <ContentScoreBar value={descriptionField.value} rules={DESCRIPTION_SCORE_RULES} label="Meta Description" />
       </div>
       <div className="flex flex-col gap-1">
-        <ContentScoreBar value={slugField.value} rules={SLUG_SCORE_RULES} label="URL / Slug" />
         <DynamicText label="Slug" placeholder="Slug" value={slugField.value} setValue={slugField.set} size="md" />
+        <ContentScoreBar value={slugField.value} rules={SLUG_SCORE_RULES} label="URL / Slug" />
       </div>
 
       {tr.isEN && (
         <>
           <div className="flex flex-col gap-1">
-            <ContentScoreBar value={keywords.join(',')} rules={KEYWORDS_SCORE_RULES} label="Anahtar Kelimeler" />
             <DynamicText
               label="Keywords" placeholder="Keywords"
               value={keywords.join(',')}
               setValue={(v) => setKeywords(v.split(',').map((s) => s.trim()).filter(Boolean))}
               size="md"
             />
+            <ContentScoreBar value={keywords.join(',')} rules={KEYWORDS_SCORE_RULES} label="Anahtar Kelimeler" />
           </div>
           <DynamicSelect
             label="Author"
