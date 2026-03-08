@@ -733,7 +733,8 @@
     "post_series": "Post Series",
     "email": "Email",
     "role": "Role",
-    "translations": "Translations"
+    "translations": "Translations",
+    "export": "Vie"
   },
   "errors": {
     "404": {

@@ -225,7 +225,8 @@
     "post_series": "Post Series",
     "email": "Email",
     "role": "Role",
-    "translations": "Translations"
+    "translations": "Translations",
+    "export": "Export"
   },
   "pages": {
     "hero": {
@@ -527,6 +528,14 @@
       "push_notifications_description": "Receive instant browser notifications",
       "newsletter_label": "Newsletter",
       "newsletter_description": "Receive weekly newsletter and updates",
+      "newsletter_topics_title": "Newsletter Topics",
+      "newsletter_topics_description": "Choose which types of content you want to receive",
+      "topic_blog_digest_label": "Blog Digest",
+      "topic_blog_digest_description": "Weekly summary of new blog posts and articles",
+      "topic_announcements_label": "Announcements",
+      "topic_announcements_description": "Product updates, releases and important news",
+      "topic_events_label": "Events",
+      "topic_events_description": "Upcoming events, webinars and community meetups",
       "saving": "Saving...",
       "save": "Save",
       "toast_success": "Preferences updated successfully",

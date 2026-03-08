@@ -727,7 +727,7 @@ All workers:
 
 | # | Özellik | Durum |
 |---|---------|-------|
-| 81 | **Bülten Tercih Merkezi (Newsletter Preference Center)** — Abone çıkma yerine konu bazlı tercih seçimi (blog özeti, duyurular, etkinlikler); `SubscriptionPreference` tablosu; her kampanyaya konu etiketi; `SubscriptionService` genişletmesi | `[ ]` |
+| 81 | **Bülten Tercih Merkezi (Newsletter Preference Center)** — Abone çıkma yerine konu bazlı tercih seçimi (blog özeti, duyurular, etkinlikler); `SubscriptionPreference` tablosu; her kampanyaya konu etiketi; `SubscriptionService` genişletmesi | `[x]` |
 | 82 | **İçerik Takvimi E-posta Özeti (Weekly Digest to Admin)** — `CronService` weekly job ile o haftanın en çok okunan/yorum alan/paylaşılan postlarını admin'e özet e-posta; `MailService` üzerinden; template `MailTemplateDTO` | `[ ]` |
 | 83 | **Çok Dilli Slug Yönetimi (Localized Slugs)** — Her `PostTranslation` kaydına dil bazlı benzersiz slug; `/[lang]/blog/[categorySlug]/[localizedPostSlug]` route desteği; mevcut `PostTranslationSchema`'ya `slug` alanı eklenmesi | `[ ]` |
 | 84 | **Mobil Uygulama Push İçerik Bildirimi (App-style Post Push)** — Yeni post yayınlandığında mevcut web-push altyapısıyla title + cover image + kısa açıklama içeren zengin push; `PushNotificationService.sendToAll()` + `PushService` extension | `[ ]` |

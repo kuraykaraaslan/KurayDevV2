@@ -189,7 +189,8 @@
     "post_series": "Gönderi Serisi",
     "email": "E-posta",
     "role": "Rol",
-    "translations": "Çeviriler"
+    "translations": "Çeviriler",
+    "export": "Dışa Aktar"
   },
   "pages": {
     "hero": {
@@ -471,6 +472,14 @@
       "email_notifications_label": "E-posta Bildirimleri",
       "newsletter_description": "Haftalık bülten ve güncellemeleri alın",
       "newsletter_label": "Bülten",
+      "newsletter_topics_title": "Bülten Konuları",
+      "newsletter_topics_description": "Almak istediğiniz içerik türlerini seçin",
+      "topic_blog_digest_label": "Blog Özeti",
+      "topic_blog_digest_description": "Yeni blog yazıları ve makalelerin haftalık özeti",
+      "topic_announcements_label": "Duyurular",
+      "topic_announcements_description": "Ürün güncellemeleri, sürümler ve önemli haberler",
+      "topic_events_label": "Etkinlikler",
+      "topic_events_description": "Yaklaşan etkinlikler, web seminerleri ve topluluk buluşmaları",
       "push_notifications_description": "Anlık tarayıcı bildirimleri alın",
       "push_notifications_label": "Anlık Bildirimler",
       "save": "Kaydet",
