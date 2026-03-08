@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import useGlobalStore from '@/libs/zustand'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
+import PasskeyManager from '@/components/auth/PasskeyManager'
 import { useTranslation } from 'react-i18next'
 
 export default function SecurityTab() {
@@ -70,6 +71,10 @@ export default function SecurityTab() {
           {loading ? t('settings.security_tab.changing') : t('settings.security_tab.save')}
         </button>
       </form>
+
+      <div className="divider" />
+
+      <PasskeyManager />
     </div>
   )
 }

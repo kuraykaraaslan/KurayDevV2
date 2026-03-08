@@ -7,6 +7,7 @@ import { useGlobalStore } from '@/libs/zustand'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { OTPActionEnum, OTPMethod } from '@/types/user/UserSecurityTypes'
 import OTPConfirmModal from '@/components/frontend/Features/Settings/Tabs/OTPTab/partials/OTPConfirmModal'
+import PasskeyLoginButton from '@/components/auth/PasskeyLoginButton'
 import { useTranslation } from 'react-i18next'
 
 const LoginPage = () => {
@@ -223,6 +224,20 @@ const LoginPage = () => {
             {t('auth.login.sign_in')}
           </button>
         </div>
+
+        <div className="flex items-center justify-center gap-2">
+          <span className="flex-1 h-px bg-base-300" />
+          <span className="text-sm text-base-content/50">{t('common.or')}</span>
+          <span className="flex-1 h-px bg-base-300" />
+        </div>
+
+        <PasskeyLoginButton
+          email={email || undefined}
+          onSuccess={() => {
+            toast.success(t('auth.passkey.auth_success'))
+            router.push(searchParams.get('redirect') || '/')
+          }}
+        />
       </div>
 
       <OTPConfirmModal
