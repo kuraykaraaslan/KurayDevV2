@@ -1,7 +1,7 @@
 'use client'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle, faServer } from '@fortawesome/free-solid-svg-icons'
+import { faServer } from '@fortawesome/free-solid-svg-icons'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import SystemStatusModalContent from './content'
 import i18n from '@/libs/localize/localize'

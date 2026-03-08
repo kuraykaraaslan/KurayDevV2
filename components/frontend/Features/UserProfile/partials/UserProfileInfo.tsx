@@ -1,3 +1,5 @@
+'use client'
+
 import { useTranslation } from 'react-i18next'
 
 interface UserProfileInfoProps {
@@ -14,7 +16,9 @@ export default function UserProfileInfo({
   bio,
   profilePicture,
   createdAt,
-}: UserProfileInfoProps) {  const { t } = useTranslation()  return (
+}: UserProfileInfoProps) {
+  const { t } = useTranslation()
+  return (
     <div className="relative -mt-20 mb-8">
       {/* Avatar */}
       <div className="mb-4">

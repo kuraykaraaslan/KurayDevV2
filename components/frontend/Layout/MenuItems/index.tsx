@@ -1,4 +1,3 @@
-import { faShield } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { MenuItem } from '@/types/ui/UITypes'
 
