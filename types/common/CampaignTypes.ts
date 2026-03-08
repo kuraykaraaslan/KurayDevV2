@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { SubscriptionTopicSchema } from './SubscriptionTypes'
 
 export const CampaignStatusSchema = z.enum(['DRAFT', 'SENDING', 'SENT'])
 
@@ -7,6 +8,7 @@ const CampaignSchema = z.object({
   title: z.string(),
   subject: z.string(),
   content: z.string(),
+  topic: SubscriptionTopicSchema.nullable().optional(),
   status: CampaignStatusSchema,
   sentAt: z.date().nullable(),
   sentCount: z.number(),

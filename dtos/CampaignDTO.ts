@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import CampaignMessages from '@/messages/CampaignMessages'
+import { SubscriptionTopicSchema } from '@/types/common/SubscriptionTypes'
 
 // Request DTOs
 export const GetCampaignsRequestSchema = z.object({
@@ -12,6 +13,7 @@ export const CreateCampaignRequestSchema = z.object({
   title: z.string().min(1, CampaignMessages.TITLE_REQUIRED),
   subject: z.string().min(1, CampaignMessages.SUBJECT_REQUIRED),
   content: z.string().min(1, CampaignMessages.CONTENT_REQUIRED),
+  topic: SubscriptionTopicSchema.optional(),
 })
 
 export const UpdateCampaignRequestSchema = CreateCampaignRequestSchema.extend({
@@ -28,6 +30,7 @@ export const CampaignResponseSchema = z.object({
   title: z.string(),
   subject: z.string(),
   content: z.string(),
+  topic: SubscriptionTopicSchema.nullable().optional(),
   status: z.enum(['DRAFT', 'SENDING', 'SENT']),
   sentAt: z.date().nullable(),
   sentCount: z.number(),

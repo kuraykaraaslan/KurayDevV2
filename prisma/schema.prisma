@@ -231,6 +231,12 @@ enum CampaignStatus {
   SENT
 }
 
+enum SubscriptionTopic {
+  BLOG_DIGEST
+  ANNOUNCEMENTS
+  EVENTS
+}
+
 model Comment {
   commentId String   @id @default(cuid())
   content   String
@@ -268,6 +274,7 @@ model Campaign {
   title      String
   subject    String
   content    String
+  topic      SubscriptionTopic?
   status     CampaignStatus @default(DRAFT)
   sentAt     DateTime?
   sentCount  Int            @default(0)

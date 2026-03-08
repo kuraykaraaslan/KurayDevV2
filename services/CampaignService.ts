@@ -1,5 +1,6 @@
 import { prisma } from '@/libs/prisma'
 import { Campaign } from '@/types/common/CampaignTypes'
+import { SubscriptionTopic } from '@/types/common/SubscriptionTypes'
 import CampaignMessages from '@/messages/CampaignMessages'
 import SubscriptionService from './SubscriptionService'
 import MailService from './NotificationService/MailService'
@@ -49,12 +50,14 @@ export default class CampaignService {
     title: string
     subject: string
     content: string
+    topic?: SubscriptionTopic
   }): Promise<Campaign> {
     const campaign = await prisma.campaign.create({
       data: {
         title: data.title,
         subject: data.subject,
         content: data.content,
+        topic: data.topic ?? null,
       },
     })
     return campaign as Campaign
@@ -65,6 +68,7 @@ export default class CampaignService {
     title: string
     subject: string
     content: string
+    topic?: SubscriptionTopic
   }): Promise<Campaign> {
     const existing = await this.getCampaignById(data.campaignId)
     if (!existing) throw new Error(CampaignMessages.CAMPAIGN_NOT_FOUND)
@@ -73,7 +77,7 @@ export default class CampaignService {
     const { campaignId, ...updateData } = data
     const campaign = await prisma.campaign.update({
       where: { campaignId },
-      data: updateData,
+      data: { ...updateData, topic: updateData.topic ?? null },
     })
     return campaign as Campaign
   }
@@ -97,12 +101,33 @@ export default class CampaignService {
       data: { status: 'SENDING' },
     })
 
-    // Get all active subscribers
-    const { subscriptions } = await SubscriptionService.getAllSubscriptions({
-      includeDeleted: false,
-    })
+    // Get subscribers: if campaign has a topic, filter by that topic preference
+    let subscribers: { email: string; unsubscribeToken: string | null }[]
+    if (campaign.topic) {
+      subscribers = await SubscriptionService.getSubscribersByTopic(campaign.topic)
+    } else {
+      // No topic — send to all: registered users with newsletter=true + all anonymous subscribers
+      const [registeredUsers, { subscriptions: anonSubs }] = await Promise.all([
+        prisma.user.findMany({
+          where: { deletedAt: null },
+          select: { email: true, userPreferences: true },
+        }),
+        SubscriptionService.getAllSubscriptions({ includeDeleted: false }),
+      ])
+      const registeredEmailSet = new Set(registeredUsers.map((u) => u.email))
+      const registeredList = registeredUsers
+        .filter((u) => {
+          const prefs = (u.userPreferences ?? {}) as Record<string, unknown>
+          return prefs.newsletter !== false
+        })
+        .map((u) => ({ email: u.email, unsubscribeToken: null as string | null }))
+      const anonList = anonSubs
+        .filter((s) => !registeredEmailSet.has(s.email))
+        .map((s) => ({ email: s.email, unsubscribeToken: s.unsubscribeToken }))
+      subscribers = [...registeredList, ...anonList]
+    }
 
-    if (subscriptions.length === 0) {
+    if (subscribers.length === 0) {
       // No subscribers, mark as SENT immediately
       await prisma.campaign.update({
         where: { campaignId },
@@ -112,12 +137,12 @@ export default class CampaignService {
     }
 
     // Queue email for each subscriber
-    for (const subscription of subscriptions) {
+    for (const subscriber of subscribers) {
       await MailService.sendCampaignEmail(
-        subscription.email,
+        subscriber.email,
         campaign.subject,
         campaign.content,
-        subscription.unsubscribeToken
+        subscriber.unsubscribeToken ?? ''
       )
     }
 
@@ -127,10 +152,10 @@ export default class CampaignService {
       data: {
         status: 'SENT',
         sentAt: new Date(),
-        sentCount: subscriptions.length,
+        sentCount: subscribers.length,
       },
     })
 
-    return { sentCount: subscriptions.length }
+    return { sentCount: subscribers.length }
   }
 }

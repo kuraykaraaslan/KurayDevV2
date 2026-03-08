@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+export const SubscriptionTopicSchema = z.enum(['BLOG_DIGEST', 'ANNOUNCEMENTS', 'EVENTS'])
+export type SubscriptionTopic = z.infer<typeof SubscriptionTopicSchema>
+
 const SubscriptionSchema = z.object({
   email: z.string().email(),
   createdAt: z.date(),
