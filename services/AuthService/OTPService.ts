@@ -6,15 +6,14 @@ import { SafeUser } from '@/types/user/UserTypes'
 import { OTPAction } from '@/types/user/UserSecurityTypes'
 import { SafeUserSession } from '@/types/user/UserSessionTypes'
 import { OTP_EXPIRY_SECONDS, OTP_LENGTH, OTP_RATE_LIMIT_SECONDS, OTP_KEY } from './constants'
+import { randomInt } from 'crypto'
 
 export default class OTPService {
 
   static generateToken(length = OTP_LENGTH): string {
     const min = Math.pow(10, length - 1)
     const max = Math.pow(10, length) - 1
-    return Math.floor(min + Math.random() * (max - min))
-      .toString()
-      .padStart(length, '0')
+    return randomInt(min, max + 1).toString().padStart(length, '0')
   }
 
   static getRedisKey({

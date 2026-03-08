@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       await SecurityService.updateUserSecurity(user.userId, { otpMethods: updatedMethods })
     }
 
-    return NextResponse.json({ message: AuthMessages.OTP_VERIFIED_SUCCESSFULLY }, { status: 200 })
+    return NextResponse.json({ success: true, message: AuthMessages.OTP_VERIFIED_SUCCESSFULLY }, { status: 200 })
   } catch (err: any) {
     console.error('Verify OTP Error:', err)
     return NextResponse.json(

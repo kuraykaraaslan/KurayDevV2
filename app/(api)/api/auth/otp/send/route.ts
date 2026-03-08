@@ -32,8 +32,6 @@ export async function POST(request: NextRequest) {
 
     const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
-    const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action })
-
     const userOTPMethods = userSecurity.otpMethods
 
     if (action === 'enable' && userOTPMethods.includes(method)) {
@@ -46,6 +44,8 @@ export async function POST(request: NextRequest) {
     if (action === 'disable' && !userOTPMethods.includes(method)) {
       return NextResponse.json({ message: AuthMessages.OTP_METHOD_NOT_ENABLED }, { status: 400 })
     }
+
+    const { otpToken } = await OTPService.requestOTP({ user, userSession, method, action })
 
     if (method === 'EMAIL') {
       await MailService.sendOTPEmail({

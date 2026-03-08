@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         user,
         request,
         userSecurity,
-        otpIgnore: false,
+        otpIgnore: isKnownDevice,
       }
     )
 

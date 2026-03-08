@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
     const result = await TOTPService.verifyAndEnable({ user, userSession, otpToken })
 
     return NextResponse.json({
+      success: true,
       message: AuthMessages.TOTP_ENABLED_SUCCESSFULLY,
       backupCodes: result.backupCodes,
     })
