@@ -31,6 +31,8 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "@simplewebauthn/browser": "^13.2.2",
+    "@simplewebauthn/server": "^13.2.3",
     "@tailwindcss/forms": "0.5.11",
     "@tailwindcss/typography": "^0.5.19",
     "@tinymce/tinymce-react": "^6.1.0",

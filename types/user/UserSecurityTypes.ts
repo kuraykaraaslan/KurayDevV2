@@ -16,6 +16,7 @@ const UserSecurityDefault = {
   lastLoginDevice: null as string | null,
   failedLoginAttempts: 0 as number,
   lockedUntil: null as Date | null,
+  passkeyEnabled: false as boolean,
 }
 
 const UserSecuritySchema = z.object({
@@ -27,6 +28,7 @@ const UserSecuritySchema = z.object({
   lastLoginDevice: z.string().nullable().optional(),
   failedLoginAttempts: z.number().default(0),
   lockedUntil: z.date().nullable().optional(),
+  passkeyEnabled: z.boolean().default(false),
 })
 
 const SafeUserSecuritySchema = UserSecuritySchema.omit({
@@ -43,6 +45,7 @@ const SafeUserSecurityDefault = {
   lastLoginDevice: null as string | null,
   failedLoginAttempts: 0 as number,
   lockedUntil: null as Date | null,
+  passkeyEnabled: false as boolean,
 }
 
 export { SafeUserSecuritySchema, SafeUserSecurityDefault }
