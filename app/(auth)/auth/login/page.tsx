@@ -23,7 +23,7 @@ const LoginPage = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const [_availableMethods, setAvailableMethods] = useState<OTPMethod[]>([])
+  const [availableMethods, setAvailableMethods] = useState<OTPMethod[]>([])
   const [selectedMethod, setSelectedMethod] = useState<OTPMethod | null>(null)
 
   const [otpModalOpen, setOtpModalOpen] = useState(false)
@@ -79,6 +79,8 @@ const LoginPage = () => {
         if (userSecurity.otpMethods.length > 0) {
           setAvailableMethods(userSecurity.otpMethods)
           setSelectedMethod(userSecurity.otpMethods[0])
+          setOtpSent(false)
+          setOtpCode('')
           setOtpModalOpen(true)
           return
         }
@@ -86,8 +88,14 @@ const LoginPage = () => {
         router.push('/')
       })
       .catch((err) => {
-        toast.error(err.response?.data?.error || t('auth.login.failed'))
+        toast.error(err.response?.data?.message || t('auth.login.failed'))
       })
+  }
+
+  const handleMethodChange = (method: OTPMethod) => {
+    setSelectedMethod(method)
+    setOtpSent(false)
+    setOtpCode('')
   }
 
   const onSentOtp = async () => {
@@ -125,8 +133,9 @@ const LoginPage = () => {
           toast.success(t('auth.login.otp_verified'))
           router.push(searchParams.get('redirect') || '/')
         })
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || t('auth.login.otp_verify_failed'))
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } }
+      toast.error(axiosErr?.response?.data?.message || t('auth.login.otp_verify_failed'))
     } finally {
       setVerifyingOtp(false)
     }
@@ -227,6 +236,9 @@ const LoginPage = () => {
         onVerify={onVerifyOtp}
         onChangeCode={setOtpCode}
         onClose={() => setOtpModalOpen(false)}
+        method={selectedMethod}
+        availableMethods={availableMethods}
+        onMethodChange={handleMethodChange}
       />
     </>
   )
@@ -235,3 +247,4 @@ const LoginPage = () => {
 LoginPage.layout = 'auth'
 
 export default LoginPage
+
