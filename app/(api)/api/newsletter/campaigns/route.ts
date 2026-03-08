@@ -12,8 +12,10 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '0', 10)
     const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
     const search = searchParams.get('search') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
-    const result = await CampaignService.getAllCampaigns({ page, pageSize, search })
+    const result = await CampaignService.getAllCampaigns({ page, pageSize, search, sortKey, sortDir })
 
     return NextResponse.json({
       campaigns: result.campaigns,

@@ -12,8 +12,10 @@ export async function GET(request: NextRequest) {
       ? parseInt(searchParams.get('pageSize') || '10', 10)
       : 10
     const search = searchParams.get('search') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
-    const result = await TestimonialService.getAllTestimonials(page, pageSize, search)
+    const result = await TestimonialService.getAllTestimonials(page, pageSize, search, sortKey, sortDir)
 
     return NextResponse.json({ testimonials: result.testimonials, total: result.total })
   } catch (error: any) {

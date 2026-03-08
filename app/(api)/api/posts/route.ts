@@ -17,6 +17,8 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || 'PUBLISHED'
     const categoryId = searchParams.get('categoryId') || undefined
     const search = searchParams.get('search') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
     const result = await PostService.getAllPosts({
       page,
@@ -26,6 +28,8 @@ export async function GET(request: NextRequest) {
       search,
       postId,
       authorId,
+      sortKey,
+      sortDir,
     })
 
     return NextResponse.json({ posts: result.posts, total: result.total, page, pageSize })

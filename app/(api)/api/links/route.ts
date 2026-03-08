@@ -12,8 +12,14 @@ const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3
 export async function GET(request: NextRequest) {
   try {
     await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
-    const links = await ShortLinkService.getAll()
-    return NextResponse.json({ links })
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '0', 10)
+    const pageSize = parseInt(searchParams.get('pageSize') || '50', 10)
+    const search = searchParams.get('search') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
+    const { links, total } = await ShortLinkService.getAll({ page, pageSize, search, sortKey, sortDir })
+    return NextResponse.json({ links, total, page, pageSize })
   } catch (error: any) {
     console.error(error.message)
     return NextResponse.json({ message: error.message }, { status: 500 })

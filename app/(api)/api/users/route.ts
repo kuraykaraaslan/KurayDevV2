@@ -20,11 +20,15 @@ export async function GET(request: NextRequest) {
       ? parseInt(searchParams.get('pageSize') || '10', 10)
       : 10
     const search = searchParams.get('search') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
     const { users, total } = await UserService.getAll({
       page,
       pageSize,
       search,
+      sortKey,
+      sortDir,
     })
 
     if (request?.user?.userRole !== 'ADMIN') {

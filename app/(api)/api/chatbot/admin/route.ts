@@ -15,11 +15,15 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') as 'ACTIVE' | 'CLOSED' | 'TAKEN_OVER' | null
     const page = parseInt(searchParams.get('page') || '0', 10)
     const pageSize = parseInt(searchParams.get('pageSize') || '20', 10)
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
     const { sessions, total } = await ChatSessionService.listSessions({
       status: status || undefined,
       page,
       pageSize,
+      sortKey,
+      sortDir,
     })
 
     return NextResponse.json({

@@ -17,6 +17,8 @@ export async function GET(request: NextRequest) {
     const appointmentId = searchParams.get('appointmentId') || undefined
     const email = searchParams.get('email') || undefined
     const search = searchParams.get('search') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
     const result = await AppointmentService.getAllAppointments({
       page,
@@ -27,6 +29,8 @@ export async function GET(request: NextRequest) {
       appointmentId,
       email,
       search,
+      sortKey,
+      sortDir,
     })
 
     return NextResponse.json({

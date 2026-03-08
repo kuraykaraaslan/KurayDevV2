@@ -122,6 +122,8 @@ export async function GET(request: NextRequest) {
     const postId = searchParams.get('postId') || undefined
     const search = searchParams.get('search') || undefined
     const pending = searchParams.get('pending') === 'true'
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
     if (pending) {
       await AuthMiddleware.authenticateUserByRequest({ request, requiredUserRole: 'ADMIN' })
@@ -135,6 +137,8 @@ export async function GET(request: NextRequest) {
       search,
       postId,
       pending,
+      sortKey,
+      sortDir,
     }
 
     const result = await CommentService.getAllComments(data)

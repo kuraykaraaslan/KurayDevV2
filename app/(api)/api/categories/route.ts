@@ -18,8 +18,10 @@ export async function GET(request: NextRequest) {
       ? parseInt(searchParams.get('pageSize') || '10', 10)
       : 10
     const search = searchParams.get('search') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
-    const result = await CategoryService.getAllCategories(page, pageSize, search)
+    const result = await CategoryService.getAllCategories(page, pageSize, search, sortKey, sortDir)
 
     return NextResponse.json({ categories: result.categories, total: result.total })
   } catch (error: any) {

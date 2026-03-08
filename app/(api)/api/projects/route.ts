@@ -20,12 +20,16 @@ export async function GET(request: NextRequest) {
       : 10
     const search = searchParams.get('search') || undefined
     const projectId = searchParams.get('projectId') || undefined
+    const sortKey = searchParams.get('sortKey') || undefined
+    const sortDir = (searchParams.get('sortDir') || 'desc') as 'asc' | 'desc'
 
     const result = await ProjectService.getAllProjects({
       page,
       pageSize,
       search,
       projectId,
+      sortKey,
+      sortDir,
     })
 
     return NextResponse.json({ projects: result.projects, total: result.total, page, pageSize })
