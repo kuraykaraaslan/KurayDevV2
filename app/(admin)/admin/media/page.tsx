@@ -12,6 +12,16 @@ import {
   faFilter,
   faArrowsRotate,
   faPen,
+  faFileVideo,
+  faFileAudio,
+  faFilePdf,
+  faFileWord,
+  faFileExcel,
+  faFilePowerpoint,
+  faFileZipper,
+  faFileCode,
+  faFile,
+  faPlay,
 } from '@fortawesome/free-solid-svg-icons'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
@@ -35,6 +45,106 @@ function formatFileSize(bytes: number): string {
   const sizes = ['Bytes', 'KB', 'MB', 'GB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
+type MediaKind = 'image' | 'video' | 'audio' | 'pdf' | 'word' | 'excel' | 'powerpoint' | 'zip' | 'code' | 'other'
+
+function getMediaKind(mimeType?: string): MediaKind {
+  if (!mimeType) return 'other'
+  if (mimeType.startsWith('image/')) return 'image'
+  if (mimeType.startsWith('video/')) return 'video'
+  if (mimeType.startsWith('audio/')) return 'audio'
+  if (mimeType === 'application/pdf') return 'pdf'
+  if (mimeType.includes('word') || mimeType.includes('document')) return 'word'
+  if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return 'excel'
+  if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return 'powerpoint'
+  if (mimeType.includes('zip') || mimeType.includes('tar') || mimeType.includes('compressed') || mimeType.includes('rar') || mimeType.includes('7z')) return 'zip'
+  if (mimeType.startsWith('text/') || mimeType.includes('javascript') || mimeType.includes('json') || mimeType.includes('xml')) return 'code'
+  return 'other'
+}
+
+const FILE_ICON_MAP: Record<MediaKind, { icon: any; color: string }> = {
+  image:       { icon: faFile,           color: 'text-base-content/40' },
+  video:       { icon: faFileVideo,      color: 'text-blue-400' },
+  audio:       { icon: faFileAudio,      color: 'text-purple-400' },
+  pdf:         { icon: faFilePdf,        color: 'text-red-400' },
+  word:        { icon: faFileWord,       color: 'text-blue-500' },
+  excel:       { icon: faFileExcel,      color: 'text-green-500' },
+  powerpoint:  { icon: faFilePowerpoint, color: 'text-orange-400' },
+  zip:         { icon: faFileZipper,     color: 'text-yellow-500' },
+  code:        { icon: faFileCode,       color: 'text-teal-400' },
+  other:       { icon: faFile,           color: 'text-base-content/40' },
+}
+
+// Unified media preview component
+function MediaPreview({
+  item,
+  mode = 'thumb',
+}: {
+  item: MediaFile
+  /** thumb = small grid tile; detail = full controls in modal */
+  mode?: 'thumb' | 'detail'
+}) {
+  const kind = getMediaKind(item.mimeType)
+
+  if (kind === 'image') {
+    return (
+      <img
+        src={item.url}
+        alt={item.altText || item.key}
+        className="w-full h-full object-cover"
+        loading="lazy"
+      />
+    )
+  }
+
+  if (kind === 'video') {
+    return mode === 'detail' ? (
+      <video
+        src={item.url}
+        controls
+        className="w-full h-full object-contain rounded"
+      />
+    ) : (
+      <div className="relative w-full h-full" style={{ isolation: 'isolate' }}>
+        <video
+          src={item.url}
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          style={{ position: 'relative', zIndex: 0 }}
+          onMouseEnter={(e) => (e.currentTarget as HTMLVideoElement).play()}
+          onMouseLeave={(e) => { const v = e.currentTarget as HTMLVideoElement; v.pause(); v.currentTime = 0 }}
+        />
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 1 }}>
+          <span className="bg-black/50 text-white rounded-full w-8 h-8 flex items-center justify-center">
+            <FontAwesomeIcon icon={faPlay} className="text-xs" />
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+  if (kind === 'audio') {
+    return mode === 'detail' ? (
+      <div className="w-full flex flex-col items-center justify-center gap-3 py-4">
+        <FontAwesomeIcon icon={faFileAudio} className="text-5xl text-purple-400" />
+        <audio src={item.url} controls className="w-full" />
+      </div>
+    ) : (
+      <div className="w-full h-full flex items-center justify-center bg-purple-500/10">
+        <FontAwesomeIcon icon={faFileAudio} className="text-3xl text-purple-400" />
+      </div>
+    )
+  }
+
+  const { icon, color } = FILE_ICON_MAP[kind]
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <FontAwesomeIcon icon={icon} className={`text-3xl ${color}`} />
+    </div>
+  )
 }
 
 // Edit Modal
@@ -87,7 +197,7 @@ function MediaEditModal({
           {/* Preview */}
           <div className="flex gap-4 items-start">
             <div className="w-24 h-24 rounded-lg overflow-hidden bg-base-200 shrink-0">
-              <img src={item.url} alt={item.altText || item.key} className="w-full h-full object-cover" />
+              <MediaPreview item={item} mode="detail" />
             </div>
             <div className="text-sm text-base-content/60 space-y-1 min-w-0">
               <p className="truncate font-medium text-base-content" title={item.key}>
@@ -180,14 +290,9 @@ function MediaGridItem({
 
   return (
     <div className="group relative bg-base-200 rounded-lg border border-base-300 overflow-hidden transition-all hover:border-primary/50">
-      {/* Image */}
+      {/* Preview */}
       <div className="aspect-square bg-base-300 relative overflow-hidden">
-        <img
-          src={item.url}
-          alt={item.altText || item.key}
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
+        <MediaPreview item={item} mode="thumb" />
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
           {editAction && (
@@ -335,11 +440,11 @@ function MediaToolbarContent({ isDebug }: { isDebug: boolean }) {
   )
 }
 
-// Image Cell for Table View
-function MediaImageCell({ url, alt }: { url: string; alt: string }) {
+// Image/Media Cell for Table View
+function MediaImageCell({ item }: { item: MediaFile }) {
   return (
     <div className="w-12 h-12 rounded overflow-hidden bg-base-300">
-      <img src={url} alt={alt} className="w-full h-full object-cover" loading="lazy" />
+      <MediaPreview item={item} mode="thumb" />
     </div>
   )
 }
@@ -378,7 +483,7 @@ export default function MediaLibraryPage() {
     {
       key: 'preview',
       header: 'admin.media.preview',
-      accessor: (item) => <MediaImageCell url={item.url} alt={item.altText || item.key} />,
+      accessor: (item) => <MediaImageCell item={item} />,
       className: 'w-16',
     },
     {
