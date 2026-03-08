@@ -92,6 +92,7 @@ const PostPage = () => {
             showViewToggle
             showColumnToggle
             showRefresh
+            showExport
           />
           <TableBody />
           <TableFooter

@@ -77,6 +77,7 @@ const SubscriptionsPage = () => {
         <TableHeader
           title="admin.subscriptions.title"
           searchPlaceholder="common.search_placeholder"
+          showExport
         />
         <TableBody />
         <TableFooter

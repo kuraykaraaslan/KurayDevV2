@@ -65,6 +65,7 @@ const TestimonialsPage = () => {
           title="admin.testimonials.title"
           searchPlaceholder="common.search_placeholder"
           buttons={[{ label: 'common.create', href: '/admin/testimonials/create' }]}
+          showExport
         />
         <TableBody />
         <TableFooter

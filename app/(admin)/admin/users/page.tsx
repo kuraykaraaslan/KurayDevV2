@@ -58,6 +58,7 @@ const UserPage = () => {
           title="admin.users.title"
           searchPlaceholder="common.search_placeholder"
           buttons={[{ label: 'common.create', href: '/admin/users/create' }]}
+          showExport
         />
         <TableBody />
         <TableFooter

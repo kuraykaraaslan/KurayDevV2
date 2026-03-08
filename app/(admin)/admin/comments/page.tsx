@@ -85,6 +85,7 @@ const CommentPage = () => {
         <TableHeader
           title="admin.comments.title"
           searchPlaceholder="common.search_placeholder"
+          showExport
         />
         <TableBody />
         <TableFooter

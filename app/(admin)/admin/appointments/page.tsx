@@ -142,6 +142,7 @@ const AppointmentsPage = () => {
             title="admin.appointments.title"
             searchPlaceholder="common.search_placeholder"
             toolbarContent={<StatusFilter />}
+            showExport
           />
           <TableBody />
           <TableFooter

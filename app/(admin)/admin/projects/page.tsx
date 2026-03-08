@@ -81,6 +81,7 @@ const ProjectPage = () => {
           title="admin.projects.title"
           searchPlaceholder="common.search_placeholder"
           buttons={[{ label: 'common.create', href: '/admin/projects/create' }]}
+          showExport
         />
         <TableBody />
         <TableFooter

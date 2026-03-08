@@ -576,6 +576,7 @@ export default function MediaLibraryPage() {
           searchPlaceholder="common.search_placeholder"
           showViewToggle
           showRefresh
+          showExport
           toolbarContent={<MediaToolbarContent isDebug={isDebug} />}
           toolbarPosition="before-search"
         />

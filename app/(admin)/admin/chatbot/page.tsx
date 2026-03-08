@@ -131,6 +131,7 @@ const ChatSessionsPage = () => {
         <TableHeader
           title={t('admin.chatbot_sessions.title')}
           showRefresh
+          showExport
           toolbarContent={statusFilterButtons}
           toolbarPosition="below"
         />

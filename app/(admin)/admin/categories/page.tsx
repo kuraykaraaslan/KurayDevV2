@@ -79,6 +79,7 @@ const CategoryPage = () => {
           title="admin.categories.title"
           searchPlaceholder="common.search_placeholder"
           buttons={[{ label: 'common.create', href: '/admin/categories/create' }]}
+          showExport
         />
         <TableBody />
         <TableFooter

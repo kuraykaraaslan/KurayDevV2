@@ -90,6 +90,7 @@ const CampaignsPage = () => {
           title="admin.campaigns.title"
           searchPlaceholder="common.search_placeholder"
           buttons={[{ label: 'common.create', href: '/admin/campaigns/create' }]}
+          showExport
         />
         <TableBody />
         <TableFooter

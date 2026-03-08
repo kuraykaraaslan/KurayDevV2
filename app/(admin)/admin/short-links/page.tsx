@@ -97,6 +97,7 @@ const ShortLinksPage = () => {
           title="admin.short_links.title"
           searchPlaceholder="common.search_placeholder"
           buttons={[{ label: 'common.create', href: '/admin/short-links/create' }]}
+          showExport
         />
         <TableBody />
         <TableFooter

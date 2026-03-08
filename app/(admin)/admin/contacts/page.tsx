@@ -97,8 +97,7 @@ const ContactsPage = () => {
         <Table>
           <TableHeader
             title="admin.contacts.title"
-            searchPlaceholder="common.search_placeholder"
-          />
+            searchPlaceholder="common.search_placeholder"          showExport          />
           <TableBody />
           <TableFooter
           showingText="common.showing"

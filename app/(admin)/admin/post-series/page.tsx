@@ -69,6 +69,7 @@ const SeriesPage = () => {
                     searchPlaceholder={t('common.search_placeholder')}
                     buttons={[{ label: t('common.create'), href: '/admin/post-series/create' }]}
                     showRefresh
+                    showExport
                 />
                 <TableBody />
                 <TableFooter
