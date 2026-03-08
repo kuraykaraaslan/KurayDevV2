@@ -16,6 +16,10 @@ export { default as TableBody } from './body'
 export { default as TableFooter } from './footer'
 export { default as ImageCell } from './table/ImageCell'
 
+// Hooks
+export { useTableSearchParams } from './hooks/useTableSearchParams'
+export type { TableSearchParamState } from './hooks/useTableSearchParams'
+
 // Re-export for convenience
 import Table from './core/Table'
 import { TableProvider } from './core/TableProvider'

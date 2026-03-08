@@ -36,13 +36,13 @@ function TableHead() {
             className={[
               col.className || '',
               col.hideOnMobile ? 'hidden md:table-cell' : '',
-              col.sortable ? 'cursor-pointer select-none group' : '',
+              !col.disableSort ? 'cursor-pointer select-none group' : '',
             ].join(' ')}
-            onClick={col.sortable ? () => handleSortClick(col) : undefined}
+            onClick={!col.disableSort ? () => handleSortClick(col) : undefined}
           >
             <span className="inline-flex items-center gap-1">
               {t(col.header)}
-              {col.sortable && <SortIcon colKey={col.sortKey ?? col.key} sort={sort} />}
+              {!col.disableSort && <SortIcon colKey={col.sortKey ?? col.key} sort={sort} />}
             </span>
           </th>
         ))}

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import axiosInstance from '@/libs/axios'
 import { HeadlessModal } from '@/components/admin/UI/Modal'
 import { TableContext } from './TableContext'
+import { useTableSearchParams } from '../hooks/useTableSearchParams'
 import type {
   ActionButton,
   ConfirmOptions,
@@ -28,29 +29,69 @@ export function TableProvider<T extends Record<string, unknown>>({
   defaultViewMode = 'table',
   gridItemRenderer,
   gridClassName,
+  ignoreSearchParams = false,
   ...rest
 }: TableProviderProps<T>) {
   const { t } = useTranslation()
   const isLocalMode = 'localData' in rest && rest.localData !== undefined
 
-  const [search, setSearch] = useState('')
+  // URL search params — always called (hooks must not be conditional)
+  const urlState = useTableSearchParams(initialPageSize)
+
+  // Local state — used when ignoreSearchParams=true
+  const [localSearch, setLocalSearch] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [viewMode, setViewMode] = useState(defaultViewMode)
   const [data, setData] = useState<T[]>(
     isLocalMode ? (rest as TableProviderLocalProps<T>).localData : []
   )
-  const [page, setPage] = useState(0)
-  const [pageSize, setPageSizeState] = useState(initialPageSize)
+  const [localPage, setLocalPage] = useState(0)
+  const [localPageSize, setLocalPageSizeState] = useState(initialPageSize)
 
-  const setPageSize = useCallback((size: number) => {
-    setPageSizeState(size)
-    setPage(0)
+  const setLocalPageSize = useCallback((size: number) => {
+    setLocalPageSizeState(size)
+    setLocalPage(0)
   }, [])
   const [total, setTotal] = useState(
     isLocalMode ? (rest as TableProviderLocalProps<T>).localData.length : 0
   )
   const [loading, setLoading] = useState(false)
-  const [sort, setSort] = useState<SortState>(null)
+  const [localSort, setLocalSort] = useState<SortState>(null)
+
+  // Resolve: use URL state unless ignoreSearchParams=true
+  const page = ignoreSearchParams ? localPage : urlState.page
+  const pageSize = ignoreSearchParams ? localPageSize : urlState.pageSize
+  const search = ignoreSearchParams ? localSearch : urlState.search
+  const sort = ignoreSearchParams ? localSort : urlState.sort
+
+  const setPage = useCallback(
+    (p: number) => {
+      if (ignoreSearchParams) setLocalPage(p)
+      else urlState.setPage(p)
+    },
+    [ignoreSearchParams, urlState.setPage],
+  )
+  const setPageSize = useCallback(
+    (size: number) => {
+      if (ignoreSearchParams) setLocalPageSize(size)
+      else urlState.setPageSize(size)
+    },
+    [ignoreSearchParams, setLocalPageSize, urlState.setPageSize],
+  )
+  const setSearch = useCallback(
+    (s: string) => {
+      if (ignoreSearchParams) setLocalSearch(s)
+      else urlState.setSearch(s)
+    },
+    [ignoreSearchParams, urlState.setSearch],
+  )
+  const setSort = useCallback(
+    (s: SortState) => {
+      if (ignoreSearchParams) setLocalSort(s)
+      else urlState.setSort(s)
+    },
+    [ignoreSearchParams, urlState.setSort],
+  )
   const [selectedIds, setSelectedIds] = useState<Set<unknown>>(new Set())
   const lastSelectedIndexRef = useRef<number | null>(null)
   const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set())
@@ -60,11 +101,11 @@ export function TableProvider<T extends Record<string, unknown>>({
     index?: number
   } | null>(null)
 
-  // Debounce search — reset page on change
+  // Debounce search — reset page on change (URL mode: setSearch already resets page via URL)
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search)
-      setPage(0)
+      if (ignoreSearchParams) setPage(0)
     }, 400)
     return () => clearTimeout(timer)
   }, [search])
@@ -78,12 +119,15 @@ export function TableProvider<T extends Record<string, unknown>>({
     }
   }, [isLocalMode ? JSON.stringify((rest as TableProviderLocalProps<T>).localData) : null])
 
-  const fetchData = useCallback(async () => {
-    if (isLocalMode) return
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  const fetchData = useCallback(() => {
+    // Abort any in-flight request before starting a new one
+    abortControllerRef.current?.abort()
+    const controller = new AbortController()
+    abortControllerRef.current = controller
 
     const { apiEndpoint, dataKey, additionalParams = {} } = rest as TableProviderAPIProps<T>
-
-    setLoading(true)
     const params = new URLSearchParams({
       page: String(page),
       pageSize: String(pageSize),
@@ -92,22 +136,32 @@ export function TableProvider<T extends Record<string, unknown>>({
       ...(sort ? { sortKey: sort.key, sortDir: sort.dir } : {}),
     })
 
-    try {
-      const response = await axiosInstance.get(`${apiEndpoint}?${params.toString()}`)
-      const newData = response.data[dataKey]
-      setData(newData)
-      setTotal(response.data.total)
-      onDataChange?.(newData)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
+    setLoading(true)
+    axiosInstance
+      .get(`${apiEndpoint}?${params.toString()}`, { signal: controller.signal })
+      .then((response) => {
+        const newData = response.data[dataKey]
+        setData(newData)
+        setTotal(response.data.total)
+        onDataChange?.(newData)
+      })
+      .catch((error) => {
+        // Ignore cancellation errors from AbortController
+        if (error?.code !== 'ERR_CANCELED' && error?.name !== 'CanceledError') {
+          console.error(error)
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
   }, [page, pageSize, debouncedSearch, sort, isLocalMode ? null : JSON.stringify(rest)])
 
   useEffect(() => {
     if (!isLocalMode) {
       fetchData()
+    }
+    return () => {
+      abortControllerRef.current?.abort()
     }
   }, [fetchData, isLocalMode])
 

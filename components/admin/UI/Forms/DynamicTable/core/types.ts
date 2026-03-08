@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import type { TableSearchParamState } from '../hooks/useTableSearchParams'
 
 export type ViewMode = 'table' | 'grid'
 
@@ -12,7 +13,8 @@ export interface ColumnDef<T> {
   className?: string
   onClick?: (item: T, index?: number) => void
   hideOnMobile?: boolean
-  sortable?: boolean
+  /** Set to `true` to disable sorting for this column. All columns are sortable by default. */
+  disableSort?: boolean
   sortKey?: string
   sortValue?: (item: T) => string | number
 }
@@ -115,6 +117,13 @@ export interface TableProviderBaseProps<T> {
   defaultViewMode?: ViewMode
   gridItemRenderer?: (props: GridItemRenderProps<T>) => ReactNode
   gridClassName?: string
+  /**
+   * Set to `true` to disable URL search param sync and use local component state instead.
+   * Default is `false` — page, pageSize, search and sort are read from / written to the URL.
+   *
+   * Requires a `<Suspense>` boundary around the consuming page (Next.js requirement).
+   */
+  ignoreSearchParams?: boolean
 }
 
 export interface TableProviderAPIProps<T> extends TableProviderBaseProps<T> {
