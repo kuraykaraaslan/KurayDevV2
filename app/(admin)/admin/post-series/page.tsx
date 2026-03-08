@@ -25,7 +25,7 @@ interface SeriesRow {
 const SeriesPage = () => {
     const { t } = useTranslation()
     const columns: ColumnDef<SeriesRow>[] = [
-        { key: 'title',       header: t('admin.post_series.col_title'),       accessor: (s) => s.title,       sortable: true },
+        { key: 'title',       header: t('admin.post_series.col_title'),       accessor: (s) => s.title,       },
         { key: 'slug',        header: t('admin.post_series.col_slug'),        accessor: (s) => s.slug,        hideOnMobile: true },
         { key: 'description', header: t('admin.post_series.col_description'), accessor: (s) => s.description ?? '—', hideOnMobile: true },
         {

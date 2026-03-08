@@ -28,7 +28,7 @@ const PostPage = () => {
       className: 'w-16',
       accessor: (p) => <ImageCell src={p.image} alt={p.title} />,
     },
-    { key: 'title', header: 'Title', accessor: (p) => p.title, sortable: true },
+    { key: 'title', header: 'Title', accessor: (p) => p.title, },
     { key: 'slug', header: 'admin.posts.slug', accessor: (p) => p.slug },
     { key: 'status', header: 'admin.posts.status', accessor: (p) => p.status },
     {
