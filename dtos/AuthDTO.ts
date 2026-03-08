@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import AuthMessages from '@/messages/AuthMessages'
 import { SocialLinkItemSchema } from '@/types/user/UserProfileTypes'
+import { UserRoleEnum } from '@/types/user/UserTypes'
+import { SSOProviderEnum, OTPMethodEnum, OTPActionEnum } from '@/types/user/AuthEnums'
 
 // Login DTOs
 const LoginRequest = z.object({
@@ -22,7 +24,7 @@ const LoginResponse = z.object({
     userId: z.string(),
     email: z.string(),
     name: z.string(),
-    role: z.enum(['ADMIN', 'AUTHOR', 'USER', 'GUEST']),
+    role: UserRoleEnum,
   }),
 })
 
@@ -85,8 +87,8 @@ const ResetPasswordResponse = z.object({
 
 // OTP DTOs
 const OTPSendRequest = z.object({
-  method: z.enum(['EMAIL', 'SMS', 'TOTP_APP']),
-  action: z.enum(['enable', 'disable', 'authenticate']),
+  method: OTPMethodEnum,
+  action: OTPActionEnum,
 })
 
 const OTPSendResponse = z.object({
@@ -95,8 +97,8 @@ const OTPSendResponse = z.object({
 })
 
 const OTPVerifyRequest = z.object({
-  method: z.enum(['EMAIL', 'SMS', 'TOTP_APP']),
-  action: z.enum(['enable', 'disable', 'authenticate']),
+  method: OTPMethodEnum,
+  action: OTPActionEnum,
   otpToken: z.string().min(1, AuthMessages.INVALID_OTP),
 })
 
@@ -107,8 +109,8 @@ const OTPVerifyResponse = z.object({
 
 // Login Verify DTOs (for additional OTP verification during login)
 const LoginVerifyRequest = z.object({
-  method: z.enum(['EMAIL', 'SMS', 'TOTP_APP']),
-  action: z.enum(['authenticate']).default('authenticate'),
+  method: OTPMethodEnum,
+  action: OTPActionEnum.extract(['authenticate']).default('authenticate'),
   otpToken: z.string().min(1, AuthMessages.INVALID_OTP),
 })
 
@@ -150,7 +152,7 @@ const SessionResponse = z.object({
   userId: z.string(),
   email: z.string(),
   name: z.string(),
-  role: z.enum(['ADMIN', 'AUTHOR', 'USER', 'GUEST']),
+  role: UserRoleEnum,
   isLoggedIn: z.boolean(),
 })
 
@@ -184,19 +186,6 @@ const SSOCallbackResponse = z.object({
     image: z.string().optional(),
   }),
 })
-
-const SSOProviderEnum = z.enum([
-  'google',
-  'github',
-  'discord',
-  'microsoft',
-  'autodesk',
-  'tiktok',
-  'apple',
-  'facebook',
-  'linkedin',
-  'twitter',
-])
 
 const SSOProviderRequest = z.object({
   provider: SSOProviderEnum,

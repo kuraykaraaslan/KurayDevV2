@@ -18,7 +18,7 @@ export type ChatSource = z.infer<typeof ChatSourceSchema>
 // ── Client-side message ──────────────────────────────────────────────
 export const ChatMessageSchema = z.object({
   id:          z.string().optional(),
-  role:        z.enum(['user', 'assistant', 'admin', 'system']),
+  role:        z.enum(['USER', 'ASSISTANT', 'ADMIN', 'SYSTEM']),
   content:     z.string(),
   sources:     z.array(ChatSourceSchema).optional(),
   adminUserId: z.string().optional(),

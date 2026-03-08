@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import CommentMessages from '@/messages/CommentMessages'
+import { CommentStatusEnum } from '@/types/content/BlogTypes'
 
 // Request DTOs
 export const CreateCommentRequestSchema = z.object({
@@ -14,7 +15,13 @@ export const GetCommentsRequestSchema = z.object({
   postId: z.string().min(1, CommentMessages.POST_ID_REQUIRED),
   page: z.number().int().default(0),
   pageSize: z.number().int().default(10),
-  status: z.enum(['PUBLISHED', 'NOT_PUBLISHED', 'SPAM', 'PENDING']).optional(),
+  status: CommentStatusEnum.optional(),
+})
+
+export const UpdateCommentRequestSchema = z.object({
+  commentId: z.string().min(1, CommentMessages.COMMENT_ID_REQUIRED),
+  content: z.string().min(1, CommentMessages.CONTENT_REQUIRED).optional(),
+  status: CommentStatusEnum.optional(),
 })
 
 // Response DTOs
@@ -25,7 +32,7 @@ export const CommentResponseSchema = z.object({
   parentId: z.string().nullable(),
   email: z.string(),
   name: z.string(),
-  status: z.enum(['PUBLISHED', 'NOT_PUBLISHED', 'SPAM', 'PENDING']),
+  status: CommentStatusEnum,
   createdAt: z.date(),
   updatedAt: z.date(),
 })
@@ -39,12 +46,13 @@ export const CommentListResponseSchema = z.object({
 
 export const CreateCommentResponseSchema = z.object({
   message: z.string(),
-  status: z.enum(['PUBLISHED', 'NOT_PUBLISHED', 'SPAM', 'PENDING']),
+  status: CommentStatusEnum,
 })
 
 // Type exports
 export type CreateCommentRequest = z.infer<typeof CreateCommentRequestSchema>
 export type GetCommentsRequest = z.infer<typeof GetCommentsRequestSchema>
+export type UpdateCommentRequest = z.infer<typeof UpdateCommentRequestSchema>
 export type CommentResponse = z.infer<typeof CommentResponseSchema>
 export type CommentListResponse = z.infer<typeof CommentListResponseSchema>
 export type CreateCommentResponse = z.infer<typeof CreateCommentResponseSchema>

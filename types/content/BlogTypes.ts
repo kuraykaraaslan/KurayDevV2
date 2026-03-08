@@ -22,8 +22,8 @@ const CategoryTranslationSchema = z.object({
   slug: z.string(),
 })
 
-const CommentStatusEnum = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM'])
-const PostStatusEnum = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED', 'SCHEDULED'])
+export const CommentStatusEnum = z.enum(['NOT_PUBLISHED', 'PUBLISHED', 'SPAM'])
+export const PostStatusEnum = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED', 'SCHEDULED'])
 
 const CommentSchema = z.object({
   commentId: z.string(),

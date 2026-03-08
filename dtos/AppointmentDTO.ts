@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import AppointmentMessages from '@/messages/AppointmentMessages'
+import { AppointmentStatusEnum } from '@/types/features/CalendarTypes'
 
 // Request DTOs
 export const GetAppointmentsRequestSchema = z.object({
@@ -7,7 +8,7 @@ export const GetAppointmentsRequestSchema = z.object({
   pageSize: z.number().int().default(10),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-  status: z.enum(['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED']).optional(),
+  status: AppointmentStatusEnum.optional(),
   appointmentId: z.string().optional(),
   email: z.string().email().optional(),
 })
@@ -19,7 +20,7 @@ export const CreateAppointmentRequestSchema = z.object({
   name: z.string().min(1, AppointmentMessages.NAME_REQUIRED),
   phone: z.string().min(1, AppointmentMessages.INVALID_PHONE_NUMBER),
   location: z.string().optional(),
-  status: z.enum(['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED']).default('PENDING'),
+  status: AppointmentStatusEnum.default('PENDING'),
   note: z.string().optional(),
 })
 
@@ -36,6 +37,19 @@ export const CancelAppointmentRequestSchema = z.object({
   reason: z.string().optional(),
 })
 
+export const UpdateAppointmentRequestSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  startTime: z.string().optional(),
+  endTime: z.string().optional(),
+  attendeeEmail: z.string().email(AppointmentMessages.INVALID_EMAIL).optional(),
+  attendeeName: z.string().optional(),
+  attendeePhone: z.string().optional(),
+  location: z.string().optional(),
+  status: AppointmentStatusEnum.optional(),
+  notes: z.string().optional(),
+})
+
 // Response DTOs
 export const AppointmentResponseSchema = z.object({
   appointmentId: z.string(),
@@ -47,7 +61,7 @@ export const AppointmentResponseSchema = z.object({
   attendeeName: z.string(),
   attendeePhone: z.string().nullable(),
   location: z.string().nullable(),
-  status: z.enum(['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED']),
+  status: AppointmentStatusEnum,
   notes: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -65,5 +79,6 @@ export type GetAppointmentsRequest = z.infer<typeof GetAppointmentsRequestSchema
 export type CreateAppointmentRequest = z.infer<typeof CreateAppointmentRequestSchema>
 export type BookAppointmentRequest = z.infer<typeof BookAppointmentRequestSchema>
 export type CancelAppointmentRequest = z.infer<typeof CancelAppointmentRequestSchema>
+export type UpdateAppointmentRequest = z.infer<typeof UpdateAppointmentRequestSchema>
 export type AppointmentResponse = z.infer<typeof AppointmentResponseSchema>
 export type AppointmentListResponse = z.infer<typeof AppointmentListResponseSchema>

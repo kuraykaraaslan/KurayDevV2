@@ -1,9 +1,10 @@
 import { z } from 'zod'
 import ChatbotMessages from '@/messages/ChatbotMessages'
+import { ChatMessageSchema, ChatSessionSchema } from '@/types/features/ChatbotTypes'
 
 // ── Chat Message Roles ───────────────────────────────────────────────
 
-export const ChatMessageRoleEnum = z.enum(['user', 'assistant', 'admin'])
+export const ChatMessageRoleEnum = z.enum(['USER', 'ASSISTANT', 'ADMIN', 'SYSTEM'])
 export type ChatMessageRole = z.infer<typeof ChatMessageRoleEnum>
 
 export const ChatSessionStatusEnum = z.enum(['ACTIVE', 'CLOSED', 'TAKEN_OVER'])
@@ -68,7 +69,7 @@ export type ChatbotSource = z.infer<typeof ChatbotSourceSchema>
 
 // ── Export (Phase 13) ────────────────────────────────────────────────
 
-export const ChatExportFormatSchema = z.enum(['json', 'csv', 'txt'])
+export const ChatExportFormatSchema = z.enum(['JSON', 'CSV', 'TXT'])
 export type ChatExportFormat = z.infer<typeof ChatExportFormatSchema>
 
 // ── Admin Schemas ────────────────────────────────────────────────────
@@ -88,3 +89,10 @@ export const AdminCloseSessionSchema = z.object({
   chatSessionId: z.string().min(1),
 })
 export type AdminCloseSession = z.infer<typeof AdminCloseSessionSchema>
+
+export const ChatSessionActionEnum = z.enum(['TAKEOVER', 'RELEASE', 'CLOSE', 'BAN', 'UNBAN'])
+
+export const ChatSessionActionRequestSchema = z.object({
+  action: ChatSessionActionEnum,
+})
+export type ChatSessionActionRequest = z.infer<typeof ChatSessionActionRequestSchema>
