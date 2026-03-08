@@ -425,7 +425,30 @@
       "scheduling": "Жолугушууларды пландоо",
       "short_links": "Кыска шилтемелер",
       "system": "Система",
-      "admin_navigation": "Админ навигациясы"
+      "admin_navigation": "Админ навигациясы",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "Бардыгы аткарылды!",
@@ -647,7 +670,8 @@
     "grid_view": "Торчо көрүнүшү",
     "image": {
       "upload_error": "Сүрөттү жүктөө катасы",
-      "upload_success": "Сүрөт ийгиликтүү жүктөлдү"
+      "upload_success": "Сүрөт ийгиликтүү жүктөлдү",
+      "title": "Сүрөт"
     },
     "loading": "Жүктөлүүдө...",
     "modal": {
@@ -694,7 +718,22 @@
     "view_all": "Баарын көрүү",
     "breadcrumb": "Нан күкүмү",
     "clear_selection": "Тандоону тазалоо",
-    "go_to_homepage": "Башкы бетке өтүү"
+    "go_to_homepage": "Башкы бетке өтүү",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "errors": {
     "404": {

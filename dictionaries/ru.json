@@ -425,7 +425,30 @@
       "scheduling": "Планирование",
       "short_links": "Короткие ссылки",
       "system": "Система",
-      "admin_navigation": "Навигация администратора"
+      "admin_navigation": "Навигация администратора",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "Вы все успели!",
@@ -647,7 +670,8 @@
     "grid_view": "Вид сеткой",
     "image": {
       "upload_error": "Ошибка загрузки изображения",
-      "upload_success": "Изображение успешно загружено"
+      "upload_success": "Изображение успешно загружено",
+      "title": "Изображение"
     },
     "loading": "Загрузка...",
     "modal": {
@@ -694,7 +718,22 @@
     "view_all": "Посмотреть все",
     "breadcrumb": "Навигационная цепочка",
     "clear_selection": "Очистить выбор",
-    "go_to_homepage": "Перейти на главную страницу"
+    "go_to_homepage": "Перейти на главную страницу",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "errors": {
     "404": {

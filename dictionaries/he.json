@@ -137,7 +137,8 @@
     },
     "image": {
       "upload_success": "התמונה הועלתה בהצלחה",
-      "upload_error": "שגיאה בהעלאת התמונה"
+      "upload_error": "שגיאה בהעלאת התמונה",
+      "title": "תמונה"
     },
     "confirm": "אישור",
     "confirm_dialog": {
@@ -173,7 +174,22 @@
     "view_all": "צפה בהכל",
     "breadcrumb": "שביל פירורים",
     "clear_selection": "נקה בחירה",
-    "go_to_homepage": "עבור לדף הבית"
+    "go_to_homepage": "עבור לדף הבית",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "pages": {
     "hero": {
@@ -1169,7 +1185,30 @@
       "scheduling": "תזמון",
       "short_links": "קישורים קצרים",
       "system": "מערכת",
-      "admin_navigation": "ניווט מנהל"
+      "admin_navigation": "ניווט מנהל",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "הכל מעודכן!",

@@ -425,7 +425,30 @@
       "scheduling": "Aikataulutus",
       "short_links": "Lyhyet linkit",
       "system": "Järjestelmä",
-      "admin_navigation": "Ylläpidon navigointi"
+      "admin_navigation": "Ylläpidon navigointi",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "Kaikki ajan tasalla!",
@@ -647,7 +670,8 @@
     "grid_view": "Ruudukkonäkymä",
     "image": {
       "upload_error": "Virhe kuvan lataamisessa",
-      "upload_success": "Kuva ladattu onnistuneesti"
+      "upload_success": "Kuva ladattu onnistuneesti",
+      "title": "Kuva"
     },
     "loading": "Ladataan...",
     "modal": {
@@ -694,7 +718,22 @@
     "view_all": "Näytä kaikki",
     "breadcrumb": "Navigointipolku",
     "clear_selection": "Tyhjennä valinta",
-    "go_to_homepage": "Siirry etusivulle"
+    "go_to_homepage": "Siirry etusivulle",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "errors": {
     "404": {

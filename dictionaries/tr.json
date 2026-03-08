@@ -132,7 +132,8 @@
     },
     "image": {
       "upload_success": "Görsel başarıyla yüklendi",
-      "upload_error": "Görsel yüklenirken bir hata oluştu"
+      "upload_error": "Görsel yüklenirken bir hata oluştu",
+      "title": "Görüntü"
     },
     "cancel": "İptal",
     "grid_view": "Izgara Görünümü",
@@ -173,7 +174,22 @@
     "view_all": "Hepsini Görüntüle",
     "breadcrumb": "Gezinti yolu",
     "clear_selection": "Seçimi temizle",
-    "go_to_homepage": "Ana sayfaya git"
+    "go_to_homepage": "Ana sayfaya git",
+    "create": "Oluştur",
+    "search_placeholder": "Ara...",
+    "title": "Başlık",
+    "slug": "Slug",
+    "name": "İsim",
+    "action": "İşlemler",
+    "no_data": "Veri yok",
+    "confirm_delete": "Silmek istediğinize emin misiniz?",
+    "posts": "Gönderiler",
+    "approve": "Onayla",
+    "reject": "Reddet",
+    "post_series": "Gönderi Serisi",
+    "email": "E-posta",
+    "role": "Rol",
+    "translations": "Çeviriler"
   },
   "pages": {
     "hero": {
@@ -1169,7 +1185,30 @@
       "scheduling": "Zamanlama",
       "short_links": "Kısa Bağlantılar",
       "system": "Sistem",
-      "admin_navigation": "Yönetici gezintisi"
+      "admin_navigation": "Yönetici gezintisi",
+      "group_dashboard": "Kontrol Paneli",
+      "item_overview": "Genel Bakış",
+      "item_analytics": "Analizler",
+      "group_content": "İçerik",
+      "item_projects": "Projeler",
+      "item_categories": "Kategoriler",
+      "item_posts": "Gönderiler",
+      "item_comments": "Yorumlar",
+      "item_testimonials": "Referanslar",
+      "item_media": "Medya",
+      "group_communication": "İletişim",
+      "item_contacts": "İletişim Formları",
+      "item_subscriptions": "Abonelikler",
+      "item_campaigns": "Kampanyalar",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Zamanlama",
+      "item_appointments": "Randevular",
+      "item_slots": "Zaman Dilimleri",
+      "group_users": "Kullanıcılar",
+      "item_users": "Kullanıcılar",
+      "group_system": "Sistem",
+      "item_settings": "Ayarlar",
+      "item_short_links": "Kısa Bağlantılar"
     },
     "notifications": {
       "all_caught_up": "Hepsi tamamlandı!",

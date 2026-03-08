@@ -425,7 +425,30 @@
       "scheduling": "スケジューリング",
       "short_links": "ショートリンク",
       "system": "システム",
-      "admin_navigation": "管理者ナビゲーション"
+      "admin_navigation": "管理者ナビゲーション",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "すべて完了しました！",
@@ -647,7 +670,8 @@
     "grid_view": "グリッドビュー",
     "image": {
       "upload_error": "画像のアップロードエラー",
-      "upload_success": "画像が正常にアップロードされました"
+      "upload_success": "画像が正常にアップロードされました",
+      "title": "画像"
     },
     "loading": "読み込み中...",
     "modal": {
@@ -694,7 +718,22 @@
     "view_all": "すべて表示",
     "breadcrumb": "パンくずリスト",
     "clear_selection": "選択をクリア",
-    "go_to_homepage": "ホームページへ移動"
+    "go_to_homepage": "ホームページへ移動",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "errors": {
     "404": {

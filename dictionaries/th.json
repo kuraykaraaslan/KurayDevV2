@@ -128,7 +128,8 @@
     },
     "image": {
       "upload_success": "อัปโหลดรูปภาพเรียบร้อยแล้ว",
-      "upload_error": "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ"
+      "upload_error": "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ",
+      "title": "รูปภาพ"
     },
     "loading": "กำลังโหลด...",
     "modal": {
@@ -173,7 +174,22 @@
     "view_all": "ดูทั้งหมด",
     "breadcrumb": "แถบเส้นทาง",
     "clear_selection": "ล้างการเลือก",
-    "go_to_homepage": "ไปที่หน้าแรก"
+    "go_to_homepage": "ไปที่หน้าแรก",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "pages": {
     "hero": {
@@ -1097,7 +1113,30 @@
       "scheduling": "การจัดตารางเวลา",
       "short_links": "ลิงก์สั้น",
       "system": "ระบบ",
-      "admin_navigation": "การนำทางของผู้ดูแลระบบ"
+      "admin_navigation": "การนำทางของผู้ดูแลระบบ",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "ตามทันทั้งหมดแล้ว!",

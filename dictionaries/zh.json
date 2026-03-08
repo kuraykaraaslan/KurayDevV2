@@ -425,7 +425,30 @@
       "scheduling": "日程安排",
       "short_links": "短链接",
       "system": "系统",
-      "admin_navigation": "管理员导航"
+      "admin_navigation": "管理员导航",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "全部完成！",
@@ -647,7 +670,8 @@
     "grid_view": "网格视图",
     "image": {
       "upload_error": "上传图片错误",
-      "upload_success": "图片上传成功"
+      "upload_success": "图片上传成功",
+      "title": "图片"
     },
     "loading": "加载中...",
     "modal": {
@@ -694,7 +718,22 @@
     "view_all": "查看全部",
     "breadcrumb": "面包屑导航",
     "clear_selection": "清除选择",
-    "go_to_homepage": "返回主页"
+    "go_to_homepage": "返回主页",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "errors": {
     "404": {

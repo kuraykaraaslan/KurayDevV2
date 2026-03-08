@@ -425,7 +425,30 @@
       "scheduling": "Planlaşdırma",
       "short_links": "Qısa Keçidlər",
       "system": "Sistem",
-      "admin_navigation": "Admin naviqasiyası"
+      "admin_navigation": "Admin naviqasiyası",
+      "group_dashboard": "Dashboard",
+      "item_overview": "Overview",
+      "item_analytics": "Analytics",
+      "group_content": "Content",
+      "item_projects": "Projects",
+      "item_categories": "Categories",
+      "item_posts": "Posts",
+      "item_comments": "Comments",
+      "item_testimonials": "Testimonials",
+      "item_media": "Media",
+      "group_communication": "Communication",
+      "item_contacts": "Contact Forms",
+      "item_subscriptions": "Subscriptions",
+      "item_campaigns": "Campaigns",
+      "item_chatbot": "Chatbot",
+      "group_scheduling": "Scheduling",
+      "item_appointments": "Appointments",
+      "item_slots": "Slots",
+      "group_users": "Users",
+      "item_users": "Users",
+      "group_system": "System",
+      "item_settings": "Settings",
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "Hamısı tamamlandı!",
@@ -647,7 +670,8 @@
     "grid_view": "Şəbəkə Görünüşü",
     "image": {
       "upload_error": "Şəkil yükləmə xətası",
-      "upload_success": "Şəkil uğurla yükləndi"
+      "upload_success": "Şəkil uğurla yükləndi",
+      "title": "Şəkil"
     },
     "loading": "Yüklənir...",
     "modal": {
@@ -694,7 +718,22 @@
     "view_all": "Hamısına bax",
     "breadcrumb": "Navigasiya izi",
     "clear_selection": "Seçimi təmizlə",
-    "go_to_homepage": "Ana səhifəyə get"
+    "go_to_homepage": "Ana səhifəyə get",
+    "create": "Create",
+    "search_placeholder": "Search...",
+    "title": "Title",
+    "slug": "Slug",
+    "name": "Name",
+    "action": "Actions",
+    "no_data": "No data",
+    "confirm_delete": "Are you sure you want to delete?",
+    "posts": "Posts",
+    "approve": "Approve",
+    "reject": "Reject",
+    "post_series": "Post Series",
+    "email": "Email",
+    "role": "Role",
+    "translations": "Translations"
   },
   "errors": {
     "404": {
