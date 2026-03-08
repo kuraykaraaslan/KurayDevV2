@@ -73,7 +73,7 @@ function DefaultGridItem<T>({
                 href={action.href(item as T)}
                 className={`btn btn-xs ${action.className || 'btn-primary'}`}
               >
-                {action.label}
+                {typeof action.label === 'string' ? t(action.label) : action.label}
               </Link>
             ) : (
               <button
@@ -81,7 +81,7 @@ function DefaultGridItem<T>({
                 onClick={() => handleActionClick(action, item as T, index)}
                 className={`btn btn-xs ${action.className || 'btn-primary'}`}
               >
-                {action.label}
+                {typeof action.label === 'string' ? t(action.label) : action.label}
               </button>
             )
           )}

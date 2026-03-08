@@ -21,7 +21,7 @@ function BulkActionsBar() {
             className={`btn btn-sm ${action.className || 'btn-primary'}`}
             onClick={() => action.onClick(selectedItems)}
           >
-            {action.label}
+            {typeof action.label === 'string' ? t(action.label) : action.label}
           </button>
         ))}
       </div>
