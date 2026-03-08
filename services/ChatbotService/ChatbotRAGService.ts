@@ -219,8 +219,9 @@ export default class ChatbotRAGService {
         const recent = history.slice(-10)
         for (const msg of recent) {
             if (msg.content === ADMIN_TAKEOVER_SENTINEL) continue
-            const role =
-                msg.role === 'admin' ? 'assistant' : msg.role === 'user' ? 'user' : 'assistant'
+            // Convert to lowercase for AI provider APIs
+            const roleLower = msg.role.toLowerCase()
+            const role = roleLower === 'admin' ? 'assistant' : roleLower
             messages.push({ role, content: msg.content })
         }
 

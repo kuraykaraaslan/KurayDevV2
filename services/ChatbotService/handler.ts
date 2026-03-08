@@ -165,7 +165,7 @@ async function handleAdminReply(
 
   const chatMsg: ChatMessage = {
     id: stored.id,
-    role: 'admin',
+    role: 'ADMIN',
     content: stored.content,
     adminUserId: stored.adminUserId,
     createdAt: stored.createdAt,

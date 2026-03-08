@@ -11,7 +11,7 @@ interface SSEEvent {
   content?: string
   sources?: ChatSource[]
   error?: string
-  role?: 'admin' | 'assistant'
+  role?: 'ADMIN' | 'ASSISTANT'
   messages?: ChatMessage[]
   message?: ChatMessage
   status?: string

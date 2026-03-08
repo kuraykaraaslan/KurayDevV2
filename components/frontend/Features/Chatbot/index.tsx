@@ -67,7 +67,7 @@ const Chatbot = () => {
                 <span className="w-1.5 h-1.5 bg-base-content/40 rounded-full animate-bounce [animation-delay:300ms]" />
               </span>
               <span className="text-xs text-base-content/40">
-                {isTyping.role === 'admin'
+                {isTyping.role === 'ADMIN'
                   ? t('shared.chatbot.admin_typing')
                   : t('shared.chatbot.thinking')}
               </span>

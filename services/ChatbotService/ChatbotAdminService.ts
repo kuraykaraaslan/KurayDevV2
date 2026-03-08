@@ -100,7 +100,7 @@ export default class ChatbotAdminService {
             chatSessionId,
             message: {
                 id: msg.id,
-                role: 'admin',
+                role: 'ADMIN',
                 content: msg.content,
                 adminUserId: msg.adminUserId,
                 createdAt: msg.createdAt,

@@ -16,7 +16,7 @@ export function useChatbot() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [isTyping, setIsTyping] = useState<{ role: 'admin' | 'assistant' } | null>(null)
+  const [isTyping, setIsTyping] = useState<{ role: 'ADMIN' | 'ASSISTANT' } | null>(null)
   const [sources, setSources] = useState<ChatSource[]>([])
   const [chatSessionId, setChatSessionId] = useState<string | undefined>(undefined)
   const [sessionClosed, setSessionClosed] = useState(false)
@@ -69,7 +69,7 @@ export function useChatbot() {
           const text = accumulatedRef.current
           setMessages((prev) => {
             const updated = [...prev]
-            updated[updated.length - 1] = { role: 'assistant', content: text }
+            updated[updated.length - 1] = { role: 'ASSISTANT', content: text }
             return updated
           })
         }
@@ -77,7 +77,7 @@ export function useChatbot() {
 
       case 'typing':
         if (event.role) {
-          setIsTyping({ role: event.role as 'admin' | 'assistant' })
+          setIsTyping({ role: event.role as 'ADMIN' | 'ASSISTANT' })
         }
         break
 
@@ -100,10 +100,10 @@ export function useChatbot() {
 
         setMessages((prev) => {
           const updated = [...prev]
-          if (updated.length > 0 && updated[updated.length - 1].role === 'assistant') {
-            updated[updated.length - 1] = { role: 'assistant', content }
+          if (updated.length > 0 && updated[updated.length - 1].role === 'ASSISTANT') {
+            updated[updated.length - 1] = { role: 'ASSISTANT', content }
           } else {
-            updated.push({ role: 'assistant', content })
+            updated.push({ role: 'ASSISTANT', content })
           }
           return updated
         })
@@ -144,7 +144,7 @@ export function useChatbot() {
       }
     } catch { /* ignore */ }
 
-    const userMessage: ChatMessage = { role: 'user', content: trimmed }
+    const userMessage: ChatMessage = { role: 'USER', content: trimmed }
     setMessages((prev) => [...prev, userMessage])
     setInput('')
     setIsLoading(true)
@@ -152,7 +152,7 @@ export function useChatbot() {
     accumulatedRef.current = ''
 
     // Placeholder for streaming response
-    setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
+    setMessages((prev) => [...prev, { role: 'ASSISTANT', content: '' }])
 
     sendChat(trimmed, chatSessionIdRef.current, undefined, undefined, pageContext, browserIdRef.current)
   }, [input, isLoading, isStreaming, sendChat])

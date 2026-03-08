@@ -70,7 +70,7 @@ export default class ChatbotService {
   ): Promise<StoredChatMessage> {
     const userMsg: StoredChatMessage = {
       id: generateMessageId(),
-      role: 'user',
+      role: 'USER',
       content: message,
       createdAt: new Date().toISOString(),
     }
@@ -145,7 +145,7 @@ export default class ChatbotService {
 
         const aiMsg: StoredChatMessage = {
             id: generateMessageId(),
-            role: 'assistant',
+            role: 'ASSISTANT',
             content: reply,
             sources: sources.length > 0 ? sources : undefined,
             createdAt: new Date().toISOString(),
@@ -193,7 +193,7 @@ export default class ChatbotService {
       ns: 'chatbot',
       type: 'new_message',
       chatSessionId: session.chatSessionId,
-      message: { id: userMsg.id, role: 'user', content: userMsg.content, createdAt: userMsg.createdAt },
+      message: { id: userMsg.id, role: 'USER', content: userMsg.content, createdAt: userMsg.createdAt },
     })
 
     if (session.status === 'TAKEN_OVER') {
@@ -240,7 +240,7 @@ export default class ChatbotService {
       ns: 'chatbot',
       type: 'new_message',
       chatSessionId: session.chatSessionId,
-      message: { id: aiMsg.id, role: 'assistant', content: aiMsg.content, sources: aiMsg.sources, createdAt: aiMsg.createdAt },
+      message: { id: aiMsg.id, role: 'ASSISTANT', content: aiMsg.content, sources: aiMsg.sources, createdAt: aiMsg.createdAt },
     })
 
     if (sources.length > 0) {
