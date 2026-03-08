@@ -15,6 +15,7 @@ export { default as TableHeader } from './toolbar/TableToolbar'
 export { default as TableBody } from './body'
 export { default as TableFooter } from './footer'
 export { default as ImageCell } from './table/ImageCell'
+export { default as ExportButton } from './toolbar/ExportButton'
 
 // Hooks
 export { useTableSearchParams } from './hooks/useTableSearchParams'

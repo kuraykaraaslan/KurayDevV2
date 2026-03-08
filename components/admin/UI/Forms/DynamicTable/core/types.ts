@@ -16,6 +16,8 @@ export interface ColumnDef<T> {
   disableSort?: boolean
   sortKey?: string
   sortValue?: (item: T) => string | number
+  /** Optional value extractor for PDF / XLSX / CSV export. Falls back to `sortValue`, then `item[key]`. */
+  exportValue?: (item: T) => string | number | undefined
 }
 
 export type ConfirmOptions = {

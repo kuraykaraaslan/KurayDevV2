@@ -8,6 +8,7 @@ import { useTableContext } from '../core/TableContext'
 import SearchInput from './SearchInput'
 import ViewToggle from './ViewToggle'
 import ColumnToggle from './ColumnToggle'
+import ExportButton from './ExportButton'
 
 export interface TableToolbarButton {
   label: string | ReactNode
@@ -27,6 +28,7 @@ interface TableToolbarProps {
   showViewToggle?: boolean
   showRefresh?: boolean
   showColumnToggle?: boolean
+  showExport?: boolean
   toolbarContent?: ReactNode
   toolbarPosition?: 'before-search' | 'after-search' | 'below'
 }
@@ -41,6 +43,7 @@ function TableToolbar({
   showViewToggle = false,
   showRefresh = false,
   showColumnToggle = false,
+  showExport = false,
   toolbarContent,
   toolbarPosition = 'after-search',
 }: TableToolbarProps) {
@@ -66,6 +69,7 @@ function TableToolbar({
             </button>
           )}
           {showColumnToggle && <ColumnToggle />}
+          {showExport && <ExportButton />}
           {showViewToggle && <ViewToggle />}
           {buttons.map((btn, i) =>
             btn.href ? (
