@@ -209,7 +209,7 @@ const Navbar = () => {
     <>
       <nav
         className="relative mx-auto h-16 flex items-center justify-between lg:px-8 from-base-100 to-base-300 bg-gradient-to-b shadow-lg text-primary"
-        aria-label="Admin navigation"
+        aria-label={t('admin.navbar.admin_navigation')}
       >
         {/* Logo */}
         <div className="py-4 pl-4 lg:pl-0 flex items-center gap-2">
@@ -224,7 +224,7 @@ const Navbar = () => {
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 hover:bg-base-200 transition-colors"
             onClick={toggleMobileMenu}
-            aria-label="Open main menu"
+            aria-label={t('admin.navbar.open_main_menu')}
             aria-expanded={isMobileMenuOpen}
           >
             <FontAwesomeIcon icon={faBars} className="h-6 w-6" />
@@ -271,7 +271,7 @@ const Navbar = () => {
             <button
               onClick={toggleMobileMenu}
               className="p-2 rounded-md hover:bg-base-200 transition-colors"
-              aria-label="Close menu"
+              aria-label={t('admin.navbar.close_menu')}
             >
               <FontAwesomeIcon icon={faXmark} className="w-5 h-5" />
             </button>

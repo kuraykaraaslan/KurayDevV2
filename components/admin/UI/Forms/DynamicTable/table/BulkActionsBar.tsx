@@ -28,7 +28,7 @@ function BulkActionsBar() {
       <button
         className="btn btn-ghost btn-sm shrink-0"
         onClick={clearSelection}
-        aria-label="Clear selection"
+        aria-label={t('common.clear_selection')}
       >
         ✕
       </button>

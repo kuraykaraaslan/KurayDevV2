@@ -206,7 +206,10 @@
       "apply_crop": "Apply Crop"
     },
     "send": "Send",
-    "type_message": "Type a message..."
+    "type_message": "Type a message...",
+    "clear_selection": "Clear selection",
+    "breadcrumb": "Breadcrumb",
+    "go_to_homepage": "Go to homepage"
   },
   "pages": {
     "hero": {
@@ -336,7 +339,9 @@
   },
   "frontend": {
     "toc": {
-      "title": "Table of Contents"
+      "title": "Table of Contents",
+      "aria_label": "Table of contents",
+      "toggle": "Toggle Table of Contents"
     },
     "feed": {
       "other_posts": "Other Posts",
@@ -1063,7 +1068,8 @@
       "system": "System",
       "open_main_menu": "Open main menu",
       "close_menu": "Close menu",
-      "short_links": "Short Links"
+      "short_links": "Short Links",
+      "admin_navigation": "Admin navigation"
     },
     "notifications": {
       "title": "Notifications",

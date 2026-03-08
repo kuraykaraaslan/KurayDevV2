@@ -82,13 +82,13 @@ const TableOfContents = ({ content, className = '' }: TableOfContentsProps) => {
   return (
     <nav
       className={`toc bg-base-200 rounded-lg p-4 mb-8 ${className}`}
-      aria-label="Table of contents"
+      aria-label={t('frontend.toc.aria_label')}
     >
       <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
         <button
           onClick={() => setIsCollapsed((prev) => !prev)}
           className="p-1 rounded hover:bg-base-300 transition"
-          aria-label={t('frontend.toc.toggle', 'Toggle Table of Contents')}
+          aria-label={t('frontend.toc.toggle')}
         >
           <FontAwesomeIcon
             icon={faBars}
