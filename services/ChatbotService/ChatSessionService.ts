@@ -93,7 +93,16 @@ export default class ChatSessionService {
         return ChatSessionDBService.getMessages(chatSessionId)
     }
 
-    static async listSessions(options?: {\n        status?: ChatSessionStatus\n        page?: number\n        pageSize?: number\n        search?: string\n        sortKey?: string\n        sortDir?: 'asc' | 'desc'\n    }): Promise<{ sessions: StoredChatSession[]; total: number }> {\n        return ChatSessionDBService.listSessions(options)\n    }
+    static async listSessions(options?: {
+        status?: ChatSessionStatus
+        page?: number
+        pageSize?: number
+        search?: string
+        sortKey?: string
+        sortDir?: 'asc' | 'desc'
+    }): Promise<{ sessions: StoredChatSession[]; total: number }> {
+        return ChatSessionDBService.listSessions(options)
+    }
 
     static async getUserSessions(userId: string): Promise<StoredChatSession[]> {
         const ids = await redis.smembers(USER_SESSIONS(userId))

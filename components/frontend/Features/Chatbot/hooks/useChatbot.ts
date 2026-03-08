@@ -8,10 +8,12 @@ import { useChatbotSSE } from './useChatbotSSE'
 import type { ChatMessage, ChatSource } from '@/types/features/ChatbotTypes'
 import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
 
+import type { SSEEvent } from './useChatbotSSE'
+
 export function useChatbot() {
   const { t } = useTranslation()
   const { user } = useGlobalStore()
-  const { isOpen, closeChatbot, setHasUnread } = useChatbotStore()
+  const { isOpen, closeChatbot } = useChatbotStore()
 
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -44,7 +46,7 @@ export function useChatbot() {
   chatSessionIdRef.current = chatSessionId
 
   // ── SSE event handler ────────────────────────────────────────────
-  const handleSSEEvent = useCallback((event: Record<string, unknown>) => {
+  const handleSSEEvent = useCallback((event: SSEEvent) => {
     switch (event.type) {
       case 'history':
         if (event.chatSessionId) setChatSessionId(event.chatSessionId as string)

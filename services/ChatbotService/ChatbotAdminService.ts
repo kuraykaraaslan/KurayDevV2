@@ -71,7 +71,7 @@ export default class ChatbotAdminService {
 
         const msg: StoredChatMessage = {
             id: generateMessageId(),
-            role: 'admin',
+            role: 'ADMIN',
             content: message,
             adminUserId,
             createdAt: new Date().toISOString(),

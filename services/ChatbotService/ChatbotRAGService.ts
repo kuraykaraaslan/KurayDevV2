@@ -221,7 +221,7 @@ export default class ChatbotRAGService {
             if (msg.content === ADMIN_TAKEOVER_SENTINEL) continue
             // Convert to lowercase for AI provider APIs
             const roleLower = msg.role.toLowerCase()
-            const role = roleLower === 'admin' ? 'assistant' : roleLower
+            const role = (roleLower === 'admin' ? 'assistant' : roleLower) as 'system' | 'user' | 'assistant'
             messages.push({ role, content: msg.content })
         }
 

@@ -5,7 +5,7 @@ import axiosInstance from '@/libs/axios'
 import type { ChatMessage, ChatSource } from '@/types/features/ChatbotTypes'
 import type { StoredChatSession } from '@/dtos/ChatbotDTO'
 
-interface SSEEvent {
+export interface SSEEvent {
   type: string
   chatSessionId?: string
   content?: string

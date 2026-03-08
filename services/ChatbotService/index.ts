@@ -199,7 +199,7 @@ export default class ChatbotService {
     if (session.status === 'TAKEN_OVER') {
       const waitingMsg: StoredChatMessage = {
         id: generateMessageId(),
-        role: 'assistant',
+        role: 'ASSISTANT',
         content: ADMIN_TAKEOVER_SENTINEL,
         createdAt: new Date().toISOString(),
       }

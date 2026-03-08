@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import ChatbotMessages from '@/messages/ChatbotMessages'
-import { ChatMessageSchema, ChatSessionSchema } from '@/types/features/ChatbotTypes'
 
 // ── Chat Message Roles ───────────────────────────────────────────────
 

@@ -94,7 +94,7 @@ const ChatMessageList = ({
         if (msg.content === ADMIN_TAKEOVER_SENTINEL) return null
 
         // System messages render as centered divider text
-        if (msg.role === 'system') {
+        if (msg.role === 'SYSTEM') {
           return (
             <div key={msg.id ?? idx} className="flex justify-center my-2">
               <span className="text-xs text-base-content/50 italic">
