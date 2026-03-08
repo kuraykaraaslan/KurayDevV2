@@ -5,6 +5,7 @@ import {
   DeleteObjectCommand,
   HeadObjectCommand,
 } from '@aws-sdk/client-s3'
+import sharp from 'sharp'
 import { S3Object } from '@/types/features/StorageTypes'
 
 export interface StorageConfig {
@@ -42,8 +43,44 @@ export abstract class BaseStorageProvider {
     'content',
   ]
 
-  static allowedExtensions = ['jpeg', 'jpg', 'png', 'webp', 'avif']
-  static allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
+  static allowedExtensions = [
+    // Images
+    'jpeg', 'jpg', 'png', 'webp', 'avif',
+    // Videos
+    'mp4', 'webm', 'mov', 'avi',
+    // Audios
+    'mp3', 'wav', 'ogg', 'm4a',
+    // Documents & Archives
+    'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv',
+    'zip', 'tar', 'gz', 'rar', '7z',
+  ]
+
+  static allowedMimeTypes = [
+    // Images
+    'image/jpeg', 'image/png', 'image/webp', 'image/avif',
+    // Videos
+    'video/mp4', 'video/webm', 'video/ogg', 'video/quicktime', 'video/x-msvideo',
+    // Audios
+    'audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/webm', 'audio/mp4',
+    'audio/webm;codecs=opus', 'audio/ogg;codecs=opus',
+    // Documents
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'text/plain', 'text/csv',
+    // Archives
+    'application/zip',
+    'application/x-zip-compressed',
+    'application/x-tar',
+    'application/gzip',
+    'application/x-rar-compressed',
+    'application/x-7z-compressed',
+    'application/octet-stream',
+  ]
 
   constructor(config: StorageConfig, providerName: string) {
     this.config = config
@@ -170,7 +207,8 @@ export abstract class BaseStorageProvider {
   async uploadFile(file: File, folder: string = 'general'): Promise<string | undefined> {
     this.validateFile(file, folder)
 
-    const fileBuffer = Buffer.from(await file.arrayBuffer())
+    const rawBuffer = Buffer.from(await file.arrayBuffer())
+    const fileBuffer = await this.stripImageMetadata(rawBuffer, file.type)
     const fileKey = this.generateFileKey(folder, file.name)
 
     const command = new PutObjectCommand({
@@ -200,7 +238,8 @@ export abstract class BaseStorageProvider {
     }
 
     const arrayBuffer = await response.arrayBuffer()
-    const fileBuffer = Buffer.from(arrayBuffer)
+    const rawBuffer = Buffer.from(arrayBuffer)
+    const fileBuffer = await this.stripImageMetadata(rawBuffer, mimeType)
     const timestamp = Date.now()
     const filename = url.split('?')[0].split('/').pop() || 'file'
     const fileKey = `${folder}/${timestamp}-${filename}`
@@ -214,6 +253,18 @@ export abstract class BaseStorageProvider {
 
     await this.client.send(command)
     return this.getPublicUrl(fileKey)
+  }
+
+  /**
+   * Strip EXIF and other metadata from image buffers before upload.
+   * Non-image files are returned unchanged.
+   */
+  protected async stripImageMetadata(buffer: Buffer, mimeType: string): Promise<Buffer> {
+    const imageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
+    if (!imageTypes.includes(mimeType)) return buffer
+    // sharp strips all metadata by default (no .withMetadata() call).
+    // .rotate() applies EXIF orientation so images display correctly after stripping.
+    return sharp(buffer).rotate().toBuffer()
   }
 
   /**
