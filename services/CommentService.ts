@@ -164,7 +164,7 @@ export default class CommentService {
    * @param data - The comment data
    * @returns The updated comment
    */
-  static async updateComment(data: Comment): Promise<Comment> {
+  static async updateComment(data: { commentId: string } & Partial<Comment>): Promise<Comment> {
     const { commentId } = data
 
     // Update the comment

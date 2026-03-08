@@ -2,7 +2,6 @@ import AppointmentService from '@/services/AppointmentService'
 import { NextResponse } from 'next/server'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { UpdateAppointmentRequestSchema } from '@/dtos/AppointmentDTO'
-import AppointmentMessages from '@/messages/AppointmentMessages'
 
 type RouteParams = { params: Promise<{ appointmentId: string }> }
 
@@ -21,7 +20,13 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       )
     }
     
-    const updated = await AppointmentService.updateAppointment(appointmentId, parsed.data)
+    const { startTime, endTime, ...rest } = parsed.data
+    const updateData = {
+      ...rest,
+      ...(startTime && { startTime: new Date(startTime) }),
+      ...(endTime && { endTime: new Date(endTime) }),
+    }
+    const updated = await AppointmentService.updateAppointment(appointmentId, updateData)
     
     return NextResponse.json(updated)
   } catch (error: any) {

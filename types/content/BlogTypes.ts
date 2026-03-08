@@ -172,6 +172,4 @@ export {
   PostLikeSchema,
   PostTranslationSchema,
   CategoryTranslationSchema,
-  CommentStatusEnum,
-  PostStatusEnum,
 }
