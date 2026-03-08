@@ -858,4 +858,179 @@ All workers:
 
 ---
 
+### Phase 22 — Derinlemesine Medya, Erişilebilirlik & Otomasyon (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 181 | **Medya Klasör Hiyerarşisi (Folder Tree)** — `MediaFolder` tablosu; `parentId` ile iç içe klasör yapısı; `@dnd-kit` sürükle-bırak dosya taşıma; medya yükleme formunda klasör seçici; `MediaService.getFolderTree()` recursive sorgu; breadcrumb navigasyon | `[ ]` |
+| 182 | **Otomatik Webp Dönüşümü (On-the-fly Format Serving)** — `Accept: image/webp` header'ı varsa `StorageService` presigned URL yerine `/api/media/[id]/serve` isteğe bağlı sharp dönüşümü; `Media.webpKey` S3'e cache; tarayıcı desteği olmayanda orijinal format | `[ ]` |
+| 183 | **Yazar Çoklu Biyografi Blokları (Bio Builder)** — Kullanıcı profil sayfasına drag-drop biyografi bölümleri: metin, stat, sertifika, zaman çizelgesi; `UserBioBlock` tablosu; `@dnd-kit` sıralama; JSON render; `UserProfileService` genişletmesi | `[ ]` |
+| 184 | **İçerik Abonelik Hatırlatıcısı (Re-engagement Drip)** — 30 gün hiç ziyaret etmeyen aboneye "Seni özledik" BullMQ `emails` drip mail; `SubscriptionService`'e `lastSeenAt` alanı; `CronService` daily job kontrol; opt-out linki her mailde | `[ ]` |
+| 185 | **Pano Klavye Tamamen Navigasyonu (Full Keyboard Nav)** — Admin tablolarında `Tab`, `Enter`, `Esc`, `Ctrl+S` kısayolları; satır odağı, satır açma, modal kapatma, form kaydetme; `useAdminKeyboardNav` hook; `aria-` etiketleriyle WCAG 2.1 AA uyumlu | `[ ]` |
+| 186 | **Çok Adımlı Kayıt Sihirbazı (Onboarding Wizard)** — Yeni kullanıcı ilk girişte: dil seçimi → avatar yükleme → bülten tercihleri → bildirim izni; adım ilerlemesi `UserOnboarding` tablosu; tamamlanınca hoşgeldin maili; `OnboardingService` | `[ ]` |
+| 187 | **Canlı İçerik Istatistik Overlay (Live Stats HUD)** — Admin post listesinde satır üzerine gelince tooltip: anlık görüntülenme, son 7 gün trend, paylaşım, yorum; Redis'ten canlı okuma; `PostStatsService.getLive(postId)` SSR + client hydration | `[ ]` |
+| 188 | **Mobil QR Kod Paylaşımı (Post QR)** — Post sayfasında "QR Kod Oluştur" butonu; `qrcode` paketi ile SVG client taraflı üretim; indir veya paylaş (`Web Share API`); sıfır backend; etkinlik sunumları için | `[ ]` |
+| 189 | **Çoklu Admin Bildirimleri Kanalı (Notification Routing)** — Admin, hangi olay tipinin hangi kanala (e-posta, Discord, Telegram, tarayıcı push) gönderileceğini tablolayan `AdminNotificationRoute` ayarı; `NotificationService.route(event)` kanala göre dispatch | `[ ]` |
+| 190 | **Ortam Değişkeni Sağlık Kontrolü (Env Validator on Boot)** — Uygulama başlarken `Zod` ile tüm zorunlu `env` değişkenlerini doğrulayan `libs/env.ts` modülü; eksik/geçersiz değişken varsa boot sırasında `process.exit(1)` ile açıklayıcı hata; prod sürprizleri önler | `[ ]` |
+| 191 | **Post İçi Anket Sonuç Paylaşımı (Poll Share Card)** — Anket (#86) tamamlanınca "Bu sonuçları paylaş" butonu; `@vercel/og` ile dinamik sonuç görseli üretimi; Twitter/X için `card=summary_large_image`; `OGImageService` extension | `[ ]` |
+| 192 | **Admin Toplu Etiket Yöneticisi (Tag Bulk Editor)** — Tablo satırında `checkbox`; seçili postlara toplu etiket ekle/kaldır; `PostTagService.bulkAssign(postIds, tagIds)`; mevcut bulk action pattern'ine (Phase 7) uygun | `[ ]` |
+| 193 | **Renk Körlüğü Simülatörü (Accessibility Preview)** — Admin görsel önizlemesinde deuteranopia/protanopia/tritanopia filtresi; `filter: url(#colorblind-svg)` ile CSS SVG filtre; üretim kodunu etkilemez; erişilebilirlik farkındalık aracı | `[ ]` |
+| 194 | **Yakındaki Etkinlikler Widget (Proximity Events)** — Tarayıcı Geolocation API ile yakından işaret edilen slot/etkinlik tarihlerini gösteren "yakındaki etkinlikler" bileşeni; `AppointmentService.getUpcoming()` + `navigator.geolocation`; izin yoksa şehir bazlı fallback | `[ ]` |
+| 195 | **Test Modu / Kum Havuzu (Sandbox Environment)** — `Settings`'te `sandboxMode: true`; aktifken randevu bildirimleri, kampanya gönderim ve webhook'lar gerçek yerine log'a yazılır; üretim verisini bozmadan uçtan uca test; `NotificationService` sandbox guard | `[ ]` |
+| 196 | **İçerik İzleme Pikseli (Content Tracking Pixel)** — `GET /api/track/open?pid=[postId]&uid=[token]` 1×1 şeffaf GIF; e-posta bülteni içinde görüntülenme takibi; `CampaignOpen` tablosu; piksel URL'si kampanya gönderisine otomatik inject; `CampaignService` extension | `[ ]` |
+| 197 | **Etiket Bazlı İçerik Akışı API (Tag Feed API)** — `GET /api/feed/tag/[slug]` JSON endpoint; son N yayını döndürür; `If-None-Match` ETag desteği; harici araçların (n8n, Zapier, Make) kancalanması için; `TagService` + Redis ETag cache | `[ ]` |
+| 198 | **Çevrimdışı Admin Notları (Offline Draft Notes)** — Admin'de bağlantı kesilince kaydetmeye çalışılan form içeriği `IndexedDB`'ye yazılır; bağlantı geri gelince "Kaydedilmemiş değişiklik var" banner'ı; `useOfflineDraftSync` hook; çevrimiçi olunca server'a POST | `[ ]` |
+| 199 | **Admin Oturum Sona Erme Sayacı (Session Expiry Countdown)** — JWT `exp` üzerinden kalan süre Zustand store'da hesaplanır; 2 dakika kala modal: "Oturumunuz dolmak üzere — Uzat"; otomatik token yenileme veya çıkış; `UserSessionService` refresh endpoint mevcut | `[ ]` |
+| 200 | **İçerik Güven Skoru Rozeti (Trust Score Badge)** — Her post için Fact-check (#165) + A11y (#133) + ContentScore (#58) + Okunabilirlik (#128) + Kanonik (#66) puanlarının bileşik skoru; 0–100 arası `Post.trustScore`; frontend'de kalkan ikonu + renk; otomatik hesaplama `CronService` daily | `[ ]` |
+
+---
+
+### Phase 23 — Verimlilik, Entegrasyon & Gelecek Teknolojiler (Önerilen)
+
+| # | Özellik | Durum |
+|---|---------|-------|
+| 201 | **Görsel OCR ile Metin Çıkarma (Image to Text)** — Admin medya kütüphanesinde seçili görsele "Metni Çıkar" aksiyonu; OpenAI Vision API ile OCR; sonuç editöre veya `Media.extractedText` alanına yazılır; taranmış belge ve ekran görüntüsü içerikleri için | `[ ]` |
+| 202 | **Çok Kiracılı Site (Multi-tenant Subdomain)** — `Tenant` tablosu; `{tenant}.kuray.dev` subdomain yönlendirmesi; her kiracının kendi post/kullanıcı/ayar havuzu; middleware'de `Host` header'ından kiracı çözümlemesi; mevcut Prisma şemasına `tenantId` filter extension | `[ ]` |
+| 203 | **Kayan Okuma Çubuğu (Reading Progress Bar)** — Post sayfası üst kenarında scroll derinliğine bağlı ince ilerleme çubuğu; renk `primary` token; `useScrollProgress` hook + `requestAnimationFrame`; sıfır backend; mobilde de çalışır | `[ ]` |
+| 204 | **Akıllı İçerik Önerisi Sidebar (Related Posts Widget)** — Post sayfasında sağ ya da alt sticky sidebar; `KnowledgeGraphService` cosine skorlarını RSC'de hesaplar; `"use client"` gerekmiyor; ilk 3 öneri cover + başlık; mevcut `LocalEmbedService` altyapısı | `[ ]` |
+| 205 | **Admin İçindekiler Atlama (Quick-Jump TOC)** — Admin'deki uzun sayfalar (ayarlar, kullanıcı listesi) için sayfanın sağ kenarında bölümlere anchor atlamalı mini TOC; `IntersectionObserver` ile aktif bölüm vurgusu; `useAdminTOC` hook | `[ ]` |
+| 206 | **Şifreli Not Defteri (Encrypted Personal Notes)** — Her `ADMIN/AUTHOR` kullanıcısına özel, tarayıcı tarafında AES-GCM ile şifrelenmiş kişisel not alanı; `EncryptedNote` tablosunda yalnızca cipher text saklanır; sunucu düz metni asla görmez; `useEncryptedNotes` hook | `[ ]` |
+| 207 | **RSS → İçerik Beslemesi Import (RSS Aggregator)** — Admin'de güvenilir dış RSS kaynaklarını tanımla; `CronService` hourly job ile yeni öğeleri çek; `DRAFT` post olarak aç; ayarlanabilir filtre (anahtar kelime, kategori eşleme); `RssAggregatorService` | `[ ]` |
+| 208 | **Canlı Yazım Göstergesi (Live Autosave Indicator)** — Editörde değişiklik olduğunda "Kaydedilmemiş…" → spinnerli "Kaydediyor…" → "⓪ Son kayıt 10 sn önce" geçişi; `useAutosaveStatus` hook; `#41 autosave` üzerine sadece UI katmanı | `[ ]` |
+| 209 | **Coğrafi İçerik Tavsiyesi (GEO Smart Suggest)** — Ziyaretçi ülkesine göre o dildeki çevirileri öncelikle sun; Türkiye'den gelene Türkçe, Almanya'dan gelene Almanca yönlendirme banner'ı; mevcut GEO IP + `AppLanguageEnum` birleştirmesi; `LanguageSuggestService` | `[ ]` |
+| 210 | **Admin Renk Etiketi (Color Label on Rows)** — Post, proje, yorum tablolarında satıra admin özel renk etiketi (kırmızı=acil, sarı=bekliyor, yeşil=onaylı); `AdminLabel` tablosu `{entityType, entityId, color}`; filtresi uygulanabilir; tamamen internal tool | `[ ]` |
+| 211 | **Yavaş Sorgu Uyarısı (Slow Query Monitor)** — Prisma `$use` middleware ile her sorgunun süresini ölç; 500ms'yi aşan sorguları Winston `warn` seviyesinde logla + Redis `LPUSH slowqueries` kuyruğuna at; admin panelde son 20 yavaş sorgu listesi | `[ ]` |
+| 212 | **Post Kariyer Haritası (Competency Map)** — Kullanıcı okuduğu postların etiket/kategorilerine göre "bilgi haritası" oluşturur; `ReadingHistory` + tag verileri üzerinden kümeleme; `/[lang]/users/[username]/map` sayfasında SVG skill web görünümü | `[ ]` |
+| 213 | **Akıllı Görsel Kırpma (Smart Crop for Thumbnails)** — Cover image yüklenince OpenAI Vision API ile ana nesne bölgesi tespit edilir; `Media.smartCropBounds` JSON; thumbnail render'da bu koordinata odaklanır; `focalX/focalY` (#169) ile tümleşik | `[ ]` |
+| 214 | **Ekip İçi Yorum / Mention (Internal Thread)** — Admin/editörler arası post veya medya kaydına `@username` etiketli iç yorum; `InternalComment` tablosu; etiketlenen kişiye SSE bildirimi; halka kapatık; `InternalDiscussionService` | `[ ]` |
+| 215 | **WebAuthn / Passkey Desteği** — Şifresiz giriş; `navigator.credentials.create/get` tarayıcı API; `WebAuthnCredential` tablosu; `AuthService` OTP akışına paralel branch olarak eklenir; `passkey` `SSOService` kalıbına uyumlu | `[ ]` |
+| 216 | **Süreli Erişim Kuponu (Access Coupon)** — Pay-per-article (#120) veya premium içerik için indirim/ücretsiz erişim kodu; `AccessCoupon` tablosu (`code`, `maxUses`, `expiresAt`); admin'den kod üret; `PaywallService.applyCoupon()` | `[ ]` |
+| 217 | **İçerik Katkı Görselleştirici (GitHub-style Heatmap)** — Admin profil sayfasında yayınlanan post günlerini GitHub katkı heatmap tarzında 52 haftalık ızgara gösterimi; `PostService.getPublishingCalendar(userId)`; tamamen SVG/HTML, bağımlılıksız | `[ ]` |
+| 218 | **Toplu Çeviri Kuyruğu (Bulk Translation Queue)** — Seçilen postları BullMQ `ai-generation` kuyruğuna al; sırayla AI çevirisi yap (throttle: 5/dk); tamamlanınca admin'e SSE bildirimi; mevcut `AIServices` + `PostTranslationService` zinciri | `[ ]` |
+| 219 | **Dinamik Paylaşım Bağlamı (Share Context Card)** — Kullanıcı bir metni seçince post sayfasında "Bu bölümü paylaş" balonu belirir; seçili metin + post URL'si Twitter/LinkedIn payload'ına eklenir; `selection` event; `useTextSharePopover` hook; sıfır backend | `[ ]` |
+| 220 | **AI Başlık Testi (Headline Analyzer)** — Admin post başlığına yazarken gerçek zamanlı analiz: uzunluk, güç kelimesi sayısı, duygu tonu (pozitif/negatif/tarafsız), tıklama potansiyeli skoru; `AIServices` veya kural tabanlı pure fn; editör panelinde canlı renk göstergesi | `[ ]` |
+
+---
+
 *Reports source: `/reports/` · Last updated: March 2026*
+
+---
+
+## 11. Kişisel / Profesyonel CMS Kapsamı Dışında Kalan Özellikler
+
+> Bu liste, plan içinde tanımlı ancak kişisel bir site / profesyonel portfolyo CMS'sinde (WordPress türevi) **olmaması gereken** özellikleri derler.
+> Kişisel CMS'nin çekirdeği şunlardır: blog, portfolyo, medya, yorumlar, temel SEO, iletişim formu, basit bülten, tek yönetici.
+> Aşağıdaki her madde ya ayrı bir ürüne (SaaS, platform, araç) ya da kurumsal düzey altyapıya aittir.
+
+---
+
+### 11.1 Kimlik Doğrulama Karmaşıklığı
+
+| Özellik | Neden Fazla |
+|---------|-------------|
+| **11 SSO sağlayıcısı** (TikTok, WeChat, Slack, Autodesk, vb.) | Kişisel site için Google + GitHub yeterli; niche sağlayıcılar kişisel kitleye hitap etmez |
+| **4 farklı MFA yöntemi** (Email OTP + SMS OTP + TOTP + Push OTP) | TOTP tek başına yeterli; 4 paralel yöntem kimlik doğrulama SaaS karmaşıklığıdır |
+| **SMS çok-sağlayıcı soyutlaması** (Twilio / Nexmo / Clickatell / NetGSM) | Kişisel CMS'de SMS OTP gerekmez, olsa bile tek sağlayıcı yeter |
+| **Cihaz parmak izi + UserSession tablosu** | Oturum iptali için yeterli; parmak izi kurumsal güvenlik ihtiyacıdır |
+| **WebAuthn / Passkey desteği** (Phase 23 #215) | İyi bir özellik fakat kişisel CMS'nin auth karmaşıklığını katlamayan düzeyde |
+| **Şüpheli giriş tespiti + tüm cihazlardan çıkış UI** | Kurumsal kimlik platformu özelliği |
+
+---
+
+### 11.2 Bağımsız Ürün / SaaS Özellikleri
+
+| Özellik | Ait Olduğu Ürün |
+|---------|----------------|
+| **Randevu & Slot Yönetimi** (`AppointmentService`, `SlotService`, `SlotTemplateService`) | Booking SaaS (Calendly türevi) |
+| **URL Kısaltıcı + GEO tıklama analitiği** (`ShortLinkService`, Redis tıklama buffer) | URL shortener SaaS (Bitly türevi) |
+| **Kamya A/B konu satırı testi** | E-posta pazarlama SaaS (Mailchimp türevi) |
+| **Bekleme Listesi (Waitlist)** (Phase 14 #13) | Ayrı ürün geliştirme / lansman aracı |
+| **Pay-per-Article / Paywall** (Phase 18 #120) | İçerik monetizasyon SaaS |
+| **İndirim Kuponu (Access Coupon)** (Phase 23 #216) | E-ticaret / monetizasyon katmanı |
+| **Yönlendirme Programı (Referral Program)** (Phase 20 #147) | Büyüme / platform özelliği |
+| **Fiyatlandırma Sayfası Yöneticisi** (Phase 20 #148) | SaaS ürün sitesi altyapısı |
+| **Çok Kiracılı Subdomain (Multi-tenant)** (Phase 23 #202) | SaaS platform — CMS değil |
+| **Hedef Kitle Segmenti (Audience Segment)** (Phase 20 #154) | Kurumsal e-posta pazarlama |
+| **Genel API / Geliştirici Portalı** (Phase 14 #6) | Platform ürünü; kişisel CMS API'si kamuya açılmaz |
+| **Webhook Sistemi** (Phase 14 #7) | iPaaS / otomasyon entegrasyon platformu (Zapier türevi) |
+| **Etkinlik / Webinar Sistemi** (Phase 14 #9) | Etkinlik yönetim platformu (Eventbrite türevi) |
+| **Google Calendar / Outlook Takvim Senkronizasyonu** (Phase 14 #10) | Kurumsal takvim entegrasyonu |
+
+---
+
+### 11.3 Yapay Zeka Aşırı Mühendisliği
+
+| Özellik | Neden Fazla |
+|---------|-------------|
+| **5 paralel AI sağlayıcı soyutlaması** (OpenAI + Anthropic + Gemini + xAI + DeepSeek) | Kişisel CMS'de tek sağlayıcı yeterli; multi-provider abstraction B2B SaaS için gereklidir |
+| **Yerel WASM Embedding + Knowledge Graph** (`@xenova/transformers`, cosine similarity) | Araştırma / kurumsal düzey; kişisel blog'da yazılar arası ilişki basit tag/kategori ile çözülür |
+| **AI Chatbot (RAG + WebSocket + konuşma özeti + proaktif tetikleyici)** | Başlı başına bir ürün; kişisel CMS'nin kapsamı dışında |
+| **AI ile İçerik Kopyalama Tespiti (Plagiarism Check)** (Phase 16 #73) | Özel editoryal araç; bağımsız servis olarak tüketilmeli |
+| **AI ile Akıllı İç Linkleme Önerisi** (Phase 16 #70) | Kurumsal SEO araç özelliği |
+| **AI ile Görsel OCR** (Phase 23 #201) | Bağımsız medya işleme aracı |
+| **AI ile Akıllı Kırpma (Smart Crop via Vision API)** (Phase 23 #213) | Medya pipeline SaaS |
+| **AI ile Toplu Çeviri Kuyruğu** (Phase 23 #218) | İçerik operasyonu otomasyon platformu |
+| **AI FAQ Üretici** (Phase 18 #119) | İçerik optimizasyon araç ekosistemi |
+| **AI ile Alt Text Zorunluluğu (Enforcer)** (Phase 18 #108) | DAM (Digital Asset Management) ürün özelliği |
+| **AI ile Başlık Testi (Headline Analyzer)** (Phase 23 #220) | İçerik pazarlama platformu özelliği (BuzzSumo türevi) |
+
+---
+
+### 11.4 Kurumsal Analytics & İzleme
+
+| Özellik | Neden Fazla |
+|---------|-------------|
+| **GEO Analitiği + dünya haritası görselleştirmesi** | Kurumsal analytics platformu; kişisel için Google Analytics / Plausible yeterli |
+| **İçerik Isı Haritası (Heatmap)** (Phase 16 #71) | Ayrı analytics SaaS (Hotjar türevi) |
+| **RSS Abone Takipçisi** (Phase 16 #79) | Ayrı yayın analitiği aracı |
+| **Canlı Ziyaretçi Haritası** (Phase 18 #117) | Kurumsal gerçek zamanlı analytics |
+| **Davranış Funnel (Sankey Diagramı)** (Phase 21 #162) | Ürün analitiği platformu (Mixpanel türevi) |
+| **İçerik İzleme Pikseli (Tracking Pixel)** (Phase 22 #196) | E-posta pazarlama analitiği |
+| **Yavaş Sorgu İzleyici (Slow Query Monitor)** (Phase 23 #211) | DevOps / APM aracı (Datadog türevi), CMS özelliği değil |
+| **Log Canlı Akışı (Admin Log Stream)** (Phase 20 #146) | DevOps / platform operasyon aracı |
+
+---
+
+### 11.5 Kurumsal Altyapı
+
+| Özellik | Neden Fazla |
+|---------|-------------|
+| **BullMQ + Redis kuyruk sistemi** | Kişisel ölçekte `setImmediate` veya basit cron yeterli; BullMQ kurumsal iş yükü içindir |
+| **3 paralel Object Storage soyutlaması** (S3 + R2 + MinIO) | Kişisel CMS tek bir depolama hizmeti kullanır |
+| **Redis tıklama buffer + 5 dakikalık batch flush** | Kısa link ürünü altyapısı; kişisel CMS'de bu trafik hacmi gerçekçi değil |
+| **Eş Zamanlı Düzenleme (Co-editing, CRDT)** (Phase 19 #121) | Google Docs düzeyinde karmaşıklık; tek yazar CMS'de birden fazla editör yoktur |
+| **Düzenleme Kilidi / Mutex (Edit Lock)** (Phase 16 #63) | Çok editörlü kurumsal CMS özelliği |
+
+---
+
+### 11.6 Platform / Topluluk Özellikleri
+
+| Özellik | Neden Fazla |
+|---------|-------------|
+| **Topluluk Çeviri Katkısı** (Phase 19 #122) | Kalabalık yazar topluluğu olan platformlar içindir (Wikipedia, Crowdin modeli) |
+| **Coğrafi Kısıtlı İçerik (Geo-gated Posts)** (Phase 19 #129) | Medya şirketi / yayın lisanslama ihtiyacı |
+| **Canlı Blog (Live Blog)** (Phase 18 #101) | Haber medyası özelliği |
+| **oEmbed Sağlayıcısı** (Phase 18 #105) | Kendisi gömülebilen içerik platformu; kişisel blog gömülen değil, gömen taraf olur |
+| **Geçici / Ephemeral Post (Story Formatı)** (Phase 18 #103) | Sosyal medya özelliği (Instagram Stories türevi) |
+| **İnteraktif Kod Oyun Alanı (Code Playground)** (Phase 18 #107) | Geliştirici araçları platformu (CodeSandbox türevi ek özellik) |
+| **Dijital İmza / Blokzincir Zaman Damgası** (Phase 21 #161) | Hukuki / kurumsal içerik doğrulama; kişisel blogda pratik kullanım yok |
+| **Şablon Pazaryeri** (Phase 20 #153) | Ekosistem platformu; tek kişilik CMS'de pazar yeri işlevselliği anlamsız |
+| **Ekip İçi Mention / Internal Thread** (Phase 23 #214) | Çok kişili editör ekibi olan kurumsal CMS |
+| **Liderlik Tablosu (Leaderboard)** (Phase 21 #174) | Yazar topluluğu platformu |
+
+---
+
+### 11.7 Fazla Mühendislik / Gereksiz Karmaşıklık (Kişisel Blog Ölçeğinde)
+
+| Özellik | Neden Fazla |
+|---------|-------------|
+| **İçerik A/B Testi** (Phase 14 #2) | Kişisel blogda istatistiksel anlamlılık için trafik yok |
+| **Okuma Hedefleri / Streak Sistemi** (Phase 17 #98) | Okuma uygulaması özelliği (Kindle, Goodreads türevi) |
+| **Okuyucu Rozet / Başarım Sistemi** (Phase 14 #26 referansı) | Oyunlaştırma katmanı; platform ürünü |
+| **Mevsimsel Site Teması (CronService ile otomatik)** (Phase 19 #138) | Dekorasyon; CronService ile CSS class değiştirmek aşırı mühendislik |
+| **Tarayıcı Sekmesi Canlı Sayaç (Tab Title Pulse)** (Phase 20 #150) | Mikro-deneyim; kişisel içerik sitesinde gereksiz |
+| **İçerik Dondurma (Content Freeze)** (Phase 20 #155) | Yalnızca yasal zorunluluklu büyük editoryal organizasyonlarda gerekli |
+| **Kariyer / Yetenek Haritası (Competency Map)** (Phase 23 #212) | Öğrenme yönetim sistemi (LMS) özelliği |
+| **Okuyucu Davranış Funnel Görselleştirici** (Phase 21 #162) | Bkz. §11.4 |
+| **Çok Dilli Otomatik Sosyal Görsel Üretici (OG Image)** (Phase 20 #156) | Kısmen geçerli, ancak Vercel OG + basit şablon yeterli; tam servis overkill |
+| **RSS Aggregator (Dış kaynaklardan otomatik içerik çekme)** (Phase 23 #207) | İçerik küratörlüğü platformu; kişisel blog orijinal içerik üretir |
