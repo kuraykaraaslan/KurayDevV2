@@ -170,7 +170,10 @@
     "status": "Status",
     "type_message": "Nachricht eingeben...",
     "view": "Ansehen",
-    "view_all": "Alle ansehen"
+    "view_all": "Alle ansehen",
+    "breadcrumb": "Brotkrumen",
+    "clear_selection": "Auswahl löschen",
+    "go_to_homepage": "Zur Startseite"
   },
   "pages": {
     "hero": {
@@ -847,7 +850,8 @@
       "overview": "Übersicht",
       "scheduling": "Planung",
       "short_links": "Kurzlinks",
-      "system": "System"
+      "system": "System",
+      "admin_navigation": "Admin-Navigation"
     },
     "notifications": {
       "all_caught_up": "Alles erledigt!",
@@ -1123,7 +1127,9 @@
       "yesterday": "Gestern"
     },
     "toc": {
-      "title": "Inhaltsverzeichnis"
+      "title": "Inhaltsverzeichnis",
+      "aria_label": "Inhaltsverzeichnis",
+      "toggle": "Inhaltsverzeichnis umschalten"
     },
     "chat_on_whatsapp": "Chat auf WhatsApp",
     "open_ai_assistant": "Open AI-Assistent",

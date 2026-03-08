@@ -424,7 +424,8 @@
       "overview": "Yleiskatsaus",
       "scheduling": "Aikataulutus",
       "short_links": "Lyhyet linkit",
-      "system": "Järjestelmä"
+      "system": "Järjestelmä",
+      "admin_navigation": "Ylläpidon navigointi"
     },
     "notifications": {
       "all_caught_up": "Kaikki ajan tasalla!",
@@ -690,7 +691,10 @@
     "status": "Tila",
     "type_message": "Kirjoita viesti...",
     "view": "Katso",
-    "view_all": "Näytä kaikki"
+    "view_all": "Näytä kaikki",
+    "breadcrumb": "Navigointipolku",
+    "clear_selection": "Tyhjennä valinta",
+    "go_to_homepage": "Siirry etusivulle"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Eilen"
     },
     "toc": {
-      "title": "Sisällysluettelo"
+      "title": "Sisällysluettelo",
+      "aria_label": "Sisällysluettelo",
+      "toggle": "Vaihda sisällysluetteloa"
     },
     "chat_on_whatsapp": "Keskustele WhatsAppissa",
     "open_ai_assistant": "Avaa AI-avustaja",

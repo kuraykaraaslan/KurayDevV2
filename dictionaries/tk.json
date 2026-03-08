@@ -424,7 +424,8 @@
       "overview": "Syn",
       "scheduling": "Meýilleşdiriş",
       "short_links": "Gysga Baglanyşyklar",
-      "system": "Ulgam"
+      "system": "Ulgam",
+      "admin_navigation": "Admin nawigasiýasy"
     },
     "notifications": {
       "all_caught_up": "Hemmesi ýerine ýetirildi!",
@@ -690,7 +691,10 @@
     "status": "Status",
     "type_message": "Habar ýazyň...",
     "view": "Gör",
-    "view_all": "Hemmesini gör"
+    "view_all": "Hemmesini gör",
+    "breadcrumb": "Ýol görkeziji",
+    "clear_selection": "Saýlawy arassala",
+    "go_to_homepage": "Baş sahypa git"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Düýn"
     },
     "toc": {
-      "title": "Mazmuny"
+      "title": "Mazmuny",
+      "aria_label": "Mazmunyň tablisasy",
+      "toggle": "Mazmunyň tablisasy aç/ýap"
     },
     "chat_on_whatsapp": "WhatsApp-da Çat",
     "open_ai_assistant": "AI kömekçisi aç",

@@ -170,7 +170,10 @@
     "status": "Staatus",
     "type_message": "Sisesta sõnum...",
     "view": "Vaata",
-    "view_all": "Vaata kõiki"
+    "view_all": "Vaata kõiki",
+    "breadcrumb": "Leivapuru",
+    "clear_selection": "Tühjenda valik",
+    "go_to_homepage": "Mine avalehele"
   },
   "pages": {
     "hero": {
@@ -362,7 +365,9 @@
     "scroll_to_top": "Keri üles",
     "scroll_to_bottom": "Keri alla",
     "toc": {
-      "title": "Sisukord"
+      "title": "Sisukord",
+      "aria_label": "Sisukord",
+      "toggle": "Lülita sisukorda"
     },
     "chat_on_whatsapp": "Vestle WhatsAppis",
     "open_ai_assistant": "Ava AI assistent",
@@ -1163,7 +1168,8 @@
       "overview": "Ülevaade",
       "scheduling": "Ajastamine",
       "short_links": "Lühilingid",
-      "system": "Süsteem"
+      "system": "Süsteem",
+      "admin_navigation": "Admini navigeerimine"
     },
     "notifications": {
       "all_caught_up": "Kõik on korras!",

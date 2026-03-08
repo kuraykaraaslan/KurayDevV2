@@ -170,7 +170,10 @@
     "status": "Status",
     "type_message": "Typ een bericht...",
     "view": "Bekijken",
-    "view_all": "Alles bekijken"
+    "view_all": "Alles bekijken",
+    "breadcrumb": "Broodkruimel",
+    "clear_selection": "Selectie wissen",
+    "go_to_homepage": "Ga naar de homepage"
   },
   "pages": {
     "hero": {
@@ -362,7 +365,9 @@
       "title_3d": "3D Knowledge Graph"
     },
     "toc": {
-      "title": "Inhoudsopgave"
+      "title": "Inhoudsopgave",
+      "aria_label": "Inhoudsopgave",
+      "toggle": "Inhoudsopgave wisselen"
     },
     "chat_on_whatsapp": "Chat op WhatsApp",
     "open_ai_assistant": "Open AI-assistent",
@@ -1091,7 +1096,8 @@
       "overview": "Overzicht",
       "scheduling": "Planning",
       "short_links": "Korte links",
-      "system": "Systeem"
+      "system": "Systeem",
+      "admin_navigation": "Beheer navigatie"
     },
     "notifications": {
       "all_caught_up": "Alles bijgewerkt!",

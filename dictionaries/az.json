@@ -424,7 +424,8 @@
       "overview": "İcmal",
       "scheduling": "Planlaşdırma",
       "short_links": "Qısa Keçidlər",
-      "system": "Sistem"
+      "system": "Sistem",
+      "admin_navigation": "Admin naviqasiyası"
     },
     "notifications": {
       "all_caught_up": "Hamısı tamamlandı!",
@@ -690,7 +691,10 @@
     "status": "Status",
     "type_message": "Mesaj yazın...",
     "view": "Bax",
-    "view_all": "Hamısına bax"
+    "view_all": "Hamısına bax",
+    "breadcrumb": "Navigasiya izi",
+    "clear_selection": "Seçimi təmizlə",
+    "go_to_homepage": "Ana səhifəyə get"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Dünən"
     },
     "toc": {
-      "title": "Mündəricat"
+      "title": "Mündəricat",
+      "aria_label": "Mündəricat",
+      "toggle": "Mündəricatı dəyiş"
     },
     "chat_on_whatsapp": "WhatsApp-da Çat",
     "open_ai_assistant": "AI köməkçisini aç",

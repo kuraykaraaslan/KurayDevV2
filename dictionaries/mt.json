@@ -170,7 +170,10 @@
     "status": "Status",
     "type_message": "Ittajpja messaġġ...",
     "view": "Ara",
-    "view_all": "Ara kollox"
+    "view_all": "Ara kollox",
+    "breadcrumb": "Traċċa tal-ħobż",
+    "clear_selection": "Ċara l-għażla",
+    "go_to_homepage": "Mur fil-paġna ewlenija"
   },
   "pages": {
     "hero": {
@@ -362,7 +365,9 @@
       "title_3d": "Grafu tal-Għarfien 3D"
     },
     "toc": {
-      "title": "Tabella tal-Kontenut"
+      "title": "Tabella tal-Kontenut",
+      "aria_label": "Tabella tal-kontenut",
+      "toggle": "Biddel it-Tabella tal-Kontenut"
     },
     "chat_on_whatsapp": "Chat fuq WhatsApp",
     "open_ai_assistant": "Iftaħ assistent AI",
@@ -1091,7 +1096,8 @@
       "overview": "Ħarsa ġenerali",
       "scheduling": "Skedar",
       "short_links": "Ħoloq Qosra",
-      "system": "Sistema"
+      "system": "Sistema",
+      "admin_navigation": "Navigazzjoni tal-amministratur"
     },
     "notifications": {
       "all_caught_up": "Kollox aġġornat!",

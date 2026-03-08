@@ -424,7 +424,8 @@
       "overview": "Panoramica",
       "scheduling": "Pianificazione",
       "short_links": "Link brevi",
-      "system": "Sistema"
+      "system": "Sistema",
+      "admin_navigation": "Navigazione admin"
     },
     "notifications": {
       "all_caught_up": "Tutto aggiornato!",
@@ -690,7 +691,10 @@
     "status": "Stato",
     "type_message": "Scrivi un messaggio...",
     "view": "Visualizza",
-    "view_all": "Visualizza tutto"
+    "view_all": "Visualizza tutto",
+    "breadcrumb": "Percorso",
+    "clear_selection": "Cancella selezione",
+    "go_to_homepage": "Vai alla homepage"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Ieri"
     },
     "toc": {
-      "title": "Indice"
+      "title": "Indice",
+      "aria_label": "Indice",
+      "toggle": "Attiva/Disattiva Indice"
     },
     "chat_on_whatsapp": "Chatta su WhatsApp",
     "open_ai_assistant": "Apri assistente AI",

@@ -170,7 +170,10 @@
     "status": "สถานะ",
     "type_message": "พิมพ์ข้อความ...",
     "view": "ดู",
-    "view_all": "ดูทั้งหมด"
+    "view_all": "ดูทั้งหมด",
+    "breadcrumb": "แถบเส้นทาง",
+    "clear_selection": "ล้างการเลือก",
+    "go_to_homepage": "ไปที่หน้าแรก"
   },
   "pages": {
     "hero": {
@@ -362,7 +365,9 @@
       "title_3d": "กราฟความรู้ 3D"
     },
     "toc": {
-      "title": "สารบัญ"
+      "title": "สารบัญ",
+      "aria_label": "สารบัญ",
+      "toggle": "สลับสารบัญ"
     },
     "chat_on_whatsapp": "แชทบน WhatsApp",
     "open_ai_assistant": "เปิดผู้ช่วย AI",
@@ -1091,7 +1096,8 @@
       "overview": "ภาพรวม",
       "scheduling": "การจัดตารางเวลา",
       "short_links": "ลิงก์สั้น",
-      "system": "ระบบ"
+      "system": "ระบบ",
+      "admin_navigation": "การนำทางของผู้ดูแลระบบ"
     },
     "notifications": {
       "all_caught_up": "ตามทันทั้งหมดแล้ว!",

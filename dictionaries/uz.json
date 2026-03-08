@@ -424,7 +424,8 @@
       "overview": "Umumiy ko'rinish",
       "scheduling": "Rejalashtirish",
       "short_links": "Qisqa havolalar",
-      "system": "Tizim"
+      "system": "Tizim",
+      "admin_navigation": "Admin navigatsiyasi"
     },
     "notifications": {
       "all_caught_up": "Hammasi bajarildi!",
@@ -690,7 +691,10 @@
     "status": "Holat",
     "type_message": "Xabar yozing...",
     "view": "Ko'rish",
-    "view_all": "Hammasini ko'rish"
+    "view_all": "Hammasini ko'rish",
+    "breadcrumb": "Navigatsiya izi",
+    "clear_selection": "Tanlovni tozalash",
+    "go_to_homepage": "Bosh sahifaga o'tish"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Kecha"
     },
     "toc": {
-      "title": "Mundarija"
+      "title": "Mundarija",
+      "aria_label": "Mundarija",
+      "toggle": "Mundarijani almashtirish"
     },
     "chat_on_whatsapp": "WhatsApp'da suhbat",
     "open_ai_assistant": "AI yordamchisini ochish",

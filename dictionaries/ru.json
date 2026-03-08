@@ -424,7 +424,8 @@
       "overview": "Обзор",
       "scheduling": "Планирование",
       "short_links": "Короткие ссылки",
-      "system": "Система"
+      "system": "Система",
+      "admin_navigation": "Навигация администратора"
     },
     "notifications": {
       "all_caught_up": "Вы все успели!",
@@ -690,7 +691,10 @@
     "status": "Статус",
     "type_message": "Введите сообщение...",
     "view": "Просмотр",
-    "view_all": "Посмотреть все"
+    "view_all": "Посмотреть все",
+    "breadcrumb": "Навигационная цепочка",
+    "clear_selection": "Очистить выбор",
+    "go_to_homepage": "Перейти на главную страницу"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Вчера"
     },
     "toc": {
-      "title": "Содержание"
+      "title": "Содержание",
+      "aria_label": "Оглавление",
+      "toggle": "Переключить оглавление"
     },
     "chat_on_whatsapp": "Чат в WhatsApp",
     "open_ai_assistant": "Открыть AI ассистент",

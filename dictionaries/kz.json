@@ -424,7 +424,8 @@
       "overview": "Жалпы шолу",
       "scheduling": "Жоспарлау",
       "short_links": "Қысқа сілтемелер",
-      "system": "Жүйе"
+      "system": "Жүйе",
+      "admin_navigation": "Әкімшілік навигация"
     },
     "notifications": {
       "all_caught_up": "Барлығы орындалды!",
@@ -690,7 +691,10 @@
     "status": "Мәртебе",
     "type_message": "Хабарлама жазыңыз...",
     "view": "Көру",
-    "view_all": "Барлығын көру"
+    "view_all": "Барлығын көру",
+    "breadcrumb": "Навигация жолы",
+    "clear_selection": "Таңдауды тазалау",
+    "go_to_homepage": "Басты бетке өту"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Кеше"
     },
     "toc": {
-      "title": "Мазмұны"
+      "title": "Мазмұны",
+      "aria_label": "Мазмұндар кестесі",
+      "toggle": "Мазмұндар кестесін ауыстыру"
     },
     "chat_on_whatsapp": "WhatsApp-та сөйлесу",
     "open_ai_assistant": "AI көмекшісін ашу",

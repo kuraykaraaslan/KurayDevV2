@@ -424,7 +424,8 @@
       "overview": "概要",
       "scheduling": "スケジューリング",
       "short_links": "ショートリンク",
-      "system": "システム"
+      "system": "システム",
+      "admin_navigation": "管理者ナビゲーション"
     },
     "notifications": {
       "all_caught_up": "すべて完了しました！",
@@ -690,7 +691,10 @@
     "status": "ステータス",
     "type_message": "メッセージを入力...",
     "view": "表示",
-    "view_all": "すべて表示"
+    "view_all": "すべて表示",
+    "breadcrumb": "パンくずリスト",
+    "clear_selection": "選択をクリア",
+    "go_to_homepage": "ホームページへ移動"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "昨日"
     },
     "toc": {
-      "title": "目次"
+      "title": "目次",
+      "aria_label": "目次",
+      "toggle": "目次を切り替え"
     },
     "chat_on_whatsapp": "WhatsAppでチャット",
     "open_ai_assistant": "AIアシスタントを開く",

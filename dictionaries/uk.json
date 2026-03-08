@@ -170,7 +170,10 @@
     "status": "Статус",
     "type_message": "Введіть повідомлення...",
     "view": "Переглянути",
-    "view_all": "Переглянути всі"
+    "view_all": "Переглянути всі",
+    "breadcrumb": "Навігаційний ланцюжок",
+    "clear_selection": "Очистити вибір",
+    "go_to_homepage": "Перейти на головну сторінку"
   },
   "pages": {
     "hero": {
@@ -362,7 +365,9 @@
       "title_3d": "3D Граф знань"
     },
     "toc": {
-      "title": "Зміст"
+      "title": "Зміст",
+      "aria_label": "Зміст",
+      "toggle": "Перемкнути зміст"
     },
     "chat_on_whatsapp": "Чат у WhatsApp",
     "open_ai_assistant": "Відкрити AI помічника",
@@ -1091,7 +1096,8 @@
       "overview": "Огляд",
       "scheduling": "Планування",
       "short_links": "Короткі посилання",
-      "system": "Система"
+      "system": "Система",
+      "admin_navigation": "Навігація адміністратора"
     },
     "notifications": {
       "all_caught_up": "Все наздогнано!",

@@ -424,7 +424,8 @@
       "overview": "Aperçu",
       "scheduling": "Planification",
       "short_links": "Liens courts",
-      "system": "Système"
+      "system": "Système",
+      "admin_navigation": "Navigation admin"
     },
     "notifications": {
       "all_caught_up": "Tout est à jour !",
@@ -690,7 +691,10 @@
     "status": "Statut",
     "type_message": "Tapez un message...",
     "view": "Voir",
-    "view_all": "Voir tout"
+    "view_all": "Voir tout",
+    "breadcrumb": "Fil d'Ariane",
+    "clear_selection": "Effacer la sélection",
+    "go_to_homepage": "Aller à la page d'accueil"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Hier"
     },
     "toc": {
-      "title": "Table des matières"
+      "title": "Table des matières",
+      "aria_label": "Table des matières",
+      "toggle": "Basculer la table des matières"
     },
     "chat_on_whatsapp": "Discuter sur WhatsApp",
     "open_ai_assistant": "Assistant Open AI",

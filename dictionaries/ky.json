@@ -424,7 +424,8 @@
       "overview": "Жалпы көрүнүш",
       "scheduling": "Жолугушууларды пландоо",
       "short_links": "Кыска шилтемелер",
-      "system": "Система"
+      "system": "Система",
+      "admin_navigation": "Админ навигациясы"
     },
     "notifications": {
       "all_caught_up": "Бардыгы аткарылды!",
@@ -690,7 +691,10 @@
     "status": "Статус",
     "type_message": "Билдирүү жазыңыз...",
     "view": "Көрүү",
-    "view_all": "Баарын көрүү"
+    "view_all": "Баарын көрүү",
+    "breadcrumb": "Нан күкүмү",
+    "clear_selection": "Тандоону тазалоо",
+    "go_to_homepage": "Башкы бетке өтүү"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Кечээ"
     },
     "toc": {
-      "title": "Мазмундар таблицасы"
+      "title": "Мазмундар таблицасы",
+      "aria_label": "Мазмундар таблицасы",
+      "toggle": "Мазмундар таблицасын өзгөртүү"
     },
     "chat_on_whatsapp": "WhatsApp аркылуу баарлашуу",
     "open_ai_assistant": "AI жардамчысын ачуу",

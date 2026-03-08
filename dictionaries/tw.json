@@ -424,7 +424,8 @@
       "overview": "概覽",
       "scheduling": "排程",
       "short_links": "短鏈接",
-      "system": "系統"
+      "system": "系統",
+      "admin_navigation": "管理員導航"
     },
     "notifications": {
       "all_caught_up": "全部完成！",
@@ -690,7 +691,10 @@
     "status": "狀態",
     "type_message": "輸入訊息...",
     "view": "查看",
-    "view_all": "查看全部"
+    "view_all": "查看全部",
+    "breadcrumb": "麵包屑",
+    "clear_selection": "清除選擇",
+    "go_to_homepage": "前往首頁"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "昨天"
     },
     "toc": {
-      "title": "目錄"
+      "title": "目錄",
+      "aria_label": "目錄",
+      "toggle": "切換目錄"
     },
     "chat_on_whatsapp": "在 WhatsApp 上聊天",
     "open_ai_assistant": "開啟 AI 助理",

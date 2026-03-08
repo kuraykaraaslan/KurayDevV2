@@ -424,7 +424,8 @@
       "overview": "概览",
       "scheduling": "日程安排",
       "short_links": "短链接",
-      "system": "系统"
+      "system": "系统",
+      "admin_navigation": "管理员导航"
     },
     "notifications": {
       "all_caught_up": "全部完成！",
@@ -690,7 +691,10 @@
     "status": "状态",
     "type_message": "输入消息...",
     "view": "查看",
-    "view_all": "查看全部"
+    "view_all": "查看全部",
+    "breadcrumb": "面包屑导航",
+    "clear_selection": "清除选择",
+    "go_to_homepage": "返回主页"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "昨天"
     },
     "toc": {
-      "title": "目录"
+      "title": "目录",
+      "aria_label": "目录",
+      "toggle": "切换目录"
     },
     "chat_on_whatsapp": "在 WhatsApp 上聊天",
     "open_ai_assistant": "打开 AI 助手",

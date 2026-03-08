@@ -424,7 +424,8 @@
       "overview": "Resumen",
       "scheduling": "Programación",
       "short_links": "Enlaces cortos",
-      "system": "Sistema"
+      "system": "Sistema",
+      "admin_navigation": "Navegación de administrador"
     },
     "notifications": {
       "all_caught_up": "¡Todo al día!",
@@ -689,7 +690,10 @@
     "status": "Estado",
     "type_message": "Escribe un mensaje...",
     "view": "Ver",
-    "view_all": "Ver todo"
+    "view_all": "Ver todo",
+    "breadcrumb": "Ruta de navegación",
+    "clear_selection": "Borrar selección",
+    "go_to_homepage": "Ir a la página de inicio"
   },
   "errors": {
     "404": {
@@ -779,7 +783,9 @@
       "yesterday": "Ayer"
     },
     "toc": {
-      "title": "Tabla de Contenidos"
+      "title": "Tabla de Contenidos",
+      "aria_label": "Tabla de contenidos",
+      "toggle": "Alternar tabla de contenidos"
     },
     "chat_on_whatsapp": "Chatear en WhatsApp",
     "open_ai_assistant": "Abrir asistente de IA",

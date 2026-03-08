@@ -424,7 +424,8 @@
       "overview": "Күзәтү",
       "scheduling": "Вакыт билгеләү",
       "short_links": "Кыска сылтамалар",
-      "system": "Система"
+      "system": "Система",
+      "admin_navigation": "Админ навигациясе"
     },
     "notifications": {
       "all_caught_up": "Барлык эшләр башкарылды!",
@@ -690,7 +691,10 @@
     "status": "Хәл",
     "type_message": "Хәбәр язу...",
     "view": "Карау",
-    "view_all": "Барлыкны карау"
+    "view_all": "Барлыкны карау",
+    "breadcrumb": "Икмәк валчыгы",
+    "clear_selection": "Сайлаганны чистарту",
+    "go_to_homepage": "Баш биткә кайту"
   },
   "errors": {
     "404": {
@@ -780,7 +784,9 @@
       "yesterday": "Кичә"
     },
     "toc": {
-      "title": "Эчтәлек"
+      "title": "Эчтәлек",
+      "aria_label": "Эчтәлек таблицасы",
+      "toggle": "Эчтәлек таблицасын үзгәртү"
     },
     "chat_on_whatsapp": "WhatsApp аша сөйләшү",
     "open_ai_assistant": "AI ярдәмчесен ачу",

@@ -207,7 +207,10 @@
     "status": "الحالة",
     "type_message": "اكتب رسالة...",
     "view": "عرض",
-    "view_all": "عرض الكل"
+    "view_all": "عرض الكل",
+    "breadcrumb": "مسار التنقل",
+    "clear_selection": "مسح التحديد",
+    "go_to_homepage": "الذهاب إلى الصفحة الرئيسية"
   },
   "pages": {
     "hero": {
@@ -337,7 +340,9 @@
   },
   "frontend": {
     "toc": {
-      "title": "جدول المحتويات"
+      "title": "جدول المحتويات",
+      "aria_label": "جدول المحتويات",
+      "toggle": "تبديل جدول المحتويات"
     },
     "feed": {
       "other_posts": "مقالات أخرى",
@@ -1200,7 +1205,8 @@
       "overview": "نظرة عامة",
       "scheduling": "الجدولة",
       "short_links": "روابط قصيرة",
-      "system": "النظام"
+      "system": "النظام",
+      "admin_navigation": "التنقل الإداري"
     },
     "notifications": {
       "all_caught_up": "تم اللحاق بكل شيء!",

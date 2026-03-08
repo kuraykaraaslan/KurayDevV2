@@ -170,7 +170,10 @@
     "status": "סטטוס",
     "type_message": "הקלד הודעה...",
     "view": "צפה",
-    "view_all": "צפה בהכל"
+    "view_all": "צפה בהכל",
+    "breadcrumb": "שביל פירורים",
+    "clear_selection": "נקה בחירה",
+    "go_to_homepage": "עבור לדף הבית"
   },
   "pages": {
     "hero": {
@@ -300,7 +303,9 @@
   },
   "frontend": {
     "toc": {
-      "title": "תוכן עניינים"
+      "title": "תוכן עניינים",
+      "aria_label": "תוכן העניינים",
+      "toggle": "החלף תוכן עניינים"
     },
     "feed": {
       "other_posts": "פוסטים נוספים",
@@ -1163,7 +1168,8 @@
       "overview": "סקירה כללית",
       "scheduling": "תזמון",
       "short_links": "קישורים קצרים",
-      "system": "מערכת"
+      "system": "מערכת",
+      "admin_navigation": "ניווט מנהל"
     },
     "notifications": {
       "all_caught_up": "הכל מעודכן!",
