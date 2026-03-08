@@ -658,6 +658,26 @@
       "headline_line1": "Koodaa. Kirjoita.",
       "headline_line2": "Luo.",
       "tagline": "Kehittäjän henkilökohtainen nurkkaus — portfolio, blogi, projektit ja paljon muuta."
+    },
+    "passkey": {
+      "title": "Salasanat",
+      "register_button": "Lisää salasana",
+      "login_button": "Kirjaudu salasanalla",
+      "label_placeholder": "esim. MacBook Touch ID",
+      "register_success": "Salasana rekisteröity onnistuneesti.",
+      "register_failed": "Salasanan rekisteröinti epäonnistui.",
+      "auth_success": "Kirjauduttu salasanalla.",
+      "auth_failed": "Salasanatodennus epäonnistui.",
+      "delete_button": "Poista",
+      "delete_success": "Salasana poistettu.",
+      "delete_failed": "Salasanan poistaminen epäonnistui.",
+      "limit_reached": "Salasanojen enimmäismäärä saavutettu.",
+      "challenge_expired": "Salasanan haaste vanhentui. Yritä uudelleen.",
+      "not_supported": "Selaimesi ei tue salasanoja.",
+      "no_passkeys": "Ei rekisteröityjä salasanoja.",
+      "created_at": "Lisätty",
+      "last_used": "Viimeksi käytetty",
+      "manage_title": "Hallinnoi salasanoja"
     }
   },
   "common": {

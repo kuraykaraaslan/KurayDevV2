@@ -658,6 +658,26 @@
       "headline_line1": "コードを書く。",
       "headline_line2": "創造する。",
       "tagline": "開発者の個人的なコーナー — ポートフォリオ、ブログ、プロジェクトなど。"
+    },
+    "passkey": {
+      "title": "パスキー",
+      "register_button": "パスキーを追加",
+      "login_button": "パスキーでログイン",
+      "label_placeholder": "例: MacBook Touch ID",
+      "register_success": "パスキーを登録しました。",
+      "register_failed": "パスキーの登録に失敗しました。",
+      "auth_success": "パスキーでログインしました。",
+      "auth_failed": "パスキー認証に失敗しました。",
+      "delete_button": "削除",
+      "delete_success": "パスキーを削除しました。",
+      "delete_failed": "パスキーの削除に失敗しました。",
+      "limit_reached": "登録できるパスキーの上限に達しました。",
+      "challenge_expired": "パスキーのチャレンジが期限切れです。もう一度お試しください。",
+      "not_supported": "お使いのブラウザはパスキーに対応していません。",
+      "no_passkeys": "まだパスキーが登録されていません。",
+      "created_at": "追加日",
+      "last_used": "最終使用",
+      "manage_title": "パスキーを管理"
     }
   },
   "common": {

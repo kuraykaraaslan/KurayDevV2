@@ -658,6 +658,26 @@
       "headline_line1": "Kod. Yozing.",
       "headline_line2": "Yaratish.",
       "tagline": "Dasturchining shaxsiy burchagi — portfel, blog, loyihalar va boshqalar."
+    },
+    "passkey": {
+      "title": "Passkey",
+      "register_button": "Passkey qo'shish",
+      "login_button": "Passkey bilan kirish",
+      "label_placeholder": "masalan. MacBook Touch ID",
+      "register_success": "Passkey muvaffaqiyatli ro'yxatdan o'tdi.",
+      "register_failed": "Passkey ro'yxatdan o'tkazilmadi.",
+      "auth_success": "Passkey bilan kirildi.",
+      "auth_failed": "Passkey autentifikatsiyasi muvaffaqiyatsiz bo'ldi.",
+      "delete_button": "O'chirish",
+      "delete_success": "Passkey o'chirildi.",
+      "delete_failed": "Passkey o'chirib bo'lmadi.",
+      "limit_reached": "Maksimal passkey soniga yetildi.",
+      "challenge_expired": "Passkey muddati tugadi. Qayta urinib ko'ring.",
+      "not_supported": "Brauzeringiz passkey-ni qo'llab-quvvatlamaydi.",
+      "no_passkeys": "Hali passkey ro'yxatdan o'tkazilmagan.",
+      "created_at": "Qo'shildi",
+      "last_used": "Oxirgi foydalanish",
+      "manage_title": "Passkey-larni boshqarish"
     }
   },
   "common": {

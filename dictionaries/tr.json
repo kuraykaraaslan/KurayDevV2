@@ -768,6 +768,26 @@
       "headline_line1": "Kod. Yaz.",
       "headline_line2": "Yarat.",
       "tagline": "Bir geliştiricinin kişisel köşesi — portföy, blog, projeler ve daha fazlası."
+    },
+    "passkey": {
+      "title": "Passkey'ler",
+      "register_button": "Passkey Ekle",
+      "login_button": "Passkey ile Giriş Yap",
+      "label_placeholder": "ör. MacBook Touch ID",
+      "register_success": "Passkey başarıyla kaydedildi.",
+      "register_failed": "Passkey kaydedilemedi.",
+      "auth_success": "Passkey ile giriş yapıldı.",
+      "auth_failed": "Passkey kimlik doğrulaması başarısız.",
+      "delete_button": "Kaldır",
+      "delete_success": "Passkey kaldırıldı.",
+      "delete_failed": "Passkey kaldırılamadı.",
+      "limit_reached": "Maksimum passkey sayısına ulaşıldı.",
+      "challenge_expired": "Passkey süresi doldu. Lütfen tekrar deneyin.",
+      "not_supported": "Tarayıcınız passkey desteklemiyor.",
+      "no_passkeys": "Henüz kayıtlı passkey yok.",
+      "created_at": "Eklenme tarihi",
+      "last_used": "Son kullanım",
+      "manage_title": "Passkey'leri Yönet"
     }
   },
   "admin": {

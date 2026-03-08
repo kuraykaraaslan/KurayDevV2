@@ -74,3 +74,16 @@ export const OTP_CODE_KEY = (sessionId: string, method: string, action: string) 
 export const TOTP_KEY = (action: string, sessionId: string) => `auth:totp:${action}:${sessionId}`
 export const RESET_PASSWORD_KEY = (email: string) => `auth:reset-password:${email.toLowerCase()}`
 export const RESET_PASSWORD_RATE_KEY = (email: string) => `auth:reset-password-rate:${email.toLowerCase()}`
+
+// ── WebAuthn / Passkey constants ────────────────────────────────────────────
+/** Redis key for pending registration challenge (expires in 5 minutes). */
+export const PASSKEY_REG_CHALLENGE_KEY = (userId: string) => `auth:passkey:reg:${userId}`
+/** Redis key for pending authentication challenge (expires in 5 minutes). */
+export const PASSKEY_AUTH_CHALLENGE_KEY = (userId: string) => `auth:passkey:auth:${userId}`
+/** Redis key for auth challenge keyed by email before userId is resolved. */
+export const PASSKEY_EMAIL_CHALLENGE_KEY = (email: string) => `auth:passkey:auth-email:${email.toLowerCase()}`
+/** Challenge TTL in seconds. */
+export const PASSKEY_CHALLENGE_TTL_SECONDS = 300
+/** Maximum passkeys per user. */
+export const PASSKEY_MAX_PER_USER = 10
+

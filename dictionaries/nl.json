@@ -1349,6 +1349,26 @@
       "headline_line1": "Code. Schrijf.",
       "headline_line2": "Creëer.",
       "tagline": "Persoonlijke hoek van een ontwikkelaar — portfolio, blog, projecten en meer."
+    },
+    "passkey": {
+      "title": "Passkeys",
+      "register_button": "Passkey toevoegen",
+      "login_button": "Inloggen met passkey",
+      "label_placeholder": "bijv. MacBook Touch ID",
+      "register_success": "Passkey succesvol geregistreerd.",
+      "register_failed": "Passkey registratie mislukt.",
+      "auth_success": "Ingelogd met passkey.",
+      "auth_failed": "Passkey authenticatie mislukt.",
+      "delete_button": "Verwijderen",
+      "delete_success": "Passkey verwijderd.",
+      "delete_failed": "Passkey verwijderen mislukt.",
+      "limit_reached": "Maximaal aantal passkeys bereikt.",
+      "challenge_expired": "Passkey uitdaging verlopen. Probeer opnieuw.",
+      "not_supported": "Uw browser ondersteunt geen passkeys.",
+      "no_passkeys": "Nog geen passkeys geregistreerd.",
+      "created_at": "Toegevoegd op",
+      "last_used": "Laatst gebruikt",
+      "manage_title": "Passkeys beheren"
     }
   },
   "navbar": {

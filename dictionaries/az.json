@@ -658,6 +658,26 @@
       "headline_line1": "Kod. Yaz.",
       "headline_line2": "Yarat.",
       "tagline": "İnkişaf etdiricinin şəxsi küncü — portfel, bloq, layihələr və daha çox."
+    },
+    "passkey": {
+      "title": "Passkey-lər",
+      "register_button": "Passkey əlavə et",
+      "login_button": "Passkey ilə daxil ol",
+      "label_placeholder": "məs. MacBook Touch ID",
+      "register_success": "Passkey uğurla qeydiyyatdan keçdi.",
+      "register_failed": "Passkey qeydiyyatı alınmadı.",
+      "auth_success": "Passkey ilə daxil olundu.",
+      "auth_failed": "Passkey doğrulaması uğursuz oldu.",
+      "delete_button": "Sil",
+      "delete_success": "Passkey silindi.",
+      "delete_failed": "Passkey silinmədi.",
+      "limit_reached": "Maksimum passkey sayına çatıldı.",
+      "challenge_expired": "Passkey müddəti bitdi. Yenidən cəhd edin.",
+      "not_supported": "Brauzeriniz passkey-ləri dəstəkləmir.",
+      "no_passkeys": "Hələ passkey qeydiyyatdan keçməyib.",
+      "created_at": "Əlavə edildi",
+      "last_used": "Son istifadə",
+      "manage_title": "Passkey-ləri idarə et"
     }
   },
   "common": {

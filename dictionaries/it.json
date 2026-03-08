@@ -658,6 +658,26 @@
       "headline_line1": "Codice. Scrivi.",
       "headline_line2": "Crea.",
       "tagline": "Angolo personale di uno sviluppatore — portfolio, blog, progetti e altro."
+    },
+    "passkey": {
+      "title": "Passkey",
+      "register_button": "Aggiungi una passkey",
+      "login_button": "Accedi con passkey",
+      "label_placeholder": "es. MacBook Touch ID",
+      "register_success": "Passkey registrata con successo.",
+      "register_failed": "Registrazione passkey non riuscita.",
+      "auth_success": "Accesso effettuato con passkey.",
+      "auth_failed": "Autenticazione passkey non riuscita.",
+      "delete_button": "Rimuovi",
+      "delete_success": "Passkey rimossa.",
+      "delete_failed": "Impossibile rimuovere la passkey.",
+      "limit_reached": "Numero massimo di passkey raggiunto.",
+      "challenge_expired": "Sfida passkey scaduta. Riprova.",
+      "not_supported": "Il tuo browser non supporta le passkey.",
+      "no_passkeys": "Nessuna passkey registrata.",
+      "created_at": "Aggiunta il",
+      "last_used": "Ultimo utilizzo",
+      "manage_title": "Gestisci passkey"
     }
   },
   "common": {

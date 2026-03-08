@@ -797,6 +797,26 @@
       "headline_line1": "كود. اكتب.",
       "headline_line2": "أنشئ.",
       "tagline": "ركن شخصي للمطور — معرض أعمال، مدونة، مشاريع والمزيد."
+    },
+    "passkey": {
+      "title": "مفاتيح المرور",
+      "register_button": "إضافة مفتاح مرور",
+      "login_button": "تسجيل الدخول بمفتاح مرور",
+      "label_placeholder": "مثال: MacBook Touch ID",
+      "register_success": "تم تسجيل مفتاح المرور بنجاح.",
+      "register_failed": "فشل تسجيل مفتاح المرور.",
+      "auth_success": "تم تسجيل الدخول بمفتاح المرور.",
+      "auth_failed": "فشل التحقق بمفتاح المرور.",
+      "delete_button": "إزالة",
+      "delete_success": "تمت إزالة مفتاح المرور.",
+      "delete_failed": "فشل حذف مفتاح المرور.",
+      "limit_reached": "تم الوصول للحد الأقصى من مفاتيح المرور.",
+      "challenge_expired": "انتهت صلاحية التحدي. يرجى المحاولة مجدداً.",
+      "not_supported": "متصفحك لا يدعم مفاتيح المرور.",
+      "no_passkeys": "لا توجد مفاتيح مرور مسجلة بعد.",
+      "created_at": "أُضيف في",
+      "last_used": "آخر استخدام",
+      "manage_title": "إدارة مفاتيح المرور"
     }
   },
   "admin": {

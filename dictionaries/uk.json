@@ -1349,6 +1349,26 @@
       "headline_line1": "Кодуй. Пиши.",
       "headline_line2": "Створюй.",
       "tagline": "Особистий куточок розробника — портфоліо, блог, проекти та інше."
+    },
+    "passkey": {
+      "title": "Passkey",
+      "register_button": "Додати passkey",
+      "login_button": "Увійти з passkey",
+      "label_placeholder": "напр. MacBook Touch ID",
+      "register_success": "Passkey успішно зареєстровано.",
+      "register_failed": "Не вдалося зареєструвати passkey.",
+      "auth_success": "Вхід виконано за допомогою passkey.",
+      "auth_failed": "Помилка автентифікації passkey.",
+      "delete_button": "Видалити",
+      "delete_success": "Passkey видалено.",
+      "delete_failed": "Не вдалося видалити passkey.",
+      "limit_reached": "Досягнуто максимальну кількість passkey.",
+      "challenge_expired": "Термін дії passkey минув. Спробуйте ще.",
+      "not_supported": "Ваш браузер не підтримує passkey.",
+      "no_passkeys": "Passkey ще не зареєстровано.",
+      "created_at": "Додано",
+      "last_used": "Останнє використання",
+      "manage_title": "Керування passkey"
     }
   },
   "navbar": {

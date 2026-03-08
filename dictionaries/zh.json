@@ -658,6 +658,26 @@
       "headline_line1": "编码。写作。",
       "headline_line2": "创造。",
       "tagline": "开发者的个人角落——作品集、博客、项目等。"
+    },
+    "passkey": {
+      "title": "通行密钥",
+      "register_button": "添加通行密钥",
+      "login_button": "使用通行密钥登录",
+      "label_placeholder": "例如：MacBook Touch ID",
+      "register_success": "通行密钥注册成功。",
+      "register_failed": "通行密钥注册失败。",
+      "auth_success": "已通过通行密钥登录。",
+      "auth_failed": "通行密钥验证失败。",
+      "delete_button": "移除",
+      "delete_success": "通行密钥已移除。",
+      "delete_failed": "移除通行密钥失败。",
+      "limit_reached": "已达到通行密钥数量上限。",
+      "challenge_expired": "通行密钥挑战已过期，请重试。",
+      "not_supported": "您的浏览器不支持通行密钥。",
+      "no_passkeys": "尚无已注册的通行密钥。",
+      "created_at": "添加于",
+      "last_used": "最后使用",
+      "manage_title": "管理通行密钥"
     }
   },
   "common": {

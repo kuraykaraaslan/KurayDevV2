@@ -658,6 +658,26 @@
       "headline_line1": "Код. Жазыңыз.",
       "headline_line2": "Жасаңыз.",
       "tagline": "Әзірлеушінің жеке бұрышы — портфолио, блог, жобалар және тағы басқалар."
+    },
+    "passkey": {
+      "title": "Passkey",
+      "register_button": "Passkey қосу",
+      "login_button": "Passkey арқылы кіру",
+      "label_placeholder": "мыс. MacBook Touch ID",
+      "register_success": "Passkey сәтті тіркелді.",
+      "register_failed": "Passkey тіркелмеді.",
+      "auth_success": "Passkey арқылы кірдіңіз.",
+      "auth_failed": "Passkey аутентификациясы сәтсіз болды.",
+      "delete_button": "Жою",
+      "delete_success": "Passkey жойылды.",
+      "delete_failed": "Passkey жою сәтсіз болды.",
+      "limit_reached": "Максималды passkey санына жетті.",
+      "challenge_expired": "Passkey мерзімі өтіп кетті. Қайталап көріңіз.",
+      "not_supported": "Браузеріңіз passkey желісін қолдамайды.",
+      "no_passkeys": "Passkey тіркелмеген.",
+      "created_at": "Қосылды",
+      "last_used": "Соңғы пайдаланылуы",
+      "manage_title": "Passkey-ді басқару"
     }
   },
   "common": {

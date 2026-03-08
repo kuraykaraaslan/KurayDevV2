@@ -658,6 +658,26 @@
       "headline_line1": "Код. Яз.",
       "headline_line2": "Булдыр.",
       "tagline": "Эшләүченең шәхси почмагы — портфолио, блог, проектлар һәм башка."
+    },
+    "passkey": {
+      "title": "Passkey",
+      "register_button": "Passkey өстерү",
+      "login_button": "Passkey белән керү",
+      "label_placeholder": "мәс. MacBook Touch ID",
+      "register_success": "Passkey уңышлы теркәлде.",
+      "register_failed": "Passkey теркәлмәде.",
+      "auth_success": "Passkey белән кердегез.",
+      "auth_failed": "Passkey аутентификациясе уңышсыз булды.",
+      "delete_button": "Бетерү",
+      "delete_success": "Passkey бетерелде.",
+      "delete_failed": "Passkey бетерелмәде.",
+      "limit_reached": "Максималь passkey санына ирештегез.",
+      "challenge_expired": "Passkey вакыты үтте. Кабат сынап карагыз.",
+      "not_supported": "Браузерыгыз passkey-не ярдәм итми.",
+      "no_passkeys": "Passkey теркәлмәгән.",
+      "created_at": "Өстәлде",
+      "last_used": "Соңгы куллану",
+      "manage_title": "Passkey-ны идарә итү"
     }
   },
   "common": {

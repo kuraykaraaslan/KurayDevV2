@@ -760,6 +760,26 @@
       "headline_line1": "קוד. כתוב.",
       "headline_line2": "צור.",
       "tagline": "הפינה האישית של מפתח — תיק עבודות, בלוג, פרויקטים ועוד."
+    },
+    "passkey": {
+      "title": "מפתחות מעבר",
+      "register_button": "הוסף מפתח מעבר",
+      "login_button": "התחבר עם מפתח מעבר",
+      "label_placeholder": "לדוגמה: MacBook Touch ID",
+      "register_success": "מפתח המעבר נרשם בהצלחה.",
+      "register_failed": "רישום מפתח המעבר נכשל.",
+      "auth_success": "התחברת עם מפתח מעבר.",
+      "auth_failed": "אימות מפתח המעבר נכשל.",
+      "delete_button": "הסר",
+      "delete_success": "מפתח המעבר הוסר.",
+      "delete_failed": "הסרת מפתח המעבר נכשלה.",
+      "limit_reached": "הגעת למספר המקסימלי של מפתחות מעבר.",
+      "challenge_expired": "אתגר מפתח המעבר פג תוקף. נסה שוב.",
+      "not_supported": "הדפדפן שלך אינו תומך במפתחות מעבר.",
+      "no_passkeys": "לא נרשמו מפתחות מעבר.",
+      "created_at": "נוסף ב",
+      "last_used": "שימוש אחרון",
+      "manage_title": "נהל מפתחות מעבר"
     }
   },
   "admin": {

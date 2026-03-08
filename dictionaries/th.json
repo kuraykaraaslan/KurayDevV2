@@ -1349,6 +1349,26 @@
       "headline_line1": "เขียนโค้ด. เขียน.",
       "headline_line2": "สร้างสรรค์.",
       "tagline": "มุมส่วนตัวของนักพัฒนา — พอร์ตโฟลิโอ, บล็อก, โครงการ และอื่น ๆ"
+    },
+    "passkey": {
+      "title": "พาสคีย์",
+      "register_button": "เพิ่มพาสคีย์",
+      "login_button": "เข้าสู่ระบบด้วยพาสคีย์",
+      "label_placeholder": "เช่น MacBook Touch ID",
+      "register_success": "ลงทะเบียนพาสคีย์สำเร็จ",
+      "register_failed": "ลงทะเบียนพาสคีย์ล้มเหลว",
+      "auth_success": "เข้าสู่ระบบด้วยพาสคีย์แล้ว",
+      "auth_failed": "การยืนยันพาสคีย์ล้มเหลว",
+      "delete_button": "ลบ",
+      "delete_success": "ลบพาสคีย์แล้ว",
+      "delete_failed": "ลบพาสคีย์ล้มเหลว",
+      "limit_reached": "ถึงจำนวนพาสคีย์สูงสุดแล้ว",
+      "challenge_expired": "พาสคีย์หมดอายุ กรุณาลองใหม่",
+      "not_supported": "เบราว์เซอร์ของคุณไม่รองรับพาสคีย์",
+      "no_passkeys": "ยังไม่มีพาสคีย์ที่ลงทะเบียน",
+      "created_at": "เพิ่มเมื่อ",
+      "last_used": "ใช้ล่าสุด",
+      "manage_title": "จัดการพาสคีย์"
     }
   },
   "navbar": {

@@ -658,6 +658,26 @@
       "headline_line1": "編碼。寫作。",
       "headline_line2": "創造。",
       "tagline": "開發者的個人角落——作品集、博客、項目等。"
+    },
+    "passkey": {
+      "title": "通行密鑰",
+      "register_button": "新增通行密鑰",
+      "login_button": "使用通行密鑰登入",
+      "label_placeholder": "例如：MacBook Touch ID",
+      "register_success": "通行密鑰註冊成功。",
+      "register_failed": "通行密鑰註冊失敗。",
+      "auth_success": "已使用通行密鑰登入。",
+      "auth_failed": "通行密鑰驗證失敗。",
+      "delete_button": "移除",
+      "delete_success": "通行密鑰已移除。",
+      "delete_failed": "移除通行密鑰失敗。",
+      "limit_reached": "已達到通行密鑰數量上限。",
+      "challenge_expired": "通行密鑰挑戰已過期，請重試。",
+      "not_supported": "您的瀏覽器不支援通行密鑰。",
+      "no_passkeys": "尚無已註冊的通行密鑰。",
+      "created_at": "新增於",
+      "last_used": "最後使用",
+      "manage_title": "管理通行密鑰"
     }
   },
   "common": {

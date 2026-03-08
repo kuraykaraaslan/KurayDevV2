@@ -1349,6 +1349,26 @@
       "headline_line1": "Kodiċi. Ikteb.",
       "headline_line2": "Oħloq.",
       "tagline": "Rokna personali ta' żviluppatur — portafoll, blog, proġetti u aktar."
+    },
+    "passkey": {
+      "title": "Passkeys",
+      "register_button": "Żid passkey",
+      "login_button": "Idħol b'passkey",
+      "label_placeholder": "eż. MacBook Touch ID",
+      "register_success": "Passkey reġistrata b'suċċess.",
+      "register_failed": "Reġistrazzjoni tal-passkey falliet.",
+      "auth_success": "Daħalt b'passkey.",
+      "auth_failed": "L-awtentikazzjoni tal-passkey falliet.",
+      "delete_button": "Neħħi",
+      "delete_success": "Passkey mneħħija.",
+      "delete_failed": "Ma setgħetx titneħħa l-passkey.",
+      "limit_reached": "Intlaħaq il-massimu ta' passkeys.",
+      "challenge_expired": "L-isfida tal-passkey skadiet. Erġa' pprova.",
+      "not_supported": "Il-browser tiegħek ma jappoġġjax passkeys.",
+      "no_passkeys": "Ebda passkey reġistrata s'issa.",
+      "created_at": "Miżjuda f'",
+      "last_used": "Użu aħħar",
+      "manage_title": "Amministra passkeys"
     }
   },
   "navbar": {

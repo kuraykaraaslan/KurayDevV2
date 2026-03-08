@@ -658,6 +658,26 @@
       "headline_line1": "Код жазуу.",
       "headline_line2": "Түзүү.",
       "tagline": "Өнүктүрүүчүнүн жеке бурчу — портфолио, блог, долбоорлор жана башкалар."
+    },
+    "passkey": {
+      "title": "Passkey",
+      "register_button": "Passkey кошуу",
+      "login_button": "Passkey менен кирүү",
+      "label_placeholder": "мис. MacBook Touch ID",
+      "register_success": "Passkey ийгиликтүү катталды.",
+      "register_failed": "Passkey катталган жок.",
+      "auth_success": "Passkey менен кирилди.",
+      "auth_failed": "Passkey аутентификациясы ийгиликсиз болду.",
+      "delete_button": "Жок кылуу",
+      "delete_success": "Passkey жок кылынды.",
+      "delete_failed": "Passkey жок кылуу ийгиликсиз болду.",
+      "limit_reached": "Passkey максималдуу санына жетти.",
+      "challenge_expired": "Passkey мөөнөтү өттү. Кайра аракет кылыңыз.",
+      "not_supported": "Браузериңиз passkey колдобойт.",
+      "no_passkeys": "Passkey катталган жок.",
+      "created_at": "Кошулду",
+      "last_used": "Акыркы колдонуу",
+      "manage_title": "Passkey башкаруу"
     }
   },
   "common": {

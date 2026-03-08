@@ -1101,6 +1101,26 @@
       "headline_line1": "Code. Schreiben.",
       "headline_line2": "Erstellen.",
       "tagline": "Persönliche Ecke eines Entwicklers — Portfolio, Blog, Projekte und mehr."
+    },
+    "passkey": {
+      "title": "Passkeys",
+      "register_button": "Passkey hinzufügen",
+      "login_button": "Mit Passkey anmelden",
+      "label_placeholder": "z.B. MacBook Touch ID",
+      "register_success": "Passkey erfolgreich registriert.",
+      "register_failed": "Passkey konnte nicht registriert werden.",
+      "auth_success": "Mit Passkey angemeldet.",
+      "auth_failed": "Passkey-Authentifizierung fehlgeschlagen.",
+      "delete_button": "Entfernen",
+      "delete_success": "Passkey entfernt.",
+      "delete_failed": "Passkey konnte nicht entfernt werden.",
+      "limit_reached": "Maximale Anzahl an Passkeys erreicht.",
+      "challenge_expired": "Passkey-Challenge abgelaufen. Bitte erneut versuchen.",
+      "not_supported": "Ihr Browser unterstützt keine Passkeys.",
+      "no_passkeys": "Noch keine Passkeys registriert.",
+      "created_at": "Hinzugefügt am",
+      "last_used": "Zuletzt verwendet",
+      "manage_title": "Passkeys verwalten"
     }
   },
   "frontend": {

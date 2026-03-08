@@ -658,6 +658,26 @@
       "headline_line1": "Код. Пиши.",
       "headline_line2": "Создавай.",
       "tagline": "Личное пространство разработчика — портфолио, блог, проекты и многое другое."
+    },
+    "passkey": {
+      "title": "Passkey",
+      "register_button": "Добавить passkey",
+      "login_button": "Войти с passkey",
+      "label_placeholder": "напр. MacBook Touch ID",
+      "register_success": "Passkey успешно зарегистрирован.",
+      "register_failed": "Не удалось зарегистрировать passkey.",
+      "auth_success": "Вход выполнен с помощью passkey.",
+      "auth_failed": "Ошибка аутентификации passkey.",
+      "delete_button": "Удалить",
+      "delete_success": "Passkey удалён.",
+      "delete_failed": "Не удалось удалить passkey.",
+      "limit_reached": "Достигнуто максимальное количество passkey.",
+      "challenge_expired": "Срок действия passkey истёк. Повторите попытку.",
+      "not_supported": "Ваш браузер не поддерживает passkey.",
+      "no_passkeys": "Passkey ещё не зарегистрированы.",
+      "created_at": "Добавлен",
+      "last_used": "Последнее использование",
+      "manage_title": "Управление passkey"
     }
   },
   "common": {

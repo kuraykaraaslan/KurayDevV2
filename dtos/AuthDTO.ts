@@ -229,6 +229,85 @@ const GetPreferencesResponse = z.object({
   userProfile: z.record(z.any()),
 })
 
+// ── WebAuthn / Passkey DTOs ───────────────────────────────────────────────────
+
+// Registration
+const PasskeyRegisterOptionsRequest = z.object({
+  /** Optional human-readable label the user assigns to this credential. */
+  label: z.string().max(64).optional(),
+})
+
+const PasskeyRegisterOptionsResponse = z.object({
+  /** PublicKeyCredentialCreationOptionsJSON returned to the browser. */
+  options: z.record(z.unknown()),
+})
+
+const PasskeyRegisterVerifyRequest = z.object({
+  /** Raw RegistrationResponseJSON from navigator.credentials.create(). */
+  response: z.record(z.unknown()),
+  /** Optional label stored with the credential. */
+  label: z.string().max(64).optional(),
+})
+
+const PasskeyRegisterVerifyResponse = z.object({
+  message: z.string(),
+  credentialId: z.string(),
+})
+
+// Authentication
+const PasskeyAuthOptionsRequest = z.object({
+  /** User email — used to scope allowCredentials to this user's passkeys. */
+  email: z.string().email().optional(),
+})
+
+const PasskeyAuthOptionsResponse = z.object({
+  options: z.record(z.unknown()),
+})
+
+const PasskeyAuthVerifyRequest = z.object({
+  /** Raw AuthenticationResponseJSON from navigator.credentials.get(). */
+  response: z.record(z.unknown()),
+  /** Email used in the options request (needed to look up the user). */
+  email: z.string().email().optional(),
+})
+
+const PasskeyAuthVerifyResponse = z.object({
+  message: z.string(),
+})
+
+// List / Delete
+const PasskeyDeleteRequest = z.object({
+  credentialId: z.string().min(1),
+})
+
+const PasskeyDeleteResponse = z.object({
+  message: z.string(),
+})
+
+export type PasskeyRegisterOptionsRequest = z.infer<typeof PasskeyRegisterOptionsRequest>
+export type PasskeyRegisterOptionsResponse = z.infer<typeof PasskeyRegisterOptionsResponse>
+export type PasskeyRegisterVerifyRequest = z.infer<typeof PasskeyRegisterVerifyRequest>
+export type PasskeyRegisterVerifyResponse = z.infer<typeof PasskeyRegisterVerifyResponse>
+export type PasskeyAuthOptionsRequest = z.infer<typeof PasskeyAuthOptionsRequest>
+export type PasskeyAuthOptionsResponse = z.infer<typeof PasskeyAuthOptionsResponse>
+export type PasskeyAuthVerifyRequest = z.infer<typeof PasskeyAuthVerifyRequest>
+export type PasskeyAuthVerifyResponse = z.infer<typeof PasskeyAuthVerifyResponse>
+export type PasskeyDeleteRequest = z.infer<typeof PasskeyDeleteRequest>
+export type PasskeyDeleteResponse = z.infer<typeof PasskeyDeleteResponse>
+
+export {
+  PasskeyRegisterOptionsRequest as PasskeyRegisterOptionsRequestSchema,
+  PasskeyRegisterOptionsResponse as PasskeyRegisterOptionsResponseSchema,
+  PasskeyRegisterVerifyRequest as PasskeyRegisterVerifyRequestSchema,
+  PasskeyRegisterVerifyResponse as PasskeyRegisterVerifyResponseSchema,
+  PasskeyAuthOptionsRequest as PasskeyAuthOptionsRequestSchema,
+  PasskeyAuthOptionsResponse as PasskeyAuthOptionsResponseSchema,
+  PasskeyAuthVerifyRequest as PasskeyAuthVerifyRequestSchema,
+  PasskeyAuthVerifyResponse as PasskeyAuthVerifyResponseSchema,
+  PasskeyDeleteRequest as PasskeyDeleteRequestSchema,
+  PasskeyDeleteResponse as PasskeyDeleteResponseSchema,
+}
+
 // Security Settings DTOs
 const GetSecuritySettingsResponse = z.object({
   twoFactorEnabled: z.boolean(),

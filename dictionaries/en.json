@@ -808,6 +808,26 @@
     },
     "logout": {
       "title": "Logging out..."
+    },
+    "passkey": {
+      "title": "Passkeys",
+      "register_button": "Add a Passkey",
+      "login_button": "Sign in with Passkey",
+      "label_placeholder": "e.g. MacBook Touch ID",
+      "register_success": "Passkey registered successfully.",
+      "register_failed": "Failed to register passkey.",
+      "auth_success": "Signed in with passkey.",
+      "auth_failed": "Passkey authentication failed.",
+      "delete_button": "Remove",
+      "delete_success": "Passkey removed.",
+      "delete_failed": "Failed to remove passkey.",
+      "limit_reached": "Maximum number of passkeys reached.",
+      "challenge_expired": "Passkey challenge expired. Please try again.",
+      "not_supported": "Your browser does not support passkeys.",
+      "no_passkeys": "No passkeys registered yet.",
+      "created_at": "Added on",
+      "last_used": "Last used",
+      "manage_title": "Manage Passkeys"
     }
   },
   "admin": {

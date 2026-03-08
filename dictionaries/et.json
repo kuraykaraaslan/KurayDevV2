@@ -760,6 +760,26 @@
       "headline_line1": "Kodeeri. Kirjuta.",
       "headline_line2": "Loo.",
       "tagline": "Arendaja isiklik nurgake — portfoolio, blogi, projektid ja rohkem."
+    },
+    "passkey": {
+      "title": "Passkey-d",
+      "register_button": "Lisa passkey",
+      "login_button": "Logi sisse passkey'ga",
+      "label_placeholder": "nt. MacBook Touch ID",
+      "register_success": "Passkey edukalt registreeritud.",
+      "register_failed": "Passkey registreerimine ebaõnnestus.",
+      "auth_success": "Sisse logitud passkey'ga.",
+      "auth_failed": "Passkey autentimine ebaõnnestus.",
+      "delete_button": "Eemalda",
+      "delete_success": "Passkey eemaldatud.",
+      "delete_failed": "Passkey eemaldamine ebaõnnestus.",
+      "limit_reached": "Maksimaalne passkey arv saavutatud.",
+      "challenge_expired": "Passkey väljakutse aegus. Palun proovige uuesti.",
+      "not_supported": "Teie brauser ei toeta passkey'sid.",
+      "no_passkeys": "Ühtegi passkey't pole registreeritud.",
+      "created_at": "Lisatud",
+      "last_used": "Viimati kasutatud",
+      "manage_title": "Halda passkey'sid"
     }
   },
   "admin": {

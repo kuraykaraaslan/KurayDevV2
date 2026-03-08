@@ -1349,6 +1349,26 @@
       "headline_line1": "Κώδικας. Γράψιμο.",
       "headline_line2": "Δημιουργία.",
       "tagline": "Προσωπική γωνιά ενός προγραμματιστή — χαρτοφυλάκιο, ιστολόγιο, έργα και άλλα."
+    },
+    "passkey": {
+      "title": "Passkeys",
+      "register_button": "Προσθήκη passkey",
+      "login_button": "Σύνδεση με passkey",
+      "label_placeholder": "π.χ. MacBook Touch ID",
+      "register_success": "Το passkey καταχωρήθηκε επιτυχώς.",
+      "register_failed": "Αποτυχία καταχώρησης passkey.",
+      "auth_success": "Σύνδεση με passkey επιτυχής.",
+      "auth_failed": "Αποτυχία ελέγχου ταυτότητας passkey.",
+      "delete_button": "Αφαίρεση",
+      "delete_success": "Το passkey αφαιρέθηκε.",
+      "delete_failed": "Αποτυχία αφαίρεσης passkey.",
+      "limit_reached": "Συνδεθήκατε στον μέγιστο αριθμό passkeys.",
+      "challenge_expired": "Η πρόκληση passkey έληξε. Δοκιμάστε ξανά.",
+      "not_supported": "Ο περιηγητής σας δεν υποστηρίζει passkeys.",
+      "no_passkeys": "Δεν έχουν καταχωρηθεί passkeys.",
+      "created_at": "Προστέθηκε",
+      "last_used": "Τελευταία χρήση",
+      "manage_title": "Διαχείριση passkeys"
     }
   },
   "navbar": {

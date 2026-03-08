@@ -658,6 +658,26 @@
       "headline_line1": "Kod. Ýaz.",
       "headline_line2": "Döret.",
       "tagline": "Özbaşdak künjek — portfel, blog, taslamalar we has köp."
+    },
+    "passkey": {
+      "title": "Passkey-ler",
+      "register_button": "Passkey goşuň",
+      "login_button": "Passkey bilen giriň",
+      "label_placeholder": "mysal: MacBook Touch ID",
+      "register_success": "Passkey üstünlikli hasaba alyndy.",
+      "register_failed": "Passkey hasaba alynmady.",
+      "auth_success": "Passkey bilen giriş edildi.",
+      "auth_failed": "Passkey tassyklamasy başa barmady.",
+      "delete_button": "Pozuň",
+      "delete_success": "Passkey pozuldy.",
+      "delete_failed": "Passkey pozulmady.",
+      "limit_reached": "Iň ýokary passkey sanyna ýetildi.",
+      "challenge_expired": "Passkey möhleti geçdi. Gaýtadan synanyşyň.",
+      "not_supported": "Brauzeriňiz passkey gollamaýar.",
+      "no_passkeys": "Passkey heniz hasaba alynmady.",
+      "created_at": "Goşuldy",
+      "last_used": "Soňky ulanyldy",
+      "manage_title": "Passkey-leri dolandyryň"
     }
   },
   "common": {
