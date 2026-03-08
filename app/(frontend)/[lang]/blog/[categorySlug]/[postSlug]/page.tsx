@@ -227,7 +227,7 @@ export default async function BlogPost({ params }: Props) {
             )}
             <TableOfContents content={post.content} />
             <Article {...post} />
-            <ShareButtons title={post.title} url={url} />
+            <ShareButtons title={post.title} url={url} postId={post.postId} lang={lang} />
             <OtherPosts postId={post.postId} />
             <Comments postId={post.postId} />
           </div>

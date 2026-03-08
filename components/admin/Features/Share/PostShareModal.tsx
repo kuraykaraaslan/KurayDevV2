@@ -68,10 +68,10 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
   const handleGenerateShortLink = useCallback(async () => {
     setShortLoading(true)
     try {
-      const res = await fetch('/api/links', {
+      const res = await fetch(`/api/posts/${post.postId}/share`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: postUrl }),
+        body: JSON.stringify({ lang: 'en' }),
       })
       const data = await res.json()
       setShortUrl(data.shortUrl)
@@ -80,7 +80,7 @@ const PostShareModal = ({ post, onClose }: PostShareModalProps) => {
     } finally {
       setShortLoading(false)
     }
-  }, [postUrl])
+  }, [post.postId])
 
   const handleCopyShortUrl = useCallback(async () => {
     if (!shortUrl) return
