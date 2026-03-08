@@ -18,7 +18,7 @@ const SubscriptionsPage = () => {
   const columns: ColumnDef<Subscription>[] = [
     {
       key: 'email',
-      header: 'admin.subscriptions.email',
+      header: 'common.email',
       accessor: (s) => s.email,
     },
     {
@@ -32,7 +32,7 @@ const SubscriptionsPage = () => {
     },
     {
       key: 'status',
-      header: 'admin.subscriptions.status',
+      header: 'common.status',
       accessor: (s) => (
         <span
           className={`text-xs px-2 py-0.5 rounded ${
@@ -76,13 +76,13 @@ const SubscriptionsPage = () => {
       <Table>
         <TableHeader
           title="admin.subscriptions.title"
-          searchPlaceholder="admin.subscriptions.search_placeholder"
+          searchPlaceholder="common.search_placeholder"
         />
         <TableBody />
         <TableFooter
-          showingText="admin.subscriptions.showing"
-          previousText="admin.subscriptions.previous"
-          nextText="admin.subscriptions.next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

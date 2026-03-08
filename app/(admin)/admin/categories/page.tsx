@@ -19,15 +19,15 @@ const CategoryPage = () => {
   const columns: ColumnDef<CategoryWithTranslations>[] = [
     {
       key: 'image',
-      header: 'admin.categories.image',
+      header: 'common.image.title',
       className: 'w-16',
       accessor: (c) => <ImageCell src={c.image} alt={c.title} />,
     },
-    { key: 'title', header: 'Title', accessor: (c) => c.title },
-    { key: 'slug', header: 'admin.categories.slug', accessor: (c) => c.slug },
+    { key: 'title', header: 'common.title', accessor: (c) => c.title },
+    { key: 'slug', header: 'common.slug', accessor: (c) => c.slug },
     {
       key: 'translations',
-      header: 'Translations',
+      header: 'common.translations',
       hideOnMobile: true,
       accessor: (c) =>
         c.translations?.length ? (
@@ -44,21 +44,21 @@ const CategoryPage = () => {
 
   const actions: ActionButton<CategoryWithTranslations>[] = [
     {
-      label: 'admin.categories.edit',
+      label: 'common.edit',
       href: (c) => `/admin/categories/${c.categoryId}`,
       className: 'btn-secondary',
     },
-    { label: 'admin.categories.view', href: (c) => `/blog/${c.slug}`, className: 'btn-primary' },
+    { label: 'common.view', href: (c) => `/blog/${c.slug}`, className: 'btn-primary' },
     {
-      label: 'admin.categories.posts',
-      href: (c) => `/admin/categories/${c.categoryId}/posts`,
+      label: 'common.posts',
+      href: (c) => `/admin/posts?categoryId=${c.categoryId}`,
       className: 'btn-warning',
       hideOnMobile: true,
     },
     {
-      label: 'admin.categories.delete',
+      label: 'common.delete',
       onClick: async (c) => {
-        if (!confirm(t('admin.categories.confirm_delete'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/categories/${c.categoryId}`)
       },
       className: 'btn-secondary',
@@ -77,14 +77,14 @@ const CategoryPage = () => {
       <Table>
         <TableHeader
           title="admin.categories.title"
-          searchPlaceholder="admin.categories.search_placeholder"
-          buttons={[{ label: 'admin.categories.create_category', href: '/admin/categories/create' }]}
+          searchPlaceholder="common.search_placeholder"
+          buttons={[{ label: 'common.create', href: '/admin/categories/create' }]}
         />
         <TableBody />
         <TableFooter
-          showingText="admin.categories.showing"
-          previousText="admin.categories.previous"
-          nextText="admin.categories.next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

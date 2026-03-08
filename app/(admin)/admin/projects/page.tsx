@@ -23,18 +23,18 @@ const ProjectPage = () => {
       className: 'w-16',
       accessor: (p) => <ImageCell src={p.image} alt={p.title} />,
     },
-    { key: 'title', header: 'admin.projects.project_name', accessor: (p) => p.title },
+    { key: 'title', header: 'common.title', accessor: (p) => p.title },
     {
       key: 'technologies',
       header: 'admin.projects.tech_stack',
       className: 'max-w-20',
       accessor: (p) => p.technologies?.join(', ') || '-',
     },
-    { key: 'slug', header: 'admin.projects.slug', className: 'max-w-16', accessor: (p) => p.slug },
-    { key: 'status', header: 'admin.projects.status', accessor: (p) => p.status },
+    { key: 'slug', header: 'common.slug', className: 'max-w-16', accessor: (p) => p.slug },
+    { key: 'status', header: 'common.status', accessor: (p) => p.status },
     {
       key: 'translations',
-      header: 'Translations',
+      header: 'common.translations',
       hideOnMobile: true,
       accessor: (p) =>
         p.translations?.length ? (
@@ -51,15 +51,15 @@ const ProjectPage = () => {
 
   const actions: ActionButton<ProjectWithTranslations>[] = [
     {
-      label: 'admin.projects.edit',
+      label: 'common.edit',
       href: (p) => `/admin/projects/${p.projectId}`,
       className: 'btn-primary',
     },
-    { label: 'admin.projects.view', href: (p) => `/project/${p.slug}`, className: 'btn-secondary' },
+    { label: 'common.view', href: (p) => `/project/${p.slug}`, className: 'btn-secondary' },
     {
-      label: 'admin.projects.delete',
+      label: 'common.delete',
       onClick: async (p) => {
-        if (!confirm(t('admin.projects.confirm_delete'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/projects/${p.projectId}`)
       },
       className: 'text-white',
@@ -79,14 +79,14 @@ const ProjectPage = () => {
       <Table>
         <TableHeader
           title="admin.projects.title"
-          searchPlaceholder="admin.projects.search_placeholder"
-          buttons={[{ label: 'admin.projects.create_project', href: '/admin/projects/create' }]}
+          searchPlaceholder="common.search_placeholder"
+          buttons={[{ label: 'common.create', href: '/admin/projects/create' }]}
         />
         <TableBody />
         <TableFooter
-          showingText="admin.projects.showing"
-          previousText="admin.projects.previous"
-          nextText="admin.projects.next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

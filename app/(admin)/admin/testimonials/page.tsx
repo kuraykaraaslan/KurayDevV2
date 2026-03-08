@@ -18,12 +18,12 @@ const TestimonialsPage = () => {
   const columns: ColumnDef<Testimonial>[] = [
     {
       key: 'image',
-      header: 'Image',
+      header: 'common.image.title',
       className: 'w-16',
       accessor: (item) => <ImageCell src={item.image} alt={item.name} />,
     },
-    { key: 'name', header: 'Name', accessor: (item) => item.name },
-    { key: 'title', header: 'Title', accessor: (item) => item.title },
+    { key: 'name', header: 'common.name', accessor: (item) => item.name },
+    { key: 'title', header: 'common.title', accessor: (item) => item.title },
     {
       key: 'review',
       header: 'Review',
@@ -32,19 +32,19 @@ const TestimonialsPage = () => {
         <span className="line-clamp-2 text-sm text-base-content/70 max-w-xs">{item.review}</span>
       ),
     },
-    { key: 'status', header: 'Status', accessor: (item) => item.status },
+    { key: 'status', header: 'common.status', accessor: (item) => item.status },
   ]
 
   const actions: ActionButton<Testimonial>[] = [
     {
-      label: 'Edit',
+      label: 'common.edit',
       href: (item) => `/admin/testimonials/${item.testimonialId}`,
       className: 'btn-secondary',
     },
     {
-      label: 'Delete',
+      label: 'common.delete',
       onClick: async (item) => {
-        if (!confirm(t('Are you sure you want to delete this testimonial?'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/testimonials/${item.testimonialId}`)
       },
       className: 'btn-error',
@@ -62,15 +62,15 @@ const TestimonialsPage = () => {
     >
       <Table>
         <TableHeader
-          title="Testimonials"
-          searchPlaceholder="Search testimonials..."
-          buttons={[{ label: 'Add Testimonial', href: '/admin/testimonials/create' }]}
+          title="admin.testimonials.title"
+          searchPlaceholder="common.search_placeholder"
+          buttons={[{ label: 'common.create', href: '/admin/testimonials/create' }]}
         />
         <TableBody />
         <TableFooter
-          showingText="Showing"
-          previousText="Previous"
-          nextText="Next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

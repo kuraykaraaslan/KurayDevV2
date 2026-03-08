@@ -18,26 +18,26 @@ const UserPage = () => {
   const columns: ColumnDef<SafeUser>[] = [
     {
       key: 'image',
-      header: 'Image',
+      header: 'common.image.title',
       className: 'w-16',
       accessor: (u) => <ImageCell src={u.userProfile?.profilePicture} alt={u.name || u.email} />,
     },
-    { key: 'name', header: 'admin.users.name', accessor: (u) => u.userProfile.name || '-' },
-    { key: 'email', header: 'admin.users.email', accessor: (u) => u.email },
-    { key: 'role', header: 'admin.users.role', accessor: (u) => u.userRole },
-    { key: 'status', header: 'admin.users.status', accessor: (u) => u.userStatus },
+    { key: 'name', header: 'common.name', accessor: (u) => u.userProfile.name || '-' },
+    { key: 'email', header: 'common.email', accessor: (u) => u.email },
+    { key: 'role', header: 'common.role', accessor: (u) => u.userRole },
+    { key: 'status', header: 'common.status', accessor: (u) => u.userStatus },
   ]
 
   const actions: ActionButton<SafeUser>[] = [
     {
-      label: 'admin.users.edit',
+      label: 'common.edit',
       href: (u) => `/admin/users/${u.userId}`,
       className: 'btn-primary',
     },
     {
-      label: 'admin.users.delete',
+      label: 'common.delete',
       onClick: async (u) => {
-        if (!confirm(t('admin.users.confirm_delete'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/users/${u.userId}`)
       },
       className: 'text-danger',
@@ -56,14 +56,14 @@ const UserPage = () => {
       <Table>
         <TableHeader
           title="admin.users.title"
-          searchPlaceholder="admin.users.search_placeholder"
-          buttons={[{ label: 'admin.users.create_user', href: '/admin/users/create' }]}
+          searchPlaceholder="common.search_placeholder"
+          buttons={[{ label: 'common.create', href: '/admin/users/create' }]}
         />
         <TableBody />
         <TableFooter
-          showingText="admin.users.showing"
-          previousText="admin.users.previous"
-          nextText="admin.users.next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

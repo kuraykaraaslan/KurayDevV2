@@ -24,7 +24,7 @@ const CampaignsPage = () => {
   const { t } = useTranslation()
 
   const columns: ColumnDef<Campaign>[] = [
-    { key: 'title', header: 'Title', accessor: (item) => item.title },
+    { key: 'title', header: 'common.title', accessor: (item) => item.title },
     {
       key: 'subject',
       header: 'Subject',
@@ -35,7 +35,7 @@ const CampaignsPage = () => {
     },
     {
       key: 'status',
-      header: 'Status',
+      header: 'common.status',
       accessor: (item) => statusBadge(item.status),
     },
     {
@@ -54,21 +54,21 @@ const CampaignsPage = () => {
 
   const actions: ActionButton<Campaign>[] = [
     {
-      label: 'Edit',
+      label: 'common.edit',
       href: (item) => `/admin/campaigns/${item.campaignId}`,
       className: 'btn-secondary',
       hidden: (item) => item.status !== 'DRAFT',
     },
     {
-      label: 'View',
+      label: 'common.view',
       href: (item) => `/admin/campaigns/${item.campaignId}`,
       className: 'btn-ghost btn-sm',
       hidden: (item) => item.status === 'DRAFT',
     },
     {
-      label: 'Delete',
+      label: 'common.delete',
       onClick: async (item) => {
-        if (!confirm(t('Are you sure you want to delete this campaign?'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/newsletter/campaigns/${item.campaignId}`)
       },
       className: 'btn-error',
@@ -87,15 +87,15 @@ const CampaignsPage = () => {
     >
       <Table>
         <TableHeader
-          title="Campaigns"
-          searchPlaceholder="Search campaigns..."
-          buttons={[{ label: 'New Campaign', href: '/admin/campaigns/create' }]}
+          title="admin.campaigns.title"
+          searchPlaceholder="common.search_placeholder"
+          buttons={[{ label: 'common.create', href: '/admin/campaigns/create' }]}
         />
         <TableBody />
         <TableFooter
-          showingText="Showing"
-          previousText="Previous"
-          nextText="Next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

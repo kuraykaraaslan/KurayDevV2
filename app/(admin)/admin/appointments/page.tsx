@@ -37,7 +37,7 @@ const AppointmentsPage = () => {
   const columns: ColumnDef<Appointment>[] = [
     {
       key: 'name',
-      header: 'admin.appointments.name',
+      header: 'common.name',
       accessor: (a) => (
         <div className="flex flex-col">
           <span className="font-medium">{a.name}</span>
@@ -65,7 +65,7 @@ const AppointmentsPage = () => {
     },
     {
       key: 'status',
-      header: 'admin.appointments.status',
+      header: 'common.status',
       accessor: (a) => statusBadge(a.status),
     },
     {
@@ -82,7 +82,7 @@ const AppointmentsPage = () => {
 
   const actions: ActionButton<Appointment>[] = [
     {
-      label: 'admin.appointments.view',
+      label: 'common.view',
       onClick: (a) => {
         setSelectedAppointment(a)
         openModal()
@@ -140,14 +140,14 @@ const AppointmentsPage = () => {
         <Table>
           <TableHeader
             title="admin.appointments.title"
-            searchPlaceholder="admin.appointments.search_placeholder"
+            searchPlaceholder="common.search_placeholder"
             toolbarContent={<StatusFilter />}
           />
           <TableBody />
           <TableFooter
-            showingText="admin.appointments.showing"
-            previousText="admin.appointments.previous"
-            nextText="admin.appointments.next"
+            showingText="common.showing"
+            previousText="common.previous"
+            nextText="common.next"
           />
         </Table>
       </TableProvider>

@@ -37,12 +37,12 @@ const CommentPage = () => {
       className: 'max-w-32',
       accessor: (c) => c.content?.substring(0, 50) + '...',
     },
-    { key: 'status', header: 'admin.comments.status', accessor: (c) => c.status },
+    { key: 'status', header: 'common.status', accessor: (c) => c.status },
   ]
 
   const actions: ActionButton<CommentWithData>[] = [
     {
-      label: 'admin.comments.approve',
+      label: 'common.approve',
       onClick: async (c) => {
         if (!confirm(t('admin.comments.confirm_approve'))) return
         await axiosInstance.put('/api/comments', { commentId: c.commentId, status: 'PUBLISHED' })
@@ -50,7 +50,7 @@ const CommentPage = () => {
       className: 'btn-success',
     },
     {
-      label: 'admin.comments.reject',
+      label: 'common.reject',
       onClick: async (c) => {
         if (!confirm(t('admin.comments.confirm_reject'))) return
         await axiosInstance.put('/api/comments', {
@@ -62,9 +62,9 @@ const CommentPage = () => {
       hideOnMobile: true,
     },
     {
-      label: 'admin.comments.delete',
+      label: 'common.delete',
       onClick: async (c) => {
-        if (!confirm(t('admin.comments.confirm_delete'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/comments/${c.commentId}`)
       },
       className: 'btn-error',
@@ -84,13 +84,13 @@ const CommentPage = () => {
       <Table>
         <TableHeader
           title="admin.comments.title"
-          searchPlaceholder="admin.comments.search_placeholder"
+          searchPlaceholder="common.search_placeholder"
         />
         <TableBody />
         <TableFooter
-          showingText="admin.comments.showing"
-          previousText="admin.comments.previous"
-          nextText="admin.comments.next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

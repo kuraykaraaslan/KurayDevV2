@@ -66,8 +66,8 @@ const SeriesPage = () => {
             <Table>
                 <TableHeader
                     title={t('admin.post_series.title')}
-                    searchPlaceholder={t('admin.post_series.search_placeholder')}
-                    buttons={[{ label: t('admin.post_series.new_series'), href: '/admin/post-series/create' }]}
+                    searchPlaceholder={t('common.search_placeholder')}
+                    buttons={[{ label: t('common.create'), href: '/admin/post-series/create' }]}
                     showRefresh
                 />
                 <TableBody />

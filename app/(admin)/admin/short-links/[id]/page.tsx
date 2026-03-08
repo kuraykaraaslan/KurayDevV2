@@ -105,10 +105,10 @@ const SingleShortLink = () => {
     <Form
       actions={[
         ...(mode === 'edit'
-          ? [{ label: 'Delete', onClick: handleDelete, className: 'btn-error' }]
+          ? [{ label: t('common.delete'), onClick: handleDelete, className: 'btn-error' }]
           : []),
         {
-          label: saving ? 'Saving...' : mode === 'create' ? 'Create' : 'Save',
+          label: saving ? 'Saving...' : mode === 'create' ? t('common.create') : t('common.save'),
           onClick: handleSave,
           className: 'btn-primary',
           loading: saving,

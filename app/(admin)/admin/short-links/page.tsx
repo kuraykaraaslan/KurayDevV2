@@ -69,14 +69,14 @@ const ShortLinksPage = () => {
       className: 'btn-info',
     },
     {
-      label: 'Edit',
+      label: 'common.edit',
       href: (item) => `/admin/short-links/${item.id}`,
       className: 'btn-secondary',
     },
     {
-      label: 'Delete',
+      label: 'common.delete',
       onClick: async (item) => {
-        if (!confirm(t('Are you sure you want to delete this short link?'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/links/${item.id}`)
       },
       className: 'btn-error',
@@ -94,15 +94,15 @@ const ShortLinksPage = () => {
     >
       <Table>
         <TableHeader
-          title="Short Links"
-          searchPlaceholder="Search short links..."
-          buttons={[{ label: 'Add Short Link', href: '/admin/short-links/create' }]}
+          title="admin.short_links.title"
+          searchPlaceholder="common.search_placeholder"
+          buttons={[{ label: 'common.create', href: '/admin/short-links/create' }]}
         />
         <TableBody />
         <TableFooter
-          showingText="Showing"
-          previousText="Previous"
-          nextText="Next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
         />
       </Table>
     </TableProvider>

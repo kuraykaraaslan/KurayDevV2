@@ -24,16 +24,16 @@ const PostPage = () => {
   const columns: ColumnDef<PostWithData>[] = [
     {
       key: 'image',
-      header: 'Image',
+      header: 'common.image.title',
       className: 'w-16',
       accessor: (p) => <ImageCell src={p.image} alt={p.title} />,
     },
-    { key: 'title', header: 'Title', accessor: (p) => p.title, },
-    { key: 'slug', header: 'admin.posts.slug', accessor: (p) => p.slug },
-    { key: 'status', header: 'admin.posts.status', accessor: (p) => p.status },
+    { key: 'title', header: 'common.title', accessor: (p) => p.title, },
+    { key: 'slug', header: 'common.slug', accessor: (p) => p.slug },
+    { key: 'status', header: 'common.status', accessor: (p) => p.status },
     {
       key: 'translations',
-      header: 'Translations',
+      header: 'common.translations',
       hideOnMobile: true,
       accessor: (p) =>
         p.translations?.length ? (
@@ -50,11 +50,11 @@ const PostPage = () => {
 
   const actions: ActionButton<PostWithData>[] = [
     {
-      label: 'admin.posts.edit',
+      label: 'common.edit',
       href: (p) => `/admin/posts/${p.postId}`,
       className: 'btn-primary',
     },
-    { label: 'admin.posts.view', href: (p) => `/blog/${p.slug}`, className: 'btn-secondary' },
+    { label: 'common.view', href: (p) => `/blog/${p.slug}`, className: 'btn-secondary' },
     {
       label: <FontAwesomeIcon icon={faShareAlt} size="sm" />,
       onClick: (p) => setSharePost(p),
@@ -62,9 +62,9 @@ const PostPage = () => {
       hidden: (p) => p.status !== 'PUBLISHED',
     },
     {
-      label: 'admin.posts.delete',
+      label: 'common.delete',
       onClick: async (p) => {
-        if (!confirm(t('admin.posts.confirm_delete'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/posts/${p.postId}`)
       },
       className: 'btn-error',
@@ -85,19 +85,19 @@ const PostPage = () => {
       >
         <Table>
           <TableHeader
-            title="admin.posts.title"
-            searchPlaceholder="admin.posts.search_placeholder"
-            buttons={[{ label: 'admin.posts.create_post', href: '/admin/posts/create' },
-              { label: 'admin.posts.post_series', href: '/admin/post-series', className: 'btn-secondary' }]}
+          title="admin.posts.title"
+            searchPlaceholder="common.search_placeholder"
+            buttons={[{ label: 'common.create', href: '/admin/posts/create' },
+              { label: 'common.post_series', href: '/admin/post-series', className: 'btn-secondary' }]}
             showViewToggle
             showColumnToggle
             showRefresh
           />
           <TableBody />
           <TableFooter
-            showingText="admin.posts.showing"
-            previousText="admin.posts.previous"
-            nextText="admin.posts.next"
+            showingText="common.showing"
+            previousText="common.previous"
+            nextText="common.next"
           />
         </Table>
       </TableProvider>

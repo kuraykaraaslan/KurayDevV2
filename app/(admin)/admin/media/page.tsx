@@ -524,7 +524,7 @@ export default function MediaLibraryPage() {
 
   const handleDelete = useCallback(
     async (item: MediaFile) => {
-      if (!confirm(t('admin.media.confirm_delete'))) {
+      if (!confirm(t('common.confirm_delete'))) {
         throw new Error('Cancelled')
       }
       await axiosInstance.delete('/api/media', { data: { key: item.key } })
@@ -573,7 +573,7 @@ export default function MediaLibraryPage() {
       >
         <TableHeader
           title="admin.media.title"
-          searchPlaceholder="admin.media.search_placeholder"
+          searchPlaceholder="common.search_placeholder"
           showViewToggle
           showRefresh
           toolbarContent={<MediaToolbarContent isDebug={isDebug} />}

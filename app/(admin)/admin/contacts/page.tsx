@@ -22,7 +22,7 @@ const ContactsPage = () => {
   const columns: ColumnDef<ContactForm>[] = [
     {
       key: 'name',
-      header: 'admin.contacts.name',
+      header: 'common.name',
       accessor: (c) => c.name,
     },
     {
@@ -58,7 +58,7 @@ const ContactsPage = () => {
 
   const actions: ActionButton<ContactForm>[] = [
     {
-      label: 'admin.contacts.view',
+      label: 'common.view',
       onClick: (c) => {
         setSelectedContact(c)
         openModal()
@@ -74,9 +74,9 @@ const ContactsPage = () => {
       hideOnMobile: true,
     },
     {
-      label: 'admin.contacts.delete',
+      label: 'common.delete',
       onClick: async (c) => {
-        if (!confirm(t('admin.contacts.confirm_delete'))) return
+        if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/contact/form/${c.contactId}`)
       },
       className: 'btn-error',
@@ -97,13 +97,13 @@ const ContactsPage = () => {
         <Table>
           <TableHeader
             title="admin.contacts.title"
-            searchPlaceholder="admin.contacts.search_placeholder"
+            searchPlaceholder="common.search_placeholder"
           />
           <TableBody />
           <TableFooter
-            showingText="admin.contacts.showing"
-            previousText="admin.contacts.previous"
-            nextText="admin.contacts.next"
+          showingText="common.showing"
+          previousText="common.previous"
+          nextText="common.next"
           />
         </Table>
       </TableProvider>
@@ -117,11 +117,11 @@ const ContactsPage = () => {
         {selectedContact && (
           <div className="space-y-4">
             <div>
-              <label className="text-xs font-medium text-base-content/60">{t('admin.contacts.name')}</label>
+              <label className="text-xs font-medium text-base-content/60">{t('common.name')}</label>
               <p className="text-sm">{selectedContact.name}</p>
             </div>
             <div>
-              <label className="text-xs font-medium text-base-content/60">{t('admin.contacts.email')}</label>
+              <label className="text-xs font-medium text-base-content/60">{t('common.email')}</label>
               <p className="text-sm">{selectedContact.email}</p>
             </div>
             {selectedContact.phone && (
