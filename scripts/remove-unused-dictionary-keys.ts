@@ -105,7 +105,6 @@ function removeUnusedKeys(obj: Dict, unusedKeys: Set<string>, prefix = ''): Dict
 // Main execution
 async function main() {
   const dictionariesDir = path.join(__dirname, '../dictionaries');
-  const baseLang = 'en.json';
   
   // Get target languages from CLI args
   const args = process.argv.slice(2);

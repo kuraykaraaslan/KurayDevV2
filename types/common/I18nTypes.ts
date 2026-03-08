@@ -24,7 +24,6 @@ export const DEFAULT_LANGUAGE: AppLanguage = 'en'
 
 // ─── RTL support ──────────────────────────────────────────────────────────────
 /** Languages that use Right-to-Left script direction */
-// @ts-expect-error - TypeScript doesn't allow 'as const' on arrays with more than 10 items, but we only have 2 RTL languages, so it's fine.
 export const RTL_LANGUAGES: readonly AppLanguage[] = ['he', 'ar'] as const
 
 /** Returns true if the given language uses RTL script direction */
@@ -90,7 +89,6 @@ export const LANG_RESTRICTIONS: Record<string, AppLanguage[]> = {
 }
 
 // Languages that are ONLY shown from specific countries (geo-exclusive)
-// @ts-expect-error - TypeScript doesn't allow 'as const' on arrays with more than 10 items, but we only have 1 exclusive language, so it's fine.
 export const LANG_EXCLUSIVE: Record<AppLanguage, string[]> = {
   ar: ['AE'],       // Arabic → only visible from UAE (Dubai)
 } as Record<AppLanguage, string[]>
