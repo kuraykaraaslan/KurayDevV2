@@ -15,6 +15,7 @@ const LoginRequest = z.object({
   password: z.string().min(8, {
     message: AuthMessages.INVALID_PASSWORD,
   }),
+  rememberDevice: z.boolean().optional().default(false),
 })
 
 const LoginResponse = z.object({
@@ -41,6 +42,7 @@ const RegisterRequest = z.object({
   }),
   name: z.string(),
   phone: z.string().optional(),
+  recaptchaToken: z.string().min(1, 'reCAPTCHA token is required'),
 })
 
 const RegisterResponse = z.object({

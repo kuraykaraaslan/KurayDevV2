@@ -5,6 +5,7 @@ import RateLimiter from '@/libs/rateLimit'
 import AuthService from '@/services/AuthService'
 import { RegisterRequestSchema } from '@/dtos/AuthDTO'
 import AuthMessages from '@/messages/AuthMessages'
+import { verifyRecaptcha } from '@/helpers/SpamProtection'
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,7 +22,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { name, email, password, phone } = parsedData.data
+    const { name, email, password, phone, recaptchaToken } = parsedData.data
+
+    const recaptchaValid = await verifyRecaptcha(recaptchaToken)
+    if (!recaptchaValid) {
+      return NextResponse.json({ message: 'reCAPTCHA verification failed' }, { status: 400 })
+    }
 
     const user = await AuthService.register({
       name,

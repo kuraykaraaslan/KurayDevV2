@@ -16,6 +16,7 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [rememberDevice, setRememberDevice] = useState<boolean>(false)
 
   const { setUser } = useGlobalStore()
 
@@ -68,6 +69,7 @@ const LoginPage = () => {
       .post(`/api/auth/login`, {
         email,
         password,
+        rememberDevice,
       })
       .then(async (res) => {
         const userSecurity = res.data.userSecurity
@@ -189,6 +191,18 @@ const LoginPage = () => {
               }
             />
           </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <input
+            id="remember-device"
+            type="checkbox"
+            className="checkbox checkbox-primary checkbox-sm"
+            checked={rememberDevice}
+            onChange={(e) => setRememberDevice(e.target.checked)}
+          />
+          <label htmlFor="remember-device" className="text-sm cursor-pointer select-none">
+            {t('auth.login.remember_device')}
+          </label>
         </div>
         <div>
           <button

@@ -4,8 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { faQuestion } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
-import { useState, MouseEvent } from 'react'
+import { useState, useRef, MouseEvent } from 'react'
 import { toast } from 'react-toastify'
+import ReCAPTCHA from 'react-google-recaptcha'
+
+const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY || ''
 
 const RegisterPage = () => {
   const { t } = useTranslation()
@@ -15,6 +18,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmpassword, setConfirmpassword] = useState<string>('')
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -58,12 +62,19 @@ const RegisterPage = () => {
       return
     }
 
+    const recaptchaToken = recaptchaRef.current?.getValue() || ''
+    if (!recaptchaToken) {
+      toast.error(t('auth.register.captcha_required'))
+      return
+    }
+
     toast.success(t('auth.register.registering'))
 
     await axiosInstance
       .post(`/api/auth/register`, {
         email: email,
         password: password,
+        recaptchaToken,
       })
       .then((res) => {
         if (res.data.error) {
@@ -163,6 +174,12 @@ const RegisterPage = () => {
             />
           </div>
         </div>
+
+        {recaptchaSiteKey && (
+          <div className="flex justify-center">
+            <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaSiteKey} />
+          </div>
+        )}
 
         <div>
           <button

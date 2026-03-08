@@ -45,6 +45,12 @@ export const RESET_TOKEN_LENGTH = Math.max(4, parseInt(process.env.RESET_TOKEN_L
 export const RESET_RATE_LIMIT_MAX = 5
 export const RESET_RATE_WINDOW_SECONDS = 60
 
+// ── Trusted Device constants ────────────────────────────────────────
+/** Cookie name that stores the trusted device token. */
+export const TRUSTED_DEVICE_COOKIE_NAME = 'trustedDevice'
+/** How long (seconds) the trusted device cookie is valid — 30 days. */
+export const TRUSTED_DEVICE_EXPIRY_SECONDS = 60 * 60 * 24 * 30
+
 // ── API Key constants ───────────────────────────────────────────────
 export const API_KEY_REDIS_TTL_SECONDS = parseInt(process.env.API_KEY_REDIS_TTL_SECONDS || '300') // 5 min
 
@@ -52,6 +58,17 @@ export const API_KEY_REDIS_TTL_SECONDS = parseInt(process.env.API_KEY_REDIS_TTL_
 export const SESSION_CACHE_KEY = (userId: string, tokenHash: string) => `auth:session:${userId}:${tokenHash}`
 export const API_KEY_CACHE_KEY = (keyHash: string) => `auth:apikey:${keyHash}`
 export const OTP_KEY = (action: string, sessionId: string, method: string) => `auth:otp:${action}:${sessionId}:${method}`
+
+// ── API Key quota Redis key patterns ───────────────────────────────
+/** Daily usage counter — expires after 2 days to cover timezone edge cases. */
+export const API_KEY_DAILY_USAGE_KEY = (keyId: string, date: string) =>
+  `api:usage:${keyId}:daily:${date}`
+/** Monthly usage counter — expires after 33 days to outlast the longest month. */
+export const API_KEY_MONTHLY_USAGE_KEY = (keyId: string, month: string) =>
+  `api:usage:${keyId}:monthly:${month}`
+
+export const API_KEY_DAILY_USAGE_TTL_SECONDS = 60 * 60 * 48       // 2 days
+export const API_KEY_MONTHLY_USAGE_TTL_SECONDS = 60 * 60 * 24 * 33 // 33 days
 export const OTP_RATE_KEY = (sessionId: string, method: string) => `auth:otp:rate:${sessionId}:${method}`
 export const OTP_CODE_KEY = (sessionId: string, method: string, action: string) => `auth:otp:code:${sessionId}:${method}:${action}`
 export const TOTP_KEY = (action: string, sessionId: string) => `auth:totp:${action}:${sessionId}`
