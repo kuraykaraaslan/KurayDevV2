@@ -1027,7 +1027,9 @@
       "sending": "Kod Göndərilir...",
       "title": "Təhlükəsizlik Doğrulaması",
       "verify": "Doğrula",
-      "verifying": "Doğrulanır..."
+      "verifying": "Doğrulanır...",
+      "resend": "Kodu yenidən göndər",
+      "totp_hint": "Autentifikasiya tətbiqini açın və 6 rəqəmli kodu daxil edin"
     },
     "otp_method_card": {
       "active": "Aktiv",

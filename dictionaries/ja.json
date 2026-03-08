@@ -1027,7 +1027,9 @@
       "sending": "コードを送信中...",
       "title": "セキュリティ確認",
       "verify": "確認",
-      "verifying": "確認中..."
+      "verifying": "確認中...",
+      "resend": "コードを再送する",
+      "totp_hint": "認証アプリを開いて6桁のコードを入力してください"
     },
     "otp_method_card": {
       "active": "アクティブ",

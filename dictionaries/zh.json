@@ -1027,7 +1027,9 @@
       "sending": "正在发送验证码...",
       "title": "安全验证",
       "verify": "验证",
-      "verifying": "正在验证..."
+      "verifying": "正在验证...",
+      "resend": "重新发送验证码",
+      "totp_hint": "打开您的身份验证应用程序并输入6位数代码"
     },
     "otp_method_card": {
       "active": "已激活",

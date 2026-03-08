@@ -452,6 +452,8 @@
       "send_code": "Send Verification Code",
       "sending": "Sending Code...",
       "code_placeholder": "123456",
+      "resend": "Resend Code",
+      "totp_hint": "Open your authenticator app and enter the 6-digit code",
       "verify": "Verify",
       "verifying": "Verifying..."
     },

@@ -410,7 +410,9 @@
       "sending": "Saadan koodi...",
       "code_placeholder": "123456",
       "verify": "Kinnita",
-      "verifying": "Kinnitan..."
+      "verifying": "Kinnitan...",
+      "resend": "Saada kood uuesti",
+      "totp_hint": "Avage autentimisrakendus ja sisestage 6-kohaline kood"
     },
     "totp_setup": {
       "title": "TOTP seadistamine",

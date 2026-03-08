@@ -410,7 +410,9 @@
       "sending": "Qed nibgħat il-kodiċi...",
       "code_placeholder": "123456",
       "verify": "Ivverifika",
-      "verifying": "Qed nivverifika..."
+      "verifying": "Qed nivverifika...",
+      "resend": "Ibgħat il-kodiċi mill-ġdid",
+      "totp_hint": "Iftаħ l-applikazzjoni ta' awtentikazzjoni u daħħal il-kodiċi ta' 6 ċifri"
     },
     "totp_setup": {
       "title": "Setup ta' TOTP",

@@ -410,7 +410,9 @@
       "sending": "שולח קוד...",
       "code_placeholder": "123456",
       "verify": "אמת",
-      "verifying": "מאמת..."
+      "verifying": "מאמת...",
+      "resend": "שלח קוד מחדש",
+      "totp_hint": "פתח את אפליקציית האימות שלך והזן את הקוד בן 6 הספרות"
     },
     "totp_setup": {
       "title": "הגדרת TOTP",

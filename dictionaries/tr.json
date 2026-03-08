@@ -410,6 +410,8 @@
       "send_code": "Doğrulama Kodu Gönder",
       "sending": "Kod gönderiliyor...",
       "code_placeholder": "123456",
+      "resend": "Kodu Tekrar Gönder",
+      "totp_hint": "Kimlik doğrulama uygulamanızı açın ve 6 haneli kodu girin",
       "verify": "Doğrula",
       "verifying": "Doğrulanıyor..."
     },

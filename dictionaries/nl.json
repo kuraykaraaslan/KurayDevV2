@@ -410,7 +410,9 @@
       "sending": "Code verzenden...",
       "code_placeholder": "123456",
       "verify": "Verifiëren",
-      "verifying": "Verifiëren..."
+      "verifying": "Verifiëren...",
+      "resend": "Code opnieuw verzenden",
+      "totp_hint": "Open uw authenticator-app en voer de 6-cijferige code in"
     },
     "totp_setup": {
       "title": "TOTP-instelling",

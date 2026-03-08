@@ -1027,7 +1027,9 @@
       "sending": "Kod Iberyilýär...",
       "title": "Howpsuzlyk Barlagy",
       "verify": "Barla",
-      "verifying": "Barlanýar..."
+      "verifying": "Barlanýar...",
+      "resend": "Kody gaýtadan iberiň",
+      "totp_hint": "Autentifikator programmaňyzy açyň we 6 sanly kody giriziň"
     },
     "otp_method_card": {
       "active": "Işjeň",

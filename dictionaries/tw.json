@@ -1027,7 +1027,9 @@
       "sending": "正在發送驗證碼...",
       "title": "安全驗證",
       "verify": "驗證",
-      "verifying": "驗證中..."
+      "verifying": "驗證中...",
+      "resend": "重新傳送驗證碼",
+      "totp_hint": "開啟您的驗證器應用程式並輸入6位數驗證碼"
     },
     "otp_method_card": {
       "active": "啟用",

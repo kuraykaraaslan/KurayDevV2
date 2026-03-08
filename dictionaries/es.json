@@ -1026,7 +1026,9 @@
       "sending": "Enviando código...",
       "title": "Verificación de seguridad",
       "verify": "Verificar",
-      "verifying": "Verificando..."
+      "verifying": "Verificando...",
+      "resend": "Reenviar código",
+      "totp_hint": "Abre tu aplicación autenticadora e introduce el código de 6 dígitos"
     },
     "otp_method_card": {
       "active": "Activo",

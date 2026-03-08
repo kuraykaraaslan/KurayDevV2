@@ -1027,7 +1027,9 @@
       "sending": "Lähetetään koodia...",
       "title": "Turvallisuuden Varmistus",
       "verify": "Vahvista",
-      "verifying": "Vahvistetaan..."
+      "verifying": "Vahvistetaan...",
+      "resend": "Lähetä koodi uudelleen",
+      "totp_hint": "Avaa todennussovellus ja anna 6-numeroinen koodi"
     },
     "otp_method_card": {
       "active": "Aktiivinen",

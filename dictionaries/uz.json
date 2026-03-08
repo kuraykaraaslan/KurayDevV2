@@ -1027,7 +1027,9 @@
       "sending": "Kod yuborilmoqda...",
       "title": "Xavfsizlikni tekshirish",
       "verify": "Tasdiqlash",
-      "verifying": "Tasdiqlanmoqda..."
+      "verifying": "Tasdiqlanmoqda...",
+      "resend": "Kodni qayta yuborish",
+      "totp_hint": "Autentifikator ilovangizni oching va 6 raqamli kodni kiriting"
     },
     "otp_method_card": {
       "active": "Faol",
