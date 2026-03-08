@@ -39,6 +39,8 @@ export const ContactFormRequestSchema = z.object({
   website: z.string().optional(),
   // Form load timestamp for timing check
   _formLoadTime: z.number().optional(),
+  // reCAPTCHA v2 token
+  recaptchaToken: z.string().min(1, 'reCAPTCHA token is required'),
 })
 
 export const ContactFormResponseSchema = z.object({

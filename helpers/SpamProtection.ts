@@ -3,6 +3,29 @@
  * Implements honeypot field and timing-based detection
  */
 
+const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+
+/**
+ * Verifies a reCAPTCHA token server-side.
+ * Returns true if the token is valid, false otherwise.
+ */
+export async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secret = process.env.RECAPTCHA_SERVER_KEY
+  if (!secret) return true // Skip if not configured (dev env)
+
+  try {
+    const res = await fetch(RECAPTCHA_VERIFY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret, response: token }).toString(),
+    })
+    const data = (await res.json()) as { success: boolean }
+    return data.success === true
+  } catch {
+    return false
+  }
+}
+
 /**
  * Minimum time (in ms) a human would take to fill the form
  * Forms submitted faster than this are likely bots

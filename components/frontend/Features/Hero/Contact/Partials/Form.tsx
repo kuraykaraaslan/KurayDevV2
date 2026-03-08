@@ -116,6 +116,7 @@ const ContactForm = (props: { className?: string; token: string }) => {
       // Spam protection fields
       website: honeypot,
       _formLoadTime: formLoadTime,
+      recaptchaToken: token,
     }
 
     try {

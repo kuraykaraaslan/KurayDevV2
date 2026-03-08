@@ -7,7 +7,7 @@ import SMSService from '@/services/NotificationService/SMSService'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { ContactFormRequestSchema } from '@/dtos/AIAndServicesDTO'
 import ContactMessages from '@/messages/ContactMessages'
-import { checkForSpam } from '@/helpers/SpamProtection'
+import { checkForSpam, verifyRecaptcha } from '@/helpers/SpamProtection'
 import Logger from '@/libs/logger'
 
 type ResponseData = {
@@ -52,7 +52,13 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
     )
   }
 
-  const { name, email, phone, message, website, _formLoadTime } = parsedData.data
+  const { name, email, phone, message, website, _formLoadTime, recaptchaToken } = parsedData.data
+
+  // reCAPTCHA server-side verification
+  const recaptchaValid = await verifyRecaptcha(recaptchaToken)
+  if (!recaptchaValid) {
+    return NextResponse.json({ message: 'reCAPTCHA verification failed' }, { status: 400 })
+  }
 
   // Spam protection checks
   const spamCheck = checkForSpam({
