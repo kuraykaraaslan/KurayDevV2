@@ -75,6 +75,8 @@ const LoginPage = () => {
         })
         if (!verifyRes.ok) return
 
+        const { user } = (await verifyRes.json()) as { user: Parameters<typeof setUser>[0] }
+        setUser(user)
         toast.success(t('auth.passkey.auth_success'))
         router.push(searchParams.get('redirect') || '/')
       } catch {
@@ -289,7 +291,8 @@ const LoginPage = () => {
 
         <PasskeyLoginButton
           email={email || undefined}
-          onSuccess={() => {
+          onSuccess={(user) => {
+            setUser(user)
             toast.success(t('auth.passkey.auth_success'))
             router.push(searchParams.get('redirect') || '/')
           }}

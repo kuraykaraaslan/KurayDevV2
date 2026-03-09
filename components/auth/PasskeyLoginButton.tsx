@@ -3,12 +3,13 @@
 import { useState } from 'react'
 import { startAuthentication } from '@simplewebauthn/browser'
 import { useTranslation } from 'react-i18next'
+import type { SafeUser } from '@/types/user/UserTypes'
 
 interface PasskeyLoginButtonProps {
   /** Pre-fill the email so options are scoped to this user's credentials.  */
   email?: string
-  /** Called on successful authentication (before page redirect). */
-  onSuccess?: () => void
+  /** Called on successful authentication with the resolved user. */
+  onSuccess?: (user: SafeUser) => void
 }
 
 /**
@@ -61,7 +62,8 @@ export default function PasskeyLoginButton({ email, onSuccess }: PasskeyLoginBut
         throw new Error(message)
       }
 
-      onSuccess?.()
+      const { user } = (await verifyRes.json()) as { user: SafeUser }
+      onSuccess?.(user)
       // Let the caller handle navigation (mirrors SSO callback pattern)
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : t('auth.passkey.auth_failed')
