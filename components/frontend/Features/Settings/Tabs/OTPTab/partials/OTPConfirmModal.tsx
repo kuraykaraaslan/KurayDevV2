@@ -15,12 +15,6 @@ const METHOD_ICON: Record<string, IconDefinition> = {
   TOTP_APP: faShieldHalved,
 }
 
-const METHOD_LABEL: Record<string, string> = {
-  EMAIL: 'Email',
-  SMS: 'SMS',
-  TOTP_APP: 'Authenticator App',
-}
-
 type Props = {
   open: boolean
   otpSent: boolean
@@ -55,16 +49,31 @@ export default function OTPConfirmModal(props: Props) {
     onMethodChange,
   } = props
 
+  const getMethodLabel = (m: OTPMethod): string => {
+    switch (m) {
+      case OTPMethodEnum.Enum.EMAIL:    return t('settings.otp_confirm.method_email')
+      case OTPMethodEnum.Enum.SMS:      return t('settings.otp_confirm.method_sms')
+      case OTPMethodEnum.Enum.TOTP_APP: return t('settings.otp_confirm.method_totp')
+      default:                          return m
+    }
+  }
+
   const isTotp = method === OTPMethodEnum.Enum.TOTP_APP
   const showInput = isTotp || otpSent
   const methodIcon = method ? (METHOD_ICON[method] ?? faShieldHalved) : faShieldHalved
-  const methodLabel = method ? (METHOD_LABEL[method] ?? method) : ''
+  const methodLabel = method ? getMethodLabel(method) : ''
+
+  const modalTitle = method
+    ? (isTotp
+        ? t('settings.otp_confirm.totp_title')
+        : t('settings.otp_confirm.otp_title'))
+    : t('settings.otp_confirm.title')
 
   return (
     <HeadlessModal
       open={open}
       onClose={onClose}
-      title={t('settings.otp_confirm.title')}
+      title={modalTitle}
       size="sm"
       closeOnBackdrop={false}
       closeOnEsc={false}
@@ -82,7 +91,7 @@ export default function OTPConfirmModal(props: Props) {
                 }`}
               >
                 <FontAwesomeIcon icon={METHOD_ICON[m] ?? faShieldHalved} className="w-3 h-3" />
-                {METHOD_LABEL[m] ?? m}
+                {getMethodLabel(m)}
               </button>
             ))}
           </div>
@@ -102,11 +111,13 @@ export default function OTPConfirmModal(props: Props) {
                 </p>
               )}
               {!isTotp && otpSent && (
-                <p className="text-xs text-success mt-0.5">✓ Code sent to your {methodLabel}</p>
+                <p className="text-xs text-success mt-0.5">
+                  {t('settings.otp_confirm.code_sent_to', { method: methodLabel })}
+                </p>
               )}
               {!isTotp && !otpSent && (
                 <p className="text-xs text-base-content/50 mt-0.5">
-                  A verification code will be sent to you
+                  {t('settings.otp_confirm.will_be_sent_to', { method: methodLabel })}
                 </p>
               )}
             </div>
