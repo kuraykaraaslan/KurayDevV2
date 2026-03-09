@@ -40,15 +40,15 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kuray Karaaslan Blog</title>
+    <title>${process.env.NEXT_PUBLIC_APPLICATION_NAME || 'Kuray Karaaslan'} Blog</title>
     <link>${BASE}/blog</link>
-    <description>Software development, tech insights, and open-source projects by Kuray Karaaslan</description>
+    <description>Software development, tech insights, and open-source projects by ${process.env.NEXT_PUBLIC_AUTHOR_NAME || 'Kuray Karaaslan'}</description>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${BASE}/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>${BASE}/assets/img/og.png</url>
-      <title>Kuray Karaaslan Blog</title>
+      <title>${process.env.NEXT_PUBLIC_APPLICATION_NAME || 'Kuray Karaaslan'} Blog</title>
       <link>${BASE}/blog</link>
     </image>
     ${rssItems}
