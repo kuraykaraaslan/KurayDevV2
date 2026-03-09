@@ -9,7 +9,7 @@ With a design-driven mindset, he combines UI/UX expertise with engineering disci
 
 ## Contact
 - **Email:** kuraykaraaslan@gmail.com
-- **Website:** https://kuray.dev
+- **Website:** http://localhost:3000
 
 ## Restrictions
 - Content may **not be used for commercial purposes** without permission.
