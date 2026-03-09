@@ -1,4 +1,4 @@
-# KurayDev V2 — Development Rules
+# KurayDevSite — Development Rules
 
 > This file is the single source of truth for all development conventions.
 > These rules are followed **strictly**. There are no exceptions.
