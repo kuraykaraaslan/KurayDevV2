@@ -81,7 +81,7 @@ export default class SubscriptionService {
             ...existing,
             newsletter: true,
             newsletterTopics: topics,
-          },
+          } as object,
         },
       })
       return { isRegisteredUser: true }
@@ -114,7 +114,7 @@ export default class SubscriptionService {
    * - Registered user → sets userPreferences.newsletter = false (no Subscription row touched).
    * - Anonymous email → soft-deletes the Subscription row.
    */
-  static async deleteSubscription(email: string): Promise<void> {
+  static async deleteSubscription(email: string): Promise<Subscription | null> {
     const user = await prisma.user.findUnique({
       where: { email },
       select: { userId: true, userPreferences: true },
@@ -132,13 +132,14 @@ export default class SubscriptionService {
           },
         },
       })
-      return
+      // Return a synthetic subscription object for registered users
+      return { email, unsubscribeToken: null, createdAt: new Date(), deletedAt: new Date() } as unknown as Subscription
     }
 
     // Anonymous subscriber
     const existingSub = await this.getSubscriptionByEmail(email)
-    if (!existingSub) return
-    await prisma.subscription.update({
+    if (!existingSub) return null
+    return await prisma.subscription.update({
       where: { email },
       data: { deletedAt: new Date() },
     })
@@ -179,134 +180,5 @@ export default class SubscriptionService {
       .map((s) => ({ email: s.email, unsubscribeToken: s.unsubscribeToken }))
 
     return [...registeredEmails, ...anonymousEmails]
-  }
-}
-
-
-const TOPIC_PREFERENCE_KEY: Record<SubscriptionTopic, string> = {
-  BLOG_DIGEST: 'blogDigest',
-  ANNOUNCEMENTS: 'announcements',
-  EVENTS: 'events',
-}
-
-export default class SubscriptionService {
-  static async getAllSubscriptions(data: {
-    page?: number
-    pageSize?: number
-    includeDeleted?: boolean
-    search?: string
-    sortKey?: string
-    sortDir?: 'asc' | 'desc'
-  }): Promise<{ subscriptions: Subscription[]; total: number }> {
-    const where = {
-      deletedAt: data.includeDeleted ? undefined : null,
-      ...(data.search && {
-        email: {
-          contains: data.search,
-          mode: 'insensitive' as const,
-        },
-      }),
-    }
-
-    const ALLOWED_SORT_KEYS: Record<string, string> = { email: 'email', createdAt: 'createdAt' }
-    const resolvedSortKey = (data.sortKey && ALLOWED_SORT_KEYS[data.sortKey]) ?? 'createdAt'
-    const resolvedSortDir: 'asc' | 'desc' = data.sortDir === 'asc' ? 'asc' : 'desc'
-
-    const [subscriptions, total] = await prisma.$transaction([
-      prisma.subscription.findMany({
-        where,
-        skip: data.page && data.pageSize ? data.page * data.pageSize : undefined,
-        take: data.pageSize ? data.pageSize : undefined,
-        orderBy: { [resolvedSortKey]: resolvedSortDir },
-      }),
-      prisma.subscription.count({ where }),
-    ])
-
-    return { subscriptions, total }
-  }
-
-  static async getSubscriptionByEmail(email: string): Promise<Subscription | null> {
-    return await prisma.subscription.findFirst({
-      where: {
-        email: email,
-      },
-    })
-  }
-
-  static async createSubscription(email: string): Promise<Subscription> {
-    const existingSubscription = await this.getSubscriptionByEmail(email)
-    if (existingSubscription) {
-      if (existingSubscription.deletedAt) {
-        return await prisma.subscription.update({
-          where: {
-            email: email,
-          },
-          data: {
-            deletedAt: null,
-          },
-        })
-      }
-      return existingSubscription
-    }
-
-    return await prisma.subscription.create({
-      data: {
-        email: email,
-      },
-    })
-  }
-
-  static async getSubscriptionByToken(token: string): Promise<Subscription | null> {
-    return await prisma.subscription.findFirst({
-      where: { unsubscribeToken: token },
-    })
-  }
-
-  static async deleteSubscription(email: string): Promise<Subscription | null> {
-    const existingSubscription = await this.getSubscriptionByEmail(email)
-    if (!existingSubscription) {
-      return null
-    }
-
-    return await prisma.subscription.update({
-      where: {
-        email: email,
-      },
-      data: {
-        deletedAt: new Date(),
-      },
-    })
-  }
-
-  /**
-   * Returns active subscribers opted into a specific topic.
-   * Preferences are read from userPreferences JSON on registered users.
-   * Subscribers with no matching user account are opted in by default.
-   */
-  static async getSubscribersByTopic(topic: SubscriptionTopic): Promise<Subscription[]> {
-    const { subscriptions } = await this.getAllSubscriptions({ includeDeleted: false })
-    if (subscriptions.length === 0) return []
-
-    const emails = subscriptions.map((s) => s.email)
-    const topicKey = TOPIC_PREFERENCE_KEY[topic]
-
-    const users = await prisma.user.findMany({
-      where: { email: { in: emails } },
-      select: { email: true, userPreferences: true },
-    })
-
-    const optedOutEmails = new Set(
-      users
-        .filter((u) => {
-          const prefs = u.userPreferences as Record<string, unknown> | null
-          if (!prefs) return false
-          const topics = prefs.newsletterTopics as Record<string, unknown> | undefined
-          if (!topics) return false
-          return topics[topicKey] === false
-        })
-        .map((u) => u.email)
-    )
-
-    return subscriptions.filter((s) => !optedOutEmails.has(s.email))
   }
 }
