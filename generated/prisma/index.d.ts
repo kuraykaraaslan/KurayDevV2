@@ -205,6 +205,15 @@ export const CampaignStatus: {
 export type CampaignStatus = (typeof CampaignStatus)[keyof typeof CampaignStatus]
 
 
+export const SubscriptionTopic: {
+  BLOG_DIGEST: 'BLOG_DIGEST',
+  ANNOUNCEMENTS: 'ANNOUNCEMENTS',
+  EVENTS: 'EVENTS'
+};
+
+export type SubscriptionTopic = (typeof SubscriptionTopic)[keyof typeof SubscriptionTopic]
+
+
 export const AppointmentStatus: {
   PENDING: 'PENDING',
   BOOKED: 'BOOKED',
@@ -244,6 +253,10 @@ export const CommentStatus: typeof $Enums.CommentStatus
 export type CampaignStatus = $Enums.CampaignStatus
 
 export const CampaignStatus: typeof $Enums.CampaignStatus
+
+export type SubscriptionTopic = $Enums.SubscriptionTopic
+
+export const SubscriptionTopic: typeof $Enums.SubscriptionTopic
 
 export type AppointmentStatus = $Enums.AppointmentStatus
 
@@ -18296,6 +18309,7 @@ export namespace Prisma {
     title: string | null
     subject: string | null
     content: string | null
+    topic: $Enums.SubscriptionTopic | null
     status: $Enums.CampaignStatus | null
     sentAt: Date | null
     sentCount: number | null
@@ -18308,6 +18322,7 @@ export namespace Prisma {
     title: string | null
     subject: string | null
     content: string | null
+    topic: $Enums.SubscriptionTopic | null
     status: $Enums.CampaignStatus | null
     sentAt: Date | null
     sentCount: number | null
@@ -18320,6 +18335,7 @@ export namespace Prisma {
     title: number
     subject: number
     content: number
+    topic: number
     status: number
     sentAt: number
     sentCount: number
@@ -18342,6 +18358,7 @@ export namespace Prisma {
     title?: true
     subject?: true
     content?: true
+    topic?: true
     status?: true
     sentAt?: true
     sentCount?: true
@@ -18354,6 +18371,7 @@ export namespace Prisma {
     title?: true
     subject?: true
     content?: true
+    topic?: true
     status?: true
     sentAt?: true
     sentCount?: true
@@ -18366,6 +18384,7 @@ export namespace Prisma {
     title?: true
     subject?: true
     content?: true
+    topic?: true
     status?: true
     sentAt?: true
     sentCount?: true
@@ -18465,6 +18484,7 @@ export namespace Prisma {
     title: string
     subject: string
     content: string
+    topic: $Enums.SubscriptionTopic | null
     status: $Enums.CampaignStatus
     sentAt: Date | null
     sentCount: number
@@ -18496,6 +18516,7 @@ export namespace Prisma {
     title?: boolean
     subject?: boolean
     content?: boolean
+    topic?: boolean
     status?: boolean
     sentAt?: boolean
     sentCount?: boolean
@@ -18508,6 +18529,7 @@ export namespace Prisma {
     title?: boolean
     subject?: boolean
     content?: boolean
+    topic?: boolean
     status?: boolean
     sentAt?: boolean
     sentCount?: boolean
@@ -18520,6 +18542,7 @@ export namespace Prisma {
     title?: boolean
     subject?: boolean
     content?: boolean
+    topic?: boolean
     status?: boolean
     sentAt?: boolean
     sentCount?: boolean
@@ -18532,6 +18555,7 @@ export namespace Prisma {
     title?: boolean
     subject?: boolean
     content?: boolean
+    topic?: boolean
     status?: boolean
     sentAt?: boolean
     sentCount?: boolean
@@ -18539,7 +18563,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CampaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"campaignId" | "title" | "subject" | "content" | "status" | "sentAt" | "sentCount" | "createdAt" | "updatedAt", ExtArgs["result"]["campaign"]>
+  export type CampaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"campaignId" | "title" | "subject" | "content" | "topic" | "status" | "sentAt" | "sentCount" | "createdAt" | "updatedAt", ExtArgs["result"]["campaign"]>
 
   export type $CampaignPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Campaign"
@@ -18549,6 +18573,7 @@ export namespace Prisma {
       title: string
       subject: string
       content: string
+      topic: $Enums.SubscriptionTopic | null
       status: $Enums.CampaignStatus
       sentAt: Date | null
       sentCount: number
@@ -18981,6 +19006,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Campaign", 'String'>
     readonly subject: FieldRef<"Campaign", 'String'>
     readonly content: FieldRef<"Campaign", 'String'>
+    readonly topic: FieldRef<"Campaign", 'SubscriptionTopic'>
     readonly status: FieldRef<"Campaign", 'CampaignStatus'>
     readonly sentAt: FieldRef<"Campaign", 'DateTime'>
     readonly sentCount: FieldRef<"Campaign", 'Int'>
@@ -31209,8 +31235,20 @@ export namespace Prisma {
 
   export type AggregateApiKey = {
     _count: ApiKeyCountAggregateOutputType | null
+    _avg: ApiKeyAvgAggregateOutputType | null
+    _sum: ApiKeySumAggregateOutputType | null
     _min: ApiKeyMinAggregateOutputType | null
     _max: ApiKeyMaxAggregateOutputType | null
+  }
+
+  export type ApiKeyAvgAggregateOutputType = {
+    dailyLimit: number | null
+    monthlyLimit: number | null
+  }
+
+  export type ApiKeySumAggregateOutputType = {
+    dailyLimit: number | null
+    monthlyLimit: number | null
   }
 
   export type ApiKeyMinAggregateOutputType = {
@@ -31219,6 +31257,8 @@ export namespace Prisma {
     name: string | null
     prefix: string | null
     keyHash: string | null
+    dailyLimit: number | null
+    monthlyLimit: number | null
     lastUsedAt: Date | null
     expiresAt: Date | null
     createdAt: Date | null
@@ -31231,6 +31271,8 @@ export namespace Prisma {
     name: string | null
     prefix: string | null
     keyHash: string | null
+    dailyLimit: number | null
+    monthlyLimit: number | null
     lastUsedAt: Date | null
     expiresAt: Date | null
     createdAt: Date | null
@@ -31243,6 +31285,8 @@ export namespace Prisma {
     name: number
     prefix: number
     keyHash: number
+    dailyLimit: number
+    monthlyLimit: number
     lastUsedAt: number
     expiresAt: number
     createdAt: number
@@ -31251,12 +31295,24 @@ export namespace Prisma {
   }
 
 
+  export type ApiKeyAvgAggregateInputType = {
+    dailyLimit?: true
+    monthlyLimit?: true
+  }
+
+  export type ApiKeySumAggregateInputType = {
+    dailyLimit?: true
+    monthlyLimit?: true
+  }
+
   export type ApiKeyMinAggregateInputType = {
     apiKeyId?: true
     userId?: true
     name?: true
     prefix?: true
     keyHash?: true
+    dailyLimit?: true
+    monthlyLimit?: true
     lastUsedAt?: true
     expiresAt?: true
     createdAt?: true
@@ -31269,6 +31325,8 @@ export namespace Prisma {
     name?: true
     prefix?: true
     keyHash?: true
+    dailyLimit?: true
+    monthlyLimit?: true
     lastUsedAt?: true
     expiresAt?: true
     createdAt?: true
@@ -31281,6 +31339,8 @@ export namespace Prisma {
     name?: true
     prefix?: true
     keyHash?: true
+    dailyLimit?: true
+    monthlyLimit?: true
     lastUsedAt?: true
     expiresAt?: true
     createdAt?: true
@@ -31326,6 +31386,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ApiKeyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ApiKeySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ApiKeyMinAggregateInputType
@@ -31356,6 +31428,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ApiKeyCountAggregateInputType | true
+    _avg?: ApiKeyAvgAggregateInputType
+    _sum?: ApiKeySumAggregateInputType
     _min?: ApiKeyMinAggregateInputType
     _max?: ApiKeyMaxAggregateInputType
   }
@@ -31366,11 +31440,15 @@ export namespace Prisma {
     name: string
     prefix: string
     keyHash: string
+    dailyLimit: number | null
+    monthlyLimit: number | null
     lastUsedAt: Date | null
     expiresAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: ApiKeyCountAggregateOutputType | null
+    _avg: ApiKeyAvgAggregateOutputType | null
+    _sum: ApiKeySumAggregateOutputType | null
     _min: ApiKeyMinAggregateOutputType | null
     _max: ApiKeyMaxAggregateOutputType | null
   }
@@ -31395,6 +31473,8 @@ export namespace Prisma {
     name?: boolean
     prefix?: boolean
     keyHash?: boolean
+    dailyLimit?: boolean
+    monthlyLimit?: boolean
     lastUsedAt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -31408,6 +31488,8 @@ export namespace Prisma {
     name?: boolean
     prefix?: boolean
     keyHash?: boolean
+    dailyLimit?: boolean
+    monthlyLimit?: boolean
     lastUsedAt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -31421,6 +31503,8 @@ export namespace Prisma {
     name?: boolean
     prefix?: boolean
     keyHash?: boolean
+    dailyLimit?: boolean
+    monthlyLimit?: boolean
     lastUsedAt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -31434,13 +31518,15 @@ export namespace Prisma {
     name?: boolean
     prefix?: boolean
     keyHash?: boolean
+    dailyLimit?: boolean
+    monthlyLimit?: boolean
     lastUsedAt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ApiKeyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"apiKeyId" | "userId" | "name" | "prefix" | "keyHash" | "lastUsedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["apiKey"]>
+  export type ApiKeyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"apiKeyId" | "userId" | "name" | "prefix" | "keyHash" | "dailyLimit" | "monthlyLimit" | "lastUsedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["apiKey"]>
   export type ApiKeyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -31462,6 +31548,8 @@ export namespace Prisma {
       name: string
       prefix: string
       keyHash: string
+      dailyLimit: number | null
+      monthlyLimit: number | null
       lastUsedAt: Date | null
       expiresAt: Date | null
       createdAt: Date
@@ -31895,6 +31983,8 @@ export namespace Prisma {
     readonly name: FieldRef<"ApiKey", 'String'>
     readonly prefix: FieldRef<"ApiKey", 'String'>
     readonly keyHash: FieldRef<"ApiKey", 'String'>
+    readonly dailyLimit: FieldRef<"ApiKey", 'Int'>
+    readonly monthlyLimit: FieldRef<"ApiKey", 'Int'>
     readonly lastUsedAt: FieldRef<"ApiKey", 'DateTime'>
     readonly expiresAt: FieldRef<"ApiKey", 'DateTime'>
     readonly createdAt: FieldRef<"ApiKey", 'DateTime'>
@@ -34743,6 +34833,7 @@ export namespace Prisma {
     title: 'title',
     subject: 'subject',
     content: 'content',
+    topic: 'topic',
     status: 'status',
     sentAt: 'sentAt',
     sentCount: 'sentCount',
@@ -34914,6 +35005,8 @@ export namespace Prisma {
     name: 'name',
     prefix: 'prefix',
     keyHash: 'keyHash',
+    dailyLimit: 'dailyLimit',
+    monthlyLimit: 'monthlyLimit',
     lastUsedAt: 'lastUsedAt',
     expiresAt: 'expiresAt',
     createdAt: 'createdAt',
@@ -35100,6 +35193,20 @@ export namespace Prisma {
    * Reference to a field of type 'CommentStatus[]'
    */
   export type ListEnumCommentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SubscriptionTopic'
+   */
+  export type EnumSubscriptionTopicFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionTopic'>
+    
+
+
+  /**
+   * Reference to a field of type 'SubscriptionTopic[]'
+   */
+  export type ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionTopic[]'>
     
 
 
@@ -36144,6 +36251,7 @@ export namespace Prisma {
     title?: StringFilter<"Campaign"> | string
     subject?: StringFilter<"Campaign"> | string
     content?: StringFilter<"Campaign"> | string
+    topic?: EnumSubscriptionTopicNullableFilter<"Campaign"> | $Enums.SubscriptionTopic | null
     status?: EnumCampaignStatusFilter<"Campaign"> | $Enums.CampaignStatus
     sentAt?: DateTimeNullableFilter<"Campaign"> | Date | string | null
     sentCount?: IntFilter<"Campaign"> | number
@@ -36156,6 +36264,7 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     content?: SortOrder
+    topic?: SortOrderInput | SortOrder
     status?: SortOrder
     sentAt?: SortOrderInput | SortOrder
     sentCount?: SortOrder
@@ -36171,6 +36280,7 @@ export namespace Prisma {
     title?: StringFilter<"Campaign"> | string
     subject?: StringFilter<"Campaign"> | string
     content?: StringFilter<"Campaign"> | string
+    topic?: EnumSubscriptionTopicNullableFilter<"Campaign"> | $Enums.SubscriptionTopic | null
     status?: EnumCampaignStatusFilter<"Campaign"> | $Enums.CampaignStatus
     sentAt?: DateTimeNullableFilter<"Campaign"> | Date | string | null
     sentCount?: IntFilter<"Campaign"> | number
@@ -36183,6 +36293,7 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     content?: SortOrder
+    topic?: SortOrderInput | SortOrder
     status?: SortOrder
     sentAt?: SortOrderInput | SortOrder
     sentCount?: SortOrder
@@ -36203,6 +36314,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Campaign"> | string
     subject?: StringWithAggregatesFilter<"Campaign"> | string
     content?: StringWithAggregatesFilter<"Campaign"> | string
+    topic?: EnumSubscriptionTopicNullableWithAggregatesFilter<"Campaign"> | $Enums.SubscriptionTopic | null
     status?: EnumCampaignStatusWithAggregatesFilter<"Campaign"> | $Enums.CampaignStatus
     sentAt?: DateTimeNullableWithAggregatesFilter<"Campaign"> | Date | string | null
     sentCount?: IntWithAggregatesFilter<"Campaign"> | number
@@ -36990,6 +37102,8 @@ export namespace Prisma {
     name?: StringFilter<"ApiKey"> | string
     prefix?: StringFilter<"ApiKey"> | string
     keyHash?: StringFilter<"ApiKey"> | string
+    dailyLimit?: IntNullableFilter<"ApiKey"> | number | null
+    monthlyLimit?: IntNullableFilter<"ApiKey"> | number | null
     lastUsedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     expiresAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     createdAt?: DateTimeFilter<"ApiKey"> | Date | string
@@ -37003,6 +37117,8 @@ export namespace Prisma {
     name?: SortOrder
     prefix?: SortOrder
     keyHash?: SortOrder
+    dailyLimit?: SortOrderInput | SortOrder
+    monthlyLimit?: SortOrderInput | SortOrder
     lastUsedAt?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -37019,6 +37135,8 @@ export namespace Prisma {
     userId?: StringFilter<"ApiKey"> | string
     name?: StringFilter<"ApiKey"> | string
     prefix?: StringFilter<"ApiKey"> | string
+    dailyLimit?: IntNullableFilter<"ApiKey"> | number | null
+    monthlyLimit?: IntNullableFilter<"ApiKey"> | number | null
     lastUsedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     expiresAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     createdAt?: DateTimeFilter<"ApiKey"> | Date | string
@@ -37032,13 +37150,17 @@ export namespace Prisma {
     name?: SortOrder
     prefix?: SortOrder
     keyHash?: SortOrder
+    dailyLimit?: SortOrderInput | SortOrder
+    monthlyLimit?: SortOrderInput | SortOrder
     lastUsedAt?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ApiKeyCountOrderByAggregateInput
+    _avg?: ApiKeyAvgOrderByAggregateInput
     _max?: ApiKeyMaxOrderByAggregateInput
     _min?: ApiKeyMinOrderByAggregateInput
+    _sum?: ApiKeySumOrderByAggregateInput
   }
 
   export type ApiKeyScalarWhereWithAggregatesInput = {
@@ -37050,6 +37172,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"ApiKey"> | string
     prefix?: StringWithAggregatesFilter<"ApiKey"> | string
     keyHash?: StringWithAggregatesFilter<"ApiKey"> | string
+    dailyLimit?: IntNullableWithAggregatesFilter<"ApiKey"> | number | null
+    monthlyLimit?: IntNullableWithAggregatesFilter<"ApiKey"> | number | null
     lastUsedAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
     expiresAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ApiKey"> | Date | string
@@ -38284,6 +38408,7 @@ export namespace Prisma {
     title: string
     subject: string
     content: string
+    topic?: $Enums.SubscriptionTopic | null
     status?: $Enums.CampaignStatus
     sentAt?: Date | string | null
     sentCount?: number
@@ -38296,6 +38421,7 @@ export namespace Prisma {
     title: string
     subject: string
     content: string
+    topic?: $Enums.SubscriptionTopic | null
     status?: $Enums.CampaignStatus
     sentAt?: Date | string | null
     sentCount?: number
@@ -38308,6 +38434,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    topic?: NullableEnumSubscriptionTopicFieldUpdateOperationsInput | $Enums.SubscriptionTopic | null
     status?: EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sentCount?: IntFieldUpdateOperationsInput | number
@@ -38320,6 +38447,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    topic?: NullableEnumSubscriptionTopicFieldUpdateOperationsInput | $Enums.SubscriptionTopic | null
     status?: EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sentCount?: IntFieldUpdateOperationsInput | number
@@ -38332,6 +38460,7 @@ export namespace Prisma {
     title: string
     subject: string
     content: string
+    topic?: $Enums.SubscriptionTopic | null
     status?: $Enums.CampaignStatus
     sentAt?: Date | string | null
     sentCount?: number
@@ -38344,6 +38473,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    topic?: NullableEnumSubscriptionTopicFieldUpdateOperationsInput | $Enums.SubscriptionTopic | null
     status?: EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sentCount?: IntFieldUpdateOperationsInput | number
@@ -38356,6 +38486,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    topic?: NullableEnumSubscriptionTopicFieldUpdateOperationsInput | $Enums.SubscriptionTopic | null
     status?: EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sentCount?: IntFieldUpdateOperationsInput | number
@@ -39226,6 +39357,8 @@ export namespace Prisma {
     name: string
     prefix: string
     keyHash: string
+    dailyLimit?: number | null
+    monthlyLimit?: number | null
     lastUsedAt?: Date | string | null
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -39239,6 +39372,8 @@ export namespace Prisma {
     name: string
     prefix: string
     keyHash: string
+    dailyLimit?: number | null
+    monthlyLimit?: number | null
     lastUsedAt?: Date | string | null
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -39250,6 +39385,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
+    dailyLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyLimit?: NullableIntFieldUpdateOperationsInput | number | null
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39263,6 +39400,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
+    dailyLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyLimit?: NullableIntFieldUpdateOperationsInput | number | null
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39275,6 +39414,8 @@ export namespace Prisma {
     name: string
     prefix: string
     keyHash: string
+    dailyLimit?: number | null
+    monthlyLimit?: number | null
     lastUsedAt?: Date | string | null
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -39286,6 +39427,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
+    dailyLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyLimit?: NullableIntFieldUpdateOperationsInput | number | null
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39298,6 +39441,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
+    dailyLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyLimit?: NullableIntFieldUpdateOperationsInput | number | null
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40332,6 +40477,13 @@ export namespace Prisma {
     unsubscribeToken?: SortOrder
   }
 
+  export type EnumSubscriptionTopicNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionTopic | EnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSubscriptionTopicNullableFilter<$PrismaModel> | $Enums.SubscriptionTopic | null
+  }
+
   export type EnumCampaignStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CampaignStatus | EnumCampaignStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CampaignStatus[] | ListEnumCampaignStatusFieldRefInput<$PrismaModel>
@@ -40344,6 +40496,7 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     content?: SortOrder
+    topic?: SortOrder
     status?: SortOrder
     sentAt?: SortOrder
     sentCount?: SortOrder
@@ -40360,6 +40513,7 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     content?: SortOrder
+    topic?: SortOrder
     status?: SortOrder
     sentAt?: SortOrder
     sentCount?: SortOrder
@@ -40372,6 +40526,7 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     content?: SortOrder
+    topic?: SortOrder
     status?: SortOrder
     sentAt?: SortOrder
     sentCount?: SortOrder
@@ -40381,6 +40536,16 @@ export namespace Prisma {
 
   export type CampaignSumOrderByAggregateInput = {
     sentCount?: SortOrder
+  }
+
+  export type EnumSubscriptionTopicNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionTopic | EnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSubscriptionTopicNullableWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionTopic | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionTopicNullableFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionTopicNullableFilter<$PrismaModel>
   }
 
   export type EnumCampaignStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -40886,16 +41051,34 @@ export namespace Prisma {
     size?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ApiKeyCountOrderByAggregateInput = {
     apiKeyId?: SortOrder
     userId?: SortOrder
     name?: SortOrder
     prefix?: SortOrder
     keyHash?: SortOrder
+    dailyLimit?: SortOrder
+    monthlyLimit?: SortOrder
     lastUsedAt?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ApiKeyAvgOrderByAggregateInput = {
+    dailyLimit?: SortOrder
+    monthlyLimit?: SortOrder
   }
 
   export type ApiKeyMaxOrderByAggregateInput = {
@@ -40904,6 +41087,8 @@ export namespace Prisma {
     name?: SortOrder
     prefix?: SortOrder
     keyHash?: SortOrder
+    dailyLimit?: SortOrder
+    monthlyLimit?: SortOrder
     lastUsedAt?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -40916,10 +41101,33 @@ export namespace Prisma {
     name?: SortOrder
     prefix?: SortOrder
     keyHash?: SortOrder
+    dailyLimit?: SortOrder
+    monthlyLimit?: SortOrder
     lastUsedAt?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ApiKeySumOrderByAggregateInput = {
+    dailyLimit?: SortOrder
+    monthlyLimit?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumChatSessionStatusFilter<$PrismaModel = never> = {
@@ -41757,6 +41965,10 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type NullableEnumSubscriptionTopicFieldUpdateOperationsInput = {
+    set?: $Enums.SubscriptionTopic | null
+  }
+
   export type EnumCampaignStatusFieldUpdateOperationsInput = {
     set?: $Enums.CampaignStatus
   }
@@ -41946,6 +42158,14 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutApiKeysInput, UserUncheckedCreateWithoutApiKeysInput>
     connectOrCreate?: UserCreateOrConnectWithoutApiKeysInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutApiKeysNestedInput = {
@@ -42264,11 +42484,28 @@ export namespace Prisma {
     _max?: NestedEnumCommentStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumSubscriptionTopicNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionTopic | EnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSubscriptionTopicNullableFilter<$PrismaModel> | $Enums.SubscriptionTopic | null
+  }
+
   export type NestedEnumCampaignStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CampaignStatus | EnumCampaignStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CampaignStatus[] | ListEnumCampaignStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.CampaignStatus[] | ListEnumCampaignStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumCampaignStatusFilter<$PrismaModel> | $Enums.CampaignStatus
+  }
+
+  export type NestedEnumSubscriptionTopicNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionTopic | EnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SubscriptionTopic[] | ListEnumSubscriptionTopicFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSubscriptionTopicNullableWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionTopic | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionTopicNullableFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionTopicNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumCampaignStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -42312,6 +42549,33 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumChatSessionStatusFilter<$PrismaModel = never> = {
@@ -42422,6 +42686,8 @@ export namespace Prisma {
     name: string
     prefix: string
     keyHash: string
+    dailyLimit?: number | null
+    monthlyLimit?: number | null
     lastUsedAt?: Date | string | null
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -42433,6 +42699,8 @@ export namespace Prisma {
     name: string
     prefix: string
     keyHash: string
+    dailyLimit?: number | null
+    monthlyLimit?: number | null
     lastUsedAt?: Date | string | null
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -42625,6 +42893,8 @@ export namespace Prisma {
     name?: StringFilter<"ApiKey"> | string
     prefix?: StringFilter<"ApiKey"> | string
     keyHash?: StringFilter<"ApiKey"> | string
+    dailyLimit?: IntNullableFilter<"ApiKey"> | number | null
+    monthlyLimit?: IntNullableFilter<"ApiKey"> | number | null
     lastUsedAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     expiresAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
     createdAt?: DateTimeFilter<"ApiKey"> | Date | string
@@ -44629,6 +44899,8 @@ export namespace Prisma {
     name: string
     prefix: string
     keyHash: string
+    dailyLimit?: number | null
+    monthlyLimit?: number | null
     lastUsedAt?: Date | string | null
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -44764,6 +45036,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
+    dailyLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyLimit?: NullableIntFieldUpdateOperationsInput | number | null
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44775,6 +45049,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
+    dailyLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyLimit?: NullableIntFieldUpdateOperationsInput | number | null
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44786,6 +45062,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     prefix?: StringFieldUpdateOperationsInput | string
     keyHash?: StringFieldUpdateOperationsInput | string
+    dailyLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    monthlyLimit?: NullableIntFieldUpdateOperationsInput | number | null
     lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

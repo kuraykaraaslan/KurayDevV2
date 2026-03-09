@@ -231,6 +231,12 @@ enum CampaignStatus {
   SENT
 }
 
+enum SubscriptionTopic {
+  BLOG_DIGEST
+  ANNOUNCEMENTS
+  EVENTS
+}
+
 model Comment {
   commentId String   @id @default(cuid())
   content   String
@@ -264,15 +270,16 @@ model Subscription {
 }
 
 model Campaign {
-  campaignId String         @id @default(cuid())
+  campaignId String             @id @default(cuid())
   title      String
   subject    String
   content    String
-  status     CampaignStatus @default(DRAFT)
+  topic      SubscriptionTopic?
+  status     CampaignStatus     @default(DRAFT)
   sentAt     DateTime?
-  sentCount  Int            @default(0)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  sentCount  Int                @default(0)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
 }
 
 model Setting {
@@ -463,6 +470,9 @@ model ApiKey {
   name    String // User-given label (e.g. "My CI Key")
   prefix  String // First 12 chars of raw key for display (e.g. "kdev_ab12cd")
   keyHash String @unique // SHA-256 of the full raw key
+
+  dailyLimit   Int? // Max requests per day (null = unlimited)
+  monthlyLimit Int? // Max requests per calendar month (null = unlimited)
 
   lastUsedAt DateTime?
   expiresAt  DateTime? // null = never expires

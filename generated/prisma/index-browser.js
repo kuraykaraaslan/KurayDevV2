@@ -273,6 +273,7 @@ exports.Prisma.CampaignScalarFieldEnum = {
   title: 'title',
   subject: 'subject',
   content: 'content',
+  topic: 'topic',
   status: 'status',
   sentAt: 'sentAt',
   sentCount: 'sentCount',
@@ -408,6 +409,8 @@ exports.Prisma.ApiKeyScalarFieldEnum = {
   name: 'name',
   prefix: 'prefix',
   keyHash: 'keyHash',
+  dailyLimit: 'dailyLimit',
+  monthlyLimit: 'monthlyLimit',
   lastUsedAt: 'lastUsedAt',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt',
@@ -478,6 +481,12 @@ exports.CommentStatus = exports.$Enums.CommentStatus = {
   NOT_PUBLISHED: 'NOT_PUBLISHED',
   PUBLISHED: 'PUBLISHED',
   SPAM: 'SPAM'
+};
+
+exports.SubscriptionTopic = exports.$Enums.SubscriptionTopic = {
+  BLOG_DIGEST: 'BLOG_DIGEST',
+  ANNOUNCEMENTS: 'ANNOUNCEMENTS',
+  EVENTS: 'EVENTS'
 };
 
 exports.CampaignStatus = exports.$Enums.CampaignStatus = {

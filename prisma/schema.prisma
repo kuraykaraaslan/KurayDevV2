@@ -473,6 +473,9 @@ model ApiKey {
   prefix     String    // First 12 chars of raw key for display (e.g. "kdev_ab12cd")
   keyHash    String    @unique // SHA-256 of the full raw key
 
+  dailyLimit   Int?      // Max requests per day (null = unlimited)
+  monthlyLimit Int?      // Max requests per calendar month (null = unlimited)
+
   lastUsedAt DateTime?
   expiresAt  DateTime? // null = never expires
 
