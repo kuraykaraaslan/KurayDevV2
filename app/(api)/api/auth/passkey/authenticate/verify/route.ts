@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
   } catch (err: unknown) {
     const message =
       err instanceof Error ? err.message : AuthMessages.PASSKEY_AUTHENTICATION_FAILED
+      console.error('Passkey authentication error:', err)
     return NextResponse.json({ message }, { status: 400 })
   }
 }

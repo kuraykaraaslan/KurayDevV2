@@ -1,7 +1,7 @@
 'use client'
 import axiosInstance from '@/libs/axios'
 import Link from 'next/link'
-import { MouseEvent, useRef, useState } from 'react'
+import { MouseEvent, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useGlobalStore } from '@/libs/zustand'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -34,6 +34,62 @@ const LoginPage = () => {
   const [verifyingOtp, setVerifyingOtp] = useState(false)
 
   const otpInputRef = useRef<HTMLInputElement>(null)
+
+  // ── Passkey Conditional UI ──────────────────────────────────────────────
+  // Starts a resident-key authentication in the background so the browser
+  // can show registered passkeys inside the email input's autocomplete list
+  // (same UX as Google / GitHub — no extra button needed for enrolled users).
+  useEffect(() => {
+    if (!window.PublicKeyCredential) return
+
+    let aborted = false
+    const controller = new AbortController()
+
+    const startConditional = async () => {
+      try {
+        const { startAuthentication } = await import('@simplewebauthn/browser')
+
+        const optRes = await fetch('/api/auth/passkey/authenticate/options', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({}),
+          credentials: 'include',
+          signal: controller.signal,
+        })
+        if (!optRes.ok || aborted) return
+
+        const { options } = (await optRes.json()) as { options: Record<string, unknown> }
+
+        const assertion = await startAuthentication({
+          optionsJSON: options as unknown as Parameters<typeof startAuthentication>[0]['optionsJSON'],
+          useBrowserAutofill: true,
+        })
+
+        if (aborted) return
+
+        const verifyRes = await fetch('/api/auth/passkey/authenticate/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ response: assertion }),
+          credentials: 'include',
+        })
+        if (!verifyRes.ok) return
+
+        toast.success(t('auth.passkey.auth_success'))
+        router.push(searchParams.get('redirect') || '/')
+      } catch {
+        // AbortError on unmount or user dismissal — silently ignored
+      }
+    }
+
+    void startConditional()
+
+    return () => {
+      aborted = true
+      controller.abort()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -164,7 +220,7 @@ const LoginPage = () => {
               name="email"
               type="email"
               required
-              autoComplete="email"
+              autoComplete="username webauthn"
               value={email as string}
               onChange={(e) => setEmail(e.target.value)}
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
