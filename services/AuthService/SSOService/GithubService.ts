@@ -3,7 +3,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes'
 
 export default class GithubService {
   // App URL
-  static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+  static NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
   // GitHub OAuth
   static GITHUB_CALLBACK_PATH = '/api/v1/sso/callback/github'
@@ -20,7 +20,7 @@ export default class GithubService {
   static generateAuthUrl(): string {
     const params = {
       client_id: this.GITHUB_CLIENT_ID,
-      redirect_uri: `${this.APPLICATION_HOST}${this.GITHUB_CALLBACK_PATH}`,
+      redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.GITHUB_CALLBACK_PATH}`,
       scope: 'user', // Request access to user info
       state: 'random_string_to_prevent_csrf', // Optional: Add a state parameter for CSRF protection
     }
@@ -41,7 +41,7 @@ export default class GithubService {
         client_id: this.GITHUB_CLIENT_ID,
         client_secret: this.GITHUB_CLIENT_SECRET,
         code,
-        redirect_uri: `${this.APPLICATION_HOST}${this.GITHUB_CALLBACK_PATH}`,
+        redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.GITHUB_CALLBACK_PATH}`,
       }),
       {
         headers: {

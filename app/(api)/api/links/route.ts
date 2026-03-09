@@ -3,7 +3,7 @@ import ShortLinkService from '@/services/ShortLinkService'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { CreateShortLinkRequestSchema } from '@/dtos/ShortLinkDTO'
 
-const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
 
 /**
  * GET /api/links
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { url } = parsedData.data
-    const isExternal = !url.startsWith(APP_HOST)
+    const isExternal = !url.startsWith(NEXT_PUBLIC_APPLICATION_HOST)
 
     if (isExternal) {
       if (!user || (user.userRole !== 'ADMIN' && user.userRole !== 'AUTHOR')) {
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     }
 
     const code = await ShortLinkService.getOrCreate(url)
-    const shortUrl = `${APP_HOST}/s/${code}`
+    const shortUrl = `${NEXT_PUBLIC_APPLICATION_HOST}/s/${code}`
 
     return NextResponse.json({ code, shortUrl })
   } catch (error: any) {

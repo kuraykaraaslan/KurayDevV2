@@ -61,12 +61,12 @@ export default class MailService {
   // TEMPLATE PATHS
   static readonly TEMPLATE_PATH = path.join(pwd, 'views', 'email')
 
-  static readonly APPLICATION_NAME =
+  static readonly NEXT_PUBLIC_APPLICATION_NAME =
     process.env.NEXT_PUBLIC_APPLICATION_NAME || 'Express Boilerplate'
-  static readonly APPLICATION_HOST =
+  static readonly NEXT_PUBLIC_APPLICATION_HOST =
     process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
 
-  static readonly FRONTEND_URL = MailService.APPLICATION_HOST
+  static readonly FRONTEND_PATH = process.env.FRONTEND_PATH || ''
   static readonly FRONTEND_LOGIN_PATH = process.env.FRONTEND_LOGIN_PATH || '/auth/login'
   static readonly FRONTEND_REGISTER_PATH = process.env.FRONTEND_REGISTER_PATH || '/auth/register'
   static readonly FRONTEND_PRIVACY_PATH = process.env.FRONTEND_PRIVACY_PATH || '/privacy'
@@ -85,15 +85,15 @@ export default class MailService {
   // Base template vars
   static getBaseTemplateVars() {
     return {
-      appName: MailService.APPLICATION_NAME,
-      frontendUrl: MailService.FRONTEND_URL,
-      loginLink: MailService.FRONTEND_URL + MailService.FRONTEND_LOGIN_PATH,
-      resetPasswordLink: MailService.FRONTEND_URL + MailService.FRONTEND_RESET_PASSWORD_PATH,
-      forgotPasswordLink: MailService.FRONTEND_URL + MailService.FRONTEND_FORGOT_PASSWORD_PATH,
-      termsLink: MailService.FRONTEND_URL + MailService.FRONTEND_TERMS_PATH,
-      privacyLink: MailService.FRONTEND_URL + MailService.FRONTEND_PRIVACY_PATH,
+      appName: MailService.NEXT_PUBLIC_APPLICATION_NAME,
+      frontendUrl: MailService.FRONTEND_PATH,
+      loginLink: MailService.FRONTEND_PATH + MailService.FRONTEND_LOGIN_PATH,
+      resetPasswordLink: MailService.FRONTEND_PATH + MailService.FRONTEND_RESET_PASSWORD_PATH,
+      forgotPasswordLink: MailService.FRONTEND_PATH + MailService.FRONTEND_FORGOT_PASSWORD_PATH,
+      termsLink: MailService.FRONTEND_PATH + MailService.FRONTEND_TERMS_PATH,
+      privacyLink: MailService.FRONTEND_PATH + MailService.FRONTEND_PRIVACY_PATH,
       supportEmail: MailService.FRONTEND_SUPPORT_EMAIL,
-      secureAccountLink: MailService.FRONTEND_URL + MailService.FRONTEND_RESET_PASSWORD_PATH,
+      secureAccountLink: MailService.FRONTEND_PATH + MailService.FRONTEND_RESET_PASSWORD_PATH,
     }
   }
 
@@ -118,7 +118,7 @@ export default class MailService {
   static async _sendMail(to: string, subject: string, html: string) {
     try {
       await MailService.transporter.sendMail({
-        from: `${MailService.APPLICATION_NAME} <${MailService.MAIL_USER}>`,
+        from: `${MailService.NEXT_PUBLIC_APPLICATION_NAME} <${MailService.MAIL_USER}>`,
         to,
         subject,
         html,
@@ -166,7 +166,7 @@ export default class MailService {
   // -----------------------------
 
   static async sendWelcomeEmail(user: User | SafeUser) {
-    const subject = `Welcome to ${MailService.APPLICATION_NAME}`
+    const subject = `Welcome to ${MailService.NEXT_PUBLIC_APPLICATION_NAME}`
 
     const emailContent = await MailService.renderTemplate('welcome.ejs', {
       ...MailService.getBaseTemplateVars(),
@@ -201,7 +201,7 @@ export default class MailService {
     const subject = 'Reset Your Password'
 
     const resetLink =
-      MailService.FRONTEND_URL +
+      MailService.FRONTEND_PATH +
       MailService.FRONTEND_FORGOT_PASSWORD_PATH +
       '?resetToken=' +
       resetToken +
@@ -337,7 +337,7 @@ export default class MailService {
     const subject = 'Verify Your Email'
 
     const verifyLink =
-      MailService.FRONTEND_URL + '/auth/verify-email?token=' + verifyToken + '&email=' + user.email
+      MailService.FRONTEND_PATH + '/auth/verify-email?token=' + verifyToken + '&email=' + user.email
 
     const emailContent = await MailService.renderTemplate('verify_email.ejs', {
       ...MailService.getBaseTemplateVars(),

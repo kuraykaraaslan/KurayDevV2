@@ -1,13 +1,13 @@
 // helpers/SitemapGenerator.ts
 import type { SitemapUrl } from '@/types/common/SitemapTypes'
 
+
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
+
 export type ChangeFreq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
 
 export const getBaseUrl = () => {
-  const raw =
-    process.env.NEXT_PUBLIC_APPLICATION_HOST ??
-    process.env.APPLICATION_HOST ??
-    'https://kuray.dev'
+  const raw = NEXT_PUBLIC_APPLICATION_HOST.endsWith('/') ? NEXT_PUBLIC_APPLICATION_HOST : `${NEXT_PUBLIC_APPLICATION_HOST}/`
   return raw.replace(/\/+$/, '')
 }
 

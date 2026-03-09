@@ -4,7 +4,7 @@ import { getPageMetadata } from '@/libs/localize/getDictionary'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
 
-const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     keywords,
     robots: { index: true, follow: true },
-    authors: [{ name: 'Kuray Karaaslan', url: `${APPLICATION_HOST}` }],
+    authors: [{ name: 'Kuray Karaaslan', url: `${NEXT_PUBLIC_APPLICATION_HOST}` }],
     openGraph: {
       title,
       description,
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonical,
       images: [
         {
-          url: `${APPLICATION_HOST}/assets/img/og.png`,
+          url: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
           width: 1200,
           height: 630,
           alt: 'Kuray Karaaslan - Terms of Use',
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       creator: '@kuraykaraaslan',
       title,
       description,
-      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+      images: [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
     },
     alternates: { canonical, languages },
   }
@@ -60,8 +60,8 @@ export default async function TermsPage({ params }: Props) {
       title,
       description,
       type: 'website',
-      url: `${APPLICATION_HOST}/terms-of-use`,
-      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+      url: `${NEXT_PUBLIC_APPLICATION_HOST}/terms-of-use`,
+      images: [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
     },
   }
 

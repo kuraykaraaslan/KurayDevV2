@@ -3,7 +3,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes'
 
 export default class FacebookService {
   // App URL
-  static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+  static NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
   // Meta (Facebook) OAuth
   static META_CALLBACK_PATH = '/api/auth/callback/facebook'
@@ -20,7 +20,7 @@ export default class FacebookService {
   static generateAuthUrl(): string {
     const params = {
       client_id: this.META_CLIENT_ID,
-      redirect_uri: `${this.APPLICATION_HOST}${this.META_CALLBACK_PATH}`,
+      redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.META_CALLBACK_PATH}`,
       response_type: 'code',
       scope: 'email public_profile', // Request access to email and public profile
     }
@@ -40,7 +40,7 @@ export default class FacebookService {
         client_id: this.META_CLIENT_ID,
         client_secret: this.META_CLIENT_SECRET,
         code,
-        redirect_uri: `${this.APPLICATION_HOST}${this.META_CALLBACK_PATH}`,
+        redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.META_CALLBACK_PATH}`,
       },
     })
 

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 export default class MetadataHelper {
   // Generate JSON-LD for WebSite with SearchAction (enables sitelinks search box in Google)
@@ -10,20 +10,20 @@ export default class MetadataHelper {
       '@type': 'WebSite',
       name: 'Kuray Karaaslan',
       alternateName: ['Kuray Dev', 'kuray.dev'],
-      url: APPLICATION_HOST,
+      url: NEXT_PUBLIC_APPLICATION_HOST,
       description:
         'Software developer, tech blogger, and open-source enthusiast sharing coding tutorials and insights.',
       inLanguage: 'en-US',
       publisher: {
         '@type': 'Person',
         name: 'Kuray Karaaslan',
-        url: APPLICATION_HOST,
+        url: NEXT_PUBLIC_APPLICATION_HOST,
       },
       potentialAction: {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: `${APPLICATION_HOST}/blog?search={search_term_string}`,
+          urlTemplate: `${NEXT_PUBLIC_APPLICATION_HOST}/blog?search={search_term_string}`,
         },
         'query-input': 'required name=search_term_string',
       },
@@ -36,8 +36,8 @@ export default class MetadataHelper {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'Kuray Karaaslan',
-      url: APPLICATION_HOST,
-      logo: `${APPLICATION_HOST}/assets/img/og.png`,
+      url: NEXT_PUBLIC_APPLICATION_HOST,
+      logo: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
       sameAs: [
         'https://github.com/kuraykaraaslan',
         'https://twitter.com/kuraykaraaslan',
@@ -55,13 +55,13 @@ export default class MetadataHelper {
       dateModified: new Date().toISOString(),
       mainEntity: {
         '@type': 'Person',
-        '@id': `${APPLICATION_HOST}/#person`,
+        '@id': `${NEXT_PUBLIC_APPLICATION_HOST}/#person`,
         name: 'Kuray Karaaslan',
         alternateName: 'kuraykaraaslan',
         description:
           'Software developer, tech blogger, and open-source enthusiast. Skilled in React, Next.js, Node.js, Java, and React Native.',
-        url: APPLICATION_HOST,
-        image: `${APPLICATION_HOST}/assets/img/og.png`,
+        url: NEXT_PUBLIC_APPLICATION_HOST,
+        image: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
         jobTitle: 'Software Developer',
         worksFor: {
           '@type': 'Organization',
@@ -104,10 +104,10 @@ export default class MetadataHelper {
     const title = meta?.title || 'Kuray Karaaslan'
     const description =
       meta?.description || 'Software developer, tech blogger, and open-source enthusiast.'
-    const url = meta?.openGraph?.url || APPLICATION_HOST || ''
+    const url = meta?.openGraph?.url || NEXT_PUBLIC_APPLICATION_HOST || ''
     // Helper to extract image URL as string
     function getImageUrl(img: any): string {
-      if (!img) return `${APPLICATION_HOST}/assets/img/og.png`
+      if (!img) return `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`
       if (typeof img === 'string') return img
       if (typeof img === 'object' && 'url' in img) return String(img.url)
       return String(img)
@@ -118,7 +118,7 @@ export default class MetadataHelper {
     } else if (meta?.openGraph?.images) {
       images = [getImageUrl(meta.openGraph.images)]
     } else {
-      images = [`${APPLICATION_HOST}/assets/img/og.png`]
+      images = [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`]
     }
     const image = images[0]
 
@@ -131,14 +131,14 @@ export default class MetadataHelper {
       author: {
         '@type': 'Person',
         name: articleData?.authorName || 'Kuray Karaaslan',
-        url: `${APPLICATION_HOST}/about`,
+        url: `${NEXT_PUBLIC_APPLICATION_HOST}/about`,
       },
       publisher: {
         '@type': 'Organization',
         name: 'Kuray Karaaslan',
         logo: {
           '@type': 'ImageObject',
-          url: `${APPLICATION_HOST}/assets/img/og.png`,
+          url: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
         },
       },
       mainEntityOfPage: url,
@@ -305,16 +305,16 @@ export default class MetadataHelper {
       name: options.name,
       description: options.description,
       url: options.url,
-      image: options.image || `${APPLICATION_HOST}/assets/img/og.png`,
+      image: options.image || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
       author: {
         '@type': 'Person',
         name: 'Kuray Karaaslan',
-        url: APPLICATION_HOST,
+        url: NEXT_PUBLIC_APPLICATION_HOST,
       },
       creator: {
         '@type': 'Person',
         name: 'Kuray Karaaslan',
-        url: APPLICATION_HOST,
+        url: NEXT_PUBLIC_APPLICATION_HOST,
       },
       ...(options.datePublished ? { datePublished: options.datePublished } : {}),
       ...(options.dateModified ? { dateModified: options.dateModified } : {}),
@@ -512,11 +512,11 @@ export default class MetadataHelper {
     const title = meta?.title || 'Kuray Karaaslan'
     const description =
       meta?.description || 'Software developer, tech blogger, and open-source enthusiast.'
-    const url = meta?.openGraph?.url || APPLICATION_HOST || ''
+    const url = meta?.openGraph?.url || NEXT_PUBLIC_APPLICATION_HOST || ''
 
     // Helper to extract image URL as string
     function getImageUrl(img: any): string {
-      if (!img) return `${APPLICATION_HOST}/assets/img/og.png`
+      if (!img) return `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`
       if (typeof img === 'string') return img
       if (typeof img === 'object' && 'url' in img) return String(img.url)
       return String(img)
@@ -528,7 +528,7 @@ export default class MetadataHelper {
     } else if (meta?.openGraph?.images) {
       images = [getImageUrl(meta.openGraph.images)]
     } else {
-      images = [`${APPLICATION_HOST}/assets/img/og.png`]
+      images = [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`]
     }
 
     // Dynamic og:type based on URL pattern only

@@ -8,7 +8,7 @@ import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 import { getPageMetadata } from '@/libs/localize/getDictionary'
 
-const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     keywords,
     robots: { index: true, follow: true },
-    authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
+    authors: [{ name: 'Kuray Karaaslan', url: NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000' }],
     openGraph: {
       title,
       description,
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonical,
       images: [
         {
-          url: `${APPLICATION_HOST}/assets/img/og.png`,
+          url: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
           width: 1200,
           height: 630,
           alt: 'Kuray Karaaslan Blog',
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       creator: '@kuraykaraaslan',
       title,
       description,
-      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+      images: [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
     },
     alternates: { canonical, languages },
   }
@@ -65,14 +65,14 @@ const BlogPage = async ({ params }: Props) => {
       title,
       description,
       type: 'website',
-      url: `${APPLICATION_HOST}/blog`,
-      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+      url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog`,
+      images: [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
     },
   }
 
   const breadcrumbs = [
-    { name: 'Home', url: `${APPLICATION_HOST}/` },
-    { name: 'Blog', url: `${APPLICATION_HOST}/blog` },
+    { name: 'Home', url: `${NEXT_PUBLIC_APPLICATION_HOST}/` },
+    { name: 'Blog', url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog` },
   ]
 
   // Fetch first page of posts for CollectionPage schema
@@ -81,7 +81,7 @@ const BlogPage = async ({ params }: Props) => {
     const response = await PostService.getAllPosts({ page: 0, pageSize: 6, status: 'PUBLISHED', lang })
     collectionPosts = response.posts.map((p) => ({
       title: p.title,
-      url: `${APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`,
+      url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`,
       datePublished: p.createdAt?.toISOString(),
     }))
   } catch (error) {
@@ -95,7 +95,7 @@ const BlogPage = async ({ params }: Props) => {
         collectionPage:
           collectionPosts.length > 0
             ? {
-                url: `${APPLICATION_HOST}/blog`,
+                url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog`,
                 name: title,
                 description,
                 posts: collectionPosts,

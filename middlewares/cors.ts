@@ -5,12 +5,14 @@ import type { MiddlewareResult } from './types'
 /**
  * Allowed origins for CORS
  */
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
+
 export const ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'http://localhost:3001',
-  'https://kuray.dev',
-  'https://www.kuray.dev',
+  'http://localhost:3000',
   'http://127.0.0.1:3000',
+  NEXT_PUBLIC_APPLICATION_HOST,
 ]
 
 /**

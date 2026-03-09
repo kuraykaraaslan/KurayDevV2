@@ -3,7 +3,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes'
 
 export default class MicrosoftService {
   // App URL
-  static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+  static NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
   // Microsoft OAuth (Azure AD)
   static MICROSOFT_CALLBACK_PATH = '/api/v1/sso/callback/microsoft'
@@ -20,7 +20,7 @@ export default class MicrosoftService {
   static generateAuthUrl(): string {
     const params = {
       client_id: this.MICROSOFT_CLIENT_ID,
-      redirect_uri: `${this.APPLICATION_HOST}${this.MICROSOFT_CALLBACK_PATH}`,
+      redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.MICROSOFT_CALLBACK_PATH}`,
       response_type: 'code',
       scope: 'openid profile email', // Request access to profile and email
       prompt: 'consent', // Force consent screen
@@ -42,7 +42,7 @@ export default class MicrosoftService {
         client_id: this.MICROSOFT_CLIENT_ID,
         client_secret: this.MICROSOFT_CLIENT_SECRET,
         code,
-        redirect_uri: `${this.APPLICATION_HOST}${this.MICROSOFT_CALLBACK_PATH}`,
+        redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.MICROSOFT_CALLBACK_PATH}`,
         grant_type: 'authorization_code',
       }),
       {

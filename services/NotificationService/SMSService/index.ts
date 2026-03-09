@@ -60,7 +60,7 @@ export default class SMSService {
     }
   }
 
-  static readonly APPLICATION_NAME =
+  static readonly NEXT_PUBLIC_APPLICATION_NAME =
     process.env.NEXT_PUBLIC_APPLICATION_NAME || 'Express Boilerplate'
 
   static async sendShortMessage({ to, body }: { to: string; body: string }): Promise<void> {

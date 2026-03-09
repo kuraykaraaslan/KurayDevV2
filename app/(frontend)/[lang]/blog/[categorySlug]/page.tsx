@@ -7,7 +7,7 @@ import { Metadata } from 'next'
 import MetadataHelper from '@/helpers/MetadataHelper'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 
-const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
   params: Promise<{ lang: string; categorySlug: string }>
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const path = `/blog/${categorySlug}`
   const description = category.description || `Discover posts in the ${category.title} category.`
-  const image = category.image || `${APPLICATION_HOST}/assets/img/og.png`
+  const image = category.image || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`
 
   const availableLangs = ['en', ...(category.translations?.map((t) => t.lang) ?? [])]
   const { canonical, languages } = buildAlternates(lang, path, availableLangs)
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${category.title} | Kuray Karaaslan`,
     description,
     robots: { index: true, follow: true },
-    authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
+    authors: [{ name: 'Kuray Karaaslan', url: NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000' }],
     openGraph: {
       title: `${category.title} | Kuray Karaaslan`,
       description,
@@ -72,7 +72,7 @@ export default async function CategoryPage({ params }: Props) {
       notFound()
     }
 
-    const url = `${APPLICATION_HOST}/blog/${category.slug}`
+    const url = `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${category.slug}`
 
     // Metadata for JSON-LD
     const metadata: Metadata = {
@@ -84,14 +84,14 @@ export default async function CategoryPage({ params }: Props) {
           category.description || `Explore all articles in the ${category.title} category.`,
         type: 'website',
         url,
-        images: [category.image || `${APPLICATION_HOST}/assets/img/og.png`],
+        images: [category.image || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
       },
     }
 
     // Breadcrumbs for SEO
     const breadcrumbs = [
-      { name: 'Home', url: `${APPLICATION_HOST}/` },
-      { name: 'Blog', url: `${APPLICATION_HOST}/blog` },
+      { name: 'Home', url: `${NEXT_PUBLIC_APPLICATION_HOST}/` },
+      { name: 'Blog', url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog` },
       { name: category.title, url },
     ]
 
@@ -107,7 +107,7 @@ export default async function CategoryPage({ params }: Props) {
       })
       collectionPosts = response.posts.map((p) => ({
         title: p.title,
-        url: `${APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`,
+        url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`,
         datePublished: p.createdAt?.toISOString(),
       }))
     } catch (error) {

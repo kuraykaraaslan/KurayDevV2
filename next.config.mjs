@@ -18,7 +18,7 @@ const nextConfig = {
   reactStrictMode: true,
 
   env: {
-    APPLICATION_HOST: env.APPLICATION_HOST || 'http://localhost:3000',
+    NEXT_PUBLIC_APPLICATION_HOST: env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000',
     SSO_ALLOWED_PROVIDERS: env.SSO_ALLOWED_PROVIDERS || 'google,apple'
   },
 

@@ -1,6 +1,6 @@
 import { DEFAULT_LANGUAGE, getOgLocale } from '@/types/common/I18nTypes'
 
-const HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'https://kuray.dev'
+const HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
 
 export { getOgLocale }
 

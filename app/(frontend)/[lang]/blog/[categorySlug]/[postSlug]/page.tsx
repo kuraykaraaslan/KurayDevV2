@@ -16,7 +16,7 @@ import Breadcrumb from '@/components/common/Layout/Breadcrumb'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 import SeriesNav from '@/components/frontend/Features/Blog/SeriesNav'
 
-const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
   params: Promise<{ lang: string; categorySlug: string; postSlug: string }>
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const path = `/blog/${categorySlug}/${postSlug}`
-  const image = post.image || `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}/opengraph-image`
+  const image = post.image || `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${categorySlug}/${postSlug}/opengraph-image`
   const description = post.description || post.content.substring(0, 150)
 
   const availableLangs = ['en', ...(post.translations?.map((t) => t.lang) ?? [])]
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         follow: true,
       },
     },
-    authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
+    authors: [{ name: 'Kuray Karaaslan', url: NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000' }],
     openGraph: {
       title: `${post.title} | Kuray Karaaslan`,
       description,
@@ -107,9 +107,9 @@ export default async function BlogPost({ params }: Props) {
     await PostService.incrementViewCount(post.postId)
     post.views++
 
-    const url = `${APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`
+    const url = `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${post.category.slug}/${post.slug}`
     const image =
-      post.image || `${APPLICATION_HOST}/blog/${categorySlug}/${postSlug}/opengraph-image`
+      post.image || `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${categorySlug}/${postSlug}/opengraph-image`
 
     // Metadata for JSON-LD
     const metadata: Metadata = {
@@ -126,9 +126,9 @@ export default async function BlogPost({ params }: Props) {
 
     // Breadcrumbs for SEO
     const breadcrumbs = [
-      { name: 'Home', url: `${APPLICATION_HOST}/` },
-      { name: 'Blog', url: `${APPLICATION_HOST}/blog` },
-      { name: post.category.title, url: `${APPLICATION_HOST}/blog/${post.category.slug}` },
+      { name: 'Home', url: `${NEXT_PUBLIC_APPLICATION_HOST}/` },
+      { name: 'Blog', url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog` },
+      { name: post.category.title, url: `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${post.category.slug}` },
       { name: post.title, url },
     ]
 
@@ -165,7 +165,7 @@ export default async function BlogPost({ params }: Props) {
       relatedLinks = relatedResponse.posts
         .filter((p) => p.postId !== post.postId)
         .slice(0, 5)
-        .map((p) => `${APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`)
+        .map((p) => `${NEXT_PUBLIC_APPLICATION_HOST}/blog/${p.category.slug}/${p.slug}`)
       articleData.relatedLinks = relatedLinks
     } catch (error) {
       console.error('Error fetching related posts for schema:', error)

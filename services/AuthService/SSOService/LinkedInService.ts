@@ -3,7 +3,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes'
 
 export default class LinkedInService {
   // App URL
-  static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+  static NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
   // LinkedIn OAuth
   static LINKEDIN_CALLBACK_PATH = '/api/v1/sso/callback/linkedin'
@@ -20,7 +20,7 @@ export default class LinkedInService {
   static generateAuthUrl(): string {
     const params = {
       client_id: this.LINKEDIN_CLIENT_ID,
-      redirect_uri: `${this.APPLICATION_HOST}${this.LINKEDIN_CALLBACK_PATH}`,
+      redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.LINKEDIN_CALLBACK_PATH}`,
       response_type: 'code',
       scope: 'openid profile email', // Request access to profile and email
     }
@@ -41,7 +41,7 @@ export default class LinkedInService {
         client_id: this.LINKEDIN_CLIENT_ID,
         client_secret: this.LINKEDIN_CLIENT_SECRET,
         code,
-        redirect_uri: `${this.APPLICATION_HOST}${this.LINKEDIN_CALLBACK_PATH}`,
+        redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.LINKEDIN_CALLBACK_PATH}`,
         grant_type: 'authorization_code',
       }),
       {

@@ -3,7 +3,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes'
 
 export default class GoogleService {
   // App URL
-  static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+  static NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
   // Google OAuth
   static GOOGLE_CALLBACK_PATH = '/api/auth/callback/google'
@@ -19,7 +19,7 @@ export default class GoogleService {
   static generateAuthUrl(): string {
     const params = {
       client_id: process.env.GOOGLE_CLIENT_ID!,
-      redirect_uri: `${this.APPLICATION_HOST}${this.GOOGLE_CALLBACK_PATH}`,
+      redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.GOOGLE_CALLBACK_PATH}`,
       response_type: 'code',
       scope: 'profile email', // Request access to profile and email
       //access_type: 'offline', // Request a refresh token
@@ -42,7 +42,7 @@ export default class GoogleService {
         client_id: process.env.GOOGLE_CLIENT_ID!,
         client_secret: process.env.GOOGLE_CLIENT_SECRET!,
         code,
-        redirect_uri: `${this.APPLICATION_HOST}${this.GOOGLE_CALLBACK_PATH}`,
+        redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.GOOGLE_CALLBACK_PATH}`,
         grant_type: 'authorization_code',
       }),
       {

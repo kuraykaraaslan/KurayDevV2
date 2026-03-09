@@ -3,7 +3,7 @@ import { SSOProfileResponse } from '@/types/common/SSOTypes'
 
 export default class TwitterService {
   // App URL
-  static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+  static NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
   // Twitter OAuth
   static TWITTER_CALLBACK_PATH = '/api/v1/sso/callback/twitter'
@@ -20,7 +20,7 @@ export default class TwitterService {
   static generateAuthUrl(): string {
     const params = {
       client_id: this.TWITTER_CLIENT_ID,
-      redirect_uri: `${this.APPLICATION_HOST}${this.TWITTER_CALLBACK_PATH}`,
+      redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.TWITTER_CALLBACK_PATH}`,
       response_type: 'code',
       scope: 'tweet.read users.read', // Request access to read tweets and user info
       code_challenge: 'challenge', // Required for PKCE
@@ -43,7 +43,7 @@ export default class TwitterService {
         client_id: this.TWITTER_CLIENT_ID,
         client_secret: this.TWITTER_CLIENT_SECRET,
         code,
-        redirect_uri: `${this.APPLICATION_HOST}${this.TWITTER_CALLBACK_PATH}`,
+        redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.TWITTER_CALLBACK_PATH}`,
         grant_type: 'authorization_code',
         code_verifier: 'challenge', // Must match the code_challenge from the authorization request
       }),

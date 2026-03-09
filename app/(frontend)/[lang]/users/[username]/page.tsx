@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import Feed from '@/components/frontend/Features/Blog/Feed'
 import UserProfile from '@/components/frontend/Features/UserProfile'
 
-const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 async function getUser(username: string) {
   try {
@@ -31,10 +31,10 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
   if (!user) return {}
 
   const slug = getProfileSlug(user)
-  const url = `${APPLICATION_HOST}/users/${slug}`
+  const url = `${NEXT_PUBLIC_APPLICATION_HOST}/users/${slug}`
   const displayName = user.userProfile?.name || user.name || 'Author'
   const description = user.userProfile?.biography || `Posts by ${displayName}`
-  const image = user.userProfile?.profilePicture || `${APPLICATION_HOST}/assets/img/og.png`
+  const image = user.userProfile?.profilePicture || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`
   const hideFromIndex = user.userProfile?.hideProfileFromIndex ?? true
 
   return {
@@ -76,7 +76,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
     if (!user) notFound()
 
     const slug = getProfileSlug(user)
-    const url = `${APPLICATION_HOST}/users/${slug}`
+    const url = `${NEXT_PUBLIC_APPLICATION_HOST}/users/${slug}`
     const displayName = user.userProfile?.name || user.name || 'Author'
     const description = user.userProfile?.biography || `Posts by ${displayName}`
 
@@ -88,7 +88,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
         description,
         type: 'profile',
         url,
-        images: [user.userProfile?.profilePicture || `${APPLICATION_HOST}/assets/img/og.png`],
+        images: [user.userProfile?.profilePicture || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
       },
     }
 

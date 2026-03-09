@@ -6,7 +6,7 @@ import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 import { getPageMetadata } from '@/libs/localize/getDictionary'
 
-const APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     keywords,
     robots: { index: true, follow: true },
-    authors: [{ name: 'Kuray Karaaslan', url: APPLICATION_HOST || 'https://kuray.dev' }],
+    authors: [{ name: 'Kuray Karaaslan', url: NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000' }],
     openGraph: {
       title,
       description,
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonical,
       images: [
         {
-          url: `${APPLICATION_HOST}/assets/img/og.png`,
+          url: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
           width: 1200,
           height: 630,
           alt: 'Kuray Karaaslan Projects',
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       creator: '@kuraykaraaslan',
       title,
       description,
-      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+      images: [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
     },
     alternates: { canonical, languages },
   }
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectsPage({ params }: Props) {
   const { lang } = await params
-  const canonical = `${APPLICATION_HOST}${lang !== 'en' ? `/${lang}` : ''}/projects`
+  const canonical = `${NEXT_PUBLIC_APPLICATION_HOST}${lang !== 'en' ? `/${lang}` : ''}/projects`
   const { title, description } = await getPageMetadata(lang, 'projects')
 
   const jsonLdMetadata: Metadata = {
@@ -64,12 +64,12 @@ export default async function ProjectsPage({ params }: Props) {
       description,
       type: 'website',
       url: canonical,
-      images: [`${APPLICATION_HOST}/assets/img/og.png`],
+      images: [`${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`],
     },
   }
 
   const breadcrumbs = [
-    { name: 'Home', url: `${APPLICATION_HOST}/` },
+    { name: 'Home', url: `${NEXT_PUBLIC_APPLICATION_HOST}/` },
     { name: 'Projects', url: canonical },
   ]
 

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { SSOProfileResponse } from '@/types/common/SSOTypes'
 
 export default class AutodeskService {
-  static APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+  static NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
   static AUTODESK_CLIENT_ID = process.env.AUTODESK_CLIENT_ID!
   static AUTODESK_CLIENT_SECRET = process.env.AUTODESK_CLIENT_SECRET!
   static AUTODESK_CALLBACK_PATH = '/api/auth/callback/autodesk'
@@ -18,7 +18,7 @@ export default class AutodeskService {
     const params = {
       client_id: this.AUTODESK_CLIENT_ID,
       response_type: 'code',
-      redirect_uri: `${this.APPLICATION_HOST}${this.AUTODESK_CALLBACK_PATH}`,
+      redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.AUTODESK_CALLBACK_PATH}`,
       scope: 'data:read data:write account:read account:write user-profile:read',
     }
 
@@ -36,7 +36,7 @@ export default class AutodeskService {
         client_secret: this.AUTODESK_CLIENT_SECRET,
         grant_type: 'authorization_code',
         code,
-        redirect_uri: `${this.APPLICATION_HOST}${this.AUTODESK_CALLBACK_PATH}`,
+        redirect_uri: `${this.NEXT_PUBLIC_APPLICATION_HOST}${this.AUTODESK_CALLBACK_PATH}`,
       }),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     )

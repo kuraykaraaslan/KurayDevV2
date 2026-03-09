@@ -24,7 +24,7 @@ function safeOrigin(input?: string): string | null {
 }
 
 /**
- * If `href` is a same-origin absolute URL (e.g. https://kuray.dev/blog),
+ * If `href` is a same-origin absolute URL (e.g. http://localhost:3000/blog),
  * return only its path+search+hash so Next.js treats it as internal.
  * Otherwise return the original `href`.
  */
@@ -47,7 +47,7 @@ export function normalizeSameOriginAbsoluteHref(href: string): string {
 
   // Prefer the public app host if configured (works in client bundles)
   allowedOrigins.add(safeOrigin(process.env.NEXT_PUBLIC_APPLICATION_HOST) ?? '')
-  allowedOrigins.add(safeOrigin(process.env.APPLICATION_HOST) ?? '')
+  allowedOrigins.add(safeOrigin(process.env.NEXT_PUBLIC_APPLICATION_HOST) ?? '')
 
   if (!allowedOrigins.has(parsed.origin)) return href
   return `${parsed.pathname}${parsed.search}${parsed.hash}` || '/'
