@@ -3,7 +3,7 @@ import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import WebAuthnService from '@/services/AuthService/WebAuthnService'
 import AuthMessages from '@/messages/AuthMessages'
 import { PasskeyRegisterVerifyRequestSchema } from '@/dtos/AuthDTO'
-import type { RegistrationResponseJSON } from '@simplewebauthn/types'
+import type { RegistrationResponseJSON } from '@simplewebauthn/server'
 
 /**
  * POST /api/auth/passkey/register/verify
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     const { credentialId } = await WebAuthnService.verifyRegistration({
       user,
-      response: response as RegistrationResponseJSON,
+      response: response as unknown as RegistrationResponseJSON,
       label,
     })
 
