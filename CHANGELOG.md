@@ -1,11 +1,63 @@
 # Changelog
 
-All notable changes to **KurayDev V2** are documented in this file.
+All notable changes to **KurayDev Portfolio** are documented in this file.
 
 Versions are distributed chronologically across the full commit history.
-The project started as `v0.1` in October 2024 and is currently at `v2.6` (March 2026).
+The project started as `v0.1` in October 2024 and is currently at `v2.7` (March 2026).
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## [2.7] — 2026-03-08 / 2026-03-09
+
+### Added
+- WebAuthn / Passkey authentication (`@simplewebauthn/browser`, `@simplewebauthn/server`) with Conditional UI (browser autofill)
+- `PasskeyLoginButton` and `PasskeyManager` components wired into auth UI; `passkeyEnabled` field added to `UserSecurity` type
+- `OTPTab` redesigned with skeleton loading, active badge, method-aware modals, and OTP method switching in the login flow
+- `otp_resend` and `totp_hint` i18n keys added to all 26 locales
+- Newsletter topic preferences (`blogDigest`, `announcements`, `events`) toggles in `NotificationsTab`
+- `SubscriptionTopic` model added to Prisma schema; campaign recipient filtering by topic
+- Daily / monthly quota enforcement for API keys via Redis counters (429 response on limit breach)
+- `ExportButton` (CSV / XLSX / PDF) added to `DynamicTable` toolbar using `jspdf`, `jspdf-autotable`, `xlsx`; enabled on all admin list pages
+- `ContentScoreBar` component for real-time SEO / content scoring; integrated into post, category, and project editors
+- POST `/api/posts/[postId]/share` endpoint for per-post short-link generation; `ShareButtons` auto-fetch short link on mount with loading spinner
+- Sortable columns with URL persistence in all admin tables; sort logic implemented across all API endpoints and services
+- Map insert button (OSM / Google Maps embed) in the TinyMCE rich-text editor
+- Multi-type file preview with kind icons in the admin media page
+- Storage layer: expanded allowed file types (video, audio, documents, archives); EXIF metadata stripping on upload
+- reCAPTCHA v2 support: server-side verification for contact form and registration; `NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY` env variable
+- Trusted device fingerprint cookie written on login; suspicious-login email suppressed for already-known devices
+- i18n: `export`, `api_key_quota`, `newsletter_topic`, `subscription`, `captcha`, `remember_device`, `appointments`, common UI, and admin navigation keys added to all locales
+- `DynamicTable` action labels now support i18n translations
+- SSO invalid-request handling and corresponding i18n label
+
+### Changed
+- Admin pages migrated to a shared common i18n key set; category-posts pages redirect to the filterable posts page
+- TinyMCE setup refactored: media upload buttons added, dark-mode skin applied via theme-aware config
+- Media library dialog redesigned with card hover overlay and CSS utility classes
+
+### Refactored
+- `ContentScoreBar` scoring rules extracted to `rules.ts`; post editor page cleaned up
+- Admin sortable columns migrated from legacy `sortable` to `disableSort` pattern
+- DTOs: shared enums extracted; `MediaDTO` and `PushNotificationDTO` added
+- Zod DTO `safeParse` adopted across all API route handlers (replaced manual validation)
+- `WebAuthnService` reformatted with consistent indentation
+
+### Fixed
+- WebAuthn: `localhost` RP ID and `http` origin used correctly in development mode
+- OTP flow: method switching, error message key, and unsafe `any` cast resolved
+- Chatbot: message roles normalised to UPPERCASE enum values; SSE typing corrected
+- Appointment update and comment typing edge cases resolved
+- `aria-label` attributes replaced with i18n translations (WCAG a11y)
+- Admin dashboard and editor TypeScript warnings resolved
+- User profile page marked as a client component; unused icon imports removed
+- i18n tooling clean-up and build hook fix
+
+### Security
+- `crypto.randomInt` used for OTP generation (replaces `Math.random`)
+- OTP step skipped for verified trusted devices (reduces friction without sacrificing security)
+- reCAPTCHA server-side verification enforced on contact and registration endpoints
 
 ---
 
@@ -483,4 +535,4 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-*Generated on 2026-03-08 based on git history (446 commits, Oct 2024 – Mar 2026).*
+*Generated on 2026-03-09 based on git history (460+ commits, Oct 2024 – Mar 2026).*

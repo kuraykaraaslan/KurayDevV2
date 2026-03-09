@@ -1,4 +1,4 @@
-# KurayDev V2 — Architecture Reference
+# KurayDevSite — Architecture Reference
 
 > This document is the single source of truth for architectural decisions.
 > All technical choices must remain consistent with this document.
@@ -76,7 +76,7 @@ StorageService → S3 / R2 / MinIO
 ## 3. Folder Structure
 
 ```
-KurayDevV2/
+KurayDevSite/
 ├── app/
 │   ├── globals.css
 │   ├── layout.tsx                    # Root layout
