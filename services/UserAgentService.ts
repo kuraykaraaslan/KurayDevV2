@@ -62,16 +62,6 @@ export default class UserAgentService {
 
       return location
     } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.error('MaxMind request failed:', {
-          message: error.message,
-          status: error.response?.status,
-          data: error.response?.data,
-        })
-      } else {
-        console.error('Unexpected error during MaxMind lookup:', error)
-      }
-
       return { city: null, state: null, country: null }
     }
   }
