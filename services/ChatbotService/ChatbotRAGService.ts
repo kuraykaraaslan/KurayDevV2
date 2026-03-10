@@ -13,10 +13,20 @@ import {
     PolicyItem,
     SystemPromptData,
 } from '@/types/features/ChatbotTypes'
-import ragDatasetRaw from './datasets/rag-dataset.json'
-import faqDatasetRaw from './datasets/faq-dataset.json'
-import policyDatasetRaw from './datasets/policy-dataset.json'
-import systemPromptDataRaw from './datasets/system-prompt.json'
+function tryRequireJson<T>(path: string, fallback: T): T {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        return require(path) as T
+    } catch {
+        return fallback
+    }
+}
+
+const ragDatasetRaw      = tryRequireJson('./datasets/rag-dataset.json',    { documents: [] })
+const faqDatasetRaw      = tryRequireJson('./datasets/faq-dataset.json',    { items: [] })
+const policyDatasetRaw   = tryRequireJson('./datasets/policy-dataset.json', { policies: [] })
+const systemPromptDataRaw = tryRequireJson('./datasets/system-prompt.json', { intro: '', rules: [] })
+
 import {
   KG_NODES_KEY,
   RAG_TOP_K,
