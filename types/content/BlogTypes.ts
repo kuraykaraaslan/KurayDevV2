@@ -34,6 +34,7 @@ const CommentSchema = z.object({
   email: z.string().email().nullable(),
   name: z.string().nullable(),
   status: CommentStatusEnum.default('NOT_PUBLISHED'),
+  deletedAt: z.date().nullable().optional(),
 })
 
 const PostSchema = z.object({
@@ -66,6 +67,7 @@ const CategorySchema = z.object({
   updatedAt: z.date().optional(),
   image: z.string().nullable(),
   keywords: z.array(z.string()).optional(),
+  deletedAt: z.date().nullable().optional(),
 })
 
 const PostWithDataSchema = PostSchema.extend({

@@ -4,5 +4,6 @@ export type ShortLink = {
   originalUrl: string
   clicks: number
   createdAt: string | Date
+  deletedAt?: string | Date | null
   [key: string]: unknown
 }

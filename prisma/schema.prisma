@@ -147,13 +147,14 @@ model Post {
 }
 
 model PostSeries {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
-  slug        String   @unique
+  slug        String    @unique
   description String?
   image       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 
   entries PostSeriesEntry[]
 
@@ -190,14 +191,15 @@ model PostTranslation {
 }
 
 model Category {
-  categoryId  String   @id @default(cuid())
+  categoryId  String    @id @default(cuid())
   title       String
   description String?
-  slug        String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  slug        String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   image       String?
   keywords    String[]
+  deletedAt   DateTime?
 
   posts        Post[]
   translations CategoryTranslation[]
@@ -245,6 +247,7 @@ model Comment {
   parentId  String?
   email     String?
   name      String?
+  deletedAt DateTime?
 
   parent   Comment?  @relation("CommentToComment", fields: [parentId], references: [commentId])
   children Comment[] @relation("CommentToComment")
@@ -260,6 +263,7 @@ model ContactForm {
   phone     String
   message   String
   createdAt DateTime @default(now())
+  deletedAt DateTime?
 }
 
 model Subscription {
@@ -280,6 +284,7 @@ model Campaign {
   sentCount  Int            @default(0)
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
+  deletedAt  DateTime?
 }
 
 model Setting {
@@ -304,6 +309,7 @@ model Project {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @default(now()) @updatedAt
   projectLinks String[]
+  deletedAt    DateTime?
 
   translations ProjectTranslation[]
 }
@@ -376,14 +382,15 @@ model Like {
 
 
 model Testimonial {
-  testimonialId String   @id @default(cuid())
+  testimonialId String    @id @default(cuid())
   name          String
   title         String
   review        String
   image         String?
-  status        String   @default("PUBLISHED")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  status        String    @default("PUBLISHED")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
 }
 
 model PushSubscription {
@@ -410,11 +417,12 @@ model GeoAnalytics {
 }
 
 model ShortLink {
-  id          String   @id @default(cuid())
-  code        String   @unique
+  id          String    @id @default(cuid())
+  code        String    @unique
   originalUrl String
-  clicks      Int      @default(0)
-  createdAt   DateTime @default(now())
+  clicks      Int       @default(0)
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
 
   clickEvents ShortLinkClick[]
 

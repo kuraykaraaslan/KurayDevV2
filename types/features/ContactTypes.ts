@@ -7,6 +7,7 @@ const ContactFormSchema = z.object({
   phone: z.string().optional(),
   message: z.string(),
   createdAt: z.date().optional(),
+  deletedAt: z.date().nullable().optional(),
 })
 
 export type ContactForm = z.infer<typeof ContactFormSchema>

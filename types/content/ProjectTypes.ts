@@ -37,6 +37,7 @@ const ProjectSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date().nullable(),
   projectLinks: z.array(z.string()).default([]),
+  deletedAt: z.date().nullable().optional(),
 })
 
 const PlatformSchema = z.object({

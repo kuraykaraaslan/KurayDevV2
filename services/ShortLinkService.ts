@@ -26,7 +26,7 @@ export default class ShortLinkService {
      */
     static async getOrCreate(originalUrl: string): Promise<string> {
         const existing = await prisma.shortLink.findFirst({
-            where: { originalUrl },
+            where: { originalUrl, deletedAt: null },
         })
         if (existing) return existing.code
 
@@ -52,7 +52,7 @@ export default class ShortLinkService {
      * still redirected but NOT tracked, preventing bot inflation.
      */
     static async resolve(code: string, request?: NextRequest): Promise<string | null> {
-        const link = await prisma.shortLink.findUnique({ where: { code } })
+        const link = await prisma.shortLink.findFirst({ where: { code, deletedAt: null } })
         if (!link) return null
 
         if (request) {
@@ -113,8 +113,8 @@ export default class ShortLinkService {
         const resolvedSortDir: 'asc' | 'desc' = params?.sortDir === 'asc' ? 'asc' : 'desc'
 
         const where = params?.search
-          ? { OR: [{ code: { contains: params.search } }, { originalUrl: { contains: params.search } }] }
-          : {}
+          ? { deletedAt: null, OR: [{ code: { contains: params.search } }, { originalUrl: { contains: params.search } }] }
+          : { deletedAt: null }
 
         const [links, total] = await prisma.$transaction([
           prisma.shortLink.findMany({
@@ -133,7 +133,7 @@ export default class ShortLinkService {
      * Returns a single short link by id.
      */
     static async getById(id: string) {
-        return prisma.shortLink.findUnique({ where: { id } })
+        return prisma.shortLink.findFirst({ where: { id, deletedAt: null } })
     }
 
     /**
@@ -147,14 +147,14 @@ export default class ShortLinkService {
      * Deletes a short link by id.
      */
     static async delete(id: string) {
-        return prisma.shortLink.delete({ where: { id } })
+        return prisma.shortLink.update({ where: { id }, data: { deletedAt: new Date() } })
     }
 
     /**
      * Returns aggregated analytics for a short link.
      */
     static async getAnalytics(id: string) {
-        const link = await prisma.shortLink.findUnique({ where: { id } })
+        const link = await prisma.shortLink.findFirst({ where: { id, deletedAt: null } })
         if (!link) return null
 
         const events = await prisma.shortLinkClick.findMany({

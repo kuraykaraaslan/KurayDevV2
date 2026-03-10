@@ -9,6 +9,7 @@ const TestimonialSchema = z.object({
   status: z.string().default('PUBLISHED'),
   createdAt: z.date(),
   updatedAt: z.date(),
+  deletedAt: z.date().nullable().optional(),
 })
 
 export type Testimonial = z.infer<typeof TestimonialSchema>

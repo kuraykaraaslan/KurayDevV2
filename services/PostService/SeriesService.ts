@@ -36,8 +36,8 @@ export default class SeriesService {
     // ── List ──────────────────────────────────────────────
     static async getAll(page = 0, pageSize = 20, search?: string, sortKey?: string, sortDir?: 'asc' | 'desc') {
         const where = search
-            ? { title: { contains: search, mode: 'insensitive' as const } }
-            : {}
+            ? { deletedAt: null, title: { contains: search, mode: 'insensitive' as const } }
+            : { deletedAt: null }
 
         const ALLOWED_SORT_KEYS: Record<string, string> = { title: 'title', slug: 'slug', createdAt: 'createdAt', updatedAt: 'updatedAt' }
         const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
@@ -62,16 +62,16 @@ export default class SeriesService {
 
     // ── Single ────────────────────────────────────────────
     static async getById(id: string) {
-        return prisma.postSeries.findUnique({ where: { id }, select: seriesSelect })
+        return prisma.postSeries.findFirst({ where: { id, deletedAt: null }, select: seriesSelect })
     }
 
     static async getBySlug(slug: string) {
-        return prisma.postSeries.findUnique({ where: { slug }, select: seriesSelect })
+        return prisma.postSeries.findFirst({ where: { slug, deletedAt: null }, select: seriesSelect })
     }
 
     // ── Create ────────────────────────────────────────────
     static async create(data: CreateSeriesRequest) {
-        const existing = await prisma.postSeries.findUnique({ where: { slug: data.slug } })
+        const existing = await prisma.postSeries.findFirst({ where: { slug: data.slug, deletedAt: null } })
         if (existing) throw new Error('A series with this slug already exists.')
         return prisma.postSeries.create({ data, select: seriesSelect })
     }
@@ -83,7 +83,7 @@ export default class SeriesService {
 
     // ── Delete ────────────────────────────────────────────
     static async delete(id: string) {
-        await prisma.postSeries.delete({ where: { id } })
+        await prisma.postSeries.update({ where: { id }, data: { deletedAt: new Date() } })
     }
 
     // ── Entries ───────────────────────────────────────────

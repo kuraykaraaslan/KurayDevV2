@@ -9904,6 +9904,7 @@ export namespace Prisma {
       image: string | null
       createdAt: Date
       updatedAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["postSeries"]>
     composites: {}
   }
@@ -13182,6 +13183,7 @@ export namespace Prisma {
       updatedAt: Date
       image: string | null
       keywords: string[]
+      deletedAt: Date | null
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -15403,6 +15405,7 @@ export namespace Prisma {
       email: string | null
       name: string | null
       status: $Enums.CommentStatus
+      deletedAt: Date | null
     }, ExtArgs["result"]["comment"]>
     composites: {}
   }
@@ -16507,6 +16510,7 @@ export namespace Prisma {
       phone: string
       message: string
       createdAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["contactForm"]>
     composites: {}
   }
@@ -18579,6 +18583,7 @@ export namespace Prisma {
       sentCount: number
       createdAt: Date
       updatedAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["campaign"]>
     composites: {}
   }
@@ -20669,6 +20674,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date | null
       projectLinks: string[]
+      deletedAt: Date | null
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -25014,6 +25020,7 @@ export namespace Prisma {
       status: string
       createdAt: Date
       updatedAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["testimonial"]>
     composites: {}
   }
@@ -28127,6 +28134,7 @@ export namespace Prisma {
       originalUrl: string
       clicks: number
       createdAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["shortLink"]>
     composites: {}
   }
@@ -35753,6 +35761,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PostSeries"> | Date | string
     updatedAt?: DateTimeFilter<"PostSeries"> | Date | string
     entries?: PostSeriesEntryListRelationFilter
+    deletedAt?: DateTimeNullableFilter<"PostSeries"> | Date | string | null
   }
 
   export type PostSeriesOrderByWithRelationInput = {
@@ -35764,6 +35773,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     entries?: PostSeriesEntryOrderByRelationAggregateInput
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type PostSeriesWhereUniqueInput = Prisma.AtLeast<{
@@ -35942,6 +35952,7 @@ export namespace Prisma {
     keywords?: StringNullableListFilter<"Category">
     posts?: PostListRelationFilter
     translations?: CategoryTranslationListRelationFilter
+    deletedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
   }
 
   export type CategoryOrderByWithRelationInput = {
@@ -35955,6 +35966,7 @@ export namespace Prisma {
     keywords?: SortOrder
     posts?: PostOrderByRelationAggregateInput
     translations?: CategoryTranslationOrderByRelationAggregateInput
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -36078,6 +36090,7 @@ export namespace Prisma {
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     children?: CommentListRelationFilter
     post?: XOR<PostScalarRelationFilter, PostWhereInput>
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
   }
 
   export type CommentOrderByWithRelationInput = {
@@ -36092,6 +36105,7 @@ export namespace Prisma {
     parent?: CommentOrderByWithRelationInput
     children?: CommentOrderByRelationAggregateInput
     post?: PostOrderByWithRelationInput
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type CommentWhereUniqueInput = Prisma.AtLeast<{
@@ -36149,6 +36163,7 @@ export namespace Prisma {
     phone?: StringFilter<"ContactForm"> | string
     message?: StringFilter<"ContactForm"> | string
     createdAt?: DateTimeFilter<"ContactForm"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"ContactForm"> | Date | string | null
   }
 
   export type ContactFormOrderByWithRelationInput = {
@@ -36158,6 +36173,7 @@ export namespace Prisma {
     phone?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type ContactFormWhereUniqueInput = Prisma.AtLeast<{
@@ -36257,6 +36273,7 @@ export namespace Prisma {
     sentCount?: IntFilter<"Campaign"> | number
     createdAt?: DateTimeFilter<"Campaign"> | Date | string
     updatedAt?: DateTimeFilter<"Campaign"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Campaign"> | Date | string | null
   }
 
   export type CampaignOrderByWithRelationInput = {
@@ -36270,6 +36287,7 @@ export namespace Prisma {
     sentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type CampaignWhereUniqueInput = Prisma.AtLeast<{
@@ -36396,6 +36414,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
     projectLinks?: StringNullableListFilter<"Project">
     translations?: ProjectTranslationListRelationFilter
+    deletedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -36412,6 +36431,7 @@ export namespace Prisma {
     updatedAt?: SortOrderInput | SortOrder
     projectLinks?: SortOrder
     translations?: ProjectTranslationOrderByRelationAggregateInput
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -36690,6 +36710,7 @@ export namespace Prisma {
     status?: StringFilter<"Testimonial"> | string
     createdAt?: DateTimeFilter<"Testimonial"> | Date | string
     updatedAt?: DateTimeFilter<"Testimonial"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
   }
 
   export type TestimonialOrderByWithRelationInput = {
@@ -36701,6 +36722,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type TestimonialWhereUniqueInput = Prisma.AtLeast<{
@@ -36877,6 +36899,7 @@ export namespace Prisma {
     clicks?: IntFilter<"ShortLink"> | number
     createdAt?: DateTimeFilter<"ShortLink"> | Date | string
     clickEvents?: ShortLinkClickListRelationFilter
+    deletedAt?: DateTimeNullableFilter<"ShortLink"> | Date | string | null
   }
 
   export type ShortLinkOrderByWithRelationInput = {
@@ -36886,6 +36909,7 @@ export namespace Prisma {
     clicks?: SortOrder
     createdAt?: SortOrder
     clickEvents?: ShortLinkClickOrderByRelationAggregateInput
+    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type ShortLinkWhereUniqueInput = Prisma.AtLeast<{
@@ -37884,6 +37908,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     entries?: PostSeriesEntryCreateNestedManyWithoutSeriesInput
+    deletedAt?: Date | string | null
   }
 
   export type PostSeriesUncheckedCreateInput = {
@@ -37895,6 +37920,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     entries?: PostSeriesEntryUncheckedCreateNestedManyWithoutSeriesInput
+    deletedAt?: Date | string | null
   }
 
   export type PostSeriesUpdateInput = {
@@ -37906,6 +37932,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     entries?: PostSeriesEntryUpdateManyWithoutSeriesNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PostSeriesUncheckedUpdateInput = {
@@ -37917,6 +37944,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     entries?: PostSeriesEntryUncheckedUpdateManyWithoutSeriesNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PostSeriesCreateManyInput = {
@@ -37937,6 +37965,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PostSeriesUncheckedUpdateManyInput = {
@@ -37947,6 +37976,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PostSeriesEntryCreateInput = {
@@ -38076,6 +38106,7 @@ export namespace Prisma {
     keywords?: CategoryCreatekeywordsInput | string[]
     posts?: PostCreateNestedManyWithoutCategoryInput
     translations?: CategoryTranslationCreateNestedManyWithoutCategoryInput
+    deletedAt?: Date | string | null
   }
 
   export type CategoryUncheckedCreateInput = {
@@ -38089,6 +38120,7 @@ export namespace Prisma {
     keywords?: CategoryCreatekeywordsInput | string[]
     posts?: PostUncheckedCreateNestedManyWithoutCategoryInput
     translations?: CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
+    deletedAt?: Date | string | null
   }
 
   export type CategoryUpdateInput = {
@@ -38102,6 +38134,7 @@ export namespace Prisma {
     keywords?: CategoryUpdatekeywordsInput | string[]
     posts?: PostUpdateManyWithoutCategoryNestedInput
     translations?: CategoryTranslationUpdateManyWithoutCategoryNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryUncheckedUpdateInput = {
@@ -38115,6 +38148,7 @@ export namespace Prisma {
     keywords?: CategoryUpdatekeywordsInput | string[]
     posts?: PostUncheckedUpdateManyWithoutCategoryNestedInput
     translations?: CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryCreateManyInput = {
@@ -38137,6 +38171,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryUncheckedUpdateManyInput = {
@@ -38148,6 +38183,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryTranslationCreateInput = {
@@ -38222,6 +38258,7 @@ export namespace Prisma {
     parent?: CommentCreateNestedOneWithoutChildrenInput
     children?: CommentCreateNestedManyWithoutParentInput
     post: PostCreateNestedOneWithoutCommentInput
+    deletedAt?: Date | string | null
   }
 
   export type CommentUncheckedCreateInput = {
@@ -38234,6 +38271,7 @@ export namespace Prisma {
     name?: string | null
     status?: $Enums.CommentStatus
     children?: CommentUncheckedCreateNestedManyWithoutParentInput
+    deletedAt?: Date | string | null
   }
 
   export type CommentUpdateInput = {
@@ -38246,6 +38284,7 @@ export namespace Prisma {
     parent?: CommentUpdateOneWithoutChildrenNestedInput
     children?: CommentUpdateManyWithoutParentNestedInput
     post?: PostUpdateOneRequiredWithoutCommentNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentUncheckedUpdateInput = {
@@ -38258,6 +38297,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     children?: CommentUncheckedUpdateManyWithoutParentNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentCreateManyInput = {
@@ -38278,6 +38318,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentUncheckedUpdateManyInput = {
@@ -38289,6 +38330,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ContactFormCreateInput = {
@@ -38298,6 +38340,7 @@ export namespace Prisma {
     phone: string
     message: string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type ContactFormUncheckedCreateInput = {
@@ -38307,6 +38350,7 @@ export namespace Prisma {
     phone: string
     message: string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type ContactFormUpdateInput = {
@@ -38316,6 +38360,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ContactFormUncheckedUpdateInput = {
@@ -38325,6 +38370,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ContactFormCreateManyInput = {
@@ -38343,6 +38389,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ContactFormUncheckedUpdateManyInput = {
@@ -38352,6 +38399,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SubscriptionCreateInput = {
@@ -38414,6 +38462,7 @@ export namespace Prisma {
     sentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type CampaignUncheckedCreateInput = {
@@ -38427,6 +38476,7 @@ export namespace Prisma {
     sentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type CampaignUpdateInput = {
@@ -38440,6 +38490,7 @@ export namespace Prisma {
     sentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CampaignUncheckedUpdateInput = {
@@ -38453,6 +38504,7 @@ export namespace Prisma {
     sentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CampaignCreateManyInput = {
@@ -38479,6 +38531,7 @@ export namespace Prisma {
     sentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CampaignUncheckedUpdateManyInput = {
@@ -38492,6 +38545,7 @@ export namespace Prisma {
     sentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SettingCreateInput = {
@@ -38571,6 +38625,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
     translations?: ProjectTranslationCreateNestedManyWithoutProjectInput
+    deletedAt?: Date | string | null
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -38587,6 +38642,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
     translations?: ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
+    deletedAt?: Date | string | null
   }
 
   export type ProjectUpdateInput = {
@@ -38603,6 +38659,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
     translations?: ProjectTranslationUpdateManyWithoutProjectNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -38619,6 +38676,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
     translations?: ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProjectCreateManyInput = {
@@ -38649,6 +38707,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProjectUncheckedUpdateManyInput = {
@@ -38664,6 +38723,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProjectTranslationCreateInput = {
@@ -38896,6 +38956,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type TestimonialUncheckedCreateInput = {
@@ -38907,6 +38968,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type TestimonialUpdateInput = {
@@ -38918,6 +38980,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestimonialUncheckedUpdateInput = {
@@ -38929,6 +38992,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestimonialCreateManyInput = {
@@ -38951,6 +39015,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestimonialUncheckedUpdateManyInput = {
@@ -38962,6 +39027,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PushSubscriptionCreateInput = {
@@ -39104,6 +39170,7 @@ export namespace Prisma {
     clicks?: number
     createdAt?: Date | string
     clickEvents?: ShortLinkClickCreateNestedManyWithoutShortLinkInput
+    deletedAt?: Date | string | null
   }
 
   export type ShortLinkUncheckedCreateInput = {
@@ -39113,6 +39180,7 @@ export namespace Prisma {
     clicks?: number
     createdAt?: Date | string
     clickEvents?: ShortLinkClickUncheckedCreateNestedManyWithoutShortLinkInput
+    deletedAt?: Date | string | null
   }
 
   export type ShortLinkUpdateInput = {
@@ -39122,6 +39190,7 @@ export namespace Prisma {
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clickEvents?: ShortLinkClickUpdateManyWithoutShortLinkNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShortLinkUncheckedUpdateInput = {
@@ -39131,6 +39200,7 @@ export namespace Prisma {
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clickEvents?: ShortLinkClickUncheckedUpdateManyWithoutShortLinkNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShortLinkCreateManyInput = {
@@ -39147,6 +39217,7 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShortLinkUncheckedUpdateManyInput = {
@@ -39155,6 +39226,7 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShortLinkClickCreateInput = {
