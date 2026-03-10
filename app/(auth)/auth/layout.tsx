@@ -5,14 +5,27 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { usePathname } from 'next/navigation'
 import { faCode, faShieldHalved, faBolt, faGlobe } from '@fortawesome/free-solid-svg-icons'
-import { ReactNode, Suspense } from 'react'
+import { ReactNode, Suspense, useEffect } from 'react'
 import SSOLogin from '@/components/frontend/Integrations/Appointments/SSOLogin'
 import { useTranslation } from 'react-i18next'
 import AuthGridBackground from '@/components/auth/AuthGridBackground'
+import { useLanguageStore } from '@/libs/zustand'
+import i18n from '@/libs/localize/localize'
+import { getDirection } from '@/types/common/I18nTypes'
+import Logo from '@/components/common/Layout/Logo'
+import LangButtonCSR from '@/components/common/UI/LangButtonCSR'
+import ThemeButton from '@/components/frontend/Layout/Navbar/Partials/ThemeButton'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const { t } = useTranslation()
   const pathname = usePathname()
+  const lang = useLanguageStore((s) => s.lang)
+
+  useEffect(() => {
+    if (i18n.language !== lang) i18n.changeLanguage(lang)
+    document.documentElement.lang = lang
+    document.documentElement.dir = getDirection(lang)
+  }, [lang])
 
   const titles = [
     { path: '/auth/login', title: t('auth.login.welcome_back') },
@@ -39,10 +52,11 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           <div className="hidden md:flex flex-col justify-between bg-primary text-primary-content p-10 relative overflow-hidden">
             <AuthGridBackground />
 
-            <Link href="/" className="relative flex items-center gap-2 text-primary-content/90 hover:text-primary-content transition-colors">
-              <FontAwesomeIcon icon={faCode} className="w-5 h-5" />
-              <span className="font-bold text-lg tracking-tight">kuray.dev</span>
-            </Link>
+            <div className="relative flex items-center gap-2 text-primary-content/90 hover:text-primary-content transition-colors">
+              <Logo href='/' />
+              <ThemeButton />
+              <LangButtonCSR />
+            </div>
 
             <div className="relative space-y-3">
               <h2 className="text-3xl font-bold leading-snug">
@@ -67,10 +81,9 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           <div className="flex flex-col justify-center px-8 py-10 gap-6">
             {/* Mobile logo */}
             <div className="flex md:hidden justify-center">
-              <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-                <FontAwesomeIcon icon={faCode} className="w-5 h-5" />
-                <span>kuray.dev</span>
-              </Link>
+              <Logo href='/' />
+              <ThemeButton />
+              <LangButtonCSR />
             </div>
 
             {pageTitle && (

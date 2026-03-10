@@ -14,15 +14,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import ThemeButton from './Partials/ThemeButton'
 import NotificationBell from './Partials/NotificationBell'
-import Logo from '@/components/common/Layout/Logo'
 import dynamic from 'next/dynamic'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { useTranslation } from 'react-i18next'
 
 const NavbarAuthButton = dynamic(
   () => import('@/components/common/UI/Navigation/NavbarAuthButton'),
+  { ssr: false }
+)
+
+const LangButtonCSR = dynamic(
+  () => import('@/components/common/UI/LangButtonCSR'),
+  { ssr: false }
+)
+
+const Logo = dynamic(
+  () => import('@/components/common/Layout/Logo'),
+  { ssr: false }
+)
+
+const ThemeButton = dynamic(
+  () => import('@/components/frontend/Layout/Navbar/Partials/ThemeButton'),
   { ssr: false }
 )
 
@@ -214,7 +227,8 @@ const Navbar = () => {
         {/* Logo */}
         <div className="py-4 pl-4 lg:pl-0 flex items-center gap-2">
           <Logo href="/admin" />
-          <ThemeButton />
+          <ThemeButton/>
+          <LangButtonCSR />
         </div>
 
         {/* Mobile hamburger */}
