@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Newsletter from '@/components/frontend/Features/Newsletter'
 import ProjectService from '@/services/ProjectService'
-import SingleProject from '@/components/frontend/Features/SingleProject'
 import ProjectHeader from '@/components/frontend/Features/Projects/ProjectHeader'
 import MetadataHelper from '@/helpers/MetadataHelper'
 import Breadcrumb from '@/components/common/Layout/Breadcrumb'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
+import Article from '@/components/frontend/Features/Blog/Article'
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 
@@ -123,7 +123,7 @@ export default async function ProjectPage({ params }: Props) {
           <div className="container mx-auto px-4 lg:px-8 mb-8 flex-grow flex-col max-w-7xl">
             <Breadcrumb items={breadcrumbs} />
             <ProjectHeader {...project} />
-            <SingleProject {...project} />
+            <Article title={project.title} content={project.content} image={project.image ?? ''} />
           </div>
         </section>
         <Newsletter backgroundColor="bg-base-200" />

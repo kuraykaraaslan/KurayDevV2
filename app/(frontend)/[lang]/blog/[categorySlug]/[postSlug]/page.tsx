@@ -226,7 +226,7 @@ export default async function BlogPost({ params }: Props) {
               <SeriesNav seriesRef={post.seriesEntry} currentPostId={post.postId} />
             )}
             <TableOfContents content={post.content} />
-            <Article {...post} />
+            <Article title={post.title} content={post.content} image={image || post.image || `/api/posts/${post.postId}/cover.jpeg`} />
             <ShareButtons title={post.title} url={url} postId={post.postId} lang={lang} />
             <OtherPosts postId={post.postId} />
             <Comments postId={post.postId} />
