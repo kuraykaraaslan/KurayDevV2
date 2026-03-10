@@ -11,6 +11,8 @@ import { Subscription } from '@/types/common/SubscriptionTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { formatDateTime as formatDate } from '@/helpers/TimeHelper'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faUserMinus } from '@fortawesome/free-solid-svg-icons'
 
 const SubscriptionsPage = () => {
   const { t } = useTranslation()
@@ -47,20 +49,22 @@ const SubscriptionsPage = () => {
 
   const actions: ActionButton<Subscription>[] = [
     {
-      label: 'admin.subscriptions.send_email',
+      label: <FontAwesomeIcon icon={faEnvelope} size="sm" />,
       onClick: (s) => {
         window.location.href = `mailto:${s.email}`
       },
       className: 'btn-info',
+      tooltip: t('admin.subscriptions.send_email'),
     },
     {
-      label: 'admin.subscriptions.unsubscribe',
+      label: <FontAwesomeIcon icon={faUserMinus} size="sm" />,
       onClick: async (s) => {
         if (!confirm(t('admin.subscriptions.confirm_unsubscribe'))) return
         await axiosInstance.delete(`/api/contact/subscription/${encodeURIComponent(s.email)}`)
       },
       className: 'btn-warning',
       hideOnMobile: true,
+      tooltip: t('admin.subscriptions.unsubscribe'),
     },
   ]
 

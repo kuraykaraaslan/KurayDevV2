@@ -13,6 +13,8 @@ import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { formatDate, formatTime } from '@/helpers/TimeHelper'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const statusBadge = (status: AppointmentStatus) => {
   const styles: Record<AppointmentStatus, string> = {
@@ -82,15 +84,16 @@ const AppointmentsPage = () => {
 
   const actions: ActionButton<Appointment>[] = [
     {
-      label: 'common.view',
+      label: <FontAwesomeIcon icon={faEye} size="sm" />,
       onClick: (a) => {
         setSelectedAppointment(a)
         openModal()
       },
       className: 'btn-primary',
+      tooltip: t('common.view'),
     },
     {
-      label: 'admin.appointments.complete',
+      label: <FontAwesomeIcon icon={faCheck} size="sm" />,
       onClick: async (a) => {
         if (a.status !== 'BOOKED') return
         if (!confirm(t('admin.appointments.complete_confirm'))) return
@@ -99,9 +102,10 @@ const AppointmentsPage = () => {
       className: 'btn-success',
       hideOnMobile: true,
       hidden: (a) => a.status !== 'BOOKED',
+      tooltip: t('admin.appointments.complete'),
     },
     {
-      label: 'admin.appointments.cancel',
+      label: <FontAwesomeIcon icon={faXmark} size="sm" />,
       onClick: async (a) => {
         if (a.status === 'CANCELLED' || a.status === 'COMPLETED') return
         if (!confirm(t('admin.appointments.cancel_confirm'))) return
@@ -110,6 +114,7 @@ const AppointmentsPage = () => {
       className: 'btn-error',
       hideOnMobile: true,
       hidden: (a) => a.status === 'CANCELLED' || a.status === 'COMPLETED',
+      tooltip: t('admin.appointments.cancel'),
     },
   ]
 

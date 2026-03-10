@@ -11,6 +11,8 @@ import Table, {
 import { SafeUser } from '@/types/user/UserTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const UserPage = () => {
   const { t } = useTranslation()
@@ -30,18 +32,20 @@ const UserPage = () => {
 
   const actions: ActionButton<SafeUser>[] = [
     {
-      label: 'common.edit',
+      label: <FontAwesomeIcon icon={faPencil} size="sm" />,
       href: (u) => `/admin/users/${u.userId}`,
       className: 'btn-primary',
+      tooltip: t('common.edit'),
     },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (u) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/users/${u.userId}`)
       },
-      className: 'text-danger',
+      className: 'btn-error',
       hideOnMobile: true,
+      tooltip: t('common.delete'),
     },
   ]
 

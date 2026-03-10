@@ -12,6 +12,8 @@ import { ProjectWithTranslations } from '@/types/content/ProjectTypes'
 import { getLangFlagUrl as findFlagUrlByIso2Code } from '@/types/common/I18nTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const ProjectPage = () => {
   const { t } = useTranslation()
@@ -51,19 +53,26 @@ const ProjectPage = () => {
 
   const actions: ActionButton<ProjectWithTranslations>[] = [
     {
-      label: 'common.edit',
+      label: <FontAwesomeIcon icon={faPencil} size="sm" />,
       href: (p) => `/admin/projects/${p.projectId}`,
       className: 'btn-primary',
+      tooltip: t('common.edit'),
     },
-    { label: 'common.view', href: (p) => `/project/${p.slug}`, className: 'btn-secondary' },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faEye} size="sm" />,
+      href: (p) => `/project/${p.slug}`,
+      className: 'btn-secondary',
+      tooltip: t('common.view'),
+    },
+    {
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (p) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/projects/${p.projectId}`)
       },
-      className: 'text-white',
+      className: 'btn-error',
       hideOnMobile: true,
+      tooltip: t('common.delete'),
     },
   ]
 

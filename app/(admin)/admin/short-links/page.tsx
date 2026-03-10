@@ -11,6 +11,8 @@ import { ShortLink } from '@/types/content/ShortLinkTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import CopyButton from '@/components/admin/UI/CopyButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChartBar, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const APP_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || ''
 
@@ -64,23 +66,26 @@ const ShortLinksPage = () => {
 
   const actions: ActionButton<ShortLink>[] = [
     {
-      label: 'Analytics',
+      label: <FontAwesomeIcon icon={faChartBar} size="sm" />,
       href: (item) => `/admin/short-links/${item.id}/analytics`,
       className: 'btn-info',
+      tooltip: 'Analytics',
     },
     {
-      label: 'common.edit',
+      label: <FontAwesomeIcon icon={faPencil} size="sm" />,
       href: (item) => `/admin/short-links/${item.id}`,
       className: 'btn-secondary',
+      tooltip: t('common.edit'),
     },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (item) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/links/${item.id}`)
       },
       className: 'btn-error',
       hideOnMobile: true,
+      tooltip: t('common.delete'),
     },
   ]
 

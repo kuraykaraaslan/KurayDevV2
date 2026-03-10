@@ -12,6 +12,8 @@ import { CategoryWithTranslations } from '@/types/content/BlogTypes'
 import { getLangFlagUrl as findFlagUrlByIso2Code } from '@/types/common/I18nTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faEye, faTrash, faNewspaper } from '@fortawesome/free-solid-svg-icons'
 
 const CategoryPage = () => {
   const { t } = useTranslation()
@@ -44,25 +46,33 @@ const CategoryPage = () => {
 
   const actions: ActionButton<CategoryWithTranslations>[] = [
     {
-      label: 'common.edit',
+      label: <FontAwesomeIcon icon={faPencil} size="sm" />,
       href: (c) => `/admin/categories/${c.categoryId}`,
-      className: 'btn-secondary',
+      className: 'btn-primary',
+      tooltip: t('common.edit'),
     },
-    { label: 'common.view', href: (c) => `/blog/${c.slug}`, className: 'btn-primary' },
     {
-      label: 'common.posts',
+      label: <FontAwesomeIcon icon={faEye} size="sm" />,
+      href: (c) => `/blog/${c.slug}`,
+      className: 'btn-secondary',
+      tooltip: t('common.view'),
+    },
+    {
+      label: <FontAwesomeIcon icon={faNewspaper} size="sm" />,
       href: (c) => `/admin/posts?categoryId=${c.categoryId}`,
       className: 'btn-warning',
       hideOnMobile: true,
+      tooltip: t('common.posts'),
     },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (c) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/categories/${c.categoryId}`)
       },
-      className: 'btn-secondary',
+      className: 'btn-error',
       hideOnMobile: true,
+      tooltip: t('common.delete'),
     },
   ]
 

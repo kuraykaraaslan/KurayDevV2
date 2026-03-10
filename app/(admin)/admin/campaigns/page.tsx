@@ -10,6 +10,8 @@ import Table, {
 import { Campaign } from '@/types/common/CampaignTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const statusBadge = (status: Campaign['status']) => {
   const map: Record<Campaign['status'], string> = {
@@ -54,19 +56,21 @@ const CampaignsPage = () => {
 
   const actions: ActionButton<Campaign>[] = [
     {
-      label: 'common.edit',
+      label: <FontAwesomeIcon icon={faPencil} size="sm" />,
       href: (item) => `/admin/campaigns/${item.campaignId}`,
       className: 'btn-secondary',
       hidden: (item) => item.status !== 'DRAFT',
+      tooltip: t('common.edit'),
     },
     {
-      label: 'common.view',
+      label: <FontAwesomeIcon icon={faEye} size="sm" />,
       href: (item) => `/admin/campaigns/${item.campaignId}`,
       className: 'btn-ghost btn-sm',
       hidden: (item) => item.status === 'DRAFT',
+      tooltip: t('common.view'),
     },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (item) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/newsletter/campaigns/${item.campaignId}`)
@@ -74,6 +78,7 @@ const CampaignsPage = () => {
       className: 'btn-error',
       hideOnMobile: true,
       hidden: (item) => item.status !== 'DRAFT',
+      tooltip: t('common.delete'),
     },
   ]
 

@@ -16,6 +16,7 @@ import {
   faUserShield,
   faCircle,
   faLock,
+  faEye,
 } from '@fortawesome/free-solid-svg-icons'
 import type { StoredChatSession } from '@/dtos/ChatbotDTO'
 
@@ -91,9 +92,10 @@ const ChatSessionsPage = () => {
 
   const actions: ActionButton<StoredChatSession>[] = [
     {
-      label: t('common.view'),
+      label: <FontAwesomeIcon icon={faEye} size="sm" />,
       href: (s) => `/admin/chatbot/${s.chatSessionId}`,
       className: 'btn-primary',
+      tooltip: t('common.view'),
     },
   ]
 

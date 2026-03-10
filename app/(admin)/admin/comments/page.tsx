@@ -10,6 +10,8 @@ import Table, {
 import { CommentWithData } from '@/types/content/BlogTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faXmark, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const CommentPage = () => {
   const { t } = useTranslation()
@@ -42,15 +44,16 @@ const CommentPage = () => {
 
   const actions: ActionButton<CommentWithData>[] = [
     {
-      label: 'common.approve',
+      label: <FontAwesomeIcon icon={faCheck} size="sm" />,
       onClick: async (c) => {
         if (!confirm(t('admin.comments.confirm_approve'))) return
         await axiosInstance.put('/api/comments', { commentId: c.commentId, status: 'PUBLISHED' })
       },
       className: 'btn-success',
+      tooltip: t('common.approve'),
     },
     {
-      label: 'common.reject',
+      label: <FontAwesomeIcon icon={faXmark} size="sm" />,
       onClick: async (c) => {
         if (!confirm(t('admin.comments.confirm_reject'))) return
         await axiosInstance.put('/api/comments', {
@@ -60,15 +63,17 @@ const CommentPage = () => {
       },
       className: 'btn-warning',
       hideOnMobile: true,
+      tooltip: t('common.reject'),
     },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (c) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/comments/${c.commentId}`)
       },
       className: 'btn-error',
       hideOnMobile: true,
+      tooltip: t('common.delete'),
     },
   ]
 

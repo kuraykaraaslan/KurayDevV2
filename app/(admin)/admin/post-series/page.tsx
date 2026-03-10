@@ -11,6 +11,8 @@ import {
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 interface SeriesRow {
     id: string
@@ -39,9 +41,14 @@ const SeriesPage = () => {
     ]
 
     const actions: ActionButton<SeriesRow>[] = [
-        { label: t('common.edit'),   href: (s) => `/admin/post-series/${s.id}`, className: 'btn-primary' },
         {
-            label: t('common.delete'),
+            label: <FontAwesomeIcon icon={faPencil} size="sm" />,
+            href: (s) => `/admin/post-series/${s.id}`,
+            className: 'btn-primary',
+            tooltip: t('common.edit'),
+        },
+        {
+            label: <FontAwesomeIcon icon={faTrash} size="sm" />,
             onClick: async (s) => {
                 if (!confirm(`${t('admin.post_series.delete_confirm')} "${s.title}"?`)) return
                 try {
@@ -52,6 +59,7 @@ const SeriesPage = () => {
                 }
             },
             className: 'btn-error',
+            tooltip: t('common.delete'),
         },
     ]
 

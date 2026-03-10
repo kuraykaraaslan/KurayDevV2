@@ -13,6 +13,8 @@ import { ContactForm } from '@/types/features/ContactTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { formatDateTime as formatDate } from '@/helpers/TimeHelper'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faReply, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const ContactsPage = () => {
   const { t } = useTranslation()
@@ -58,29 +60,32 @@ const ContactsPage = () => {
 
   const actions: ActionButton<ContactForm>[] = [
     {
-      label: 'common.view',
+      label: <FontAwesomeIcon icon={faEye} size="sm" />,
       onClick: (c) => {
         setSelectedContact(c)
         openModal()
       },
       className: 'btn-primary',
+      tooltip: t('common.view'),
     },
     {
-      label: 'admin.contacts.reply',
+      label: <FontAwesomeIcon icon={faReply} size="sm" />,
       onClick: (c) => {
         window.location.href = `mailto:${c.email}?subject=Re: Contact Form Submission`
       },
       className: 'btn-info',
       hideOnMobile: true,
+      tooltip: t('admin.contacts.reply'),
     },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (c) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/contact/form/${c.contactId}`)
       },
       className: 'btn-error',
       hideOnMobile: true,
+      tooltip: t('common.delete'),
     },
   ]
 

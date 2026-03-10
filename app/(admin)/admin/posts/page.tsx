@@ -14,12 +14,14 @@ import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { getLangFlagUrl as findFlagUrlByIso2Code } from '@/types/common/I18nTypes'
 import PostShareModal from '@/components/admin/Features/Share/PostShareModal'
+import PostToolsModal from '@/components/admin/Features/PostTools/PostToolsModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShareAlt } from '@fortawesome/free-solid-svg-icons'
+import { faShareAlt, faWrench, faPencil, faEye, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const PostPage = () => {
   const { t } = useTranslation()
   const [sharePost, setSharePost] = useState<PostWithData | null>(null)
+  const [toolsPost, setToolsPost] = useState<PostWithData | null>(null)
 
   const columns: ColumnDef<PostWithData>[] = [
     {
@@ -50,25 +52,39 @@ const PostPage = () => {
 
   const actions: ActionButton<PostWithData>[] = [
     {
-      label: 'common.edit',
+      label: <FontAwesomeIcon icon={faPencil} size="sm" />,
       href: (p) => `/admin/posts/${p.postId}`,
       className: 'btn-primary',
+      tooltip: t('common.edit'),
     },
-    { label: 'common.view', href: (p) => `/blog/${p.slug}`, className: 'btn-secondary' },
+    {
+      label: <FontAwesomeIcon icon={faEye} size="sm" />,
+      href: (p) => `/blog/${p.category.slug}/${p.slug}`,
+      className: 'btn-secondary',
+      tooltip: t('common.view'),
+    },
     {
       label: <FontAwesomeIcon icon={faShareAlt} size="sm" />,
       onClick: (p) => setSharePost(p),
       className: 'btn-ghost btn-sm bg-green-500/10 text-green-500 hover:bg-green-500/20',
       hidden: (p) => p.status !== 'PUBLISHED',
+      tooltip: t('common.share'),
     },
     {
-      label: 'common.delete',
+      label: <FontAwesomeIcon icon={faWrench} size="sm" />,
+      onClick: (p) => setToolsPost(p),
+      className: 'btn-ghost btn-sm bg-base-200 hover:bg-base-300',
+      tooltip: t('common.tools'),
+    },
+    {
+      label: <FontAwesomeIcon icon={faTrash} size="sm" />,
       onClick: async (p) => {
         if (!confirm(t('common.confirm_delete'))) return
         await axiosInstance.delete(`/api/posts/${p.postId}`)
       },
       className: 'btn-error',
       hideOnMobile: true,
+      tooltip: t('common.delete'),
     },
   ]
 
@@ -105,6 +121,9 @@ const PostPage = () => {
 
       {sharePost && (
         <PostShareModal post={sharePost} onClose={() => setSharePost(null)} />
+      )}
+      {toolsPost && (
+        <PostToolsModal post={toolsPost} onClose={() => setToolsPost(null)} />
       )}
     </>
   )
