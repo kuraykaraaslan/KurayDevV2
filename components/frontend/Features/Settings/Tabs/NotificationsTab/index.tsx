@@ -3,14 +3,14 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import { UserPreferences, UserPreferencesDefault } from '@/types/user/UserTypes'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicToggle from '@/components/admin/UI/Forms/DynamicToggle'
 import { useTranslation } from 'react-i18next'
 
 export default function NotificationsTab() {
-  const { user, setUser } = useGlobalStore()
+  const { user, setUser } = useUserStore()
   const { t } = useTranslation()
 
   const [preferences, setPrefs] = useState<UserPreferences>(

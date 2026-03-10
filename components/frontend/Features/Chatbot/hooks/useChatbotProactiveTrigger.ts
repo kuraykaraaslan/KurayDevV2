@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useChatbotStore } from '@/libs/zustand/chatbotStore'
+import { useChatbotStore } from '@/libs/zustand'
 
 interface UseChatbotProactiveTriggerOptions {
   /**

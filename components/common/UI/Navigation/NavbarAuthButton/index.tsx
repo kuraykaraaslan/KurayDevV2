@@ -1,7 +1,7 @@
 'use client'
 
 import Link from '@/libs/i18n/Link'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import Image from 'next/image'
 import { createHash } from 'crypto'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation'
 
 const NavbarAuthButton = () => {
   const { t } = useTranslation()
-  const { user } = useGlobalStore()
+  const { user } = useUserStore()
   const pathname = usePathname()
   const isInAdmin = pathname?.startsWith('/admin')
   const [open, setOpen] = useState(false)

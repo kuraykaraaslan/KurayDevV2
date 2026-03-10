@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import useGlobalStore from '@/libs/zustand'
-import { useChatbotStore } from '@/libs/zustand/chatbotStore'
+import { useUserStore } from '@/libs/zustand'
+import { useChatbotStore } from '@/libs/zustand'
 import { useChatbotSSE } from './useChatbotSSE'
 import type { ChatMessage, ChatSource } from '@/types/features/ChatbotTypes'
 import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
@@ -12,7 +12,7 @@ import type { SSEEvent } from './useChatbotSSE'
 
 export function useChatbot() {
   const { t } = useTranslation()
-  const { user } = useGlobalStore()
+  const { user } = useUserStore()
   const { isOpen, closeChatbot } = useChatbotStore()
 
   const [messages, setMessages] = useState<ChatMessage[]>([])

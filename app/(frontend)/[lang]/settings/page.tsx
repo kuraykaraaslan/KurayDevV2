@@ -3,12 +3,12 @@
 import SettingsTabs from '@/components/frontend/Features/Settings/SettingsTabs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import { useTranslation } from 'react-i18next'
 
 export default function SettingsPage() {
   const { t } = useTranslation()
-  const { user } = useGlobalStore()
+  const { user } = useUserStore()
 
   if (!user) {
     return null

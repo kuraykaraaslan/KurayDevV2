@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import {
   UserPreferences,
   ThemeEnum,
@@ -16,7 +16,7 @@ import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 import { useTranslation } from 'react-i18next'
 
 export default function PreferencesTab() {
-  const { user, setUser } = useGlobalStore()
+  const { user, setUser } = useUserStore()
   const { t } = useTranslation()
 
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(

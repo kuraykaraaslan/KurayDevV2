@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
-import { useChatbotStore } from '@/libs/zustand/chatbotStore'
+import { useChatbotStore } from '@/libs/zustand'
 
 const FlowingAIWhatsAppButton = () => {
   const { t } = useTranslation()

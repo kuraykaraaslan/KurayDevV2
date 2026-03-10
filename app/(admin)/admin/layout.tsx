@@ -5,15 +5,24 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import axiosInstance from '@/libs/axios'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore, useLanguageStore } from '@/libs/zustand'
+import i18n from '@/libs/localize/localize'
+import { getDirection } from '@/types/common/I18nTypes'
 
 // Make sure to import the Navbar component from the correct path
 const Navbar = dynamic(() => import('@/components/admin/Layout/Navbar'), { ssr: false })
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter()
-  const { setUser } = useGlobalStore()
+  const { setUser } = useUserStore()
+  const lang = useLanguageStore((s) => s.lang)
   const [isAuthChecked, setIsAuthChecked] = useState(false)
+
+  useEffect(() => {
+    if (i18n.language !== lang) i18n.changeLanguage(lang)
+    document.documentElement.lang = lang
+    document.documentElement.dir = getDirection(lang)
+  }, [lang])
 
   useEffect(() => {
     const checkAuth = async () => {

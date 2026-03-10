@@ -3,14 +3,14 @@
 import { useState } from 'react'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import PasskeyManager from '@/components/auth/PasskeyManager'
 import { useTranslation } from 'react-i18next'
 
 export default function SecurityTab() {
-  const { setUser } = useGlobalStore()
+  const { setUser } = useUserStore()
   const { t } = useTranslation()
   const [data, setData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
   const [loading, setLoading] = useState(false)

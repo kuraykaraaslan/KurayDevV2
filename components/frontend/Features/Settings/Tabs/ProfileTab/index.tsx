@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import { UserProfile, UserProfileDefault } from '@/types/user/UserProfileTypes'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import DynamicToggle from '@/components/admin/UI/Forms/DynamicToggle'
@@ -13,7 +13,7 @@ import ImageLoad from '@/components/common/UI/Images/ImageLoad'
 import { useTranslation } from 'react-i18next'
 
 export default function ProfileTab() {
-  const { user, setUser } = useGlobalStore()
+  const { user, setUser } = useUserStore()
   const { t } = useTranslation()
 
   const [userProfile, setUserProfile] = useState<UserProfile>(

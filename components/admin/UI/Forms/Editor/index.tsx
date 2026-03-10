@@ -3,7 +3,7 @@
 import { Editor } from '@tinymce/tinymce-react'
 import type { Editor as TinyMCEEditorInstance } from 'tinymce'
 import axiosInstance from '@/libs/axios'
-import { useGlobalStore } from '@/libs/zustand'
+import { useThemeStore } from '@/libs/zustand'
 import { registerVideoMenuButton } from './partials/videoButton'
 import { registerAudioMenuButton } from './partials/audioButton'
 import { registerFileMenuButton } from './partials/fileButton'
@@ -32,7 +32,7 @@ const TinyMCEEditor = ({
   value: string
   onChange: (value: string) => void
 }) => {
-  const { theme } = useGlobalStore()
+  const { theme } = useThemeStore()
   const isDark = theme === 'dark'
 
   const image_upload_handler = (blobInfo: BlobInfo, _progress: (n: number) => void) =>

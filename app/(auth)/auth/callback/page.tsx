@@ -2,7 +2,7 @@
 import axiosInstance from '@/libs/axios'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { useGlobalStore } from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 
@@ -13,7 +13,7 @@ export default function CallbackPage() {
   const refreshToken = searchParams.get('refreshToken')
 
   const router = useRouter()
-  const { setUser } = useGlobalStore()
+  const { setUser } = useUserStore()
 
   useEffect(() => {
     const fetchSession = async () => {

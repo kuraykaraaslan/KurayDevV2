@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next'
-import { useChatbotStore } from '@/libs/zustand/chatbotStore'
+import { useChatbotStore } from '@/libs/zustand'
 
 const ChatbotButton = () => {
   const { t } = useTranslation()

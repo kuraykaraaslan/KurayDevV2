@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import ImageLoad from '@/components/common/UI/Images/ImageLoad'
 import AIPrompt from '@/components/admin/Features/AIPrompt'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import DynamicText from '@/components/admin/UI/Forms/DynamicText'
 import DynamicDate from '@/components/admin/UI/Forms/DynamicDate'
@@ -36,7 +36,7 @@ const POST_TRANSLATION_FIELDS: TranslationFieldDef[] = [
 ]
 
 const SinglePost = () => {
-  const { user } = useGlobalStore()
+  const { user } = useUserStore()
   const params = useParams<{ postId: string }>()
   const routePostId = params?.postId
   const router = useRouter()

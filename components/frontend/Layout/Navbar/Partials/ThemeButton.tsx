@@ -2,13 +2,13 @@
 import { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
-import { useGlobalStore } from '@/libs/zustand'
+import { useThemeStore } from '@/libs/zustand'
 import { AppTheme } from '@/types/ui/UITypes'
 import { useTranslation } from 'react-i18next'
 
 const ThemeButton = () => {
   const { t } = useTranslation()
-  const { theme, setTheme, availableThemes } = useGlobalStore()
+  const { theme, setTheme, availableThemes } = useThemeStore()
 
   const themeIcons = {
     dark: faMoon,

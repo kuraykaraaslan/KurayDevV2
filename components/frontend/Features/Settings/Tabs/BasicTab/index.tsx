@@ -7,12 +7,12 @@ import '../../styles/phoneInput.css'
 import { useTranslation } from 'react-i18next'
 
 import axiosInstance from '@/libs/axios'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import FormHeader from '@/components/admin/UI/Forms/FormHeader'
 import GenericElement from '@/components/admin/UI/Forms/GenericElement'
 
 export default function BasicTab() {
-  const { user, setUser } = useGlobalStore()
+  const { user, setUser } = useUserStore()
   const { t } = useTranslation()
 
   const [phone, setPhone] = useState(user?.phone || '')

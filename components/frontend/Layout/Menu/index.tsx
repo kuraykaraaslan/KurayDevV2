@@ -1,5 +1,5 @@
 'use client'
-import { useGlobalStore } from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuItem } from '@/types/ui/UITypes'
@@ -19,7 +19,7 @@ const Menu = ({
 }) => {
   const router = useRouter()
   const pathname = usePathname()
-  const { user } = useGlobalStore()
+  const { user } = useUserStore()
 
   const { t } = useTranslation()
 

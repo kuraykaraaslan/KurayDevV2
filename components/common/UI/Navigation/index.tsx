@@ -1,7 +1,7 @@
 'use client'
 
 import Link from '@/libs/i18n/Link'
-import useGlobalStore from '@/libs/zustand'
+import { useUserStore } from '@/libs/zustand'
 import Image from 'next/image'
 import { createHash } from 'crypto'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 
 const NavbarAuthButton = () => {
   const { t } = useTranslation()
-  const { user } = useGlobalStore()
+  const { user } = useUserStore()
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
