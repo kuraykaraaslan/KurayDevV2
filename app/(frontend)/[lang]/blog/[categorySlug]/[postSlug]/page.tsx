@@ -15,8 +15,12 @@ import TableOfContents from '@/components/frontend/Features/Blog/TableOfContents
 import Breadcrumb from '@/components/common/Layout/Breadcrumb'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 import SeriesNav from '@/components/frontend/Features/Blog/SeriesNav'
+import redisInstance from '@/libs/redis'
+import { PostWithData, PostWithDataSchema } from '@/types/content/BlogTypes'
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const FRONTEND_CACHE_TTL = 60 // Cache for 60 seconds
+const FRONTEND_CACHE_KEY_PREFIX = 'frontend:blogpost:'
 
 type Props = {
   params: Promise<{ lang: string; categorySlug: string; postSlug: string }>
@@ -24,6 +28,15 @@ type Props = {
 
 // Fetch post data for both metadata and page rendering
 async function getPost(postSlug: string, lang: string) {
+  const post_cacheKey = `${FRONTEND_CACHE_KEY_PREFIX}:${lang}:${postSlug}`
+  try {
+    const cached = await redisInstance.get(post_cacheKey)
+    if (cached) {
+      return PostWithDataSchema.parse(JSON.parse(cached)) as PostWithData
+    }
+  } catch (error) {
+    console.error('Error fetching post from Redis cache:', error)
+  }
   const response = await PostService.getAllPosts({
     page: 0,
     pageSize: 1,
@@ -31,6 +44,10 @@ async function getPost(postSlug: string, lang: string) {
     status: 'ALL',
     lang,
   })
+
+  //cache 
+  await redisInstance.set(post_cacheKey, JSON.stringify(response.posts[0]), 'EX', FRONTEND_CACHE_TTL)
+
   return response.posts[0] || null
 }
 
