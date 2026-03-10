@@ -101,13 +101,14 @@ export default class CategoryService {
 
     const where = search
       ? {
+          deletedAt: null,
           OR: [
             { title: { contains: search } },
             { description: { contains: search } },
             { slug: { contains: search } },
           ],
         }
-      : {}
+      : { deletedAt: null }
 
     const ALLOWED_SORT_KEYS: Record<string, string> = { title: 'title', slug: 'slug', createdAt: 'createdAt', updatedAt: 'updatedAt' }
     const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
@@ -132,8 +133,8 @@ export default class CategoryService {
    * @returns The requested category or null if not found
    */
   static async getCategoryById(categoryId: string, lang?: string): Promise<Category | null> {
-    const category = await prisma.category.findUnique({
-      where: { categoryId },
+    const category = await prisma.category.findFirst({
+      where: { categoryId, deletedAt: null },
       select: categoryWithTranslationsSelect,
     })
     return category ? applyTranslation(category as CategoryWithTranslations, lang ?? 'en') : null
@@ -174,8 +175,9 @@ export default class CategoryService {
    * @returns The deleted category
    */
   static async deleteCategory(categoryId: string): Promise<Category> {
-    const category = await prisma.category.delete({
+    const category = await prisma.category.update({
       where: { categoryId },
+      data: { deletedAt: new Date() },
     })
 
     return category
@@ -188,7 +190,7 @@ export default class CategoryService {
    */
   static async getCategoryBySlug(slug: string, lang?: string): Promise<CategoryWithTranslations | null> {
     const category = await prisma.category.findFirst({
-      where: { slug },
+      where: { slug, deletedAt: null },
       select: categoryWithTranslationsSelect,
     })
     if (!category) return null
@@ -201,7 +203,9 @@ export default class CategoryService {
    * @returns The deleted categories
    * */
   static async deleteAllCategories(): Promise<void> {
-    await prisma.category.deleteMany()
+    await prisma.category.updateMany({
+      data: { deletedAt: new Date() },
+    })
 
     return
   }
@@ -216,6 +220,7 @@ export default class CategoryService {
         slug: true,
         updatedAt: true,
       },
+      where: { deletedAt: null },
     })
 
     return categories

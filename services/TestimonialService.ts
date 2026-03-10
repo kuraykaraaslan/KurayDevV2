@@ -44,13 +44,14 @@ export default class TestimonialService {
 
     const where = search
       ? {
+          deletedAt: null,
           OR: [
             { name: { contains: search } },
             { title: { contains: search } },
             { review: { contains: search } },
           ],
         }
-      : {}
+      : { deletedAt: null }
 
     const ALLOWED_SORT_KEYS: Record<string, string> = { name: 'name', title: 'title', status: 'status', createdAt: 'createdAt' }
     const resolvedSortKey = (sortKey && ALLOWED_SORT_KEYS[sortKey]) ?? 'createdAt'
@@ -70,8 +71,8 @@ export default class TestimonialService {
   }
 
   static async getTestimonialById(testimonialId: string): Promise<Testimonial | null> {
-    const testimonial = await prisma.testimonial.findUnique({
-      where: { testimonialId },
+    const testimonial = await prisma.testimonial.findFirst({
+      where: { testimonialId, deletedAt: null },
     })
     return testimonial as Testimonial | null
   }
@@ -101,15 +102,16 @@ export default class TestimonialService {
   }
 
   static async deleteTestimonial(testimonialId: string): Promise<Testimonial> {
-    const testimonial = await prisma.testimonial.delete({
+    const testimonial = await prisma.testimonial.update({
       where: { testimonialId },
+      data: { deletedAt: new Date() },
     })
     return testimonial as Testimonial
   }
 
   static async getPublishedTestimonials(): Promise<Testimonial[]> {
     const testimonials = await prisma.testimonial.findMany({
-      where: { status: 'PUBLISHED' },
+      where: { status: 'PUBLISHED', deletedAt: null },
       orderBy: { createdAt: 'desc' },
     })
     return testimonials as Testimonial[]

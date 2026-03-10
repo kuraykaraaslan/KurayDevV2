@@ -45,7 +45,7 @@ export default class CommentService {
 
     // Validate input
     const existingComment = await prisma.comment.findFirst({
-      where: { content },
+      where: { content, deletedAt: null },
     })
 
     if (existingComment) {
@@ -88,6 +88,7 @@ export default class CommentService {
         postId,
         content: { contains: search },
         status: pending ? undefined : 'PUBLISHED',
+        deletedAt: null,
       },
       orderBy: { [resolvedSortKey]: resolvedSortDir },
       skip: page * pageSize,
@@ -118,6 +119,7 @@ export default class CommentService {
         content: {
           contains: search,
         },
+        deletedAt: null,
       },
     })
 
@@ -130,8 +132,8 @@ export default class CommentService {
    * @returns The comment
    */
   static async getCommentById(commentId: string): Promise<Comment> {
-    const comment = await prisma.comment.findUnique({
-      where: { commentId },
+    const comment = await prisma.comment.findFirst({
+      where: { commentId, deletedAt: null },
     })
 
     if (!comment) {
@@ -147,8 +149,9 @@ export default class CommentService {
    * @returns The deleted comment
    */
   static async deleteComment(commentId: string): Promise<Comment> {
-    const comment = await prisma.comment.delete({
+    const comment = await prisma.comment.update({
       where: { commentId },
+      data: { deletedAt: new Date() },
     })
 
     if (!comment) {

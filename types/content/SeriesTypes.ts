@@ -24,6 +24,7 @@ export const PostSeriesSchema = z.object({
     image: z.string().nullable(),
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date(),
+    deletedAt: z.coerce.date().nullable().optional(),
     entries: z.array(SeriesEntrySchema).default([]),
 })
 

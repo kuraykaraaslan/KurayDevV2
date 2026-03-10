@@ -14,6 +14,7 @@ const CampaignSchema = z.object({
   sentCount: z.number(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  deletedAt: z.date().nullable().optional(),
 })
 
 export type Campaign = z.infer<typeof CampaignSchema>

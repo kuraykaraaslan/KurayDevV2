@@ -14,6 +14,7 @@ export default class CampaignService {
     sortDir?: 'asc' | 'desc'
   }): Promise<{ campaigns: Campaign[]; total: number }> {
     const where = {
+      deletedAt: null,
       ...(data.search && {
         OR: [
           { title: { contains: data.search, mode: 'insensitive' as const } },
@@ -40,8 +41,8 @@ export default class CampaignService {
   }
 
   static async getCampaignById(campaignId: string): Promise<Campaign | null> {
-    const campaign = await prisma.campaign.findUnique({
-      where: { campaignId },
+    const campaign = await prisma.campaign.findFirst({
+      where: { campaignId, deletedAt: null },
     })
     return campaign as Campaign | null
   }
@@ -87,7 +88,7 @@ export default class CampaignService {
     if (!existing) throw new Error(CampaignMessages.CAMPAIGN_NOT_FOUND)
     if (existing.status !== 'DRAFT') throw new Error(CampaignMessages.CAMPAIGN_NOT_DRAFT)
 
-    await prisma.campaign.delete({ where: { campaignId } })
+    await prisma.campaign.update({ where: { campaignId }, data: { deletedAt: new Date() } })
   }
 
   static async sendCampaign(campaignId: string): Promise<{ sentCount: number }> {

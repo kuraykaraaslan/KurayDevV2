@@ -82,6 +82,7 @@ export default class ProjectService {
         status: !onlyPublished ? undefined : 'PUBLISHED',
         projectId: projectId ? projectId : undefined,
         slug: projectSlug ? projectSlug : undefined,
+        deletedAt: null,
       },
       orderBy: {
         [resolvedSortKey]: resolvedSortDir,
@@ -103,9 +104,10 @@ export default class ProjectService {
   }
 
   static async getProjectById(projectId: string): Promise<Project | null> {
-    return prisma.project.findUnique({
+    return prisma.project.findFirst({
       where: {
         projectId,
+        deletedAt: null,
       },
     })
   }
@@ -146,9 +148,12 @@ export default class ProjectService {
   static async deleteProject(projectId: string): Promise<Project> {
     await redisInstance.del(this.CACHE_KEY)
 
-    return prisma.project.delete({
+    return prisma.project.update({
       where: {
         projectId,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     })
   }
@@ -159,6 +164,7 @@ export default class ProjectService {
         slug: true,
         updatedAt: true,
       },
+      where: { deletedAt: null },
     })
 
     return projects.map((project) => {
@@ -179,6 +185,7 @@ export default class ProjectService {
       },
       where: {
         status: 'PUBLISHED',
+        deletedAt: null,
       },
     })
 

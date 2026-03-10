@@ -60,6 +60,7 @@ export default class ContactFormService {
 
     const where = search
       ? {
+          deletedAt: null,
           OR: [
             { name: { contains: search } },
             { email: { contains: search } },
@@ -67,7 +68,7 @@ export default class ContactFormService {
             { phone: { contains: search } },
           ],
         }
-      : {}
+      : { deletedAt: null }
 
     const contactForms = await prisma.contactForm.findMany({
       take: pageSize,
@@ -87,8 +88,8 @@ export default class ContactFormService {
    * @returns The contact form
    */
   static async getContactFormById(contactId: string): Promise<ContactForm | null> {
-    return await prisma.contactForm.findUnique({
-      where: { contactId },
+    return await prisma.contactForm.findFirst({
+      where: { contactId, deletedAt: null },
     })
   }
 
@@ -113,16 +114,17 @@ export default class ContactFormService {
    * @returns The deleted contact form
    */
   static async deleteContactForm(contactId: string): Promise<ContactForm | null> {
-    const contactForm = await prisma.contactForm.findUnique({
-      where: { contactId },
+    const contactForm = await prisma.contactForm.findFirst({
+      where: { contactId, deletedAt: null },
     })
 
     if (!contactForm) {
       return null
     }
 
-    await prisma.contactForm.delete({
+    await prisma.contactForm.update({
       where: { contactId },
+      data: { deletedAt: new Date() },
     })
 
     return contactForm as ContactForm
