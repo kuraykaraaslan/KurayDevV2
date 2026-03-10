@@ -412,7 +412,14 @@
       "verify": "Підтвердити",
       "verifying": "Підтвердження...",
       "resend": "Надіслати код повторно",
-      "totp_hint": "Відкрійте програму автентифікації та введіть 6-значний код"
+      "totp_hint": "Відкрійте програму автентифікації та введіть 6-значний код",
+      "code_sent_to": "Код надіслано на ваш {{method}} ✓",
+      "method_email": "Електронна пошта",
+      "method_sms": "SMS",
+      "method_totp": "Додаток-аутентифікатор (TOTP)",
+      "otp_title": "Перевірка одноразового коду",
+      "totp_title": "Перевірка через додаток-аутентифікатор",
+      "will_be_sent_to": "Код підтвердження буде надіслано на ваш {{method}}"
     },
     "totp_setup": {
       "title": "Налаштування TOTP",
@@ -482,7 +489,15 @@
       "sms_notifications_label": "SMS-сповіщення",
       "title": "Налаштування сповіщень",
       "toast_error": "Помилка оновлення налаштувань",
-      "toast_success": "Налаштування успішно оновлено"
+      "toast_success": "Налаштування успішно оновлено",
+      "newsletter_topics_description": "Виберіть, який тип контенту ви хочете отримувати",
+      "newsletter_topics_title": "Теми розсилки",
+      "topic_announcements_description": "Оновлення продукту, випуски та важливі новини",
+      "topic_announcements_label": "Оголошення",
+      "topic_blog_digest_description": "Щотижневий огляд нових публікацій у блозі та статей",
+      "topic_blog_digest_label": "Дайджест блогу",
+      "topic_events_description": "Майбутні події, вебінари та зустрічі спільноти",
+      "topic_events_label": "Події"
     },
     "preferences_tab": {
       "date_format_label": "Формат дати",
@@ -990,7 +1005,17 @@
       "site_name_placeholder": "Введіть назву вашого сайту",
       "system_prompt_label": "Системний запит",
       "system_prompt_placeholder": "Залиште порожнім для стандартного запиту. Напр.: Ви корисний AI помічник...",
-      "title": "Налаштування"
+      "title": "Налаштування",
+      "email_verification_description": "Користувачі повинні підтвердити свою електронну адресу перед входом після реєстрації",
+      "email_verification_label": "Вимагати підтвердження електронної пошти",
+      "login_limits_description": "Налаштування захисту від невдалих спроб входу",
+      "login_limits_title": "Обмеження входу",
+      "notify_on_registration_description": "Надсилати сповіщення адміністратору при реєстрації нового користувача",
+      "notify_on_registration_label": "Сповіщення про нову реєстрацію",
+      "tab_chatbot": "Чат-бот",
+      "tab_general": "Загальні",
+      "tab_notifications": "Сповіщення",
+      "tab_security": "Безпека"
     },
     "analytics": {
       "description": "Трафік, географічні дані та статистика контенту",
@@ -999,7 +1024,10 @@
       "title": "Аналітика",
       "total_visits": "Загальна кількість відвідувань",
       "unique_countries": "Унікальні країни",
-      "visit_summary": "Зведення відвідувань"
+      "visit_summary": "Зведення відвідувань",
+      "countries": "Країни",
+      "geo_data": "Географічні дані",
+      "traffic_overview": "Огляд трафіку"
     },
     "campaigns": {
       "back": "Назад до кампаній",
@@ -1100,7 +1128,10 @@
       "title": "Панель управління",
       "traffic_overview": "Огляд трафіку",
       "traffic_total": "Всього: {{count}} відвідувань",
-      "visits": "{{count}} відвідувань"
+      "visits": "{{count}} відвідувань",
+      "appointments": "Записи",
+      "geo_stats": "Географічна статистика",
+      "no_geo_data": "Географічні дані відсутні."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Двічі клацніть для редагування",
@@ -1318,7 +1349,8 @@
       "success": "Успішний вхід",
       "title": "Ласкаво просимо назад!",
       "forgot_password_link": "Забули пароль?",
-      "welcome_back": "Ласкаво просимо назад!"
+      "welcome_back": "Ласкаво просимо назад!",
+      "remember_device": "Запам'ятати цей пристрій на 30 днів"
     },
     "logout": {
       "title": "Вихід..."
@@ -1337,7 +1369,10 @@
       "password_too_short": "Пароль повинен містити щонайменше 6 символів.",
       "passwords_not_match": "Паролі не співпадають.",
       "registering": "Реєстрація...",
-      "title": "Створити обліковий запис"
+      "title": "Створити обліковий запис",
+      "captcha_failed": "Перевірка reCAPTCHA не вдалася. Будь ласка, спробуйте ще раз.",
+      "captcha_required": "Будь ласка, пройдіть перевірку reCAPTCHA.",
+      "passwords_mismatch": "Паролі не співпадають."
     },
     "reset_password": {
       "title": "Скинути пароль"

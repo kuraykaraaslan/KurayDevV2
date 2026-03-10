@@ -299,7 +299,17 @@
       "site_name_placeholder": "Введите название вашего сайта",
       "system_prompt_label": "Системная подсказка",
       "system_prompt_placeholder": "Оставьте пустым для подсказки по умолчанию. Например: Вы полезный AI помощник...",
-      "title": "Настройки"
+      "title": "Настройки",
+      "email_verification_description": "Пользователи должны подтвердить свой адрес электронной почты перед входом после регистрации",
+      "email_verification_label": "Требовать подтверждение электронной почты",
+      "login_limits_description": "Настройки защиты от неудачных попыток входа",
+      "login_limits_title": "Ограничения входа",
+      "notify_on_registration_description": "Отправлять уведомление администратору при регистрации нового пользователя",
+      "notify_on_registration_label": "Уведомление о новой регистрации",
+      "tab_chatbot": "Чат-бот",
+      "tab_general": "Общие",
+      "tab_notifications": "Уведомления",
+      "tab_security": "Безопасность"
     },
     "analytics": {
       "description": "Трафик, географические данные и статистика контента",
@@ -308,7 +318,10 @@
       "title": "Аналитика",
       "total_visits": "Всего визитов",
       "unique_countries": "Уникальные страны",
-      "visit_summary": "Сводка визитов"
+      "visit_summary": "Сводка визитов",
+      "countries": "Страны",
+      "geo_data": "Географические данные",
+      "traffic_overview": "Обзор трафика"
     },
     "campaigns": {
       "back": "Назад к кампаниям",
@@ -409,7 +422,10 @@
       "title": "Панель управления",
       "traffic_overview": "Обзор трафика",
       "traffic_total": "Всего: {{count}} визитов",
-      "visits": "{{count}} визитов"
+      "visits": "{{count}} визитов",
+      "appointments": "Записи",
+      "geo_stats": "Географическая статистика",
+      "no_geo_data": "Географические данные недоступны."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Дважды щелкните для редактирования",
@@ -627,7 +643,8 @@
       "success": "Вход выполнен успешно",
       "title": "С возвращением!",
       "forgot_password_link": "Забыли пароль?",
-      "welcome_back": "С возвращением!"
+      "welcome_back": "С возвращением!",
+      "remember_device": "Запомнить это устройство на 30 дней"
     },
     "logout": {
       "title": "Выход..."
@@ -646,7 +663,10 @@
       "password_too_short": "Пароль должен содержать не менее 6 символов.",
       "passwords_not_match": "Пароли не совпадают.",
       "registering": "Регистрация...",
-      "title": "Создать аккаунт"
+      "title": "Создать аккаунт",
+      "captcha_failed": "Проверка reCAPTCHA не удалась. Пожалуйста, попробуйте еще раз.",
+      "captcha_required": "Пожалуйста, пройдите проверку reCAPTCHA.",
+      "passwords_mismatch": "Пароли не совпадают."
     },
     "reset_password": {
       "title": "Сбросить пароль"
@@ -1049,7 +1069,14 @@
       "verify": "Подтвердить",
       "verifying": "Проверка...",
       "resend": "Отправить код повторно",
-      "totp_hint": "Откройте приложение аутентификации и введите 6-значный код"
+      "totp_hint": "Откройте приложение аутентификации и введите 6-значный код",
+      "code_sent_to": "Код отправлен на ваш {{method}} ✓",
+      "method_email": "Электронная почта",
+      "method_sms": "СМС",
+      "method_totp": "Приложение-аутентификатор (TOTP)",
+      "otp_title": "Проверка одноразового кода",
+      "totp_title": "Проверка через приложение-аутентификатор",
+      "will_be_sent_to": "Код подтверждения будет отправлен на ваш {{method}}"
     },
     "otp_method_card": {
       "active": "Активно",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS-уведомления",
       "title": "Настройки уведомлений",
       "toast_error": "Ошибка обновления настроек",
-      "toast_success": "Настройки успешно обновлены"
+      "toast_success": "Настройки успешно обновлены",
+      "newsletter_topics_description": "Выберите, какой тип контента вы хотите получать",
+      "newsletter_topics_title": "Темы рассылки",
+      "topic_announcements_description": "Обновления продуктов, релизы и важные новости",
+      "topic_announcements_label": "Анонсы",
+      "topic_blog_digest_description": "Еженедельный обзор новых блогов и статей",
+      "topic_blog_digest_label": "Дайджест блога",
+      "topic_events_description": "Предстоящие события, вебинары и встречи сообщества",
+      "topic_events_label": "События"
     },
     "preferences_tab": {
       "date_format_label": "Формат даты",

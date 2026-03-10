@@ -299,7 +299,17 @@
       "site_name_placeholder": "输入您的网站名称",
       "system_prompt_label": "系统提示",
       "system_prompt_placeholder": "留空以使用默认提示。例如：你是一个有帮助的AI助手...",
-      "title": "设置"
+      "title": "设置",
+      "email_verification_description": "用户在注册后必须验证其电子邮件地址才能登录",
+      "email_verification_label": "需要电子邮件验证",
+      "login_limits_description": "针对登录失败尝试的保护设置",
+      "login_limits_title": "登录限制",
+      "notify_on_registration_description": "当有新用户注册时向管理员发送通知",
+      "notify_on_registration_label": "新注册通知",
+      "tab_chatbot": "聊天机器人",
+      "tab_general": "常规",
+      "tab_notifications": "通知",
+      "tab_security": "安全"
     },
     "analytics": {
       "description": "流量、地理数据和内容统计",
@@ -308,7 +318,10 @@
       "title": "分析",
       "total_visits": "总访问量",
       "unique_countries": "独特国家",
-      "visit_summary": "访问摘要"
+      "visit_summary": "访问摘要",
+      "countries": "国家",
+      "geo_data": "地理数据",
+      "traffic_overview": "流量概览"
     },
     "campaigns": {
       "back": "返回活动",
@@ -409,7 +422,10 @@
       "title": "仪表板",
       "traffic_overview": "流量概览",
       "traffic_total": "总计：{{count}} 次访问",
-      "visits": "{{count}} 次访问"
+      "visits": "{{count}} 次访问",
+      "appointments": "预约",
+      "geo_stats": "地理统计",
+      "no_geo_data": "没有可用的地理数据。"
     },
     "dynamic_comma_text": {
       "double_click_edit": "双击编辑",
@@ -627,7 +643,8 @@
       "success": "登录成功",
       "title": "欢迎回来！",
       "forgot_password_link": "忘记密码？",
-      "welcome_back": "欢迎回来！"
+      "welcome_back": "欢迎回来！",
+      "remember_device": "记住此设备30天"
     },
     "logout": {
       "title": "正在注销..."
@@ -646,7 +663,10 @@
       "password_too_short": "密码必须包含至少 6 个字符。",
       "passwords_not_match": "密码不匹配。",
       "registering": "正在注册...",
-      "title": "创建账户"
+      "title": "创建账户",
+      "captcha_failed": "reCAPTCHA验证失败。请再试一次。",
+      "captcha_required": "请完成reCAPTCHA验证。",
+      "passwords_mismatch": "密码不匹配。"
     },
     "reset_password": {
       "title": "重置密码"
@@ -1049,7 +1069,14 @@
       "verify": "验证",
       "verifying": "正在验证...",
       "resend": "重新发送验证码",
-      "totp_hint": "打开您的身份验证应用程序并输入6位数代码"
+      "totp_hint": "打开您的身份验证应用程序并输入6位数代码",
+      "code_sent_to": "验证码已发送到您的{{method}} ✓",
+      "method_email": "电子邮件",
+      "method_sms": "短信",
+      "method_totp": "验证器应用程序 (TOTP)",
+      "otp_title": "一次性验证码验证",
+      "totp_title": "验证器应用程序验证",
+      "will_be_sent_to": "验证码将发送到您的{{method}}"
     },
     "otp_method_card": {
       "active": "已激活",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "短信通知",
       "title": "通知偏好",
       "toast_error": "更新偏好时出错",
-      "toast_success": "偏好更新成功"
+      "toast_success": "偏好更新成功",
+      "newsletter_topics_description": "选择您想接收的内容类型",
+      "newsletter_topics_title": "新闻通讯主题",
+      "topic_announcements_description": "产品更新、发布和重要新闻",
+      "topic_announcements_label": "公告",
+      "topic_blog_digest_description": "每周新博客文章和文章摘要",
+      "topic_blog_digest_label": "博客摘要",
+      "topic_events_description": "即将举行的活动、网络研讨会和社区聚会",
+      "topic_events_label": "活动"
     },
     "preferences_tab": {
       "date_format_label": "日期格式",

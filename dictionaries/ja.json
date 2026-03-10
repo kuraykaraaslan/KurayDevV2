@@ -299,7 +299,17 @@
       "site_name_placeholder": "サイト名を入力してください",
       "system_prompt_label": "システムプロンプト",
       "system_prompt_placeholder": "デフォルトプロンプトを使用するには空白のままにしてください。例：あなたは役に立つAIアシスタントです...",
-      "title": "設定"
+      "title": "設定",
+      "email_verification_description": "ユーザーは登録後にログインする前にメールアドレスを確認する必要があります",
+      "email_verification_label": "メール確認を要求する",
+      "login_limits_description": "ログイン試行失敗に対する保護設定",
+      "login_limits_title": "ログイン制限",
+      "notify_on_registration_description": "新しいユーザーが登録したときに管理者に通知を送信",
+      "notify_on_registration_label": "新規登録通知",
+      "tab_chatbot": "チャットボット",
+      "tab_general": "一般",
+      "tab_notifications": "通知",
+      "tab_security": "セキュリティ"
     },
     "analytics": {
       "description": "トラフィック、地理データ、コンテンツ統計",
@@ -308,7 +318,10 @@
       "title": "アナリティクス",
       "total_visits": "総訪問数",
       "unique_countries": "ユニークな国",
-      "visit_summary": "訪問概要"
+      "visit_summary": "訪問概要",
+      "countries": "国",
+      "geo_data": "地理データ",
+      "traffic_overview": "トラフィック概要"
     },
     "campaigns": {
       "back": "キャンペーンに戻る",
@@ -409,7 +422,10 @@
       "title": "ダッシュボード",
       "traffic_overview": "トラフィック概要",
       "traffic_total": "合計: {{count}} 回の訪問",
-      "visits": "{{count}} 回の訪問"
+      "visits": "{{count}} 回の訪問",
+      "appointments": "予約",
+      "geo_stats": "地理統計",
+      "no_geo_data": "利用可能な地理データがありません。"
     },
     "dynamic_comma_text": {
       "double_click_edit": "ダブルクリックで編集",
@@ -627,7 +643,8 @@
       "success": "ログイン成功",
       "title": "お帰りなさい！",
       "forgot_password_link": "パスワードをお忘れですか？",
-      "welcome_back": "お帰りなさい！"
+      "welcome_back": "お帰りなさい！",
+      "remember_device": "このデバイスを30日間記憶する"
     },
     "logout": {
       "title": "ログアウト中..."
@@ -646,7 +663,10 @@
       "password_too_short": "パスワードは6文字以上である必要があります。",
       "passwords_not_match": "パスワードが一致しません。",
       "registering": "登録中...",
-      "title": "アカウントを作成"
+      "title": "アカウントを作成",
+      "captcha_failed": "reCAPTCHAの確認に失敗しました。もう一度お試しください。",
+      "captcha_required": "reCAPTCHAの確認を完了してください。",
+      "passwords_mismatch": "パスワードが一致しません。"
     },
     "reset_password": {
       "title": "パスワードをリセット"
@@ -1049,7 +1069,14 @@
       "verify": "確認",
       "verifying": "確認中...",
       "resend": "コードを再送する",
-      "totp_hint": "認証アプリを開いて6桁のコードを入力してください"
+      "totp_hint": "認証アプリを開いて6桁のコードを入力してください",
+      "code_sent_to": "コードがあなたの{{method}}に送信されました ✓",
+      "method_email": "メール",
+      "method_sms": "SMS",
+      "method_totp": "認証アプリ (TOTP)",
+      "otp_title": "ワンタイムコード確認",
+      "totp_title": "認証アプリ確認",
+      "will_be_sent_to": "確認コードがあなたの{{method}}に送信されます"
     },
     "otp_method_card": {
       "active": "アクティブ",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS通知",
       "title": "通知設定",
       "toast_error": "設定の更新中にエラーが発生しました",
-      "toast_success": "設定が正常に更新されました"
+      "toast_success": "設定が正常に更新されました",
+      "newsletter_topics_description": "受け取りたいコンテンツの種類を選択してください",
+      "newsletter_topics_title": "ニュースレタートピック",
+      "topic_announcements_description": "製品の更新、リリース、および重要なニュース",
+      "topic_announcements_label": "お知らせ",
+      "topic_blog_digest_description": "新しいブログ投稿と記事の週間まとめ",
+      "topic_blog_digest_label": "ブログダイジェスト",
+      "topic_events_description": "今後のイベント、ウェビナー、コミュニティミートアップ",
+      "topic_events_label": "イベント"
     },
     "preferences_tab": {
       "date_format_label": "日付形式",

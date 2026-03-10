@@ -299,7 +299,17 @@
       "site_name_placeholder": "Saytingiz nomini kiriting",
       "system_prompt_label": "Tizim so'rovi",
       "system_prompt_placeholder": "Standart so'rov uchun bo'sh qoldiring. Masalan: Siz foydali AI yordamchisiz...",
-      "title": "Sozlamalar"
+      "title": "Sozlamalar",
+      "email_verification_description": "Foydalanuvchilar ro'yxatdan o'tgandan so'ng kirishdan oldin elektron pochta manzilini tasdiqlashlari kerak",
+      "email_verification_label": "Elektron pochtani tasdiqlashni talab qilish",
+      "login_limits_description": "Noto'g'ri kirish urinishlariga qarshi himoya sozlamalari",
+      "login_limits_title": "Kirish cheklovlari",
+      "notify_on_registration_description": "Yangi foydalanuvchi ro'yxatdan o'tganda administratorga xabar yuborish",
+      "notify_on_registration_label": "Yangi ro'yxatdan o'tish xabarnomasi",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Umumiy",
+      "tab_notifications": "Bildirishnomalar",
+      "tab_security": "Xavfsizlik"
     },
     "analytics": {
       "description": "Trafik, geografik ma'lumotlar va kontent statistikasi",
@@ -308,7 +318,10 @@
       "title": "Analitika",
       "total_visits": "Jami tashriflar",
       "unique_countries": "Noyob mamlakatlar",
-      "visit_summary": "Tashriflar xulosasi"
+      "visit_summary": "Tashriflar xulosasi",
+      "countries": "Mamlakatlar",
+      "geo_data": "Geografik ma'lumotlar",
+      "traffic_overview": "Trafik ko'rinishi"
     },
     "campaigns": {
       "back": "Kampaniyalarga qaytish",
@@ -409,7 +422,10 @@
       "title": "Boshqaruv paneli",
       "traffic_overview": "Trafikning umumiy ko'rinishi",
       "traffic_total": "Jami: {{count}} tashriflar",
-      "visits": "{{count}} tashriflar"
+      "visits": "{{count}} tashriflar",
+      "appointments": "Uchrashuvlar",
+      "geo_stats": "Geografik statistika",
+      "no_geo_data": "Geografik ma'lumotlar mavjud emas."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Tahrirlash uchun ikki marta bosing",
@@ -627,7 +643,8 @@
       "success": "Kirish muvaffaqiyatli",
       "title": "Xush kelibsiz!",
       "forgot_password_link": "Parolni unutdingizmi?",
-      "welcome_back": "Qaytib kelganingizdan xursandmiz!"
+      "welcome_back": "Qaytib kelganingizdan xursandmiz!",
+      "remember_device": "Ushbu qurilmani 30 kun davomida eslab qolish"
     },
     "logout": {
       "title": "Chiqish..."
@@ -646,7 +663,10 @@
       "password_too_short": "Parol kamida 6 ta belgidan iborat bo‘lishi kerak.",
       "passwords_not_match": "Parollar mos kelmaydi.",
       "registering": "Ro‘yxatdan o‘tilmoqda...",
-      "title": "Hisob yaratish"
+      "title": "Hisob yaratish",
+      "captcha_failed": "reCAPTCHA tasdiqlash muvaffaqiyatsiz tugadi. Iltimos, qayta urinib ko'ring.",
+      "captcha_required": "Iltimos, reCAPTCHA tasdiqlashni yakunlang.",
+      "passwords_mismatch": "Parollar mos kelmaydi."
     },
     "reset_password": {
       "title": "Parolni tiklash"
@@ -1049,7 +1069,14 @@
       "verify": "Tasdiqlash",
       "verifying": "Tasdiqlanmoqda...",
       "resend": "Kodni qayta yuborish",
-      "totp_hint": "Autentifikator ilovangizni oching va 6 raqamli kodni kiriting"
+      "totp_hint": "Autentifikator ilovangizni oching va 6 raqamli kodni kiriting",
+      "code_sent_to": "Kod sizning {{method}} ga yuborildi ✓",
+      "method_email": "Elektron pochta",
+      "method_sms": "SMS",
+      "method_totp": "Autentifikator ilovasi (TOTP)",
+      "otp_title": "Bir martalik kodni tasdiqlash",
+      "totp_title": "Autentifikator ilovasini tasdiqlash",
+      "will_be_sent_to": "Tasdiqlash kodi sizning {{method}} ga yuboriladi"
     },
     "otp_method_card": {
       "active": "Faol",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS Bildirishnomalari",
       "title": "Bildirishnoma Sozlamalari",
       "toast_error": "Sozlamalarni yangilashda xato",
-      "toast_success": "Sozlamalar muvaffaqiyatli yangilandi"
+      "toast_success": "Sozlamalar muvaffaqiyatli yangilandi",
+      "newsletter_topics_description": "Qaysi turdagi kontentni olishni xohlayotganingizni tanlang",
+      "newsletter_topics_title": "Axborot byulleteni mavzulari",
+      "topic_announcements_description": "Mahsulot yangilanishlari, chiqarilishlar va muhim yangiliklar",
+      "topic_announcements_label": "E'lonlar",
+      "topic_blog_digest_description": "Yangi blog postlari va maqolalarning haftalik xulosasi",
+      "topic_blog_digest_label": "Blog Digest",
+      "topic_events_description": "Yaqinlashib kelayotgan tadbirlar, vebinarlar va jamoat uchrashuvlari",
+      "topic_events_label": "Tadbirlar"
     },
     "preferences_tab": {
       "date_format_label": "Sana Formati",

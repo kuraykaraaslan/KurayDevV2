@@ -299,7 +299,17 @@
       "site_name_placeholder": "Entrez le nom de votre site",
       "system_prompt_label": "Invite système",
       "system_prompt_placeholder": "Laissez vide pour l'invite par défaut. Par exemple : Vous êtes un assistant IA utile...",
-      "title": "Paramètres"
+      "title": "Paramètres",
+      "email_verification_description": "Les utilisateurs doivent vérifier leur adresse e-mail avant de se connecter après l'inscription",
+      "email_verification_label": "Exiger la vérification de l'e-mail",
+      "login_limits_description": "Paramètres de protection contre les tentatives de connexion échouées",
+      "login_limits_title": "Limites de connexion",
+      "notify_on_registration_description": "Envoyer une notification à l'administrateur lorsqu'un nouvel utilisateur s'inscrit",
+      "notify_on_registration_label": "Notification de nouvelle inscription",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Général",
+      "tab_notifications": "Notifications",
+      "tab_security": "Sécurité"
     },
     "analytics": {
       "description": "Trafic, données géographiques et statistiques de contenu",
@@ -308,7 +318,10 @@
       "title": "Analytique",
       "total_visits": "Visites totales",
       "unique_countries": "Pays uniques",
-      "visit_summary": "Résumé des visites"
+      "visit_summary": "Résumé des visites",
+      "countries": "Pays",
+      "geo_data": "Données géographiques",
+      "traffic_overview": "Aperçu du trafic"
     },
     "campaigns": {
       "back": "Retour aux campagnes",
@@ -409,7 +422,10 @@
       "title": "Tableau de bord",
       "traffic_overview": "Aperçu du trafic",
       "traffic_total": "Total : {{count}} visites",
-      "visits": "{{count}} visites"
+      "visits": "{{count}} visites",
+      "appointments": "Rendez-vous",
+      "geo_stats": "Statistiques géographiques",
+      "no_geo_data": "Aucune donnée géographique disponible."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Double-cliquez pour éditer",
@@ -627,7 +643,8 @@
       "success": "Connexion réussie",
       "title": "Bon retour !",
       "forgot_password_link": "Mot de passe oublié ?",
-      "welcome_back": "Bon retour !"
+      "welcome_back": "Bon retour !",
+      "remember_device": "Se souvenir de cet appareil pendant 30 jours"
     },
     "logout": {
       "title": "Déconnexion..."
@@ -646,7 +663,10 @@
       "password_too_short": "Le mot de passe doit contenir au moins 6 caractères.",
       "passwords_not_match": "Les mots de passe ne correspondent pas.",
       "registering": "Inscription...",
-      "title": "Créer un compte"
+      "title": "Créer un compte",
+      "captcha_failed": "Échec de la vérification reCAPTCHA. Veuillez réessayer.",
+      "captcha_required": "Veuillez compléter la vérification reCAPTCHA.",
+      "passwords_mismatch": "Les mots de passe ne correspondent pas."
     },
     "reset_password": {
       "title": "Réinitialiser le mot de passe"
@@ -1049,7 +1069,14 @@
       "verify": "Vérifier",
       "verifying": "Vérification...",
       "resend": "Renvoyer le code",
-      "totp_hint": "Ouvrez votre application d'authentification et entrez le code à 6 chiffres"
+      "totp_hint": "Ouvrez votre application d'authentification et entrez le code à 6 chiffres",
+      "code_sent_to": "Code envoyé à votre {{method}} ✓",
+      "method_email": "E-mail",
+      "method_sms": "SMS",
+      "method_totp": "Application d'authentification (TOTP)",
+      "otp_title": "Vérification du code à usage unique",
+      "totp_title": "Vérification par application d'authentification",
+      "will_be_sent_to": "Un code de vérification sera envoyé à votre {{method}}"
     },
     "otp_method_card": {
       "active": "Actif",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "Notifications SMS",
       "title": "Préférences de notification",
       "toast_error": "Erreur lors de la mise à jour des préférences",
-      "toast_success": "Préférences mises à jour avec succès"
+      "toast_success": "Préférences mises à jour avec succès",
+      "newsletter_topics_description": "Choisissez les types de contenu que vous souhaitez recevoir",
+      "newsletter_topics_title": "Sujets de la newsletter",
+      "topic_announcements_description": "Mises à jour de produits, sorties et nouvelles importantes",
+      "topic_announcements_label": "Annonces",
+      "topic_blog_digest_description": "Résumé hebdomadaire des nouveaux articles de blog",
+      "topic_blog_digest_label": "Résumé du blog",
+      "topic_events_description": "Événements à venir, webinaires et rencontres communautaires",
+      "topic_events_label": "Événements"
     },
     "preferences_tab": {
       "date_format_label": "Format de date",

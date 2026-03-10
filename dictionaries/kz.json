@@ -299,7 +299,17 @@
       "site_name_placeholder": "Сайт атауын енгізіңіз",
       "system_prompt_label": "Жүйелік нұсқау",
       "system_prompt_placeholder": "Әдепкі нұсқау үшін бос қалдырыңыз. Мысалы: Сіз пайдалы AI көмекшісіз...",
-      "title": "Баптаулар"
+      "title": "Баптаулар",
+      "email_verification_description": "Пайдаланушылар тіркелгеннен кейін кіру алдында электрондық поштасын растауы керек",
+      "email_verification_label": "Электрондық поштаны растауды талап ету",
+      "login_limits_description": "Сәтсіз кіру әрекеттерінен қорғау параметрлері",
+      "login_limits_title": "Кіру шектеулері",
+      "notify_on_registration_description": "Жаңа пайдаланушы тіркелгенде әкімшіге хабарлама жіберу",
+      "notify_on_registration_label": "Жаңа тіркелу туралы хабарлама",
+      "tab_chatbot": "Чатбот",
+      "tab_general": "Жалпы",
+      "tab_notifications": "Хабарламалар",
+      "tab_security": "Қауіпсіздік"
     },
     "analytics": {
       "description": "Трафик, географиялық деректер және мазмұн статистикасы",
@@ -308,7 +318,10 @@
       "title": "Аналитика",
       "total_visits": "Жалпы келушілер саны",
       "unique_countries": "Бірегей елдер",
-      "visit_summary": "Келушілер қысқаша"
+      "visit_summary": "Келушілер қысқаша",
+      "countries": "Елдер",
+      "geo_data": "Географиялық деректер",
+      "traffic_overview": "Трафиктің жалпы көрінісі"
     },
     "campaigns": {
       "back": "Кампанияларға оралу",
@@ -409,7 +422,10 @@
       "title": "Басқару тақтасы",
       "traffic_overview": "Көлік шолуы",
       "traffic_total": "Жалпы: {{count}} келулер",
-      "visits": "{{count}} келулер"
+      "visits": "{{count}} келулер",
+      "appointments": "Кездесулер",
+      "geo_stats": "Географиялық статистика",
+      "no_geo_data": "Географиялық деректер жоқ."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Өзгерту үшін екі рет басыңыз",
@@ -627,7 +643,8 @@
       "success": "Кіру сәтті",
       "title": "Қош келдіңіз!",
       "forgot_password_link": "Құпиясөзді ұмыттыңыз ба?",
-      "welcome_back": "Қайта оралғаныңызға қуаныштымыз!"
+      "welcome_back": "Қайта оралғаныңызға қуаныштымыз!",
+      "remember_device": "Бұл құрылғыны 30 күнге есте сақтау"
     },
     "logout": {
       "title": "Шығу..."
@@ -646,7 +663,10 @@
       "password_too_short": "Құпиясөз кемінде 6 таңба болуы керек.",
       "passwords_not_match": "Құпиясөздер сәйкес келмейді.",
       "registering": "Тіркелуде...",
-      "title": "Тіркелгі жасау"
+      "title": "Тіркелгі жасау",
+      "captcha_failed": "reCAPTCHA тексеруі сәтсіз аяқталды. Қайта көріңіз.",
+      "captcha_required": "reCAPTCHA тексеруін аяқтаңыз.",
+      "passwords_mismatch": "Құпиясөздер сәйкес келмейді."
     },
     "reset_password": {
       "title": "Құпиясөзді қалпына келтіру"
@@ -1049,7 +1069,14 @@
       "verify": "Тексеру",
       "verifying": "Тексерілуде...",
       "resend": "Кодты қайта жіберу",
-      "totp_hint": "Аутентификатор қолданбасын ашып, 6 таңбалы кодты енгізіңіз"
+      "totp_hint": "Аутентификатор қолданбасын ашып, 6 таңбалы кодты енгізіңіз",
+      "code_sent_to": "Код сіздің {{method}} жіберілді ✓",
+      "method_email": "Электрондық пошта",
+      "method_sms": "SMS",
+      "method_totp": "Аутентификатор қолданбасы (TOTP)",
+      "otp_title": "Бір реттік кодты тексеру",
+      "totp_title": "Аутентификатор қолданбасын тексеру",
+      "will_be_sent_to": "Тексеру коды сіздің {{method}} жіберіледі"
     },
     "otp_method_card": {
       "active": "Белсенді",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS хабарламалар",
       "title": "Хабарлама параметрлері",
       "toast_error": "Параметрлерді жаңартуда қате",
-      "toast_success": "Параметрлер сәтті жаңартылды"
+      "toast_success": "Параметрлер сәтті жаңартылды",
+      "newsletter_topics_description": "Қандай мазмұн түрлерін алғыңыз келетінін таңдаңыз",
+      "newsletter_topics_title": "Жаңалықтар тақырыптары",
+      "topic_announcements_description": "Өнім жаңартулары, шығарылымдар және маңызды жаңалықтар",
+      "topic_announcements_label": "Хабарландырулар",
+      "topic_blog_digest_description": "Жаңа блог жазбалары мен мақалалардың апталық жиынтығы",
+      "topic_blog_digest_label": "Блог дайджесті",
+      "topic_events_description": "Алдағы оқиғалар, вебинарлар және қауымдастық кездесулері",
+      "topic_events_label": "Оқиғалар"
     },
     "preferences_tab": {
       "date_format_label": "Күн форматы",

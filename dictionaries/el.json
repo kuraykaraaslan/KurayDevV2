@@ -412,7 +412,14 @@
       "verify": "Επιβεβαίωση",
       "verifying": "Επιβεβαίωση...",
       "resend": "Επαναποστολή κωδικού",
-      "totp_hint": "Ανοίξτε την εφαρμογή ελέγχου ταυτότητας και εισάγετε τον 6ψήφιο κωδικό"
+      "totp_hint": "Ανοίξτε την εφαρμογή ελέγχου ταυτότητας και εισάγετε τον 6ψήφιο κωδικό",
+      "code_sent_to": "Ο κωδικός στάλθηκε στο {{method}} σας ✓",
+      "method_email": "Email",
+      "method_sms": "SMS",
+      "method_totp": "Εφαρμογή Επαλήθευσης (TOTP)",
+      "otp_title": "Επαλήθευση Κωδικού Μίας Χρήσης",
+      "totp_title": "Επαλήθευση μέσω Εφαρμογής Επαλήθευσης",
+      "will_be_sent_to": "Ένας κωδικός επαλήθευσης θα σταλεί στο {{method}} σας"
     },
     "totp_setup": {
       "title": "Ρύθμιση TOTP",
@@ -482,7 +489,15 @@
       "sms_notifications_label": "Ειδοποιήσεις SMS",
       "title": "Προτιμήσεις Ειδοποιήσεων",
       "toast_error": "Σφάλμα κατά την ενημέρωση των προτιμήσεων",
-      "toast_success": "Οι προτιμήσεις ενημερώθηκαν με επιτυχία"
+      "toast_success": "Οι προτιμήσεις ενημερώθηκαν με επιτυχία",
+      "newsletter_topics_description": "Επιλέξτε ποιοι τύποι περιεχομένου θέλετε να λαμβάνετε",
+      "newsletter_topics_title": "Θέματα Ενημερωτικών Δελτίων",
+      "topic_announcements_description": "Ενημερώσεις προϊόντων, κυκλοφορίες και σημαντικά νέα",
+      "topic_announcements_label": "Ανακοινώσεις",
+      "topic_blog_digest_description": "Εβδομαδιαία σύνοψη νέων αναρτήσεων και άρθρων στο blog",
+      "topic_blog_digest_label": "Περίληψη Blog",
+      "topic_events_description": "Επερχόμενες εκδηλώσεις, webinars και συναντήσεις κοινότητας",
+      "topic_events_label": "Εκδηλώσεις"
     },
     "preferences_tab": {
       "date_format_label": "Μορφή Ημερομηνίας",
@@ -990,7 +1005,17 @@
       "site_name_placeholder": "Εισάγετε το όνομα του ιστότοπού σας",
       "system_prompt_label": "Σύστημα Προτροπής",
       "system_prompt_placeholder": "Αφήστε κενό για προεπιλεγμένη προτροπή. Π.χ.: Είστε ένας χρήσιμος βοηθός AI...",
-      "title": "Ρυθμίσεις"
+      "title": "Ρυθμίσεις",
+      "email_verification_description": "Οι χρήστες πρέπει να επαληθεύσουν τη διεύθυνση email τους πριν συνδεθούν μετά την εγγραφή",
+      "email_verification_label": "Απαίτηση Επαλήθευσης Email",
+      "login_limits_description": "Ρυθμίσεις προστασίας κατά των αποτυχημένων προσπαθειών σύνδεσης",
+      "login_limits_title": "Όρια Σύνδεσης",
+      "notify_on_registration_description": "Αποστολή ειδοποίησης στον διαχειριστή όταν εγγράφεται ένας νέος χρήστης",
+      "notify_on_registration_label": "Ειδοποίηση Νέας Εγγραφής",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Γενικά",
+      "tab_notifications": "Ειδοποιήσεις",
+      "tab_security": "Ασφάλεια"
     },
     "analytics": {
       "description": "Κίνηση, γεωγραφικά δεδομένα και στατιστικά περιεχομένου",
@@ -999,7 +1024,10 @@
       "title": "Αναλυτικά Στοιχεία",
       "total_visits": "Συνολικές Επισκέψεις",
       "unique_countries": "Μοναδικές Χώρες",
-      "visit_summary": "Περίληψη Επισκέψεων"
+      "visit_summary": "Περίληψη Επισκέψεων",
+      "countries": "Χώρες",
+      "geo_data": "Γεωγραφικά Δεδομένα",
+      "traffic_overview": "Επισκόπηση Κίνησης"
     },
     "campaigns": {
       "back": "Επιστροφή στις Καμπάνιες",
@@ -1100,7 +1128,10 @@
       "title": "Πίνακας Ελέγχου",
       "traffic_overview": "Επισκόπηση Κίνησης",
       "traffic_total": "Σύνολο: {{count}} επισκέψεις",
-      "visits": "{{count}} επισκέψεις"
+      "visits": "{{count}} επισκέψεις",
+      "appointments": "Ραντεβού",
+      "geo_stats": "Γεωγραφικά Στατιστικά",
+      "no_geo_data": "Δεν υπάρχουν διαθέσιμα γεωγραφικά δεδομένα."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Κάντε διπλό κλικ για επεξεργασία",
@@ -1318,7 +1349,8 @@
       "success": "Η σύνδεση ήταν επιτυχής",
       "title": "Καλώς ήρθατε ξανά!",
       "forgot_password_link": "Ξεχάσατε τον κωδικό;",
-      "welcome_back": "Καλώς ήρθατε πίσω!"
+      "welcome_back": "Καλώς ήρθατε πίσω!",
+      "remember_device": "Να θυμάσαι αυτή τη συσκευή για 30 ημέρες"
     },
     "logout": {
       "title": "Αποσύνδεση..."
@@ -1337,7 +1369,10 @@
       "password_too_short": "Ο κωδικός πρέπει να περιέχει τουλάχιστον 6 χαρακτήρες.",
       "passwords_not_match": "Οι κωδικοί δεν ταιριάζουν.",
       "registering": "Εγγραφή...",
-      "title": "Δημιουργία λογαριασμού"
+      "title": "Δημιουργία λογαριασμού",
+      "captcha_failed": "Η επαλήθευση reCAPTCHA απέτυχε. Παρακαλώ δοκιμάστε ξανά.",
+      "captcha_required": "Παρακαλώ ολοκληρώστε την επαλήθευση reCAPTCHA.",
+      "passwords_mismatch": "Οι κωδικοί δεν ταιριάζουν."
     },
     "reset_password": {
       "title": "Επαναφορά Κωδικού"

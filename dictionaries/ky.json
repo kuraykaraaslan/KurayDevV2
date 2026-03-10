@@ -299,7 +299,17 @@
       "site_name_placeholder": "Сайтыңыздын атын киргизиңиз",
       "system_prompt_label": "Системанын көрсөтмөсү",
       "system_prompt_placeholder": "Демейки көрсөтмө үчүн бош калтырыңыз. Мисалы: Сиз пайдалуу AI жардамчысысыз...",
-      "title": "Орнотуулар"
+      "title": "Орнотуулар",
+      "email_verification_description": "Колдонуучулар катталгандан кийин кирүү үчүн электрондук почта дарегин текшериши керек",
+      "email_verification_label": "Электрондук почтаны текшерүү талап кылынат",
+      "login_limits_description": "Кирүү аракеттеринин ийгиликсиз болушуна каршы коргоо жөндөөлөрү",
+      "login_limits_title": "Кирүү чектөөлөрү",
+      "notify_on_registration_description": "Жаңы колдонуучу катталганда админге билдирүү жөнөтүү",
+      "notify_on_registration_label": "Жаңы катталуу билдирүүсү",
+      "tab_chatbot": "Чатбот",
+      "tab_general": "Жалпы",
+      "tab_notifications": "Билдирүүлөр",
+      "tab_security": "Коопсуздук"
     },
     "analytics": {
       "description": "Трафик, географиялык маалыматтар жана контент статистикасы",
@@ -308,7 +318,10 @@
       "title": "Аналитика",
       "total_visits": "Жалпы визиттер",
       "unique_countries": "Уникалдуу өлкөлөр",
-      "visit_summary": "Визиттердин жыйынтыгы"
+      "visit_summary": "Визиттердин жыйынтыгы",
+      "countries": "Өлкөлөр",
+      "geo_data": "Географиялык маалыматтар",
+      "traffic_overview": "Трафикке сереп"
     },
     "campaigns": {
       "back": "Кампанияларга кайтуу",
@@ -409,7 +422,10 @@
       "title": "Башкаруу тактасы",
       "traffic_overview": "Трафиктин жалпы көрүнүшү",
       "traffic_total": "Жалпы: {{count}} жолу кирүү",
-      "visits": "{{count}} жолу кирүү"
+      "visits": "{{count}} жолу кирүү",
+      "appointments": "Жолугушуулар",
+      "geo_stats": "Географиялык статистика",
+      "no_geo_data": "Географиялык маалыматтар жок."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Түзөтүү үчүн эки жолу басыңыз",
@@ -627,7 +643,8 @@
       "success": "Кирүү ийгиликтүү болду",
       "title": "Кайра кош келдиңиз!",
       "forgot_password_link": "Сырсөздү унуттуңузбу?",
-      "welcome_back": "Кош келиңиз!"
+      "welcome_back": "Кош келиңиз!",
+      "remember_device": "Бул түзмөктү 30 күнгө эстеп калуу"
     },
     "logout": {
       "title": "Чыгуу..."
@@ -646,7 +663,10 @@
       "password_too_short": "Сырсөздө кеминде 6 символ болушу керек.",
       "passwords_not_match": "Сырсөздөр дал келбейт.",
       "registering": "Катталууда...",
-      "title": "Каттоо эсебин түзүү"
+      "title": "Каттоо эсебин түзүү",
+      "captcha_failed": "reCAPTCHA текшерүүсү ийгиликсиз болду. Кайра аракет кылыңыз.",
+      "captcha_required": "reCAPTCHA текшерүүсүн бүтүрүңүз.",
+      "passwords_mismatch": "Сырсөздөр дал келбейт."
     },
     "reset_password": {
       "title": "Сырсөздү калыбына келтирүү"
@@ -1049,7 +1069,14 @@
       "verify": "Текшерүү",
       "verifying": "Текшерүүдө...",
       "resend": "Кодду кайра жөнөтүү",
-      "totp_hint": "Аутентификатор колдонмону ачып, 6 орундуу кодду киргизиңиз"
+      "totp_hint": "Аутентификатор колдонмону ачып, 6 орундуу кодду киргизиңиз",
+      "code_sent_to": "Код сиздин {{method}} жөнөтүлдү ✓",
+      "method_email": "Электрондук почта",
+      "method_sms": "SMS",
+      "method_totp": "Аутентификациялоочу колдонмо (TOTP)",
+      "otp_title": "Бир жолку код текшерүү",
+      "totp_title": "Аутентификациялоочу колдонмо текшерүү",
+      "will_be_sent_to": "Текшерүү коду сиздин {{method}} жөнөтүлөт"
     },
     "otp_method_card": {
       "active": "Активдүү",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS билдирүүлөр",
       "title": "Билдирүү жөндөөлөрү",
       "toast_error": "Жөндөөлөрдү жаңыртууда ката кетти",
-      "toast_success": "Жөндөөлөр ийгиликтүү жаңыртылды"
+      "toast_success": "Жөндөөлөр ийгиликтүү жаңыртылды",
+      "newsletter_topics_description": "Кайсы түрдөгү мазмунду алгыңыз келерин тандаңыз",
+      "newsletter_topics_title": "Маалымат кат темалары",
+      "topic_announcements_description": "Продукт жаңыртуулары, чыгарылыштар жана маанилүү жаңылыктар",
+      "topic_announcements_label": "Жарыялар",
+      "topic_blog_digest_description": "Жаңы блог посттору жана макалалардын жума сайынкы жыйындысы",
+      "topic_blog_digest_label": "Блог жыйындысы",
+      "topic_events_description": "Алдыдагы иш-чаралар, вебинарлар жана коомдук жолугушуулар",
+      "topic_events_label": "Иш-чаралар"
     },
     "preferences_tab": {
       "date_format_label": "Дата форматы",

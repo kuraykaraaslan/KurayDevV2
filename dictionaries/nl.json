@@ -412,7 +412,14 @@
       "verify": "Verifiëren",
       "verifying": "Verifiëren...",
       "resend": "Code opnieuw verzenden",
-      "totp_hint": "Open uw authenticator-app en voer de 6-cijferige code in"
+      "totp_hint": "Open uw authenticator-app en voer de 6-cijferige code in",
+      "code_sent_to": "Code verzonden naar je {{method}} ✓",
+      "method_email": "E-mail",
+      "method_sms": "SMS",
+      "method_totp": "Authenticator App (TOTP)",
+      "otp_title": "Eenmalige Code Verificatie",
+      "totp_title": "Authenticator App Verificatie",
+      "will_be_sent_to": "Er zal een verificatiecode worden verzonden naar je {{method}}"
     },
     "totp_setup": {
       "title": "TOTP-instelling",
@@ -482,7 +489,15 @@
       "sms_notifications_label": "SMS-meldingen",
       "title": "Meldingsvoorkeuren",
       "toast_error": "Fout bij het bijwerken van voorkeuren",
-      "toast_success": "Voorkeuren succesvol bijgewerkt"
+      "toast_success": "Voorkeuren succesvol bijgewerkt",
+      "newsletter_topics_description": "Kies welke soorten inhoud je wilt ontvangen",
+      "newsletter_topics_title": "Nieuwsbrief Onderwerpen",
+      "topic_announcements_description": "Productupdates, releases en belangrijk nieuws",
+      "topic_announcements_label": "Aankondigingen",
+      "topic_blog_digest_description": "Wekelijks overzicht van nieuwe blogposts en artikelen",
+      "topic_blog_digest_label": "Blogoverzicht",
+      "topic_events_description": "Aankomende evenementen, webinars en communitybijeenkomsten",
+      "topic_events_label": "Evenementen"
     },
     "preferences_tab": {
       "date_format_label": "Datumnotatie",
@@ -990,7 +1005,17 @@
       "site_name_placeholder": "Voer uw sitenaam in",
       "system_prompt_label": "Systeem Prompt",
       "system_prompt_placeholder": "Laat leeg voor standaardprompt. Bijv.: Je bent een behulpzame AI-assistent...",
-      "title": "Instellingen"
+      "title": "Instellingen",
+      "email_verification_description": "Gebruikers moeten hun e-mailadres verifiëren voordat ze na registratie kunnen inloggen",
+      "email_verification_label": "E-mailverificatie Vereisen",
+      "login_limits_description": "Beschermingsinstellingen tegen mislukte inlogpogingen",
+      "login_limits_title": "Inloglimieten",
+      "notify_on_registration_description": "Stuur een melding naar de beheerder wanneer een nieuwe gebruiker zich registreert",
+      "notify_on_registration_label": "Melding Nieuwe Registratie",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Algemeen",
+      "tab_notifications": "Meldingen",
+      "tab_security": "Beveiliging"
     },
     "analytics": {
       "description": "Verkeer, geografische gegevens en inhoudstatistieken",
@@ -999,7 +1024,10 @@
       "title": "Analytics",
       "total_visits": "Totaal Bezoeken",
       "unique_countries": "Unieke Landen",
-      "visit_summary": "Bezoekoverzicht"
+      "visit_summary": "Bezoekoverzicht",
+      "countries": "Landen",
+      "geo_data": "Geografische Gegevens",
+      "traffic_overview": "Verkeersoverzicht"
     },
     "campaigns": {
       "back": "Terug naar Campagnes",
@@ -1100,7 +1128,10 @@
       "title": "Dashboard",
       "traffic_overview": "Verkeersoverzicht",
       "traffic_total": "Totaal: {{count}} bezoeken",
-      "visits": "{{count}} bezoeken"
+      "visits": "{{count}} bezoeken",
+      "appointments": "Afspraken",
+      "geo_stats": "Geografische Statistieken",
+      "no_geo_data": "Geen geografische gegevens beschikbaar."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Dubbelklik om te bewerken",
@@ -1318,7 +1349,8 @@
       "success": "Succesvol ingelogd",
       "title": "Welkom terug!",
       "forgot_password_link": "Wachtwoord vergeten?",
-      "welcome_back": "Welkom terug!"
+      "welcome_back": "Welkom terug!",
+      "remember_device": "Onthoud dit apparaat voor 30 dagen"
     },
     "logout": {
       "title": "Uitloggen..."
@@ -1337,7 +1369,10 @@
       "password_too_short": "Wachtwoord moet minimaal 6 tekens bevatten.",
       "passwords_not_match": "Wachtwoorden komen niet overeen.",
       "registering": "Registreren...",
-      "title": "Account aanmaken"
+      "title": "Account aanmaken",
+      "captcha_failed": "reCAPTCHA-verificatie mislukt. Probeer het opnieuw.",
+      "captcha_required": "Voltooi de reCAPTCHA-verificatie.",
+      "passwords_mismatch": "Wachtwoorden komen niet overeen."
     },
     "reset_password": {
       "title": "Wachtwoord resetten"

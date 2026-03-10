@@ -412,7 +412,14 @@
       "verify": "Ivverifika",
       "verifying": "Qed nivverifika...",
       "resend": "Ibgħat il-kodiċi mill-ġdid",
-      "totp_hint": "Iftаħ l-applikazzjoni ta' awtentikazzjoni u daħħal il-kodiċi ta' 6 ċifri"
+      "totp_hint": "Iftаħ l-applikazzjoni ta' awtentikazzjoni u daħħal il-kodiċi ta' 6 ċifri",
+      "code_sent_to": "Kodiċi mibgħut lil {{method}} tiegħek ✓",
+      "method_email": "Email",
+      "method_sms": "SMS",
+      "method_totp": "App tal-Awtentikazzjoni (TOTP)",
+      "otp_title": "Verifika tal-Kodiċi ta' Darba",
+      "totp_title": "Verifika tal-App tal-Awtentikazzjoni",
+      "will_be_sent_to": "Kodiċi ta' verifika se jintbagħat lil {{method}} tiegħek"
     },
     "totp_setup": {
       "title": "Setup ta' TOTP",
@@ -482,7 +489,15 @@
       "sms_notifications_label": "Notifiki SMS",
       "title": "Preferenzi tan-Notifiki",
       "toast_error": "Żball fl-aġġornament tal-preferenzi",
-      "toast_success": "Preferenzi aġġornati b'suċċess"
+      "toast_success": "Preferenzi aġġornati b'suċċess",
+      "newsletter_topics_description": "Agħżel liema tipi ta' kontenut trid tirċievi",
+      "newsletter_topics_title": "Suġġetti tal-Newsletter",
+      "topic_announcements_description": "Aġġornamenti tal-prodott, rilaxxi u aħbarijiet importanti",
+      "topic_announcements_label": "Avviżi",
+      "topic_blog_digest_description": "Sommarju ta' kull ġimgħa ta' postijiet ġodda tal-blog u artikli",
+      "topic_blog_digest_label": "Sommarju tal-Blog",
+      "topic_events_description": "Avvenimenti li ġejjin, webinars u laqgħat tal-komunità",
+      "topic_events_label": "Avvenimenti"
     },
     "preferences_tab": {
       "date_format_label": "Format tad-Data",
@@ -990,7 +1005,17 @@
       "site_name_placeholder": "Daħħal l-isem tas-sit tiegħek",
       "system_prompt_label": "Prompt tas-Sistema",
       "system_prompt_placeholder": "Ħalli vojt għal prompt default. Eż.: Int assistent AI utli...",
-      "title": "Settings"
+      "title": "Settings",
+      "email_verification_description": "L-utenti għandhom jivverifikaw l-indirizz tal-email tagħhom qabel ma jidħlu wara r-reġistrazzjoni",
+      "email_verification_label": "Teħtieġ Verifika tal-Email",
+      "login_limits_description": "Settings ta' protezzjoni kontra tentattivi ta' login falluti",
+      "login_limits_title": "Limiti tal-Login",
+      "notify_on_registration_description": "Ibgħat notifika lill-amministratur meta jirreġistra utent ġdid",
+      "notify_on_registration_label": "Notifika ta' Reġistrazzjoni Ġdida",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Ġenerali",
+      "tab_notifications": "Notifiki",
+      "tab_security": "Sigurtà"
     },
     "analytics": {
       "description": "Traffiku, data ġeografika u statistika tal-kontenut",
@@ -999,7 +1024,10 @@
       "title": "Analytics",
       "total_visits": "Żjarat Totali",
       "unique_countries": "Pajjiżi Uniċi",
-      "visit_summary": "Sommarju taż-Żjarat"
+      "visit_summary": "Sommarju taż-Żjarat",
+      "countries": "Pajjiżi",
+      "geo_data": "Data Ġeografika",
+      "traffic_overview": "Ħarsa Ġenerali tat-Traffiku"
     },
     "campaigns": {
       "back": "Lura għall-Kampanji",
@@ -1100,7 +1128,10 @@
       "title": "Dashboard",
       "traffic_overview": "Ħarsa ġenerali tat-Traffiku",
       "traffic_total": "Total: {{count}} żjarat",
-      "visits": "{{count}} żjarat"
+      "visits": "{{count}} żjarat",
+      "appointments": "Appuntamenti",
+      "geo_stats": "Statistiċi Ġeografiċi",
+      "no_geo_data": "M'hemmx data ġeografika disponibbli."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Ikklikkja darbtejn biex teditja",
@@ -1318,7 +1349,8 @@
       "success": "Login b'suċċess",
       "title": "Merħba lura!",
       "forgot_password_link": "Insejt il-password?",
-      "welcome_back": "Merħba lura!"
+      "welcome_back": "Merħba lura!",
+      "remember_device": "Ftakar f'dan l-apparat għal 30 ġurnata"
     },
     "logout": {
       "title": "Qed toħroġ..."
@@ -1337,7 +1369,10 @@
       "password_too_short": "Il-password trid fiha mill-inqas 6 karattri.",
       "passwords_not_match": "Il-passwords mhumiex jaqblu.",
       "registering": "Reġistrazzjoni...",
-      "title": "Oħloq kont"
+      "title": "Oħloq kont",
+      "captcha_failed": "Il-verifika reCAPTCHA falliet. Jekk jogħġbok erġa' pprova.",
+      "captcha_required": "Jekk jogħġbok imla l-verifika reCAPTCHA.",
+      "passwords_mismatch": "Il-passwords ma jaqblux."
     },
     "reset_password": {
       "title": "Irrisettja l-Password"

@@ -299,7 +299,17 @@
       "site_name_placeholder": "Сайтыгызның исемен языгыз",
       "system_prompt_label": "Система соравы",
       "system_prompt_placeholder": "Шаблон соравы өчен буш калдырыгыз. Мәсәлән: Сез ярдәмче AI ассистенты...",
-      "title": "Көйләүләр"
+      "title": "Көйләүләр",
+      "email_verification_description": "Кулланучылар теркәлгәннән соң кергәнче электрон почта адресын расларга тиеш",
+      "email_verification_label": "Электрон почта раславын таләп итү",
+      "login_limits_description": "Керү омтылышлары уңышсыз булган очракта саклау көйләүләре",
+      "login_limits_title": "Керү чикләүләре",
+      "notify_on_registration_description": "Яңа кулланучы теркәлгәндә админга хәбәр җибәрү",
+      "notify_on_registration_label": "Яңа теркәлү турында хәбәр",
+      "tab_chatbot": "Чатбот",
+      "tab_general": "Гомуми",
+      "tab_notifications": "Хәбәрләр",
+      "tab_security": "Иминлек"
     },
     "analytics": {
       "description": "Трафик, географик мәгълүмат һәм контент статистикасы",
@@ -308,7 +318,10 @@
       "title": "Аналитика",
       "total_visits": "Гомуми визитлар",
       "unique_countries": "Уникаль илләр",
-      "visit_summary": "Визитлар йомгагы"
+      "visit_summary": "Визитлар йомгагы",
+      "countries": "Илләр",
+      "geo_data": "Географик мәгълүмат",
+      "traffic_overview": "Трафик күзәтүе"
     },
     "campaigns": {
       "back": "Кампанияләргә кире кайту",
@@ -409,7 +422,10 @@
       "title": "Панель",
       "traffic_overview": "Трафик күзәтүе",
       "traffic_total": "Барлыгы: {{count}} визит",
-      "visits": "{{count}} визит"
+      "visits": "{{count}} визит",
+      "appointments": "Очрашулар",
+      "geo_stats": "Географик статистика",
+      "no_geo_data": "Географик мәгълүмат юк."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Төзәтү өчен икеләтә басыгыз",
@@ -627,7 +643,8 @@
       "success": "Керү уңышлы",
       "title": "Кайтуыгыз белән!",
       "forgot_password_link": "Серсүзне оныттыгызмы?",
-      "welcome_back": "Кайтуыгыз белән!"
+      "welcome_back": "Кайтуыгыз белән!",
+      "remember_device": "Бу җайланманы 30 көнгә хәтерлә"
     },
     "logout": {
       "title": "Чыгып китү..."
@@ -646,7 +663,10 @@
       "password_too_short": "Парольдә кимендә 6 символ булырга тиеш.",
       "passwords_not_match": "Парольләр туры килми.",
       "registering": "Теркәлү...",
-      "title": "Аккаунт булдыру"
+      "title": "Аккаунт булдыру",
+      "captcha_failed": "reCAPTCHA тикшерүе уңышсыз булды. Зинһар, яңадан карагыз.",
+      "captcha_required": "Зинһар, reCAPTCHA тикшерүен тәмамлагыз.",
+      "passwords_mismatch": "Парольләр туры килми."
     },
     "reset_password": {
       "title": "Парольне яңадан урнаштыру"
@@ -1049,7 +1069,14 @@
       "verify": "Тикшерү",
       "verifying": "Тикшерелә...",
       "resend": "Кодны яңадан жибәр",
-      "totp_hint": "Аутентификатор кушымтасын ачып, 6 санлы кодны кертегез"
+      "totp_hint": "Аутентификатор кушымтасын ачып, 6 санлы кодны кертегез",
+      "code_sent_to": "Код сезнең {{method}} җибәрелде ✓",
+      "method_email": "Электрон почта",
+      "method_sms": "SMS",
+      "method_totp": "Аутентификатор кушымтасы (TOTP)",
+      "otp_title": "Бер тапкыр кулланыла торган код тикшерүе",
+      "totp_title": "Аутентификатор кушымтасы тикшерүе",
+      "will_be_sent_to": "Тикшерү коды сезнең {{method}} җибәреләчәк"
     },
     "otp_method_card": {
       "active": "Актив",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS Хәбәрләр",
       "title": "Хәбәрләр өстенлекләре",
       "toast_error": "Өстенлекләрне яңарту хатасы",
-      "toast_success": "Өстенлекләр уңышлы яңартылды"
+      "toast_success": "Өстенлекләр уңышлы яңартылды",
+      "newsletter_topics_description": "Сез нинди төрдәге контент алырга телисез",
+      "newsletter_topics_title": "Яңалыклар темалары",
+      "topic_announcements_description": "Продукт яңартулары, чыгарылышлар һәм мөһим яңалыклар",
+      "topic_announcements_label": "Игъланнар",
+      "topic_blog_digest_description": "Яңа блог язмалары һәм мәкаләләрнең атналык йомгагы",
+      "topic_blog_digest_label": "Блог йомгагы",
+      "topic_events_description": "Киләсе вакыйгалар, вебинарлар һәм җәмгыять очрашулары",
+      "topic_events_label": "Вакыйгалар"
     },
     "preferences_tab": {
       "date_format_label": "Дата форматы",

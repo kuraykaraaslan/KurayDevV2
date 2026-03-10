@@ -299,7 +299,17 @@
       "site_name_placeholder": "Sayt adınızı daxil edin",
       "system_prompt_label": "Sistem Sorğusu",
       "system_prompt_placeholder": "Varsayılan sorğu üçün boş buraxın. Məsələn: Siz köməkçi AI asistentsiniz...",
-      "title": "Ayarlar"
+      "title": "Ayarlar",
+      "email_verification_description": "İstifadəçilər qeydiyyatdan keçdikdən sonra daxil olmadan əvvəl e-poçt ünvanlarını təsdiqləməlidirlər",
+      "email_verification_label": "E-poçt Təsdiqi Tələb Et",
+      "login_limits_description": "Uğursuz giriş cəhdlərinə qarşı qoruma parametrləri",
+      "login_limits_title": "Giriş Məhdudiyyətləri",
+      "notify_on_registration_description": "Yeni istifadəçi qeydiyyatdan keçəndə adminə bildiriş göndər",
+      "notify_on_registration_label": "Yeni Qeydiyyat Bildirişi",
+      "tab_chatbot": "Çatbot",
+      "tab_general": "Ümumi",
+      "tab_notifications": "Bildirişlər",
+      "tab_security": "Təhlükəsizlik"
     },
     "analytics": {
       "description": "Trafik, coğrafi məlumatlar və məzmun statistikası",
@@ -308,7 +318,10 @@
       "title": "Analitika",
       "total_visits": "Ümumi Ziyarətlər",
       "unique_countries": "Unikal Ölkələr",
-      "visit_summary": "Ziyarət Xülasəsi"
+      "visit_summary": "Ziyarət Xülasəsi",
+      "countries": "Ölkələr",
+      "geo_data": "Coğrafi Məlumatlar",
+      "traffic_overview": "Trafik Baxışı"
     },
     "campaigns": {
       "back": "Kampaniyalara Geri Dön",
@@ -409,7 +422,10 @@
       "title": "İdarə Paneli",
       "traffic_overview": "Trafik İcmalı",
       "traffic_total": "Ümumi: {{count}} ziyarət",
-      "visits": "{{count}} ziyarət"
+      "visits": "{{count}} ziyarət",
+      "appointments": "Görüşlər",
+      "geo_stats": "Coğrafi Statistikalar",
+      "no_geo_data": "Coğrafi məlumat mövcud deyil."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Redaktə etmək üçün iki dəfə vurun",
@@ -627,7 +643,8 @@
       "success": "Giriş uğurlu oldu",
       "title": "Yenidən xoş gəldiniz!",
       "forgot_password_link": "Şifrəni unutmusunuz?",
-      "welcome_back": "Xoş gəldiniz!"
+      "welcome_back": "Xoş gəldiniz!",
+      "remember_device": "Bu cihazı 30 gün yadda saxla"
     },
     "logout": {
       "title": "Çıxış edilir..."
@@ -646,7 +663,10 @@
       "password_too_short": "Şifrə ən azı 6 simvol içərməlidir.",
       "passwords_not_match": "Şifrələr uyğun gəlmir.",
       "registering": "Qeydiyyat edilir...",
-      "title": "Hesab yarat"
+      "title": "Hesab yarat",
+      "captcha_failed": "reCAPTCHA təsdiqi uğursuz oldu. Yenidən cəhd edin.",
+      "captcha_required": "Zəhmət olmasa reCAPTCHA təsdiqini tamamlayın.",
+      "passwords_mismatch": "Şifrələr uyğun gəlmir."
     },
     "reset_password": {
       "title": "Şifrəni Sıfırla"
@@ -1049,7 +1069,14 @@
       "verify": "Doğrula",
       "verifying": "Doğrulanır...",
       "resend": "Kodu yenidən göndər",
-      "totp_hint": "Autentifikasiya tətbiqini açın və 6 rəqəmli kodu daxil edin"
+      "totp_hint": "Autentifikasiya tətbiqini açın və 6 rəqəmli kodu daxil edin",
+      "code_sent_to": "Kod sizin {{method}} ünvanınıza göndərildi ✓",
+      "method_email": "E-poçt",
+      "method_sms": "SMS",
+      "method_totp": "Təsdiqləyici Tətbiq (TOTP)",
+      "otp_title": "Bir Dəfəlik Kod Təsdiqi",
+      "totp_title": "Təsdiqləyici Tətbiq Təsdiqi",
+      "will_be_sent_to": "Təsdiq kodu sizin {{method}} ünvanınıza göndəriləcək"
     },
     "otp_method_card": {
       "active": "Aktiv",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS Bildirişləri",
       "title": "Bildiriş Seçimləri",
       "toast_error": "Seçimləri yeniləyərkən xəta baş verdi",
-      "toast_success": "Seçimlər uğurla yeniləndi"
+      "toast_success": "Seçimlər uğurla yeniləndi",
+      "newsletter_topics_description": "Hansı növ məzmunu almaq istədiyinizi seçin",
+      "newsletter_topics_title": "Bülleten Mövzuları",
+      "topic_announcements_description": "Məhsul yenilikləri, buraxılışlar və vacib xəbərlər",
+      "topic_announcements_label": "Elanlar",
+      "topic_blog_digest_description": "Yeni bloq yazıları və məqalələrin həftəlik xülasəsi",
+      "topic_blog_digest_label": "Bloq Xülasəsi",
+      "topic_events_description": "Gələcək tədbirlər, vebinarlar və icma görüşləri",
+      "topic_events_label": "Tədbirlər"
     },
     "preferences_tab": {
       "date_format_label": "Tarix Formatı",

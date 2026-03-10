@@ -764,7 +764,10 @@
       "password_too_short": "Şifre en az 6 karakter içermelidir.",
       "passwords_not_match": "Şifreler eşleşmiyor.",
       "registering": "Kayıt olunuyor...",
-      "title": "Hesap oluştur"
+      "title": "Hesap oluştur",
+      "captcha_failed": "reCAPTCHA doğrulaması başarısız oldu. Lütfen tekrar deneyin.",
+      "captcha_required": "Lütfen reCAPTCHA doğrulamasını tamamlayın.",
+      "passwords_mismatch": "Şifreler uyuşmuyor."
     },
     "reset_password": {
       "title": "Şifreyi Sıfırla"
@@ -1098,7 +1101,17 @@
       "site_name_placeholder": "Site adınızı girin",
       "system_prompt_label": "Sistem İsteği",
       "system_prompt_placeholder": "Varsayılan istek için boş bırakın. Örn: Yardımcı bir AI asistanısınız...",
-      "title": "Ayarlar"
+      "title": "Ayarlar",
+      "email_verification_description": "Kullanıcılar, kayıt olduktan sonra giriş yapmadan önce e-posta adreslerini doğrulamalıdır",
+      "email_verification_label": "E-posta Doğrulaması Gerektir",
+      "login_limits_description": "Başarısız giriş denemelerine karşı koruma ayarları",
+      "login_limits_title": "Giriş Sınırları",
+      "notify_on_registration_description": "Yeni bir kullanıcı kaydolduğunda yöneticiyi bilgilendir",
+      "notify_on_registration_label": "Yeni Kayıt Bildirimi",
+      "tab_chatbot": "Sohbet Botu",
+      "tab_general": "Genel",
+      "tab_notifications": "Bildirimler",
+      "tab_security": "Güvenlik"
     },
     "analytics": {
       "description": "Trafik, coğrafi veriler ve içerik istatistikleri",
@@ -1107,7 +1120,10 @@
       "title": "Analitik",
       "total_visits": "Toplam Ziyaret",
       "unique_countries": "Benzersiz Ülkeler",
-      "visit_summary": "Ziyaret Özeti"
+      "visit_summary": "Ziyaret Özeti",
+      "countries": "Ülkeler",
+      "geo_data": "Coğrafi Veri",
+      "traffic_overview": "Trafik Genel Bakış"
     },
     "campaigns": {
       "back": "Kampanyalara Geri Dön",
@@ -1208,7 +1224,10 @@
       "title": "Kontrol Paneli",
       "traffic_overview": "Trafik Genel Bakış",
       "traffic_total": "Toplam: {{count}} ziyaret",
-      "visits": "{{count}} ziyaret"
+      "visits": "{{count}} ziyaret",
+      "appointments": "Randevular",
+      "geo_stats": "Coğrafi İstatistikler",
+      "no_geo_data": "Mevcut coğrafi veri yok."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Düzenlemek için çift tıklayın",

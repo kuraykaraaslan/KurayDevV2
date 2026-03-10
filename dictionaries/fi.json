@@ -299,7 +299,17 @@
       "site_name_placeholder": "Anna sivustosi nimi",
       "system_prompt_label": "Järjestelmän kehotus",
       "system_prompt_placeholder": "Jätä tyhjäksi oletuskehotusta varten. Esim.: Olet avulias tekoälyavustaja...",
-      "title": "Asetukset"
+      "title": "Asetukset",
+      "email_verification_description": "Käyttäjien on vahvistettava sähköpostiosoitteensa ennen kirjautumista rekisteröitymisen jälkeen",
+      "email_verification_label": "Vaadi sähköpostivahvistus",
+      "login_limits_description": "Suojausasetukset epäonnistuneita kirjautumisyrityksiä vastaan",
+      "login_limits_title": "Kirjautumisrajoitukset",
+      "notify_on_registration_description": "Lähetä ilmoitus ylläpitäjälle, kun uusi käyttäjä rekisteröityy",
+      "notify_on_registration_label": "Ilmoitus uudesta rekisteröitymisestä",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Yleiset",
+      "tab_notifications": "Ilmoitukset",
+      "tab_security": "Turvallisuus"
     },
     "analytics": {
       "description": "Liikenne, maantieteelliset tiedot ja sisältötilastot",
@@ -308,7 +318,10 @@
       "title": "Analytiikka",
       "total_visits": "Käyntejä yhteensä",
       "unique_countries": "Uniikit maat",
-      "visit_summary": "Käyntien yhteenveto"
+      "visit_summary": "Käyntien yhteenveto",
+      "countries": "Maat",
+      "geo_data": "Maantieteelliset tiedot",
+      "traffic_overview": "Liikenteen yleiskatsaus"
     },
     "campaigns": {
       "back": "Takaisin kampanjoihin",
@@ -409,7 +422,10 @@
       "title": "Hallintapaneeli",
       "traffic_overview": "Liikenteen yleiskatsaus",
       "traffic_total": "Yhteensä: {{count}} käyntiä",
-      "visits": "{{count}} käyntiä"
+      "visits": "{{count}} käyntiä",
+      "appointments": "Tapaamiset",
+      "geo_stats": "Maantieteelliset tilastot",
+      "no_geo_data": "Ei maantieteellisiä tietoja saatavilla."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Kaksoisnapsauta muokataksesi",
@@ -627,7 +643,8 @@
       "success": "Kirjautuminen onnistui",
       "title": "Tervetuloa takaisin!",
       "forgot_password_link": "Unohtuiko salasana?",
-      "welcome_back": "Tervetuloa takaisin!"
+      "welcome_back": "Tervetuloa takaisin!",
+      "remember_device": "Muista tämä laite 30 päivän ajan"
     },
     "logout": {
       "title": "Kirjaudutaan ulos..."
@@ -646,7 +663,10 @@
       "password_too_short": "Salasanassa on oltava vähintään 6 merkkiä.",
       "passwords_not_match": "Salasanat eivät täsmää.",
       "registering": "Rekisteröidään...",
-      "title": "Luo tili"
+      "title": "Luo tili",
+      "captcha_failed": "reCAPTCHA-vahvistus epäonnistui. Yritä uudelleen.",
+      "captcha_required": "Suorita reCAPTCHA-vahvistus.",
+      "passwords_mismatch": "Salasanat eivät täsmää."
     },
     "reset_password": {
       "title": "Nollaa salasana"
@@ -1049,7 +1069,14 @@
       "verify": "Vahvista",
       "verifying": "Vahvistetaan...",
       "resend": "Lähetä koodi uudelleen",
-      "totp_hint": "Avaa todennussovellus ja anna 6-numeroinen koodi"
+      "totp_hint": "Avaa todennussovellus ja anna 6-numeroinen koodi",
+      "code_sent_to": "Koodi lähetetty {{method}} ✓",
+      "method_email": "Sähköposti",
+      "method_sms": "SMS",
+      "method_totp": "Todennussovellus (TOTP)",
+      "otp_title": "Kertakäyttöisen koodin vahvistus",
+      "totp_title": "Todennussovelluksen vahvistus",
+      "will_be_sent_to": "Vahvistuskoodi lähetetään {{method}}"
     },
     "otp_method_card": {
       "active": "Aktiivinen",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS-ilmoitukset",
       "title": "Ilmoitusasetukset",
       "toast_error": "Virhe asetusten päivittämisessä",
-      "toast_success": "Asetukset päivitetty onnistuneesti"
+      "toast_success": "Asetukset päivitetty onnistuneesti",
+      "newsletter_topics_description": "Valitse, minkä tyyppistä sisältöä haluat vastaanottaa",
+      "newsletter_topics_title": "Uutiskirjeen aiheet",
+      "topic_announcements_description": "Tuotepäivitykset, julkaisut ja tärkeät uutiset",
+      "topic_announcements_label": "Ilmoitukset",
+      "topic_blog_digest_description": "Viikoittainen yhteenveto uusista blogikirjoituksista ja artikkeleista",
+      "topic_blog_digest_label": "Blogikooste",
+      "topic_events_description": "Tulevat tapahtumat, webinaarit ja yhteisötapaamiset",
+      "topic_events_label": "Tapahtumat"
     },
     "preferences_tab": {
       "date_format_label": "Päivämäärän muoto",

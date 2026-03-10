@@ -412,7 +412,14 @@
       "verify": "ยืนยัน",
       "verifying": "กำลังยืนยัน...",
       "resend": "ส่งรหัสอีกครั้ง",
-      "totp_hint": "เปิดแอปรับรองความถูกต้องและป้อนรหัส 6 หลัก"
+      "totp_hint": "เปิดแอปรับรองความถูกต้องและป้อนรหัส 6 หลัก",
+      "code_sent_to": "รหัสถูกส่งไปยัง {{method}} ของคุณ ✓",
+      "method_email": "อีเมล",
+      "method_sms": "SMS",
+      "method_totp": "แอปยืนยันตัวตน (TOTP)",
+      "otp_title": "การยืนยันรหัสครั้งเดียว",
+      "totp_title": "การยืนยันแอปยืนยันตัวตน",
+      "will_be_sent_to": "รหัสยืนยันจะถูกส่งไปยัง {{method}} ของคุณ"
     },
     "totp_setup": {
       "title": "ตั้งค่า TOTP",
@@ -482,7 +489,15 @@
       "sms_notifications_label": "การแจ้งเตือนทาง SMS",
       "title": "การตั้งค่าการแจ้งเตือน",
       "toast_error": "เกิดข้อผิดพลาดในการอัปเดตการตั้งค่า",
-      "toast_success": "อัปเดตการตั้งค่าสำเร็จ"
+      "toast_success": "อัปเดตการตั้งค่าสำเร็จ",
+      "newsletter_topics_description": "เลือกประเภทของเนื้อหาที่คุณต้องการรับ",
+      "newsletter_topics_title": "หัวข้อจดหมายข่าว",
+      "topic_announcements_description": "อัปเดตผลิตภัณฑ์ การเปิดตัว และข่าวสำคัญ",
+      "topic_announcements_label": "ประกาศ",
+      "topic_blog_digest_description": "สรุปรายสัปดาห์ของบล็อกโพสต์และบทความใหม่",
+      "topic_blog_digest_label": "บล็อกไดเจสต์",
+      "topic_events_description": "กิจกรรมที่จะเกิดขึ้น การสัมมนาออนไลน์ และการพบปะชุมชน",
+      "topic_events_label": "กิจกรรม"
     },
     "preferences_tab": {
       "date_format_label": "รูปแบบวันที่",
@@ -990,7 +1005,17 @@
       "site_name_placeholder": "กรอกชื่อเว็บไซต์ของคุณ",
       "system_prompt_label": "ข้อความระบบ",
       "system_prompt_placeholder": "ปล่อยว่างไว้สำหรับข้อความเริ่มต้น เช่น คุณคือผู้ช่วย AI ที่มีประโยชน์...",
-      "title": "การตั้งค่า"
+      "title": "การตั้งค่า",
+      "email_verification_description": "ผู้ใช้ต้องยืนยันที่อยู่อีเมลก่อนเข้าสู่ระบบหลังจากลงทะเบียน",
+      "email_verification_label": "ต้องการการยืนยันอีเมล",
+      "login_limits_description": "การตั้งค่าการป้องกันการพยายามเข้าสู่ระบบที่ล้มเหลว",
+      "login_limits_title": "ขีดจำกัดการเข้าสู่ระบบ",
+      "notify_on_registration_description": "ส่งการแจ้งเตือนไปยังผู้ดูแลเมื่อมีผู้ใช้ใหม่ลงทะเบียน",
+      "notify_on_registration_label": "การแจ้งเตือนการลงทะเบียนใหม่",
+      "tab_chatbot": "แชทบอท",
+      "tab_general": "ทั่วไป",
+      "tab_notifications": "การแจ้งเตือน",
+      "tab_security": "ความปลอดภัย"
     },
     "analytics": {
       "description": "สถิติการเข้าชม ข้อมูลภูมิศาสตร์ และเนื้อหา",
@@ -999,7 +1024,10 @@
       "title": "การวิเคราะห์",
       "total_visits": "จำนวนการเข้าชมทั้งหมด",
       "unique_countries": "ประเทศที่ไม่ซ้ำกัน",
-      "visit_summary": "สรุปการเข้าชม"
+      "visit_summary": "สรุปการเข้าชม",
+      "countries": "ประเทศ",
+      "geo_data": "ข้อมูลภูมิศาสตร์",
+      "traffic_overview": "ภาพรวมการเข้าชม"
     },
     "campaigns": {
       "back": "กลับไปยังแคมเปญ",
@@ -1100,7 +1128,10 @@
       "title": "แดชบอร์ด",
       "traffic_overview": "ภาพรวมการเข้าชม",
       "traffic_total": "รวม: {{count}} การเข้าชม",
-      "visits": "{{count}} การเข้าชม"
+      "visits": "{{count}} การเข้าชม",
+      "appointments": "การนัดหมาย",
+      "geo_stats": "สถิติภูมิศาสตร์",
+      "no_geo_data": "ไม่มีข้อมูลภูมิศาสตร์ที่พร้อมใช้งาน"
     },
     "dynamic_comma_text": {
       "double_click_edit": "ดับเบิลคลิกเพื่อแก้ไข",
@@ -1318,7 +1349,8 @@
       "success": "เข้าสู่ระบบสำเร็จ",
       "title": "ยินดีต้อนรับกลับ!",
       "forgot_password_link": "ลืมรหัสผ่าน?",
-      "welcome_back": "ยินดีต้อนรับกลับ!"
+      "welcome_back": "ยินดีต้อนรับกลับ!",
+      "remember_device": "จำอุปกรณ์นี้เป็นเวลา 30 วัน"
     },
     "logout": {
       "title": "กำลังออกจากระบบ..."
@@ -1337,7 +1369,10 @@
       "password_too_short": "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",
       "passwords_not_match": "รหัสผ่านไม่ตรงกัน",
       "registering": "กำลังลงทะเบียน...",
-      "title": "สร้างบัญชี"
+      "title": "สร้างบัญชี",
+      "captcha_failed": "การยืนยัน reCAPTCHA ล้มเหลว กรุณาลองอีกครั้ง",
+      "captcha_required": "กรุณาทำการยืนยัน reCAPTCHA",
+      "passwords_mismatch": "รหัสผ่านไม่ตรงกัน"
     },
     "reset_password": {
       "title": "รีเซ็ตรหัสผ่าน"

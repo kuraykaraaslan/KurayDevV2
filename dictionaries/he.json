@@ -412,7 +412,14 @@
       "verify": "אמת",
       "verifying": "מאמת...",
       "resend": "שלח קוד מחדש",
-      "totp_hint": "פתח את אפליקציית האימות שלך והזן את הקוד בן 6 הספרות"
+      "totp_hint": "פתח את אפליקציית האימות שלך והזן את הקוד בן 6 הספרות",
+      "code_sent_to": "קוד נשלח ל{{method}} שלך ✓",
+      "method_email": "אימייל",
+      "method_sms": "SMS",
+      "method_totp": "אפליקציית מאמת (TOTP)",
+      "otp_title": "אימות קוד חד-פעמי",
+      "totp_title": "אימות אפליקציית מאמת",
+      "will_be_sent_to": "קוד אימות יישלח ל{{method}} שלך"
     },
     "totp_setup": {
       "title": "הגדרת TOTP",
@@ -482,7 +489,15 @@
       "sms_notifications_label": "התראות SMS",
       "title": "העדפות התראות",
       "toast_error": "שגיאה בעדכון ההעדפות",
-      "toast_success": "ההעדפות עודכנו בהצלחה"
+      "toast_success": "ההעדפות עודכנו בהצלחה",
+      "newsletter_topics_description": "בחר אילו סוגי תוכן ברצונך לקבל",
+      "newsletter_topics_title": "נושאי ניוזלטר",
+      "topic_announcements_description": "עדכוני מוצר, גרסאות וחדשות חשובות",
+      "topic_announcements_label": "הודעות",
+      "topic_blog_digest_description": "סיכום שבועי של פוסטים ומאמרים חדשים בבלוג",
+      "topic_blog_digest_label": "סיכום בלוג",
+      "topic_events_description": "אירועים קרובים, וובינרים ומפגשי קהילה",
+      "topic_events_label": "אירועים"
     },
     "preferences_tab": {
       "date_format_label": "פורמט תאריך",
@@ -729,7 +744,8 @@
       "success": "התחברות הצליחה",
       "title": "ברוך שובך!",
       "forgot_password_link": "שכחת סיסמה?",
-      "welcome_back": "ברוך שובך!"
+      "welcome_back": "ברוך שובך!",
+      "remember_device": "זכור מכשיר זה למשך 30 ימים"
     },
     "logout": {
       "title": "מתנתק..."
@@ -748,7 +764,10 @@
       "password_too_short": "הסיסמה חייבת להכיל לפחות 6 תווים.",
       "passwords_not_match": "הסיסמאות אינן תואמות.",
       "registering": "נרשם...",
-      "title": "צור חשבון"
+      "title": "צור חשבון",
+      "captcha_failed": "אימות reCAPTCHA נכשל. אנא נסה שוב.",
+      "captcha_required": "אנא השלם את אימות ה-reCAPTCHA.",
+      "passwords_mismatch": "הסיסמאות אינן תואמות."
     },
     "reset_password": {
       "title": "איפוס סיסמה"
@@ -1082,7 +1101,17 @@
       "site_name_placeholder": "הזן את שם האתר שלך",
       "system_prompt_label": "הנחיית מערכת",
       "system_prompt_placeholder": "השאר ריק להנחיה ברירת מחדל. לדוגמה: אתה עוזר AI מועיל...",
-      "title": "הגדרות"
+      "title": "הגדרות",
+      "email_verification_description": "משתמשים חייבים לאמת את כתובת האימייל שלהם לפני כניסה לאחר הרשמה",
+      "email_verification_label": "דרוש אימות אימייל",
+      "login_limits_description": "הגדרות הגנה נגד ניסיונות כניסה כושלים",
+      "login_limits_title": "הגבלות כניסה",
+      "notify_on_registration_description": "שלח התראה למנהל כאשר משתמש חדש נרשם",
+      "notify_on_registration_label": "התראה על רישום חדש",
+      "tab_chatbot": "צ'אטבוט",
+      "tab_general": "כללי",
+      "tab_notifications": "התראות",
+      "tab_security": "אבטחה"
     },
     "analytics": {
       "description": "תנועה, נתונים גיאוגרפיים וסטטיסטיקות תוכן",
@@ -1091,7 +1120,10 @@
       "title": "אנליטיקה",
       "total_visits": "סה\"כ ביקורים",
       "unique_countries": "מדינות ייחודיות",
-      "visit_summary": "סיכום ביקורים"
+      "visit_summary": "סיכום ביקורים",
+      "countries": "מדינות",
+      "geo_data": "נתונים גאוגרפיים",
+      "traffic_overview": "סקירת תנועה"
     },
     "campaigns": {
       "back": "חזרה לקמפיינים",
@@ -1192,7 +1224,10 @@
       "title": "לוח בקרה",
       "traffic_overview": "סקירת תעבורה",
       "traffic_total": "סה\"כ: {{count}} ביקורים",
-      "visits": "{{count}} ביקורים"
+      "visits": "{{count}} ביקורים",
+      "appointments": "פגישות",
+      "geo_stats": "סטטיסטיקות גאוגרפיות",
+      "no_geo_data": "אין נתונים גאוגרפיים זמינים."
     },
     "dynamic_comma_text": {
       "double_click_edit": "לחץ פעמיים לעריכה",

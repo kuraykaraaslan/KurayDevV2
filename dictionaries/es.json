@@ -299,7 +299,17 @@
       "site_name_placeholder": "Introduce el nombre de tu sitio",
       "system_prompt_label": "Mensaje del Sistema",
       "system_prompt_placeholder": "Deja vacío para el mensaje predeterminado. Ej.: Eres un asistente de IA útil...",
-      "title": "Configuraciones"
+      "title": "Configuraciones",
+      "email_verification_description": "Los usuarios deben verificar su dirección de correo electrónico antes de iniciar sesión después del registro",
+      "email_verification_label": "Requerir verificación de correo electrónico",
+      "login_limits_description": "Configuraciones de protección contra intentos fallidos de inicio de sesión",
+      "login_limits_title": "Límites de inicio de sesión",
+      "notify_on_registration_description": "Enviar notificación al administrador cuando un nuevo usuario se registre",
+      "notify_on_registration_label": "Notificación de nuevo registro",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "General",
+      "tab_notifications": "Notificaciones",
+      "tab_security": "Seguridad"
     },
     "analytics": {
       "description": "Tráfico, datos geográficos y estadísticas de contenido",
@@ -308,7 +318,10 @@
       "title": "Analíticas",
       "total_visits": "Visitas Totales",
       "unique_countries": "Países Únicos",
-      "visit_summary": "Resumen de Visitas"
+      "visit_summary": "Resumen de Visitas",
+      "countries": "Países",
+      "geo_data": "Datos geográficos",
+      "traffic_overview": "Resumen del tráfico"
     },
     "campaigns": {
       "back": "Volver a Campañas",
@@ -409,7 +422,10 @@
       "title": "Panel de control",
       "traffic_overview": "Resumen de tráfico",
       "traffic_total": "Total: {{count}} visitas",
-      "visits": "{{count}} visitas"
+      "visits": "{{count}} visitas",
+      "appointments": "Citas",
+      "geo_stats": "Estadísticas geográficas",
+      "no_geo_data": "No hay datos geográficos disponibles."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Haz doble clic para editar",
@@ -627,7 +643,8 @@
       "success": "Inicio de sesión exitoso",
       "title": "¡Bienvenido de nuevo!",
       "forgot_password_link": "¿Olvidaste tu contraseña?",
-      "welcome_back": "¡Bienvenido de nuevo!"
+      "welcome_back": "¡Bienvenido de nuevo!",
+      "remember_device": "Recordar este dispositivo por 30 días"
     },
     "logout": {
       "title": "Cerrando sesión..."
@@ -646,7 +663,10 @@
       "password_too_short": "La contraseña debe contener al menos 6 caracteres.",
       "passwords_not_match": "Las contraseñas no coinciden.",
       "registering": "Registrando...",
-      "title": "Crear una cuenta"
+      "title": "Crear una cuenta",
+      "captcha_failed": "La verificación de reCAPTCHA falló. Por favor, inténtalo de nuevo.",
+      "captcha_required": "Por favor, completa la verificación de reCAPTCHA.",
+      "passwords_mismatch": "Las contraseñas no coinciden."
     },
     "reset_password": {
       "title": "Restablecer contraseña"
@@ -1048,7 +1068,14 @@
       "verify": "Verificar",
       "verifying": "Verificando...",
       "resend": "Reenviar código",
-      "totp_hint": "Abre tu aplicación autenticadora e introduce el código de 6 dígitos"
+      "totp_hint": "Abre tu aplicación autenticadora e introduce el código de 6 dígitos",
+      "code_sent_to": "Código enviado a tu {{method}} ✓",
+      "method_email": "Correo electrónico",
+      "method_sms": "SMS",
+      "method_totp": "App de autenticación (TOTP)",
+      "otp_title": "Verificación de código único",
+      "totp_title": "Verificación de la app de autenticación",
+      "will_be_sent_to": "Se enviará un código de verificación a tu {{method}}"
     },
     "otp_method_card": {
       "active": "Activo",
@@ -1125,7 +1152,15 @@
       "sms_notifications_label": "Notificaciones por SMS",
       "title": "Preferencias de Notificación",
       "toast_error": "Error al actualizar las preferencias",
-      "toast_success": "Preferencias actualizadas con éxito"
+      "toast_success": "Preferencias actualizadas con éxito",
+      "newsletter_topics_description": "Elige qué tipos de contenido deseas recibir",
+      "newsletter_topics_title": "Temas del boletín",
+      "topic_announcements_description": "Actualizaciones de productos, lanzamientos y noticias importantes",
+      "topic_announcements_label": "Anuncios",
+      "topic_blog_digest_description": "Resumen semanal de nuevas publicaciones y artículos del blog",
+      "topic_blog_digest_label": "Resumen del blog",
+      "topic_events_description": "Próximos eventos, seminarios web y encuentros comunitarios",
+      "topic_events_label": "Eventos"
     },
     "preferences_tab": {
       "date_format_label": "Formato de Fecha",

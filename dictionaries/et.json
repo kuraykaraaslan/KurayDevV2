@@ -412,7 +412,14 @@
       "verify": "Kinnita",
       "verifying": "Kinnitan...",
       "resend": "Saada kood uuesti",
-      "totp_hint": "Avage autentimisrakendus ja sisestage 6-kohaline kood"
+      "totp_hint": "Avage autentimisrakendus ja sisestage 6-kohaline kood",
+      "code_sent_to": "Kood saadeti teie {{method}} ✓",
+      "method_email": "E-post",
+      "method_sms": "SMS",
+      "method_totp": "Autentimisrakendus (TOTP)",
+      "otp_title": "Ühekordse koodi kinnitamine",
+      "totp_title": "Autentimisrakenduse kinnitamine",
+      "will_be_sent_to": "Kinnituskood saadetakse teie {{method}}"
     },
     "totp_setup": {
       "title": "TOTP seadistamine",
@@ -482,7 +489,15 @@
       "sms_notifications_label": "SMS-teavitused",
       "title": "Teavituste eelistused",
       "toast_error": "Viga eelistuste uuendamisel",
-      "toast_success": "Eelistused uuendatud edukalt"
+      "toast_success": "Eelistused uuendatud edukalt",
+      "newsletter_topics_description": "Vali, millist tüüpi sisu soovid saada",
+      "newsletter_topics_title": "Uudiskirja teemad",
+      "topic_announcements_description": "Tooteuuendused, väljalasked ja olulised uudised",
+      "topic_announcements_label": "Teated",
+      "topic_blog_digest_description": "Nädala kokkuvõte uutest blogipostitustest ja artiklitest",
+      "topic_blog_digest_label": "Blogi kokkuvõte",
+      "topic_events_description": "Eelseisvad sündmused, veebiseminarid ja kogukonna kohtumised",
+      "topic_events_label": "Sündmused"
     },
     "preferences_tab": {
       "date_format_label": "Kuupäeva formaat",
@@ -729,7 +744,8 @@
       "success": "Sisselogimine õnnestus",
       "title": "Tere tulemast tagasi!",
       "forgot_password_link": "Unustasid parooli?",
-      "welcome_back": "Tere tulemast tagasi!"
+      "welcome_back": "Tere tulemast tagasi!",
+      "remember_device": "Mäleta seda seadet 30 päeva"
     },
     "logout": {
       "title": "Logitakse välja..."
@@ -748,7 +764,10 @@
       "password_too_short": "Parool peab sisaldama vähemalt 6 tähemärki.",
       "passwords_not_match": "Paroolid ei ühti.",
       "registering": "Registreerimine...",
-      "title": "Loo konto"
+      "title": "Loo konto",
+      "captcha_failed": "reCAPTCHA kontroll ebaõnnestus. Palun proovi uuesti.",
+      "captcha_required": "Palun täida reCAPTCHA kontroll.",
+      "passwords_mismatch": "Paroolid ei ühti."
     },
     "reset_password": {
       "title": "Lähtesta parool"
@@ -1082,7 +1101,17 @@
       "site_name_placeholder": "Sisestage oma saidi nimi",
       "system_prompt_label": "Süsteemi teade",
       "system_prompt_placeholder": "Jätke vaikimisi teate jaoks tühjaks. Nt: Oled abivalmis AI assistent...",
-      "title": "Seaded"
+      "title": "Seaded",
+      "email_verification_description": "Kasutajad peavad pärast registreerimist oma e-posti aadressi kinnitama enne sisselogimist",
+      "email_verification_label": "Nõua e-posti kinnitamist",
+      "login_limits_description": "Kaitse seaded ebaõnnestunud sisselogimiskatsete vastu",
+      "login_limits_title": "Sisselogimise piirangud",
+      "notify_on_registration_description": "Saada teade administraatorile, kui uus kasutaja registreerub",
+      "notify_on_registration_label": "Uue registreerimise teavitus",
+      "tab_chatbot": "Vestlusrobot",
+      "tab_general": "Üldine",
+      "tab_notifications": "Teavitused",
+      "tab_security": "Turvalisus"
     },
     "analytics": {
       "description": "Liiklus, geograafilised andmed ja sisu statistika",
@@ -1091,7 +1120,10 @@
       "title": "Analüütika",
       "total_visits": "Külastuste koguarv",
       "unique_countries": "Unikaalsed riigid",
-      "visit_summary": "Külastuste kokkuvõte"
+      "visit_summary": "Külastuste kokkuvõte",
+      "countries": "Riigid",
+      "geo_data": "Geograafilised andmed",
+      "traffic_overview": "Liikluse ülevaade"
     },
     "campaigns": {
       "back": "Tagasi kampaaniate juurde",
@@ -1192,7 +1224,10 @@
       "title": "Töölaud",
       "traffic_overview": "Liikluse ülevaade",
       "traffic_total": "Kokku: {{count}} külastust",
-      "visits": "{{count}} külastust"
+      "visits": "{{count}} külastust",
+      "appointments": "Kohtumised",
+      "geo_stats": "Geograafilised statistika",
+      "no_geo_data": "Geograafilised andmed puuduvad."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Topeltklõps redigeerimiseks",

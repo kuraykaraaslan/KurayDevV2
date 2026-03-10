@@ -742,7 +742,17 @@
       "site_name_placeholder": "Geben Sie Ihren Seitennamen ein",
       "system_prompt_label": "Systemaufforderung",
       "system_prompt_placeholder": "Leer lassen für Standardaufforderung. Z.B.: Sie sind ein hilfreicher KI-Assistent...",
-      "title": "Einstellungen"
+      "title": "Einstellungen",
+      "email_verification_description": "Benutzer müssen ihre E-Mail-Adresse nach der Registrierung verifizieren, bevor sie sich einloggen",
+      "email_verification_label": "E-Mail-Verifizierung erforderlich",
+      "login_limits_description": "Schutzeinstellungen gegen fehlgeschlagene Anmeldeversuche",
+      "login_limits_title": "Anmeldebeschränkungen",
+      "notify_on_registration_description": "Benachrichtigung an den Admin senden, wenn sich ein neuer Benutzer registriert",
+      "notify_on_registration_label": "Benachrichtigung bei neuer Registrierung",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Allgemein",
+      "tab_notifications": "Benachrichtigungen",
+      "tab_security": "Sicherheit"
     },
     "analytics": {
       "description": "Verkehr, geografische Daten und Inhaltsstatistiken",
@@ -751,7 +761,10 @@
       "title": "Analytik",
       "total_visits": "Gesamtbesuche",
       "unique_countries": "Einzigartige Länder",
-      "visit_summary": "Besuchsübersicht"
+      "visit_summary": "Besuchsübersicht",
+      "countries": "Länder",
+      "geo_data": "Geografische Daten",
+      "traffic_overview": "Verkehrsübersicht"
     },
     "campaigns": {
       "back": "Zurück zu Kampagnen",
@@ -852,7 +865,10 @@
       "title": "Dashboard",
       "traffic_overview": "Verkehrsübersicht",
       "traffic_total": "Gesamt: {{count}} Besuche",
-      "visits": "{{count}} Besuche"
+      "visits": "{{count}} Besuche",
+      "appointments": "Termine",
+      "geo_stats": "Geografische Statistiken",
+      "no_geo_data": "Keine geografischen Daten verfügbar."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Doppelklicken zum Bearbeiten",
@@ -1070,7 +1086,8 @@
       "success": "Anmeldung erfolgreich",
       "title": "Willkommen zurück!",
       "forgot_password_link": "Passwort vergessen?",
-      "welcome_back": "Willkommen zurück!"
+      "welcome_back": "Willkommen zurück!",
+      "remember_device": "Dieses Gerät für 30 Tage merken"
     },
     "logout": {
       "title": "Abmelden..."
@@ -1089,7 +1106,10 @@
       "password_too_short": "Das Passwort muss mindestens 6 Zeichen enthalten.",
       "passwords_not_match": "Passwörter stimmen nicht überein.",
       "registering": "Registrierung...",
-      "title": "Konto erstellen"
+      "title": "Konto erstellen",
+      "captcha_failed": "reCAPTCHA-Überprüfung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "captcha_required": "Bitte vervollständigen Sie die reCAPTCHA-Überprüfung.",
+      "passwords_mismatch": "Passwörter stimmen nicht überein."
     },
     "reset_password": {
       "title": "Passwort zurücksetzen"
@@ -1210,7 +1230,14 @@
       "verify": "Überprüfen",
       "verifying": "Überprüfung...",
       "resend": "Code erneut senden",
-      "totp_hint": "Öffnen Sie Ihre Authenticator-App und geben Sie den 6-stelligen Code ein"
+      "totp_hint": "Öffnen Sie Ihre Authenticator-App und geben Sie den 6-stelligen Code ein",
+      "code_sent_to": "Code gesendet an Ihr {{method}} ✓",
+      "method_email": "E-Mail",
+      "method_sms": "SMS",
+      "method_totp": "Authenticator-App (TOTP)",
+      "otp_title": "Einmalige Code-Verifizierung",
+      "totp_title": "Verifizierung der Authenticator-App",
+      "will_be_sent_to": "Ein Verifizierungscode wird an Ihr {{method}} gesendet"
     },
     "otp_method_card": {
       "active": "Aktiv",
@@ -1287,7 +1314,15 @@
       "sms_notifications_label": "SMS-Benachrichtigungen",
       "title": "Benachrichtigungseinstellungen",
       "toast_error": "Fehler beim Aktualisieren der Einstellungen",
-      "toast_success": "Einstellungen erfolgreich aktualisiert"
+      "toast_success": "Einstellungen erfolgreich aktualisiert",
+      "newsletter_topics_description": "Wählen Sie, welche Arten von Inhalten Sie erhalten möchten",
+      "newsletter_topics_title": "Newsletter-Themen",
+      "topic_announcements_description": "Produktaktualisierungen, Veröffentlichungen und wichtige Nachrichten",
+      "topic_announcements_label": "Ankündigungen",
+      "topic_blog_digest_description": "Wöchentliche Zusammenfassung neuer Blogbeiträge und Artikel",
+      "topic_blog_digest_label": "Blog-Zusammenfassung",
+      "topic_events_description": "Bevorstehende Veranstaltungen, Webinare und Community-Treffen",
+      "topic_events_label": "Veranstaltungen"
     },
     "preferences_tab": {
       "date_format_label": "Datumsformat",

@@ -449,7 +449,14 @@
       "resend": "إعادة إرسال الرمز",
       "totp_hint": "افتح تطبيق المصادقة وأدخل الرمز المكون من 6 أرقام",
       "verify": "تحقق",
-      "verifying": "جاري التحقق..."
+      "verifying": "جاري التحقق...",
+      "code_sent_to": "تم إرسال الرمز إلى {{method}} ✓",
+      "method_email": "البريد الإلكتروني",
+      "method_sms": "رسالة نصية",
+      "method_totp": "تطبيق المصادقة (TOTP)",
+      "otp_title": "التحقق من الرمز لمرة واحدة",
+      "totp_title": "التحقق من تطبيق المصادقة",
+      "will_be_sent_to": "سيتم إرسال رمز التحقق إلى {{method}}"
     },
     "totp_setup": {
       "title": "إعداد TOTP",
@@ -519,7 +526,15 @@
       "sms_notifications_label": "إشعارات SMS",
       "title": "تفضيلات الإشعارات",
       "toast_error": "خطأ في تحديث التفضيلات",
-      "toast_success": "تم تحديث التفضيلات بنجاح"
+      "toast_success": "تم تحديث التفضيلات بنجاح",
+      "newsletter_topics_description": "اختر أنواع المحتوى التي ترغب في تلقيها",
+      "newsletter_topics_title": "مواضيع النشرة الإخبارية",
+      "topic_announcements_description": "تحديثات المنتجات والإصدارات والأخبار الهامة",
+      "topic_announcements_label": "الإعلانات",
+      "topic_blog_digest_description": "ملخص أسبوعي للمقالات والمنشورات الجديدة",
+      "topic_blog_digest_label": "ملخص المدونة",
+      "topic_events_description": "الأحداث القادمة والندوات والاجتماعات المجتمعية",
+      "topic_events_label": "الأحداث"
     },
     "preferences_tab": {
       "date_format_label": "تنسيق التاريخ",
@@ -766,7 +781,8 @@
       "success": "تم تسجيل الدخول بنجاح",
       "title": "مرحبًا بعودتك!",
       "welcome_back": "مرحبًا بعودتك!",
-      "forgot_password_link": "هل نسيت كلمة المرور؟"
+      "forgot_password_link": "هل نسيت كلمة المرور؟",
+      "remember_device": "تذكر هذا الجهاز لمدة 30 يومًا"
     },
     "logout": {
       "title": "جارٍ تسجيل الخروج..."
@@ -785,7 +801,10 @@
       "password_too_short": "يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل.",
       "passwords_not_match": "كلمات المرور غير متطابقة.",
       "registering": "جارٍ التسجيل...",
-      "title": "إنشاء حساب"
+      "title": "إنشاء حساب",
+      "captcha_failed": "فشل التحقق من reCAPTCHA. يرجى المحاولة مرة أخرى.",
+      "captcha_required": "يرجى إكمال التحقق من reCAPTCHA.",
+      "passwords_mismatch": "كلمات المرور غير متطابقة."
     },
     "reset_password": {
       "title": "إعادة تعيين كلمة المرور"
@@ -1119,7 +1138,17 @@
       "site_name_placeholder": "أدخل اسم موقعك",
       "system_prompt_label": "موجه النظام",
       "system_prompt_placeholder": "اتركه فارغًا للموجه الافتراضي. مثال: أنت مساعد ذكاء اصطناعي مفيد...",
-      "title": "الإعدادات"
+      "title": "الإعدادات",
+      "email_verification_description": "يجب على المستخدمين التحقق من عنوان بريدهم الإلكتروني قبل تسجيل الدخول بعد التسجيل",
+      "email_verification_label": "طلب التحقق من البريد الإلكتروني",
+      "login_limits_description": "إعدادات الحماية ضد محاولات تسجيل الدخول الفاشلة",
+      "login_limits_title": "حدود تسجيل الدخول",
+      "notify_on_registration_description": "إرسال إشعار إلى المسؤول عند تسجيل مستخدم جديد",
+      "notify_on_registration_label": "إشعار تسجيل جديد",
+      "tab_chatbot": "روبوت الدردشة",
+      "tab_general": "عام",
+      "tab_notifications": "الإشعارات",
+      "tab_security": "الأمان"
     },
     "analytics": {
       "description": "إحصائيات الحركة والبيانات الجغرافية والمحتوى",
@@ -1128,7 +1157,10 @@
       "title": "التحليلات",
       "total_visits": "إجمالي الزيارات",
       "unique_countries": "البلدان الفريدة",
-      "visit_summary": "ملخص الزيارات"
+      "visit_summary": "ملخص الزيارات",
+      "countries": "البلدان",
+      "geo_data": "البيانات الجغرافية",
+      "traffic_overview": "نظرة عامة على الحركة"
     },
     "campaigns": {
       "back": "العودة إلى الحملات",
@@ -1229,7 +1261,10 @@
       "title": "لوحة التحكم",
       "traffic_overview": "نظرة عامة على حركة المرور",
       "traffic_total": "الإجمالي: {{count}} زيارة",
-      "visits": "{{count}} زيارة"
+      "visits": "{{count}} زيارة",
+      "appointments": "المواعيد",
+      "geo_stats": "الإحصاءات الجغرافية",
+      "no_geo_data": "لا توجد بيانات جغرافية متاحة."
     },
     "dynamic_comma_text": {
       "double_click_edit": "انقر مرتين للتعديل",

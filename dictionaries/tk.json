@@ -299,7 +299,17 @@
       "site_name_placeholder": "Sahypa adyňyzy giriziň",
       "system_prompt_label": "Ulgam Gollanmasy",
       "system_prompt_placeholder": "Adaty gollanma üçin boş goýuň. Mysal üçin: Siz peýdaly AI kömekçisi...",
-      "title": "Sazlamalar"
+      "title": "Sazlamalar",
+      "email_verification_description": "Ulanyjylar hasaba alnandan soň girmezden ozal e-poçta salgylaryny tassyk etmeli",
+      "email_verification_label": "E-poçta Tassyklamasy Talap Edilýär",
+      "login_limits_description": "Başarsyz giriş synanyşyklaryna garşy gorag sazlamalary",
+      "login_limits_title": "Giriş Çäklendirmeleri",
+      "notify_on_registration_description": "Täze ulanyjy hasaba alnanda admine bildiriş iber",
+      "notify_on_registration_label": "Täze Hasaba Alyş Bildirişi",
+      "tab_chatbot": "Söhbet Boty",
+      "tab_general": "Umumy",
+      "tab_notifications": "Bildirişler",
+      "tab_security": "Howpsuzlyk"
     },
     "analytics": {
       "description": "Trafik, geografiki maglumatlar we mazmun statistikasy",
@@ -308,7 +318,10 @@
       "title": "Analitika",
       "total_visits": "Jemi Saparlar",
       "unique_countries": "Ýeke-täk Ýurtlar",
-      "visit_summary": "Sapar Jemlemesi"
+      "visit_summary": "Sapar Jemlemesi",
+      "countries": "Ýurtlar",
+      "geo_data": "Geografiki Maglumatlar",
+      "traffic_overview": "Trafik Görnüşi"
     },
     "campaigns": {
       "back": "Kampaniýalara Yza",
@@ -409,7 +422,10 @@
       "title": "Dolandyryş paneli",
       "traffic_overview": "Trafik Syny",
       "traffic_total": "Jemi: {{count}} gezek baryldy",
-      "visits": "{{count}} gezek baryldy"
+      "visits": "{{count}} gezek baryldy",
+      "appointments": "Bellenen Wagtlar",
+      "geo_stats": "Geografiki Statistikalar",
+      "no_geo_data": "Geografiki maglumat ýok."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Üýtgetmek üçin iki gezek basyň",
@@ -627,7 +643,8 @@
       "success": "Giriş üstünlikli",
       "title": "Hoş geldiňiz!",
       "forgot_password_link": "Parolyňyzy ýatdan çykardyňyzmy?",
-      "welcome_back": "Hoş geldiňiz!"
+      "welcome_back": "Hoş geldiňiz!",
+      "remember_device": "Bu enjamy 30 gün ýatda sakla"
     },
     "logout": {
       "title": "Çykylýar..."
@@ -646,7 +663,10 @@
       "password_too_short": "Parol azyndan 6 harp bolmaly.",
       "passwords_not_match": "Parollar gabat gelenok.",
       "registering": "Hasaba alynýar...",
-      "title": "Hasap dörediň"
+      "title": "Hasap dörediň",
+      "captcha_failed": "reCAPTCHA barlagy şowsuz boldy. Täzeden synanyşyň.",
+      "captcha_required": "reCAPTCHA barlagyny tamamlaň.",
+      "passwords_mismatch": "Parollar gabat gelmeýär."
     },
     "reset_password": {
       "title": "Paroly täzeden düzmek"
@@ -1049,7 +1069,14 @@
       "verify": "Barla",
       "verifying": "Barlanýar...",
       "resend": "Kody gaýtadan iberiň",
-      "totp_hint": "Autentifikator programmaňyzy açyň we 6 sanly kody giriziň"
+      "totp_hint": "Autentifikator programmaňyzy açyň we 6 sanly kody giriziň",
+      "code_sent_to": "Kodyňyz {{method}} üsti bilen iberildi ✓",
+      "method_email": "E-poçta",
+      "method_sms": "SMS",
+      "method_totp": "Tassyklaýjy Programma (TOTP)",
+      "otp_title": "Bir gezeklik Kod Tassyklamasy",
+      "totp_title": "Tassyklaýjy Programma Tassyklamasy",
+      "will_be_sent_to": "Tassyklaýyş kody {{method}} üsti bilen iberiler"
     },
     "otp_method_card": {
       "active": "Işjeň",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "SMS Duýduryşlar",
       "title": "Bildiriş Saýlawlary",
       "toast_error": "Saýlawlary täzeläp bolmady",
-      "toast_success": "Saýlawlar üstünlikli täzelendi"
+      "toast_success": "Saýlawlar üstünlikli täzelendi",
+      "newsletter_topics_description": "Haýsy görnüşdäki mazmuny almak isleýändigiňizi saýlaň",
+      "newsletter_topics_title": "Habarlar Temalary",
+      "topic_announcements_description": "Önüm täzelikleri, çykarylyşlar we möhüm habarlary",
+      "topic_announcements_label": "Duyduryşlar",
+      "topic_blog_digest_description": "Täze blog ýazgylarynyň we makalalarynyň hepdelik gysgaça mazmuny",
+      "topic_blog_digest_label": "Blog Gysgaça Mazmuny",
+      "topic_events_description": "Geljegiň wakalary, webinarlary we jemgyýetçilik duşuşyklary",
+      "topic_events_label": "Wakalar"
     },
     "preferences_tab": {
       "date_format_label": "Sene Format",

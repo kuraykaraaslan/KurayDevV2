@@ -299,7 +299,17 @@
       "site_name_placeholder": "輸入您的網站名稱",
       "system_prompt_label": "系統提示",
       "system_prompt_placeholder": "留空以使用預設提示。例如：你是一個有幫助的 AI 助手...",
-      "title": "設定"
+      "title": "設定",
+      "email_verification_description": "使用者註冊後必須驗證電子郵件地址才能登入",
+      "email_verification_label": "需要電子郵件驗證",
+      "login_limits_description": "防止登入失敗的保護設定",
+      "login_limits_title": "登入限制",
+      "notify_on_registration_description": "新使用者註冊時通知管理員",
+      "notify_on_registration_label": "新註冊通知",
+      "tab_chatbot": "聊天機器人",
+      "tab_general": "一般",
+      "tab_notifications": "通知",
+      "tab_security": "安全性"
     },
     "analytics": {
       "description": "流量、地理數據和內容統計",
@@ -308,7 +318,10 @@
       "title": "分析",
       "total_visits": "總訪問量",
       "unique_countries": "獨特國家",
-      "visit_summary": "訪問摘要"
+      "visit_summary": "訪問摘要",
+      "countries": "國家",
+      "geo_data": "地理數據",
+      "traffic_overview": "流量概覽"
     },
     "campaigns": {
       "back": "返回活動",
@@ -409,7 +422,10 @@
       "title": "儀表板",
       "traffic_overview": "流量概覽",
       "traffic_total": "總計：{{count}} 次訪問",
-      "visits": "{{count}} 次訪問"
+      "visits": "{{count}} 次訪問",
+      "appointments": "預約",
+      "geo_stats": "地理統計",
+      "no_geo_data": "沒有可用的地理數據。"
     },
     "dynamic_comma_text": {
       "double_click_edit": "雙擊編輯",
@@ -627,7 +643,8 @@
       "success": "登入成功",
       "title": "歡迎回來！",
       "forgot_password_link": "忘記密碼？",
-      "welcome_back": "歡迎回來！"
+      "welcome_back": "歡迎回來！",
+      "remember_device": "記住此裝置30天"
     },
     "logout": {
       "title": "正在登出..."
@@ -646,7 +663,10 @@
       "password_too_short": "密碼必須至少包含 6 個字符。",
       "passwords_not_match": "密碼不匹配。",
       "registering": "正在註冊...",
-      "title": "創建帳號"
+      "title": "創建帳號",
+      "captcha_failed": "reCAPTCHA驗證失敗。請再試一次。",
+      "captcha_required": "請完成reCAPTCHA驗證。",
+      "passwords_mismatch": "密碼不匹配。"
     },
     "reset_password": {
       "title": "重設密碼"
@@ -1049,7 +1069,14 @@
       "verify": "驗證",
       "verifying": "驗證中...",
       "resend": "重新傳送驗證碼",
-      "totp_hint": "開啟您的驗證器應用程式並輸入6位數驗證碼"
+      "totp_hint": "開啟您的驗證器應用程式並輸入6位數驗證碼",
+      "code_sent_to": "驗證碼已發送到您的{{method}} ✓",
+      "method_email": "電子郵件",
+      "method_sms": "簡訊",
+      "method_totp": "驗證器應用程式 (TOTP)",
+      "otp_title": "一次性代碼驗證",
+      "totp_title": "驗證器應用程式驗證",
+      "will_be_sent_to": "驗證碼將發送到您的{{method}}"
     },
     "otp_method_card": {
       "active": "啟用",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "簡訊通知",
       "title": "通知偏好設定",
       "toast_error": "更新偏好設定時出錯",
-      "toast_success": "偏好設定更新成功"
+      "toast_success": "偏好設定更新成功",
+      "newsletter_topics_description": "選擇您想接收的內容類型",
+      "newsletter_topics_title": "電子報主題",
+      "topic_announcements_description": "產品更新、發佈和重要新聞",
+      "topic_announcements_label": "公告",
+      "topic_blog_digest_description": "每週新博客文章和文章摘要",
+      "topic_blog_digest_label": "博客摘要",
+      "topic_events_description": "即將舉行的活動、網路研討會和社區聚會",
+      "topic_events_label": "活動"
     },
     "preferences_tab": {
       "date_format_label": "日期格式",

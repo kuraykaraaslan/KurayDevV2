@@ -299,7 +299,17 @@
       "site_name_placeholder": "Inserisci il nome del tuo sito",
       "system_prompt_label": "Prompt di sistema",
       "system_prompt_placeholder": "Lascia vuoto per il prompt predefinito. Esempio: Sei un assistente AI utile...",
-      "title": "Impostazioni"
+      "title": "Impostazioni",
+      "email_verification_description": "Gli utenti devono verificare il loro indirizzo email prima di accedere dopo la registrazione",
+      "email_verification_label": "Richiedi Verifica Email",
+      "login_limits_description": "Impostazioni di protezione contro i tentativi di accesso falliti",
+      "login_limits_title": "Limiti di Accesso",
+      "notify_on_registration_description": "Invia notifica all'amministratore quando un nuovo utente si registra",
+      "notify_on_registration_label": "Notifica Nuova Registrazione",
+      "tab_chatbot": "Chatbot",
+      "tab_general": "Generale",
+      "tab_notifications": "Notifiche",
+      "tab_security": "Sicurezza"
     },
     "analytics": {
       "description": "Traffico, dati geografici e statistiche sui contenuti",
@@ -308,7 +318,10 @@
       "title": "Analisi",
       "total_visits": "Visite totali",
       "unique_countries": "Paesi unici",
-      "visit_summary": "Riepilogo visite"
+      "visit_summary": "Riepilogo visite",
+      "countries": "Paesi",
+      "geo_data": "Dati Geografici",
+      "traffic_overview": "Panoramica del Traffico"
     },
     "campaigns": {
       "back": "Torna alle campagne",
@@ -409,7 +422,10 @@
       "title": "Cruscotto",
       "traffic_overview": "Panoramica del traffico",
       "traffic_total": "Totale: {{count}} visite",
-      "visits": "{{count}} visite"
+      "visits": "{{count}} visite",
+      "appointments": "Appuntamenti",
+      "geo_stats": "Statistiche Geografiche",
+      "no_geo_data": "Nessun dato geografico disponibile."
     },
     "dynamic_comma_text": {
       "double_click_edit": "Doppio clic per modificare",
@@ -627,7 +643,8 @@
       "success": "Accesso riuscito",
       "title": "Bentornato!",
       "forgot_password_link": "Password dimenticata?",
-      "welcome_back": "Bentornato!"
+      "welcome_back": "Bentornato!",
+      "remember_device": "Ricorda questo dispositivo per 30 giorni"
     },
     "logout": {
       "title": "Disconnessione in corso..."
@@ -646,7 +663,10 @@
       "password_too_short": "La password deve contenere almeno 6 caratteri.",
       "passwords_not_match": "Le password non corrispondono.",
       "registering": "Registrazione in corso...",
-      "title": "Crea un account"
+      "title": "Crea un account",
+      "captcha_failed": "Verifica reCAPTCHA fallita. Per favore riprova.",
+      "captcha_required": "Per favore completa la verifica reCAPTCHA.",
+      "passwords_mismatch": "Le password non corrispondono."
     },
     "reset_password": {
       "title": "Reimposta Password"
@@ -1049,7 +1069,14 @@
       "verify": "Verifica",
       "verifying": "Verifica in corso...",
       "resend": "Rinvia codice",
-      "totp_hint": "Apri la tua app di autenticazione e inserisci il codice a 6 cifre"
+      "totp_hint": "Apri la tua app di autenticazione e inserisci il codice a 6 cifre",
+      "code_sent_to": "Codice inviato al tuo {{method}} ✓",
+      "method_email": "Email",
+      "method_sms": "SMS",
+      "method_totp": "App Autenticatore (TOTP)",
+      "otp_title": "Verifica Codice Monouso",
+      "totp_title": "Verifica App Autenticatore",
+      "will_be_sent_to": "Un codice di verifica sarà inviato al tuo {{method}}"
     },
     "otp_method_card": {
       "active": "Attivo",
@@ -1126,7 +1153,15 @@
       "sms_notifications_label": "Notifiche SMS",
       "title": "Preferenze di Notifica",
       "toast_error": "Errore nell'aggiornamento delle preferenze",
-      "toast_success": "Preferenze aggiornate con successo"
+      "toast_success": "Preferenze aggiornate con successo",
+      "newsletter_topics_description": "Scegli quali tipi di contenuti vuoi ricevere",
+      "newsletter_topics_title": "Argomenti della Newsletter",
+      "topic_announcements_description": "Aggiornamenti di prodotto, rilasci e notizie importanti",
+      "topic_announcements_label": "Annunci",
+      "topic_blog_digest_description": "Riepilogo settimanale dei nuovi post del blog e articoli",
+      "topic_blog_digest_label": "Riepilogo Blog",
+      "topic_events_description": "Prossimi eventi, webinar e incontri della comunità",
+      "topic_events_label": "Eventi"
     },
     "preferences_tab": {
       "date_format_label": "Formato Data",
