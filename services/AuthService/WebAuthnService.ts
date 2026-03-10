@@ -19,16 +19,15 @@ import {
     PASSKEY_AUTH_CHALLENGE_KEY,
     PASSKEY_EMAIL_CHALLENGE_KEY,
     PASSKEY_CHALLENGE_TTL_SECONDS,
-    PASSKEY_MAX_PER_USER,
-    APPLICATION_DOMAIN,
+    PASSKEY_MAX_PER_USER
 } from './constants'
 import { StoredPasskey } from '@/types/user/UserSecurityTypes'
 import { SafeUser } from '@/types/user/UserTypes'
 
+const APPLICATION_DOMAIN = (process.env.NEXT_PUBLIC_APPLICATION_HOST ?? 'localhost').replace(/^https?:\/\//, '').replace(/\/$/, '') // e.g. "kuray.dev"
 const isDev = process.env.NODE_ENV === 'development'
-
-const RP_NAME = process.env.WEBAUTHN_RP_NAME ?? 'KurayDev'
-const RP_ID = process.env.WEBAUTHN_RP_ID ?? (isDev ? 'localhost' : APPLICATION_DOMAIN)
+const RP_NAME = process.env.NEXT_PUBLIC_APPLICATION_NAME!
+const RP_ID = process.env.WEBAUTHN_RP_ID || APPLICATION_DOMAIN
 const ORIGIN =
     process.env.WEBAUTHN_ORIGIN ??
     (isDev

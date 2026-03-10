@@ -1,5 +1,5 @@
 // ── JWT / Token constants ───────────────────────────────────────────
-export const APPLICATION_DOMAIN = process.env.NEXT_PUBLIC_APPLICATION_DOMAIN || 'kuray.dev'
+export const APPLICATION_DOMAIN = (process.env.NEXT_PUBLIC_APPLICATION_HOST ?? 'localhost').replace(/^https?:\/\//, '').replace(/\/$/, '') // e.g. "kuray.dev"
 export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
 export const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || '1h'
 export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET
