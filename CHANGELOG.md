@@ -93,7 +93,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 - AI Chatbot with RAG (Retrieval-Augmented Generation), full admin panel, and frontend integration
-- WebSocket infrastructure: generic `WSManager`, `useWebSocket` hook, `next-ws` / `ws` dependencies
+- WebSocket infrastructure: generic `WSManager`, `useWebSocket` hook, `ws` dependency
 - Chatbot migrated to WebSocket with streaming responses and persistent session support
 - Chatbot admin: stats widget, user ban/unban system with session close detection
 - `ChatSession` and `ChatMessage` models added to Prisma schema

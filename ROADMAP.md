@@ -222,7 +222,7 @@
 
 **Goal:** Introduce real-time infrastructure, an AI-powered chatbot with RAG, and live engagement features.
 
-- ✅ WebSocket infrastructure: generic `WSManager`, `useWebSocket` hook, `next-ws` / `ws` packages
+- ✅ WebSocket infrastructure: generic `WSManager`, `useWebSocket` hook, `ws` package
 - ✅ AI Chatbot with RAG (Retrieval-Augmented Generation): embeddings, vector similarity, context injection
 - ✅ Full chatbot admin panel: stats widget, user ban/unban, session management
 - ✅ `ChatSession` and `ChatMessage` models added to Prisma schema

@@ -177,7 +177,7 @@ Comprehensive CRUD modules with:
 - **Prisma 7** (PostgreSQL 16)
 - **Redis (ioredis)** for caching, rate limiting & real-time
 - **BullMQ** for async workers
-- **next-ws / ws** for WebSocket infrastructure
+- **ws** for WebSocket infrastructure
 - **Nodemailer + EJS** templates
 - **Zod** DTOs with `safeParse` validation
 - Multi-provider OAuth
