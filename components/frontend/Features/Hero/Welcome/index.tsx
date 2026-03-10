@@ -38,7 +38,7 @@ const Welcome = () => {
       >
         <div className="hero-content">
           <div className="flex-1 max-w-2xl md:me-4">
-            <h1 className="font-bold relative overflow-hidden animate-shake text-5xl leading-normal h-24 md:h-16">
+            <h1 className="font-bold relative overflow-hidden animate-shake text-5xl leading-normal h-32 md:h-16">
               <TypingEffect />
             </h1>
             <h2 className="py-3 pb-6 leading-7 text-lg">

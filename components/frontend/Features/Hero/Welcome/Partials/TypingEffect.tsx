@@ -57,17 +57,17 @@ const TypingEffect = () => {
   // Reduced motion: show first text statically
   if (prefersReducedMotion) {
     return (
-      <span className="text-3xl font-bold text-shadow-sm pb-2">
+      <p className="text-3xl font-bold text-shadow-sm pb-2">
         {t('pages.hero.typing_effect.prefix')}&nbsp;
         <span className="text-primary text-shadow-sm">{texts[0]}</span>
         &nbsp;
         {t('pages.hero.typing_effect.suffix')}
-      </span>
+      </p>
     )
   }
 
   return (
-    <span className="text-3xl font-bold text-shadow-sm pb-2">
+    <p className="text-3xl font-bold text-shadow-sm pb-2">
       {t('pages.hero.typing_effect.prefix')}&nbsp;
       <span
         className="text-primary text-shadow-sm"
@@ -78,7 +78,7 @@ const TypingEffect = () => {
       </span>
       &nbsp;
       {t('pages.hero.typing_effect.suffix')}
-    </span>
+    </p>
   )
 }
 
