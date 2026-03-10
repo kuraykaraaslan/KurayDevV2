@@ -2,21 +2,21 @@ import { z } from 'zod'
 import { countries, languages } from 'country-data-list'
 
 // ─── Language enum ────────────────────────────────────────────────────────────
+const parsedLanguages = process.env.NEXT_PUBLIC_I18N_LANGUAGES
+  ?.split(',')
+  .map((l) => l.trim().toLowerCase())
+  .filter(Boolean)
+// 1. Cast the entire result to the required tuple type
+const appLanguageArray = (
+  parsedLanguages && parsedLanguages.length > 0
+    ? parsedLanguages
+    : ['en']
+) as [string, ...string[]]
 
-export const AppLanguageEnum = z.enum([
-  // Core
-  'en', 'tr', 'ky',
-  // Türki cumhuriyetler
-  'az', 'kk', 'tt', 'tk', 'uz',
-  // Avrupa
-  'de', 'el', 'et', 'mt', 'nl', 'uk', 'he',
-  // Yazılım sektörü
-  'ru', 'zh', 'tw', 'ja', 'fr', 'it', 'es', 'fi',
-  // Bölgesel (geo-exclusive)
-  'ar',  // Arapça - sadece UAE'den görünür
-])
-export const AppLanguageSchema = AppLanguageEnum.default('en')
+// 2. Pass it into Zod
+export const AppLanguageEnum = z.enum(appLanguageArray)
 
+// 3. Fix the schema references (AppLanguageSchema -> AppLanguageEnum)
 export type AppLanguage = z.infer<typeof AppLanguageEnum>
 
 export const AVAILABLE_LANGUAGES = AppLanguageEnum.options
@@ -42,8 +42,8 @@ export function getDirection(lang: AppLanguage): 'rtl' | 'ltr' {
 // Two overrides are unavoidable: package returns wrong countries for these.
 
 const COUNTRY_OVERRIDES: Partial<Record<AppLanguage, string>> = {
-  en: 'GB', 
-  el: 'GR', 
+  en: 'GB',
+  el: 'GR',
   ky: 'KG',
   kk: 'KZ',       // Kazak → Kazakistan
   tt: 'RU',       // Tatarca → Rusya (Tataristan egemen değil)
@@ -96,20 +96,20 @@ export const LANG_EXCLUSIVE: Record<AppLanguage, string[]> = {
 /** Check if a specific language is accessible for a given country code */
 export function isLanguageAccessible(lang: AppLanguage, countryCode?: string | null): boolean {
   const cc = countryCode?.toUpperCase()
-  
+
   // Check if language is geo-exclusive
   const exclusiveCountries = LANG_EXCLUSIVE[lang]
   if (exclusiveCountries && exclusiveCountries.length > 0) {
     // Only accessible if user is from one of the exclusive countries
     if (!cc || !exclusiveCountries.includes(cc)) return false
   }
-  
+
   // Check if language is blocked for this country
   if (cc) {
     const blocked = LANG_RESTRICTIONS[cc] ?? []
     if (blocked.includes(lang)) return false
   }
-  
+
   return true
 }
 

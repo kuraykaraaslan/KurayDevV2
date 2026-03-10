@@ -4,13 +4,12 @@ import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import {
-  DEFAULT_LANGUAGE,
   LANG_NAMES,
   getLangFlagUrl,
   getFilteredLanguages,
-  AVAILABLE_LANGUAGES,
   type AppLanguage,
 } from '@/types/common/I18nTypes'
+import { ENV_DEFAULT_LANGUAGE, ENV_LANGUAGES } from '@/libs/zustand'
 import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
 import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
 
@@ -33,13 +32,13 @@ export default function LanguageButton() {
 
   const firstSegment = pathname.split('/').filter(Boolean)[0]
   const currentLang: AppLanguage =
-    AVAILABLE_LANGUAGES.includes(firstSegment as AppLanguage) && firstSegment !== DEFAULT_LANGUAGE
+    (ENV_LANGUAGES as readonly string[]).includes(firstSegment) && firstSegment !== ENV_DEFAULT_LANGUAGE
       ? (firstSegment as AppLanguage)
-      : DEFAULT_LANGUAGE
+      : ENV_DEFAULT_LANGUAGE
 
   const getPagePath = (): string => {
     const segs = pathname.split('/').filter(Boolean)
-    if (AVAILABLE_LANGUAGES.includes(segs[0] as AppLanguage) && segs[0] !== DEFAULT_LANGUAGE) {
+    if ((ENV_LANGUAGES as readonly string[]).includes(segs[0]) && segs[0] !== ENV_DEFAULT_LANGUAGE) {
       return '/' + segs.slice(1).join('/')
     }
     return pathname
@@ -49,17 +48,19 @@ export default function LanguageButton() {
     if (!lang) return
     closeModal()
     const pagePath = getPagePath() || '/'
-    if (lang === DEFAULT_LANGUAGE) {
+    if (lang === ENV_DEFAULT_LANGUAGE) {
       router.push(pagePath)
     } else {
       router.push(`/${lang}${pagePath}`)
     }
   }
 
-  const langOptions = getFilteredLanguages(geoCountry).map((l) => ({
-    value: l,
-    label: LANG_NAMES[l] ?? l,
-  }))
+  const langOptions = getFilteredLanguages(geoCountry)
+    .filter((l) => (ENV_LANGUAGES as readonly string[]).includes(l))
+    .map((l) => ({
+      value: l,
+      label: LANG_NAMES[l] ?? l,
+    }))
 
   return (
     <>
