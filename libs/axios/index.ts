@@ -63,6 +63,21 @@ axiosInstance.interceptors.request.use(
       }
     }
 
+    if (typeof window !== 'undefined') {
+      const { useLanguageStore, useUserStore } = await import('@/libs/zustand')
+
+      // Attach active language so backend CSR responses are language-aware
+      const lang = useLanguageStore.getState().lang
+      config.headers['Accept-Language'] = lang
+
+      // Attach user context for backend CSR identification
+      const user = useUserStore.getState().user
+      if (user) {
+        config.headers['X-User-Id'] = user.userId
+        config.headers['X-User-Role'] = user.userRole
+      }
+    }
+
     return config
   },
   (error) => Promise.reject(error)
@@ -127,7 +142,7 @@ axiosInstance.interceptors.response.use(
     const message = error.response?.data?.message || error.message
 
     const shouldRefresh =
-      message === AuthMessages.TOKEN_EXPIRED || message === AuthMessages.USER_NOT_AUTHENTICATED
+      message === AuthMessages.TOKEN_EXPIRED || message === AuthMessages.USER_NOT_AUTHENTICATED || message === AuthMessages.INVALID_TOKEN
 
     if (!shouldRefresh) {
       return Promise.reject(error)
@@ -161,8 +176,8 @@ axiosInstance.interceptors.response.use(
 
       /** Clear stale user from store on refresh failure */
       if (typeof window !== 'undefined') {
-        const { useGlobalStore } = await import('@/libs/zustand')
-        useGlobalStore.getState().clearUser()
+        const { useUserStore } = await import('@/libs/zustand')
+        useUserStore.getState().clearUser()
 
         /** Only redirect to login on auth-required pages (e.g. /admin) */
         const pathname = window.location.pathname
