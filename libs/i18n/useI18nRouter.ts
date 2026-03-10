@@ -1,9 +1,9 @@
 'use client'
 
-import { useRouter as useNextRouter, usePathname } from 'next/navigation'
+import { useRouter as useNextRouter } from 'next/navigation'
 import type { AppLanguage } from '@/types/common/I18nTypes'
-import { getCurrentLangFromPathname, localizePath } from '@/libs/i18n/localePath'
-
+import { localizePath } from '@/libs/i18n/localePath'
+import { useLanguageStore } from '../zustand'
 /**
  * Drop-in replacement for Next.js `useRouter` that automatically
  * preserves the current locale prefix in all navigations.
@@ -16,9 +16,9 @@ import { getCurrentLangFromPathname, localizePath } from '@/libs/i18n/localePath
  */
 export function useRouter() {
   const router = useNextRouter()
-  const pathname = usePathname()
+  //const pathname = usePathname()
 
-  const currentLang: AppLanguage = getCurrentLangFromPathname(pathname)
+  const { lang : currentLang} = useLanguageStore()
 
   const localize = (href: string, lang: AppLanguage = currentLang, ignoreLang = false): string => {
     return localizePath(href, lang, ignoreLang)
