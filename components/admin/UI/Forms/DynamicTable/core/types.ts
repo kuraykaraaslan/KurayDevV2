@@ -42,6 +42,7 @@ export interface ActionButton<T> {
   hideOnMobile?: boolean
   hidden?: (item: T) => boolean
   confirm?: string | ConfirmOptions
+  tooltip?: string
 }
 
 export interface GridItemRenderProps<T> {

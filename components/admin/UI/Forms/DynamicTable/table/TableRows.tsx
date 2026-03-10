@@ -54,6 +54,7 @@ function TableRows() {
                     <Link
                       key={i}
                       href={action.href(item)}
+                      title={action.tooltip}
                       className={`btn btn-sm ${action.className || 'btn-primary'} ${action.hideOnMobile ? 'hidden md:flex' : ''}`}
                     >
                       {typeof action.label === 'string' ? t(action.label) : action.label}
@@ -62,6 +63,7 @@ function TableRows() {
                     <button
                       key={i}
                       onClick={() => handleActionClick(action, item, index)}
+                      title={action.tooltip}
                       className={`btn btn-sm ${action.className || 'btn-primary'} ${action.hideOnMobile ? 'hidden md:flex' : ''}`}
                     >
                       {typeof action.label === 'string' ? t(action.label) : action.label}
