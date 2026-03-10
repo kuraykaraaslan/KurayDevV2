@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'

@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faRobot,

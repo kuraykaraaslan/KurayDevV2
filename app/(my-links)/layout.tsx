@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { faCode } from '@fortawesome/free-solid-svg-icons'
 import { ReactNode } from 'react'
 

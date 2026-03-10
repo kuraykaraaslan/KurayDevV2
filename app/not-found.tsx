@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { useTranslation } from 'react-i18next'
 import '@/libs/localize/localize'
 import { useEffect, useState } from 'react'

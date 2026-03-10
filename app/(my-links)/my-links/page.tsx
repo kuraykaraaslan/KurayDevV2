@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { faSnowman } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
 

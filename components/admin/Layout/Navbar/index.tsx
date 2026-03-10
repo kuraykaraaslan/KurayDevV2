@@ -12,7 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { usePathname } from 'next/navigation'
 import NotificationBell from './Partials/NotificationBell'
 import dynamic from 'next/dynamic'
