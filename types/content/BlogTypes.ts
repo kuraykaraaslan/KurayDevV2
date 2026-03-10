@@ -28,7 +28,12 @@ export const PostStatusEnum = z.enum(['PUBLISHED', 'DRAFT', 'ARCHIVED', 'SCHEDUL
 const CommentSchema = z.object({
   commentId: z.string(),
   content: z.string(),
-  createdAt: z.date(),
+  createdAt: z.preprocess((arg) => {
+    if (typeof arg === 'string' || arg instanceof Date) {
+      return new Date(arg)
+    } 
+    return arg
+  }, z.date()),
   postId: z.string(),
   parentId: z.string().nullable(),
   email: z.string().email().nullable(),
@@ -45,11 +50,18 @@ const PostSchema = z.object({
   description: z.string().nullable(),
   slug: z.string(),
   keywords: z.array(z.string()),
-  createdAt: z.date(),
-  updatedAt: z
-    .date()
-    .nullable()
-    .transform((date) => date || new Date()),
+  createdAt: z.preprocess((arg) => {
+    if (typeof arg === 'string' || arg instanceof Date) {
+      return new Date(arg)
+    }
+    return arg
+  }, z.date()),
+  updatedAt: z.preprocess((arg) => {
+    if (typeof arg === 'string' || arg instanceof Date) {
+      return new Date(arg)
+    } 
+    return arg
+  }, z.date().optional()),
   categoryId: z.string(),
   image: z.string().nullable(),
   status: PostStatusEnum.default('DRAFT'),
@@ -63,8 +75,18 @@ const CategorySchema = z.object({
   title: z.string(),
   description: z.string().nullable(),
   slug: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date().optional(),
+  createdAt: z.preprocess((arg) => {
+    if (typeof arg === 'string' || arg instanceof Date) {
+      return new Date(arg)
+    } 
+    return arg
+  }, z.date().optional()),
+  updatedAt: z.preprocess((arg) => {
+    if (typeof arg === 'string' || arg instanceof Date) {
+      return new Date(arg)
+    } 
+    return arg
+  }, z.date().optional()),
   image: z.string().nullable(),
   keywords: z.array(z.string()).optional(),
   deletedAt: z.date().nullable().optional(),
@@ -82,7 +104,6 @@ const PostWithDataSchema = PostSchema.extend({
     slug: true,
     image: true,
     keywords: true,
-    description: true,
     createdAt: true,
     updatedAt: true,
   }),
