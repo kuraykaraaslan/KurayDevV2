@@ -1,11 +1,22 @@
 'use client'
 import axiosInstance from '@/libs/axios'
-import Link from 'next/link'
+import Link from '@/libs/i18n/Link'
 import { MouseEvent, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useGlobalStore } from '@/libs/zustand'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useUserStore } from '@/libs/zustand'
+import { useRouter } from '@/libs/i18n/useI18nRouter'
+import { useSearchParams } from 'next/navigation'
 import { OTPActionEnum, OTPMethod } from '@/types/user/UserSecurityTypes'
+import { SafeUser } from '@/types/user/UserTypes'
+
+const ADMIN_ROLES = ['ADMIN', 'SUPER_ADMIN', 'AUTHOR']
+
+function resolveRedirect(redirect: string | null, user: SafeUser | null): string {
+  if (!redirect) return '/'
+  const isAdminRedirect = redirect.startsWith('/admin')
+  if (isAdminRedirect && (!user || !ADMIN_ROLES.includes(user.userRole ?? ''))) return '/'
+  return redirect
+}
 import OTPConfirmModal from '@/components/frontend/Features/Settings/Tabs/OTPTab/partials/OTPConfirmModal'
 import PasskeyLoginButton from '@/components/auth/PasskeyLoginButton'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +30,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState<string>('')
   const [rememberDevice, setRememberDevice] = useState<boolean>(false)
 
-  const { setUser } = useGlobalStore()
+  const { user, setUser } = useUserStore()
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -78,7 +89,7 @@ const LoginPage = () => {
         const { user } = (await verifyRes.json()) as { user: Parameters<typeof setUser>[0] }
         setUser(user)
         toast.success(t('auth.passkey.auth_success'))
-        router.push(searchParams.get('redirect') || '/')
+        router.push(resolveRedirect(searchParams.get('redirect'), user))
       } catch {
         // AbortError on unmount or user dismissal — silently ignored
       }
@@ -190,7 +201,7 @@ const LoginPage = () => {
         })
         .then(() => {
           toast.success(t('auth.login.otp_verified'))
-          router.push(searchParams.get('redirect') || '/')
+          router.push(resolveRedirect(searchParams.get('redirect'), user))
         })
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } }
@@ -294,7 +305,7 @@ const LoginPage = () => {
           onSuccess={(user) => {
             setUser(user)
             toast.success(t('auth.passkey.auth_success'))
-            router.push(searchParams.get('redirect') || '/')
+            router.push(resolveRedirect(searchParams.get('redirect'), user))
           }}
         />
       </div>
