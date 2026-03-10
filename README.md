@@ -44,7 +44,7 @@ The project is designed to be **high-performance**, **secure**, and **scalable**
 
 ## 🌐 Live Demo
 
-Visit the live site: **[http://localhost:3000](http://localhost:3000)**
+Visit the live site: **[https://kuray.dev](https://kuray.dev)**
 
 ---
 
@@ -267,8 +267,8 @@ tests/         → Test coverage for services
 ## 🔧 Installation
 
 ```bash
-git clone https://github.com/kuraykaraaslan/KurayDevSite.git
-cd KurayDevSite
+git clone https://github.com/kuraykaraaslan/KurayDevV2.git
+cd KurayDevV2
 npm install
 npm run dev
 ```
