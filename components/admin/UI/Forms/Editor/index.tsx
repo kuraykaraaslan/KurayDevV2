@@ -9,6 +9,7 @@ import { registerAudioMenuButton } from './partials/audioButton'
 import { registerFileMenuButton } from './partials/fileButton'
 import { registerMediaLibraryButton } from './partials/mediaLibraryButton'
 import { registerMapButton } from './partials/mapButton'
+import { registerCodePlaygroundButton } from './partials/codePlaygroundButton'
 
 const NEXT_PUBLIC_TINYMCE_API_KEY = process.env.NEXT_PUBLIC_TINYMCE_API_KEY
 
@@ -23,6 +24,7 @@ function setupCustomButtons(editor: TinyMCEEditorInstance): void {
   registerVideoMenuButton(editor)
   registerAudioMenuButton(editor)
   registerFileMenuButton(editor)
+  registerCodePlaygroundButton(editor)
 }
 
 const TinyMCEEditor = ({
@@ -82,7 +84,7 @@ const TinyMCEEditor = ({
           'undo redo | blocks | medialibrary mapbutton | image media videomenu audiomenu filemenu | ' +
           'bold italic forecolor | ' +
           'alignleft aligncenter alignright alignjustify | ' +
-          'bullist numlist outdent indent | removeformat | code | help',
+          'bullist numlist outdent indent | removeformat | code | codeplayground | help',
         content_style:
           'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }',
         images_upload_handler: image_upload_handler as any,
