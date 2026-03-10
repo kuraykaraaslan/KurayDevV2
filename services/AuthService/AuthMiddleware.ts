@@ -46,9 +46,6 @@ export default class AuthMiddleware {
   }): Promise<{ user: SafeUser | null; userSession: SafeUserSession | null }> {
     const isGuest = requiredUserRole === 'GUEST'
 
-    console.log(`[AUTH] Authenticating request for ${request.url} with required role ${requiredUserRole}`)
-    console.log(`[AUTH] Request Access Token: ${request.cookies.get('accessToken')?.value ? 'present' : 'absent'}, Refresh Token: ${request.cookies.get('refreshToken')?.value ? 'present' : 'absent'}`)
-
     try {
       // ── API Key authentication ──────────────────────────────────────────────
       // Accepts `X-API-Key: <rawKey>` or `Authorization: Bearer kdev_<...>`
