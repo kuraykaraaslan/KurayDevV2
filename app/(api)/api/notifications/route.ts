@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   try {
     const { user } = await AuthMiddleware.authenticateUserByRequest({
       request,
-      requiredUserRole: 'ADMIN',
+      requiredUserRole: 'USER',
     })
 
     const notifications = await InAppNotificationService.getAll(user.userId)
