@@ -5,10 +5,15 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
-  const { user } = await AuthMiddleware.authenticateUserByRequest({
-    request,
-    requiredUserRole: 'ADMIN',
-  })
+  let user: Awaited<ReturnType<typeof AuthMiddleware.authenticateUserByRequest>>['user']
+  try {
+    ;({ user } = await AuthMiddleware.authenticateUserByRequest({
+      request,
+      requiredUserRole: 'ADMIN',
+    }))
+  } catch {
+    return new Response('Unauthorized', { status: 401 })
+  }
 
   const subscriber = InAppNotificationService.createSubscriber()
   const channel = `notifications:${user.userId}`

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
+import { useLanguageStore } from '@/libs/zustand'
 import type { Notification } from '@/types/common/NotificationTypes'
 import { playDing } from './utils'
 
@@ -28,32 +29,61 @@ export function useNotifications() {
   // ── SSE stream ────────────────────────────────────────────────────────────
 
   useEffect(() => {
-    let es: EventSource | null = null
+    let abortController: AbortController | null = null
     let retryTimeout: ReturnType<typeof setTimeout>
+    let stopped = false
 
-    function connect() {
-      es = new EventSource('/api/notifications/stream')
+    async function connect() {
+      abortController = new AbortController()
+      try {
+        const lang = useLanguageStore.getState().lang
+        const res = await fetch('/api/notifications/stream', {
+          credentials: 'include',
+          headers: {
+            Accept: 'text/event-stream',
+            'Accept-Language': lang,
+          },
+          signal: abortController.signal,
+        })
 
-      es.onmessage = (event) => {
-        try {
-          const notification: Notification = JSON.parse(event.data)
-          setNotifications((prev) => [notification, ...prev])
-          playDing()
-        } catch {
-          // malformed message — ignore
+        // Auth failure — do not retry
+        if (res.status === 401 || res.status === 403) return
+
+        if (!res.ok || !res.body) throw new Error(`SSE ${res.status}`)
+
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
+        while (true) {
+          const { value, done } = await reader.read()
+          if (done) break
+          buffer += decoder.decode(value, { stream: true })
+          const lines = buffer.split('\n')
+          buffer = lines.pop() ?? ''
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue
+            try {
+              const notification: Notification = JSON.parse(line.slice(6))
+              setNotifications((prev) => [notification, ...prev])
+              playDing()
+            } catch {
+              // malformed message — ignore
+            }
+          }
         }
+      } catch (err: any) {
+        if (err?.name === 'AbortError') return
       }
 
-      es.onerror = () => {
-        es?.close()
-        retryTimeout = setTimeout(connect, 5_000)
-      }
+      if (!stopped) retryTimeout = setTimeout(connect, 5_000)
     }
 
     connect()
 
     return () => {
-      es?.close()
+      stopped = true
+      abortController?.abort()
       clearTimeout(retryTimeout)
     }
   }, [])
