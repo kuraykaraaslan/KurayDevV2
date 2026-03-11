@@ -1,3 +1,4 @@
+
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Newsletter from '@/components/frontend/Features/Newsletter'
@@ -7,36 +8,54 @@ import MetadataHelper from '@/helpers/MetadataHelper'
 import Breadcrumb from '@/components/common/Layout/Breadcrumb'
 import { buildAlternates, getOgLocale } from '@/helpers/HreflangHelper'
 import Article from '@/components/frontend/Features/Blog/Article'
+import redisInstance from '@/libs/redis'
+import {ProjectTranslation } from '@/types/content/ProjectTypes'
+
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST
+const FRONTEND_PROJECT_CACHE_TTL = 60 // Cache for 60 seconds
+const FRONTEND_PROJECT_CACHE_KEY_PREFIX = 'frontend:project:'
 
 type Props = {
   params: Promise<{ lang: string; projectSlug: string }>
 }
 
-async function getProject(projectSlug: string) {
+async function getProject(projectSlug: string, lang: string) {
+  const cacheKey = `${FRONTEND_PROJECT_CACHE_KEY_PREFIX}${projectSlug}:${lang}`
+  try {
+    const cached = await redisInstance.get(cacheKey)
+    if (cached) {
+      return JSON.parse(cached)
+    }
+  } catch (error) {
+    console.error('Error fetching project from Redis cache:', error)
+  }
   const response = await ProjectService.getAllProjects({
     projectSlug,
     page: 0,
     pageSize: 1,
     onlyPublished: true,
   })
-  return response.projects[0] || null
+  const project = response.projects[0] || null
+  if (project) {
+    await redisInstance.set(cacheKey, JSON.stringify(project), 'EX', FRONTEND_PROJECT_CACHE_TTL)
+  }
+  return project
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang, projectSlug } = await params
-  const project = await getProject(projectSlug)
+  const project = await getProject(projectSlug, lang)
 
   if (!project) return {}
 
-  const translation = lang !== 'en' ? project.translations?.find((t) => t.lang === lang) : null
+  const translation = lang !== 'en' ? project.translations?.find((t: ProjectTranslation) => t.lang === lang) : null
   const title = translation?.title ?? project.title
   const description = translation?.description ?? project.description ?? project.content.substring(0, 160)
   const image = project.image || `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`
 
   const path = `/projects/${projectSlug}`
-  const availableLangs = ['en', ...(project.translations?.map((t) => t.lang) ?? [])]
+  const availableLangs = ['en', ...(project.translations?.map((t: ProjectTranslation) => t.lang) ?? [])]
   const { canonical, languages } = buildAlternates(lang, path, availableLangs)
 
   return {
@@ -68,11 +87,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectPage({ params }: Props) {
   try {
-    const { projectSlug } = await params
+    const { projectSlug, lang } = await params
 
     if (!projectSlug) notFound()
 
-    const project = await getProject(projectSlug)
+    const project = await getProject(projectSlug, lang)
 
     if (!project) notFound()
 
