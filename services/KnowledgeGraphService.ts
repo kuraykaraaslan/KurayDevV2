@@ -121,31 +121,26 @@ export default class KnowledgeGraphService {
   static async getSimilarPosts(
     postId: string,
     limit = 5
-  ): Promise<{ id: string; score: number; title: string; slug: string; categorySlug: string; image?: string }[]> {
+  ): Promise<import('@/types/content/BlogTypes').PostWithData[]> {
     const linksRaw = await redis.get(LINKS(postId))
     if (!linksRaw) return []
 
     const links: { id: string; s: number }[] = JSON.parse(linksRaw)
     if (!links.length) return []
 
-    const nodes = await loadNodes()
-
-    return links
+    // Get full post data for each similar post, ordered by similarity
+    const ids = links
       .sort((a, b) => b.s - a.s)
       .slice(0, limit)
       .filter((l) => l.s >= THRESH)
-      .map((l) => {
-        const node = nodes[l.id]
-        return {
-          id: l.id,
-          score: l.s,
-          title: node?.title ?? '',
-          slug: node?.slug ?? '',
-          categorySlug: node?.categorySlug ?? '',
-          image: node?.image ?? undefined,
-        }
-      })
-      .filter((n) => n.title !== '')
+      .map((l) => l.id)
+
+    if (!ids.length) return []
+
+    // Fetch all posts in one call
+    const { posts } = await PostService.getAllPosts({ postId: ids.join(','), page: 0, pageSize: limit })
+    // Return posts in the same order as ids
+    return ids.map((id) => posts.find((p) => p.postId === id)).filter(Boolean) as import('@/types/content/BlogTypes').PostWithData[]
   }
 
   /** Tam rebuild */
