@@ -201,7 +201,8 @@ exports.Prisma.PostSeriesScalarFieldEnum = {
   description: 'description',
   image: 'image',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.PostSeriesEntryScalarFieldEnum = {
@@ -229,7 +230,8 @@ exports.Prisma.CategoryScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   image: 'image',
-  keywords: 'keywords'
+  keywords: 'keywords',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.CategoryTranslationScalarFieldEnum = {
@@ -249,6 +251,7 @@ exports.Prisma.CommentScalarFieldEnum = {
   parentId: 'parentId',
   email: 'email',
   name: 'name',
+  deletedAt: 'deletedAt',
   status: 'status'
 };
 
@@ -258,7 +261,8 @@ exports.Prisma.ContactFormScalarFieldEnum = {
   email: 'email',
   phone: 'phone',
   message: 'message',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.SubscriptionScalarFieldEnum = {
@@ -278,7 +282,8 @@ exports.Prisma.CampaignScalarFieldEnum = {
   sentAt: 'sentAt',
   sentCount: 'sentCount',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.SettingScalarFieldEnum = {
@@ -302,7 +307,8 @@ exports.Prisma.ProjectScalarFieldEnum = {
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  projectLinks: 'projectLinks'
+  projectLinks: 'projectLinks',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.ProjectTranslationScalarFieldEnum = {
@@ -345,7 +351,8 @@ exports.Prisma.TestimonialScalarFieldEnum = {
   image: 'image',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.PushSubscriptionScalarFieldEnum = {
@@ -372,7 +379,8 @@ exports.Prisma.ShortLinkScalarFieldEnum = {
   code: 'code',
   originalUrl: 'originalUrl',
   clicks: 'clicks',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.ShortLinkClickScalarFieldEnum = {

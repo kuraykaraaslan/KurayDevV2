@@ -1,7 +1,7 @@
 generator client {
   provider   = "prisma-client-js"
   accelerate = "true"
-  output   = "../generated/prisma"
+  output     = "../generated/prisma"
 }
 
 datasource db {
@@ -28,7 +28,7 @@ enum UserStatus {
 }
 
 model User {
-  userId   String  @id @default(cuid())
+  userId String @id @default(cuid())
 
   email    String  @unique
   phone    String? @unique
@@ -47,7 +47,7 @@ model User {
   apiKeys            ApiKey[]
 
   // JSON Fields
-  userSecurity Json? 
+  userSecurity    Json?
   userPreferences Json?
   userProfile     Json?
 
@@ -135,12 +135,12 @@ model Post {
   views       Int       @default(0)
   publishedAt DateTime?
 
-  updatedAt   DateTime? @default(now()) @updatedAt
-  deletedAt   DateTime?
+  updatedAt DateTime? @default(now()) @updatedAt
+  deletedAt DateTime?
 
   comment      Comment[]
-  author       User             @relation(fields: [authorId], references: [userId])
-  category     Category         @relation(fields: [categoryId], references: [categoryId])
+  author       User              @relation(fields: [authorId], references: [userId])
+  category     Category          @relation(fields: [categoryId], references: [categoryId])
   likes        Like[]
   translations PostTranslation[]
   seriesEntry  PostSeriesEntry?
@@ -168,7 +168,7 @@ model PostSeriesEntry {
   order    Int    @default(0)
 
   series PostSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
-  post   Post       @relation(fields: [postId],   references: [postId], onDelete: Cascade)
+  post   Post       @relation(fields: [postId], references: [postId], onDelete: Cascade)
 
   @@index([seriesId])
 }
@@ -240,9 +240,9 @@ enum SubscriptionTopic {
 }
 
 model Comment {
-  commentId String   @id @default(cuid())
+  commentId String    @id @default(cuid())
   content   String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   postId    String
   parentId  String?
   email     String?
@@ -257,12 +257,12 @@ model Comment {
 }
 
 model ContactForm {
-  contactId String   @id @default(cuid())
+  contactId String    @id @default(cuid())
   name      String
   email     String
   phone     String
   message   String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   deletedAt DateTime?
 }
 
@@ -274,16 +274,16 @@ model Subscription {
 }
 
 model Campaign {
-  campaignId String         @id @default(cuid())
+  campaignId String             @id @default(cuid())
   title      String
   subject    String
   content    String
   topic      SubscriptionTopic?
-  status     CampaignStatus @default(DRAFT)
+  status     CampaignStatus     @default(DRAFT)
   sentAt     DateTime?
-  sentCount  Int            @default(0)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  sentCount  Int                @default(0)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
   deletedAt  DateTime?
 }
 
@@ -340,21 +340,20 @@ enum AppointmentStatus {
 }
 
 model Appointment {
-  appointmentId String   @id @default(cuid())
+  appointmentId String @id @default(cuid())
 
   startTime DateTime @db.Timestamptz
   endTime   DateTime @db.Timestamptz
 
-  name          String
-  email         String
-  phone         String
-  note          String?
+  name  String
+  email String
+  phone String
+  note  String?
 
-  meetingLink   String?
-  
-  status AppointmentStatus @default(PENDING)
+  meetingLink String?
+
+  status    AppointmentStatus @default(PENDING)
   createdAt DateTime          @default(now())
-
 }
 
 model Like {
@@ -380,7 +379,6 @@ model Like {
   @@index([ipAddress, deviceFingerprint])
 }
 
-
 model Testimonial {
   testimonialId String    @id @default(cuid())
   name          String
@@ -405,13 +403,13 @@ model PushSubscription {
 }
 
 model GeoAnalytics {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   country     String
-  countryCode String   @default("")
+  countryCode String @default("")
   city        String
   lat         Float
   lon         Float
-  count       Int      @default(0)
+  count       Int    @default(0)
 
   @@unique([country, city])
 }
@@ -434,61 +432,61 @@ model ShortLinkClick {
   shortLinkId String
   shortLink   ShortLink @relation(fields: [shortLinkId], references: [id], onDelete: Cascade)
 
-  clickedAt   DateTime  @default(now())
-  referrer    String?
-  ip          String?
-  country     String?
-  city        String?
-  os          String?
-  browser     String?
-  device      String?
+  clickedAt DateTime @default(now())
+  referrer  String?
+  ip        String?
+  country   String?
+  city      String?
+  os        String?
+  browser   String?
+  device    String?
 
   @@index([shortLinkId])
   @@index([clickedAt])
 }
 
 model Media {
-  mediaId      String   @id @default(cuid())
+  mediaId String @id @default(cuid())
 
-  key          String   @unique  // S3 object key (e.g. "posts/1234567890-abc.jpg")
-  url          String            // Public URL
-  folder       String            // Folder name (e.g. "posts", "general")
-  mimeType     String?           // Content type (e.g. "image/jpeg")
-  size         Int               // File size in bytes
+  key      String  @unique // S3 object key (e.g. "posts/1234567890-abc.jpg")
+  url      String // Public URL
+  folder   String // Folder name (e.g. "posts", "general")
+  mimeType String? // Content type (e.g. "image/jpeg")
+  size     Int // File size in bytes
 
   // Editable metadata
-  name         String?           // Display name (editable)
-  altText      String?           // Alt text for accessibility (editable)
-  originalName String?           // Original filename before upload (read-only)
+  name         String? // Display name (editable)
+  altText      String? // Alt text for accessibility (editable)
+  originalName String? // Original filename before upload (read-only)
 
   // Uploader — stored as plain string, nullable for legacy/migrated files
-  uploadedBy   String?
+  uploadedBy String?
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([folder])
   @@index([uploadedBy])
 }
 
 model ApiKey {
-  apiKeyId   String    @id @default(cuid())
+  apiKeyId String @id @default(cuid())
 
-  userId     String
-  user       User      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  name       String    // User-given label (e.g. "My CI Key")
-  prefix     String    // First 12 chars of raw key for display (e.g. "kdev_ab12cd")
-  keyHash    String    @unique // SHA-256 of the full raw key
+  name    String // User-given label (e.g. "My CI Key")
+  prefix  String // First 12 chars of raw key for display (e.g. "kdev_ab12cd")
+  keyHash String @unique // SHA-256 of the full raw key
 
-  dailyLimit   Int?      // Max requests per day (null = unlimited)
-  monthlyLimit Int?      // Max requests per calendar month (null = unlimited)
+  dailyLimit   Int? // Max requests per day (null = unlimited)
+  monthlyLimit Int? // Max requests per calendar month (null = unlimited)
 
   lastUsedAt DateTime?
   expiresAt  DateTime? // null = never expires
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@index([keyHash])
@@ -531,12 +529,12 @@ model ChatMessage {
   session       ChatSession @relation(fields: [chatSessionId], references: [chatSessionId], onDelete: Cascade)
 
   /// user | assistant | admin | system
-  role          String
-  content       String      @db.Text
+  role        String
+  content     String   @db.Text
   /// JSON array of ChatSource objects (optional)
-  sources       Json?
-  adminUserId   String?
-  createdAt     DateTime    @default(now())
+  sources     Json?
+  adminUserId String?
+  createdAt   DateTime @default(now())
 
   @@index([chatSessionId])
   @@index([createdAt])

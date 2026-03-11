@@ -26,7 +26,7 @@ export async function GET(
 
     const similarPosts = await KnowledgeGraphService.getSimilarPosts(postId, limit)
 
-    return NextResponse.json({ posts: similarPosts })
+    return NextResponse.json({ posts: similarPosts }) // now full post data with _similarityScore
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     console.error('[Similar Posts API]', message)

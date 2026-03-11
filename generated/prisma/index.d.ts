@@ -9687,6 +9687,7 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type PostSeriesMaxAggregateOutputType = {
@@ -9697,6 +9698,7 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type PostSeriesCountAggregateOutputType = {
@@ -9707,6 +9709,7 @@ export namespace Prisma {
     image: number
     createdAt: number
     updatedAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -9719,6 +9722,7 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type PostSeriesMaxAggregateInputType = {
@@ -9729,6 +9733,7 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type PostSeriesCountAggregateInputType = {
@@ -9739,6 +9744,7 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -9822,6 +9828,7 @@ export namespace Prisma {
     image: string | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
     _count: PostSeriesCountAggregateOutputType | null
     _min: PostSeriesMinAggregateOutputType | null
     _max: PostSeriesMaxAggregateOutputType | null
@@ -9849,6 +9856,7 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
     entries?: boolean | PostSeries$entriesArgs<ExtArgs>
     _count?: boolean | PostSeriesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["postSeries"]>
@@ -9861,6 +9869,7 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["postSeries"]>
 
   export type PostSeriesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9871,6 +9880,7 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["postSeries"]>
 
   export type PostSeriesSelectScalar = {
@@ -9881,9 +9891,10 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type PostSeriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["postSeries"]>
+  export type PostSeriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "image" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["postSeries"]>
   export type PostSeriesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     entries?: boolean | PostSeries$entriesArgs<ExtArgs>
     _count?: boolean | PostSeriesCountOutputTypeDefaultArgs<ExtArgs>
@@ -10336,6 +10347,7 @@ export namespace Prisma {
     readonly image: FieldRef<"PostSeries", 'String'>
     readonly createdAt: FieldRef<"PostSeries", 'DateTime'>
     readonly updatedAt: FieldRef<"PostSeries", 'DateTime'>
+    readonly deletedAt: FieldRef<"PostSeries", 'DateTime'>
   }
     
 
@@ -12955,6 +12967,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     image: string | null
+    deletedAt: Date | null
   }
 
   export type CategoryMaxAggregateOutputType = {
@@ -12965,6 +12978,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     image: string | null
+    deletedAt: Date | null
   }
 
   export type CategoryCountAggregateOutputType = {
@@ -12976,6 +12990,7 @@ export namespace Prisma {
     updatedAt: number
     image: number
     keywords: number
+    deletedAt: number
     _all: number
   }
 
@@ -12988,6 +13003,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     image?: true
+    deletedAt?: true
   }
 
   export type CategoryMaxAggregateInputType = {
@@ -12998,6 +13014,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     image?: true
+    deletedAt?: true
   }
 
   export type CategoryCountAggregateInputType = {
@@ -13009,6 +13026,7 @@ export namespace Prisma {
     updatedAt?: true
     image?: true
     keywords?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -13093,6 +13111,7 @@ export namespace Prisma {
     updatedAt: Date
     image: string | null
     keywords: string[]
+    deletedAt: Date | null
     _count: CategoryCountAggregateOutputType | null
     _min: CategoryMinAggregateOutputType | null
     _max: CategoryMaxAggregateOutputType | null
@@ -13121,6 +13140,7 @@ export namespace Prisma {
     updatedAt?: boolean
     image?: boolean
     keywords?: boolean
+    deletedAt?: boolean
     posts?: boolean | Category$postsArgs<ExtArgs>
     translations?: boolean | Category$translationsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -13135,6 +13155,7 @@ export namespace Prisma {
     updatedAt?: boolean
     image?: boolean
     keywords?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13146,6 +13167,7 @@ export namespace Prisma {
     updatedAt?: boolean
     image?: boolean
     keywords?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectScalar = {
@@ -13157,9 +13179,10 @@ export namespace Prisma {
     updatedAt?: boolean
     image?: boolean
     keywords?: boolean
+    deletedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"categoryId" | "title" | "description" | "slug" | "createdAt" | "updatedAt" | "image" | "keywords", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"categoryId" | "title" | "description" | "slug" | "createdAt" | "updatedAt" | "image" | "keywords" | "deletedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     posts?: boolean | Category$postsArgs<ExtArgs>
     translations?: boolean | Category$translationsArgs<ExtArgs>
@@ -13617,6 +13640,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Category", 'DateTime'>
     readonly image: FieldRef<"Category", 'String'>
     readonly keywords: FieldRef<"Category", 'String[]'>
+    readonly deletedAt: FieldRef<"Category", 'DateTime'>
   }
     
 
@@ -15160,6 +15184,7 @@ export namespace Prisma {
     parentId: string | null
     email: string | null
     name: string | null
+    deletedAt: Date | null
     status: $Enums.CommentStatus | null
   }
 
@@ -15171,6 +15196,7 @@ export namespace Prisma {
     parentId: string | null
     email: string | null
     name: string | null
+    deletedAt: Date | null
     status: $Enums.CommentStatus | null
   }
 
@@ -15182,6 +15208,7 @@ export namespace Prisma {
     parentId: number
     email: number
     name: number
+    deletedAt: number
     status: number
     _all: number
   }
@@ -15195,6 +15222,7 @@ export namespace Prisma {
     parentId?: true
     email?: true
     name?: true
+    deletedAt?: true
     status?: true
   }
 
@@ -15206,6 +15234,7 @@ export namespace Prisma {
     parentId?: true
     email?: true
     name?: true
+    deletedAt?: true
     status?: true
   }
 
@@ -15217,6 +15246,7 @@ export namespace Prisma {
     parentId?: true
     email?: true
     name?: true
+    deletedAt?: true
     status?: true
     _all?: true
   }
@@ -15301,6 +15331,7 @@ export namespace Prisma {
     parentId: string | null
     email: string | null
     name: string | null
+    deletedAt: Date | null
     status: $Enums.CommentStatus
     _count: CommentCountAggregateOutputType | null
     _min: CommentMinAggregateOutputType | null
@@ -15329,6 +15360,7 @@ export namespace Prisma {
     parentId?: boolean
     email?: boolean
     name?: boolean
+    deletedAt?: boolean
     status?: boolean
     parent?: boolean | Comment$parentArgs<ExtArgs>
     children?: boolean | Comment$childrenArgs<ExtArgs>
@@ -15344,6 +15376,7 @@ export namespace Prisma {
     parentId?: boolean
     email?: boolean
     name?: boolean
+    deletedAt?: boolean
     status?: boolean
     parent?: boolean | Comment$parentArgs<ExtArgs>
     post?: boolean | PostDefaultArgs<ExtArgs>
@@ -15357,6 +15390,7 @@ export namespace Prisma {
     parentId?: boolean
     email?: boolean
     name?: boolean
+    deletedAt?: boolean
     status?: boolean
     parent?: boolean | Comment$parentArgs<ExtArgs>
     post?: boolean | PostDefaultArgs<ExtArgs>
@@ -15370,10 +15404,11 @@ export namespace Prisma {
     parentId?: boolean
     email?: boolean
     name?: boolean
+    deletedAt?: boolean
     status?: boolean
   }
 
-  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"commentId" | "content" | "createdAt" | "postId" | "parentId" | "email" | "name" | "status", ExtArgs["result"]["comment"]>
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"commentId" | "content" | "createdAt" | "postId" | "parentId" | "email" | "name" | "deletedAt" | "status", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Comment$parentArgs<ExtArgs>
     children?: boolean | Comment$childrenArgs<ExtArgs>
@@ -15404,8 +15439,8 @@ export namespace Prisma {
       parentId: string | null
       email: string | null
       name: string | null
-      status: $Enums.CommentStatus
       deletedAt: Date | null
+      status: $Enums.CommentStatus
     }, ExtArgs["result"]["comment"]>
     composites: {}
   }
@@ -15839,6 +15874,7 @@ export namespace Prisma {
     readonly parentId: FieldRef<"Comment", 'String'>
     readonly email: FieldRef<"Comment", 'String'>
     readonly name: FieldRef<"Comment", 'String'>
+    readonly deletedAt: FieldRef<"Comment", 'DateTime'>
     readonly status: FieldRef<"Comment", 'CommentStatus'>
   }
     
@@ -16314,6 +16350,7 @@ export namespace Prisma {
     phone: string | null
     message: string | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type ContactFormMaxAggregateOutputType = {
@@ -16323,6 +16360,7 @@ export namespace Prisma {
     phone: string | null
     message: string | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type ContactFormCountAggregateOutputType = {
@@ -16332,6 +16370,7 @@ export namespace Prisma {
     phone: number
     message: number
     createdAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -16343,6 +16382,7 @@ export namespace Prisma {
     phone?: true
     message?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type ContactFormMaxAggregateInputType = {
@@ -16352,6 +16392,7 @@ export namespace Prisma {
     phone?: true
     message?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type ContactFormCountAggregateInputType = {
@@ -16361,6 +16402,7 @@ export namespace Prisma {
     phone?: true
     message?: true
     createdAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -16443,6 +16485,7 @@ export namespace Prisma {
     phone: string
     message: string
     createdAt: Date
+    deletedAt: Date | null
     _count: ContactFormCountAggregateOutputType | null
     _min: ContactFormMinAggregateOutputType | null
     _max: ContactFormMaxAggregateOutputType | null
@@ -16469,6 +16512,7 @@ export namespace Prisma {
     phone?: boolean
     message?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["contactForm"]>
 
   export type ContactFormSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16478,6 +16522,7 @@ export namespace Prisma {
     phone?: boolean
     message?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["contactForm"]>
 
   export type ContactFormSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16487,6 +16532,7 @@ export namespace Prisma {
     phone?: boolean
     message?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["contactForm"]>
 
   export type ContactFormSelectScalar = {
@@ -16496,9 +16542,10 @@ export namespace Prisma {
     phone?: boolean
     message?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type ContactFormOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"contactId" | "name" | "email" | "phone" | "message" | "createdAt", ExtArgs["result"]["contactForm"]>
+  export type ContactFormOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"contactId" | "name" | "email" | "phone" | "message" | "createdAt" | "deletedAt", ExtArgs["result"]["contactForm"]>
 
   export type $ContactFormPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ContactForm"
@@ -16940,6 +16987,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"ContactForm", 'String'>
     readonly message: FieldRef<"ContactForm", 'String'>
     readonly createdAt: FieldRef<"ContactForm", 'DateTime'>
+    readonly deletedAt: FieldRef<"ContactForm", 'DateTime'>
   }
     
 
@@ -18319,6 +18367,7 @@ export namespace Prisma {
     sentCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type CampaignMaxAggregateOutputType = {
@@ -18332,6 +18381,7 @@ export namespace Prisma {
     sentCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type CampaignCountAggregateOutputType = {
@@ -18345,6 +18395,7 @@ export namespace Prisma {
     sentCount: number
     createdAt: number
     updatedAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -18368,6 +18419,7 @@ export namespace Prisma {
     sentCount?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type CampaignMaxAggregateInputType = {
@@ -18381,6 +18433,7 @@ export namespace Prisma {
     sentCount?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type CampaignCountAggregateInputType = {
@@ -18394,6 +18447,7 @@ export namespace Prisma {
     sentCount?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -18494,6 +18548,7 @@ export namespace Prisma {
     sentCount: number
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
     _count: CampaignCountAggregateOutputType | null
     _avg: CampaignAvgAggregateOutputType | null
     _sum: CampaignSumAggregateOutputType | null
@@ -18526,6 +18581,7 @@ export namespace Prisma {
     sentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["campaign"]>
 
   export type CampaignSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -18539,6 +18595,7 @@ export namespace Prisma {
     sentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["campaign"]>
 
   export type CampaignSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -18552,6 +18609,7 @@ export namespace Prisma {
     sentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["campaign"]>
 
   export type CampaignSelectScalar = {
@@ -18565,9 +18623,10 @@ export namespace Prisma {
     sentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type CampaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"campaignId" | "title" | "subject" | "content" | "topic" | "status" | "sentAt" | "sentCount" | "createdAt" | "updatedAt", ExtArgs["result"]["campaign"]>
+  export type CampaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"campaignId" | "title" | "subject" | "content" | "topic" | "status" | "sentAt" | "sentCount" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["campaign"]>
 
   export type $CampaignPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Campaign"
@@ -19017,6 +19076,7 @@ export namespace Prisma {
     readonly sentCount: FieldRef<"Campaign", 'Int'>
     readonly createdAt: FieldRef<"Campaign", 'DateTime'>
     readonly updatedAt: FieldRef<"Campaign", 'DateTime'>
+    readonly deletedAt: FieldRef<"Campaign", 'DateTime'>
   }
     
 
@@ -20411,6 +20471,7 @@ export namespace Prisma {
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type ProjectMaxAggregateOutputType = {
@@ -20423,6 +20484,7 @@ export namespace Prisma {
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type ProjectCountAggregateOutputType = {
@@ -20438,6 +20500,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     projectLinks: number
+    deletedAt: number
     _all: number
   }
 
@@ -20452,6 +20515,7 @@ export namespace Prisma {
     content?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type ProjectMaxAggregateInputType = {
@@ -20464,6 +20528,7 @@ export namespace Prisma {
     content?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type ProjectCountAggregateInputType = {
@@ -20479,6 +20544,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     projectLinks?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -20567,6 +20633,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     projectLinks: string[]
+    deletedAt: Date | null
     _count: ProjectCountAggregateOutputType | null
     _min: ProjectMinAggregateOutputType | null
     _max: ProjectMaxAggregateOutputType | null
@@ -20599,6 +20666,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     projectLinks?: boolean
+    deletedAt?: boolean
     translations?: boolean | Project$translationsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
@@ -20616,6 +20684,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     projectLinks?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -20631,6 +20700,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     projectLinks?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectScalar = {
@@ -20646,9 +20716,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     projectLinks?: boolean
+    deletedAt?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"projectId" | "title" | "description" | "slug" | "image" | "status" | "platforms" | "technologies" | "content" | "createdAt" | "updatedAt" | "projectLinks", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"projectId" | "title" | "description" | "slug" | "image" | "status" | "platforms" | "technologies" | "content" | "createdAt" | "updatedAt" | "projectLinks" | "deletedAt", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     translations?: boolean | Project$translationsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
@@ -21111,6 +21182,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Project", 'DateTime'>
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
     readonly projectLinks: FieldRef<"Project", 'String[]'>
+    readonly deletedAt: FieldRef<"Project", 'DateTime'>
   }
     
 
@@ -24802,6 +24874,7 @@ export namespace Prisma {
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type TestimonialMaxAggregateOutputType = {
@@ -24813,6 +24886,7 @@ export namespace Prisma {
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type TestimonialCountAggregateOutputType = {
@@ -24824,6 +24898,7 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -24837,6 +24912,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type TestimonialMaxAggregateInputType = {
@@ -24848,6 +24924,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type TestimonialCountAggregateInputType = {
@@ -24859,6 +24936,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -24943,6 +25021,7 @@ export namespace Prisma {
     status: string
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
     _count: TestimonialCountAggregateOutputType | null
     _min: TestimonialMinAggregateOutputType | null
     _max: TestimonialMaxAggregateOutputType | null
@@ -24971,6 +25050,7 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["testimonial"]>
 
   export type TestimonialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -24982,6 +25062,7 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["testimonial"]>
 
   export type TestimonialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -24993,6 +25074,7 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["testimonial"]>
 
   export type TestimonialSelectScalar = {
@@ -25004,9 +25086,10 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"testimonialId" | "name" | "title" | "review" | "image" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["testimonial"]>
+  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"testimonialId" | "name" | "title" | "review" | "image" | "status" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["testimonial"]>
 
   export type $TestimonialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Testimonial"
@@ -25452,6 +25535,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Testimonial", 'String'>
     readonly createdAt: FieldRef<"Testimonial", 'DateTime'>
     readonly updatedAt: FieldRef<"Testimonial", 'DateTime'>
+    readonly deletedAt: FieldRef<"Testimonial", 'DateTime'>
   }
     
 
@@ -27915,6 +27999,7 @@ export namespace Prisma {
     originalUrl: string | null
     clicks: number | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type ShortLinkMaxAggregateOutputType = {
@@ -27923,6 +28008,7 @@ export namespace Prisma {
     originalUrl: string | null
     clicks: number | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type ShortLinkCountAggregateOutputType = {
@@ -27931,6 +28017,7 @@ export namespace Prisma {
     originalUrl: number
     clicks: number
     createdAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -27949,6 +28036,7 @@ export namespace Prisma {
     originalUrl?: true
     clicks?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type ShortLinkMaxAggregateInputType = {
@@ -27957,6 +28045,7 @@ export namespace Prisma {
     originalUrl?: true
     clicks?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type ShortLinkCountAggregateInputType = {
@@ -27965,6 +28054,7 @@ export namespace Prisma {
     originalUrl?: true
     clicks?: true
     createdAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -28060,6 +28150,7 @@ export namespace Prisma {
     originalUrl: string
     clicks: number
     createdAt: Date
+    deletedAt: Date | null
     _count: ShortLinkCountAggregateOutputType | null
     _avg: ShortLinkAvgAggregateOutputType | null
     _sum: ShortLinkSumAggregateOutputType | null
@@ -28087,6 +28178,7 @@ export namespace Prisma {
     originalUrl?: boolean
     clicks?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     clickEvents?: boolean | ShortLink$clickEventsArgs<ExtArgs>
     _count?: boolean | ShortLinkCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shortLink"]>
@@ -28097,6 +28189,7 @@ export namespace Prisma {
     originalUrl?: boolean
     clicks?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["shortLink"]>
 
   export type ShortLinkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -28105,6 +28198,7 @@ export namespace Prisma {
     originalUrl?: boolean
     clicks?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["shortLink"]>
 
   export type ShortLinkSelectScalar = {
@@ -28113,9 +28207,10 @@ export namespace Prisma {
     originalUrl?: boolean
     clicks?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type ShortLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "originalUrl" | "clicks" | "createdAt", ExtArgs["result"]["shortLink"]>
+  export type ShortLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "originalUrl" | "clicks" | "createdAt" | "deletedAt", ExtArgs["result"]["shortLink"]>
   export type ShortLinkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clickEvents?: boolean | ShortLink$clickEventsArgs<ExtArgs>
     _count?: boolean | ShortLinkCountOutputTypeDefaultArgs<ExtArgs>
@@ -28564,6 +28659,7 @@ export namespace Prisma {
     readonly originalUrl: FieldRef<"ShortLink", 'String'>
     readonly clicks: FieldRef<"ShortLink", 'Int'>
     readonly createdAt: FieldRef<"ShortLink", 'DateTime'>
+    readonly deletedAt: FieldRef<"ShortLink", 'DateTime'>
   }
     
 
@@ -34745,7 +34841,8 @@ export namespace Prisma {
     description: 'description',
     image: 'image',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
   };
 
   export type PostSeriesScalarFieldEnum = (typeof PostSeriesScalarFieldEnum)[keyof typeof PostSeriesScalarFieldEnum]
@@ -34782,7 +34879,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     image: 'image',
-    keywords: 'keywords'
+    keywords: 'keywords',
+    deletedAt: 'deletedAt'
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -34808,6 +34906,7 @@ export namespace Prisma {
     parentId: 'parentId',
     email: 'email',
     name: 'name',
+    deletedAt: 'deletedAt',
     status: 'status'
   };
 
@@ -34820,7 +34919,8 @@ export namespace Prisma {
     email: 'email',
     phone: 'phone',
     message: 'message',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
   };
 
   export type ContactFormScalarFieldEnum = (typeof ContactFormScalarFieldEnum)[keyof typeof ContactFormScalarFieldEnum]
@@ -34846,7 +34946,8 @@ export namespace Prisma {
     sentAt: 'sentAt',
     sentCount: 'sentCount',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
   };
 
   export type CampaignScalarFieldEnum = (typeof CampaignScalarFieldEnum)[keyof typeof CampaignScalarFieldEnum]
@@ -34876,7 +34977,8 @@ export namespace Prisma {
     content: 'content',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    projectLinks: 'projectLinks'
+    projectLinks: 'projectLinks',
+    deletedAt: 'deletedAt'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
@@ -34931,7 +35033,8 @@ export namespace Prisma {
     image: 'image',
     status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
   };
 
   export type TestimonialScalarFieldEnum = (typeof TestimonialScalarFieldEnum)[keyof typeof TestimonialScalarFieldEnum]
@@ -34967,7 +35070,8 @@ export namespace Prisma {
     code: 'code',
     originalUrl: 'originalUrl',
     clicks: 'clicks',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
   };
 
   export type ShortLinkScalarFieldEnum = (typeof ShortLinkScalarFieldEnum)[keyof typeof ShortLinkScalarFieldEnum]
@@ -35760,8 +35864,8 @@ export namespace Prisma {
     image?: StringNullableFilter<"PostSeries"> | string | null
     createdAt?: DateTimeFilter<"PostSeries"> | Date | string
     updatedAt?: DateTimeFilter<"PostSeries"> | Date | string
-    entries?: PostSeriesEntryListRelationFilter
     deletedAt?: DateTimeNullableFilter<"PostSeries"> | Date | string | null
+    entries?: PostSeriesEntryListRelationFilter
   }
 
   export type PostSeriesOrderByWithRelationInput = {
@@ -35772,8 +35876,8 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    entries?: PostSeriesEntryOrderByRelationAggregateInput
     deletedAt?: SortOrderInput | SortOrder
+    entries?: PostSeriesEntryOrderByRelationAggregateInput
   }
 
   export type PostSeriesWhereUniqueInput = Prisma.AtLeast<{
@@ -35787,6 +35891,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"PostSeries"> | string | null
     createdAt?: DateTimeFilter<"PostSeries"> | Date | string
     updatedAt?: DateTimeFilter<"PostSeries"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"PostSeries"> | Date | string | null
     entries?: PostSeriesEntryListRelationFilter
   }, "id" | "slug">
 
@@ -35798,6 +35903,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: PostSeriesCountOrderByAggregateInput
     _max?: PostSeriesMaxOrderByAggregateInput
     _min?: PostSeriesMinOrderByAggregateInput
@@ -35814,6 +35920,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"PostSeries"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"PostSeries"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PostSeries"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"PostSeries"> | Date | string | null
   }
 
   export type PostSeriesEntryWhereInput = {
@@ -35950,9 +36057,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     image?: StringNullableFilter<"Category"> | string | null
     keywords?: StringNullableListFilter<"Category">
+    deletedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
     posts?: PostListRelationFilter
     translations?: CategoryTranslationListRelationFilter
-    deletedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
   }
 
   export type CategoryOrderByWithRelationInput = {
@@ -35964,9 +36071,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
     image?: SortOrderInput | SortOrder
     keywords?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     posts?: PostOrderByRelationAggregateInput
     translations?: CategoryTranslationOrderByRelationAggregateInput
-    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -35981,6 +36088,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     image?: StringNullableFilter<"Category"> | string | null
     keywords?: StringNullableListFilter<"Category">
+    deletedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
     posts?: PostListRelationFilter
     translations?: CategoryTranslationListRelationFilter
   }, "categoryId" | "slug">
@@ -35994,6 +36102,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     image?: SortOrderInput | SortOrder
     keywords?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
     _min?: CategoryMinOrderByAggregateInput
@@ -36011,6 +36120,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     image?: StringNullableWithAggregatesFilter<"Category"> | string | null
     keywords?: StringNullableListFilter<"Category">
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Category"> | Date | string | null
   }
 
   export type CategoryTranslationWhereInput = {
@@ -36086,11 +36196,11 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"Comment"> | string | null
     email?: StringNullableFilter<"Comment"> | string | null
     name?: StringNullableFilter<"Comment"> | string | null
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
     status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     children?: CommentListRelationFilter
     post?: XOR<PostScalarRelationFilter, PostWhereInput>
-    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
   }
 
   export type CommentOrderByWithRelationInput = {
@@ -36101,11 +36211,11 @@ export namespace Prisma {
     parentId?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     status?: SortOrder
     parent?: CommentOrderByWithRelationInput
     children?: CommentOrderByRelationAggregateInput
     post?: PostOrderByWithRelationInput
-    deletedAt?: SortOrderInput | SortOrder
   }
 
   export type CommentWhereUniqueInput = Prisma.AtLeast<{
@@ -36119,6 +36229,7 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"Comment"> | string | null
     email?: StringNullableFilter<"Comment"> | string | null
     name?: StringNullableFilter<"Comment"> | string | null
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
     status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     children?: CommentListRelationFilter
@@ -36133,6 +36244,7 @@ export namespace Prisma {
     parentId?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     status?: SortOrder
     _count?: CommentCountOrderByAggregateInput
     _max?: CommentMaxOrderByAggregateInput
@@ -36150,6 +36262,7 @@ export namespace Prisma {
     parentId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
     email?: StringNullableWithAggregatesFilter<"Comment"> | string | null
     name?: StringNullableWithAggregatesFilter<"Comment"> | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Comment"> | Date | string | null
     status?: EnumCommentStatusWithAggregatesFilter<"Comment"> | $Enums.CommentStatus
   }
 
@@ -36186,6 +36299,7 @@ export namespace Prisma {
     phone?: StringFilter<"ContactForm"> | string
     message?: StringFilter<"ContactForm"> | string
     createdAt?: DateTimeFilter<"ContactForm"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"ContactForm"> | Date | string | null
   }, "contactId">
 
   export type ContactFormOrderByWithAggregationInput = {
@@ -36195,6 +36309,7 @@ export namespace Prisma {
     phone?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: ContactFormCountOrderByAggregateInput
     _max?: ContactFormMaxOrderByAggregateInput
     _min?: ContactFormMinOrderByAggregateInput
@@ -36210,6 +36325,7 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"ContactForm"> | string
     message?: StringWithAggregatesFilter<"ContactForm"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ContactForm"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"ContactForm"> | Date | string | null
   }
 
   export type SubscriptionWhereInput = {
@@ -36304,6 +36420,7 @@ export namespace Prisma {
     sentCount?: IntFilter<"Campaign"> | number
     createdAt?: DateTimeFilter<"Campaign"> | Date | string
     updatedAt?: DateTimeFilter<"Campaign"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Campaign"> | Date | string | null
   }, "campaignId">
 
   export type CampaignOrderByWithAggregationInput = {
@@ -36317,6 +36434,7 @@ export namespace Prisma {
     sentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: CampaignCountOrderByAggregateInput
     _avg?: CampaignAvgOrderByAggregateInput
     _max?: CampaignMaxOrderByAggregateInput
@@ -36338,6 +36456,7 @@ export namespace Prisma {
     sentCount?: IntWithAggregatesFilter<"Campaign"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Campaign"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Campaign"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Campaign"> | Date | string | null
   }
 
   export type SettingWhereInput = {
@@ -36413,8 +36532,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
     projectLinks?: StringNullableListFilter<"Project">
-    translations?: ProjectTranslationListRelationFilter
     deletedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    translations?: ProjectTranslationListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -36430,8 +36549,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     projectLinks?: SortOrder
-    translations?: ProjectTranslationOrderByRelationAggregateInput
     deletedAt?: SortOrderInput | SortOrder
+    translations?: ProjectTranslationOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -36450,6 +36569,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
     projectLinks?: StringNullableListFilter<"Project">
+    deletedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
     translations?: ProjectTranslationListRelationFilter
   }, "projectId" | "slug">
 
@@ -36466,6 +36586,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     projectLinks?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
     _min?: ProjectMinOrderByAggregateInput
@@ -36487,6 +36608,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
     projectLinks?: StringNullableListFilter<"Project">
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   }
 
   export type ProjectTranslationWhereInput = {
@@ -36737,6 +36859,7 @@ export namespace Prisma {
     status?: StringFilter<"Testimonial"> | string
     createdAt?: DateTimeFilter<"Testimonial"> | Date | string
     updatedAt?: DateTimeFilter<"Testimonial"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
   }, "testimonialId">
 
   export type TestimonialOrderByWithAggregationInput = {
@@ -36748,6 +36871,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: TestimonialCountOrderByAggregateInput
     _max?: TestimonialMaxOrderByAggregateInput
     _min?: TestimonialMinOrderByAggregateInput
@@ -36765,6 +36889,7 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Testimonial"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Testimonial"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Testimonial"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Testimonial"> | Date | string | null
   }
 
   export type PushSubscriptionWhereInput = {
@@ -36898,8 +37023,8 @@ export namespace Prisma {
     originalUrl?: StringFilter<"ShortLink"> | string
     clicks?: IntFilter<"ShortLink"> | number
     createdAt?: DateTimeFilter<"ShortLink"> | Date | string
-    clickEvents?: ShortLinkClickListRelationFilter
     deletedAt?: DateTimeNullableFilter<"ShortLink"> | Date | string | null
+    clickEvents?: ShortLinkClickListRelationFilter
   }
 
   export type ShortLinkOrderByWithRelationInput = {
@@ -36908,8 +37033,8 @@ export namespace Prisma {
     originalUrl?: SortOrder
     clicks?: SortOrder
     createdAt?: SortOrder
-    clickEvents?: ShortLinkClickOrderByRelationAggregateInput
     deletedAt?: SortOrderInput | SortOrder
+    clickEvents?: ShortLinkClickOrderByRelationAggregateInput
   }
 
   export type ShortLinkWhereUniqueInput = Prisma.AtLeast<{
@@ -36921,6 +37046,7 @@ export namespace Prisma {
     originalUrl?: StringFilter<"ShortLink"> | string
     clicks?: IntFilter<"ShortLink"> | number
     createdAt?: DateTimeFilter<"ShortLink"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"ShortLink"> | Date | string | null
     clickEvents?: ShortLinkClickListRelationFilter
   }, "id" | "code">
 
@@ -36930,6 +37056,7 @@ export namespace Prisma {
     originalUrl?: SortOrder
     clicks?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: ShortLinkCountOrderByAggregateInput
     _avg?: ShortLinkAvgOrderByAggregateInput
     _max?: ShortLinkMaxOrderByAggregateInput
@@ -36946,6 +37073,7 @@ export namespace Prisma {
     originalUrl?: StringWithAggregatesFilter<"ShortLink"> | string
     clicks?: IntWithAggregatesFilter<"ShortLink"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ShortLink"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"ShortLink"> | Date | string | null
   }
 
   export type ShortLinkClickWhereInput = {
@@ -37907,8 +38035,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    entries?: PostSeriesEntryCreateNestedManyWithoutSeriesInput
     deletedAt?: Date | string | null
+    entries?: PostSeriesEntryCreateNestedManyWithoutSeriesInput
   }
 
   export type PostSeriesUncheckedCreateInput = {
@@ -37919,8 +38047,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    entries?: PostSeriesEntryUncheckedCreateNestedManyWithoutSeriesInput
     deletedAt?: Date | string | null
+    entries?: PostSeriesEntryUncheckedCreateNestedManyWithoutSeriesInput
   }
 
   export type PostSeriesUpdateInput = {
@@ -37931,8 +38059,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    entries?: PostSeriesEntryUpdateManyWithoutSeriesNestedInput
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    entries?: PostSeriesEntryUpdateManyWithoutSeriesNestedInput
   }
 
   export type PostSeriesUncheckedUpdateInput = {
@@ -37943,8 +38071,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    entries?: PostSeriesEntryUncheckedUpdateManyWithoutSeriesNestedInput
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    entries?: PostSeriesEntryUncheckedUpdateManyWithoutSeriesNestedInput
   }
 
   export type PostSeriesCreateManyInput = {
@@ -37955,6 +38083,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type PostSeriesUpdateManyMutationInput = {
@@ -38104,9 +38233,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    deletedAt?: Date | string | null
     posts?: PostCreateNestedManyWithoutCategoryInput
     translations?: CategoryTranslationCreateNestedManyWithoutCategoryInput
-    deletedAt?: Date | string | null
   }
 
   export type CategoryUncheckedCreateInput = {
@@ -38118,9 +38247,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    deletedAt?: Date | string | null
     posts?: PostUncheckedCreateNestedManyWithoutCategoryInput
     translations?: CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
-    deletedAt?: Date | string | null
   }
 
   export type CategoryUpdateInput = {
@@ -38132,9 +38261,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUpdateManyWithoutCategoryNestedInput
     translations?: CategoryTranslationUpdateManyWithoutCategoryNestedInput
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryUncheckedUpdateInput = {
@@ -38146,9 +38275,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUncheckedUpdateManyWithoutCategoryNestedInput
     translations?: CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryCreateManyInput = {
@@ -38160,6 +38289,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    deletedAt?: Date | string | null
   }
 
   export type CategoryUpdateManyMutationInput = {
@@ -38254,11 +38384,11 @@ export namespace Prisma {
     createdAt?: Date | string
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
     parent?: CommentCreateNestedOneWithoutChildrenInput
     children?: CommentCreateNestedManyWithoutParentInput
     post: PostCreateNestedOneWithoutCommentInput
-    deletedAt?: Date | string | null
   }
 
   export type CommentUncheckedCreateInput = {
@@ -38269,9 +38399,9 @@ export namespace Prisma {
     parentId?: string | null
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
     children?: CommentUncheckedCreateNestedManyWithoutParentInput
-    deletedAt?: Date | string | null
   }
 
   export type CommentUpdateInput = {
@@ -38280,11 +38410,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     parent?: CommentUpdateOneWithoutChildrenNestedInput
     children?: CommentUpdateManyWithoutParentNestedInput
     post?: PostUpdateOneRequiredWithoutCommentNestedInput
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentUncheckedUpdateInput = {
@@ -38295,9 +38425,9 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     children?: CommentUncheckedUpdateManyWithoutParentNestedInput
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentCreateManyInput = {
@@ -38308,6 +38438,7 @@ export namespace Prisma {
     parentId?: string | null
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
   }
 
@@ -38317,8 +38448,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
   }
 
   export type CommentUncheckedUpdateManyInput = {
@@ -38329,8 +38460,8 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
   }
 
   export type ContactFormCreateInput = {
@@ -38380,6 +38511,7 @@ export namespace Prisma {
     phone: string
     message: string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type ContactFormUpdateManyMutationInput = {
@@ -38518,6 +38650,7 @@ export namespace Prisma {
     sentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type CampaignUpdateManyMutationInput = {
@@ -38624,8 +38757,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
-    translations?: ProjectTranslationCreateNestedManyWithoutProjectInput
     deletedAt?: Date | string | null
+    translations?: ProjectTranslationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -38641,8 +38774,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
-    translations?: ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
     deletedAt?: Date | string | null
+    translations?: ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -38658,8 +38791,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
-    translations?: ProjectTranslationUpdateManyWithoutProjectNestedInput
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    translations?: ProjectTranslationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -38675,8 +38808,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
-    translations?: ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    translations?: ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -38692,6 +38825,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
+    deletedAt?: Date | string | null
   }
 
   export type ProjectUpdateManyMutationInput = {
@@ -39004,6 +39138,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type TestimonialUpdateManyMutationInput = {
@@ -39169,8 +39304,8 @@ export namespace Prisma {
     originalUrl: string
     clicks?: number
     createdAt?: Date | string
-    clickEvents?: ShortLinkClickCreateNestedManyWithoutShortLinkInput
     deletedAt?: Date | string | null
+    clickEvents?: ShortLinkClickCreateNestedManyWithoutShortLinkInput
   }
 
   export type ShortLinkUncheckedCreateInput = {
@@ -39179,8 +39314,8 @@ export namespace Prisma {
     originalUrl: string
     clicks?: number
     createdAt?: Date | string
-    clickEvents?: ShortLinkClickUncheckedCreateNestedManyWithoutShortLinkInput
     deletedAt?: Date | string | null
+    clickEvents?: ShortLinkClickUncheckedCreateNestedManyWithoutShortLinkInput
   }
 
   export type ShortLinkUpdateInput = {
@@ -39189,8 +39324,8 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    clickEvents?: ShortLinkClickUpdateManyWithoutShortLinkNestedInput
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickEvents?: ShortLinkClickUpdateManyWithoutShortLinkNestedInput
   }
 
   export type ShortLinkUncheckedUpdateInput = {
@@ -39199,8 +39334,8 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    clickEvents?: ShortLinkClickUncheckedUpdateManyWithoutShortLinkNestedInput
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickEvents?: ShortLinkClickUncheckedUpdateManyWithoutShortLinkNestedInput
   }
 
   export type ShortLinkCreateManyInput = {
@@ -39209,6 +39344,7 @@ export namespace Prisma {
     originalUrl: string
     clicks?: number
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type ShortLinkUpdateManyMutationInput = {
@@ -40267,6 +40403,7 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type PostSeriesMaxOrderByAggregateInput = {
@@ -40277,6 +40414,7 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type PostSeriesMinOrderByAggregateInput = {
@@ -40287,6 +40425,7 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type PostSeriesScalarRelationFilter = {
@@ -40387,6 +40526,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     image?: SortOrder
     keywords?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CategoryMaxOrderByAggregateInput = {
@@ -40397,6 +40537,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     image?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
@@ -40407,6 +40548,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     image?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CategoryTranslationCategoryIdLangCompoundUniqueInput = {
@@ -40466,6 +40608,7 @@ export namespace Prisma {
     parentId?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    deletedAt?: SortOrder
     status?: SortOrder
   }
 
@@ -40477,6 +40620,7 @@ export namespace Prisma {
     parentId?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    deletedAt?: SortOrder
     status?: SortOrder
   }
 
@@ -40488,6 +40632,7 @@ export namespace Prisma {
     parentId?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    deletedAt?: SortOrder
     status?: SortOrder
   }
 
@@ -40508,6 +40653,7 @@ export namespace Prisma {
     phone?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ContactFormMaxOrderByAggregateInput = {
@@ -40517,6 +40663,7 @@ export namespace Prisma {
     phone?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ContactFormMinOrderByAggregateInput = {
@@ -40526,6 +40673,7 @@ export namespace Prisma {
     phone?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type SubscriptionCountOrderByAggregateInput = {
@@ -40574,6 +40722,7 @@ export namespace Prisma {
     sentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CampaignAvgOrderByAggregateInput = {
@@ -40591,6 +40740,7 @@ export namespace Prisma {
     sentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CampaignMinOrderByAggregateInput = {
@@ -40604,6 +40754,7 @@ export namespace Prisma {
     sentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CampaignSumOrderByAggregateInput = {
@@ -40680,6 +40831,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     projectLinks?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ProjectMaxOrderByAggregateInput = {
@@ -40692,6 +40844,7 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ProjectMinOrderByAggregateInput = {
@@ -40704,6 +40857,7 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ProjectScalarRelationFilter = {
@@ -40859,6 +41013,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type TestimonialMaxOrderByAggregateInput = {
@@ -40870,6 +41025,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type TestimonialMinOrderByAggregateInput = {
@@ -40881,6 +41037,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type PushSubscriptionCountOrderByAggregateInput = {
@@ -41000,6 +41157,7 @@ export namespace Prisma {
     originalUrl?: SortOrder
     clicks?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ShortLinkAvgOrderByAggregateInput = {
@@ -41012,6 +41170,7 @@ export namespace Prisma {
     originalUrl?: SortOrder
     clicks?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ShortLinkMinOrderByAggregateInput = {
@@ -41020,6 +41179,7 @@ export namespace Prisma {
     originalUrl?: SortOrder
     clicks?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type ShortLinkSumOrderByAggregateInput = {
@@ -43228,6 +43388,7 @@ export namespace Prisma {
     createdAt?: Date | string
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
     parent?: CommentCreateNestedOneWithoutChildrenInput
     children?: CommentCreateNestedManyWithoutParentInput
@@ -43240,6 +43401,7 @@ export namespace Prisma {
     parentId?: string | null
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
     children?: CommentUncheckedCreateNestedManyWithoutParentInput
   }
@@ -43306,6 +43468,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    deletedAt?: Date | string | null
     translations?: CategoryTranslationCreateNestedManyWithoutCategoryInput
   }
 
@@ -43318,6 +43481,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    deletedAt?: Date | string | null
     translations?: CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -43424,6 +43588,7 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"Comment"> | string | null
     email?: StringNullableFilter<"Comment"> | string | null
     name?: StringNullableFilter<"Comment"> | string | null
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
     status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
   }
 
@@ -43496,6 +43661,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     translations?: CategoryTranslationUpdateManyWithoutCategoryNestedInput
   }
 
@@ -43508,6 +43674,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     translations?: CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -43635,6 +43802,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type PostSeriesUncheckedCreateWithoutEntriesInput = {
@@ -43645,6 +43813,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type PostSeriesCreateOrConnectWithoutEntriesInput = {
@@ -43718,6 +43887,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PostSeriesUncheckedUpdateWithoutEntriesInput = {
@@ -43728,6 +43898,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PostUpsertWithoutSeriesEntryInput = {
@@ -44014,6 +44185,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    deletedAt?: Date | string | null
     posts?: PostCreateNestedManyWithoutCategoryInput
   }
 
@@ -44026,6 +44198,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     image?: string | null
     keywords?: CategoryCreatekeywordsInput | string[]
+    deletedAt?: Date | string | null
     posts?: PostUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -44054,6 +44227,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUpdateManyWithoutCategoryNestedInput
   }
 
@@ -44066,6 +44240,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     keywords?: CategoryUpdatekeywordsInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -44075,6 +44250,7 @@ export namespace Prisma {
     createdAt?: Date | string
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
     parent?: CommentCreateNestedOneWithoutChildrenInput
     post: PostCreateNestedOneWithoutCommentInput
@@ -44088,6 +44264,7 @@ export namespace Prisma {
     parentId?: string | null
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
   }
 
@@ -44102,6 +44279,7 @@ export namespace Prisma {
     createdAt?: Date | string
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
     children?: CommentCreateNestedManyWithoutParentInput
     post: PostCreateNestedOneWithoutCommentInput
@@ -44114,6 +44292,7 @@ export namespace Prisma {
     postId: string
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
     children?: CommentUncheckedCreateNestedManyWithoutParentInput
   }
@@ -44192,6 +44371,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     parent?: CommentUpdateOneWithoutChildrenNestedInput
     post?: PostUpdateOneRequiredWithoutCommentNestedInput
@@ -44205,6 +44385,7 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
   }
 
@@ -44347,6 +44528,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
+    deletedAt?: Date | string | null
   }
 
   export type ProjectUncheckedCreateWithoutTranslationsInput = {
@@ -44362,6 +44544,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     projectLinks?: ProjectCreateprojectLinksInput | string[]
+    deletedAt?: Date | string | null
   }
 
   export type ProjectCreateOrConnectWithoutTranslationsInput = {
@@ -44393,6 +44576,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProjectUncheckedUpdateWithoutTranslationsInput = {
@@ -44408,6 +44592,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projectLinks?: ProjectUpdateprojectLinksInput | string[]
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PostCreateWithoutLikesInput = {
@@ -44674,6 +44859,7 @@ export namespace Prisma {
     originalUrl: string
     clicks?: number
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type ShortLinkUncheckedCreateWithoutClickEventsInput = {
@@ -44682,6 +44868,7 @@ export namespace Prisma {
     originalUrl: string
     clicks?: number
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type ShortLinkCreateOrConnectWithoutClickEventsInput = {
@@ -44706,6 +44893,7 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShortLinkUncheckedUpdateWithoutClickEventsInput = {
@@ -44714,6 +44902,7 @@ export namespace Prisma {
     originalUrl?: StringFieldUpdateOperationsInput | string
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateWithoutApiKeysInput = {
@@ -45232,6 +45421,7 @@ export namespace Prisma {
     parentId?: string | null
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
   }
 
@@ -45258,6 +45448,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     parent?: CommentUpdateOneWithoutChildrenNestedInput
     children?: CommentUpdateManyWithoutParentNestedInput
@@ -45270,6 +45461,7 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     children?: CommentUncheckedUpdateManyWithoutParentNestedInput
   }
@@ -45281,6 +45473,7 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
   }
 
@@ -45474,6 +45667,7 @@ export namespace Prisma {
     postId: string
     email?: string | null
     name?: string | null
+    deletedAt?: Date | string | null
     status?: $Enums.CommentStatus
   }
 
@@ -45483,6 +45677,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     children?: CommentUpdateManyWithoutParentNestedInput
     post?: PostUpdateOneRequiredWithoutCommentNestedInput
@@ -45495,6 +45690,7 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     children?: CommentUncheckedUpdateManyWithoutParentNestedInput
   }
@@ -45506,6 +45702,7 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
   }
 
