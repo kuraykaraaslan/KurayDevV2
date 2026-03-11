@@ -28,7 +28,7 @@ type Props = {
 
 // Fetch post data for both metadata and page rendering
 async function getPost(postSlug: string, lang: string) {
-  const post_cacheKey = `${FRONTEND_CACHE_KEY_PREFIX}:${lang}:${postSlug}`
+  const post_cacheKey = `${FRONTEND_CACHE_KEY_PREFIX}:${postSlug}:${lang}`
   try {
     const cached = await redisInstance.get(post_cacheKey)
     if (cached) {
