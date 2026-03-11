@@ -6,15 +6,7 @@ import PostCard from './Partials/PostCard'
 import axiosInstance from '@/libs/axios'
 import { useParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
-
-interface SimilarPost {
-  id: string
-  score: number
-  title: string
-  slug: string
-  categorySlug: string
-  image?: string
-}
+import { PostWithData } from '@/types/content/BlogTypes'
 
 interface OtherPostsProps {
   postId?: string
@@ -35,32 +27,14 @@ const OtherPosts = ({ postId }: OtherPostsProps) => {
 
     try {
       const res = await axiosInstance.get(`/api/posts/${postId}/similar?limit=10`)
-      const similarPosts: SimilarPost[] = res.data.posts
+      const similarPosts: PostWithData[] = res.data.posts
 
       if (!similarPosts || similarPosts.length < 2) return false
 
-      // Fetch full post data for each similar post
-      const fullPostPromises = similarPosts.map((sp) =>
-        axiosInstance
-          .get(`/api/posts?postId=${sp.id}&pageSize=1`)
-          .then((r) => {
-            const post = r.data.posts?.[0]
-            if (post) {
-              post.image = post.image || `/api/posts/${post.postId}/cover.jpeg`
-              post._similarityScore = sp.score
-            }
-            return post
-          })
-          .catch(() => null)
-      )
-
-      const fullPosts = (await Promise.all(fullPostPromises)).filter(Boolean)
-
-      if (fullPosts.length < 2) return false
-
-      const postCards = fullPosts.map((post: any) => (
-        <PostCard key={post.postId} post={post} similarityScore={post._similarityScore} />
-      ))
+      const postCards = similarPosts.map((post) => {
+        post.image = post.image || `/api/posts/${post.postId}/cover.jpeg`
+        return <PostCard key={post.postId} post={post} />
+      })
 
       setChildren(postCards)
       setSource('ai')

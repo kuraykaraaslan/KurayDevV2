@@ -70,4 +70,23 @@ const SingleComment = ({ comment, gravatarUrl }: { comment: Comment; gravatarUrl
   )
 }
 
+export function SingleCommentSkeleton() {
+  return (
+    <div className="p-6 text-base rounded-lg bg-base-300 animate-pulse">
+      <footer className="flex justify-between items-center mb-2">
+        <div className="flex items-center">
+          <div className="me-2 w-6 h-6 rounded-full bg-base-200 skeleton" />
+          <div className="h-4 w-24 bg-base-200 rounded skeleton" />
+          <div className="h-4 w-16 bg-base-200 rounded ms-4 skeleton" />
+        </div>
+        <div className="h-8 w-8 bg-base-200 rounded-full skeleton" />
+      </footer>
+      <div className="pt-4 pb-4">
+        <div className="h-4 w-full bg-base-200 rounded mb-2 skeleton" />
+        <div className="h-4 w-3/4 bg-base-200 rounded skeleton" />
+      </div>
+    </div>
+  )
+}
+
 export default SingleComment

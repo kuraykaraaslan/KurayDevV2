@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import SingleComment from './Partials/SingleComment'
+import SingleComment, { SingleCommentSkeleton } from './Partials/SingleComment'
 import { Comment } from '@/types/content/BlogTypes'
 import AddComment from './Partials/AddComment'
 import axiosInstance from '@/libs/axios'
@@ -13,9 +13,11 @@ const Comments = ({ postId }: { postId: string }) => {
   const [comments, setComments] = useState<Comment[]>([])
   const [page, _setPage] = useState(0)
   const [pageSize, _setPageSize] = useState(10)
+  const [loading, setLoading] = useState(true)
 
   const fetchComments = async (isAppend = false) => {
     // Fetch comments for the post
+    setLoading(true)
     await axiosInstance
       .get(`/api/comments?postId=${postId}&page=${page}&pageSize=${pageSize}`)
       .then((response) => {
@@ -34,10 +36,12 @@ const Comments = ({ postId }: { postId: string }) => {
       .catch((error) => {
         console.error(error)
       })
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => {
     setComments([])
+    setLoading(true)
     fetchComments(false)
   }, [postId])
 
@@ -59,14 +63,22 @@ const Comments = ({ postId }: { postId: string }) => {
           <AddComment postId={postId} />
         </div>
 
-        {comments.map((comment) => {
-          const hash = MD5(comment.email || '').toString()
-          const gravatarUrl = `https://www.gravatar.com/avatar/${hash}`
-          comment.email = null
-          return (
-            <SingleComment key={comment.commentId} comment={comment} gravatarUrl={gravatarUrl} />
-          )
-        })}
+        {loading ? (
+          <div className="max-h-[400px] w-full grid grid-flow-row gap-4 overflow-hidden">
+            {[...Array(2)].map((_, i) => (
+              <SingleCommentSkeleton key={i} />
+            ))}
+          </div>
+        ) : (
+          comments.map((comment) => {
+            const hash = MD5(comment.email || '').toString()
+            const gravatarUrl = `https://www.gravatar.com/avatar/${hash}`
+            comment.email = null
+            return (
+              <SingleComment key={comment.commentId} comment={comment} gravatarUrl={gravatarUrl} />
+            )
+          })
+        )}
       </div>
     </section>
   )
