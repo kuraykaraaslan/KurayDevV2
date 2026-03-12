@@ -18,6 +18,7 @@ export {
   getRateLimitConfig,
   getClientIP,
   checkRateLimit,
+  peekRateLimit,
   rateLimitMiddleware,
   addRateLimitHeaders,
 } from './rateLimit'

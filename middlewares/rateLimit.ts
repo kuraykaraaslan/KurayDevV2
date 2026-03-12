@@ -25,8 +25,11 @@ export const RATE_LIMIT_CONFIG: Record<string, RateLimitConfig> = {
   '/api/auth/reset-password': { limit: 3 * DEV_MULTIPLIER, window: 60 },
   '/api/auth/otp': { limit: 5 * DEV_MULTIPLIER, window: 60 },
 
+  // Chatbot admin panel - high throughput needed for bulk data fetching
+  '/api/chatbot/admin': { limit: 300 * DEV_MULTIPLIER, window: 60 },
+
   // Chatbot - AI calls are expensive
-  '/api/chatbot': { limit: 8 * DEV_MULTIPLIER, window: 60 },
+  '/api/chatbot': { limit: 30 * DEV_MULTIPLIER, window: 60 },
 
   // Contact form - prevent spam
   '/api/contact': { limit: 3 * DEV_MULTIPLIER, window: 60 },
@@ -57,6 +60,7 @@ export const RATE_LIMIT_EXEMPT_ROUTES = [
   '/api/auth/csrf',
   '/api/cron',
   '/api/webhook',
+  '/api/chatbot/admin',
 ]
 
 /**
@@ -91,7 +95,7 @@ export function getClientIP(request: NextRequest): string {
 }
 
 /**
- * Check rate limit using Redis sliding window
+ * Check rate limit using Redis fixed window (increments counter)
  */
 export async function checkRateLimit(
   ip: string,
@@ -103,7 +107,7 @@ export async function checkRateLimit(
   try {
     const current = await redisInstance.incr(key)
 
-    // Set expiry on first request
+    // Set expiry on first request only
     if (current === 1) {
       await redisInstance.expire(key, config.window)
     }
@@ -118,6 +122,37 @@ export async function checkRateLimit(
     }
   } catch (error) {
     // If Redis fails, allow the request (fail open)
+    console.error('[RateLimit] Redis error:', error)
+    return { allowed: true, remaining: config.limit, resetIn: config.window }
+  }
+}
+
+/**
+ * Read current rate limit state WITHOUT incrementing the counter.
+ * Use this for attaching headers after the request has already been counted.
+ */
+export async function peekRateLimit(
+  ip: string,
+  pathname: string,
+  config: RateLimitConfig
+): Promise<RateLimitResult> {
+  const key = `ratelimit:${ip}:${pathname.split('/').slice(0, 4).join('/')}`
+
+  try {
+    const [current, ttl] = await Promise.all([
+      redisInstance.get(key),
+      redisInstance.ttl(key),
+    ])
+
+    const count = current ? parseInt(current, 10) : 0
+    const remaining = Math.max(config.limit - count, 0)
+
+    return {
+      allowed: count <= config.limit,
+      remaining,
+      resetIn: ttl > 0 ? ttl : config.window,
+    }
+  } catch (error) {
     console.error('[RateLimit] Redis error:', error)
     return { allowed: true, remaining: config.limit, resetIn: config.window }
   }
@@ -164,7 +199,9 @@ export async function rateLimitMiddleware(request: NextRequest): Promise<Middlew
 }
 
 /**
- * Add rate limit headers to response
+ * Add rate limit headers to response.
+ * Uses peekRateLimit (read-only) so the counter is not incremented again
+ * after rateLimitMiddleware already counted this request.
  */
 export async function addRateLimitHeaders(
   request: NextRequest,
@@ -175,9 +212,9 @@ export async function addRateLimitHeaders(
   const config = getRateLimitConfig(pathname)
 
   if (config.limit !== Infinity) {
-    const { remaining, resetIn } = await checkRateLimit(clientIP, pathname, config)
+    const { remaining, resetIn } = await peekRateLimit(clientIP, pathname, config)
     response.headers.set('X-RateLimit-Limit', config.limit.toString())
-    response.headers.set('X-RateLimit-Remaining', Math.max(remaining - 1, 0).toString())
+    response.headers.set('X-RateLimit-Remaining', remaining.toString())
     response.headers.set('X-RateLimit-Reset', resetIn.toString())
   }
 }

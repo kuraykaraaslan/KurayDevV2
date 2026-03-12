@@ -17,10 +17,11 @@ export default class RateLimiter {
 
   static async check(ip: string): Promise<{ success: boolean; remaining: number }> {
     const key = `rate_limit:${ip}`
-    const current = await redisInstance.get(key)
-    const currentCount = current ? parseInt(current, 10) : 0
-    const newCount = currentCount + 1
-    await redisInstance.set(key, newCount, 'EX', RATE_DURATION)
+    const newCount = await redisInstance.incr(key)
+    // Only set the expiry on the first request so the window doesn't reset
+    if (newCount === 1) {
+      await redisInstance.expire(key, RATE_DURATION)
+    }
     return { success: newCount <= RATE_LIMIT, remaining: Math.max(RATE_LIMIT - newCount, 0) }
   }
 
