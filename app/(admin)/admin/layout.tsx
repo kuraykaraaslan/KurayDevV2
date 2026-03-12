@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import axiosInstance from '@/libs/axios'
 import { useUserStore, useLanguageStore } from '@/libs/zustand'
-import i18n from '@/libs/localize/localize'
+import i18n, { loadLanguage } from '@/libs/localize/localize'
 import { getDirection } from '@/types/common/I18nTypes'
 
 // Make sure to import the Navbar component from the correct path
@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const [isAuthChecked, setIsAuthChecked] = useState(false)
 
   useEffect(() => {
-    if (i18n.language !== lang) i18n.changeLanguage(lang)
+    loadLanguage(lang).then(() => { if (i18n.language !== lang) i18n.changeLanguage(lang) })
     document.documentElement.lang = lang
     document.documentElement.dir = getDirection(lang)
   }, [lang])

@@ -9,7 +9,7 @@ import SSOLogin from '@/components/frontend/Integrations/Appointments/SSOLogin'
 import { useTranslation } from 'react-i18next'
 import AuthGridBackground from '@/components/auth/AuthGridBackground'
 import { useLanguageStore } from '@/libs/zustand'
-import i18n from '@/libs/localize/localize'
+import i18n, { loadLanguage } from '@/libs/localize/localize'
 import { getDirection } from '@/types/common/I18nTypes'
 import Logo from '@/components/common/Layout/Logo'
 import LangButtonCSR from '@/components/common/UI/LangButtonCSR'
@@ -21,7 +21,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   const lang = useLanguageStore((s) => s.lang)
 
   useEffect(() => {
-    if (i18n.language !== lang) i18n.changeLanguage(lang)
+    loadLanguage(lang).then(() => { if (i18n.language !== lang) i18n.changeLanguage(lang) })
     document.documentElement.lang = lang
     document.documentElement.dir = getDirection(lang)
   }, [lang])

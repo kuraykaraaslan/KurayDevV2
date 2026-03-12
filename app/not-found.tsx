@@ -2,10 +2,9 @@
 
 import Link from '@/libs/i18n/Link'
 import { useTranslation } from 'react-i18next'
-import '@/libs/localize/localize'
 import { useEffect, useState } from 'react'
 import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type AppLanguage } from '@/types/common/I18nTypes'
-import i18n from '@/libs/localize/localize'
+import i18n, { loadLanguage } from '@/libs/localize/localize'
 
 function detectLang(): AppLanguage {
   if (typeof window === 'undefined') return DEFAULT_LANGUAGE
@@ -27,11 +26,13 @@ export default function NotFoundPage() {
 
   useEffect(() => {
     const lang = detectLang()
-    if (i18n.language !== lang) {
-      i18n.changeLanguage(lang).then(() => setReady(true))
-    } else {
-      setReady(true)
-    }
+    loadLanguage(lang).then(() => {
+      if (i18n.language !== lang) {
+        i18n.changeLanguage(lang).then(() => setReady(true))
+      } else {
+        setReady(true)
+      }
+    })
     document.documentElement.lang = lang
   }, [])
 

@@ -1,26 +1,23 @@
 import 'server-only'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const load = (p: Promise<{ default: any }>) => p.then((m) => m.default as Record<string, unknown>)
+const enabledLanguages = (process.env.NEXT_PUBLIC_I18N_LANGUAGES ?? 'en')
+  .split(',')
+  .map((l) => l.trim().toLowerCase())
+  .filter(Boolean)
 
-const dictionaries: Record<string, () => Promise<Record<string, unknown>>> = {
-  az: () => load(import('@/dictionaries/az.json')),
-  de: () => load(import('@/dictionaries/de.json')),
-  el: () => load(import('@/dictionaries/el.json')),
-  en: () => load(import('@/dictionaries/en.json')),
-  et: () => load(import('@/dictionaries/et.json')),
-  he: () => load(import('@/dictionaries/he.json')),
-  ky: () => load(import('@/dictionaries/ky.json')),
-  mt: () => load(import('@/dictionaries/mt.json')),
-  nl: () => load(import('@/dictionaries/nl.json')),
-  tk: () => load(import('@/dictionaries/tk.json')),
-  tr: () => load(import('@/dictionaries/tr.json')),
-  uk: () => load(import('@/dictionaries/uk.json')),
-  uz: () => load(import('@/dictionaries/uz.json')),
+async function loadDict(lang: string): Promise<Record<string, unknown>> {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mod: any = await import(`@/dictionaries/${lang}.json`)
+    return (mod.default ?? mod) as Record<string, unknown>
+  } catch {
+    return {}
+  }
 }
 
-export async function getDictionary(lang: string) {
-  return (dictionaries[lang] ?? dictionaries['en'])()
+export async function getDictionary(lang: string): Promise<Record<string, unknown>> {
+  const resolved = enabledLanguages.includes(lang) ? lang : 'en'
+  return loadDict(resolved)
 }
 
 export async function getPageMetadata(lang: string, page: string) {
