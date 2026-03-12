@@ -1,9 +1,7 @@
 import DOMPurify from 'isomorphic-dompurify'
-import Image from 'next/image'
 import { addHeadingIds } from '@/helpers/tocUtils'
 
 export default function Article(doc: { title : string; content: string; image: string }) {
-  const image = doc.image ?? null
 
   const sanitizedHTML = DOMPurify.sanitize(doc.content ?? '', {
     USE_PROFILES: { html: true },
