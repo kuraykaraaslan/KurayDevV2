@@ -1,8 +1,15 @@
-interface UserProfileBannerProps {
-  headerImage?: string | null
-}
+import { SafeUser } from "@/types/user/UserTypes"
+import UserProfileInfo from "./UserProfileInfo"
 
-export default function UserProfileBanner({ headerImage }: UserProfileBannerProps) {
+
+export default function UserProfileBanner({ user }: { user: SafeUser }) {
+
+  const displayName = user.userProfile?.name || user.name || 'Author'
+  const username = user.userProfile?.username
+  const profilePicture = user.userProfile?.profilePicture
+  const headerImage = user.userProfile?.headerImage
+  const bio = user.userProfile?.biography
+
   return (
     <div className="relative w-full h-56 md:h-72 overflow-hidden">
       {headerImage ? (
@@ -23,6 +30,14 @@ export default function UserProfileBanner({ headerImage }: UserProfileBannerProp
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/20 to-transparent" />
+
+      <UserProfileInfo
+        displayName={displayName}
+        username={username}
+        bio={bio}
+        profilePicture={profilePicture}
+        createdAt={user.createdAt}
+      />
     </div>
   )
 }

@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { SocialLinkItem } from '@/types/user/UserProfileTypes'
 import { SocialLinkIconMap } from '@/types/ui/SocialLinkIconMap'
+import { SafeUser } from '@/types/user/UserTypes'
 
-interface UserProfileSocialLinksProps {
-  socialLinks: SocialLinkItem[]
-}
+export default function UserProfileSocialLinks({ user }: { user:SafeUser }) {
 
-export default function UserProfileSocialLinks({ socialLinks }: UserProfileSocialLinksProps) {
+  const socialLinks: SocialLinkItem[] = user.userProfile?.socialLinks ?? [] 
+
   const sorted = [...socialLinks]
     .sort((a, b) => a.order - b.order)
     .filter((link) => !!link.url)
