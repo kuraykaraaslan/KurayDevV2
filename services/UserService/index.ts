@@ -1,7 +1,9 @@
 import { prisma } from '@/libs/prisma'
+import { Prisma } from '@/generated/prisma'
 import {
   User,
   UserRole,
+  UserStatus,
   SafeUser,
   UpdateUser,
   SafeUserSchema,
@@ -29,21 +31,27 @@ export default class UserService {
     name,
     phone,
     userRole,
+    userStatus,
+    image,
   }: {
     email: string
     password: string
     name: string
     phone?: string
     userRole?: string
+    userStatus?: string
+    image?: string
   }): Promise<SafeUser> {
     // Validate email and password
     if (!email || !FieldValidater.isEmail(email)) {
       throw new Error(UserMessages.INVALID_EMAIL)
     }
 
+    const normalizedEmail = email.toLowerCase()
+
     // Check if the email is already in use
     const existingUser = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() },
+      where: { email: normalizedEmail },
     })
 
     if (existingUser) {
@@ -61,6 +69,7 @@ export default class UserService {
     const userProfile = {
       ...UserProfileDefault,
       name: name || null,
+      profilePicture: image ?? UserProfileDefault.profilePicture,
     }
 
     // Create Default User Preferences
@@ -71,11 +80,11 @@ export default class UserService {
     // Create the user in the database
     const user = await prisma.user.create({
       data: {
-        email,
+        email: normalizedEmail,
         password: hashedPassword, // Store the hashed password
         phone,
         userRole: userRole ? (userRole as UserRole) : 'USER', // Default to 'USER' role if not provided
-        userStatus: 'ACTIVE',
+        userStatus: userStatus ? (userStatus as UserStatus) : 'ACTIVE',
         userProfile: userProfile,
         userPreferences: userPreferences,
       },
@@ -162,7 +171,13 @@ export default class UserService {
    * @param data - Partial user data to update.
    * @returns The updated user details.
    */
-  static async update({ userId, data }: { userId: string; data: UpdateUser }): Promise<SafeUser> {
+  static async update({
+    userId,
+    data,
+  }: {
+    userId: string
+    data: UpdateUser & { password?: string }
+  }): Promise<SafeUser> {
     if (!userId) {
       throw new Error(UserMessages.USER_NOT_FOUND)
     }
@@ -176,6 +191,44 @@ export default class UserService {
       throw new Error(UserMessages.USER_NOT_FOUND)
     }
 
+    const updateData: Prisma.UserUpdateInput = {}
+
+    if (data.email !== undefined) {
+      if (!data.email || !FieldValidater.isEmail(data.email)) {
+        throw new Error(UserMessages.INVALID_EMAIL)
+      }
+
+      const normalizedEmail = data.email.toLowerCase()
+
+      const existingByEmail = await prisma.user.findUnique({
+        where: { email: normalizedEmail },
+        select: { userId: true },
+      })
+
+      if (existingByEmail && existingByEmail.userId !== userId) {
+        throw new Error(UserMessages.EMAIL_ALREADY_EXISTS)
+      }
+
+      updateData.email = normalizedEmail
+    }
+
+    if (data.phone !== undefined) {
+      const normalizedPhone = data.phone === '' ? null : data.phone
+
+      if (typeof normalizedPhone === 'string') {
+        const existingByPhone = await prisma.user.findUnique({
+          where: { phone: normalizedPhone },
+          select: { userId: true },
+        })
+
+        if (existingByPhone && existingByPhone.userId !== userId) {
+          throw new Error(UserMessages.PHONE_ALREADY_EXISTS)
+        }
+      }
+
+      updateData.phone = normalizedPhone
+    }
+
     // Prevent the last ADMIN from being downgraded
     if (user.userRole === 'ADMIN' && data.userRole && data.userRole !== 'ADMIN') {
       const adminCount = await prisma.user.count({ where: { userRole: 'ADMIN' } })
@@ -184,10 +237,35 @@ export default class UserService {
       }
     }
 
+    if (data.userRole !== undefined) {
+      updateData.userRole = data.userRole as UserRole
+    }
+
+    if (data.userStatus !== undefined) {
+      updateData.userStatus = data.userStatus as UserStatus
+    }
+
+    // JSON fields (overwrite semantics) — callers should merge if needed.
+    if (data.userPreferences !== undefined) {
+      updateData.userPreferences = data.userPreferences as unknown as Prisma.InputJsonValue
+    }
+
+    if (data.userProfile !== undefined) {
+      updateData.userProfile = data.userProfile as unknown as Prisma.InputJsonValue
+    }
+
+    // Password update (hashed). Not part of UpdateUser type; supported for admin workflows.
+    if (data.password !== undefined) {
+      if (!data.password || !FieldValidater.isPassword(data.password)) {
+        throw new Error(UserMessages.INVALID_PASSWORD_FORMAT)
+      }
+      updateData.password = await bcrypt.hash(data.password, 10)
+    }
+
     // Update the user in the database
     const updatedUser = await prisma.user.update({
       where: { userId: userId },
-      data: data as User,
+      data: updateData,
     })
 
     // Exclude sensitive fields from the response

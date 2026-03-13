@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import UserMessages from '@/messages/UserMessages'
-import { UserRoleEnum } from '@/types/user/UserTypes'
+import { UserRoleEnum, UserStatusEnum } from '@/types/user/UserTypes'
 
 // Request DTOs
 export const GetUsersRequestSchema = z.object({
@@ -16,10 +16,18 @@ export const CreateUserRequestSchema = z.object({
   phone: z.string().optional(),
   image: z.string().optional(),
   userRole: UserRoleEnum.default('USER'),
+  userStatus: UserStatusEnum.default('ACTIVE'),
 })
 
-export const UpdateUserRequestSchema = CreateUserRequestSchema.partial().extend({
+export const UpdateUserRequestSchema = z.object({
   userId: z.string().min(1, UserMessages.USER_ID_REQUIRED),
+  email: z.string().email(UserMessages.INVALID_EMAIL).optional(),
+  password: z.string().min(8, UserMessages.PASSWORD_TOO_SHORT).optional(),
+  name: z.string().min(1, UserMessages.NAME_REQUIRED).optional(),
+  phone: z.string().optional(),
+  image: z.string().optional(),
+  userRole: UserRoleEnum.optional(),
+  userStatus: UserStatusEnum.optional(),
 })
 
 export const GetUserByIdRequestSchema = z.object({

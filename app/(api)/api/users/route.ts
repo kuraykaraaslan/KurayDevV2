@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { email, password, name, phone, userRole } = parsedData.data
+    const { email, password, name, phone, userRole, userStatus, image } = parsedData.data
 
     const user = await UserService.create({
       email,
@@ -78,6 +78,8 @@ export async function POST(request: NextRequest) {
       name,
       phone,
       userRole,
+      userStatus,
+      image,
     })
 
     return NextResponse.json({ user })

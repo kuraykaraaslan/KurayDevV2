@@ -3,6 +3,8 @@ import UserService from '@/services/UserService'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { UpdateUserRequestSchema } from '@/dtos/UserDTO'
 import UserMessages from '@/messages/UserMessages'
+import UserProfileService from '@/services/UserService/UserProfileService'
+import type { UserProfile } from '@/types/user/UserProfileTypes'
 
 /**
  * GET handler for retrieving a user by its ID.
@@ -77,14 +79,39 @@ export async function PUT(request: NextRequest, { params }: { params: { userId: 
       )
     }
 
-    const updatedUser = await UserService.update({ userId, data: parsedData.data })
-
-    if (!updatedUser) {
-      return NextResponse.json({ message: UserMessages.USER_NOT_FOUND }, { status: 404 })
+    if (parsedData.data.userId !== userId) {
+      return NextResponse.json({ message: UserMessages.INVALID_USER_ID }, { status: 400 })
     }
 
+    const { userId: _bodyUserId, name, image, ...userPatch } = parsedData.data
+
+    const profilePatch: Partial<UserProfile> = {}
+    if (name !== undefined) profilePatch.name = name
+    if (image !== undefined) profilePatch.profilePicture = image
+
+    if (Object.keys(profilePatch).length > 0) {
+      await UserProfileService.updateProfile({ userId, data: profilePatch })
+    }
+
+    const hasUserUpdates = Object.values(userPatch).some((v) => v !== undefined)
+    if (hasUserUpdates) {
+      await UserService.update({ userId, data: userPatch })
+    }
+
+    const updatedUser = await UserService.getById(userId)
+
     return NextResponse.json({ user: updatedUser })
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: 500 })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+
+    if (message === UserMessages.USERNAME_TAKEN) {
+      return NextResponse.json({ message: UserMessages.USERNAME_TAKEN }, { status: 409 })
+    }
+
+    if (message === UserMessages.INVALID_USERNAME) {
+      return NextResponse.json({ message: UserMessages.INVALID_USERNAME }, { status: 400 })
+    }
+
+    return NextResponse.json({ message }, { status: 500 })
   }
 }
