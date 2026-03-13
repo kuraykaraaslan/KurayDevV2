@@ -1,4 +1,3 @@
-'use client'
 import { Project } from '@/types/content/ProjectTypes'
 import SingleTag from '@/components/frontend/Features/Hero/Projects/Partials/SingleTag'
 import SingleLink from '@/components/frontend/Features/Hero/Projects/Partials/SingleLink'

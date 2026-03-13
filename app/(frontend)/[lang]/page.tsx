@@ -5,7 +5,7 @@ import ProjectsHero from '@/components/frontend/Features/Hero/Projects'
 import type { Metadata } from 'next'
 import MetadataHelper from '@/helpers/MetadataHelper'
 //import AppointmentCalendar from '@/components/frontend/Features/Appointments/AppointmentCalendar'; // Uncomment this line to enable the Appointment Calendar feature
-import { ToastContainer } from 'react-toastify'
+import ToastContainerClient from '@/components/common/UI/Toast/ToastContainerClient'
 import 'react-toastify/dist/ReactToastify.css'
 import OfflineIndicator from '@/components/common/UI/Indicators/OfflineIndicator'
 import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
@@ -81,7 +81,7 @@ const HomePage = async ({ params }: Props) => {
       <Toolbox />
       <ProjectsHero />
       <Contact />
-      <ToastContainer />
+      <ToastContainerClient />
       <OfflineIndicator />
     </>
   )
