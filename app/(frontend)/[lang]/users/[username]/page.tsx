@@ -6,7 +6,6 @@ import UserService from '@/services/UserService'
 import ToastContainerClient from '@/components/common/UI/Toast/ToastContainerClient'
 import 'react-toastify/dist/ReactToastify.css'
 import Feed from '@/components/frontend/Features/Blog/Feed'
-import UserProfile from '@/components/frontend/Features/UserProfile'
 import { AVAILABLE_LANGUAGES } from '@/types/common/I18nTypes'
 import { buildAlternates, buildLangUrl, getOgLocale } from '@/helpers/HreflangHelper'
 import { getDictionary } from '@/libs/localize/getDictionary'
@@ -144,8 +143,6 @@ export default async function UserProfilePage({ params }: Props) {
     return (
       <>
         {MetadataHelper.generateJsonLdScripts(jsonLdMeta)}
-
-
         <Feed author={feedAuthor} />
         <Newsletter />
         <ToastContainerClient />
