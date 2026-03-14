@@ -302,12 +302,10 @@
 
 **Goal:** Achieve sub-2 s LCP on mobile and reduce JS bundle size.
 
-- 📋 Bundle analysis pass (`ANALYZE=true npm run build`) on all major dependency additions
-- 📋 Convert remaining Client Components to Server Components where possible
-- 📋 Implement `use cache` for expensive RSC data fetching (GEO data, sitemap, Knowledge Graph)
+- ✅ Bundle analysis pass (`ANALYZE=true npm run build`) on all major dependency additions
+- ✅ Convert remaining Client Components to Server Components where possible
 - 📋 Offload AI cover image generation and text generation to BullMQ workers
-- 📋 Audit and remove unused Tailwind classes (PurgeCSS pass)
-- 📋 Add `priority` prop to above-the-fold `next/image` instances
+- ✅ Audit and remove unused Tailwind classes (PurgeCSS pass)
 
 ---
 
