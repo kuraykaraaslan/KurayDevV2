@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type ModalHeaderProps = {
@@ -6,15 +6,26 @@ type ModalHeaderProps = {
   showClose: boolean
   labelledById: string
   onClose: () => void
+  /** When provided, this div becomes the drag handle for the modal */
+  dragHandleRef?: RefObject<HTMLDivElement | null>
+  draggable?: boolean
 }
 
-export function ModalHeader({ title, showClose, labelledById, onClose }: ModalHeaderProps) {
+export function ModalHeader({ title, showClose, labelledById, onClose, dragHandleRef, draggable }: ModalHeaderProps) {
   const { t } = useTranslation()
 
   if (!title && !showClose) return null
 
   return (
-    <div className="flex flex-shrink-0 items-center justify-between gap-2 p-4 border-b border-base-200">
+    <div
+      ref={dragHandleRef}
+      className={[
+        'flex flex-shrink-0 items-center justify-between gap-2 p-4 border-b border-base-200',
+        // Hint to the user that the header is draggable (cursor is set via JS in useDraggable,
+        // but this class avoids a flash of the wrong cursor on first paint)
+        draggable ? 'select-none' : '',
+      ].join(' ')}
+    >
       {title ? (
         <h2 id={labelledById} className="text-lg font-semibold">
           {title}

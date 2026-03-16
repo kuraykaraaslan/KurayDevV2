@@ -14,6 +14,7 @@ import { createPortal } from 'react-dom'
 import { useScrollLock } from './hooks/useScrollLock'
 import { useFocusTrap } from './hooks/useFocusTrap'
 import { useModalStack } from './hooks/useModalStack'
+import { useDraggable } from './hooks/useDraggable'
 import { ModalBackdrop } from './partials/ModalBackdrop'
 import { ModalHeader } from './partials/ModalHeader'
 import { ModalBody } from './partials/ModalBody'
@@ -53,6 +54,11 @@ export type HeadlessModalProps = {
    * Set to true to allow multiple modals to be open simultaneously.
    */
   allowMultiple?: boolean
+  /**
+   * Allow the modal to be dragged by its header.
+   * Always disabled on touch/mobile devices regardless of this value.
+   */
+  draggable?: boolean
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
   className?: string
   backdropClassName?: string
@@ -84,6 +90,7 @@ export function HeadlessModal({
   initialFocusRef,
   scrollLockStrategy,
   allowMultiple = false,
+  draggable = false,
   size = 'md',
   className = '',
   backdropClassName = '',
@@ -94,6 +101,7 @@ export function HeadlessModal({
   // Decoupled so exit animations play before the element is removed.
   const [visible, setVisible] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
+  const dragHandleRef = useRef<HTMLDivElement>(null)
   const lastActiveRef = useRef<HTMLElement | null>(null)
   const labelledById = useId()
   const describedById = useId()
@@ -131,6 +139,13 @@ export function HeadlessModal({
   useFocusTrap({ open, closeOnEsc, panelRef, initialFocusRef, onClose: handleClose })
 
   const { zIndex } = useModalStack(open, onClose, allowMultiple)
+
+  const { dragStyle, resetPosition } = useDraggable({ enabled: draggable, handleRef: dragHandleRef })
+
+  // Reset drag offset whenever the modal closes
+  useEffect(() => {
+    if (!open) resetPosition()
+  }, [open, resetPosition])
 
   const sizeClass = useMemo(() => SIZE_CLASS[size] ?? SIZE_CLASS.md, [size])
 
@@ -191,6 +206,7 @@ export function HeadlessModal({
             open ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
             className,
           ].join(' ')}
+          style={dragStyle}
           onMouseDown={(e) => e.stopPropagation()}
           onTransitionEnd={handleTransitionEnd}
         >
@@ -199,6 +215,8 @@ export function HeadlessModal({
             showClose={showClose}
             labelledById={labelledById}
             onClose={handleClose}
+            dragHandleRef={dragHandleRef}
+            draggable={draggable}
           />
           <ModalBody description={description} describedById={describedById}>
             {children}

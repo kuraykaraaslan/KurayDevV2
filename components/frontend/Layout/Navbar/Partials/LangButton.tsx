@@ -77,7 +77,7 @@ export default function LanguageButton() {
         />
       </button>
 
-      <HeadlessModal open={open} onClose={closeModal} size="sm" title={t('navbar.select_language')}>
+      <HeadlessModal open={open} draggable onClose={closeModal} size="sm" title={t('navbar.select_language')}>
         <DynamicSelect
           options={langOptions}
           selectedValue={currentLang}
