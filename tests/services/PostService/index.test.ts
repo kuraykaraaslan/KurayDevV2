@@ -82,7 +82,7 @@ describe('PostService', () => {
   describe('createPost', () => {
     it('throws when required fields are missing', async () => {
       await expect(
-        PostService.createPost({ title: '', content: '', description: '', slug: '', keywords: [], authorId: '', categoryId: '', status: 'PUBLISHED' })
+        PostService.createPost({ title: '', content: '', description: '', slug: '', keywords: [], authorId: '', categoryId: '', status: 'PUBLISHED' } as any)
       ).rejects.toThrow('All fields are required.')
     })
 
@@ -90,7 +90,7 @@ describe('PostService', () => {
       prismaMock.post.findFirst.mockResolvedValueOnce(mockPost)
 
       await expect(
-        PostService.createPost({ title: 'Test Post', content: 'x', description: 'x', slug: 'test-post', keywords: ['x'], authorId: 'a', categoryId: 'c', status: 'PUBLISHED' })
+        PostService.createPost({ title: 'Test Post', content: 'x', description: 'x', slug: 'test-post', keywords: ['x'], authorId: 'a', categoryId: 'c', status: 'PUBLISHED' } as any)
       ).rejects.toThrow('Post with the same title or slug already exists.')
     })
 
@@ -102,7 +102,7 @@ describe('PostService', () => {
       await PostService.createPost({
         title: 'Test Post', content: 'content', description: 'desc', slug: 'test-post',
         keywords: ['kw'], authorId: 'author-1', categoryId: 'cat-1', status: 'PUBLISHED',
-      })
+      } as any)
 
       expect(prismaMock.post.create).toHaveBeenCalled()
       expect(redisMock.del).toHaveBeenCalledWith('sitemap:blog')
@@ -122,6 +122,29 @@ describe('PostService', () => {
 
       await PostService.createPost(data)
       expect(data.status).toBe('SCHEDULED')
+    })
+
+    it('normalizes slug (trim/lowercase/collapse) before persisting', async () => {
+      prismaMock.post.findFirst.mockResolvedValueOnce(null)
+      prismaMock.post.create.mockResolvedValueOnce({ ...mockPost, slug: 'my-test-slug' })
+      redisMock.del.mockResolvedValue(1)
+
+      await PostService.createPost({
+        title: 'Normalize Slug',
+        content: 'content',
+        description: 'desc',
+        slug: '  My   Test---Slug  ',
+        keywords: ['kw'],
+        authorId: 'author-1',
+        categoryId: 'cat-1',
+        status: 'PUBLISHED',
+      } as any)
+
+      expect(prismaMock.post.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ slug: 'my-test-slug' }),
+        })
+      )
     })
   })
 
@@ -153,29 +176,141 @@ describe('PostService', () => {
       const result = await PostService.getAllPosts({ page: 0, pageSize: 10, lang: 'tr' })
       expect(result.posts[0].title).toBe('TR Başlık')
     })
+
+    it('normalizes negative page and huge pageSize to safe bounds', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+
+      await PostService.getAllPosts({ page: -9, pageSize: 9999, search: '' })
+
+      expect(prismaMock.post.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          skip: 0,
+          take: 100,
+        })
+      )
+    })
+
+    it('excludes soft-deleted posts in public mode and allows internal ALL mode', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0]).mockResolvedValueOnce([[], 0])
+
+      await PostService.getAllPosts({ page: 0, pageSize: 10 })
+      await PostService.getAllPosts({ page: 0, pageSize: 10, status: 'ALL' })
+
+      const publicQuery = prismaMock.post.findMany.mock.calls[0][0]
+      const allQuery = prismaMock.post.findMany.mock.calls[1][0]
+
+      expect(publicQuery.where.deletedAt).toEqual({ equals: null })
+      expect(allQuery.where.deletedAt).toEqual({ equals: undefined })
+    })
   })
 
   // ── updatePost ────────────────────────────────────────────────────────
   describe('updatePost', () => {
     it('throws when required fields are missing', async () => {
       await expect(
-        PostService.updatePost({ postId: 'p1', title: '', content: '', description: '', slug: '', keywords: [], authorId: '', categoryId: '', status: 'PUBLISHED' })
+        PostService.updatePost({ postId: 'p1', title: '', content: '', description: '', slug: '', keywords: [], authorId: '', categoryId: '', status: 'PUBLISHED' } as any)
       ).rejects.toThrow('All fields are required.')
     })
 
     it('updates post and invalidates cache', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce({
+        postId: 'post-1',
+        authorId: 'a',
+        deletedAt: null,
+      })
       prismaMock.post.update.mockResolvedValueOnce(mockPost)
       redisMock.del.mockResolvedValue(1)
 
       await PostService.updatePost({
         postId: 'post-1', title: 'Updated', content: 'x', description: 'x',
         slug: 'updated', keywords: ['k'], authorId: 'a', categoryId: 'c', status: 'PUBLISHED',
-      })
+      } as any)
 
       expect(prismaMock.post.update).toHaveBeenCalledWith(
         expect.objectContaining({ where: { postId: 'post-1' } })
       )
+      const updateCall = prismaMock.post.update.mock.calls[0][0]
+      expect(updateCall.data.authorId).toBeUndefined()
+      expect(updateCall.data.createdAt).toBeUndefined()
+      expect(updateCall.data.publishedAt).toBeUndefined()
       expect(redisMock.del).toHaveBeenCalledWith('sitemap:blog')
+    })
+
+    it('rejects non-owner update when requester is not admin', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce({
+        postId: 'post-1',
+        authorId: 'owner-1',
+        deletedAt: null,
+      })
+
+      await expect(
+        PostService.updatePost(
+          {
+            postId: 'post-1',
+            title: 'Updated',
+            content: 'x',
+            description: 'x',
+            slug: 'updated',
+            keywords: ['k'],
+            authorId: 'owner-1',
+            categoryId: 'c',
+            status: 'PUBLISHED',
+          } as any,
+          { requesterId: 'attacker', requesterRole: 'USER' }
+        )
+      ).rejects.toThrow('Forbidden.')
+    })
+
+    it('allows admin override update even when requester is not owner', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce({
+        postId: 'post-1',
+        authorId: 'owner-1',
+        deletedAt: null,
+      })
+      prismaMock.post.update.mockResolvedValueOnce(mockPost)
+      redisMock.del.mockResolvedValue(1)
+
+      await PostService.updatePost(
+        {
+          postId: 'post-1',
+          title: 'Updated',
+          content: 'x',
+          description: 'x',
+          slug: 'updated',
+          keywords: ['k'],
+          authorId: 'owner-1',
+          categoryId: 'c',
+          status: 'PUBLISHED',
+        } as any,
+        { requesterId: 'admin-1', requesterRole: 'ADMIN' }
+      )
+
+      expect(prismaMock.post.update).toHaveBeenCalled()
+    })
+
+    it('blocks publishing a soft-deleted post', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce({
+        postId: 'post-1',
+        authorId: 'owner-1',
+        deletedAt: new Date('2024-01-01'),
+      })
+
+      await expect(
+        PostService.updatePost(
+          {
+            postId: 'post-1',
+            title: 'Updated',
+            content: 'x',
+            description: 'x',
+            slug: 'updated',
+            keywords: ['k'],
+            authorId: 'owner-1',
+            categoryId: 'c',
+            status: 'PUBLISHED',
+          } as any,
+          { requesterId: 'owner-1', requesterRole: 'USER' }
+        )
+      ).rejects.toThrow('Deleted post cannot be published.')
     })
   })
 
@@ -195,6 +330,66 @@ describe('PostService', () => {
       )
       expect(redisMock.del).toHaveBeenCalledWith('sitemap:blog')
     })
+
+    it('rejects non-owner delete when requester is not admin', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce({ authorId: 'owner-1' })
+
+      await expect(
+        PostService.deletePost('post-1', {
+          requesterId: 'attacker-1',
+          requesterRole: 'USER',
+        })
+      ).rejects.toThrow('Forbidden.')
+    })
+
+    it('allows owner delete with auth context', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce({ authorId: 'owner-1' })
+      prismaMock.post.update.mockResolvedValueOnce({
+        ...mockPost,
+        status: 'ARCHIVED',
+        deletedAt: new Date(),
+      })
+      redisMock.del.mockResolvedValue(1)
+
+      await PostService.deletePost('post-1', {
+        requesterId: 'owner-1',
+        requesterRole: 'USER',
+      })
+
+      expect(prismaMock.post.update).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { postId: 'post-1' } })
+      )
+    })
+
+    it('allows admin override delete even when requester is not owner', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce({ authorId: 'owner-1' })
+      prismaMock.post.update.mockResolvedValueOnce({
+        ...mockPost,
+        status: 'ARCHIVED',
+        deletedAt: new Date(),
+      })
+      redisMock.del.mockResolvedValue(1)
+
+      await PostService.deletePost('post-1', {
+        requesterId: 'admin-1',
+        requesterRole: 'ADMIN',
+      })
+
+      expect(prismaMock.post.update).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { postId: 'post-1' } })
+      )
+    })
+
+    it('throws post not found for auth-protected delete when resource is missing', async () => {
+      prismaMock.post.findUnique.mockResolvedValueOnce(null)
+
+      await expect(
+        PostService.deletePost('missing-post', {
+          requesterId: 'admin-1',
+          requesterRole: 'ADMIN',
+        })
+      ).rejects.toThrow('Post not found.')
+    })
   })
 
   // ── incrementViewCount ────────────────────────────────────────────────
@@ -210,6 +405,17 @@ describe('PostService', () => {
           data: { views: { increment: 1 } },
         })
       )
+    })
+
+    it('handles duplicate sequential increment calls (concurrency-lite)', async () => {
+      prismaMock.post.update
+        .mockResolvedValueOnce({ ...mockPost, views: 1 })
+        .mockResolvedValueOnce({ ...mockPost, views: 2 })
+
+      await PostService.incrementViewCount('post-1')
+      await PostService.incrementViewCount('post-1')
+
+      expect(prismaMock.post.update).toHaveBeenCalledTimes(2)
     })
   })
 

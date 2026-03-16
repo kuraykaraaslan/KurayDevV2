@@ -61,6 +61,25 @@ describe('CategoryService.createCategory', () => {
     )
     expect(result).toEqual(mockCategory)
   })
+
+  it('normalizes slug before create', async () => {
+    ;(prismaMock.category.findFirst as jest.Mock).mockResolvedValue(null)
+    ;(prismaMock.category.create as jest.Mock).mockResolvedValue(mockCategory)
+
+    await CategoryService.createCategory({
+      title: 'Tech',
+      description: 'Technology articles',
+      slug: '  Tech   News  ',
+      image: 'tech.jpg',
+      keywords: ['tech'],
+    })
+
+    expect(prismaMock.category.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ slug: 'tech-news' }),
+      })
+    )
+  })
 })
 
 describe('CategoryService.getAllCategories', () => {
@@ -92,6 +111,28 @@ describe('CategoryService.getAllCategories', () => {
       expect.objectContaining({ skip: 10, take: 5 }),
     )
   })
+
+  it('normalizes pagination bounds for negative page and zero pageSize', async () => {
+    ;(prismaMock.category.findMany as jest.Mock).mockResolvedValue([])
+    ;(prismaMock.category.count as jest.Mock).mockResolvedValue(0)
+
+    await CategoryService.getAllCategories(-5, 0)
+
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ skip: 0, take: 1 }),
+    )
+  })
+
+  it('caps pageSize to max boundary', async () => {
+    ;(prismaMock.category.findMany as jest.Mock).mockResolvedValue([])
+    ;(prismaMock.category.count as jest.Mock).mockResolvedValue(0)
+
+    await CategoryService.getAllCategories(0, 5000)
+
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ take: 100 }),
+    )
+  })
 })
 
 describe('CategoryService.getCategoryById', () => {
@@ -115,6 +156,7 @@ describe('CategoryService.getCategoryById', () => {
 
 describe('CategoryService.updateCategory', () => {
   it('calls prisma.category.update with correct data', async () => {
+    ;(prismaMock.category.findFirst as jest.Mock).mockResolvedValue(null)
     const updated = { ...mockCategory, title: 'Updated Tech' }
     ;(prismaMock.category.update as jest.Mock).mockResolvedValue(updated)
 
@@ -131,6 +173,42 @@ describe('CategoryService.updateCategory', () => {
     )
     expect(result.title).toBe('Updated Tech')
   })
+
+  it('denies non-admin update when auth context is provided', async () => {
+    await expect(
+      CategoryService.updateCategory(
+        {
+          categoryId: 'cat-1',
+          title: 'Updated Tech',
+          description: 'desc',
+          slug: 'tech',
+          image: 'img.jpg',
+        },
+        { requesterRole: 'USER' }
+      )
+    ).rejects.toThrow('Forbidden.')
+  })
+
+  it('throws when update slug conflicts with another active category', async () => {
+    ;(prismaMock.category.findFirst as jest.Mock).mockResolvedValueOnce({
+      categoryId: 'cat-2',
+      slug: 'tech',
+      deletedAt: null,
+    })
+
+    await expect(
+      CategoryService.updateCategory(
+        {
+          categoryId: 'cat-1',
+          title: 'Updated Tech',
+          description: 'desc',
+          slug: 'tech',
+          image: 'img.jpg',
+        },
+        { requesterRole: 'ADMIN' }
+      )
+    ).rejects.toThrow('Category with the same name or slug already exists.')
+  })
 })
 
 describe('CategoryService.deleteCategory', () => {
@@ -146,5 +224,11 @@ describe('CategoryService.deleteCategory', () => {
       }),
     )
     expect(prismaMock.category.findFirst).not.toHaveBeenCalled()
+  })
+
+  it('denies non-admin delete when auth context is provided', async () => {
+    await expect(CategoryService.deleteCategory('cat-1', { requesterRole: 'USER' })).rejects.toThrow(
+      'Forbidden.'
+    )
   })
 })

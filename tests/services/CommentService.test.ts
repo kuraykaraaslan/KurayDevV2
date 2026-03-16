@@ -111,6 +111,28 @@ describe('CommentService.getAllComments', () => {
     const result = await CommentService.getAllComments({ page: 0, pageSize: 10 })
     expect(result).toEqual({ comments: [mockComment], total: 1 })
   })
+
+  it('normalizes pagination bounds', async () => {
+    ;(prismaMock.comment.findMany as jest.Mock).mockResolvedValue([])
+    ;(prismaMock.comment.count as jest.Mock).mockResolvedValue(0)
+
+    await CommentService.getAllComments({ page: -3, pageSize: 0 })
+
+    expect(prismaMock.comment.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ skip: 0, take: 1 }),
+    )
+  })
+
+  it('caps page size to max boundary', async () => {
+    ;(prismaMock.comment.findMany as jest.Mock).mockResolvedValue([])
+    ;(prismaMock.comment.count as jest.Mock).mockResolvedValue(0)
+
+    await CommentService.getAllComments({ page: 0, pageSize: 9999 })
+
+    expect(prismaMock.comment.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ take: 100 }),
+    )
+  })
 })
 
 describe('CommentService.getCommentById', () => {
@@ -128,6 +150,7 @@ describe('CommentService.getCommentById', () => {
 
 describe('CommentService.deleteComment', () => {
   it('soft deletes by setting deletedAt via update', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
     ;(prismaMock.comment.update as jest.Mock).mockResolvedValue({ ...mockComment, deletedAt: new Date() })
 
     await CommentService.deleteComment('c-1')
@@ -139,11 +162,40 @@ describe('CommentService.deleteComment', () => {
       }),
     )
   })
+
+  it('denies delete for non-owner and non-admin', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
+
+    await expect(
+      CommentService.deleteComment('c-1', {
+        requesterEmail: 'attacker@example.com',
+        requesterRole: 'USER',
+      }),
+    ).rejects.toThrow('Forbidden.')
+  })
+
+  it('allows owner delete when auth context is provided', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
+    ;(prismaMock.comment.update as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      deletedAt: new Date(),
+    })
+
+    await CommentService.deleteComment('c-1', {
+      requesterEmail: 'user@example.com',
+      requesterRole: 'USER',
+    })
+
+    expect(prismaMock.comment.update).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { commentId: 'c-1' } }),
+    )
+  })
 })
 
 describe('CommentService.updateComment', () => {
   it('calls prisma.comment.update with commentId and data', async () => {
     const updated = { ...mockComment, content: 'Updated content.' }
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
     ;(prismaMock.comment.update as jest.Mock).mockResolvedValue(updated)
 
     const result = await CommentService.updateComment({ commentId: 'c-1', content: 'Updated content.' } as any)
@@ -152,5 +204,122 @@ describe('CommentService.updateComment', () => {
       expect.objectContaining({ where: { commentId: 'c-1' } }),
     )
     expect(result.content).toBe('Updated content.')
+  })
+
+  it('denies update for non-owner and non-admin', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
+
+    await expect(
+      CommentService.updateComment(
+        { commentId: 'c-1', content: 'Updated content.' } as any,
+        { requesterEmail: 'attacker@example.com', requesterRole: 'USER' },
+      ),
+    ).rejects.toThrow('Forbidden.')
+  })
+
+  it('strips immutable fields from update payload', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
+    ;(prismaMock.comment.update as jest.Mock).mockResolvedValue(mockComment)
+
+    await CommentService.updateComment(
+      {
+        commentId: 'c-1',
+        content: 'Updated content.',
+        email: 'other@example.com',
+        name: 'Other',
+        postId: 'post-2',
+        parentId: 'p-1',
+        createdAt: new Date(),
+        deletedAt: new Date(),
+      } as any,
+      { requesterEmail: 'user@example.com', requesterRole: 'USER' },
+    )
+
+    const updateArg = (prismaMock.comment.update as jest.Mock).mock.calls[0][0]
+    expect(updateArg.data.email).toBeUndefined()
+    expect(updateArg.data.name).toBeUndefined()
+    expect(updateArg.data.postId).toBeUndefined()
+    expect(updateArg.data.parentId).toBeUndefined()
+    expect(updateArg.data.createdAt).toBeUndefined()
+    expect(updateArg.data.deletedAt).toBeUndefined()
+  })
+
+  it('blocks publishing when current status is spam', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    await expect(
+      CommentService.updateComment(
+        { commentId: 'c-1', status: 'PUBLISHED' } as any,
+        { requesterRole: 'ADMIN' },
+      ),
+    ).rejects.toThrow('Spam comment cannot be published directly.')
+  })
+})
+
+describe('CommentService.approveComment', () => {
+  it('returns already published comment as-is', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'PUBLISHED',
+    })
+
+    const result = await CommentService.approveComment('c-1')
+    expect(result.status).toBe('PUBLISHED')
+    expect(prismaMock.comment.update).not.toHaveBeenCalled()
+  })
+
+  it('throws when trying to approve spam comment', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    await expect(CommentService.approveComment('c-1')).rejects.toThrow(
+      'Spam comment cannot be published directly.',
+    )
+  })
+
+  it('publishes pending comment', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
+    ;(prismaMock.comment.update as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'PUBLISHED',
+    })
+
+    const result = await CommentService.approveComment('c-1')
+    expect(result.status).toBe('PUBLISHED')
+    expect(prismaMock.comment.update).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { commentId: 'c-1' }, data: { status: 'PUBLISHED' } }),
+    )
+  })
+})
+
+describe('CommentService.markCommentAsSpam', () => {
+  it('returns already spam comment as-is', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    const result = await CommentService.markCommentAsSpam('c-1')
+    expect(result.status).toBe('SPAM')
+    expect(prismaMock.comment.update).not.toHaveBeenCalled()
+  })
+
+  it('marks non-spam comment as spam', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(mockComment)
+    ;(prismaMock.comment.update as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    const result = await CommentService.markCommentAsSpam('c-1')
+    expect(result.status).toBe('SPAM')
+    expect(prismaMock.comment.update).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { commentId: 'c-1' }, data: { status: 'SPAM' } }),
+    )
   })
 })

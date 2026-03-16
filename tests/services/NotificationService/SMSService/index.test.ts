@@ -108,4 +108,18 @@ describe('SMSService', () => {
       )
     })
   })
+
+  // ── _sendShortMessage fallback ───────────────────────────────────────
+  describe('_sendShortMessage', () => {
+    it('uses default provider when region has no dedicated provider', async () => {
+      ;(SMSService as any).ALLOWED_COUNTRIES = undefined
+      const providerSpy = jest
+        .spyOn(SMSService.DEFAULT_PROVIDER, 'sendShortMessage')
+        .mockResolvedValueOnce(undefined)
+
+      await SMSService._sendShortMessage({ to: '+33123456789', body: 'Bonjour' })
+
+      expect(providerSpy).toHaveBeenCalledWith('+33123456789', 'Bonjour')
+    })
+  })
 })

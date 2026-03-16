@@ -58,9 +58,25 @@ describe('ProjectService.getAllProjects', () => {
 
     await ProjectService.getAllProjects({ page: 3, pageSize: 5 })
 
-    const transactionCall = (prismaMock.$transaction as jest.Mock).mock.calls[0][0]
-    // transaction receives an array of query promises; just verify it was called
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(expect.objectContaining({ skip: 15, take: 5 }))
+    expect(prismaMock.project.count).toHaveBeenCalled()
     expect(prismaMock.$transaction).toHaveBeenCalled()
+  })
+
+  it('normalizes negative page and zero pageSize bounds', async () => {
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValue([[], 0])
+
+    await ProjectService.getAllProjects({ page: -5, pageSize: 0 })
+
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(expect.objectContaining({ skip: 0, take: 1 }))
+  })
+
+  it('caps pageSize to max boundary', async () => {
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValue([[], 0])
+
+    await ProjectService.getAllProjects({ page: 0, pageSize: 999 })
+
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(expect.objectContaining({ take: 100 }))
   })
 })
 
@@ -96,6 +112,33 @@ describe('ProjectService.createProject', () => {
       ProjectService.createProject({ title: '', description: '', slug: '', image: '', platforms: [], technologies: [], projectLinks: [] } as any),
     ).rejects.toThrow('Missing required fields.')
   })
+
+  it('normalizes slug on create', async () => {
+    ;(prismaMock.project.create as jest.Mock).mockResolvedValue(mockProject)
+    ;(redisMock.del as jest.Mock).mockResolvedValue(1)
+
+    await ProjectService.createProject({
+      title: 'My Project',
+      description: 'A test project',
+      slug: '  My   Project  ',
+      image: 'proj.jpg',
+      status: 'PUBLISHED',
+      platforms: ['web'],
+      technologies: ['TypeScript'],
+      projectLinks: ['https://example.com'],
+      content: null,
+      translations: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    } as any)
+
+    expect(prismaMock.project.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ slug: 'my-project' }),
+      }),
+    )
+  })
 })
 
 describe('ProjectService.updateProject', () => {
@@ -104,13 +147,36 @@ describe('ProjectService.updateProject', () => {
     ;(prismaMock.project.update as jest.Mock).mockResolvedValue(updated)
     ;(redisMock.del as jest.Mock).mockResolvedValue(1)
 
-    const result = await ProjectService.updateProject(mockProject as any)
+    const result = await ProjectService.updateProject({ ...mockProject, slug: '  Updated   Slug ' } as any)
 
     expect(redisMock.del).toHaveBeenCalledWith('sitemap:project')
     expect(prismaMock.project.update).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { projectId: 'proj-1' } }),
+      expect.objectContaining({
+        where: { projectId: 'proj-1' },
+        data: expect.objectContaining({ slug: 'updated-slug' }),
+      }),
     )
     expect(result).toEqual(updated)
+  })
+
+  it('strips immutable fields from update payload', async () => {
+    ;(prismaMock.project.update as jest.Mock).mockResolvedValue(mockProject)
+    ;(redisMock.del as jest.Mock).mockResolvedValue(1)
+
+    await ProjectService.updateProject(mockProject as any)
+
+    const updateArg = (prismaMock.project.update as jest.Mock).mock.calls[0][0]
+    expect(updateArg.data.projectId).toBeUndefined()
+    expect(updateArg.data.createdAt).toBeUndefined()
+    expect(updateArg.data.updatedAt).toBeUndefined()
+    expect(updateArg.data.deletedAt).toBeUndefined()
+    expect(updateArg.data.translations).toBeUndefined()
+  })
+
+  it('denies non-admin update when auth context is provided', async () => {
+    await expect(
+      ProjectService.updateProject(mockProject as any, { requesterRole: 'USER' }),
+    ).rejects.toThrow('Forbidden.')
   })
 })
 
@@ -127,6 +193,12 @@ describe('ProjectService.deleteProject', () => {
         where: { projectId: 'proj-1' },
         data: expect.objectContaining({ deletedAt: expect.any(Date) }),
       }),
+    )
+  })
+
+  it('denies non-admin delete when auth context is provided', async () => {
+    await expect(ProjectService.deleteProject('proj-1', { requesterRole: 'USER' })).rejects.toThrow(
+      'Forbidden.'
     )
   })
 })

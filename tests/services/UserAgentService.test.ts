@@ -114,4 +114,37 @@ describe('UserAgentService', () => {
       expect(result.city).toBe('Ankara')
     })
   })
+
+  // ── parse boundary/fallback/determinism ───────────────────────────────
+  describe('parse boundary/fallback/determinism', () => {
+    it('gracefully handles nullish input without throwing', async () => {
+      await expect(UserAgentService.parse(undefined, undefined)).resolves.toEqual(
+        expect.objectContaining({
+          os: 'Unknown',
+          device: 'Desktop',
+          city: 'Unknown',
+          country: 'Unknown',
+          ip: 'Unknown',
+          browser: 'Unknown',
+          deviceFingerprint: null,
+        })
+      )
+    })
+
+    it('returns deterministic output for same long input', async () => {
+      const geoSpy = jest
+        .spyOn(UserAgentService, 'getGeoLocation')
+        .mockResolvedValue({ city: 'Berlin', state: 'Berlin', country: 'Germany', countryCode: 'DE', latitude: 1, longitude: 1 })
+
+      const longUA = `Mozilla/5.0 ${'A'.repeat(4000)} Chrome/120.0`
+      const first = await UserAgentService.parse(longUA, '9.9.9.9')
+      const second = await UserAgentService.parse(longUA, '9.9.9.9')
+
+      expect(first).toEqual(second)
+      expect(first.browser).toBe('Chrome')
+      expect(first.os).toBe('Unknown')
+
+      geoSpy.mockRestore()
+    })
+  })
 })

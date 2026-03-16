@@ -16,6 +16,7 @@ jest.mock('nodemailer', () => ({
 import MailService from '@/services/NotificationService/MailService'
 import ejs from 'ejs'
 import nodemailer from 'nodemailer'
+import CampaignMessages from '@/messages/CampaignMessages'
 
 const ejsMock = ejs as jest.Mocked<typeof ejs>
 const transporterMock = (nodemailer.createTransport as jest.Mock).mock.results[0]?.value
@@ -148,6 +149,24 @@ describe('MailService', () => {
 
   // ── sendCampaignEmail ─────────────────────────────────────────────────
   describe('sendCampaignEmail', () => {
+    it('throws when unsubscribeToken is missing', async () => {
+      await expect(
+        MailService.sendCampaignEmail('sub@ex.com', 'Promo', '<p>content</p>', '')
+      ).rejects.toThrow(CampaignMessages.UNSUBSCRIBE_TOKEN_REQUIRED)
+    })
+
+    it('throws when subject is blank', async () => {
+      await expect(
+        MailService.sendCampaignEmail('sub@ex.com', '   ', '<p>content</p>', 'token-xyz')
+      ).rejects.toThrow(CampaignMessages.SUBJECT_REQUIRED)
+    })
+
+    it('throws when body content is blank', async () => {
+      await expect(
+        MailService.sendCampaignEmail('sub@ex.com', 'Promo', '   ', 'token-xyz')
+      ).rejects.toThrow(CampaignMessages.CONTENT_REQUIRED)
+    })
+
     it('queues campaign email with unsubscribeToken in template data', async () => {
       const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
       await MailService.sendCampaignEmail('sub@ex.com', 'Promo', '<p>content</p>', 'token-xyz')

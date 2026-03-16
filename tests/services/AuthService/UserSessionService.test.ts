@@ -245,11 +245,44 @@ describe('UserSessionService', () => {
         ...mockDbSession,
         otpVerifyNeeded: true,
       } as any)
-      prismaMock.user.findUnique.mockResolvedValueOnce({ userId: 'user-1' } as any)
 
       await expect(
         UserSessionService.getSessionDangerously({ accessToken: 'tok', request: makeRequest(), otpVerifyBypass: false })
       ).rejects.toThrow(AuthMessages.OTP_NEEDED)
+    })
+
+    it('allows session retrieval when OTP bypass is explicitly enabled', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      redisMock.setex.mockResolvedValue('OK')
+      prismaMock.userSession.findFirst.mockResolvedValueOnce({
+        ...mockDbSession,
+        otpVerifyNeeded: true,
+      } as any)
+      prismaMock.user.findUnique.mockResolvedValueOnce({
+        userId: 'user-1',
+        email: 'test@example.com',
+        userRole: 'USER',
+        userStatus: 'ACTIVE',
+        userProfile: null,
+        userPreferences: null,
+        userSecurity: null,
+        password: 'password12345678',
+        phone: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      } as any)
+
+      await expect(
+        UserSessionService.getSessionDangerously({
+          accessToken: 'tok',
+          request: makeRequest(),
+          otpVerifyBypass: true,
+        })
+      ).resolves.toMatchObject({
+        user: expect.objectContaining({ userId: 'user-1' }),
+        userSession: expect.objectContaining({ userSessionId: 'session-1' }),
+      })
     })
   })
 

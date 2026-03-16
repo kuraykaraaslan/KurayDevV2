@@ -44,6 +44,57 @@ describe('SlotService', () => {
       )
       expect(result).toEqual(slot)
     })
+
+    it('prevents concurrent create attempts on the same day (race guard)', async () => {
+      redisMock.scan.mockResolvedValue(['0', []])
+      let lockHeld = false
+      ;(redisMock.set as jest.Mock).mockImplementation(async (key: string) => {
+        if (key.startsWith('slot_lock:')) {
+          if (lockHeld) return null
+          lockHeld = true
+          return 'OK'
+        }
+        return 'OK'
+      })
+      ;(redisMock.del as jest.Mock).mockImplementation(async (key: string) => {
+        if (key.startsWith('slot_lock:')) lockHeld = false
+        return 1
+      })
+
+      const slotA = makeSlot('2026-03-16T10:00:00Z', '2026-03-16T11:00:00Z')
+      const slotB = makeSlot('2026-03-16T11:00:00Z', '2026-03-16T12:00:00Z')
+
+      const [first, second] = await Promise.allSettled([
+        SlotService.createSlot(slotA),
+        SlotService.createSlot(slotB),
+      ])
+
+      const fulfilled = [first, second].filter(
+        (result): result is PromiseFulfilledResult<Slot> => result.status === 'fulfilled'
+      )
+      const rejected = [first, second].filter(
+        (result): result is PromiseRejectedResult => result.status === 'rejected'
+      )
+
+      expect(fulfilled).toHaveLength(1)
+      expect(rejected).toHaveLength(1)
+      expect(rejected[0].reason.message).toBe('Slot creation in progress for this date')
+    })
+
+    it('uses UTC keying near timezone day-change boundaries', async () => {
+      redisMock.scan.mockResolvedValueOnce(['0', []])
+      redisMock.set.mockResolvedValue('OK')
+
+      const slot = makeSlot('2026-03-16T23:30:00-05:00', '2026-03-17T00:00:00-05:00')
+      await SlotService.createSlot(slot)
+
+      expect(redisMock.set).toHaveBeenCalledWith(
+        expect.stringContaining('slot:2026-03-17:04:30'),
+        expect.any(String),
+        'EX',
+        expect.any(Number)
+      )
+    })
   })
 
   // ── getSlot ──────────────────────────────────────────────────────────
@@ -115,6 +166,20 @@ describe('SlotService', () => {
       })
       expect(result).toHaveProperty('slots')
       expect(result).toHaveProperty('total')
+    })
+
+    it('handles exact boundary where startDate equals endDate', async () => {
+      const slot = makeSlot('2026-03-16T10:00:00Z', '2026-03-16T11:00:00Z')
+      redisMock.scan.mockResolvedValueOnce(['0', ['slot:2026-03-16:10:00']])
+      redisMock.mget.mockResolvedValueOnce([JSON.stringify(slot)])
+
+      const result = await SlotService.getAllSlotsForDateRange({
+        startDate: '2026-03-16',
+        endDate: '2026-03-16',
+      })
+
+      expect(result.total).toBe(1)
+      expect(redisMock.scan).toHaveBeenCalledTimes(1)
     })
   })
 })

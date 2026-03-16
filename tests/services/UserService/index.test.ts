@@ -127,6 +127,43 @@ describe('UserService.getByEmail', () => {
   })
 })
 
+describe('UserService.getAll', () => {
+  it('returns SafeUser list without password hash or userSecurity', async () => {
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValueOnce([[mockDbUser], 1])
+
+    const result = await UserService.getAll({ page: 0, pageSize: 10 })
+
+    expect(result.total).toBe(1)
+    expect(result.users).toHaveLength(1)
+    expect(result.users[0]).not.toHaveProperty('password')
+    expect(result.users[0]).not.toHaveProperty('userSecurity')
+  })
+
+  it('preserves safe profile/preferences fields in list responses', async () => {
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValueOnce([
+      [
+        {
+          ...mockDbUser,
+          userProfile: { name: 'Ada', profilePicture: '/p.png', bio: null },
+          userPreferences: { newsletter: true },
+        },
+      ],
+      1,
+    ])
+
+    const result = await UserService.getAll({ page: 0, pageSize: 10, search: 'ada' })
+
+    expect(result.users[0]).toEqual(
+      expect.objectContaining({
+        userId: 'user-1',
+        email: 'test@example.com',
+        userProfile: expect.objectContaining({ name: 'Ada' }),
+        userPreferences: expect.objectContaining({ newsletter: true }),
+      })
+    )
+  })
+})
+
 describe('UserService.getById', () => {
   it('returns SafeUser when found', async () => {
     ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(mockDbUser)
@@ -155,6 +192,7 @@ describe('UserService.update', () => {
       expect.objectContaining({ where: { userId: 'user-1' } }),
     )
     expect(result).not.toHaveProperty('password')
+    expect(result).not.toHaveProperty('userSecurity')
   })
 
   it('throws USER_NOT_FOUND when userId is empty', async () => {

@@ -69,6 +69,30 @@ describe('ShortLinkService', () => {
       expect(prismaMock.shortLink.create).toHaveBeenCalled()
       expect(typeof code).toBe('string')
     })
+
+    it('is idempotent for duplicate getOrCreate commands on same URL', async () => {
+      prismaMock.shortLink.findFirst
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce({ ...mockLink, code: 'same01' })
+      prismaMock.shortLink.findUnique.mockResolvedValueOnce(null)
+      prismaMock.shortLink.create.mockResolvedValueOnce({ ...mockLink, code: 'same01' })
+
+      const firstCode = await ShortLinkService.getOrCreate('https://example.com/idempotent')
+      const secondCode = await ShortLinkService.getOrCreate('https://example.com/idempotent')
+
+      expect(firstCode).toBe('same01')
+      expect(secondCode).toBe('same01')
+      expect(prismaMock.shortLink.create).toHaveBeenCalledTimes(1)
+    })
+
+    it('rejects unsupported URL protocols via allowlist', async () => {
+      await expect(ShortLinkService.getOrCreate('javascript:alert(1)')).rejects.toThrow(
+        'Unsupported URL protocol: javascript:'
+      )
+
+      expect(prismaMock.shortLink.findFirst).not.toHaveBeenCalled()
+      expect(prismaMock.shortLink.create).not.toHaveBeenCalled()
+    })
   })
 
   // ── resolve ───────────────────────────────────────────────────────────
@@ -115,6 +139,30 @@ describe('ShortLinkService', () => {
       await ShortLinkService.resolve('abc123', mockRequest)
       expect(redisMock.rpush).not.toHaveBeenCalled()
     })
+
+    it('returns originalUrl even when redis tracking fails (safe fallback)', async () => {
+      prismaMock.shortLink.findFirst.mockResolvedValueOnce(mockLink)
+      redisMock.incr.mockRejectedValueOnce(new Error('redis unavailable'))
+
+      const mockRequest = {
+        headers: { get: (h: string) => (h === 'x-forwarded-for' ? '2.2.2.2' : null) },
+      } as unknown as NextRequest
+
+      await expect(ShortLinkService.resolve('abc123', mockRequest)).resolves.toBe(
+        'https://example.com/long-url'
+      )
+    })
+
+    it('returns null for links with disallowed target protocols', async () => {
+      prismaMock.shortLink.findFirst.mockResolvedValueOnce({
+        ...mockLink,
+        originalUrl: 'data:text/html;base64,SGVsbG8=',
+      })
+
+      const result = await ShortLinkService.resolve('abc123')
+      expect(result).toBeNull()
+      expect(redisMock.rpush).not.toHaveBeenCalled()
+    })
   })
 
   // ── getAll ────────────────────────────────────────────────────────────
@@ -144,6 +192,14 @@ describe('ShortLinkService', () => {
       expect(prismaMock.shortLink.update).toHaveBeenCalledWith(
         expect.objectContaining({ where: { id: 'link-1' } })
       )
+    })
+
+    it('rejects update when URL protocol is not allowlisted', async () => {
+      await expect(
+        ShortLinkService.update('link-1', { originalUrl: 'javascript:alert(1)' })
+      ).rejects.toThrow('Unsupported URL protocol: javascript:')
+
+      expect(prismaMock.shortLink.update).not.toHaveBeenCalled()
     })
   })
 

@@ -117,11 +117,29 @@ describe('ContactFormService', () => {
       )
 
       const call = prismaMock.contactForm.findMany.mock.calls[0][0]
+      expect(result).toHaveLength(1)
       expect(call.where.OR).toEqual([
         { phone: '+905551234567' },
         { email: 'john@example.com' },
       ])
       expect(call.where.createdAt.gte).toBeDefined()
+    })
+  })
+
+  // ── isRateLimited ─────────────────────────────────────────────────────
+  describe('isRateLimited', () => {
+    it('returns true when recent entries exceed threshold', async () => {
+      prismaMock.contactForm.findMany.mockResolvedValueOnce([mockForm, mockForm, mockForm])
+
+      const result = await ContactFormService.isRateLimited('+905551234567', 'john@example.com')
+      expect(result).toBe(true)
+    })
+
+    it('returns false when recent entries are within threshold', async () => {
+      prismaMock.contactForm.findMany.mockResolvedValueOnce([mockForm, mockForm])
+
+      const result = await ContactFormService.isRateLimited('+905551234567', 'john@example.com')
+      expect(result).toBe(false)
     })
   })
 

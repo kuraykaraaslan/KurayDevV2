@@ -1,6 +1,5 @@
 import PostLikeService from '@/services/PostService/LikeService'
 import { prisma } from '@/libs/prisma'
-import { NextRequest } from 'next/server'
 
 jest.mock('@/libs/prisma', () => ({
   prisma: {
@@ -23,7 +22,7 @@ jest.mock('@/services/UserAgentService', () => ({
 import UserAgentService from '@/services/UserAgentService'
 
 const prismaMock = prisma as any
-const mockReq = {} as NextRequest
+const mockReq = { user: null } as unknown as NextRequest
 
 const mockLike = {
   likeId: 'like-1',
@@ -45,13 +44,14 @@ describe('PostLikeService.likePost', () => {
     ).rejects.toThrow('Insufficient data to create a like.')
   })
 
-  it('throws when post is already liked', async () => {
+  it('returns existing like when post is already liked', async () => {
     ;(UserAgentService.parseRequest as jest.Mock).mockResolvedValue({ ip: '1.2.3.4', deviceFingerprint: 'fp-abc' })
     ;(prismaMock.like.findFirst as jest.Mock).mockResolvedValue(mockLike)
 
-    await expect(
-      PostLikeService.likePost({ postId: 'post-1', request: mockReq }),
-    ).rejects.toThrow('Post already liked.')
+    const result = await PostLikeService.likePost({ postId: 'post-1', request: mockReq })
+
+    expect(result).toEqual(mockLike)
+    expect(prismaMock.like.create).not.toHaveBeenCalled()
   })
 
   it('creates like when no existing like', async () => {
@@ -68,6 +68,21 @@ describe('PostLikeService.likePost', () => {
     )
     expect(result).toEqual(mockLike)
   })
+
+  it('is idempotent for two sequential like attempts', async () => {
+    ;(UserAgentService.parseRequest as jest.Mock).mockResolvedValue({ ip: '1.2.3.4', deviceFingerprint: 'fp-abc' })
+    ;(prismaMock.like.findFirst as jest.Mock)
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(mockLike)
+    ;(prismaMock.like.create as jest.Mock).mockResolvedValueOnce(mockLike)
+
+    const first = await PostLikeService.likePost({ postId: 'post-1', request: mockReq })
+    const second = await PostLikeService.likePost({ postId: 'post-1', request: mockReq })
+
+    expect(first).toEqual(mockLike)
+    expect(second).toEqual(mockLike)
+    expect(prismaMock.like.create).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('PostLikeService.unlikePost', () => {
@@ -79,13 +94,15 @@ describe('PostLikeService.unlikePost', () => {
     ).rejects.toThrow('Insufficient data to remove like.')
   })
 
-  it('throws when like is not found', async () => {
+  it('returns without throwing when like is not found', async () => {
     ;(UserAgentService.parseRequest as jest.Mock).mockResolvedValue({ ip: '1.2.3.4', deviceFingerprint: 'fp-abc' })
     ;(prismaMock.like.findFirst as jest.Mock).mockResolvedValue(null)
 
     await expect(
       PostLikeService.unlikePost({ postId: 'post-1', request: mockReq }),
-    ).rejects.toThrow('Like not found.')
+    ).resolves.toBeUndefined()
+
+    expect(prismaMock.like.delete).not.toHaveBeenCalled()
   })
 
   it('deletes like on success', async () => {
