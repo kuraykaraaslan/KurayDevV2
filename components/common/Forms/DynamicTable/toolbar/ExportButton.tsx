@@ -39,13 +39,17 @@ function ExportButton() {
   }, [visibleColumns, buildRows, t])
 
   const exportXLSX = useCallback(async () => {
-    const { utils, writeFile } = await import('xlsx')
+    const ExcelJS = await import('exceljs')
     const headers = visibleColumns.map((col) => t(col.header))
     const rows = buildRows()
-    const ws = utils.aoa_to_sheet([headers, ...rows])
-    const wb = utils.book_new()
-    utils.book_append_sheet(wb, ws, 'Export')
-    writeFile(wb, 'export.xlsx')
+    const wb = new ExcelJS.Workbook()
+    const ws = wb.addWorksheet('Export')
+    ws.addRows([headers, ...rows])
+    const buffer = await wb.xlsx.writeBuffer()
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    })
+    triggerDownload(blob, 'export.xlsx')
   }, [visibleColumns, buildRows, t])
 
   const exportPDF = useCallback(async () => {
