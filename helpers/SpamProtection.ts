@@ -72,7 +72,7 @@ export function hasSpamPatterns(message: string): boolean {
     // Adult content
     /\b(viagra|cialis|pharmacy|pills|medication)\b/i,
     // Too many URLs
-    /(https?:\/\/[^\s]+){3,}/i, // 3+ URLs is suspicious
+    /((https?:\/\/[^\s]+\s*){3,})/i, // 3+ URLs is suspicious
     // All caps with exclamation
     /[A-Z]{20,}/,
     // Repeated characters

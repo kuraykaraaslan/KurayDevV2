@@ -104,13 +104,21 @@ export default class PasswordService {
 
     await redis.del(key) // one-time usage
 
-    await MailService.sendPasswordResetSuccessEmail(user.email, user.userProfile.name || undefined)
+    try {
+      await MailService.sendPasswordResetSuccessEmail(user.email, user.userProfile.name || undefined)
+    } catch {
+      // Password reset is already completed; notification failures are non-blocking.
+    }
 
     if (user.phone) {
-      await SMSService.sendShortMessage({
-        to: user.phone,
-        body: `Your password has been successfully reset.`,
-      })
+      try {
+        await SMSService.sendShortMessage({
+          to: user.phone,
+          body: `Your password has been successfully reset.`,
+        })
+      } catch {
+        // Password reset is already completed; notification failures are non-blocking.
+      }
     }
   }
 }

@@ -25,6 +25,15 @@ interface SSOProviderService {
   getUserInfo: (accessToken: string) => Promise<SSOProfileResponse>
 }
 
+interface AuthCallbackValidationOptions {
+  state?: string
+  expectedState?: string
+  nonce?: string
+  expectedNonce?: string
+  redirectUri?: string
+  expectedRedirectUri?: string
+}
+
 export default class SSOService {
   private static ALLOWED_PROVIDERS = process.env.SSO_ALLOWED_PROVIDERS?.split(',') || []
 
@@ -106,6 +115,17 @@ export default class SSOService {
     accessToken: string,
     refreshToken?: string
   ) {
+    const providerBinding = await prisma.userSocialAccount.findFirst({
+      where: {
+        provider: profile.provider,
+        providerId: profile.sub,
+      },
+    })
+
+    if (providerBinding && providerBinding.userId !== user.userId) {
+      throw new Error(SSOMessages.AUTHENTICATION_FAILED)
+    }
+
     const socialAccount = await prisma.userSocialAccount.findFirst({
       where: {
         provider: profile.provider,
@@ -140,13 +160,24 @@ export default class SSOService {
   /*
    * Generate SSO Link
    * @param provider - The provider name.
+   * @param options - Optional state/nonce values for CSRF/replay protection.
    * @returns The SSO link.
    */
-  static generateAuthUrl(provider: string): string {
+  static generateAuthUrl(provider: string, options?: { state?: string; nonce?: string }): string {
     const providerService = this.getProviderService(provider)
 
     try {
-      return providerService.generateAuthUrl()
+      const url = new URL(providerService.generateAuthUrl())
+
+      if (options?.state) {
+        url.searchParams.set('state', options.state)
+      }
+
+      if (options?.nonce) {
+        url.searchParams.set('nonce', options.nonce)
+      }
+
+      return url.toString()
     } catch (error) {
       throw new Error(SSOMessages.OAUTH_ERROR)
     }
@@ -162,10 +193,26 @@ export default class SSOService {
    */
   static async authCallback(
     provider: string,
-    code: string
+    code: string,
+    validation?: AuthCallbackValidationOptions
   ): Promise<{ user: SafeUser; userSecurity: UserSecurity; newUser: boolean }> {
     if (!code) {
       throw new Error(SSOMessages.CODE_NOT_FOUND)
+    }
+
+    if (validation?.expectedState && validation.state !== validation.expectedState) {
+      throw new Error(SSOMessages.INVALID_REQUEST)
+    }
+
+    if (validation?.expectedNonce && validation.nonce !== validation.expectedNonce) {
+      throw new Error(SSOMessages.INVALID_REQUEST)
+    }
+
+    if (
+      validation?.expectedRedirectUri &&
+      validation.redirectUri !== validation.expectedRedirectUri
+    ) {
+      throw new Error(SSOMessages.INVALID_REQUEST)
     }
 
     const providerService = this.getProviderService(provider)
@@ -180,6 +227,10 @@ export default class SSOService {
       const profile = await providerService.getUserInfo(access_token)
       if (!profile.email) {
         throw new Error(SSOMessages.EMAIL_NOT_FOUND)
+      }
+
+      if (!profile.sub || !profile.provider) {
+        throw new Error(SSOMessages.OAUTH_ERROR)
       }
 
       let user = await prisma.user.findUnique({
@@ -202,7 +253,15 @@ export default class SSOService {
       const { userSecurity } = await SecurityService.getUserSecurity(user.userId)
 
       return { user: UserSchema.parse(user), userSecurity, newUser }
-    } catch (error) {
+    } catch (error: any) {
+      if (
+        error?.message === SSOMessages.EMAIL_NOT_FOUND ||
+        error?.message === SSOMessages.INVALID_REQUEST ||
+        error?.message === SSOMessages.AUTHENTICATION_FAILED
+      ) {
+        throw error
+      }
+
       throw new Error(SSOMessages.OAUTH_ERROR)
     }
   }

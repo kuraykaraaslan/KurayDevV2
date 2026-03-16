@@ -75,8 +75,23 @@ export default class UserSessionService {
       },
     })
 
+    const safeSession = UserSessionService.omitSensitiveFields(userSession)
+
+    // Best-effort cache write: session creation must not fail due to Redis issues.
+    try {
+      const cacheKey = SESSION_CACHE_KEY(user.userId, hashedAccessToken)
+      const ttlSeconds = Math.floor(SESSION_REDIS_EXPIRY_MS / 1000)
+      await redisInstance.setex(
+        cacheKey,
+        ttlSeconds,
+        JSON.stringify({ user, userSession: safeSession })
+      )
+    } catch {
+      // ignore cache write failures
+    }
+
     return {
-      userSession: UserSessionService.omitSensitiveFields(userSession),
+      userSession: safeSession,
       rawAccessToken,
       rawRefreshToken,
     }
@@ -193,12 +208,20 @@ export default class UserSessionService {
     const decoded = await TokenService.verifyRefreshToken(currentRefreshToken)
     const hashedRefreshToken = TokenService.hashToken(currentRefreshToken)
 
+    const whereClause: any = {
+      userId: decoded.userId,
+      sessionExpiry: { gte: new Date() },
+    }
+
+    // Prefer session-bound lookup when claim exists (stronger reuse detection).
+    if (decoded.userSessionId) {
+      whereClause.userSessionId = decoded.userSessionId
+    } else {
+      whereClause.refreshToken = hashedRefreshToken
+    }
+
     const session = await prisma.userSession.findFirst({
-      where: {
-        refreshToken: hashedRefreshToken,
-        userId: decoded.userId,
-        sessionExpiry: { gte: new Date() },
-      },
+      where: whereClause,
     })
 
     if (!session) {
@@ -314,13 +337,17 @@ export default class UserSessionService {
    * @param userSession - The user session data to delete.
    */
   static async deleteSession(
-    userSession: Pick<UserSession, 'userSessionId' | 'userId'>
+    userSession: Pick<UserSession, 'userSessionId' | 'userId'> & { isAdmin?: boolean }
   ): Promise<void> {
-    const { userSessionId, userId } = userSession
+    const { userSessionId, userId, isAdmin = false } = userSession
 
-    await prisma.userSession.deleteMany({
-      where: { userSessionId: userSessionId },
+    const deleted = await prisma.userSession.deleteMany({
+      where: isAdmin ? { userSessionId: userSessionId } : { userSessionId: userSessionId, userId },
     })
+
+    if (!deleted.count) {
+      throw new Error(AuthMessages.SESSION_NOT_FOUND)
+    }
 
     const pattern = SESSION_CACHE_KEY(userId, userSessionId)
     const keys = await redisInstance.keys(pattern)
