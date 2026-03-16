@@ -13,6 +13,8 @@ export const CSRF_EXEMPT_ROUTES = [
   '/api/webhook',
   '/api/status',
   '/api/auth/csrf',
+  // ActivityPub inbox receives server-to-server POST requests without browser cookies
+  '/api/activitypub/inbox',
 ]
 
 /**

@@ -48,6 +48,11 @@ export const RATE_LIMIT_CONFIG: Record<string, RateLimitConfig> = {
   '/api/projects': { limit: 60 * DEV_MULTIPLIER, window: 60 },
   '/api/categories': { limit: 60 * DEV_MULTIPLIER, window: 60 },
 
+  // ActivityPub inbox — remote servers may retry; keep limit generous
+  '/api/activitypub/inbox': { limit: 60 * DEV_MULTIPLIER, window: 60 },
+  // ActivityPub read endpoints — public, allow crawlers
+  '/api/activitypub': { limit: 120 * DEV_MULTIPLIER, window: 60 },
+
   // Default for all other API routes
   default: { limit: 100 * DEV_MULTIPLIER, window: 60 },
 }
