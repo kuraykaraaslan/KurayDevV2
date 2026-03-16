@@ -1,12 +1,12 @@
 import Logger from '@/libs/logger'
 
 // JOB IMPORTS
-import { dailyJobs } from './jobs/daily'
-import { hourlyJobs } from './jobs/hourly'
-import { weeklyJobs } from './jobs/weekly'
-import { monthlyJobs } from './jobs/monthly'
-import { fiveMinJobs } from './jobs/fiveMin'
-import { yearlyJobs } from './jobs/yearly'
+import { dailyJobs } from './timers/daily'
+import { hourlyJobs } from './timers/hourly'
+import { weeklyJobs } from './timers/weekly'
+import { monthlyJobs } from './timers/monthly'
+import { fiveMinJobs } from './timers/fiveMin'
+import { yearlyJobs } from './timers/yearly'
 import { StatFrequency } from '@/types/common/StatTypes'
 
 export default class CronService {
