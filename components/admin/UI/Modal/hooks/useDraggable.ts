@@ -1,54 +1,63 @@
 import { CSSProperties, RefObject, useCallback, useEffect, useRef, useState } from 'react'
 
 type UseDraggableOptions = {
-  /** Master switch — also internally gated by touch detection */
   enabled: boolean
-  /** The element the user grabs to start dragging (e.g. modal header) */
-  handleRef: RefObject<HTMLElement | null>
+  handle: HTMLElement | null
+  targetRef: RefObject<HTMLElement | null>
 }
 
 type UseDraggableReturn = {
   isDragging: boolean
-  /** Reset offset to origin — call when modal closes so it reopens centred */
   resetPosition: () => void
-  /** Apply to the draggable panel element */
+  /**
+   * Apply as `style` on the panel element.
+   * NOTE: intentionally never includes `translate` — position is managed
+   * exclusively via direct DOM writes to avoid React re-renders overriding
+   * the live value during drag.
+   */
   dragStyle: CSSProperties
 }
 
-/** Returns true on touch/pointer-coarse devices (phones, tablets). */
 function isTouchDevice(): boolean {
   return window.matchMedia('(pointer: coarse)').matches
 }
 
-export function useDraggable({ enabled, handleRef }: UseDraggableOptions): UseDraggableReturn {
-  const [pos, setPos] = useState({ x: 0, y: 0 })
+export function useDraggable({ enabled, handle, targetRef }: UseDraggableOptions): UseDraggableReturn {
   const [isDragging, setIsDragging] = useState(false)
-
-  // Refs let closures always read the latest values without re-binding listeners
-  const posRef = useRef({ x: 0, y: 0 })
+  const livePos = useRef({ x: 0, y: 0 })
   const dragOrigin = useRef({ mouseX: 0, mouseY: 0, posX: 0, posY: 0 })
 
-  posRef.current = pos
+  const setTranslate = useCallback(
+    (x: number, y: number) => {
+      if (!targetRef.current) return
+      targetRef.current.style.translate = x === 0 && y === 0 ? '' : `${x}px ${y}px`
+    },
+    [targetRef]
+  )
 
-  const resetPosition = useCallback(() => setPos({ x: 0, y: 0 }), [])
+  const resetPosition = useCallback(() => {
+    livePos.current = { x: 0, y: 0 }
+    setTranslate(0, 0)
+  }, [setTranslate])
 
   useEffect(() => {
-    const handle = handleRef.current
-    // Disabled explicitly or on touch devices (mobile always off)
     if (!enabled || !handle || isTouchDevice()) return
 
     handle.style.cursor = 'grab'
 
     const onMouseDown = (e: MouseEvent) => {
-      if (e.button !== 0) return // left button only
+      if (e.button !== 0) return
       e.preventDefault()
 
       dragOrigin.current = {
         mouseX: e.clientX,
         mouseY: e.clientY,
-        posX: posRef.current.x,
-        posY: posRef.current.y,
+        posX: livePos.current.x,
+        posY: livePos.current.y,
       }
+
+      // Disable CSS transitions so the panel follows the cursor with zero easing
+      if (targetRef.current) targetRef.current.style.transition = 'none'
 
       setIsDragging(true)
       document.body.style.userSelect = 'none'
@@ -57,11 +66,16 @@ export function useDraggable({ enabled, handleRef }: UseDraggableOptions): UseDr
       const onMouseMove = (e: MouseEvent) => {
         const x = dragOrigin.current.posX + (e.clientX - dragOrigin.current.mouseX)
         const y = dragOrigin.current.posY + (e.clientY - dragOrigin.current.mouseY)
-        posRef.current = { x, y }
-        setPos({ x, y })
+        livePos.current = { x, y }
+        // Direct DOM write — zero React re-renders, zero easing
+        if (targetRef.current) targetRef.current.style.translate = `${x}px ${y}px`
       }
 
       const onMouseUp = () => {
+        // Re-enable transitions after one frame so the restore doesn't animate
+        requestAnimationFrame(() => {
+          if (targetRef.current) targetRef.current.style.transition = ''
+        })
         setIsDragging(false)
         document.body.style.userSelect = ''
         document.body.style.cursor = ''
@@ -78,11 +92,11 @@ export function useDraggable({ enabled, handleRef }: UseDraggableOptions): UseDr
       handle.removeEventListener('mousedown', onMouseDown)
       handle.style.cursor = ''
     }
-  }, [enabled, handleRef])
+  }, [enabled, handle, targetRef, setTranslate])
 
-  const dragStyle: CSSProperties = enabled
-    ? { translate: `${pos.x}px ${pos.y}px` }
-    : {}
+  // dragStyle intentionally has no `translate` key — React must never overwrite
+  // the position that was set directly on the DOM node.
+  const dragStyle: CSSProperties = {}
 
   return { isDragging, resetPosition, dragStyle }
 }

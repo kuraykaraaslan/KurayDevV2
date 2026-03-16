@@ -101,8 +101,10 @@ export function HeadlessModal({
   // Decoupled so exit animations play before the element is removed.
   const [visible, setVisible] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
-  const dragHandleRef = useRef<HTMLDivElement>(null)
   const lastActiveRef = useRef<HTMLElement | null>(null)
+  // Callback ref: stores the drag handle button as state so useDraggable's
+  // effect re-fires the moment the button mounts (avoids stale-null-ref bug).
+  const [dragHandle, setDragHandle] = useState<HTMLElement | null>(null)
   const labelledById = useId()
   const describedById = useId()
 
@@ -140,7 +142,7 @@ export function HeadlessModal({
 
   const { zIndex } = useModalStack(open, onClose, allowMultiple)
 
-  const { dragStyle, resetPosition } = useDraggable({ enabled: draggable, handleRef: dragHandleRef })
+  const { dragStyle, resetPosition } = useDraggable({ enabled: draggable, handle: dragHandle, targetRef: panelRef })
 
   // Reset drag offset whenever the modal closes
   useEffect(() => {
@@ -215,7 +217,7 @@ export function HeadlessModal({
             showClose={showClose}
             labelledById={labelledById}
             onClose={handleClose}
-            dragHandleRef={dragHandleRef}
+            onDragHandleMount={setDragHandle}
             draggable={draggable}
           />
           <ModalBody description={description} describedById={describedById}>
