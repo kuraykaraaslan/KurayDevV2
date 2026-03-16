@@ -4,6 +4,8 @@ import axiosInstance from '@/libs/axios'
 import { useEffect, useState, useCallback, useRef, useMemo, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import GenericElement, { GenericElementProps } from '../GenericElement'
 
 /* ================= TYPES ================= */
@@ -13,7 +15,7 @@ export interface DynamicSelectOption {
   label: string
 }
 
-interface DynamicSelectProps<T = any> extends GenericElementProps {
+interface DynamicSelectPropsBase<T = any> extends GenericElementProps {
   /* API MODE */
   endpoint?: string
   dataKey?: string
@@ -26,8 +28,6 @@ interface DynamicSelectProps<T = any> extends GenericElementProps {
   options?: DynamicSelectOption[]
 
   /* COMMON */
-  selectedValue: string
-  onValueChange: (value: string) => void
   placeholder?: string
   searchPlaceholder?: string
   disabled?: boolean
@@ -38,11 +38,17 @@ interface DynamicSelectProps<T = any> extends GenericElementProps {
   portal?: boolean
   /** Custom renderer for each option row in the dropdown list */
   renderOption?: (option: DynamicSelectOption) => ReactNode
-  /** Custom renderer for the selected value shown in the trigger button */
+  /** Custom renderer for the selected value shown in the trigger button (single mode only) */
   renderSelected?: (option: DynamicSelectOption) => ReactNode
-  /** Show the "clear / placeholder" option at the top of the list (default: true) */
+  /** Show the "clear / placeholder" option at the top of the list (default: true, single only) */
   clearable?: boolean
 }
+
+type DynamicSelectProps<T = any> = DynamicSelectPropsBase<T> &
+  (
+    | { multi?: false | undefined; selectedValue: string; onValueChange: (value: string) => void }
+    | { multi: true; selectedValue: string[]; onValueChange: (value: string[]) => void }
+  )
 
 /* ================= COMPONENT ================= */
 
@@ -56,8 +62,6 @@ const DynamicSelect = <T,>({
   searchKey = 'search',
   pageSize = 100,
   options: optionsProp,
-  selectedValue,
-  onValueChange,
   placeholder,
   searchPlaceholder,
   disabled = false,
@@ -68,9 +72,13 @@ const DynamicSelect = <T,>({
   renderOption,
   renderSelected,
   clearable = true,
+  multi,
+  selectedValue,
+  onValueChange,
 }: DynamicSelectProps<T>) => {
   const { t } = useTranslation()
 
+  const isMulti = multi === true
   const isStaticMode = Array.isArray(optionsProp)
 
   const [options, setOptions] = useState<DynamicSelectOption[]>(optionsProp || [])
@@ -118,19 +126,21 @@ const DynamicSelect = <T,>({
     }
   }, [optionsProp, isStaticMode])
 
-  /* ================= RESOLVE SELECTED LABEL ================= */
+  /* ================= RESOLVE SELECTED LABEL (single) ================= */
 
   useEffect(() => {
-    if (!selectedValue) {
+    if (isMulti) return
+    const sv = selectedValue as string
+    if (!sv) {
       setResolvedSelectedLabel(null)
       return
     }
 
-    const match = options.find((o) => o.value === selectedValue)
+    const match = options.find((o) => o.value === sv)
     if (match) {
       setResolvedSelectedLabel(match.label)
     }
-  }, [options, selectedValue])
+  }, [options, selectedValue, isMulti])
 
   /* ================= DEBOUNCE ================= */
 
@@ -229,9 +239,29 @@ const DynamicSelect = <T,>({
   /* ================= HANDLERS ================= */
 
   const handleSelect = (value: string) => {
-    onValueChange(value)
-    setIsOpen(false)
-    setSearchTerm('')
+    if (isMulti) {
+      const current = selectedValue as string[]
+      const next = current.includes(value)
+        ? current.filter((v) => v !== value)
+        : [...current, value]
+      ;(onValueChange as (v: string[]) => void)(next)
+      // keep dropdown open in multi mode
+    } else {
+      ;(onValueChange as (v: string) => void)(value)
+      setIsOpen(false)
+      setSearchTerm('')
+    }
+  }
+
+  const handleRemoveMulti = (value: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const current = selectedValue as string[]
+    ;(onValueChange as (v: string[]) => void)(current.filter((v) => v !== value))
+  }
+
+  const handleClearMulti = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    ;(onValueChange as (v: string[]) => void)([])
   }
 
   const defaultPlaceholder = placeholder || t('admin.selects.select_option')
@@ -239,48 +269,118 @@ const DynamicSelect = <T,>({
 
   const [showTooltip, setShowTooltip] = useState(false)
 
+  /* ================= MULTI TRIGGER CONTENT ================= */
+
+  const multiSelectedOptions = useMemo(() => {
+    if (!isMulti) return []
+    const sv = selectedValue as string[]
+    return options.filter((o) => sv.includes(o.value))
+  }, [isMulti, options, selectedValue])
+
   /* ================= RENDER ================= */
 
   return (
     <GenericElement className={className} label={label}>
       <div ref={containerRef} className="relative">
-        <button
-          ref={btnRef}
-          type="button"
-          onClick={() => {
-            if (disabled) return
-            if (!isOpen && portal && btnRef.current) {
-              setPortalRect(btnRef.current.getBoundingClientRect())
-            }
-            setIsOpen(!isOpen)
-          }}
-          disabled={disabled}
-          className="select select-bordered w-full text-left flex items-center justify-between"
-          onMouseEnter={() => {
-            if (disabled && disabledError) setShowTooltip(true)
-          }}
-          onMouseLeave={() => setShowTooltip(false)}
-        >
-          <span className={selectedValue ? '' : 'opacity-50'}>
-            {(() => {
-              if (!selectedValue) return defaultPlaceholder
-              if (renderSelected) {
-                const opt = options.find((o) => o.value === selectedValue)
-                if (opt) return renderSelected(opt)
+        {/* ---- Trigger ---- */}
+        {isMulti ? (
+          <div
+            onClick={() => {
+              if (disabled) return
+              if (!isOpen && portal && btnRef.current) {
+                setPortalRect(btnRef.current.getBoundingClientRect())
               }
-              return resolvedSelectedLabel || defaultPlaceholder
-            })()}
-          </span>
-
-          <svg
-            className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+              setIsOpen(!isOpen)
+            }}
+            onMouseEnter={() => {
+              if (disabled && disabledError) setShowTooltip(true)
+            }}
+            onMouseLeave={() => setShowTooltip(false)}
+            className={`select select-bordered w-full text-left flex items-center gap-1.5 flex-wrap h-auto min-h-12 py-2 cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+            {multiSelectedOptions.length === 0 ? (
+              <span className="opacity-50 flex-1">{defaultPlaceholder}</span>
+            ) : (
+              <>
+                {multiSelectedOptions.map((opt) => (
+                  <span
+                    key={opt.value}
+                    className="badge badge-primary badge-sm gap-1 cursor-default"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {opt.label}
+                    {!disabled && (
+                      <button
+                        type="button"
+                        className="hover:text-error"
+                        onClick={(e) => handleRemoveMulti(opt.value, e)}
+                      >
+                        <FontAwesomeIcon icon={faXmark} className="text-xs" />
+                      </button>
+                    )}
+                  </span>
+                ))}
+              </>
+            )}
+            <div className="ml-auto flex items-center gap-1 shrink-0 pl-1">
+              {multiSelectedOptions.length > 0 && !disabled && (
+                <button
+                  type="button"
+                  className="text-base-content/40 hover:text-error"
+                  onClick={handleClearMulti}
+                >
+                  <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
+                </button>
+              )}
+              <svg
+                className={`w-4 h-4 transition-transform text-base-content/60 ${isOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        ) : (
+          <button
+            ref={btnRef}
+            type="button"
+            onClick={() => {
+              if (disabled) return
+              if (!isOpen && portal && btnRef.current) {
+                setPortalRect(btnRef.current.getBoundingClientRect())
+              }
+              setIsOpen(!isOpen)
+            }}
+            disabled={disabled}
+            className="select select-bordered w-full text-left flex items-center justify-between"
+            onMouseEnter={() => {
+              if (disabled && disabledError) setShowTooltip(true)
+            }}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
+            <span className={(selectedValue as string) ? '' : 'opacity-50'}>
+              {(() => {
+                if (!(selectedValue as string)) return defaultPlaceholder
+                if (renderSelected) {
+                  const opt = options.find((o) => o.value === (selectedValue as string))
+                  if (opt) return renderSelected(opt)
+                }
+                return resolvedSelectedLabel || defaultPlaceholder
+              })()}
+            </span>
+
+            <svg
+              className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        )}
 
         {showTooltip && disabled && disabledError && (
           <div className="absolute left-0 mt-1 z-50 bg-error text-error-content text-xs px-3 py-2 rounded shadow-lg whitespace-pre-line">
@@ -288,6 +388,7 @@ const DynamicSelect = <T,>({
           </div>
         )}
 
+        {/* ---- Dropdown ---- */}
         {isOpen && !disabled && (() => {
           const dropdownContent = (
             <div
@@ -326,7 +427,8 @@ const DynamicSelect = <T,>({
                   </div>
                 ) : (
                   <>
-                    {clearable && (
+                    {/* Single mode: clearable placeholder row */}
+                    {!isMulti && clearable && (
                       <button
                         type="button"
                         onClick={() => handleSelect('')}
@@ -336,18 +438,39 @@ const DynamicSelect = <T,>({
                       </button>
                     )}
 
-                    {filteredOptions.map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => handleSelect(option.value)}
-                        className={`w-full px-3 py-2 text-left hover:bg-base-200 ${
-                          option.value === selectedValue ? 'bg-primary/10 text-primary' : ''
-                        }`}
-                      >
-                        {renderOption ? renderOption(option) : option.label}
-                      </button>
-                    ))}
+                    {filteredOptions.map((option) => {
+                      const isSelected = isMulti
+                        ? (selectedValue as string[]).includes(option.value)
+                        : option.value === (selectedValue as string)
+
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() => handleSelect(option.value)}
+                          className={`w-full px-3 py-2 text-left hover:bg-base-200 flex items-center gap-2 ${
+                            isSelected ? 'bg-primary/10 text-primary' : ''
+                          }`}
+                        >
+                          {isMulti && (
+                            <span
+                              className={`w-4 h-4 shrink-0 rounded border flex items-center justify-center ${
+                                isSelected ? 'bg-primary border-primary' : 'border-base-content/30'
+                              }`}
+                            >
+                              {isSelected && (
+                                <svg className="w-2.5 h-2.5 text-primary-content" viewBox="0 0 12 12" fill="none">
+                                  <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              )}
+                            </span>
+                          )}
+                          <span className="flex-1">
+                            {renderOption ? renderOption(option) : option.label}
+                          </span>
+                        </button>
+                      )
+                    })}
                   </>
                 )}
               </div>
