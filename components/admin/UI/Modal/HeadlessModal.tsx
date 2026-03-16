@@ -13,6 +13,7 @@ import {
 import { createPortal } from 'react-dom'
 import { useScrollLock } from './hooks/useScrollLock'
 import { useFocusTrap } from './hooks/useFocusTrap'
+import { useModalStack } from './hooks/useModalStack'
 import { ModalBackdrop } from './partials/ModalBackdrop'
 import { ModalHeader } from './partials/ModalHeader'
 import { ModalBody } from './partials/ModalBody'
@@ -47,6 +48,11 @@ export type HeadlessModalProps = {
   initialFocusRef?: RefObject<HTMLElement>
   /** Scroll locking strategy used while the modal is visible */
   scrollLockStrategy?: 'auto' | 'html-overflow' | 'body-fixed'
+  /**
+   * When false (default), opening this modal closes all other open modals.
+   * Set to true to allow multiple modals to be open simultaneously.
+   */
+  allowMultiple?: boolean
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
   className?: string
   backdropClassName?: string
@@ -77,6 +83,7 @@ export function HeadlessModal({
   keepMounted = false,
   initialFocusRef,
   scrollLockStrategy,
+  allowMultiple = false,
   size = 'md',
   className = '',
   backdropClassName = '',
@@ -123,6 +130,8 @@ export function HeadlessModal({
 
   useFocusTrap({ open, closeOnEsc, panelRef, initialFocusRef, onClose: handleClose })
 
+  const { zIndex } = useModalStack(open, onClose, allowMultiple)
+
   const sizeClass = useMemo(() => SIZE_CLASS[size] ?? SIZE_CLASS.md, [size])
 
   const handleBackdrop = useCallback(
@@ -153,8 +162,8 @@ export function HeadlessModal({
 
   return createPortal(
     <div
-      style={keepMounted && !visible ? { display: 'none' } : undefined}
-      className={['fixed inset-0 z-50', open ? 'pointer-events-auto' : 'pointer-events-none'].join(
+      style={keepMounted && !visible ? { display: 'none', zIndex } : { zIndex }}
+      className={['fixed inset-0', open ? 'pointer-events-auto' : 'pointer-events-none'].join(
         ' '
       )}
       aria-hidden={!open}
