@@ -20,10 +20,15 @@ export class StorageService {
 
   static getConfiguredProviderType(): StorageProviderType {
     const provider = process.env.STORAGE_PROVIDER?.toLowerCase() as StorageProviderType
-    if (provider && ['aws', 'r2', 'minio'].includes(provider)) {
+    if (!provider) {
+      return 'aws'
+    }
+
+    if (['aws', 'r2', 'minio'].includes(provider)) {
       return provider
     }
-    return 'aws'
+
+    throw new Error(`Unsupported STORAGE_PROVIDER value: ${provider}`)
   }
 
   static getProvider(type?: StorageProviderType, config?: Partial<StorageConfig>): BaseStorageProvider {

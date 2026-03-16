@@ -1,9 +1,50 @@
 import { createHash, createSign, createVerify } from 'node:crypto'
 import Logger from '@/libs/logger'
+import redisInstance from '@/libs/redis'
 import { getKeyId, getPrivateKey } from './config'
 import ActorService from './ActorService'
 
 export default class HttpSignatureService {
+  private static readonly SIGNATURE_MAX_SKEW_SECONDS = 60 * 5
+  private static readonly REPLAY_TTL_SECONDS = 60 * 5
+  private static replayFallback = new Map<string, number>()
+
+  private static getHeaderValue(
+    headers: Record<string, string | string[] | undefined>,
+    name: string
+  ): string | undefined {
+    const lowered = name.toLowerCase()
+
+    for (const [key, rawValue] of Object.entries(headers)) {
+      if (key.toLowerCase() !== lowered) continue
+      if (Array.isArray(rawValue)) return rawValue[0]
+      return rawValue
+    }
+
+    return undefined
+  }
+
+  private static async isReplay(replayKey: string): Promise<boolean> {
+    try {
+      const result = await redisInstance.set(replayKey, '1', 'EX', this.REPLAY_TTL_SECONDS, 'NX')
+      return result !== 'OK'
+    } catch {
+      const now = Date.now()
+
+      for (const [key, expiresAt] of this.replayFallback.entries()) {
+        if (expiresAt <= now) this.replayFallback.delete(key)
+      }
+
+      const existingExpiry = this.replayFallback.get(replayKey)
+      if (existingExpiry && existingExpiry > now) {
+        return true
+      }
+
+      this.replayFallback.set(replayKey, now + this.REPLAY_TTL_SECONDS * 1000)
+      return false
+    }
+  }
+
   /**
    * Signs an outgoing POST request with an RSA-SHA256 HTTP Signature.
    * Returns the headers to merge into the fetch call.
@@ -50,8 +91,8 @@ export default class HttpSignatureService {
     path: string,
     headers: Record<string, string | string[] | undefined>
   ): Promise<boolean> {
-    const signatureHeader = headers['signature']
-    if (!signatureHeader || typeof signatureHeader !== 'string') {
+    const signatureHeader = this.getHeaderValue(headers, 'signature')
+    if (!signatureHeader) {
       Logger.warn('[ActivityPub] Missing Signature header')
       return false
     }
@@ -71,6 +112,34 @@ export default class HttpSignatureService {
       return false
     }
 
+    const dateHeader = this.getHeaderValue(headers, 'date')
+    if (!dateHeader) {
+      Logger.warn('[ActivityPub] Missing Date header')
+      return false
+    }
+
+    const dateMillis = Date.parse(dateHeader)
+    if (Number.isNaN(dateMillis)) {
+      Logger.warn('[ActivityPub] Invalid Date header')
+      return false
+    }
+
+    const skewSeconds = Math.abs(Date.now() - dateMillis) / 1000
+    if (skewSeconds > this.SIGNATURE_MAX_SKEW_SECONDS) {
+      Logger.warn('[ActivityPub] Date header outside allowed skew window')
+      return false
+    }
+
+    const replayFingerprint = createHash('sha256')
+      .update(`${keyId}|${signature}|${method.toUpperCase()}|${path}|${dateHeader}`)
+      .digest('hex')
+
+    const replayKey = `activitypub:replay:${replayFingerprint}`
+    if (await this.isReplay(replayKey)) {
+      Logger.warn(`[ActivityPub] Replay detected for keyId: ${keyId}`)
+      return false
+    }
+
     let publicKeyPem: string
     try {
       const actor = await ActorService.fetchRemoteActor(keyId.split('#')[0])
@@ -84,11 +153,23 @@ export default class HttpSignatureService {
       return false
     }
 
-    const signingParts = signedHeaders.split(' ').map((h) => {
-      if (h === '(request-target)') return `(request-target): ${method.toLowerCase()} ${path}`
-      const v = headers[h.toLowerCase()]
-      return `${h}: ${Array.isArray(v) ? v[0] : (v ?? '')}`
-    })
+    const headerNames = signedHeaders.split(' ').map((h) => h.trim()).filter(Boolean)
+    const signingParts: string[] = []
+
+    for (const h of headerNames) {
+      if (h === '(request-target)') {
+        signingParts.push(`(request-target): ${method.toLowerCase()} ${path}`)
+        continue
+      }
+
+      const value = this.getHeaderValue(headers, h)
+      if (!value) {
+        Logger.warn(`[ActivityPub] Missing signed header value: ${h}`)
+        return false
+      }
+
+      signingParts.push(`${h}: ${value}`)
+    }
 
     try {
       const verifier = createVerify('RSA-SHA256')

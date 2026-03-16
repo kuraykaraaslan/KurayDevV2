@@ -4,6 +4,7 @@ import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { CreateShortLinkRequestSchema } from '@/dtos/ShortLinkDTO'
 
 const NEXT_PUBLIC_APPLICATION_HOST = process.env.NEXT_PUBLIC_APPLICATION_HOST || 'http://localhost:3000'
+const APPLICATION_ORIGIN = new URL(NEXT_PUBLIC_APPLICATION_HOST).origin
 
 /**
  * GET /api/links
@@ -50,7 +51,8 @@ export async function POST(request: NextRequest) {
     }
 
     const { url } = parsedData.data
-    const isExternal = !url.startsWith(NEXT_PUBLIC_APPLICATION_HOST)
+    const target = new URL(url)
+    const isExternal = target.origin !== APPLICATION_ORIGIN
 
     if (isExternal) {
       if (!user || (user.userRole !== 'ADMIN' && user.userRole !== 'AUTHOR')) {

@@ -5,6 +5,18 @@ import redisInstance from '@/libs/redis'
 
 export default class PostService {
   private static CACHE_KEY = 'sitemap:blog'
+  private static readonly MAX_PAGE_SIZE = 100
+
+  private static normalizeSlug(slug: string): string {
+    return slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-')
+  }
+
+  private static normalizePagination(page: number, pageSize: number) {
+    const safePage = Number.isFinite(page) ? Math.max(0, Math.floor(page)) : 0
+    const safePageSizeRaw = Number.isFinite(pageSize) ? Math.floor(pageSize) : 10
+    const safePageSize = Math.min(this.MAX_PAGE_SIZE, Math.max(1, safePageSizeRaw))
+    return { safePage, safePageSize }
+  }
 
   private static postWithDataSelect = {
     postId: true,
@@ -110,6 +122,9 @@ export default class PostService {
   static async createPost(data: Omit<Post, 'postId'>): Promise<Post> {
     let { title, content, description, slug, keywords, authorId, categoryId } = data
 
+    slug = this.normalizeSlug(slug)
+    ;(data as any).slug = slug
+
     // Validate input
     if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
       throw new Error('All fields are required.')
@@ -162,6 +177,7 @@ export default class PostService {
     sortDir?: 'asc' | 'desc'
   }): Promise<{ posts: PostWithData[]; total: number }> {
     const { page, pageSize, search, categoryId, status, authorId, postId, slug, lang, sortKey, sortDir } = data
+    const { safePage, safePageSize } = this.normalizePagination(page, pageSize)
 
     //ALL, PUBLISHED, DRAFT
 
@@ -178,8 +194,8 @@ export default class PostService {
 
     // Get posts by search query
     const query = {
-      skip: page * pageSize,
-      take: pageSize,
+      skip: safePage * safePageSize,
+      take: safePageSize,
       orderBy: {
         [resolvedSortKey]: resolvedSortDir,
       },
@@ -237,28 +253,64 @@ export default class PostService {
    * @param data - The updated post data
    * @returns The updated post
    */
-  static async updatePost(data: Post): Promise<Post> {
-    const { postId, title, content, description, slug, keywords, authorId, categoryId } = data
+  static async updatePost(
+    data: Post,
+    auth?: { requesterId?: string; requesterRole?: string }
+  ): Promise<Post> {
+    const { postId, title, content, description, slug, keywords, categoryId } = data
 
     // Validate input
-    if (!title || !content || !description || !slug || !keywords || !authorId || !categoryId) {
+    if (!title || !content || !description || !slug || !keywords || !categoryId) {
       throw new Error('All fields are required.')
     }
+
+    const existing = await prisma.post.findUnique({
+      where: { postId },
+      select: {
+        postId: true,
+        authorId: true,
+        deletedAt: true,
+      },
+    })
+
+    if (!existing) {
+      throw new Error('Post not found.')
+    }
+
+    if (auth) {
+      const isAdmin = auth.requesterRole === 'ADMIN'
+      const isOwner = !!auth.requesterId && auth.requesterId === existing.authorId
+      if (!isAdmin && !isOwner) {
+        throw new Error('Forbidden.')
+      }
+    }
+
+    if (existing.deletedAt && data.status === 'PUBLISHED') {
+      throw new Error('Deleted post cannot be published.')
+    }
+
+    const normalizedSlug = this.normalizeSlug(slug)
 
     if (keywords && typeof keywords === 'string') {
       data.keywords = (keywords as string).split(',')
     }
 
-    // Auto-derive status from publishedAt
-    const publishedAt = (data as any).publishedAt ? new Date((data as any).publishedAt) : null
-    if (publishedAt) {
-      data.status = publishedAt > new Date() ? 'SCHEDULED' : 'PUBLISHED'
+    const updateData: any = {
+      ...data,
+      slug: normalizedSlug,
     }
+
+    delete updateData.postId
+    delete updateData.authorId
+    delete updateData.createdAt
+    delete updateData.updatedAt
+    delete updateData.deletedAt
+    delete updateData.publishedAt
 
     // Update the post
     const post = await prisma.post.update({
       where: { postId },
-      data,
+      data: updateData,
     })
 
     await redisInstance.del(this.CACHE_KEY)
@@ -270,7 +322,27 @@ export default class PostService {
    * Deletes a post by its ID.
    * @param postId - The ID of the post
    */
-  static async deletePost(postId: string): Promise<void> {
+  static async deletePost(
+    postId: string,
+    auth?: { requesterId?: string; requesterRole?: string }
+  ): Promise<void> {
+    if (auth) {
+      const existing = await prisma.post.findUnique({
+        where: { postId },
+        select: { authorId: true },
+      })
+
+      if (!existing) {
+        throw new Error('Post not found.')
+      }
+
+      const isAdmin = auth.requesterRole === 'ADMIN'
+      const isOwner = !!auth.requesterId && auth.requesterId === existing.authorId
+      if (!isAdmin && !isOwner) {
+        throw new Error('Forbidden.')
+      }
+    }
+
     await redisInstance.del(this.CACHE_KEY)
 
     await prisma.post.update({

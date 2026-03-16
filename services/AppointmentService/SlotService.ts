@@ -5,9 +5,14 @@ import { separateDateTimeWithTimeZone } from '@/helpers/TimeHelper'
 
 export default class SlotService {
   static SLOT_PREFIX = 'slot:{date}:{time}'
+  static SLOT_LOCK_PREFIX = 'slot_lock:{date}'
 
   private static makeKey(date: string, time: string): string {
     return this.SLOT_PREFIX.replace('{date}', date).replace('{time}', time)
+  }
+
+  private static makeDateLockKey(date: string): string {
+    return this.SLOT_LOCK_PREFIX.replace('{date}', date)
   }
 
   private static async scanKeys(pattern: string): Promise<string[]> {
@@ -36,8 +41,8 @@ export default class SlotService {
       const value = await redisInstance.get(key)
       if (value) {
         const slot: Slot = JSON.parse(value)
-        const slotStart = parse(format(slot.startTime, 'HH:mm'), 'HH:mm', new Date())
-        const slotEnd = parse(format(slot.endTime, 'HH:mm'), 'HH:mm', new Date())
+        const slotStart = parse(format(new Date(slot.startTime), 'HH:mm'), 'HH:mm', new Date())
+        const slotEnd = parse(format(new Date(slot.endTime), 'HH:mm'), 'HH:mm', new Date())
         if (newStart < slotEnd && newEnd > slotStart) {
           return slot
         }
@@ -54,17 +59,30 @@ export default class SlotService {
       throw new Error('Slot startTime and endTime must be on the same date')
     if (startTime >= endTime) throw new Error('Slot startTime must be before endTime')
 
-    const overlappingSlot = await this.getOverlappingSlots(startDate, startTime, endTime)
-    if (overlappingSlot) {
-      throw new Error(
-        `Overlapping slot exists: ${format(overlappingSlot.startTime, 'HH:mm')} - ${format(overlappingSlot.endTime, 'HH:mm')}`
-      )
+    const lockKey = this.makeDateLockKey(startDate)
+    const lockAcquired = await redisInstance.set(lockKey, '1', 'EX', 5, 'NX')
+    if (lockAcquired !== 'OK') {
+      throw new Error('Slot creation in progress for this date')
     }
 
-    const key = this.makeKey(startDate, startTime)
-    const ttlSeconds = 60 * 60 * 24 * 14 // 14 days retention
-    await redisInstance.set(key, JSON.stringify(slot), 'EX', ttlSeconds)
-    return slot
+    try {
+      const overlappingSlot = await this.getOverlappingSlots(startDate, startTime, endTime)
+      if (overlappingSlot) {
+        throw new Error(
+          `Overlapping slot exists: ${format(new Date(overlappingSlot.startTime), 'HH:mm')} - ${format(new Date(overlappingSlot.endTime), 'HH:mm')}`
+        )
+      }
+
+      const key = this.makeKey(startDate, startTime)
+      const ttlSeconds = 60 * 60 * 24 * 14 // 14 days retention
+      await redisInstance.set(key, JSON.stringify(slot), 'EX', ttlSeconds)
+      return slot
+    } finally {
+      try {
+        await redisInstance.del(lockKey)
+      } catch {
+      }
+    }
   }
 
   static async getSlot(date: string, time: string): Promise<Slot | null> {

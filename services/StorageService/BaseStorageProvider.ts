@@ -85,7 +85,21 @@ export abstract class BaseStorageProvider {
   constructor(config: StorageConfig, providerName: string) {
     this.config = config
     this.providerName = providerName
+    this.validateConfig()
     this.client = this.createClient()
+  }
+
+  protected validateConfig(): void {
+    const missing: string[] = []
+
+    if (!this.config.region?.trim()) missing.push('region')
+    if (!this.config.bucket?.trim()) missing.push('bucket')
+    if (!this.config.accessKeyId?.trim()) missing.push('accessKeyId')
+    if (!this.config.secretAccessKey?.trim()) missing.push('secretAccessKey')
+
+    if (missing.length > 0) {
+      throw new Error(`${this.providerName} configuration is missing required fields: ${missing.join(', ')}`)
+    }
   }
 
   protected createClient(): S3Client {

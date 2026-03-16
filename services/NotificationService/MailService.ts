@@ -12,6 +12,7 @@ import { Stat } from '@/types/common/StatTypes'
 import { User, SafeUser } from '@/types/user/UserTypes'
 import { SafeUserSession } from '@/types/user/UserSessionTypes'
 import { Appointment } from '@/types/features/CalendarTypes'
+import CampaignMessages from '@/messages/CampaignMessages'
 
 const pwd = process.env.PWD || process.cwd()
 
@@ -436,6 +437,10 @@ export default class MailService {
     content: string,
     unsubscribeToken: string
   ) {
+    if (!subject?.trim()) throw new Error(CampaignMessages.SUBJECT_REQUIRED)
+    if (!content?.trim()) throw new Error(CampaignMessages.CONTENT_REQUIRED)
+    if (!unsubscribeToken?.trim()) throw new Error(CampaignMessages.UNSUBSCRIBE_TOKEN_REQUIRED)
+
     const emailContent = await MailService.renderTemplate('campaign.ejs', {
       ...MailService.getBaseTemplateVars(),
       subject,

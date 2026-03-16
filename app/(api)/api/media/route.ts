@@ -77,17 +77,28 @@ export async function POST(request: NextRequest) {
     // Extract the S3 key from the returned public URL
     const key = new URL(url).pathname.slice(1)
 
-    const media = await prisma.media.create({
-      data: {
-        key,
-        url,
-        folder,
-        mimeType: file.type,
-        size: file.size,
-        originalName: file.name,
-        uploadedBy: session.user.userId,
-      },
-    })
+    const media = await (async () => {
+      try {
+        return await prisma.media.create({
+          data: {
+            key,
+            url,
+            folder,
+            mimeType: file.type,
+            size: file.size,
+            originalName: file.name,
+            uploadedBy: session.user.userId,
+          },
+        })
+      } catch (dbError) {
+        try {
+          await AWSService.deleteFile(key)
+        } catch (storageRollbackError) {
+          console.error('Error rolling back uploaded file after DB failure:', storageRollbackError)
+        }
+        throw dbError
+      }
+    })()
 
     return NextResponse.json({
       message: 'File uploaded successfully',
@@ -116,10 +127,43 @@ export async function DELETE(request: NextRequest) {
 
     const { key } = parsed.data
 
-    await AWSService.deleteFile(key)
+    const existing = await prisma.media.findFirst({ where: { key } })
 
-    // Remove from DB — deleteMany to avoid throwing if key was never tracked
+    // Remove from DB first; if storage deletion fails we compensate by restoring the DB row.
     await prisma.media.deleteMany({ where: { key } })
+
+    try {
+      await AWSService.deleteFile(key)
+    } catch (storageError) {
+      if (existing) {
+        await prisma.media.upsert({
+          where: { key: existing.key },
+          update: {
+            url: existing.url,
+            folder: existing.folder,
+            mimeType: existing.mimeType,
+            size: existing.size,
+            name: existing.name,
+            altText: existing.altText,
+            originalName: existing.originalName,
+            uploadedBy: existing.uploadedBy,
+          },
+          create: {
+            key: existing.key,
+            url: existing.url,
+            folder: existing.folder,
+            mimeType: existing.mimeType,
+            size: existing.size,
+            name: existing.name,
+            altText: existing.altText,
+            originalName: existing.originalName,
+            uploadedBy: existing.uploadedBy,
+          },
+        })
+      }
+
+      throw storageError
+    }
 
     return NextResponse.json({ message: MediaMessages.MEDIA_DELETED_SUCCESS })
   } catch (error: any) {

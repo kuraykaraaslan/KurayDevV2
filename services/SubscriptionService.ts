@@ -158,7 +158,7 @@ export default class SubscriptionService {
 
     // 1. Registered users subscribed to newsletter
     const registeredUsers = await prisma.user.findMany({
-      where: { deletedAt: null },
+      where: { deletedAt: null, userStatus: 'ACTIVE' },
       select: { email: true, userPreferences: true },
     })
 

@@ -33,7 +33,7 @@ export default class PostLikeService {
     })
 
     if (existingLike) {
-      throw new Error('Post already liked.')
+      return existingLike
     }
 
     return await prisma.like.create({
@@ -76,7 +76,7 @@ export default class PostLikeService {
     })
 
     if (!like) {
-      throw new Error('Like not found.')
+      return
     }
 
     await prisma.like.delete({

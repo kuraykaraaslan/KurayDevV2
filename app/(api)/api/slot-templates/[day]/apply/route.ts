@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-import SlotService from '@/services/AppointmentService/SlotService'
-import { Day, Slot } from '@/types/features/CalendarTypes'
+import { Day } from '@/types/features/CalendarTypes'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import SlotTemplateService from '@/services/AppointmentService/SlotTemplateService'
 import { ApplySlotTemplateRequestSchema } from '@/dtos/SlotDTO'
@@ -35,19 +34,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json({ message: SlotMessages.SLOT_TEMPLATE_NOT_FOUND }, { status: 404 })
   }
 
-  await SlotService.emptySlotsForDate(new Date(formattedDate))
-
-  const createdSlots: Slot[] = []
-
-  for (const slot of SlotTemplate.slots) {
-    const slotData: Slot = {
-      startTime: slot.startTime,
-      endTime: slot.endTime,
-      capacity: slot.capacity, // Default capacity if not provided
-    }
-    const createdSlot = await SlotService.createSlot(slotData)
-    createdSlots.push(createdSlot)
-  }
+  const createdSlots = await SlotTemplateService.applySlotTemplateToDate(day, formattedDate)
 
   return NextResponse.json({ slots: createdSlots })
 }

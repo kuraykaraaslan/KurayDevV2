@@ -5,6 +5,18 @@ import { MetadataRoute } from 'next'
 
 export default class ProjectService {
   private static CACHE_KEY = 'sitemap:project'
+  private static readonly MAX_PAGE_SIZE = 100
+
+  private static normalizeSlug(slug: string): string {
+    return slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-')
+  }
+
+  private static normalizePagination(page: number, pageSize: number) {
+    const safePage = Number.isFinite(page) ? Math.max(0, Math.floor(page)) : 0
+    const safePageSizeRaw = Number.isFinite(pageSize) ? Math.floor(pageSize) : 10
+    const safePageSize = Math.min(this.MAX_PAGE_SIZE, Math.max(1, safePageSizeRaw))
+    return { safePage, safePageSize }
+  }
 
   private static sqlInjectionRegex =
     /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i // SQL injection prevention
@@ -20,6 +32,7 @@ export default class ProjectService {
     sortDir?: 'asc' | 'desc'
   }): Promise<{ projects: ProjectWithTranslations[]; total: number }> {
     const { page, pageSize, search, onlyPublished, projectId, projectSlug, sortKey, sortDir } = data
+    const { safePage, safePageSize } = this.normalizePagination(page, pageSize)
 
     // Validate search query
     if (search && this.sqlInjectionRegex.test(search)) {
@@ -32,8 +45,8 @@ export default class ProjectService {
 
     // Get posts by search query
     const query = {
-      skip: page * pageSize,
-      take: pageSize,
+      skip: safePage * safePageSize,
+      take: safePageSize,
       select: {
         projectId: true,
         title: true,
@@ -120,6 +133,8 @@ export default class ProjectService {
       throw new Error('Missing required fields.')
     }
 
+    ;(data as any).slug = this.normalizeSlug(slug)
+
     await redisInstance.del(this.CACHE_KEY)
 
     return prisma.project.create({
@@ -127,7 +142,10 @@ export default class ProjectService {
     })
   }
 
-  static async updateProject(data: Project): Promise<Project> {
+  static async updateProject(
+    data: Project,
+    auth?: { requesterRole?: string }
+  ): Promise<Project> {
     // Validate Fields
     const { title, description, slug, image, platforms, technologies, projectLinks } = data
 
@@ -135,17 +153,39 @@ export default class ProjectService {
       throw new Error('Missing required fields.')
     }
 
+    if (auth && auth.requesterRole !== 'ADMIN') {
+      throw new Error('Forbidden.')
+    }
+
+    const updateData: any = {
+      ...data,
+      slug: this.normalizeSlug(slug),
+    }
+
+    delete updateData.projectId
+    delete updateData.createdAt
+    delete updateData.updatedAt
+    delete updateData.deletedAt
+    delete updateData.translations
+
     await redisInstance.del(this.CACHE_KEY)
 
     return prisma.project.update({
       where: {
         projectId: data.projectId,
       },
-      data,
+      data: updateData,
     })
   }
 
-  static async deleteProject(projectId: string): Promise<Project> {
+  static async deleteProject(
+    projectId: string,
+    auth?: { requesterRole?: string }
+  ): Promise<Project> {
+    if (auth && auth.requesterRole !== 'ADMIN') {
+      throw new Error('Forbidden.')
+    }
+
     await redisInstance.del(this.CACHE_KEY)
 
     return prisma.project.update({

@@ -4,6 +4,8 @@ import redisInstance from '@/libs/redis'
 import ActivityPubService from '@/services/ActivityPubService'
 
 const CACHE_KEY = 'sitemap:blog'
+const PUBLISH_LOCK_KEY = 'cron:publishScheduledPosts:lock'
+const PUBLISH_LOCK_TTL_SECONDS = 55
 
 /**
  * Finds all posts with `status = 'SCHEDULED'` and `publishedAt <= now`,
@@ -11,6 +13,13 @@ const CACHE_KEY = 'sitemap:blog'
  * Runs every hour.
  */
 export async function publishScheduledPosts(): Promise<void> {
+    const lock = await redisInstance.set(PUBLISH_LOCK_KEY, '1', 'EX', PUBLISH_LOCK_TTL_SECONDS, 'NX')
+    if (lock !== 'OK') {
+        Logger.info('publishScheduledPosts: skipped (already running)')
+        return
+    }
+
+    try {
     const now = new Date()
 
     const due = await prisma.post.findMany({
@@ -54,5 +63,11 @@ export async function publishScheduledPosts(): Promise<void> {
         ActivityPubService.notifyFollowersOfPost(p).catch((err) => {
             Logger.error(`[ActivityPub] Failed to notify followers for scheduled post ${p.postId}: ${String(err)}`)
         })
+    }
+    } finally {
+        try {
+            await redisInstance.del(PUBLISH_LOCK_KEY)
+        } catch {
+        }
     }
 }

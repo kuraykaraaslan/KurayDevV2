@@ -4,6 +4,7 @@ import redis from '@/libs/redis'
 
 const CODE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 const CODE_LENGTH = 6
+const ALLOWED_URL_PROTOCOLS = new Set(['http:', 'https:'])
 
 /** Redis key where pending click events are buffered */
 export const CLICK_BUFFER_KEY = 'click:buffer'
@@ -13,6 +14,21 @@ const CLICK_RATE_LIMIT = 10
 const CLICK_RATE_WINDOW = 60 // seconds
 
 export default class ShortLinkService {
+    private static normalizeAndValidateUrl(targetUrl: string): string {
+        let parsed: URL
+        try {
+            parsed = new URL(targetUrl)
+        } catch {
+            throw new Error('Invalid URL')
+        }
+
+        if (!ALLOWED_URL_PROTOCOLS.has(parsed.protocol)) {
+            throw new Error(`Unsupported URL protocol: ${parsed.protocol}`)
+        }
+
+        return parsed.toString()
+    }
+
     static generateCode() {
         let code = ''
         for (let i = 0; i < CODE_LENGTH; i++) {
@@ -25,8 +41,10 @@ export default class ShortLinkService {
      * Creates or returns an existing short link for the given URL.
      */
     static async getOrCreate(originalUrl: string): Promise<string> {
+        const normalizedUrl = this.normalizeAndValidateUrl(originalUrl)
+
         const existing = await prisma.shortLink.findFirst({
-            where: { originalUrl, deletedAt: null },
+            where: { originalUrl: normalizedUrl, deletedAt: null },
         })
         if (existing) return existing.code
 
@@ -40,7 +58,7 @@ export default class ShortLinkService {
         }
 
         const link = await prisma.shortLink.create({
-            data: { code, originalUrl },
+            data: { code, originalUrl: normalizedUrl },
         })
         return link.code
     }
@@ -54,6 +72,13 @@ export default class ShortLinkService {
     static async resolve(code: string, request?: NextRequest): Promise<string | null> {
         const link = await prisma.shortLink.findFirst({ where: { code, deletedAt: null } })
         if (!link) return null
+
+        let safeOriginalUrl: string
+        try {
+            safeOriginalUrl = this.normalizeAndValidateUrl(link.originalUrl)
+        } catch {
+            return null
+        }
 
         if (request) {
             try {
@@ -99,7 +124,7 @@ export default class ShortLinkService {
             }
         }
 
-        return link.originalUrl
+        return safeOriginalUrl
     }
 
     /**
@@ -140,7 +165,12 @@ export default class ShortLinkService {
      * Updates a short link.
      */
     static async update(id: string, data: { originalUrl?: string; code?: string }) {
-        return prisma.shortLink.update({ where: { id }, data })
+        const updateData: { originalUrl?: string; code?: string } = { ...data }
+        if (updateData.originalUrl) {
+            updateData.originalUrl = this.normalizeAndValidateUrl(updateData.originalUrl)
+        }
+
+        return prisma.shortLink.update({ where: { id }, data: updateData })
     }
 
     /**

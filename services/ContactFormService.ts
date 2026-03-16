@@ -108,6 +108,11 @@ export default class ContactFormService {
     return recentEntries
   }
 
+  static async isRateLimited(phone: string, email: string, maxEntries = 2): Promise<boolean> {
+    const recentEntries = await this.getRecentContactFormEntriesByPhoneOrEmail(phone, email)
+    return recentEntries.length > maxEntries
+  }
+
   /**
    * Deletes a contact form by its ID.
    * @param contactId - The contact form ID

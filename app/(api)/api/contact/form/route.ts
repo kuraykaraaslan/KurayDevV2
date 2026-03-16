@@ -73,13 +73,9 @@ export async function POST(request: NextRequest, _response: NextResponse<Respons
     return NextResponse.json({ message: ContactMessages.MESSAGE_SENT_SUCCESSFULLY })
   }
 
-  //find recent contact form entries
-  const recentEntries = await ContactFormService.getRecentContactFormEntriesByPhoneOrEmail(
-    phone,
-    email
-  )
+  const isRateLimited = await ContactFormService.isRateLimited(phone, email)
 
-  if (recentEntries.length > 2) {
+  if (isRateLimited) {
     return NextResponse.json({ message: ContactMessages.TOO_MANY_REQUESTS }, { status: 429 })
   }
 

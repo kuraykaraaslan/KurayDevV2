@@ -36,8 +36,21 @@ function applyTranslation(category: CategoryWithTranslations, lang: string): Cat
 
 
 export default class CategoryService {
+  private static readonly MAX_PAGE_SIZE = 100
+
   private static sqlInjectionRegex =
     /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i // SQL injection prevention
+
+  private static normalizeSlug(slug: string): string {
+    return slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-')
+  }
+
+  private static normalizePagination(page: number, pageSize: number) {
+    const safePage = Number.isFinite(page) ? Math.max(0, Math.floor(page)) : 0
+    const safePageSizeRaw = Number.isFinite(pageSize) ? Math.floor(pageSize) : 10
+    const safePageSize = Math.min(this.MAX_PAGE_SIZE, Math.max(1, safePageSizeRaw))
+    return { safePage, safePageSize }
+  }
 
   /**
    * Creates a new category with regex validation.
@@ -52,6 +65,7 @@ export default class CategoryService {
     keywords?: string[]
   }): Promise<any> {
     let { title, description, slug, image, keywords } = data
+    slug = this.normalizeSlug(slug)
 
     // Validate input
     if (!title || !description || !slug) {
@@ -99,6 +113,8 @@ export default class CategoryService {
       throw new Error('Invalid search query.')
     }
 
+    const { safePage, safePageSize } = this.normalizePagination(page, pageSize)
+
     const where = search
       ? {
           deletedAt: null,
@@ -116,8 +132,8 @@ export default class CategoryService {
 
     const categories = await prisma.category.findMany({
       where,
-      skip: page * pageSize,
-      take: pageSize,
+      skip: safePage * safePageSize,
+      take: safePageSize,
       orderBy: { [resolvedSortKey]: resolvedSortDir },
       select: categoryWithTranslationsSelect,
     })
@@ -152,15 +168,33 @@ export default class CategoryService {
     slug: string
     image: string
     keywords?: string[]
-  }): Promise<Category> {
+  }, auth?: { requesterRole?: string }): Promise<Category> {
     const { categoryId, title, description, slug, image, keywords } = data
+
+    if (auth && auth.requesterRole !== 'ADMIN') {
+      throw new Error('Forbidden.')
+    }
+
+    const normalizedSlug = this.normalizeSlug(slug)
+
+    const duplicate = await prisma.category.findFirst({
+      where: {
+        slug: normalizedSlug,
+        categoryId: { not: categoryId },
+        deletedAt: null,
+      },
+    })
+
+    if (duplicate) {
+      throw new Error('Category with the same name or slug already exists.')
+    }
 
     const category = await prisma.category.update({
       where: { categoryId },
       data: {
         title,
         description,
-        slug,
+        slug: normalizedSlug,
         image,
         keywords: keywords || [],
       },
@@ -174,7 +208,11 @@ export default class CategoryService {
    * @param categoryId - The ID of the category
    * @returns The deleted category
    */
-  static async deleteCategory(categoryId: string): Promise<Category> {
+  static async deleteCategory(categoryId: string, auth?: { requesterRole?: string }): Promise<Category> {
+    if (auth && auth.requesterRole !== 'ADMIN') {
+      throw new Error('Forbidden.')
+    }
+
     const category = await prisma.category.update({
       where: { categoryId },
       data: { deletedAt: new Date() },

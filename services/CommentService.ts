@@ -2,12 +2,21 @@ import { Comment, CommentWithData } from '@/types/content/BlogTypes'
 import { prisma } from '@/libs/prisma'
 
 export default class CommentService {
+  private static readonly MAX_PAGE_SIZE = 100
+
   private static sqlInjectionRegex =
     /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i // SQL injection prevention
   private static emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   private static commentRegex = /^[\p{L}\p{N}\p{M}\s.,!?:;'"()\-_/]+$/u
   private static noHTMLRegex = /<[^>]*>?/gm
   private static noJS = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi
+
+  private static normalizePagination(page: number, pageSize: number) {
+    const safePage = Number.isFinite(page) ? Math.max(0, Math.floor(page)) : 0
+    const safePageSizeRaw = Number.isFinite(pageSize) ? Math.floor(pageSize) : 10
+    const safePageSize = Math.min(this.MAX_PAGE_SIZE, Math.max(1, safePageSizeRaw))
+    return { safePage, safePageSize }
+  }
 
   /**
    * Creates a new comment with regex validation.
@@ -73,6 +82,7 @@ export default class CommentService {
     sortDir?: 'asc' | 'desc'
   }): Promise<{ comments: CommentWithData[]; total: number }> {
     const { page, pageSize, search, postId, pending, sortKey, sortDir } = data
+    const { safePage, safePageSize } = this.normalizePagination(page, pageSize)
 
     // Validate search query
     if (search && this.sqlInjectionRegex.test(search)) {
@@ -91,8 +101,8 @@ export default class CommentService {
         deletedAt: null,
       },
       orderBy: { [resolvedSortKey]: resolvedSortDir },
-      skip: page * pageSize,
-      take: pageSize,
+      skip: safePage * safePageSize,
+      take: safePageSize,
       select: {
         commentId: true,
         content: true,
@@ -148,7 +158,23 @@ export default class CommentService {
    * @param commentId - The comment ID
    * @returns The deleted comment
    */
-  static async deleteComment(commentId: string): Promise<Comment> {
+  static async deleteComment(
+    commentId: string,
+    auth?: { requesterEmail?: string; requesterRole?: string }
+  ): Promise<Comment> {
+    const existing = await prisma.comment.findFirst({ where: { commentId, deletedAt: null } })
+    if (!existing) {
+      throw new Error('Comment not found.')
+    }
+
+    if (auth) {
+      const isAdmin = auth.requesterRole === 'ADMIN'
+      const isOwner = !!auth.requesterEmail && auth.requesterEmail === existing.email
+      if (!isAdmin && !isOwner) {
+        throw new Error('Forbidden.')
+      }
+    }
+
     const comment = await prisma.comment.update({
       where: { commentId },
       data: { deletedAt: new Date() },
@@ -167,15 +193,82 @@ export default class CommentService {
    * @param data - The comment data
    * @returns The updated comment
    */
-  static async updateComment(data: { commentId: string } & Partial<Comment>): Promise<Comment> {
+  static async updateComment(
+    data: { commentId: string } & Partial<Comment>,
+    auth?: { requesterEmail?: string; requesterRole?: string }
+  ): Promise<Comment> {
     const { commentId } = data
+
+    const existing = await prisma.comment.findFirst({ where: { commentId, deletedAt: null } })
+    if (!existing) {
+      throw new Error('Comment not found.')
+    }
+
+    if (auth) {
+      const isAdmin = auth.requesterRole === 'ADMIN'
+      const isOwner = !!auth.requesterEmail && auth.requesterEmail === existing.email
+      if (!isAdmin && !isOwner) {
+        throw new Error('Forbidden.')
+      }
+    }
+
+    if (existing.status === 'SPAM' && data.status === 'PUBLISHED') {
+      throw new Error('Spam comment cannot be published directly.')
+    }
+
+    const updateData: any = { ...data }
+    delete updateData.commentId
+    delete updateData.email
+    delete updateData.name
+    delete updateData.postId
+    delete updateData.parentId
+    delete updateData.createdAt
+    delete updateData.deletedAt
 
     // Update the comment
     const comment = await prisma.comment.update({
       where: { commentId },
-      data,
+      data: updateData,
     })
 
     return comment
+  }
+
+  static async approveComment(commentId: string): Promise<Comment> {
+    const comment = await prisma.comment.findFirst({ where: { commentId, deletedAt: null } })
+
+    if (!comment) {
+      throw new Error('Comment not found.')
+    }
+
+    if (comment.status === 'PUBLISHED') {
+      return comment
+    }
+
+    if (comment.status === 'SPAM') {
+      throw new Error('Spam comment cannot be published directly.')
+    }
+
+    return prisma.comment.update({
+      where: { commentId },
+      data: { status: 'PUBLISHED' },
+    })
+  }
+
+  static async markCommentAsSpam(commentId: string): Promise<Comment> {
+    const comment = await prisma.comment.findFirst({ where: { commentId, deletedAt: null } })
+
+    if (!comment) {
+      throw new Error('Comment not found.')
+    }
+
+    if (comment.status === 'SPAM') {
+      return comment
+    }
+
+    return prisma.comment.update({
+      where: { commentId },
+      data: { status: 'SPAM' },
+    })
   }
 }

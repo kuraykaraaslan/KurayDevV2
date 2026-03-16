@@ -3,9 +3,16 @@ import Logger from '@/libs/logger'
 import { Appointment, AppointmentStatus } from '@/types/features/CalendarTypes'
 import SlotService from './SlotService'
 import { separateDateTimeWithTimeZone } from '@/helpers/TimeHelper'
+import redis from '@/libs/redis'
 
 export default class AppointmentService {
   static APPOINTMENT_PREFIX = 'appointment:{date}:{time}'
+  static BOOK_LOCK_PREFIX = 'appointment:lock:book:{appointmentId}'
+  static CANCEL_LOCK_PREFIX = 'appointment:lock:cancel:{appointmentId}'
+
+  private static makeLockKey(prefix: string, appointmentId: string): string {
+    return prefix.replace('{appointmentId}', appointmentId)
+  }
 
   /** Utility: Get appointment or throw */
   private static async getAppointmentByIdOrThrow(appointmentId: string): Promise<Appointment> {
@@ -66,51 +73,161 @@ export default class AppointmentService {
 
   /** 🔹 Book appointment — atomic */
   static async bookAppointment(appointmentId: string): Promise<Appointment> {
+    const lockKey = this.makeLockKey(this.BOOK_LOCK_PREFIX, appointmentId)
+    const lockAcquired = await redis.set(lockKey, '1', 'EX', 5, 'NX')
+    if (lockAcquired !== 'OK') {
+      Logger.warn(`Booking conflict for ${appointmentId}: lock already held`)
+      throw new Error('Booking operation already in progress')
+    }
+
     const existing = await this.getAppointmentByIdOrThrow(appointmentId)
-    if (existing.status === 'BOOKED') throw new Error('Already booked')
+    if (existing.status === 'BOOKED') {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Booking conflict for ${appointmentId}: already booked`)
+      throw new Error('Already booked')
+    }
+    if (existing.status === 'CANCELLED') {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Booking conflict for ${appointmentId}: status is CANCELLED`)
+      throw new Error('Cannot book cancelled appointment')
+    }
+    if (existing.status === 'COMPLETED') {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Booking conflict for ${appointmentId}: status is COMPLETED`)
+      throw new Error('Cannot book completed appointment')
+    }
+    if (existing.startTime.getTime() <= Date.now()) {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Booking conflict for ${appointmentId}: time boundary reached`)
+      throw new Error('Cannot book past or ongoing appointment')
+    }
 
     const { date, time } = separateDateTimeWithTimeZone(existing.startTime)
     const slot = await SlotService.getSlot(date, time)
-    if (!slot) throw new Error('Slot not found')
+    if (!slot) {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Booking conflict for ${appointmentId}: slot not found`)
+      throw new Error('Slot not found')
+    }
 
-    if (slot.capacity <= 0) throw new Error('No available capacity')
+    if (slot.capacity <= 0) {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Booking conflict for ${appointmentId}: no available capacity`)
+      throw new Error('No available capacity')
+    }
 
-    const updated = await prisma.$transaction(async (tx) => {
-      const booked = await tx.appointment.update({
-        where: { appointmentId },
-        data: { status: 'BOOKED' },
+    try {
+      const updated = await prisma.$transaction(async (tx) => {
+        const booked = await tx.appointment.update({
+          where: { appointmentId },
+          data: { status: 'BOOKED' },
+        })
+        if (slot.capacity > 0) slot.capacity -= 1
+        await SlotService.updateSlot(slot)
+        return booked
       })
-      if (slot.capacity > 0) slot.capacity -= 1
-      await SlotService.updateSlot(slot)
-      return booked
-    })
 
-    Logger.info(`Appointment ${appointmentId} booked`)
-    return updated
+      Logger.info(`Appointment ${appointmentId} booked`)
+      return updated
+    } finally {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+    }
   }
 
   /** 🔹 Cancel appointment — atomic restore */
-  static async cancelAppointment(appointmentId: string): Promise<Appointment> {
+  static async cancelAppointment(
+    appointmentId: string,
+    options?: { requesterEmail?: string; isAdmin?: boolean }
+  ): Promise<Appointment> {
+    const lockKey = this.makeLockKey(this.CANCEL_LOCK_PREFIX, appointmentId)
+    const lockAcquired = await redis.set(lockKey, '1', 'EX', 5, 'NX')
+    if (lockAcquired !== 'OK') {
+      Logger.warn(`Cancellation conflict for ${appointmentId}: lock already held`)
+      throw new Error('Cancellation operation already in progress')
+    }
+
     const existing = await this.getAppointmentByIdOrThrow(appointmentId)
-    if (existing.status === 'CANCELLED') throw new Error('Already cancelled')
+    if (existing.status === 'CANCELLED') {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Cancellation conflict for ${appointmentId}: already cancelled`)
+      throw new Error('Already cancelled')
+    }
+    if (existing.status !== 'BOOKED') {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Cancellation conflict for ${appointmentId}: status is ${existing.status}`)
+      throw new Error('Only booked appointments can be cancelled')
+    }
+    if (existing.startTime.getTime() <= Date.now()) {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Cancellation conflict for ${appointmentId}: time boundary reached`)
+      throw new Error('Cannot cancel past or ongoing appointment')
+    }
+
+    const requesterEmail = options?.requesterEmail?.trim().toLowerCase()
+    const ownerEmail = existing.email.trim().toLowerCase()
+    if (!options?.isAdmin && requesterEmail && requesterEmail !== ownerEmail) {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+      Logger.warn(`Cancellation conflict for ${appointmentId}: forbidden requester ${requesterEmail}`)
+      throw new Error('Forbidden: cannot cancel another user appointment')
+    }
 
     const { date, time } = separateDateTimeWithTimeZone(existing.startTime)
     const slot = await SlotService.getSlot(date, time)
 
-    const updated = await prisma.$transaction(async (tx) => {
-      const cancelled = await tx.appointment.update({
-        where: { appointmentId },
-        data: { status: 'CANCELLED' },
+    try {
+      const updated = await prisma.$transaction(async (tx) => {
+        const cancelled = await tx.appointment.update({
+          where: { appointmentId },
+          data: { status: 'CANCELLED' },
+        })
+        if (slot) {
+          slot.capacity += 1
+          await SlotService.updateSlot(slot)
+        }
+        return cancelled
       })
-      if (slot) {
-        slot.capacity += 1
-        await SlotService.updateSlot(slot)
-      }
-      return cancelled
-    })
 
-    Logger.info(`Appointment ${appointmentId} cancelled`)
-    return updated
+      Logger.info(`Appointment ${appointmentId} cancelled`)
+      return updated
+    } finally {
+      try {
+        await redis.del(lockKey)
+      } catch {
+      }
+    }
   }
 
   /** Paginated + filtered listing */
