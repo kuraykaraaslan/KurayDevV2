@@ -5,8 +5,8 @@ Welcome to the source code of **Kuray Karaaslan's** full-stack personal platform
 This repository powers **kuray.dev**, the central hub for my projects, content, services, and experiments.
 
 **Project start:** October 2024  
-**Current version:** v2.7 (March 2026)  
-**Total commits:** 460+
+**Current version:** v2.8 (March 2026)  
+**Total commits:** 568+
 
 ---
 
@@ -18,6 +18,7 @@ KurayDevSite is built on **Next.js 16**, **React 19**, **Prisma 7**, and a fully
 - Redis caching, rate limiting, and real-time counters
 - BullMQ workers for background tasks
 - WebSocket + SSE real-time infrastructure
+- ActivityPub / Fediverse federation (WebFinger, NodeInfo, inbox/outbox)
 - AI Chatbot with RAG (Retrieval-Augmented Generation)
 - Multi-provider SSO authentication (11 providers)
 - WebAuthn / Passkey passwordless login
@@ -120,6 +121,13 @@ Visit the live site: **[https://kuray.dev](https://kuray.dev)**
 - Click analytics and tracking
 - Redirect handler (`/s/[code]`)
 
+### 🌍 Fediverse / ActivityPub
+
+- ActivityPub Actor, Inbox, Outbox, Followers, and Following endpoints
+- Discovery endpoints: `/.well-known/webfinger` and `/.well-known/nodeinfo`
+- Signed outbound delivery and inbound HTTP Signature verification
+- Automatic federation events on post publish/update/delete
+
 ### 🔑 API Key Management
 
 - Personal API keys: create, list, revoke
@@ -213,7 +221,7 @@ tests/         → Test coverage for services
 
 ## 🛣️ Roadmap
 
-### ✅ Completed Phases (v0.1 – v2.7)
+### ✅ Completed Phases (v0.1 – v2.8)
 
 | Phase | Version | Highlights |
 |-------|---------|------------|
@@ -231,6 +239,7 @@ tests/         → Test coverage for services
 | AI Chatbot & Real-Time | v2.5 | RAG chatbot, WebSocket, live viewer count, API keys |
 | Auth Hardening | v2.6 | Auth redesign, cookie consent, SSE fallback, service extraction |
 | Passkeys & Export | v2.7 | WebAuthn, reCAPTCHA, trusted devices, data export, content scoring |
+| Fediverse & UX Stabilization | v2.8 | ActivityPub federation, modal/UI refactor, common component migration, i18n lazy loading |
 
 ### 🔜 Upcoming Phases
 
@@ -307,4 +316,4 @@ If you'd like help building a similar system or want to collaborate, feel free t
 
 ---
 
-*Last updated: 2026-03-09 · v2.7*
+*Last updated: 2026-03-16 · v2.8*

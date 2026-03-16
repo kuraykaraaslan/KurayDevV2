@@ -8,7 +8,7 @@
 > and full i18n support across 26 languages.
 
 **Project start:** October 2024  
-**Current version:** v2.7  
+**Current version:** v2.8  
 **Status legend:** ✅ Completed · 🔄 In Progress · 📋 Planned
 
 ---
@@ -284,6 +284,26 @@
 
 ---
 
+## Phase 14.1 — Fediverse Integration, UX Refactor & Runtime Hardening `v2.8` ✅
+> *Target: Mar 2026*
+
+**Goal:** Federate the platform to the Fediverse while stabilising core UI and runtime behavior after v2.7.
+
+- ✅ ActivityPub endpoints added: Actor, Inbox, Outbox, Followers, Following
+- ✅ Discovery endpoints added: `/.well-known/webfinger` and `/.well-known/nodeinfo`
+- ✅ `ActivityPubFollower` model added to Prisma schema; client regenerated
+- ✅ Signed outbound ActivityPub delivery and inbound HTTP Signature verification
+- ✅ Post publish/update/delete now emit Create/Update/Delete federation activities
+- ✅ ActivityPub middleware hardening: CSRF exemption and route-level rate-limit tuning
+- ✅ Modal system refactored into composable modules with stack/z-index and drag support
+- ✅ Reusable form/modal components migrated from admin layer to `components/common/*`
+- ✅ Form controls expanded: `DynamicSelect` multiselect + `DynamicNumber` + `DynamicRadio`
+- ✅ i18n dictionary loading switched to lazy-loading by language
+- ✅ Public user profile and metadata flow rebuilt; server/client boundary cleanup pass
+- ✅ Cron schedule definitions reorganised from `jobs/` to `timers/`
+
+---
+
 ## Phase 15 — Test Coverage & Quality Gates 📋
 > *Target: Q2 2026*
 
@@ -461,4 +481,4 @@ These constraints were established at project inception and apply to every phase
 
 ---
 
-*Last updated: 2026-03-09 · v2.7*
+*Last updated: 2026-03-16 · v2.8*
