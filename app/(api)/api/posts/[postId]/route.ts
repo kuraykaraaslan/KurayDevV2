@@ -3,6 +3,8 @@ import PostService from '@/services/PostService'
 import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import PostCoverService from '@/services/PostService/PostCoverService'
+import ActivityPubService from '@/services/ActivityPubService'
+import Logger from '@/libs/logger'
 import { UpdatePostRequestSchema } from '@/dtos/PostDTO'
 import PostMessages from '@/messages/PostMessages'
 
@@ -52,6 +54,12 @@ export async function DELETE(
 
     await PostService.deletePost(postId)
 
+    if (post.status === 'PUBLISHED') {
+      ActivityPubService.notifyFollowersOfPostDelete(post).catch((err) => {
+        Logger.error(`[ActivityPub] Failed to notify followers of post deletion ${postId}: ${String(err)}`)
+      })
+    }
+
     return NextResponse.json({ message: PostMessages.POST_DELETED_SUCCESSFULLY })
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 })
@@ -73,6 +81,12 @@ export async function PUT(
 
     const { postId } = await params
 
+    const existingPost = await PostService.getPostById(postId)
+
+    if (!existingPost) {
+      return NextResponse.json({ message: PostMessages.POST_NOT_FOUND }, { status: 404 })
+    }
+
     const data = await request.json()
     data.postId = postId
 
@@ -93,6 +107,28 @@ export async function PUT(
 
     if (!post.image) {
       await PostCoverService.resetById(post.postId)
+    }
+
+    if (post.status === 'PUBLISHED') {
+      const notifyData = {
+        postId: post.postId,
+        title: post.title,
+        content: post.content,
+        description: post.description,
+        slug: post.slug,
+        keywords: post.keywords,
+        publishedAt: post.publishedAt,
+        category: existingPost.category,
+      }
+      if (existingPost.status === 'PUBLISHED') {
+        ActivityPubService.notifyFollowersOfPostUpdate(notifyData).catch((err) => {
+          Logger.error(`[ActivityPub] Failed to notify followers of post update ${postId}: ${String(err)}`)
+        })
+      } else {
+        ActivityPubService.notifyFollowersOfPost(notifyData).catch((err) => {
+          Logger.error(`[ActivityPub] Failed to notify followers of post publish ${postId}: ${String(err)}`)
+        })
+      }
     }
 
     return NextResponse.json({ post })

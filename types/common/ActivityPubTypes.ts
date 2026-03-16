@@ -96,6 +96,17 @@ export interface APUndoActivity {
   object: APFollowActivity | string
 }
 
+export interface APUpdateActivity {
+  '@context': unknown
+  id: string
+  type: 'Update'
+  actor: string
+  published: string
+  to: string[]
+  cc: string[]
+  object: APArticle
+}
+
 export interface APDeleteActivity {
   '@context'?: unknown
   id: string
