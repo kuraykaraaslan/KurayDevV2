@@ -1,5 +1,5 @@
 'use client'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEarthAmericas } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'

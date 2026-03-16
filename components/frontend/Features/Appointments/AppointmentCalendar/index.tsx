@@ -11,7 +11,7 @@ import AppointmentModal from './AppointmentModal'
 import dynamic from 'next/dynamic'
 import LoadingElement from '@/components/frontend/UI/Content/LoadingElement'
 import { useTranslation } from 'react-i18next'
-import { useModal } from '@/components/admin/UI/Modal'
+import { useModal } from '@/components/common/Modal'
 
 const Calendar = dynamic(() => import('react-calendar'), {
   ssr: false,

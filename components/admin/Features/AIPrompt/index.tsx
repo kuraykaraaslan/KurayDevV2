@@ -3,7 +3,7 @@ import axiosInstance from '@/libs/axios'
 import { faRobot } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTranslation } from 'react-i18next'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
 
 const AIPrompt = ({
   setTitle,

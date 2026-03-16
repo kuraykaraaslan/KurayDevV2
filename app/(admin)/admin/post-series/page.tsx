@@ -7,7 +7,7 @@ import {
     TableFooter,
     ColumnDef,
     ActionButton,
-} from '@/components/admin/UI/Forms/DynamicTable'
+} from '@/components/common/Forms/DynamicTable'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'

@@ -7,7 +7,7 @@ import Table, {
   ImageCell,
   ColumnDef,
   ActionButton,
-} from '@/components/admin/UI/Forms/DynamicTable'
+} from '@/components/common/Forms/DynamicTable'
 import { ProjectWithTranslations } from '@/types/content/ProjectTypes'
 import { getLangFlagUrl as findFlagUrlByIso2Code } from '@/types/common/I18nTypes'
 import axiosInstance from '@/libs/axios'

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { HeadlessModal } from '@/components/admin/UI/Modal'
+import { HeadlessModal } from '@/components/common/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faFacebook,

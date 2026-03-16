@@ -10,8 +10,8 @@ import {
   type AppLanguage,
 } from '@/types/common/I18nTypes'
 import { ENV_DEFAULT_LANGUAGE, ENV_LANGUAGES } from '@/libs/zustand'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
-import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
+import DynamicSelect from '@/components/common/Forms/DynamicSelect'
 
 export default function LanguageButton() {
   const { t } = useTranslation()

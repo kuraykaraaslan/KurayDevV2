@@ -11,8 +11,8 @@ import {
   UserPreferencesDefault,
 } from '@/types/user/UserTypes'
 import * as countriesAndTimezones from 'countries-and-timezones'
-import FormHeader from '@/components/admin/UI/Forms/FormHeader'
-import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import FormHeader from '@/components/common/Forms/FormHeader'
+import DynamicSelect from '@/components/common/Forms/DynamicSelect'
 import { useTranslation } from 'react-i18next'
 
 export default function PreferencesTab() {

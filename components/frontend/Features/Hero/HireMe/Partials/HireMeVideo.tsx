@@ -3,7 +3,7 @@ import { createRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
 
 const HireMeVideo = () => {
   const [playing, setPlaying] = useState(false)

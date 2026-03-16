@@ -7,8 +7,8 @@ import Table, {
   TableFooter,
   ColumnDef,
   ActionButton,
-} from '@/components/admin/UI/Forms/DynamicTable'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+} from '@/components/common/Forms/DynamicTable'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
 import { ContactForm } from '@/types/features/ContactTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'

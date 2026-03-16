@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
-import FormHeader from '@/components/admin/UI/Forms/FormHeader'
+import FormHeader from '@/components/common/Forms/FormHeader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faKey,

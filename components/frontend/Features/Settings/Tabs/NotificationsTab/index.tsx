@@ -5,8 +5,8 @@ import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
 import { useUserStore } from '@/libs/zustand'
 import { UserPreferences, UserPreferencesDefault } from '@/types/user/UserTypes'
-import FormHeader from '@/components/admin/UI/Forms/FormHeader'
-import DynamicToggle from '@/components/admin/UI/Forms/DynamicToggle'
+import FormHeader from '@/components/common/Forms/FormHeader'
+import DynamicToggle from '@/components/common/Forms/DynamicToggle'
 import { useTranslation } from 'react-i18next'
 
 export default function NotificationsTab() {

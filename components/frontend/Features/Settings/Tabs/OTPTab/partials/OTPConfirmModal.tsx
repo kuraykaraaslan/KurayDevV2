@@ -1,4 +1,4 @@
-import HeadlessModal from '@/components/admin/UI/Modal'
+import HeadlessModal from '@/components/common/Modal'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {

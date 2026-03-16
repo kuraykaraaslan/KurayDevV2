@@ -2,8 +2,8 @@
 
 import { useLanguageStore, ENV_LANGUAGES } from '@/libs/zustand'
 import { LANG_NAMES, getLangFlagUrl, type AppLanguage } from '@/types/common/I18nTypes'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
-import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
+import DynamicSelect from '@/components/common/Forms/DynamicSelect'
 import { useTranslation } from 'react-i18next'
 
 export default function LangButtonCSR() {

@@ -3,7 +3,7 @@ import { useMemo, useCallback } from 'react'
 import axiosInstance from '@/libs/axios'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {

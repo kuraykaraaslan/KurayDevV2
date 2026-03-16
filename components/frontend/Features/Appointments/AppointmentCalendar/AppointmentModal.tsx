@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import axiosInstance from '@/libs/axios'
 import { FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import HeadlessModal from '@/components/admin/UI/Modal'
+import HeadlessModal from '@/components/common/Modal'
 
 const AppointmentModal = ({
   selectedSlot,

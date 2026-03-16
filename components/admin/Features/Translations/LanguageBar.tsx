@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AVAILABLE_LANGUAGES, LANG_NAMES, getLangFlagUrl, type AppLanguage } from '@/types/common/I18nTypes'
-import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import DynamicSelect from '@/components/common/Forms/DynamicSelect'
 
 export { LANG_NAMES }
 

@@ -1,6 +1,6 @@
 'use client'
 import { useTranslation } from 'react-i18next'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
 import KnowledgeGraph2D from './index'

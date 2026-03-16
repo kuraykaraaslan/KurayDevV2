@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next'
 
 import axiosInstance from '@/libs/axios'
 import { useUserStore } from '@/libs/zustand'
-import FormHeader from '@/components/admin/UI/Forms/FormHeader'
-import GenericElement from '@/components/admin/UI/Forms/GenericElement'
+import FormHeader from '@/components/common/Forms/FormHeader'
+import GenericElement from '@/components/common/Forms/GenericElement'
 
 export default function BasicTab() {
   const { user, setUser } = useUserStore()

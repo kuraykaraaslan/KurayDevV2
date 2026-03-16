@@ -2,31 +2,31 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axiosInstance from '@/libs/axios'
-import Editor from '@/components/admin/UI/Forms/Editor'
+import Editor from '@/components/common/Forms/Editor'
 import { toast } from 'react-toastify'
 import ImageLoad from '@/components/common/UI/Images/ImageLoad'
 import AIPrompt from '@/components/admin/Features/AIPrompt'
-import DynamicSelect from '@/components/admin/UI/Forms/DynamicSelect'
+import DynamicSelect from '@/components/common/Forms/DynamicSelect'
 import { useUserStore } from '@/libs/zustand'
-import FormHeader from '@/components/admin/UI/Forms/FormHeader'
-import DynamicText from '@/components/admin/UI/Forms/DynamicText'
-import DynamicDate from '@/components/admin/UI/Forms/DynamicDate'
-import GenericElement from '@/components/admin/UI/Forms/GenericElement'
-import Form from '@/components/admin/UI/Forms/Form'
+import FormHeader from '@/components/common/Forms/FormHeader'
+import DynamicText from '@/components/common/Forms/DynamicText'
+import DynamicDate from '@/components/common/Forms/DynamicDate'
+import GenericElement from '@/components/common/Forms/GenericElement'
+import Form from '@/components/common/Forms/Form'
 import TranslationSection from '@/components/admin/Features/Translations/TranslationSection'
 import { TranslationFieldDef } from '@/components/admin/Features/Translations/AddLanguageModal'
 import { useTranslationState } from '@/components/admin/hooks/useTranslationState'
 import { useDraftAutoSave } from '@/components/admin/hooks/useDraftAutoSave'
 import { useSlugify } from '@/components/admin/hooks/useSlugify'
 import type { PostStatus } from '@/types/content/BlogTypes'
-import ContentScoreBar from '@/components/admin/UI/Forms/ContentScoreBar'
+import ContentScoreBar from '@/components/common/Forms/ContentScoreBar'
 import {
   TITLE_SCORE_RULES,
   DESCRIPTION_SCORE_RULES,
   CONTENT_SCORE_RULES,
   SLUG_SCORE_RULES,
   KEYWORDS_SCORE_RULES,
-} from '@/components/admin/UI/Forms/ContentScoreBar/rules'
+} from '@/components/common/Forms/ContentScoreBar/rules'
 
 const POST_TRANSLATION_FIELDS: TranslationFieldDef[] = [
   { key: 'title', label: 'Title' },

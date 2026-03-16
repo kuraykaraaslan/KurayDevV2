@@ -9,7 +9,7 @@ import Table, {
   TableFooter,
   ColumnDef,
   ActionButton,
-} from '@/components/admin/UI/Forms/DynamicTable'
+} from '@/components/common/Forms/DynamicTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faUser,

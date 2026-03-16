@@ -34,8 +34,8 @@ import {
   GridItemRenderProps,
   ColumnDef,
   ActionButton,
-} from '@/components/admin/UI/Forms/DynamicTable'
-import { HeadlessModal, useModal } from '@/components/admin/UI/Modal'
+} from '@/components/common/Forms/DynamicTable'
+import { HeadlessModal, useModal } from '@/components/common/Modal'
 import { MediaFile } from '@/types/features/MediaTypes'
 import { formatDateTime } from '@/helpers/TimeHelper'
 

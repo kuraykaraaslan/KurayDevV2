@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import axiosInstance from '@/libs/axios'
-import { HeadlessModal } from '@/components/admin/UI/Modal'
+import { HeadlessModal } from '@/components/common/Modal'
 import { TableContext } from './TableContext'
 import { useTableSearchParams } from '../hooks/useTableSearchParams'
 import type {

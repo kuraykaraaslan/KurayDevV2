@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { createRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import LoadingElement from '@/components/frontend/UI/Content/LoadingElement'
-import HeadlessModal, { useModal } from '@/components/admin/UI/Modal'
+import HeadlessModal, { useModal } from '@/components/common/Modal'
 
 const ReactPlayer = dynamic(() => import('react-player'), {
   ssr: false,

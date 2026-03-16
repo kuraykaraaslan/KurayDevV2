@@ -6,7 +6,7 @@ import Table, {
   TableFooter,
   ColumnDef,
   ActionButton,
-} from '@/components/admin/UI/Forms/DynamicTable'
+} from '@/components/common/Forms/DynamicTable'
 import { ShortLink } from '@/types/content/ShortLinkTypes'
 import axiosInstance from '@/libs/axios'
 import { useTranslation } from 'react-i18next'
