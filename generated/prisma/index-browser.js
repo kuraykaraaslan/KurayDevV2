@@ -425,6 +425,15 @@ exports.Prisma.ApiKeyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ActivityPubFollowerScalarFieldEnum = {
+  id: 'id',
+  actorUrl: 'actorUrl',
+  inbox: 'inbox',
+  sharedInbox: 'sharedInbox',
+  accepted: 'accepted',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ChatSessionScalarFieldEnum = {
   chatSessionId: 'chatSessionId',
   userId: 'userId',
@@ -543,6 +552,7 @@ exports.Prisma.ModelName = {
   ShortLinkClick: 'ShortLinkClick',
   Media: 'Media',
   ApiKey: 'ApiKey',
+  ActivityPubFollower: 'ActivityPubFollower',
   ChatSession: 'ChatSession',
   ChatMessage: 'ChatMessage'
 };

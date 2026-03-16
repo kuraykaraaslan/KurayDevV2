@@ -38,8 +38,9 @@
     "build/types/**/*.ts",
     "prisma/seed.js",
     "app/not-found.tsx",
-    ".next/dev/types/**/*.ts"
-, "middleware.ts.bak", "middleware.ts.bak"  ],
+    ".next/dev/types/**/*.ts",
+    "app/.well-known/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     ".next",

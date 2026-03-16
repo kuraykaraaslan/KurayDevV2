@@ -494,6 +494,20 @@ model ApiKey {
   @@index([keyHash])
 }
 
+// ── ActivityPub / Fediverse ───────────────────────────────────────────
+
+/// A remote Fediverse actor (e.g. Mastodon user) that follows our blog actor.
+model ActivityPubFollower {
+  id          String    @id @default(cuid())
+  actorUrl    String    @unique  // The follower's actor URL (e.g. https://mastodon.social/users/alice)
+  inbox       String             // The follower's personal inbox URL
+  sharedInbox String?            // The server's shared inbox (preferred for delivery)
+  accepted    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  @@index([actorUrl])
+}
+
 // ── Chatbot ──────────────────────────────────────────────────────────
 
 enum ChatSessionStatus {

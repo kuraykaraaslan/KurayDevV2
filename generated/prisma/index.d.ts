@@ -144,6 +144,11 @@ export type Media = $Result.DefaultSelection<Prisma.$MediaPayload>
  */
 export type ApiKey = $Result.DefaultSelection<Prisma.$ApiKeyPayload>
 /**
+ * Model ActivityPubFollower
+ * A remote Fediverse actor (e.g. Mastodon user) that follows our blog actor.
+ */
+export type ActivityPubFollower = $Result.DefaultSelection<Prisma.$ActivityPubFollowerPayload>
+/**
  * Model ChatSession
  * A chatbot conversation session.
  * Redis is the hot-cache; this table is the persistent record.
@@ -644,6 +649,16 @@ export class PrismaClient<
   get apiKey(): Prisma.ApiKeyDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.activityPubFollower`: Exposes CRUD operations for the **ActivityPubFollower** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ActivityPubFollowers
+    * const activityPubFollowers = await prisma.activityPubFollower.findMany()
+    * ```
+    */
+  get activityPubFollower(): Prisma.ActivityPubFollowerDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.chatSession`: Exposes CRUD operations for the **ChatSession** model.
     * Example usage:
     * ```ts
@@ -1122,6 +1137,7 @@ export namespace Prisma {
     ShortLinkClick: 'ShortLinkClick',
     Media: 'Media',
     ApiKey: 'ApiKey',
+    ActivityPubFollower: 'ActivityPubFollower',
     ChatSession: 'ChatSession',
     ChatMessage: 'ChatMessage'
   };
@@ -1139,7 +1155,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postSeries" | "postSeriesEntry" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "shortLink" | "shortLinkClick" | "media" | "apiKey" | "chatSession" | "chatMessage"
+      modelProps: "user" | "userSession" | "userSocialAccount" | "verificationToken" | "post" | "postSeries" | "postSeriesEntry" | "postTranslation" | "category" | "categoryTranslation" | "comment" | "contactForm" | "subscription" | "campaign" | "setting" | "project" | "projectTranslation" | "appointment" | "like" | "testimonial" | "pushSubscription" | "geoAnalytics" | "shortLink" | "shortLinkClick" | "media" | "apiKey" | "activityPubFollower" | "chatSession" | "chatMessage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3067,6 +3083,80 @@ export namespace Prisma {
           }
         }
       }
+      ActivityPubFollower: {
+        payload: Prisma.$ActivityPubFollowerPayload<ExtArgs>
+        fields: Prisma.ActivityPubFollowerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActivityPubFollowerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActivityPubFollowerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>
+          }
+          findFirst: {
+            args: Prisma.ActivityPubFollowerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActivityPubFollowerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>
+          }
+          findMany: {
+            args: Prisma.ActivityPubFollowerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>[]
+          }
+          create: {
+            args: Prisma.ActivityPubFollowerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>
+          }
+          createMany: {
+            args: Prisma.ActivityPubFollowerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActivityPubFollowerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>[]
+          }
+          delete: {
+            args: Prisma.ActivityPubFollowerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>
+          }
+          update: {
+            args: Prisma.ActivityPubFollowerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActivityPubFollowerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActivityPubFollowerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ActivityPubFollowerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>[]
+          }
+          upsert: {
+            args: Prisma.ActivityPubFollowerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPubFollowerPayload>
+          }
+          aggregate: {
+            args: Prisma.ActivityPubFollowerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActivityPubFollower>
+          }
+          groupBy: {
+            args: Prisma.ActivityPubFollowerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActivityPubFollowerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActivityPubFollowerCountArgs<ExtArgs>
+            result: $Utils.Optional<ActivityPubFollowerCountAggregateOutputType> | number
+          }
+        }
+      }
       ChatSession: {
         payload: Prisma.$ChatSessionPayload<ExtArgs>
         fields: Prisma.ChatSessionFieldRefs
@@ -3349,6 +3439,7 @@ export namespace Prisma {
     shortLinkClick?: ShortLinkClickOmit
     media?: MediaOmit
     apiKey?: ApiKeyOmit
+    activityPubFollower?: ActivityPubFollowerOmit
     chatSession?: ChatSessionOmit
     chatMessage?: ChatMessageOmit
   }
@@ -32508,6 +32599,1014 @@ export namespace Prisma {
 
 
   /**
+   * Model ActivityPubFollower
+   */
+
+  export type AggregateActivityPubFollower = {
+    _count: ActivityPubFollowerCountAggregateOutputType | null
+    _min: ActivityPubFollowerMinAggregateOutputType | null
+    _max: ActivityPubFollowerMaxAggregateOutputType | null
+  }
+
+  export type ActivityPubFollowerMinAggregateOutputType = {
+    id: string | null
+    actorUrl: string | null
+    inbox: string | null
+    sharedInbox: string | null
+    accepted: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ActivityPubFollowerMaxAggregateOutputType = {
+    id: string | null
+    actorUrl: string | null
+    inbox: string | null
+    sharedInbox: string | null
+    accepted: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ActivityPubFollowerCountAggregateOutputType = {
+    id: number
+    actorUrl: number
+    inbox: number
+    sharedInbox: number
+    accepted: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ActivityPubFollowerMinAggregateInputType = {
+    id?: true
+    actorUrl?: true
+    inbox?: true
+    sharedInbox?: true
+    accepted?: true
+    createdAt?: true
+  }
+
+  export type ActivityPubFollowerMaxAggregateInputType = {
+    id?: true
+    actorUrl?: true
+    inbox?: true
+    sharedInbox?: true
+    accepted?: true
+    createdAt?: true
+  }
+
+  export type ActivityPubFollowerCountAggregateInputType = {
+    id?: true
+    actorUrl?: true
+    inbox?: true
+    sharedInbox?: true
+    accepted?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ActivityPubFollowerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivityPubFollower to aggregate.
+     */
+    where?: ActivityPubFollowerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityPubFollowers to fetch.
+     */
+    orderBy?: ActivityPubFollowerOrderByWithRelationInput | ActivityPubFollowerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActivityPubFollowerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityPubFollowers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityPubFollowers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ActivityPubFollowers
+    **/
+    _count?: true | ActivityPubFollowerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActivityPubFollowerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActivityPubFollowerMaxAggregateInputType
+  }
+
+  export type GetActivityPubFollowerAggregateType<T extends ActivityPubFollowerAggregateArgs> = {
+        [P in keyof T & keyof AggregateActivityPubFollower]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActivityPubFollower[P]>
+      : GetScalarType<T[P], AggregateActivityPubFollower[P]>
+  }
+
+
+
+
+  export type ActivityPubFollowerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityPubFollowerWhereInput
+    orderBy?: ActivityPubFollowerOrderByWithAggregationInput | ActivityPubFollowerOrderByWithAggregationInput[]
+    by: ActivityPubFollowerScalarFieldEnum[] | ActivityPubFollowerScalarFieldEnum
+    having?: ActivityPubFollowerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActivityPubFollowerCountAggregateInputType | true
+    _min?: ActivityPubFollowerMinAggregateInputType
+    _max?: ActivityPubFollowerMaxAggregateInputType
+  }
+
+  export type ActivityPubFollowerGroupByOutputType = {
+    id: string
+    actorUrl: string
+    inbox: string
+    sharedInbox: string | null
+    accepted: boolean
+    createdAt: Date
+    _count: ActivityPubFollowerCountAggregateOutputType | null
+    _min: ActivityPubFollowerMinAggregateOutputType | null
+    _max: ActivityPubFollowerMaxAggregateOutputType | null
+  }
+
+  type GetActivityPubFollowerGroupByPayload<T extends ActivityPubFollowerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActivityPubFollowerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActivityPubFollowerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActivityPubFollowerGroupByOutputType[P]>
+            : GetScalarType<T[P], ActivityPubFollowerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActivityPubFollowerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    actorUrl?: boolean
+    inbox?: boolean
+    sharedInbox?: boolean
+    accepted?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["activityPubFollower"]>
+
+  export type ActivityPubFollowerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    actorUrl?: boolean
+    inbox?: boolean
+    sharedInbox?: boolean
+    accepted?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["activityPubFollower"]>
+
+  export type ActivityPubFollowerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    actorUrl?: boolean
+    inbox?: boolean
+    sharedInbox?: boolean
+    accepted?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["activityPubFollower"]>
+
+  export type ActivityPubFollowerSelectScalar = {
+    id?: boolean
+    actorUrl?: boolean
+    inbox?: boolean
+    sharedInbox?: boolean
+    accepted?: boolean
+    createdAt?: boolean
+  }
+
+  export type ActivityPubFollowerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "actorUrl" | "inbox" | "sharedInbox" | "accepted" | "createdAt", ExtArgs["result"]["activityPubFollower"]>
+
+  export type $ActivityPubFollowerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ActivityPubFollower"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      actorUrl: string
+      inbox: string
+      sharedInbox: string | null
+      accepted: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["activityPubFollower"]>
+    composites: {}
+  }
+
+  type ActivityPubFollowerGetPayload<S extends boolean | null | undefined | ActivityPubFollowerDefaultArgs> = $Result.GetResult<Prisma.$ActivityPubFollowerPayload, S>
+
+  type ActivityPubFollowerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ActivityPubFollowerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ActivityPubFollowerCountAggregateInputType | true
+    }
+
+  export interface ActivityPubFollowerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ActivityPubFollower'], meta: { name: 'ActivityPubFollower' } }
+    /**
+     * Find zero or one ActivityPubFollower that matches the filter.
+     * @param {ActivityPubFollowerFindUniqueArgs} args - Arguments to find a ActivityPubFollower
+     * @example
+     * // Get one ActivityPubFollower
+     * const activityPubFollower = await prisma.activityPubFollower.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActivityPubFollowerFindUniqueArgs>(args: SelectSubset<T, ActivityPubFollowerFindUniqueArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ActivityPubFollower that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ActivityPubFollowerFindUniqueOrThrowArgs} args - Arguments to find a ActivityPubFollower
+     * @example
+     * // Get one ActivityPubFollower
+     * const activityPubFollower = await prisma.activityPubFollower.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActivityPubFollowerFindUniqueOrThrowArgs>(args: SelectSubset<T, ActivityPubFollowerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivityPubFollower that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityPubFollowerFindFirstArgs} args - Arguments to find a ActivityPubFollower
+     * @example
+     * // Get one ActivityPubFollower
+     * const activityPubFollower = await prisma.activityPubFollower.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActivityPubFollowerFindFirstArgs>(args?: SelectSubset<T, ActivityPubFollowerFindFirstArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivityPubFollower that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityPubFollowerFindFirstOrThrowArgs} args - Arguments to find a ActivityPubFollower
+     * @example
+     * // Get one ActivityPubFollower
+     * const activityPubFollower = await prisma.activityPubFollower.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActivityPubFollowerFindFirstOrThrowArgs>(args?: SelectSubset<T, ActivityPubFollowerFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ActivityPubFollowers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityPubFollowerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ActivityPubFollowers
+     * const activityPubFollowers = await prisma.activityPubFollower.findMany()
+     * 
+     * // Get first 10 ActivityPubFollowers
+     * const activityPubFollowers = await prisma.activityPubFollower.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activityPubFollowerWithIdOnly = await prisma.activityPubFollower.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActivityPubFollowerFindManyArgs>(args?: SelectSubset<T, ActivityPubFollowerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ActivityPubFollower.
+     * @param {ActivityPubFollowerCreateArgs} args - Arguments to create a ActivityPubFollower.
+     * @example
+     * // Create one ActivityPubFollower
+     * const ActivityPubFollower = await prisma.activityPubFollower.create({
+     *   data: {
+     *     // ... data to create a ActivityPubFollower
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActivityPubFollowerCreateArgs>(args: SelectSubset<T, ActivityPubFollowerCreateArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ActivityPubFollowers.
+     * @param {ActivityPubFollowerCreateManyArgs} args - Arguments to create many ActivityPubFollowers.
+     * @example
+     * // Create many ActivityPubFollowers
+     * const activityPubFollower = await prisma.activityPubFollower.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActivityPubFollowerCreateManyArgs>(args?: SelectSubset<T, ActivityPubFollowerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ActivityPubFollowers and returns the data saved in the database.
+     * @param {ActivityPubFollowerCreateManyAndReturnArgs} args - Arguments to create many ActivityPubFollowers.
+     * @example
+     * // Create many ActivityPubFollowers
+     * const activityPubFollower = await prisma.activityPubFollower.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ActivityPubFollowers and only return the `id`
+     * const activityPubFollowerWithIdOnly = await prisma.activityPubFollower.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActivityPubFollowerCreateManyAndReturnArgs>(args?: SelectSubset<T, ActivityPubFollowerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ActivityPubFollower.
+     * @param {ActivityPubFollowerDeleteArgs} args - Arguments to delete one ActivityPubFollower.
+     * @example
+     * // Delete one ActivityPubFollower
+     * const ActivityPubFollower = await prisma.activityPubFollower.delete({
+     *   where: {
+     *     // ... filter to delete one ActivityPubFollower
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActivityPubFollowerDeleteArgs>(args: SelectSubset<T, ActivityPubFollowerDeleteArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ActivityPubFollower.
+     * @param {ActivityPubFollowerUpdateArgs} args - Arguments to update one ActivityPubFollower.
+     * @example
+     * // Update one ActivityPubFollower
+     * const activityPubFollower = await prisma.activityPubFollower.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActivityPubFollowerUpdateArgs>(args: SelectSubset<T, ActivityPubFollowerUpdateArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ActivityPubFollowers.
+     * @param {ActivityPubFollowerDeleteManyArgs} args - Arguments to filter ActivityPubFollowers to delete.
+     * @example
+     * // Delete a few ActivityPubFollowers
+     * const { count } = await prisma.activityPubFollower.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActivityPubFollowerDeleteManyArgs>(args?: SelectSubset<T, ActivityPubFollowerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivityPubFollowers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityPubFollowerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ActivityPubFollowers
+     * const activityPubFollower = await prisma.activityPubFollower.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActivityPubFollowerUpdateManyArgs>(args: SelectSubset<T, ActivityPubFollowerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivityPubFollowers and returns the data updated in the database.
+     * @param {ActivityPubFollowerUpdateManyAndReturnArgs} args - Arguments to update many ActivityPubFollowers.
+     * @example
+     * // Update many ActivityPubFollowers
+     * const activityPubFollower = await prisma.activityPubFollower.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ActivityPubFollowers and only return the `id`
+     * const activityPubFollowerWithIdOnly = await prisma.activityPubFollower.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ActivityPubFollowerUpdateManyAndReturnArgs>(args: SelectSubset<T, ActivityPubFollowerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ActivityPubFollower.
+     * @param {ActivityPubFollowerUpsertArgs} args - Arguments to update or create a ActivityPubFollower.
+     * @example
+     * // Update or create a ActivityPubFollower
+     * const activityPubFollower = await prisma.activityPubFollower.upsert({
+     *   create: {
+     *     // ... data to create a ActivityPubFollower
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ActivityPubFollower we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActivityPubFollowerUpsertArgs>(args: SelectSubset<T, ActivityPubFollowerUpsertArgs<ExtArgs>>): Prisma__ActivityPubFollowerClient<$Result.GetResult<Prisma.$ActivityPubFollowerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ActivityPubFollowers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityPubFollowerCountArgs} args - Arguments to filter ActivityPubFollowers to count.
+     * @example
+     * // Count the number of ActivityPubFollowers
+     * const count = await prisma.activityPubFollower.count({
+     *   where: {
+     *     // ... the filter for the ActivityPubFollowers we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActivityPubFollowerCountArgs>(
+      args?: Subset<T, ActivityPubFollowerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActivityPubFollowerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ActivityPubFollower.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityPubFollowerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActivityPubFollowerAggregateArgs>(args: Subset<T, ActivityPubFollowerAggregateArgs>): Prisma.PrismaPromise<GetActivityPubFollowerAggregateType<T>>
+
+    /**
+     * Group by ActivityPubFollower.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityPubFollowerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActivityPubFollowerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActivityPubFollowerGroupByArgs['orderBy'] }
+        : { orderBy?: ActivityPubFollowerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActivityPubFollowerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActivityPubFollowerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ActivityPubFollower model
+   */
+  readonly fields: ActivityPubFollowerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ActivityPubFollower.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActivityPubFollowerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ActivityPubFollower model
+   */
+  interface ActivityPubFollowerFieldRefs {
+    readonly id: FieldRef<"ActivityPubFollower", 'String'>
+    readonly actorUrl: FieldRef<"ActivityPubFollower", 'String'>
+    readonly inbox: FieldRef<"ActivityPubFollower", 'String'>
+    readonly sharedInbox: FieldRef<"ActivityPubFollower", 'String'>
+    readonly accepted: FieldRef<"ActivityPubFollower", 'Boolean'>
+    readonly createdAt: FieldRef<"ActivityPubFollower", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ActivityPubFollower findUnique
+   */
+  export type ActivityPubFollowerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * Filter, which ActivityPubFollower to fetch.
+     */
+    where: ActivityPubFollowerWhereUniqueInput
+  }
+
+  /**
+   * ActivityPubFollower findUniqueOrThrow
+   */
+  export type ActivityPubFollowerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * Filter, which ActivityPubFollower to fetch.
+     */
+    where: ActivityPubFollowerWhereUniqueInput
+  }
+
+  /**
+   * ActivityPubFollower findFirst
+   */
+  export type ActivityPubFollowerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * Filter, which ActivityPubFollower to fetch.
+     */
+    where?: ActivityPubFollowerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityPubFollowers to fetch.
+     */
+    orderBy?: ActivityPubFollowerOrderByWithRelationInput | ActivityPubFollowerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivityPubFollowers.
+     */
+    cursor?: ActivityPubFollowerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityPubFollowers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityPubFollowers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivityPubFollowers.
+     */
+    distinct?: ActivityPubFollowerScalarFieldEnum | ActivityPubFollowerScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityPubFollower findFirstOrThrow
+   */
+  export type ActivityPubFollowerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * Filter, which ActivityPubFollower to fetch.
+     */
+    where?: ActivityPubFollowerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityPubFollowers to fetch.
+     */
+    orderBy?: ActivityPubFollowerOrderByWithRelationInput | ActivityPubFollowerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivityPubFollowers.
+     */
+    cursor?: ActivityPubFollowerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityPubFollowers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityPubFollowers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivityPubFollowers.
+     */
+    distinct?: ActivityPubFollowerScalarFieldEnum | ActivityPubFollowerScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityPubFollower findMany
+   */
+  export type ActivityPubFollowerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * Filter, which ActivityPubFollowers to fetch.
+     */
+    where?: ActivityPubFollowerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityPubFollowers to fetch.
+     */
+    orderBy?: ActivityPubFollowerOrderByWithRelationInput | ActivityPubFollowerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ActivityPubFollowers.
+     */
+    cursor?: ActivityPubFollowerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityPubFollowers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityPubFollowers.
+     */
+    skip?: number
+    distinct?: ActivityPubFollowerScalarFieldEnum | ActivityPubFollowerScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityPubFollower create
+   */
+  export type ActivityPubFollowerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ActivityPubFollower.
+     */
+    data: XOR<ActivityPubFollowerCreateInput, ActivityPubFollowerUncheckedCreateInput>
+  }
+
+  /**
+   * ActivityPubFollower createMany
+   */
+  export type ActivityPubFollowerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ActivityPubFollowers.
+     */
+    data: ActivityPubFollowerCreateManyInput | ActivityPubFollowerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActivityPubFollower createManyAndReturn
+   */
+  export type ActivityPubFollowerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * The data used to create many ActivityPubFollowers.
+     */
+    data: ActivityPubFollowerCreateManyInput | ActivityPubFollowerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActivityPubFollower update
+   */
+  export type ActivityPubFollowerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ActivityPubFollower.
+     */
+    data: XOR<ActivityPubFollowerUpdateInput, ActivityPubFollowerUncheckedUpdateInput>
+    /**
+     * Choose, which ActivityPubFollower to update.
+     */
+    where: ActivityPubFollowerWhereUniqueInput
+  }
+
+  /**
+   * ActivityPubFollower updateMany
+   */
+  export type ActivityPubFollowerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ActivityPubFollowers.
+     */
+    data: XOR<ActivityPubFollowerUpdateManyMutationInput, ActivityPubFollowerUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivityPubFollowers to update
+     */
+    where?: ActivityPubFollowerWhereInput
+    /**
+     * Limit how many ActivityPubFollowers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivityPubFollower updateManyAndReturn
+   */
+  export type ActivityPubFollowerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * The data used to update ActivityPubFollowers.
+     */
+    data: XOR<ActivityPubFollowerUpdateManyMutationInput, ActivityPubFollowerUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivityPubFollowers to update
+     */
+    where?: ActivityPubFollowerWhereInput
+    /**
+     * Limit how many ActivityPubFollowers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivityPubFollower upsert
+   */
+  export type ActivityPubFollowerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ActivityPubFollower to update in case it exists.
+     */
+    where: ActivityPubFollowerWhereUniqueInput
+    /**
+     * In case the ActivityPubFollower found by the `where` argument doesn't exist, create a new ActivityPubFollower with this data.
+     */
+    create: XOR<ActivityPubFollowerCreateInput, ActivityPubFollowerUncheckedCreateInput>
+    /**
+     * In case the ActivityPubFollower was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActivityPubFollowerUpdateInput, ActivityPubFollowerUncheckedUpdateInput>
+  }
+
+  /**
+   * ActivityPubFollower delete
+   */
+  export type ActivityPubFollowerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+    /**
+     * Filter which ActivityPubFollower to delete.
+     */
+    where: ActivityPubFollowerWhereUniqueInput
+  }
+
+  /**
+   * ActivityPubFollower deleteMany
+   */
+  export type ActivityPubFollowerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivityPubFollowers to delete
+     */
+    where?: ActivityPubFollowerWhereInput
+    /**
+     * Limit how many ActivityPubFollowers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivityPubFollower without action
+   */
+  export type ActivityPubFollowerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityPubFollower
+     */
+    select?: ActivityPubFollowerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityPubFollower
+     */
+    omit?: ActivityPubFollowerOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model ChatSession
    */
 
@@ -35128,6 +36227,18 @@ export namespace Prisma {
   export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
 
 
+  export const ActivityPubFollowerScalarFieldEnum: {
+    id: 'id',
+    actorUrl: 'actorUrl',
+    inbox: 'inbox',
+    sharedInbox: 'sharedInbox',
+    accepted: 'accepted',
+    createdAt: 'createdAt'
+  };
+
+  export type ActivityPubFollowerScalarFieldEnum = (typeof ActivityPubFollowerScalarFieldEnum)[keyof typeof ActivityPubFollowerScalarFieldEnum]
+
+
   export const ChatSessionScalarFieldEnum: {
     chatSessionId: 'chatSessionId',
     userId: 'userId',
@@ -37330,6 +38441,63 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ApiKey"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ApiKey"> | Date | string
+  }
+
+  export type ActivityPubFollowerWhereInput = {
+    AND?: ActivityPubFollowerWhereInput | ActivityPubFollowerWhereInput[]
+    OR?: ActivityPubFollowerWhereInput[]
+    NOT?: ActivityPubFollowerWhereInput | ActivityPubFollowerWhereInput[]
+    id?: StringFilter<"ActivityPubFollower"> | string
+    actorUrl?: StringFilter<"ActivityPubFollower"> | string
+    inbox?: StringFilter<"ActivityPubFollower"> | string
+    sharedInbox?: StringNullableFilter<"ActivityPubFollower"> | string | null
+    accepted?: BoolFilter<"ActivityPubFollower"> | boolean
+    createdAt?: DateTimeFilter<"ActivityPubFollower"> | Date | string
+  }
+
+  export type ActivityPubFollowerOrderByWithRelationInput = {
+    id?: SortOrder
+    actorUrl?: SortOrder
+    inbox?: SortOrder
+    sharedInbox?: SortOrderInput | SortOrder
+    accepted?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityPubFollowerWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    actorUrl?: string
+    AND?: ActivityPubFollowerWhereInput | ActivityPubFollowerWhereInput[]
+    OR?: ActivityPubFollowerWhereInput[]
+    NOT?: ActivityPubFollowerWhereInput | ActivityPubFollowerWhereInput[]
+    inbox?: StringFilter<"ActivityPubFollower"> | string
+    sharedInbox?: StringNullableFilter<"ActivityPubFollower"> | string | null
+    accepted?: BoolFilter<"ActivityPubFollower"> | boolean
+    createdAt?: DateTimeFilter<"ActivityPubFollower"> | Date | string
+  }, "id" | "actorUrl">
+
+  export type ActivityPubFollowerOrderByWithAggregationInput = {
+    id?: SortOrder
+    actorUrl?: SortOrder
+    inbox?: SortOrder
+    sharedInbox?: SortOrderInput | SortOrder
+    accepted?: SortOrder
+    createdAt?: SortOrder
+    _count?: ActivityPubFollowerCountOrderByAggregateInput
+    _max?: ActivityPubFollowerMaxOrderByAggregateInput
+    _min?: ActivityPubFollowerMinOrderByAggregateInput
+  }
+
+  export type ActivityPubFollowerScalarWhereWithAggregatesInput = {
+    AND?: ActivityPubFollowerScalarWhereWithAggregatesInput | ActivityPubFollowerScalarWhereWithAggregatesInput[]
+    OR?: ActivityPubFollowerScalarWhereWithAggregatesInput[]
+    NOT?: ActivityPubFollowerScalarWhereWithAggregatesInput | ActivityPubFollowerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ActivityPubFollower"> | string
+    actorUrl?: StringWithAggregatesFilter<"ActivityPubFollower"> | string
+    inbox?: StringWithAggregatesFilter<"ActivityPubFollower"> | string
+    sharedInbox?: StringNullableWithAggregatesFilter<"ActivityPubFollower"> | string | null
+    accepted?: BoolWithAggregatesFilter<"ActivityPubFollower"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ActivityPubFollower"> | Date | string
   }
 
   export type ChatSessionWhereInput = {
@@ -39657,6 +40825,69 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ActivityPubFollowerCreateInput = {
+    id?: string
+    actorUrl: string
+    inbox: string
+    sharedInbox?: string | null
+    accepted?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ActivityPubFollowerUncheckedCreateInput = {
+    id?: string
+    actorUrl: string
+    inbox: string
+    sharedInbox?: string | null
+    accepted?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ActivityPubFollowerUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorUrl?: StringFieldUpdateOperationsInput | string
+    inbox?: StringFieldUpdateOperationsInput | string
+    sharedInbox?: NullableStringFieldUpdateOperationsInput | string | null
+    accepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityPubFollowerUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorUrl?: StringFieldUpdateOperationsInput | string
+    inbox?: StringFieldUpdateOperationsInput | string
+    sharedInbox?: NullableStringFieldUpdateOperationsInput | string | null
+    accepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityPubFollowerCreateManyInput = {
+    id?: string
+    actorUrl: string
+    inbox: string
+    sharedInbox?: string | null
+    accepted?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ActivityPubFollowerUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorUrl?: StringFieldUpdateOperationsInput | string
+    inbox?: StringFieldUpdateOperationsInput | string
+    sharedInbox?: NullableStringFieldUpdateOperationsInput | string | null
+    accepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityPubFollowerUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    actorUrl?: StringFieldUpdateOperationsInput | string
+    inbox?: StringFieldUpdateOperationsInput | string
+    sharedInbox?: NullableStringFieldUpdateOperationsInput | string | null
+    accepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ChatSessionCreateInput = {
     chatSessionId: string
     userId: string
@@ -41360,6 +42591,33 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type ActivityPubFollowerCountOrderByAggregateInput = {
+    id?: SortOrder
+    actorUrl?: SortOrder
+    inbox?: SortOrder
+    sharedInbox?: SortOrder
+    accepted?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityPubFollowerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    actorUrl?: SortOrder
+    inbox?: SortOrder
+    sharedInbox?: SortOrder
+    accepted?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityPubFollowerMinOrderByAggregateInput = {
+    id?: SortOrder
+    actorUrl?: SortOrder
+    inbox?: SortOrder
+    sharedInbox?: SortOrder
+    accepted?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumChatSessionStatusFilter<$PrismaModel = never> = {

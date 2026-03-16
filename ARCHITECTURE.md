@@ -83,6 +83,11 @@ KurayDevSite/
 │   ├── not-found.tsx
 │   │
 │   ├── (frontend)/
+│   ├── .well-known/
+│   │   ├── webfinger/route.ts            # Actor discovery (RFC 7033)
+│   │   └── nodeinfo/route.ts             # NodeInfo 2.1 discovery
+│   │
+│   ├── (frontend)/
 │   │   └── [lang]/                   # Locale-prefixed public pages
 │   │       ├── blog/
 │   │       │   ├── [categorySlug]/
@@ -128,7 +133,14 @@ KurayDevSite/
 │   │       ├── status/               # Health check
 │   │       ├── widget/posts          # Embeddable posts widget
 │   │       ├── cron/[frequency]      # Cron job trigger (5min/hourly/daily/…)
-│   │       └── settings/             # App settings CRUD
+│   │       ├── settings/             # App settings CRUD
+│   │       └── activitypub/
+│   │           ├── actor/            # ActivityPub Actor JSON-LD
+│   │           ├── inbox/            # Incoming activities (Follow, Undo, Delete)
+│   │           ├── outbox/           # Published Create(Article) activities
+│   │           ├── followers/        # Followers OrderedCollection
+│   │           ├── following/        # Following OrderedCollection (empty)
+│   │           └── nodeinfo/         # NodeInfo 2.1 full document
 │   │
 │   ├── (auth)/
 │   │   └── auth/
@@ -170,6 +182,7 @@ KurayDevSite/
 │   └── frontend/                     # Public-facing components
 │
 ├── services/
+│   ├── ActivityPubService.ts             # Fediverse / ActivityPub integration
 │   ├── AuthService/
 │   │   ├── index.ts                  # Auth orchestrator
 │   │   ├── UserSessionService.ts
@@ -345,6 +358,7 @@ All models are defined in [prisma/schema.prisma](prisma/schema.prisma) and use P
 | `GeoAnalytics` | Aggregated visit counts by country + city. |
 | `ShortLink` | URL shortener code → original URL mapping with click counter. |
 | `ShortLinkClick` | Per-click analytics: referrer, IP, country, city, OS, browser, device. |
+| `ActivityPubFollower` | Remote Fediverse actor (Mastodon user, etc.) that follows the blog. Stores actor URL, inbox, sharedInbox, and accepted state. |
 
 ---
 
@@ -634,6 +648,14 @@ helpers/Cosine.ts        → cosine similarity calculation
 | GET | `/api/status` | Health check |
 | GET | `/api/widget/posts` | Embeddable posts widget |
 | GET | `/api/notifications/stream` | SSE notification stream |
+| GET | `/.well-known/webfinger` | WebFinger actor discovery |
+| GET | `/.well-known/nodeinfo` | NodeInfo discovery pointer |
+| GET | `/api/activitypub/actor` | ActivityPub Actor JSON-LD |
+| POST | `/api/activitypub/inbox` | Receive Follow / Undo / Delete activities |
+| GET | `/api/activitypub/outbox` | Paginated Create(Article) activities |
+| GET | `/api/activitypub/followers` | Followers OrderedCollection |
+| GET | `/api/activitypub/following` | Following OrderedCollection |
+| GET | `/api/activitypub/nodeinfo` | NodeInfo 2.1 document |
 | POST | `/api/push/subscribe` | Web Push subscription |
 | POST | `/api/cron/[frequency]` | Cron job endpoint |
 | GET/POST | `/api/settings` | Application settings |
@@ -726,6 +748,61 @@ Pre-build hook (prebuild):
 
 Bundle analyzer:
   ANALYZE=true npm run build  → @next/bundle-analyzer report
+```
+
+---
+
+## 18. ActivityPub / Fediverse Integration
+
+Allows Mastodon and other Fediverse users to follow `@kuray@kuray.dev` and receive new blog posts in their home timeline.
+
+```
+Discovery flow:
+  Mastodon searches for @kuray@kuray.dev
+    └── GET /.well-known/webfinger?resource=acct:kuray@kuray.dev
+          └── returns actor URL: /api/activitypub/actor
+
+  Mastodon fetches actor:
+    └── GET /api/activitypub/actor
+          └── returns Actor JSON-LD with inbox, outbox, followers, publicKey
+
+Follow flow:
+  Mastodon user clicks Follow
+    └── POST /api/activitypub/inbox  { type: "Follow", actor: "...", object: actorUrl }
+          └── ActivityPubService.handleFollow()
+                ├── fetchRemoteActor(actorUrl) → get inbox
+                ├── prisma.activityPubFollower.upsert()
+                └── deliverActivity(Accept, remoteInbox)  ← signed with RSA private key
+
+Post broadcast (on publish):
+  CronService publishScheduledPosts  →  POST /api/posts (status: PUBLISHED)
+    └── notifyFollowersOfPost(post)
+          └── broadcastToFollowers(Create(Article))
+                └── deliverActivity(activity, sharedInbox || inbox)  ← HTTP Signature
+
+Unfollow flow:
+  Mastodon user unfollows
+    └── POST /api/activitypub/inbox  { type: "Undo", object: { type: "Follow", ... } }
+          └── ActivityPubService.handleUndo() → prisma.activityPubFollower.deleteMany()
+```
+
+### Required environment variables
+
+| Variable | Description |
+|----------|-------------|
+| `ACTIVITYPUB_PRIVATE_KEY` | RSA-2048 private key PEM (newlines as `\n`) |
+| `ACTIVITYPUB_PUBLIC_KEY` | RSA-2048 public key PEM (newlines as `\n`) |
+| `ACTIVITYPUB_ACTOR_USERNAME` | Username part of the handle (default: `kuray`) |
+| `ACTIVITYPUB_ACTOR_DISPLAY_NAME` | Display name (default: `Kuray`) |
+| `ACTIVITYPUB_ACTOR_SUMMARY` | Bio shown on remote servers |
+| `ACTIVITYPUB_ACTOR_AVATAR` | Avatar image URL |
+
+### Generate RSA key pair
+
+```bash
+openssl genrsa -out private.pem 2048
+openssl rsa -in private.pem -pubout -out public.pem
+# Copy PEM contents into .env.local, replacing literal newlines with \n
 ```
 
 *Last updated: March 2026*
