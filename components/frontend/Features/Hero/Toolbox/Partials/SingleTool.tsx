@@ -3,10 +3,10 @@ import { Tool } from '@/types/ui/SkillTypes'
 
 const SingleTool = ({ icon, title, description, hoverBgColor, hoverTextColor }: Tool) => {
   return (
-    <div className="w-40 h-40 group">
+    <div className="w-40 h-40 group  rounded-none">
       <div
         className={
-          'relative card w-40 h-40 from-base-100 to-base-300 bg-gradient-to-b shadow-lg relative select-none transition duration-500 transform group-hover:rotate-y-180 px-2 py-2 shadow-lg '
+          'relative card rounded-none w-40 h-40 from-base-100 to-base-300 bg-gradient-to-b relative select-none transition duration-500 transform group-hover:rotate-y-180 px-2 py-2 shadow-lg '
         }
       >
         <div className="flex flex-col items-center justify-center group-hover:hidden">
@@ -16,10 +16,7 @@ const SingleTool = ({ icon, title, description, hoverBgColor, hoverTextColor }: 
         </div>
         <div
           className={
-            'flex flex-col items-center justify-center hidden group-hover:flex rotate-y-180 w-40 h-40 top-0 left-0 absolute rounded-box ' +
-            (hoverBgColor ? hoverBgColor : '') +
-            ' ' +
-            (hoverTextColor ? hoverTextColor : '')
+            'flex flex-col items-center justify-center hidden group-hover:flex rotate-y-180 w-40 h-40 top-0 left-0 absolute group-hover:bg-primary group-hover:text-primary-content rounded-none '
           }
         >
           <figure className="px-10 pt-5 -mb-4">
