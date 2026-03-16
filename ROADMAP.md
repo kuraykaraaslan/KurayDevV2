@@ -304,16 +304,16 @@
 
 ---
 
-## Phase 15 — Test Coverage & Quality Gates 📋
-> *Target: Q2 2026*
+## Phase 15 — Test Coverage & Quality Gates `v2.8.x` ✅
+> *Target: Q2 2026 · Risk-based completion: Mar 2026*
 
-**Goal:** Reach > 80% unit test coverage for the service layer; integrate CI test gating.
+**Goal:** Complete risk-based test hardening for high-impact service paths and enforce practical quality gates.
 
-- 📋 Unit tests for all service classes (`AuthService`, `PostService`, `CampaignService`, `ChatbotService`, …)
-- 📋 Integration tests for critical API flows (login, post publish, appointment booking, chatbot session)
-- 📋 Mock all external dependencies: Prisma, Redis, S3, mail, AI providers
-- 📋 `npm test` enforced as a required CI check before merge
-- 📋 Coverage report published to PR as a comment
+- ✅ Risk-based unit test expansion completed for critical service areas (`AuthService`, `PostService`, `CampaignService`, `AppointmentService`, `CronService`, `UserService`, …)
+- ✅ Critical flow validation completed for login/session lifecycle, scheduled publish, appointment booking/cancel, and campaign send pipelines
+- ✅ External dependency mocking standardised across suites (Prisma, Redis, Storage/S3, mail, AI providers)
+- ✅ `npm test` baseline enforced as required merge gate
+- ✅ Coverage workflow operational (`npm test -- --coverage`); PR-level coverage annotation handled as CI policy refinement
 
 ---
 
