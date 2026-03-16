@@ -26,7 +26,7 @@ export function ModalHeader({ title, showClose, labelledById, onClose }: ModalHe
         <button
           type="button"
           onClick={onClose}
-          aria-label={t('common.modal.close_dialog')}
+          aria-label={t('common.modal.close_dialog', 'Close dialog')}
           className="btn btn-ghost btn-sm"
         >
           ✕

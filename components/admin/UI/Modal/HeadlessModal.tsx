@@ -2,6 +2,7 @@ import {
   ReactNode,
   RefObject,
   MouseEvent,
+  TransitionEvent,
   useCallback,
   useEffect,
   useId,
@@ -22,6 +23,8 @@ export type HeadlessModalProps = {
   onClose: () => void
   title?: ReactNode
   description?: ReactNode
+  /** Fallback accessible name when `title` is not provided */
+  ariaLabel?: string
   /** Sticky footer slot — ideal for action buttons */
   footer?: ReactNode
   closeOnBackdrop?: boolean
@@ -42,6 +45,8 @@ export type HeadlessModalProps = {
    */
   keepMounted?: boolean
   initialFocusRef?: RefObject<HTMLElement>
+  /** Scroll locking strategy used while the modal is visible */
+  scrollLockStrategy?: 'auto' | 'html-overflow' | 'body-fixed'
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
   className?: string
   backdropClassName?: string
@@ -61,6 +66,7 @@ export function HeadlessModal({
   onClose,
   title,
   description,
+  ariaLabel,
   footer,
   closeOnBackdrop = true,
   closeOnEsc = true,
@@ -70,6 +76,7 @@ export function HeadlessModal({
   onAfterClose,
   keepMounted = false,
   initialFocusRef,
+  scrollLockStrategy,
   size = 'md',
   className = '',
   backdropClassName = '',
@@ -93,7 +100,7 @@ export function HeadlessModal({
   }, [open])
 
   // Scroll lock covers the exit animation duration
-  useScrollLock(visible)
+  useScrollLock(visible, { strategy: scrollLockStrategy })
 
   // Save + restore focus around open/close
   useEffect(() => {
@@ -127,12 +134,19 @@ export function HeadlessModal({
   )
 
   // Remove from DOM after exit transition (unless keepMounted); fire onAfterClose
-  const handleTransitionEnd = useCallback(() => {
-    if (!open) {
-      setVisible(false)
-      onAfterClose?.()
-    }
-  }, [open, onAfterClose])
+  const handleTransitionEnd = useCallback(
+    (e: TransitionEvent<HTMLDivElement>) => {
+      // Transition events bubble; only react to the dialog panel's own transition.
+      if (e.target !== e.currentTarget) return
+      // Avoid double-calling for opacity+transform.
+      if (e.propertyName !== 'transform') return
+      if (!open) {
+        setVisible(false)
+        onAfterClose?.()
+      }
+    },
+    [open, onAfterClose]
+  )
 
   if (!mounted) return null
   if (!visible && !keepMounted) return null
@@ -158,6 +172,7 @@ export function HeadlessModal({
           role="dialog"
           aria-modal="true"
           aria-labelledby={title ? labelledById : undefined}
+          aria-label={!title ? ariaLabel : undefined}
           aria-describedby={description ? describedById : undefined}
           className={[
             'flex flex-col bg-base-100 text-base-content shadow-2xl rounded-box',

@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useState, ReactNode } from 'react'
-import { ConfirmModal, ConfirmModalVariant } from './index'
+import { ConfirmModal, ConfirmModalVariant } from './ConfirmModal'
 
 // ---------------------------------------------------------------------------
 // Types

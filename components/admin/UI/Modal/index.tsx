@@ -1,4 +1,5 @@
-// Public API barrel — import everything from this file
+// Public API barrel — prefer importing Modal APIs from this file.
+// Internal modules inside this folder should import directly to avoid circular dependencies.
 export { HeadlessModal } from './HeadlessModal'
 export type { HeadlessModalProps } from './HeadlessModal'
 

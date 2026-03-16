@@ -59,6 +59,7 @@ export function ConfirmModal({
       open={open}
       onClose={onClose}
       title={title}
+      ariaLabel={typeof title === 'string' ? title : t('common.confirm_dialog.title', 'Confirm dialog')}
       size={size}
       closeOnEsc={closeOnEsc && !loading}
       closeOnBackdrop={!loading}
