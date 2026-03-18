@@ -15,6 +15,10 @@ class DummyProvider extends AIBaseProvider {
     yield 'x'
   }
 
+  async *streamMessages(): AsyncGenerator<string, void, unknown> {
+    yield 'x'
+  }
+
   async translateMultipleKeys(): Promise<Record<string, string>> {
     return {}
   }
