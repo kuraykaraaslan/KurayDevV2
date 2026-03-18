@@ -574,6 +574,103 @@ describe('UserSessionService — multi-session: create two, destroy one, other r
   })
 })
 
+describe('UserSessionService — updateSession Redis cleanup', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('updates session in DB and scans for old Redis session keys to delete them', async () => {
+    const updatedSession = {
+      ...mockDbSession,
+      otpVerifyNeeded: true,
+    }
+    prismaMock.userSession.update.mockResolvedValueOnce(updatedSession as any)
+    redisMock.keys.mockResolvedValueOnce(['auth:session:user-1:hashed-old'])
+    redisMock.del.mockResolvedValue(1)
+
+    const result = await UserSessionService.updateSession('session-1', { otpVerifyNeeded: true })
+
+    expect(prismaMock.userSession.update).toHaveBeenCalledWith({
+      where: { userSessionId: 'session-1' },
+      data: { otpVerifyNeeded: true },
+    })
+    expect(redisMock.keys).toHaveBeenCalledWith('auth:session:user-1:*')
+    expect(redisMock.del).toHaveBeenCalledWith('auth:session:user-1:hashed-old')
+    expect(result.userSessionId).toBe('session-1')
+  })
+
+  it('skips redis del when no old session keys found for that userId', async () => {
+    prismaMock.userSession.update.mockResolvedValueOnce(mockDbSession as any)
+    redisMock.keys.mockResolvedValueOnce([])
+
+    await UserSessionService.updateSession('session-1', { otpVerifyNeeded: false })
+
+    expect(redisMock.keys).toHaveBeenCalledWith('auth:session:user-1:*')
+    expect(redisMock.del).not.toHaveBeenCalled()
+  })
+
+  it('returns SafeUserSession without sensitive fields after update', async () => {
+    prismaMock.userSession.update.mockResolvedValueOnce(mockDbSession as any)
+    redisMock.keys.mockResolvedValueOnce([])
+
+    const result = await UserSessionService.updateSession('session-1', {})
+
+    expect(result).not.toHaveProperty('accessToken')
+    expect(result).not.toHaveProperty('refreshToken')
+    expect(result).toHaveProperty('userSessionId')
+    expect(result).toHaveProperty('userId')
+    expect(result).toHaveProperty('otpVerifyNeeded')
+    expect(result).toHaveProperty('sessionExpiry')
+  })
+
+  it('deletes all matching Redis keys for the userId pattern', async () => {
+    prismaMock.userSession.update.mockResolvedValueOnce(mockDbSession as any)
+    redisMock.keys.mockResolvedValueOnce([
+      'auth:session:user-1:hash-a',
+      'auth:session:user-1:hash-b',
+    ])
+    redisMock.del.mockResolvedValue(2)
+
+    await UserSessionService.updateSession('session-1', {})
+
+    expect(redisMock.del).toHaveBeenCalledWith('auth:session:user-1:hash-a', 'auth:session:user-1:hash-b')
+  })
+})
+
+describe('UserSessionService — getSessionDangerously Redis cache hit', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    tokenMock.verifyAccessToken.mockResolvedValue({ userId: 'user-1' })
+  })
+
+  it('returns user and session from Redis cache without querying DB', async () => {
+    const safeSession = UserSessionService.omitSensitiveFields(mockDbSession as any)
+    const cached = JSON.stringify({ user: mockUser, userSession: safeSession })
+    redisMock.get.mockResolvedValueOnce(cached)
+
+    const result = await UserSessionService.getSessionDangerously({
+      accessToken: 'raw-access-token',
+      request: makeRequest(),
+    })
+
+    expect(result.user.userId).toBe('user-1')
+    expect(result.userSession.userSessionId).toBe('session-1')
+    expect(prismaMock.userSession.findFirst).not.toHaveBeenCalled()
+    expect(prismaMock.user.findUnique).not.toHaveBeenCalled()
+  })
+
+  it('does NOT write to Redis again when cache hit occurs', async () => {
+    const safeSession = UserSessionService.omitSensitiveFields(mockDbSession as any)
+    const cached = JSON.stringify({ user: mockUser, userSession: safeSession })
+    redisMock.get.mockResolvedValueOnce(cached)
+
+    await UserSessionService.getSessionDangerously({
+      accessToken: 'raw-access-token',
+      request: makeRequest(),
+    })
+
+    expect(redisMock.setex).not.toHaveBeenCalled()
+  })
+})
+
 describe('UserSessionService — session with wrong userId check', () => {
   beforeEach(() => jest.clearAllMocks())
 

@@ -320,5 +320,169 @@ describe('CampaignService', () => {
         expect.stringContaining('Send summary camp-1: total=3 sent=2 failed=1')
       )
     })
+
+    it('rolls back campaign status to DRAFT on unexpected error and re-throws', async () => {
+      prismaMock.campaign.findFirst.mockResolvedValueOnce({ ...mockCampaign, topic: 'BLOG_DIGEST' })
+      prismaMock.campaign.update.mockResolvedValue({})
+      // getSubscribersByTopic throws to simulate unexpected failure inside try block
+      subsMock.getSubscribersByTopic.mockRejectedValueOnce(new Error('DB connection lost'))
+
+      await expect(CampaignService.sendCampaign('camp-1')).rejects.toThrow('DB connection lost')
+
+      // Must roll back status to DRAFT in the catch block
+      expect(prismaMock.campaign.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { campaignId: 'camp-1' },
+          data: { status: 'DRAFT' },
+        })
+      )
+    })
+
+    it('does not send emails when subscriber list has empty tokens but upserts tokens', async () => {
+      prismaMock.campaign.findFirst.mockResolvedValueOnce({ ...mockCampaign, topic: 'BLOG_DIGEST' })
+      prismaMock.campaign.update.mockResolvedValue({})
+      // Subscriber with no unsubscribeToken triggers prisma upsert
+      subsMock.getSubscribersByTopic.mockResolvedValueOnce([
+        { email: 'notoken@ex.com', unsubscribeToken: null },
+      ])
+      prismaMock.subscription.upsert.mockResolvedValueOnce({
+        email: 'notoken@ex.com',
+        unsubscribeToken: 'generated-token',
+      })
+
+      const result = await CampaignService.sendCampaign('camp-1')
+
+      // upsert was called to generate a token
+      expect(prismaMock.subscription.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { email: 'notoken@ex.com' } })
+      )
+      // email was ultimately sent with generated token
+      expect(mailMock.sendCampaignEmail).toHaveBeenCalledWith(
+        'notoken@ex.com',
+        'Hello',
+        '<p>Content</p>',
+        'generated-token'
+      )
+      expect(result.sentCount).toBe(1)
+    })
+
+    it('throws CONTENT_REQUIRED when campaign content is blank', async () => {
+      prismaMock.campaign.findFirst.mockResolvedValueOnce({ ...mockCampaign, content: '   ' })
+      await expect(CampaignService.sendCampaign('camp-1')).rejects.toThrow(CampaignMessages.CONTENT_REQUIRED)
+      expect(prismaMock.campaign.updateMany).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── getAllCampaigns – sort key branches ───────────────────────────────
+  describe('getAllCampaigns – sort key resolution', () => {
+    it('uses "title" sort key when explicitly provided', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+      await CampaignService.getAllCampaigns({ sortKey: 'title', sortDir: 'asc' })
+      expect(prismaMock.campaign.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ orderBy: { title: 'asc' } }),
+      )
+    })
+
+    it('uses "subject" sort key when explicitly provided', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+      await CampaignService.getAllCampaigns({ sortKey: 'subject', sortDir: 'desc' })
+      expect(prismaMock.campaign.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ orderBy: { subject: 'desc' } }),
+      )
+    })
+
+    it('uses "status" sort key when explicitly provided', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+      await CampaignService.getAllCampaigns({ sortKey: 'status', sortDir: 'asc' })
+      expect(prismaMock.campaign.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ orderBy: { status: 'asc' } }),
+      )
+    })
+
+    it('falls back to "createdAt" for an unrecognised sort key', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+      await CampaignService.getAllCampaigns({ sortKey: 'bad_key' })
+      expect(prismaMock.campaign.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ orderBy: { createdAt: 'desc' } }),
+      )
+    })
+
+    it('applies search filter to both title and subject', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+      await CampaignService.getAllCampaigns({ search: 'newsletter' })
+      expect(prismaMock.campaign.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            OR: expect.arrayContaining([
+              expect.objectContaining({ title: expect.objectContaining({ contains: 'newsletter' }) }),
+              expect.objectContaining({ subject: expect.objectContaining({ contains: 'newsletter' }) }),
+            ]),
+          }),
+        }),
+      )
+    })
+
+    it('applies pagination (skip/take) when page and pageSize are provided', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+      await CampaignService.getAllCampaigns({ page: 2, pageSize: 5 })
+      expect(prismaMock.campaign.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ skip: 10, take: 5 }),
+      )
+    })
+  })
+
+  // ── createCampaign – remaining validation branches ────────────────────
+  describe('createCampaign – additional validation', () => {
+    it('throws TITLE_REQUIRED when title is blank', async () => {
+      await expect(
+        CampaignService.createCampaign({ title: '   ', subject: 'S', content: 'C' })
+      ).rejects.toThrow(CampaignMessages.TITLE_REQUIRED)
+    })
+
+    it('throws CONTENT_REQUIRED when content is blank', async () => {
+      await expect(
+        CampaignService.createCampaign({ title: 'T', subject: 'S', content: '   ' })
+      ).rejects.toThrow(CampaignMessages.CONTENT_REQUIRED)
+    })
+
+    it('creates campaign with topic when provided', async () => {
+      prismaMock.campaign.create.mockResolvedValueOnce({ ...mockCampaign, topic: 'BLOG_DIGEST' })
+      const result = await CampaignService.createCampaign({
+        title: 'T', subject: 'S', content: 'C', topic: 'BLOG_DIGEST' as any,
+      })
+      expect(prismaMock.campaign.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ topic: 'BLOG_DIGEST' }),
+        })
+      )
+      expect(result.topic).toBe('BLOG_DIGEST')
+    })
+
+    it('stores null topic when none is provided', async () => {
+      prismaMock.campaign.create.mockResolvedValueOnce(mockCampaign)
+      await CampaignService.createCampaign({ title: 'T', subject: 'S', content: 'C' })
+      expect(prismaMock.campaign.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ topic: null }),
+        })
+      )
+    })
+  })
+
+  // ── updateCampaign – remaining validation ─────────────────────────────
+  describe('updateCampaign – additional validation', () => {
+    it('throws TITLE_REQUIRED when title is blank', async () => {
+      prismaMock.campaign.findFirst.mockResolvedValueOnce(mockCampaign)
+      await expect(
+        CampaignService.updateCampaign({ campaignId: 'camp-1', title: '   ', subject: 'S', content: 'C' })
+      ).rejects.toThrow(CampaignMessages.TITLE_REQUIRED)
+    })
+
+    it('throws CONTENT_REQUIRED when content is blank', async () => {
+      prismaMock.campaign.findFirst.mockResolvedValueOnce(mockCampaign)
+      await expect(
+        CampaignService.updateCampaign({ campaignId: 'camp-1', title: 'T', subject: 'S', content: '' })
+      ).rejects.toThrow(CampaignMessages.CONTENT_REQUIRED)
+    })
   })
 })

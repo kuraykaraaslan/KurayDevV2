@@ -608,3 +608,217 @@ describe('PostService – updatePost on a soft-deleted post', () => {
     ).rejects.toThrow('Post not found.')
   })
 })
+
+// ── Additional branch coverage ────────────────────────────────────────────────
+
+describe('PostService.getAllPosts – sort key resolution', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('uses "title" sort key when explicitly provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, sortKey: 'title', sortDir: 'asc' })
+    expect(prismaMock.post.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { title: 'asc' } }),
+    )
+  })
+
+  it('uses "slug" sort key when explicitly provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, sortKey: 'slug', sortDir: 'desc' })
+    expect(prismaMock.post.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { slug: 'desc' } }),
+    )
+  })
+
+  it('uses "publishedAt" sort key when explicitly provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, sortKey: 'publishedAt', sortDir: 'asc' })
+    expect(prismaMock.post.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { publishedAt: 'asc' } }),
+    )
+  })
+
+  it('falls back to "createdAt" for an unrecognised sort key', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, sortKey: 'unknown_key' })
+    expect(prismaMock.post.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { createdAt: 'desc' } }),
+    )
+  })
+})
+
+describe('PostService.getAllPosts – status and filter branches', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('filters by status=PUBLISHED (default when no status given)', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10 })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.status).toBe('PUBLISHED')
+  })
+
+  it('filters by explicit status=DRAFT', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, status: 'DRAFT' })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.status).toBe('DRAFT')
+  })
+
+  it('sets status=undefined for status=ALL', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, status: 'ALL' })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.status).toBeUndefined()
+  })
+
+  it('filters by categoryId when provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, categoryId: 'cat-42' })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.categoryId).toBe('cat-42')
+  })
+
+  it('sets categoryId=undefined when not provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10 })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.categoryId).toBeUndefined()
+  })
+
+  it('filters by authorId when provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, authorId: 'author-99' })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.authorId).toBe('author-99')
+  })
+
+  it('filters by postId when provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, postId: 'post-999' })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.postId).toBe('post-999')
+  })
+
+  it('filters by slug when provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    await PostService.getAllPosts({ page: 0, pageSize: 10, slug: 'my-slug' })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.slug).toBe('my-slug')
+  })
+
+  it('filters by createdAfter when provided', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    const afterDate = new Date('2024-01-01')
+    await PostService.getAllPosts({ page: 0, pageSize: 10, createdAfter: afterDate })
+    const query = prismaMock.post.findMany.mock.calls[0][0]
+    expect(query.where.createdAt.gte).toEqual(afterDate)
+  })
+})
+
+describe('PostService.generateSiteMap', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('returns sitemap entries with correct url and lastModified fields', async () => {
+    const createdAt = new Date('2024-06-01')
+    const postForMap = { ...mockPost, createdAt }
+    prismaMock.$transaction.mockResolvedValueOnce([[postForMap], 1])
+
+    const sitemap = await PostService.generateSiteMap()
+
+    expect(sitemap).toHaveLength(1)
+    expect(sitemap[0].url).toBe('/blog/test-post')
+    expect(sitemap[0].lastModified).toBe(createdAt.toISOString())
+    expect(sitemap[0].changeFrequency).toBe('daily')
+    expect(sitemap[0].priority).toBe(0.7)
+  })
+
+  it('returns empty array when no published posts exist', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+    const sitemap = await PostService.generateSiteMap()
+    expect(sitemap).toEqual([])
+  })
+})
+
+describe('PostService.getAllPostSlugs', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('returns mapped slug data for published posts', async () => {
+    const createdAt = new Date('2024-01-01')
+    const updatedAt = new Date('2024-06-01')
+    prismaMock.post.findMany.mockResolvedValueOnce([
+      {
+        title: 'Test Post',
+        slug: 'test-post',
+        description: 'A test post',
+        content: 'Content here',
+        createdAt,
+        updatedAt,
+        category: { slug: 'tech', title: 'Tech' },
+        author: { userProfile: { name: 'Author Name' } },
+      },
+    ])
+
+    const result = await PostService.getAllPostSlugs()
+
+    expect(result).toHaveLength(1)
+    expect(result[0]).toEqual({
+      title: 'Test Post',
+      slug: 'test-post',
+      categorySlug: 'tech',
+      categoryTitle: 'Tech',
+      description: 'A test post',
+      content: 'Content here',
+      authorName: 'Author Name',
+      createdAt,
+      updatedAt,
+    })
+    expect(prismaMock.post.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ status: 'PUBLISHED', deletedAt: null }),
+      }),
+    )
+  })
+
+  it('falls back to "Kuray Karaaslan" when author profile name is absent', async () => {
+    prismaMock.post.findMany.mockResolvedValueOnce([
+      {
+        title: 'No Author Post',
+        slug: 'no-author',
+        description: null,
+        content: 'x',
+        createdAt: new Date(),
+        updatedAt: null,
+        category: { slug: 'cat', title: 'Cat' },
+        author: null,
+      },
+    ])
+
+    const result = await PostService.getAllPostSlugs()
+    expect(result[0].authorName).toBe('Kuray Karaaslan')
+  })
+
+  it('falls back to empty strings when category is missing', async () => {
+    prismaMock.post.findMany.mockResolvedValueOnce([
+      {
+        title: 'No Cat Post',
+        slug: 'no-cat',
+        description: null,
+        content: 'x',
+        createdAt: new Date(),
+        updatedAt: null,
+        category: null,
+        author: { userProfile: { name: 'Author' } },
+      },
+    ])
+
+    const result = await PostService.getAllPostSlugs()
+    expect(result[0].categorySlug).toBe('')
+    expect(result[0].categoryTitle).toBe('')
+  })
+
+  it('returns empty array when no published posts exist', async () => {
+    prismaMock.post.findMany.mockResolvedValueOnce([])
+    const result = await PostService.getAllPostSlugs()
+    expect(result).toEqual([])
+  })
+})

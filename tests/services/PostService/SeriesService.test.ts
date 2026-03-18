@@ -167,3 +167,116 @@ describe('SeriesService.removePost', () => {
     )
   })
 })
+
+describe('SeriesService.getBySlug', () => {
+  it('returns null when no series matches the slug', async () => {
+    ;(prismaMock.postSeries.findFirst as jest.Mock).mockResolvedValue(null)
+
+    const result = await SeriesService.getBySlug('nonexistent-slug')
+
+    expect(prismaMock.postSeries.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { slug: 'nonexistent-slug', deletedAt: null } }),
+    )
+    expect(result).toBeNull()
+  })
+
+  it('returns series when slug is found', async () => {
+    ;(prismaMock.postSeries.findFirst as jest.Mock).mockResolvedValue(mockSeries)
+
+    const result = await SeriesService.getBySlug('my-series')
+
+    expect(prismaMock.postSeries.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { slug: 'my-series', deletedAt: null } }),
+    )
+    expect(result).toEqual(mockSeries)
+  })
+})
+
+describe('SeriesService.getById – not-found path', () => {
+  it('returns null when no series matches the id', async () => {
+    ;(prismaMock.postSeries.findFirst as jest.Mock).mockResolvedValue(null)
+
+    const result = await SeriesService.getById('nonexistent-id')
+
+    expect(result).toBeNull()
+  })
+})
+
+describe('SeriesService.getAll – sort key resolution', () => {
+  beforeEach(() => {
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValue([[], 0])
+  })
+
+  it('uses "title" sort key when explicitly provided', async () => {
+    await SeriesService.getAll(0, 10, undefined, 'title', 'asc')
+    expect(prismaMock.postSeries.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { title: 'asc' } }),
+    )
+  })
+
+  it('uses "slug" sort key when explicitly provided', async () => {
+    await SeriesService.getAll(0, 10, undefined, 'slug', 'desc')
+    expect(prismaMock.postSeries.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { slug: 'desc' } }),
+    )
+  })
+
+  it('uses "updatedAt" sort key when explicitly provided', async () => {
+    await SeriesService.getAll(0, 10, undefined, 'updatedAt', 'asc')
+    expect(prismaMock.postSeries.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { updatedAt: 'asc' } }),
+    )
+  })
+
+  it('falls back to "createdAt" for an unrecognised sort key', async () => {
+    await SeriesService.getAll(0, 10, undefined, 'invalid_key', 'asc')
+    expect(prismaMock.postSeries.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { createdAt: 'asc' } }),
+    )
+  })
+
+  it('defaults sort direction to "desc" when not asc', async () => {
+    await SeriesService.getAll(0, 10)
+    expect(prismaMock.postSeries.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { createdAt: 'desc' } }),
+    )
+  })
+})
+
+describe('SeriesService.reorderPosts', () => {
+  it('calls $transaction with update calls for each entry then returns updated series', async () => {
+    const updatedEntry1 = { ...mockEntry, order: 0 }
+    const updatedEntry2 = { ...mockEntry, id: 'entry-2', postId: 'post-2', order: 1 }
+
+    // reorderPosts calls $transaction then getById (which calls postSeries.findFirst)
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValue([updatedEntry1, updatedEntry2])
+    ;(prismaMock.postSeries.findFirst as jest.Mock).mockResolvedValue(mockSeries)
+
+    const result = await SeriesService.reorderPosts('series-1', [
+      { postId: 'post-1', order: 0 },
+      { postId: 'post-2', order: 1 },
+    ])
+
+    expect(prismaMock.$transaction).toHaveBeenCalled()
+    // The transaction array contains postSeriesEntry.update calls
+    const txCall = (prismaMock.$transaction as jest.Mock).mock.calls[0][0]
+    expect(Array.isArray(txCall)).toBe(true)
+    expect(txCall).toHaveLength(2)
+
+    // After reordering, getById is called to return the updated series
+    expect(prismaMock.postSeries.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { id: 'series-1', deletedAt: null } }),
+    )
+    expect(result).toEqual(mockSeries)
+  })
+
+  it('calls $transaction with empty array when entries list is empty', async () => {
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValue([])
+    ;(prismaMock.postSeries.findFirst as jest.Mock).mockResolvedValue(mockSeries)
+
+    await SeriesService.reorderPosts('series-1', [])
+
+    const txCall = (prismaMock.$transaction as jest.Mock).mock.calls[0][0]
+    expect(txCall).toHaveLength(0)
+  })
+})
