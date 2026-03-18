@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRobot, faUser, faUserShield, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faRobot, faUser, faUserShield } from '@fortawesome/free-solid-svg-icons'
 import type { ChatMessage } from '@/types/features/ChatbotTypes'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { ADMIN_TAKEOVER_SENTINEL } from '@/services/ChatbotService/constants'
@@ -43,8 +43,6 @@ interface ChatMessageListProps {
   messages: ChatMessage[]
   /** Show loading indicator (typing dots / spinner) */
   isLoading?: boolean
-  /** Loading indicator text */
-  loadingText?: string
   /** Empty state content */
   emptyContent?: ReactNode
   /** Show role label + timestamp header above each bubble */
@@ -65,7 +63,6 @@ const formatTime = (iso: string) => {
 const ChatMessageList = ({
   messages,
   isLoading = false,
-  loadingText = 'Thinking...',
   emptyContent,
   showMeta = false,
   showInlineSources = false,
@@ -145,16 +142,6 @@ const ChatMessageList = ({
           </div>
         )
       })}
-
-      {/* Loading indicator */}
-      {isLoading && (
-        <div className="flex justify-start">
-          <div className="bg-base-200 text-base-content px-3 py-2 rounded-2xl rounded-bl-md text-sm">
-            <FontAwesomeIcon icon={faSpinner} className="w-4 h-4 animate-spin" />
-            <span className="ml-2">{loadingText}</span>
-          </div>
-        </div>
-      )}
 
       <div ref={messagesEndRef} />
     </div>

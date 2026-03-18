@@ -1,6 +1,7 @@
 import Logger from '@/libs/logger'
 
 // JOB IMPORTS
+import { bootJobs } from './timers/boot'
 import { dailyJobs } from './timers/daily'
 import { hourlyJobs } from './timers/hourly'
 import { weeklyJobs } from './timers/weekly'
@@ -11,6 +12,7 @@ import { StatFrequency } from '@/types/common/StatTypes'
 
 export default class CronService {
   static jobMap: Record<StatFrequency, Array<{ name: string; handler: () => Promise<void> }>> = {
+    boot: bootJobs,
     daily: dailyJobs,
     hourly: hourlyJobs,
     weekly: weeklyJobs,
@@ -18,6 +20,26 @@ export default class CronService {
     yearly: yearlyJobs,
     fiveMin: fiveMinJobs,
     'all-time': [],
+  }
+
+  /**
+   * Uygulama başladığında yapılacak işlemler (boot jobs)
+   */
+  static async boot() {
+    Logger.info('CRON: Boot işlemleri başlatılıyor')
+    const jobs = CronService.jobMap['boot'] || [];
+    for (const job of jobs) {
+      const start = Date.now();
+      try {
+        Logger.info(`▶ Boot job: ${job.name}`);
+        await job.handler();
+        const duration = Date.now() - start;
+        Logger.info(`✔ Boot job finished: ${job.name} (${duration}ms)`);
+      } catch (err: any) {
+        Logger.error(`✘ Boot job failed: ${job.name} — ${err.message}`);
+      }
+    }
+    Logger.info('CRON: Boot işlemleri tamamlandı');
   }
 
   static async run(frequency: StatFrequency) {

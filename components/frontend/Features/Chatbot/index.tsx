@@ -49,7 +49,6 @@ const Chatbot = () => {
           <ChatMessageList
             messages={messages}
             isLoading={isLoading}
-            loadingText={t('shared.chatbot.thinking')}
             emptyContent={
               <div className="text-center text-base-content/50 mt-8 px-4">
                 <FontAwesomeIcon icon={faRobot} className="w-12 h-12 mb-3 opacity-30" />

@@ -174,10 +174,19 @@ axiosInstance.interceptors.response.use(
     } catch (refreshError) {
       processQueue(refreshError)
 
-      /** Clear stale user from store on refresh failure */
+      /** Flush tokens and clear user from store on refresh failure */
       if (typeof window !== 'undefined') {
         const { useUserStore } = await import('@/libs/zustand')
         useUserStore.getState().clearUser()
+
+        // Flush access and refresh tokens from cookies/localStorage
+        // Example: cookie names 'access-token', 'refresh-token'
+        document.cookie = 'access-token=; Max-Age=0; path=/;';
+        document.cookie = 'refresh-token=; Max-Age=0; path=/;';
+        if (window.localStorage) {
+          window.localStorage.removeItem('access-token');
+          window.localStorage.removeItem('refresh-token');
+        }
 
         /** Only redirect to login on auth-required pages (e.g. /admin) */
         const pathname = window.location.pathname

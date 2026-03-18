@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 export const StatFrequencySchema = z.enum([
+  'boot',
   'daily',
   'weekly',
   'monthly',

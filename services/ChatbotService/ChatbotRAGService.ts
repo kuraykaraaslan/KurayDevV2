@@ -13,7 +13,7 @@ import {
     PolicyItem,
     SystemPromptData,
 } from '@/types/features/ChatbotTypes'
-function tryRequireJson<T>(path: string, fallback: T): T {
+export function tryRequireJson<T>(path: string, fallback: T): T {
     try {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         return require(path) as T
@@ -22,10 +22,28 @@ function tryRequireJson<T>(path: string, fallback: T): T {
     }
 }
 
-const ragDatasetRaw      = tryRequireJson('./datasets/rag-dataset.json',    { documents: [] })
-const faqDatasetRaw      = tryRequireJson('./datasets/faq-dataset.json',    { items: [] })
-const policyDatasetRaw   = tryRequireJson('./datasets/policy-dataset.json', { policies: [] })
-const systemPromptDataRaw = tryRequireJson('./datasets/system-prompt.json', { intro: '', rules: [] })
+
+const RAG_DATASET_KEY = 'rag:dataset'
+const FAQ_DATASET_KEY = 'faq:dataset'
+const POLICY_DATASET_KEY = 'policy:dataset'
+const SYSTEM_PROMPT_KEY = 'system:prompt'
+
+async function getRagDataset(): Promise<DatasetDocument[]> {
+    const raw = await redis.get(RAG_DATASET_KEY)
+    return raw ? JSON.parse(raw) : []
+}
+async function getFaqDataset(): Promise<FaqItem[]> {
+    const raw = await redis.get(FAQ_DATASET_KEY)
+    return raw ? JSON.parse(raw) : []
+}
+async function getPolicyDataset(): Promise<PolicyItem[]> {
+    const raw = await redis.get(POLICY_DATASET_KEY)
+    return raw ? JSON.parse(raw) : []
+}
+async function getSystemPromptData(): Promise<SystemPromptData> {
+    const raw = await redis.get(SYSTEM_PROMPT_KEY)
+    return raw ? JSON.parse(raw) : { intro: '', rules: [] }
+}
 
 import {
   KG_NODES_KEY,
@@ -43,39 +61,34 @@ import {
 } from './constants'
 import ChatSessionService from './ChatSessionService'
 
-const ragDataset = ragDatasetRaw as { documents: DatasetDocument[] }
-const faqDataset = faqDatasetRaw as { items: FaqItem[] }
-const policyDataset = policyDatasetRaw as { policies: PolicyItem[] }
-const systemPromptData = systemPromptDataRaw as SystemPromptData
 
 export default class ChatbotRAGService {
     static async retrieveContext(query: string): Promise<RAGContext[]> {
         try {
             const nodesRaw = await redis.get(KG_NODES_KEY)
             if (!nodesRaw) {
-                Logger.warn('[ChatbotRAGService] No knowledge graph nodes found in Redis')
-                return []
+                Logger.warn('[ChatbotRAGService] No knowledge graph nodes found in Redis');
+                return [];
             }
+            const nodes: Record<string, KnowledgeGraphNode> = JSON.parse(nodesRaw);
+            const nodeEntries = Object.entries(nodes);
+            if (nodeEntries.length === 0) return [];
 
-            const nodes: Record<string, KnowledgeGraphNode> = JSON.parse(nodesRaw)
-            const nodeEntries = Object.entries(nodes)
-            if (nodeEntries.length === 0) return []
-
-            const [queryEmbedding] = await LocalEmbedService.embed([query])
+            const [queryEmbedding] = await LocalEmbedService.embed([query]);
 
             const similarities = nodeEntries
-                .map(([id, node]) => ({
+                .map(([id, node]: [string, KnowledgeGraphNode]) => ({
                     id,
                     node,
                     score: cosine(queryEmbedding, node.embedding),
                 }))
                 .filter((item) => item.score >= RAG_THRESHOLD)
                 .sort((a, b) => b.score - a.score)
-                .slice(0, RAG_TOP_K)
+                .slice(0, RAG_TOP_K);
 
-            if (similarities.length === 0) return []
+            if (similarities.length === 0) return [];
 
-            const contextResults: RAGContext[] = []
+            const contextResults: RAGContext[] = [];
 
             for (const sim of similarities) {
                 try {
@@ -84,12 +97,12 @@ export default class ChatbotRAGService {
                         pageSize: 1,
                         postId: sim.id,
                         status: 'PUBLISHED',
-                    })
+                    });
 
                     if (posts[0]) {
-                        const post = posts[0]
-                        const plainContent = ChatbotRAGService.stripHtml(post.content || '')
-                        const snippet = plainContent.slice(0, 800)
+                        const post = posts[0];
+                        const plainContent = ChatbotRAGService.stripHtml(post.content || '');
+                        const snippet = plainContent.slice(0, 800);
 
                         contextResults.push({
                             postId: post.postId,
@@ -98,17 +111,17 @@ export default class ChatbotRAGService {
                             categorySlug: post.category?.slug ?? 'general',
                             score: sim.score,
                             snippet,
-                        })
+                        });
                     }
                 } catch (err) {
-                    Logger.warn(`[ChatbotRAGService] Failed to fetch post ${sim.id}: ${err}`)
+                    Logger.warn(`[ChatbotRAGService] Failed to fetch post ${sim.id}: ${err}`);
                 }
             }
 
-            return contextResults
+            return contextResults;
         } catch (err) {
-            Logger.error(`[ChatbotRAGService] RAG retrieval failed: ${err}`)
-            return []
+            Logger.error(`[ChatbotRAGService] RAG retrieval failed: ${err}`);
+            return [];
         }
     }
 
@@ -116,11 +129,11 @@ export default class ChatbotRAGService {
         query: string
     ): Promise<(DatasetDocument & { score: number })[]> {
         try {
-            const documents = ragDataset.documents as DatasetDocument[]
-            if (!documents || documents.length === 0) return []
+            const documents = await getRagDataset();
+            if (!documents || documents.length === 0) return [];
 
-            const texts = documents.map((d) => `${d.title} ${d.text}`)
-            const [queryEmbedding, ...docEmbeddings] = await LocalEmbedService.embed([query, ...texts])
+            const texts = documents.map((d) => `${d.title} ${d.text}`);
+            const [queryEmbedding, ...docEmbeddings] = await LocalEmbedService.embed([query, ...texts]);
 
             return docEmbeddings
                 .map((emb, i) => ({
@@ -129,10 +142,10 @@ export default class ChatbotRAGService {
                 }))
                 .filter((item) => item.score >= DATASET_THRESHOLD)
                 .sort((a, b) => b.score - a.score)
-                .slice(0, DATASET_TOP_K)
+                .slice(0, DATASET_TOP_K);
         } catch (err) {
-            Logger.error(`[ChatbotRAGService] Dataset retrieval failed: ${err}`)
-            return []
+            Logger.error(`[ChatbotRAGService] Dataset retrieval failed: ${err}`);
+            return [];
         }
     }
 
@@ -140,11 +153,11 @@ export default class ChatbotRAGService {
         query: string
     ): Promise<(FaqItem & { score: number })[]> {
         try {
-            const items = faqDataset.items as FaqItem[]
-            if (!items || items.length === 0) return []
+            const items = await getFaqDataset();
+            if (!items || items.length === 0) return [];
 
-            const texts = items.map((f) => `${f.question} ${f.answer}`)
-            const [queryEmbedding, ...faqEmbeddings] = await LocalEmbedService.embed([query, ...texts])
+            const texts = items.map((f) => `${f.question} ${f.answer}`);
+            const [queryEmbedding, ...faqEmbeddings] = await LocalEmbedService.embed([query, ...texts]);
 
             return faqEmbeddings
                 .map((emb, i) => ({
@@ -153,49 +166,51 @@ export default class ChatbotRAGService {
                 }))
                 .filter((item) => item.score >= FAQ_THRESHOLD)
                 .sort((a, b) => b.score - a.score)
-                .slice(0, FAQ_TOP_K)
+                .slice(0, FAQ_TOP_K);
         } catch (err) {
-            Logger.error(`[ChatbotRAGService] FAQ retrieval failed: ${err}`)
-            return []
+            Logger.error(`[ChatbotRAGService] FAQ retrieval failed: ${err}`);
+            return [];
         }
     }
 
     static async buildSystemPrompt(context: RAGContext[]): Promise<string> {
-        const [promptSetting, maxTokensSetting] = await Promise.all([
+        const [promptSetting, maxTokensSetting, systemPromptData, policyDataset] = await Promise.all([
             SettingService.getSettingByKey('CHATBOT_SYSTEM_PROMPT'),
             SettingService.getSettingByKey('CHATBOT_MAX_TOKENS'),
-        ])
+            getSystemPromptData(),
+            getPolicyDataset(),
+        ]);
 
-        let defaultPrompt = ''
+        let defaultPrompt = '';
         if (systemPromptData.intro || systemPromptData.rules.length > 0) {
             const rulesBlock = systemPromptData.rules
-                .map((r) => `${r.id}. ${r.name}: ${r.rule}`)
-                .join('\n')
-            defaultPrompt = `${systemPromptData.intro}\n\n=== MANDATORY RULES (NEVER VIOLATE) ===\n\n${rulesBlock}`
+                .map((r: any) => `${r.id}. ${r.name}: ${r.rule}`)
+                .join('\n');
+            defaultPrompt = `${systemPromptData.intro}\n\n=== MANDATORY RULES (NEVER VIOLATE) ===\n\n${rulesBlock}`;
         } else {
             defaultPrompt =
                 'You are a helpful, friendly AI assistant on this blog. ' +
                 'Answer questions based on the provided context. ' +
-                'Be concise, accurate, and conversational. Never fabricate information.'
+                'Be concise, accurate, and conversational. Never fabricate information.';
         }
 
-        const basePrompt = promptSetting?.value?.trim() || defaultPrompt
+        const basePrompt = promptSetting?.value?.trim() || defaultPrompt;
 
-        const policyBlock = policyDataset.policies
-            .map((p) => `- [${p.severity.toUpperCase()}] ${p.title}: ${p.rule}`)
-            .join('\n')
+        const policyBlock = policyDataset
+            .map((p: any) => `- [${p.severity?.toUpperCase()}] ${p.title}: ${p.rule}`)
+            .join('\n');
 
-        const maxTokens = parseInt(maxTokensSetting?.value || '0', 10)
+        const maxTokens = parseInt(maxTokensSetting?.value || '0', 10);
         const tokenInstruction = maxTokens > 0
             ? `\n\nIMPORTANT: Keep your response under ${maxTokens} tokens.`
-            : ''
+            : '';
 
         const policySection = policyBlock
             ? `\n\n=== ENFORCED POLICIES ===\n${policyBlock}`
-            : ''
+            : '';
 
         if (context.length === 0) {
-            return `${basePrompt}${policySection}${tokenInstruction}\n\nYou couldn't find a matching article for this question. Be honest about it — say something like "Hmm, I don't have a specific article about that" in a warm, conversational tone. If it's loosely related to tech, share a brief thought and gently suggest they browse the blog — they might find something interesting. Never sound robotic or use phrases like "feel free to ask" or "if you have any questions". Talk like a real person.`
+            return `${basePrompt}${policySection}${tokenInstruction}\n\nYou couldn't find a matching article for this question. Be honest about it — say something like "Hmm, I don't have a specific article about that" in a warm, conversational tone. If it's loosely related to tech, share a brief thought and gently suggest they browse the blog — they might find something interesting. Never sound robotic or use phrases like "feel free to ask" or "if you have any questions". Talk like a real person.`;
         }
 
         const contextBlock = context
@@ -203,9 +218,9 @@ export default class ChatbotRAGService {
                 (ctx, i) =>
                     `--- Article ${i + 1}: "${ctx.title}" (category: ${ctx.categorySlug}) ---\n${ctx.snippet}\n---`
             )
-            .join('\n\n')
+            .join('\n\n');
 
-        return `${basePrompt}${policySection}${tokenInstruction}\n\nRelevant blog content for context:\n\n${contextBlock}`
+        return `${basePrompt}${policySection}${tokenInstruction}\n\nRelevant blog content for context:\n\n${contextBlock}`;
     }
 
     static buildMessages(
