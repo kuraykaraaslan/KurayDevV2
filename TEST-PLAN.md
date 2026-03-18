@@ -893,6 +893,328 @@ Her provider için ortak senaryolar:
 
 ---
 
+## Faz 16 — Kritik Güvenlik ve Yetkilendirme Riski (Yeni / P0)
+
+> **Öncelik nedeni:** Hesap ele geçirme, yetkisiz erişim, privilege escalation, auth bypass.
+
+**Öncelikli servisler:**
+
+- `services/AuthService/ApiKeyService.ts`
+- `services/AuthService/AuthMiddleware.ts`
+- `services/AuthService/WebAuthnService.ts`
+- `services/AuthService/TOTPService.ts`
+- `services/AuthService/index.ts`
+
+**Test odakları:**
+
+- unauthorized / forbidden akışları
+- token doğrulama ve token expiry
+- session doğrulama
+- invalid / forged api key senaryoları
+- MFA/TOTP doğrulama başarısızlıkları
+- auth bypass ihtimali olan branchler
+- role / permission kontrolü
+- replay ve duplicate auth request edge-case’leri
+
+---
+
+## Faz 17 — Kullanıcı Verisi ve Oturum Bütünlüğü Riski (Yeni / P0)
+
+> **Öncelik nedeni:** Kullanıcı verisinin bozulması, yanlış kullanıcıya veri dönülmesi, session-state hataları.
+
+**Öncelikli servisler:**
+
+- `services/UserService/index.ts`
+- `services/UserService/UserProfileService.ts`
+- `services/AuthService/UserSessionService.ts`
+- `services/AuthService/UserSessionOTPService.ts`
+
+**Test odakları:**
+
+- kullanıcı oluşturma / güncelleme conflict’leri
+- null / eksik veri akışları
+- session invalidation
+- çoklu oturum senaryoları
+- yanlış kullanıcıya veri bağlanması
+- profile update rollback ve consistency kontrolleri
+
+---
+
+## Faz 18 — Rezervasyon / İşlem Tutarlılığı Riski (Yeni / P0)
+
+> **Öncelik nedeni:** Double booking, kapasite bozulması, işlem yarım kalması, state corruption.
+
+**Öncelikli servisler:**
+
+- `services/AppointmentService/index.ts`
+- `services/AppointmentService/SlotService.ts`
+- `services/AppointmentService/SlotTemplateService.ts`
+
+**Test odakları:**
+
+- aynı slot’un iki kez alınması
+- kapasite düşümü / artışı tutarlılığı
+- cancel sonrası state geri dönüşü
+- race-condition benzeri durumlar
+- transaction fail olduğunda rollback davranışı
+- slot overlap ve invalid range senaryoları
+
+---
+
+## Faz 19 — Depolama ve Dosya Bütünlüğü Riski (Yeni / P1)
+
+> **Öncelik nedeni:** Dosya kaybı, bozuk referans, hatalı silme, yanlış provider davranışı.
+
+**Öncelikli servisler:**
+
+- `services/StorageService/BaseStorageProvider.ts`
+- `services/StorageService/AWSService.ts`
+- `services/StorageService/CloudflareR2Service.ts`
+- `services/StorageService/MinioService.ts`
+- `services/StorageService/index.ts`
+
+**Test odakları:**
+
+- upload / delete / replace akışları
+- provider fallback
+- invalid config
+- başarısız upload sonrası state temizliği
+- dosya referansı ile fiziksel dosya tutarsızlığı
+- yanlış bucket/path üretimi
+- duplicate key / overwrite edge-case’leri
+
+---
+
+## Faz 20 — Bildirim ve Kritik İletişim Riski (Yeni / P1)
+
+> **Öncelik nedeni:** Kullanıcıya kritik mail/SMS’in ulaşmaması, yanlış template, yanlış alıcı.
+
+**Öncelikli servisler:**
+
+- `services/NotificationService/MailService.ts`
+- `services/NotificationService/SMSService/index.ts`
+
+**Test odakları:**
+
+- template selection
+- invalid recipient
+- provider failure
+- retry logic
+- duplicate send engelleme
+- mail/sms payload doğruluğu
+- fallback provider branchleri
+- error handling ve logging branchleri
+
+---
+
+## Faz 21 — Harici Kimlik ve Provider Bağımlılık Riski (Yeni / P1)
+
+> **Öncelik nedeni:** Login akışının dış servis yüzünden kırılması, yanlış identity mapping, provider config hataları.
+
+**Öncelikli servisler:**
+
+- `services/AuthService/SSOService/*`
+- `services/AIServices/index.ts`
+- `services/AIServices/OpenAIProvider.ts`
+- `services/AIServices/AnthropicProvider.ts`
+- `services/AIServices/GeminiProvider.ts`
+- `services/AIServices/DeepSeekProvider.ts`
+- `services/AIServices/XAIProvider.ts`
+
+**Test odakları:**
+
+- unsupported provider
+- missing env/config
+- invalid callback / token response
+- provider timeout / exception
+- normalize edilen response yapıları
+- provider selection logic
+- fallback / default provider seçimi
+
+---
+
+## Faz 22 — API ve Entegrasyon Sürekliliği Riski (Yeni / P1)
+
+> **Öncelik nedeni:** Üçüncü taraf sistemlerle veri alışverişinin kırılması, webhook/entegrasyon akışlarının sessiz bozulması.
+
+**Öncelikli servisler:**
+
+- `services/IntegrationService/GithubService.ts`
+- `services/IntegrationService/GitlabService.ts`
+- `services/ActivityPubService/*`
+
+**Test odakları:**
+
+- malformed payload
+- signature / request verification
+- external response parse hataları
+- delivery failure
+- inbox işleme hataları
+- retry edilmesi gereken / edilmemesi gereken hata ayrımı
+- federation edge-case’leri
+
+---
+
+## Faz 23 — İçerik ve Kullanıcı Etkileşimi İş Riski (Yeni / P1)
+
+> **Öncelik nedeni:** Yorum, abonelik, kampanya, post akışlarının bozulması; doğrudan kullanıcı deneyimi ve iş akışı etkisi.
+
+**Öncelikli servisler:**
+
+- `services/SubscriptionService.ts`
+- `services/PostService/index.ts` (eksik branchler)
+- `services/PostService/SeriesService.ts`
+- `services/CampaignService.ts` (eksik branchler)
+- `services/CategoryService.ts` (eksik branchler)
+- `services/CommentService.ts` (eksik branchler)
+- `services/ViewerService.ts`
+- `services/StatService.ts`
+
+**Test odakları:**
+
+- duplicate subscription
+- invalid publish state
+- moderation / visibility branchleri
+- deleted / unpublished content edge-case’leri
+- invalid category relation
+- comment permission ve status akışları
+- sayaç / görüntülenme state tutarlılığı
+
+---
+
+## Faz 24 — Arka Plan İşleri ve Zamanlanmış Süreç Riski (Yeni / P1)
+
+> **Öncelik nedeni:** Sessizce bozulan cron’lar, çift çalışma, publish kaçırma, veri birikmesi.
+
+**Öncelikli servisler:**
+
+- `services/CronService/index.ts`
+- `services/CronService/jobs/publishScheduledPosts.ts`
+- `services/CronService/jobs/flushClickBuffer.ts`
+- `services/CronService/timers/*`
+
+**Test odakları:**
+
+- job’un doğru tetiklenmesi
+- idempotency
+- duplicate execution
+- başarısız job sonrası retry davranışı
+- publish zamanı gelen içeriğin işlenmesi
+- boş veri / hatalı veri senaryoları
+
+---
+
+## Faz 25 — Chatbot ve Moderasyon Operasyon Riski (Yeni / P1)
+
+> **Öncelik nedeni:** Kötü içerik kontrolünün kırılması, oturum state’inin bozulması, RAG akışının yanlış davranması.
+
+**Öncelikli servisler:**
+
+- `services/ChatbotService/*`
+
+**Test odakları:**
+
+- session lifecycle
+- moderation block / allow
+- RAG fallback
+- admin aksiyonları
+- invalid context
+- empty response / provider failure
+- handler seviyesinde hata akışları
+
+---
+
+## Faz 26 — SEO, Keşfedilebilirlik ve İçerik Sunumu Riski (Yeni / P2)
+
+> **Öncelik nedeni:** Güvenlik kadar kritik değil ama görünürlük, indekslenme ve içerik doğruluğu etkilenir.
+
+**Öncelikli modüller:**
+
+- `helpers/HreflangHelper.ts`
+- `helpers/SitemapGenerator.ts`
+- `helpers/tocUtils.ts`
+- `services/SitemapService.ts`
+- `services/KnowledgeGraphService.ts`
+
+**Test odakları:**
+
+- doğru hreflang üretimi
+- duplicate / invalid URL
+- sitemap entry doğruluğu
+- TOC parse edge-case’leri
+- structured data üretimi
+- eksik metadata senaryoları
+
+---
+
+## Faz 27 — Düşük Riskli Ama Boşta Kalmış Yardımcılar (Yeni / P3)
+
+> **Öncelik nedeni:** Kolay kapatılır, coverage tabanını artırır ama iş riski daha düşüktür.
+
+**Öncelikli modüller:**
+
+- `services/DBGeoService.ts`
+- `services/GeoAnalyticsService.ts`
+- `helpers/*` (düşük etkili yardımcılar)
+- `utils/Encryptor.ts`
+- `utils/FieldValidater.ts`
+
+**Test odakları:**
+
+- deterministic helper davranışları
+- parse / transform edge-case’leri
+- invalid input
+- boundary value testleri
+
+---
+
+## Faz 28 — Endpoint Contract ve HTTP Riskleri (Yeni / P1)
+
+> **Öncelik nedeni:** Service katmanı güçlendikten sonra HTTP katmanında mapping, auth ve status code güvenceye alınır.
+
+**Kapsam (sadece kritik endpointler):**
+
+- auth
+- appointment
+- contact
+- subscription
+- upload
+- webhook
+- admin protected routes
+
+**Test odakları:**
+
+- `200 / 400 / 401 / 403 / 404 / 409`
+- middleware chain
+- request → service mapping
+- invalid payload
+- auth header eksik / bozuk
+- doğru response contract
+
+**Not:**
+
+- Bu fazda business logic tekrar test edilmez.
+- Sadece HTTP contract ve middleware davranışı test edilir.
+
+---
+
+## Faz 29 — Regression Safety Net (Yeni / P0)
+
+> **Öncelik nedeni:** Refactor ve yeni feature’larda eski kritik davranışların kırılmasını önlemek.
+
+**Kapsam:**
+
+- bug çıkan her kritik alan için regression test
+- özellikle auth, appointment, storage, mail, user ve provider seçimleri
+- geçmişte sorun çıkarmış edge-case’lerin sabitlenmesi
+
+**Test odakları:**
+
+- fix edilen bug’ın tekrar oluşmaması
+- kritik branchlerin korunması
+
+---
+
 ## Özet Tablo
 
 | Faz | Kapsam | Öncelik | Test Dosyası Sayısı |
@@ -912,7 +1234,21 @@ Her provider için ortak senaryolar:
 | 13 | Gizli Veri & Güvenli Çıktı | P0 — Kritik | T.B.D. (cross-cutting) |
 | 14 | Cron, Jobs & Reentrancy | P1 — Yüksek | T.B.D. (cross-cutting) |
 | 15 | Observability-Aware Testler | P2 — Orta | T.B.D. (cross-cutting) |
-| **Toplam** | | | **~49 + T.B.D. (ek backlog)** |
+| 16 | Kritik Güvenlik & Yetkilendirme Riski | P0 — Kritik | T.B.D. (risk-based) |
+| 17 | Kullanıcı Verisi & Oturum Bütünlüğü | P0 — Kritik | T.B.D. (risk-based) |
+| 18 | Rezervasyon & İşlem Tutarlılığı | P0 — Kritik | T.B.D. (risk-based) |
+| 19 | Depolama & Dosya Bütünlüğü | P1 — Yüksek | T.B.D. (risk-based) |
+| 20 | Bildirim & Kritik İletişim | P1 — Yüksek | T.B.D. (risk-based) |
+| 21 | Harici Kimlik & Provider Bağımlılığı | P1 — Yüksek | T.B.D. (risk-based) |
+| 22 | API & Entegrasyon Sürekliliği | P1 — Yüksek | T.B.D. (risk-based) |
+| 23 | İçerik & Kullanıcı Etkileşimi | P1 — Yüksek | T.B.D. (risk-based) |
+| 24 | Arka Plan İşleri & Zamanlanmış Süreç | P1 — Yüksek | T.B.D. (risk-based) |
+| 25 | Chatbot & Moderasyon Operasyon Riski | P1 — Yüksek | T.B.D. (risk-based) |
+| 26 | SEO & Keşfedilebilirlik Riski | P2 — Orta | T.B.D. (risk-based) |
+| 27 | Düşük Riskli Yardımcılar | P3 — Düşük | T.B.D. (risk-based) |
+| 28 | Endpoint Contract & HTTP Riskleri | P1 — Yüksek | T.B.D. (risk-based) |
+| 29 | Regression Safety Net | P0 — Kritik | T.B.D. (risk-based) |
+| **Toplam** | | | **~49 + T.B.D. (faz 16–29 risk backlog eklendi)** |
 
 ---
 
