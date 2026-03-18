@@ -192,7 +192,7 @@ Comprehensive CRUD modules with:
 
 ### DevOps & Tooling
 
-- Jest test suite
+- **Jest** — 111 test suites · 2,075 tests · 96.42% statement coverage · 97.32% line coverage
 - ESLint + TypeScript strict mode
 - i18n key checker script (`npm run check-missing-key`)
 - Winston logging
@@ -240,12 +240,12 @@ tests/         → Test coverage for services
 | Auth Hardening | v2.6 | Auth redesign, cookie consent, SSE fallback, service extraction |
 | Passkeys & Export | v2.7 | WebAuthn, reCAPTCHA, trusted devices, data export, content scoring |
 | Fediverse & UX Stabilization | v2.8 | ActivityPub federation, modal/UI refactor, common component migration, i18n lazy loading |
+| Test Coverage & Quality Gates | v2.8.x | 111 suites · 2,075 tests · 96.42% stmt · 97.32% line coverage; `npm test` as merge gate |
 
 ### 🔜 Upcoming Phases
 
 | Phase | Target | Goals |
 |-------|--------|-------|
-| Test Coverage | Q2 2026 | >80% unit test coverage, CI test gating |
 | Performance | Q2 2026 | Sub-2s LCP, bundle optimization, RSC conversion |
 | Mobile & Push | Q3 2026 | Web Push notifications, offline support, React Native exploration |
 | Developer Showcase | Q3 2026 | GitHub widgets, tech-stack charts, case study pages |
@@ -316,4 +316,4 @@ If you'd like help building a similar system or want to collaborate, feel free t
 
 ---
 
-*Last updated: 2026-03-16 · v2.8*
+*Last updated: 2026-03-18 · v2.8*

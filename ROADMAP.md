@@ -315,6 +315,18 @@
 - ✅ `npm test` baseline enforced as required merge gate
 - ✅ Coverage workflow operational (`npm test -- --coverage`); PR-level coverage annotation handled as CI policy refinement
 
+**Final coverage (2026-03-18):**
+
+| Metric | Result |
+|--------|--------|
+| Test Suites | 111 / 111 passed |
+| Tests | 2,075 / 2,075 passed |
+| Statements | 96.42% |
+| Branches | 85.01% |
+| Functions | 94.37% |
+| Lines | 97.32% |
+| Run time | 2.317 s |
+
 ---
 
 ## Phase 16 — Performance & Bundle Optimisation 📋
@@ -481,4 +493,4 @@ These constraints were established at project inception and apply to every phase
 
 ---
 
-*Last updated: 2026-03-16 · v2.8*
+*Last updated: 2026-03-18 · v2.8*
