@@ -128,6 +128,24 @@
 | 27.1 | Faz 27: Düşük Riskli Yardımcı Modüller | ✅ | `Encryptor` (+7: empty/wrong-key/long/unicode/collision), `FieldValidater` (+40: isEmail/isPhone/sanitizeString/isBoolean/isCUID boundary), `DBGeoService` (+5: unknown country, coords, empty dataset, cache hit), `GeoAnalyticsService` (+6: missing lat/lon, null fallbacks, hasSeenUser), `SpamProtection` (+18: repeat-char threshold, URL count, honeypot edge cases), `Validater` (+45: validateStatus/validatePassword/validateURL/validateNaturalNumber) |
 | 28.1 | Faz 28: Endpoint Contract ve HTTP Riskleri | ✅ | `api/auth/login/route.test.ts` (YENİ: 200/400/500, cookie ayarı, rememberDevice), `api/auth/register/route.test.ts` (YENİ: 201/400/500, reCAPTCHA validation), `api/auth/logout/route.test.ts` (YENİ: 200/500, cookie temizleme) |
 | 29.1 | Faz 29: Regression Safety Net | ⏳ | auth/appointment/storage/mail/user/provider seçimleri başta olmak üzere geçmiş bug alanları için kalıcı regression test paketi |
+| 30.1 | Faz 30: AuthService/index (0% → hedef) | ⏳ | login/logout/register/hashPassword/generateToken/checkIfUserHasRole |
+| 30.2 | Faz 30: SSOService/AppleService (0%) | ⏳ | generateAuthUrl, generateClientSecret, getTokens, getUserInfo |
+| 30.3 | Faz 30: SSOService/AutodeskService (0%) | ⏳ | generateAuthUrl, getTokens, getUserInfo |
+| 30.4 | Faz 30: SSOService/TiktokService (0%) | ⏳ | generateAuthUrl, getTokens, getUserInfo |
+| 30.5 | Faz 30: SSOService/TwitterService (0%) | ⏳ | generateAuthUrl, getTokens, getUserInfo |
+| 30.6 | Faz 30: SSOService/WeChatService (0%) | ⏳ | generateAuthUrl, getAccessToken, getUserInfo, authCallback |
+| 30.7 | Faz 30: ChatbotService/index (0%) | ⏳ | chatStream: ban/rate-limit/takeover/stream/error dalları |
+| 30.8 | Faz 30: ChatbotService/handler (0%) | ⏳ | WS onMessage: restore/chat/subscribe/admin_reply/typing/onDisconnect |
+| 30.9 | Faz 30: BrowserSessionService (0%) | ⏳ | restoreSession 5 dal, markDisconnected, cancel, getSessionId, link |
+| 30.10 | Faz 30: ChatSessionDBService (5%) | ⏳ | upsertSession, getSession, upsertMessage, getMessages, listSessions, getStats, deleteSession |
+| 30.11 | Faz 30: InAppNotificationService (0%) | ⏳ | push (trim/publish/webpush), getAll, markAsRead, markAllAsRead, deleteOne, clearAll, pushToAdmins |
+| 30.12 | Faz 30: PushNotificationService (0%) | ⏳ | subscribe/unsubscribe, sendToUser/Admins/All, expired cleanup (410/404) |
+| 30.13 | Faz 30: UserProfileService/index (0%) | ⏳ | getProfile, updateProfile (username validation/conflict), mergeProfile |
+| 30.14 | Faz 30: PostService/LocalEmbedService (0%) | ⏳ | embed lazy-init singleton, multiple texts |
+| 31.1 | Faz 31: OpenAIProvider (~19%) | ⏳ | +streamText, +getModels (cache hit/miss), +generateImage, +translateMultipleKeys |
+| 31.2 | Faz 31: ActivityPubService/index (~36%) | ⏳ | +getFollowers, +getFollowerCount, +getWebFingerData, +getOutboxCollection, +getOutboxPage, +getNodeInfoData |
+| 31.3 | Faz 31: ActorService (~27%) | ⏳ | +getActorJson (env defaults), +fetchRemoteActor (cache hit/miss/error) |
+| 31.4 | Faz 31: KnowledgeGraphService (~34%) | ⏳ | +worker _updatePostInternal, +worker _fullRebuildInternal (no-posts/success/error) |
 
 ## Son Doğrulama (2026-03-18)
 

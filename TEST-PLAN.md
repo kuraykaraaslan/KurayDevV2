@@ -1248,7 +1248,47 @@ Her provider için ortak senaryolar:
 | 27 | Düşük Riskli Yardımcılar | P3 — Düşük | T.B.D. (risk-based) |
 | 28 | Endpoint Contract & HTTP Riskleri | P1 — Yüksek | T.B.D. (risk-based) |
 | 29 | Regression Safety Net | P0 — Kritik | T.B.D. (risk-based) |
-| **Toplam** | | | **~49 + T.B.D. (faz 16–29 risk backlog eklendi)** |
+| 30 | Sıfır Coverage'lı Modüller | P2 — Orta | ~14 yeni test dosyası |
+| 31 | Kritik Düşük Coverage Modülleri | P1 — Yüksek | ~4 mevcut dosya genişletme |
+| **Toplam** | | | **~49 + T.B.D. (faz 16–31 risk backlog eklendi)** |
+
+---
+
+## Faz 30 — Sıfır Coverage'lı Modüller (Yeni / P2)
+
+> **Öncelik nedeni:** Coverage raporunda 0% olan modüller hiç test edilmemiştir; herhangi bir regresyon fark edilemez.
+
+**Kapsam:**
+
+- `services/AuthService/index.ts` → login/logout/register/hashPassword/generateToken/checkIfUserHasRole
+- `services/AuthService/SSOService/AppleService.ts` → generateAuthUrl, generateClientSecret, getTokens, getUserInfo
+- `services/AuthService/SSOService/AutodeskService.ts` → generateAuthUrl, getTokens, getUserInfo
+- `services/AuthService/SSOService/TiktokService.ts` → generateAuthUrl, getTokens, getUserInfo
+- `services/AuthService/SSOService/TwitterService.ts` → generateAuthUrl, getTokens, getUserInfo
+- `services/AuthService/SSOService/WeChatService.ts` → generateAuthUrl, getAccessToken, getUserInfo, authCallback
+- `services/ChatbotService/index.ts` → chatStream (ban/rate-limit/takeover/normal/stream-error)
+- `services/ChatbotService/handler.ts` → WS handler (restore/chat/subscribe/admin_reply/typing/disconnect)
+- `services/ChatbotService/BrowserSessionService.ts` → restoreSession tüm dallar, markDisconnected, cancel, link
+- `services/ChatbotService/ChatSessionDBService.ts` → upsert/get session+message, listSessions, getStats, deleteSession
+- `services/InAppNotificationService/index.ts` → push, getAll, markAsRead, markAllAsRead, deleteOne, clearAll, pushToAdmins
+- `services/PushNotificationService/index.ts` → subscribe, unsubscribe, sendToUser, sendToAdmins, sendToAll, expired cleanup
+- `services/UserProfileService/index.ts` → getProfile, updateProfile, mergeProfile, assertUsernameAvailable
+- `services/PostService/LocalEmbedService.ts` → embed lazy-init singleton, multiple texts
+
+---
+
+## Faz 31 — Kritik Düşük Coverage Modülleri (Yeni / P1)
+
+> **Öncelik nedeni:** Aktif olarak kullanılan kritik modüllerde önemli kod dalları hiç test edilmemiştir.
+
+**Kapsam:**
+
+| Modül | Mevcut Coverage | Hedef |
+|-------|----------------|-------|
+| `services/AIServices/OpenAIProvider.ts` | ~19% | +streamText, +getModels, +generateImage, +translateMultipleKeys |
+| `services/ActivityPubService/index.ts` | ~36% | +getFollowers, +getFollowerCount, +getWebFingerData, +getOutboxCollection, +getOutboxPage, +getNodeInfoData |
+| `services/ActivityPubService/ActorService.ts` | ~27% | +getActorJson, +fetchRemoteActor (cache hit/miss/error) |
+| `services/KnowledgeGraphService.ts` | ~34% | +_updatePostInternal (worker job), +_fullRebuildInternal (worker job) |
 
 ---
 
@@ -1276,4 +1316,4 @@ const axiosMock = axios as jest.Mocked<typeof axios>
 
 ---
 
-*Son güncelleme: Mart 2026 (ek kapsam revizyonu)*
+*Son güncelleme: Mart 2026 (Faz 30–31: sıfır coverage + kritik düşük coverage modülleri eklendi)*
