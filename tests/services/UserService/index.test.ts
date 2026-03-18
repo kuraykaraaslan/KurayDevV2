@@ -221,3 +221,108 @@ describe('UserService.delete', () => {
     )
   })
 })
+
+// ── Phase 17: UserService edge-case tests ────────────────────────────────────
+
+describe('UserService.create — email conflict on registration', () => {
+  it('throws EMAIL_ALREADY_EXISTS when email is already registered', async () => {
+    ;(fieldValidaterMock.isEmail as jest.Mock).mockReturnValue(true)
+    ;(fieldValidaterMock.isPassword as jest.Mock).mockReturnValue(true)
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(mockDbUser)
+
+    await expect(
+      UserService.create({ email: 'test@example.com', password: 'Password123!', name: 'Test' })
+    ).rejects.toThrow(UserMessages.EMAIL_ALREADY_EXISTS)
+  })
+
+  it('normalizes email to lowercase before uniqueness check', async () => {
+    ;(fieldValidaterMock.isEmail as jest.Mock).mockReturnValue(true)
+    ;(fieldValidaterMock.isPassword as jest.Mock).mockReturnValue(true)
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(null)
+    ;(prismaMock.user.create as jest.Mock).mockResolvedValue({ ...mockDbUser, email: 'test@example.com' })
+
+    await UserService.create({ email: 'TEST@Example.COM', password: 'Password123!', name: 'Test' })
+
+    const findCall = (prismaMock.user.findUnique as jest.Mock).mock.calls[0][0]
+    expect(findCall.where.email).toBe('test@example.com')
+  })
+})
+
+describe('UserService.update — duplicate email rejection', () => {
+  it('throws EMAIL_ALREADY_EXISTS when updated email belongs to a different user', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock)
+      .mockResolvedValueOnce(mockDbUser) // current user lookup
+      .mockResolvedValueOnce({ userId: 'other-user' }) // email conflict check
+
+    await expect(
+      UserService.update({ userId: 'user-1', data: { email: 'taken@example.com' } as any })
+    ).rejects.toThrow(UserMessages.EMAIL_ALREADY_EXISTS)
+  })
+
+  it('allows updating email to the same email (no conflict with self)', async () => {
+    const sameEmailUser = { ...mockDbUser, email: 'test@example.com' }
+    ;(prismaMock.user.findUnique as jest.Mock)
+      .mockResolvedValueOnce(sameEmailUser) // current user
+      .mockResolvedValueOnce({ userId: 'user-1' }) // same userId — no conflict
+
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue(sameEmailUser)
+
+    const result = await UserService.update({ userId: 'user-1', data: { email: 'test@example.com' } as any })
+    expect(result.email).toBe('test@example.com')
+  })
+})
+
+describe('UserService.getById — sensitive field exclusion', () => {
+  it('does not include password field in the returned user', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(mockDbUser)
+    const result = await UserService.getById('user-1')
+    expect(result).not.toHaveProperty('password')
+  })
+
+  it('does not include userSecurity field in the returned user', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue({ ...mockDbUser, userSecurity: { otpSecret: 'sensitive' } })
+    const result = await UserService.getById('user-1')
+    expect(result).not.toHaveProperty('userSecurity')
+  })
+
+  it('does not include internal DB tokens in the returned user', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(mockDbUser)
+    const result = await UserService.getById('user-1')
+    // SafeUserSchema must strip these
+    expect(result).not.toHaveProperty('password')
+    expect(result).toHaveProperty('userId')
+    expect(result).toHaveProperty('email')
+  })
+})
+
+describe('UserService.update — last admin protection', () => {
+  it('throws LAST_ADMIN_CANNOT_DOWNGRADE when downgrading the sole admin', async () => {
+    const adminUser = { ...mockDbUser, userRole: 'ADMIN' }
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(adminUser)
+    ;(prismaMock.user.count as jest.Mock).mockResolvedValue(1)
+
+    await expect(
+      UserService.update({ userId: 'user-1', data: { userRole: 'USER' } as any })
+    ).rejects.toThrow(UserMessages.LAST_ADMIN_CANNOT_DOWNGRADE)
+  })
+
+  it('allows downgrading an admin when multiple admins exist', async () => {
+    const adminUser = { ...mockDbUser, userRole: 'ADMIN' }
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(adminUser)
+    ;(prismaMock.user.count as jest.Mock).mockResolvedValue(2)
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue({ ...mockDbUser, userRole: 'USER' })
+
+    const result = await UserService.update({ userId: 'user-1', data: { userRole: 'USER' } as any })
+    expect(result.userRole).toBe('USER')
+  })
+})
+
+describe('UserService.delete — last admin protection', () => {
+  it('throws LAST_ADMIN_CANNOT_DELETE when deleting the sole admin', async () => {
+    const adminUser = { ...mockDbUser, userRole: 'ADMIN' }
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValue(adminUser)
+    ;(prismaMock.user.count as jest.Mock).mockResolvedValue(1)
+
+    await expect(UserService.delete('user-1')).rejects.toThrow(UserMessages.LAST_ADMIN_CANNOT_DELETE)
+  })
+})

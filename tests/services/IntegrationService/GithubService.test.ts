@@ -153,6 +153,70 @@ describe('GithubService', () => {
       await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_UNAUTHORIZED')
     })
 
+    it('maps 403 response to GITHUB_FORBIDDEN', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post.mockRejectedValueOnce(makeAxiosError(403))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_FORBIDDEN')
+    })
+
+    it('maps 404 response to GITHUB_NOT_FOUND', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post.mockRejectedValueOnce(makeAxiosError(404))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_NOT_FOUND')
+    })
+
+    it('maps 403 response to GITHUB_FORBIDDEN', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post.mockRejectedValueOnce(makeAxiosError(403))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_FORBIDDEN')
+    })
+
+    it('maps 404 response to GITHUB_NOT_FOUND', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post.mockRejectedValueOnce(makeAxiosError(404))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_NOT_FOUND')
+    })
+
+    it('does not retry for non-retryable client errors', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post.mockRejectedValueOnce(makeAxiosError(400))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_REQUEST_FAILED')
+      expect(axiosMock.post).toHaveBeenCalledTimes(1)
+    })
+
+    it('maps exhausted 429 retries to GITHUB_RATE_LIMITED', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post
+        .mockRejectedValueOnce(makeAxiosError(429))
+        .mockRejectedValueOnce(makeAxiosError(429))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_RATE_LIMITED')
+      expect(axiosMock.post).toHaveBeenCalledTimes(2)
+    })
+
+    it('maps exhausted 5xx retries to GITHUB_UPSTREAM_ERROR', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post
+        .mockRejectedValueOnce(makeAxiosError(502))
+        .mockRejectedValueOnce(makeAxiosError(502))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_UPSTREAM_ERROR')
+      expect(axiosMock.post).toHaveBeenCalledTimes(2)
+    })
+
+    it('maps unknown non-axios failures to GITHUB_REQUEST_FAILED', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      ;(axiosMock.isAxiosError as any) = () => false
+      axiosMock.post.mockRejectedValueOnce({ foo: 'bar' })
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_REQUEST_FAILED')
+    })
+
     it('maps timeout errors to GITHUB_TIMEOUT', async () => {
       redisMock.get.mockResolvedValueOnce(null)
       axiosMock.post.mockRejectedValue(makeAxiosError(undefined, 'ECONNABORTED'))
@@ -168,6 +232,93 @@ describe('GithubService', () => {
     it('throws explicit error when GITHUB_USER is missing', async () => {
       delete process.env.GITHUB_USER
       await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_USER is required')
+    })
+  })
+})
+
+// ── Phase 22: GithubService integration extensions ────────────────────────
+
+describe('GithubService — Phase 22 integration extensions', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+    process.env.GITHUB_TOKEN = 'test-github-token'
+    process.env.GITHUB_USER = 'test-user'
+    ;(axiosMock.isAxiosError as any) = (error: unknown) => Boolean((error as any)?.isAxiosError)
+  })
+
+  // ── malformed webhook payload (response without expected shape) ───────
+  describe('getContributionCalendar — malformed response payload', () => {
+    it('falls back to stale cache when API response is missing user.contributionsCollection', async () => {
+      const stale = makeResponse().data.data
+      redisMock.get.mockResolvedValueOnce(
+        JSON.stringify({
+          fetchedAt: Date.now() - (GithubService.CACHE_TTL_SECONDS + 300) * 1000,
+          data: stale,
+        })
+      )
+
+      // API returns a malformed response that throws during normalization
+      axiosMock.post.mockResolvedValueOnce({
+        data: { data: { user: null } },
+      })
+
+      // normalizeContributionCalendar will throw accessing .contributionsCollection on null
+      // service catches upstream error and returns stale cache
+      const result = await GithubService.getContributionCalendar()
+      expect(result).toEqual(stale)
+    })
+
+    it('throws when API returns malformed data and no stale cache exists', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+
+      // Axios response missing the .data.data.user path causes TypeError
+      axiosMock.post.mockResolvedValueOnce({
+        data: { data: null },
+      })
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow()
+    })
+  })
+
+  // ── signature mismatch / missing required fields (GITHUB_TOKEN absent) ─
+  describe('getContributionCalendar — missing required configuration', () => {
+    it('throws GITHUB_TOKEN is required when env var is an empty string', async () => {
+      process.env.GITHUB_TOKEN = '   '
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_TOKEN is required')
+    })
+
+    it('throws GITHUB_USER is required when env var is an empty string', async () => {
+      process.env.GITHUB_USER = '   '
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_USER is required')
+    })
+  })
+
+  // ── API rate limit response handled ──────────────────────────────────
+  describe('getContributionCalendar — rate limit response handling', () => {
+    it('maps 429 rate limit after retry exhaustion to GITHUB_RATE_LIMITED', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      axiosMock.post
+        .mockRejectedValueOnce(makeAxiosError(429))
+        .mockRejectedValueOnce(makeAxiosError(429))
+
+      await expect(GithubService.getContributionCalendar()).rejects.toThrow('GITHUB_RATE_LIMITED')
+      expect(axiosMock.post).toHaveBeenCalledTimes(2) // initial + 1 retry
+    })
+
+    it('falls back to stale cache on 429 when stale data exists', async () => {
+      const stale = makeResponse().data.data
+      redisMock.get.mockResolvedValueOnce(
+        JSON.stringify({
+          fetchedAt: Date.now() - (GithubService.CACHE_TTL_SECONDS + 300) * 1000,
+          data: stale,
+        })
+      )
+      axiosMock.post
+        .mockRejectedValueOnce(makeAxiosError(429))
+        .mockRejectedValueOnce(makeAxiosError(429))
+
+      const result = await GithubService.getContributionCalendar()
+      expect(result).toEqual(stale)
     })
   })
 })

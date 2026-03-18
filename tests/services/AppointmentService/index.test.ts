@@ -246,3 +246,153 @@ describe('AppointmentService', () => {
     })
   })
 })
+
+// ── Phase 18: Appointment consistency extensions ───────────────────────────
+
+describe('AppointmentService — Phase 18 consistency', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+
+    prismaMock.$transaction.mockImplementation(async (arg: any) => {
+      if (typeof arg === 'function') {
+        return arg({
+          appointment: {
+            create: prismaMock.appointment.create,
+            update: prismaMock.appointment.update,
+          },
+        })
+      }
+      return Promise.all(arg)
+    })
+  })
+
+  // ── bookAppointment: slot already at capacity = 0 ─────────────────────
+  describe('bookAppointment — capacity = 0 slot', () => {
+    it('rejects when slot has capacity = 0', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      redisMock.del.mockResolvedValue(1)
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(
+        makeAppointment({ status: 'PENDING', startTime: new Date('2027-06-01T10:00:00Z') })
+      )
+      slotServiceMock.getSlot.mockResolvedValueOnce(makeSlot(0))
+
+      await expect(AppointmentService.bookAppointment('apt-1')).rejects.toThrow(
+        'No available capacity'
+      )
+
+      expect(prismaMock.appointment.update).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── bookAppointment: slot is already taken (BOOKED status guard) ──────
+  describe('bookAppointment — slot already taken', () => {
+    it('throws conflict error when appointment is already BOOKED', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      redisMock.del.mockResolvedValue(1)
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(
+        makeAppointment({ status: 'BOOKED' })
+      )
+
+      await expect(AppointmentService.bookAppointment('apt-1')).rejects.toThrow('Already booked')
+
+      expect(slotServiceMock.getSlot).not.toHaveBeenCalled()
+      expect(prismaMock.appointment.update).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── bookAppointment then cancelAppointment: slot capacity restored ─────
+  describe('bookAppointment then cancelAppointment — slot restoration', () => {
+    it('slot becomes available again after cancel following a book', async () => {
+      const appointment = makeAppointment({ status: 'PENDING', startTime: new Date('2027-06-01T10:00:00Z') })
+      const slot = makeSlot(1)
+
+      // --- book path ---
+      redisMock.set.mockResolvedValueOnce('OK') // book lock acquired
+      redisMock.del.mockResolvedValue(1)
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(appointment)
+      slotServiceMock.getSlot.mockResolvedValueOnce(slot)
+      prismaMock.appointment.update.mockResolvedValueOnce({ ...appointment, status: 'BOOKED' })
+      slotServiceMock.updateSlot.mockResolvedValueOnce({ ...slot, capacity: 0 })
+
+      const booked = await AppointmentService.bookAppointment('apt-1')
+      expect(booked.status).toBe('BOOKED')
+
+      // verify capacity was decremented
+      expect(slotServiceMock.updateSlot).toHaveBeenCalledWith(
+        expect.objectContaining({ capacity: 0 })
+      )
+
+      // --- cancel path ---
+      redisMock.set.mockResolvedValueOnce('OK') // cancel lock acquired
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(
+        makeAppointment({ status: 'BOOKED', startTime: new Date('2027-06-01T10:00:00Z') })
+      )
+      const zeroCapacitySlot = { ...slot, capacity: 0 }
+      slotServiceMock.getSlot.mockResolvedValueOnce(zeroCapacitySlot)
+      prismaMock.appointment.update.mockResolvedValueOnce({ ...appointment, status: 'CANCELLED' })
+      slotServiceMock.updateSlot.mockResolvedValueOnce({ ...zeroCapacitySlot, capacity: 1 })
+
+      const cancelled = await AppointmentService.cancelAppointment('apt-1')
+      expect(cancelled.status).toBe('CANCELLED')
+
+      // capacity restored to 1
+      expect(slotServiceMock.updateSlot).toHaveBeenLastCalledWith(
+        expect.objectContaining({ capacity: 1 })
+      )
+    })
+  })
+
+  // ── double booking race condition ─────────────────────────────────────
+  describe('bookAppointment — double booking race condition', () => {
+    it('second concurrent booking attempt fails because lock is held', async () => {
+      const appointment = makeAppointment({ status: 'PENDING', startTime: new Date('2027-06-01T10:00:00Z') })
+      const slot = makeSlot(1)
+
+      // First attempt acquires lock, second does not
+      redisMock.set
+        .mockResolvedValueOnce('OK')   // first booking: lock acquired
+        .mockResolvedValueOnce(null)   // second booking: lock already held
+
+      redisMock.del.mockResolvedValue(1)
+      prismaMock.appointment.findUnique.mockResolvedValue(appointment)
+      slotServiceMock.getSlot.mockResolvedValue(slot)
+      prismaMock.appointment.update.mockResolvedValue({ ...appointment, status: 'BOOKED' })
+      slotServiceMock.updateSlot.mockResolvedValue({ ...slot, capacity: 0 })
+
+      const [first, second] = await Promise.allSettled([
+        AppointmentService.bookAppointment('apt-1'),
+        AppointmentService.bookAppointment('apt-1'),
+      ])
+
+      const fulfilled = [first, second].filter((r) => r.status === 'fulfilled')
+      const rejected = [first, second].filter((r) => r.status === 'rejected')
+
+      expect(fulfilled).toHaveLength(1)
+      expect(rejected).toHaveLength(1)
+      expect((rejected[0] as PromiseRejectedResult).reason.message).toBe(
+        'Booking operation already in progress'
+      )
+    })
+  })
+
+  // ── transaction rollback: DB failure during booking ───────────────────
+  describe('bookAppointment — transaction rollback on DB failure', () => {
+    it('propagates error and leaves no partial state when transaction throws', async () => {
+      const appointment = makeAppointment({ status: 'PENDING', startTime: new Date('2027-06-01T10:00:00Z') })
+      const slot = makeSlot(1)
+
+      redisMock.set.mockResolvedValueOnce('OK')
+      redisMock.del.mockResolvedValue(1)
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(appointment)
+      slotServiceMock.getSlot.mockResolvedValueOnce(slot)
+
+      // Transaction fails
+      prismaMock.$transaction.mockRejectedValueOnce(new Error('DB connection lost'))
+
+      await expect(AppointmentService.bookAppointment('apt-1')).rejects.toThrow('DB connection lost')
+
+      // Lock should have been released even on failure
+      expect(redisMock.del).toHaveBeenCalled()
+    })
+  })
+})

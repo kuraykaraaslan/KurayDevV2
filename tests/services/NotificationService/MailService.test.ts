@@ -179,3 +179,108 @@ describe('MailService', () => {
     })
   })
 })
+
+// ── Phase 20: Notification extensions ────────────────────────────────────
+
+describe('MailService — Phase 20 notification extensions', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  // ── sendMail: invalid email address ──────────────────────────────────
+  describe('sendMail — invalid email address', () => {
+    it('silently swallows queue error when QUEUE.add rejects (bad email passed downstream)', async () => {
+      // sendMail catches errors internally and logs them without re-throwing
+      ;(MailService.QUEUE.add as jest.Mock).mockRejectedValueOnce(new Error('Invalid recipient'))
+
+      await expect(
+        MailService.sendMail('not-an-email', 'Test', '<p>body</p>')
+      ).resolves.not.toThrow()
+    })
+  })
+
+  // ── sendMail: empty template fallback / error ─────────────────────────
+  describe('sendMail — empty template', () => {
+    it('queues mail even when html body is empty string', async () => {
+      // Restore all spies so that sendMail calls through to the real QUEUE.add mock
+      // (earlier tests spy on sendMail itself, preventing QUEUE.add from being reached)
+      jest.restoreAllMocks()
+
+      const queueAddSpy = jest
+        .spyOn(MailService.QUEUE, 'add')
+        .mockResolvedValueOnce({} as any)
+
+      await MailService.sendMail('user@example.com', 'Subject', '')
+
+      expect(queueAddSpy).toHaveBeenCalledWith(
+        'sendMail',
+        expect.objectContaining({ to: 'user@example.com', html: '' })
+      )
+
+      queueAddSpy.mockRestore()
+    })
+  })
+
+  // ── _sendMail: provider failure propagation ───────────────────────────
+  describe('_sendMail — provider failure', () => {
+    it('does not re-throw transporter failure (error is logged internally)', async () => {
+      const transporterSendMail = MailService.transporter.sendMail as jest.Mock
+      transporterSendMail.mockRejectedValueOnce(new Error('Provider SMTP error'))
+
+      await expect(
+        MailService._sendMail('user@example.com', 'Subject', '<p>html</p>')
+      ).resolves.not.toThrow()
+    })
+
+    it('calls transporter exactly once per _sendMail invocation', async () => {
+      const transporterSendMail = MailService.transporter.sendMail as jest.Mock
+      transporterSendMail.mockRejectedValueOnce(new Error('Failure'))
+
+      await MailService._sendMail('user@example.com', 'S', '<p>x</p>')
+
+      expect(transporterSendMail).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  // ── sendCampaignEmail: null / undefined recipient handling ────────────
+  describe('sendCampaignEmail — null/undefined recipient', () => {
+    it('throws SUBJECT_REQUIRED before reaching sendMail when subject is null-like', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+
+      await expect(
+        MailService.sendCampaignEmail('r@example.com', null as any, '<p>x</p>', 'tok')
+      ).rejects.toThrow(CampaignMessages.SUBJECT_REQUIRED)
+
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('throws CONTENT_REQUIRED before reaching sendMail when content is null-like', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+
+      await expect(
+        MailService.sendCampaignEmail('r@example.com', 'Sub', null as any, 'tok')
+      ).rejects.toThrow(CampaignMessages.CONTENT_REQUIRED)
+
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('throws UNSUBSCRIBE_TOKEN_REQUIRED when token is null-like', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+
+      await expect(
+        MailService.sendCampaignEmail('r@example.com', 'Sub', '<p>x</p>', null as any)
+      ).rejects.toThrow(CampaignMessages.UNSUBSCRIBE_TOKEN_REQUIRED)
+
+      expect(spy).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── renderTemplate: ejs failure propagates ────────────────────────────
+  describe('renderTemplate — ejs failure', () => {
+    it('propagates error thrown by ejs.renderFile', async () => {
+      ;(ejsMock.renderFile as jest.Mock).mockRejectedValueOnce(new Error('Template not found'))
+
+      await expect(
+        MailService.renderTemplate('nonexistent.ejs', {})
+      ).rejects.toThrow('Template not found')
+    })
+  })
+})

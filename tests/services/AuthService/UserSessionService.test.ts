@@ -502,3 +502,114 @@ describe('UserSessionService', () => {
     })
   })
 })
+
+// ── Phase 17: UserSessionService multi-session and security tests ─────────────
+
+describe('UserSessionService — multi-session: create two, destroy one, other remains', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('destroyOtherSessions removes sessions for other userId but not current', async () => {
+    const currentSession = {
+      userSessionId: 'session-current',
+      userId: 'user-1',
+      otpVerifyNeeded: false,
+      sessionExpiry: new Date(Date.now() + 3_600_000),
+    }
+
+    prismaMock.userSession.deleteMany.mockResolvedValueOnce({ count: 1 })
+    redisMock.keys.mockResolvedValueOnce([])
+
+    await UserSessionService.destroyOtherSessions(currentSession)
+
+    expect(prismaMock.userSession.deleteMany).toHaveBeenCalledWith({
+      where: {
+        userId: 'user-1',
+        userSessionId: { not: 'session-current' },
+      },
+    })
+  })
+
+  it('destroyOtherSessions does not delete the current session', async () => {
+    const currentSession = {
+      userSessionId: 'session-keep',
+      userId: 'user-1',
+      otpVerifyNeeded: false,
+      sessionExpiry: new Date(Date.now() + 3_600_000),
+    }
+
+    prismaMock.userSession.deleteMany.mockResolvedValueOnce({ count: 2 })
+    redisMock.keys.mockResolvedValueOnce([])
+
+    await UserSessionService.destroyOtherSessions(currentSession)
+
+    const deleteCall = prismaMock.userSession.deleteMany.mock.calls[0][0]
+    // Must exclude the current session ID
+    expect(deleteCall.where.userSessionId).toEqual({ not: 'session-keep' })
+    // Must be scoped to this user
+    expect(deleteCall.where.userId).toBe('user-1')
+  })
+
+  it('getActiveSessions returns both sessions when two are active', async () => {
+    const session1 = { ...mockDbSession, userSessionId: 'session-1' }
+    const session2 = { ...mockDbSession, userSessionId: 'session-2', createdAt: new Date(Date.now() - 1000) }
+    prismaMock.userSession.findMany.mockResolvedValueOnce([session1, session2] as any)
+
+    const result = await UserSessionService.getActiveSessions('user-1')
+    expect(result).toHaveLength(2)
+    expect(result.map((s: any) => s.userSessionId)).toContain('session-1')
+    expect(result.map((s: any) => s.userSessionId)).toContain('session-2')
+  })
+
+  it('deleteSession for one session leaves the other session in DB (by scoping to userId+sessionId)', async () => {
+    prismaMock.userSession.deleteMany.mockResolvedValueOnce({ count: 1 })
+    redisMock.keys.mockResolvedValueOnce([])
+
+    await UserSessionService.deleteSession({ userSessionId: 'session-1', userId: 'user-1' })
+
+    expect(prismaMock.userSession.deleteMany).toHaveBeenCalledWith({
+      where: { userSessionId: 'session-1', userId: 'user-1' },
+    })
+    // session-2 is NOT in the deleteMany where clause — it remains untouched
+    expect(prismaMock.userSession.deleteMany).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('UserSessionService — session with wrong userId check', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('throws SESSION_NOT_FOUND when session userId does not match token userId', async () => {
+    tokenMock.verifyAccessToken.mockResolvedValue({ userId: 'user-1' })
+    redisMock.get.mockResolvedValueOnce(null)
+
+    // Session belongs to a different user
+    prismaMock.userSession.findFirst.mockResolvedValueOnce({
+      ...mockDbSession,
+      userId: 'other-user',
+    } as any)
+
+    await expect(
+      UserSessionService.getSessionDangerously({ accessToken: 'tok', request: makeRequest() })
+    ).rejects.toThrow(AuthMessages.SESSION_NOT_FOUND)
+  })
+
+  it('deleteSession throws SESSION_NOT_FOUND when userId does not match session owner', async () => {
+    prismaMock.userSession.deleteMany.mockResolvedValueOnce({ count: 0 })
+
+    await expect(
+      UserSessionService.deleteSession({ userSessionId: 'session-1', userId: 'wrong-user-id' })
+    ).rejects.toThrow(AuthMessages.SESSION_NOT_FOUND)
+  })
+
+  it('admin deletion bypasses userId check', async () => {
+    prismaMock.userSession.deleteMany.mockResolvedValueOnce({ count: 1 })
+    redisMock.keys.mockResolvedValueOnce([])
+
+    await expect(
+      UserSessionService.deleteSession({ userSessionId: 'session-1', userId: 'any-user', isAdmin: true })
+    ).resolves.toBeUndefined()
+
+    expect(prismaMock.userSession.deleteMany).toHaveBeenCalledWith({
+      where: { userSessionId: 'session-1' },
+    })
+  })
+})

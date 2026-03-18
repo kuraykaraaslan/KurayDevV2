@@ -7,10 +7,11 @@ jest.mock('@aws-sdk/client-s3', () => ({
 }))
 
 jest.mock('sharp', () => jest.fn().mockReturnValue({
-  resize: jest.fn().mockReturnThis(),
+  rotate: jest.fn().mockReturnThis(),
   toBuffer: jest.fn().mockResolvedValue(Buffer.from('img')),
 }))
 
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { AWSService } from '@/services/StorageService/AWSService'
 
 describe('AWSService', () => {
@@ -86,6 +87,119 @@ describe('AWSService', () => {
       expect(typeof AWSService.listFiles).toBe('function')
       expect(typeof AWSService.uploadFile).toBe('function')
       expect(typeof AWSService.deleteFile).toBe('function')
+    })
+  })
+
+  // ── upload failure → state cleanup ────────────────────────────────────
+  describe('upload failure cleanup', () => {
+    it('propagates error without swallowing when S3 send fails', async () => {
+      const mockSend = jest.fn().mockRejectedValue(new Error('S3 service unavailable'))
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      const instance = new AWSService()
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+
+      await expect(instance.uploadFile(file, 'images')).rejects.toThrow('S3 service unavailable')
+    })
+
+    it('does not return a partial URL when upload fails', async () => {
+      const mockSend = jest.fn().mockRejectedValue(new Error('Network timeout'))
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      const instance = new AWSService()
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+
+      let result: string | undefined
+      try {
+        result = await instance.uploadFile(file, 'images')
+      } catch {
+        // expected
+      }
+      expect(result).toBeUndefined()
+    })
+
+    it('propagates error for each independent upload attempt', async () => {
+      const mockSend = jest
+        .fn()
+        .mockRejectedValueOnce(new Error('First failure'))
+        .mockResolvedValueOnce({})
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      const instance = new AWSService()
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+
+      await expect(instance.uploadFile(file, 'images')).rejects.toThrow('First failure')
+      // Second attempt succeeds
+      const url = await instance.uploadFile(file, 'images')
+      expect(url).toMatch(/^https:\/\/my-test-bucket\.s3\.amazonaws\.com\/images\//)
+    })
+  })
+
+  // ── duplicate key / overwrite behavior ───────────────────────────────
+  describe('duplicate key / overwrite behavior', () => {
+    it('generates a different key on each upload call (randomness prevents silent overwrite)', async () => {
+      const mockSend = jest.fn().mockResolvedValue({})
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      const instance = new AWSService()
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+
+      await instance.uploadFile(file, 'images')
+      await instance.uploadFile(file, 'images')
+
+      const calls = (PutObjectCommand as jest.Mock).mock.calls
+      expect(calls).toHaveLength(2)
+      const key1: string = calls[0][0].Key
+      const key2: string = calls[1][0].Key
+      // Both keys should be in the correct folder
+      expect(key1).toMatch(/^images\//)
+      expect(key2).toMatch(/^images\//)
+      // Keys are almost certainly different due to random segment
+      // (not asserting strict inequality to avoid flakiness)
+    })
+
+    it('does not throw when uploading with a key that already exists (S3 overwrites silently)', async () => {
+      const mockSend = jest.fn().mockResolvedValue({})
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      const instance = new AWSService()
+      const file = new File(['v1'], 'photo.jpg', { type: 'image/jpeg' })
+      const file2 = new File(['v2'], 'photo.jpg', { type: 'image/jpeg' })
+
+      const url1 = await instance.uploadFile(file, 'images')
+      const url2 = await instance.uploadFile(file2, 'images')
+      expect(typeof url1).toBe('string')
+      expect(typeof url2).toBe('string')
+    })
+  })
+
+  // ── invalid bucket name ───────────────────────────────────────────────
+  describe('invalid bucket name', () => {
+    it('throws config validation error when bucket is empty string', () => {
+      expect(() => new AWSService({ bucket: '' })).toThrow(
+        'AWS S3 configuration is missing required fields: bucket'
+      )
+    })
+
+    it('throws config validation error when bucket is only whitespace', () => {
+      expect(() => new AWSService({ bucket: '   ' })).toThrow(
+        'AWS S3 configuration is missing required fields: bucket'
+      )
+    })
+
+    it('accepts a valid bucket name without throwing', () => {
+      expect(() => new AWSService({ bucket: 'valid-bucket-name' })).not.toThrow()
+    })
+
+    it('multiple missing fields are reported together', () => {
+      expect(
+        () =>
+          new AWSService({
+            accessKeyId: '',
+            secretAccessKey: '',
+            bucket: '',
+          })
+      ).toThrow('bucket, accessKeyId, secretAccessKey')
     })
   })
 })

@@ -123,3 +123,93 @@ describe('SMSService', () => {
     })
   })
 })
+
+// ── Phase 20: SMSService notification extensions ──────────────────────────
+
+describe('SMSService — Phase 20 notification extensions', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  // ── send to invalid phone number ─────────────────────────────────────
+  describe('_sendShortMessage — invalid phone number', () => {
+    it('returns early without calling any provider when phone number is unparseable', async () => {
+      ;(SMSService as any).ALLOWED_COUNTRIES = undefined
+      const providerSpy = jest.spyOn(SMSService.DEFAULT_PROVIDER, 'sendShortMessage')
+
+      await SMSService._sendShortMessage({ to: 'not-a-phone', body: 'test' })
+
+      expect(providerSpy).not.toHaveBeenCalled()
+    })
+
+    it('returns early without calling any provider for an empty phone string', async () => {
+      const providerSpy = jest.spyOn(SMSService.DEFAULT_PROVIDER, 'sendShortMessage')
+
+      await SMSService._sendShortMessage({ to: '   ', body: 'hello' })
+
+      expect(providerSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── SMS with empty message body ───────────────────────────────────────
+  describe('sendShortMessage — empty message body', () => {
+    it('does not queue when body is an empty string', async () => {
+      await SMSService.sendShortMessage({ to: '+905551234567', body: '' })
+      expect(SMSService.QUEUE.add).not.toHaveBeenCalled()
+    })
+
+    it('does not queue when body is only whitespace', async () => {
+      await SMSService.sendShortMessage({ to: '+905551234567', body: '   ' })
+      expect(SMSService.QUEUE.add).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── provider failure: no fallback (single provider per region) ────────
+  describe('_sendShortMessage — provider failure', () => {
+    it('propagates synchronous provider error up the call stack when provider throws', async () => {
+      ;(SMSService as any).ALLOWED_COUNTRIES = undefined
+
+      // service.sendShortMessage is called without await — a synchronous throw propagates
+      jest
+        .spyOn(SMSService.DEFAULT_PROVIDER, 'sendShortMessage')
+        .mockImplementationOnce(() => { throw new Error('Provider unavailable') })
+
+      await expect(
+        SMSService._sendShortMessage({ to: '+33123456789', body: 'hello' })
+      ).rejects.toThrow('Provider unavailable')
+    })
+  })
+
+  // ── retry logic: first attempt fails, second succeeds ─────────────────
+  describe('sendShortMessage — retry via re-queue', () => {
+    it('queues message successfully after rate limit window clears (simulated retry)', async () => {
+      // First call — rate limit not set, message queued
+      redisMock.get.mockResolvedValueOnce(null)
+      redisMock.set.mockResolvedValue('OK')
+
+      await SMSService.sendShortMessage({ to: '+905551234567', body: 'first' })
+      expect(SMSService.QUEUE.add).toHaveBeenCalledTimes(1)
+
+      // Simulate rate limit window expiring: get returns null again
+      jest.clearAllMocks()
+      redisMock.get.mockResolvedValueOnce(null)
+      redisMock.set.mockResolvedValue('OK')
+
+      await SMSService.sendShortMessage({ to: '+905551234567', body: 'retry' })
+      expect(SMSService.QUEUE.add).toHaveBeenCalledTimes(1)
+    })
+
+    it('blocks second queue attempt within rate limit window', async () => {
+      redisMock.get.mockResolvedValueOnce('1') // rate-limited
+      await SMSService.sendShortMessage({ to: '+905551234567', body: 'blocked' })
+      expect(SMSService.QUEUE.add).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── getCountryCode: boundary cases ───────────────────────────────────
+  describe('getCountryCode — boundary cases', () => {
+    it('returns null for a number with only country code and no local part', () => {
+      // "+1" alone has no valid national number
+      const result = SMSService.getCountryCode('+1')
+      expect(result).toBeNull()
+    })
+  })
+})

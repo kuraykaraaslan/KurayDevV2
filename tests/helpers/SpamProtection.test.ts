@@ -114,3 +114,106 @@ describe('SpamProtection', () => {
     })
   })
 })
+
+// ── Phase 27 boundary / edge-case additions ───────────────────────────────────
+
+describe('SpamProtection – Phase 27 edge cases', () => {
+  // ── hasSpamPatterns: threshold boundary ───────────────────────────────
+  describe('hasSpamPatterns – threshold boundary', () => {
+    it('returns false for 10 repeated characters (just under threshold)', () => {
+      // Pattern requires 11+ repetitions (/(.)\1{10,}/ matches 11+ of same char)
+      expect(hasSpamPatterns('aaaaaaaaaa')).toBe(false)
+    })
+
+    it('returns true for exactly 11 repeated characters (at threshold)', () => {
+      expect(hasSpamPatterns('aaaaaaaaaaa')).toBe(true)
+    })
+
+    it('returns true for 20 repeated characters (above threshold)', () => {
+      expect(hasSpamPatterns('aaaaaaaaaaaaaaaaaaaa')).toBe(true)
+    })
+  })
+
+  // ── hasSpamPatterns: repeated character spam ──────────────────────────
+  describe('hasSpamPatterns – repeated characters', () => {
+    it('detects repeated-digit spam', () => {
+      expect(hasSpamPatterns('11111111111')).toBe(true)
+    })
+
+    it('detects repeated special-character spam', () => {
+      expect(hasSpamPatterns('!!!!!!!!!!!!')).toBe(true)
+    })
+
+    it('does not flag a word with no repetition', () => {
+      expect(hasSpamPatterns('abcdefghij')).toBe(false)
+    })
+  })
+
+  // ── hasSpamPatterns: empty content ────────────────────────────────────
+  describe('hasSpamPatterns – empty and minimal content', () => {
+    it('returns false for empty string', () => {
+      expect(hasSpamPatterns('')).toBe(false)
+    })
+
+    it('returns false for a single character', () => {
+      expect(hasSpamPatterns('a')).toBe(false)
+    })
+
+    it('returns false for whitespace-only string', () => {
+      expect(hasSpamPatterns('   ')).toBe(false)
+    })
+  })
+
+  // ── hasSpamPatterns: exactly 2 URLs ───────────────────────────────────
+  describe('hasSpamPatterns – URL count boundary', () => {
+    it('returns false for exactly 2 URLs', () => {
+      expect(hasSpamPatterns('See http://a.com and http://b.com for details')).toBe(false)
+    })
+
+    it('returns true for exactly 3 URLs', () => {
+      expect(hasSpamPatterns('http://a.com http://b.com http://c.com')).toBe(true)
+    })
+  })
+
+  // ── isHoneypotFilled: single-space boundary ───────────────────────────
+  describe('isHoneypotFilled – whitespace boundary', () => {
+    it('returns false for a single space', () => {
+      expect(isHoneypotFilled(' ')).toBe(false)
+    })
+
+    it('returns false for tab character only', () => {
+      expect(isHoneypotFilled('\t')).toBe(false)
+    })
+
+    it('returns true for value containing at least one non-whitespace character', () => {
+      expect(isHoneypotFilled(' x ')).toBe(true)
+    })
+  })
+
+  // ── isSubmittedTooQuickly: boundary around MIN_FORM_FILL_TIME_MS ──────
+  describe('isSubmittedTooQuickly – exact boundary', () => {
+    it('returns false when time taken equals MIN_FORM_FILL_TIME_MS exactly', () => {
+      // Date.now() - (Date.now() - MIN_FORM_FILL_TIME_MS) === MIN_FORM_FILL_TIME_MS
+      // which is NOT < MIN_FORM_FILL_TIME_MS → should return false
+      const exactBoundary = Date.now() - MIN_FORM_FILL_TIME_MS
+      expect(isSubmittedTooQuickly(exactBoundary)).toBe(false)
+    })
+
+    it('returns true when one millisecond under the limit', () => {
+      const oneUnder = Date.now() - (MIN_FORM_FILL_TIME_MS - 1)
+      expect(isSubmittedTooQuickly(oneUnder)).toBe(true)
+    })
+  })
+
+  // ── checkForSpam: empty message ───────────────────────────────────────
+  describe('checkForSpam – empty message', () => {
+    it('returns isSpam=false for an empty message (no patterns match)', () => {
+      const result = checkForSpam({
+        honeypot: '',
+        formLoadTime: Date.now() - 10_000,
+        message: '',
+      })
+      expect(result.isSpam).toBe(false)
+    })
+  })
+})

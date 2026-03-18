@@ -323,3 +323,158 @@ describe('CommentService.markCommentAsSpam', () => {
     )
   })
 })
+
+// ── Phase 23 additions ────────────────────────────────────────────────────────
+
+describe('CommentService.createComment – missing / invalid post guards', () => {
+  it('throws when postId is empty (treated as a required field)', async () => {
+    await expect(
+      CommentService.createComment({ ...validCommentData, postId: '' } as any),
+    ).rejects.toThrow('All fields are required.')
+  })
+
+  it('does not create a comment when duplicate content already exists for a different post', async () => {
+    // Duplicate check is content-only, so the same text on a different post is blocked
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      postId: 'post-999',
+    })
+
+    await expect(
+      CommentService.createComment({ ...validCommentData, postId: 'post-2' } as any),
+    ).rejects.toThrow('Comment with the same content already exists.')
+    expect(prismaMock.comment.create).not.toHaveBeenCalled()
+  })
+})
+
+describe('CommentService.createComment – banned / invalid author', () => {
+  it('throws on malformed email (invalid format)', async () => {
+    await expect(
+      CommentService.createComment({ ...validCommentData, email: 'bad-email' } as any),
+    ).rejects.toThrow('Invalid email.')
+  })
+
+  it('throws on email that is just whitespace', async () => {
+    await expect(
+      CommentService.createComment({ ...validCommentData, email: '   ' } as any),
+    ).rejects.toThrow('Invalid email.')
+  })
+
+  it('throws on missing name field (required)', async () => {
+    await expect(
+      CommentService.createComment({ ...validCommentData, name: '' } as any),
+    ).rejects.toThrow('All fields are required.')
+  })
+})
+
+describe('CommentService – status transitions', () => {
+  it('PENDING → PUBLISHED: approveComment sets status to PUBLISHED', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'NOT_PUBLISHED',
+    })
+    ;(prismaMock.comment.update as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'PUBLISHED',
+    })
+
+    const result = await CommentService.approveComment('c-1')
+    expect(result.status).toBe('PUBLISHED')
+    expect(prismaMock.comment.update).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { status: 'PUBLISHED' } }),
+    )
+  })
+
+  it('PUBLISHED → SPAM: markCommentAsSpam transitions from PUBLISHED to SPAM', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'PUBLISHED',
+    })
+    ;(prismaMock.comment.update as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    const result = await CommentService.markCommentAsSpam('c-1')
+    expect(result.status).toBe('SPAM')
+    expect(prismaMock.comment.update).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { status: 'SPAM' } }),
+    )
+  })
+
+  it('SPAM → PUBLISHED is blocked via approveComment', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    await expect(CommentService.approveComment('c-1')).rejects.toThrow(
+      'Spam comment cannot be published directly.',
+    )
+  })
+
+  it('SPAM → PUBLISHED is blocked via updateComment', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    await expect(
+      CommentService.updateComment(
+        { commentId: 'c-1', status: 'PUBLISHED' } as any,
+        { requesterRole: 'ADMIN' },
+      ),
+    ).rejects.toThrow('Spam comment cannot be published directly.')
+  })
+
+  it('approveComment is idempotent when comment is already PUBLISHED', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'PUBLISHED',
+    })
+
+    const result = await CommentService.approveComment('c-1')
+    expect(result.status).toBe('PUBLISHED')
+    // No DB write — already in the target state
+    expect(prismaMock.comment.update).not.toHaveBeenCalled()
+  })
+
+  it('markCommentAsSpam is idempotent when comment is already SPAM', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      status: 'SPAM',
+    })
+
+    const result = await CommentService.markCommentAsSpam('c-1')
+    expect(result.status).toBe('SPAM')
+    expect(prismaMock.comment.update).not.toHaveBeenCalled()
+  })
+})
+
+describe('CommentService – nested comment (parentId)', () => {
+  it('creates a reply by setting parentId on the comment', async () => {
+    const replyData = {
+      ...validCommentData,
+      parentId: 'c-1',
+    }
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(null)
+    ;(prismaMock.comment.create as jest.Mock).mockResolvedValue({
+      ...mockComment,
+      parentId: 'c-1',
+    })
+
+    const result = await CommentService.createComment(replyData as any)
+    expect(result.parentId).toBe('c-1')
+    expect(prismaMock.comment.create).toHaveBeenCalledWith(
+      expect.objectContaining({ data: expect.objectContaining({ parentId: 'c-1' }) }),
+    )
+  })
+
+  it('creates a top-level comment when parentId is null', async () => {
+    ;(prismaMock.comment.findFirst as jest.Mock).mockResolvedValue(null)
+    ;(prismaMock.comment.create as jest.Mock).mockResolvedValue(mockComment)
+
+    const result = await CommentService.createComment(validCommentData as any)
+    expect(result.parentId).toBeNull()
+  })
+})

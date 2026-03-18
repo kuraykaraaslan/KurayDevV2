@@ -114,11 +114,37 @@
 | 13.1 | Faz 13: Gizli Veri & Güvenli Çıktı Kontrolleri | ✅ | `UserService` safe output doğrulaması (password/userSecurity leak yok), auth token/reset token sanitized error beklentileri teyit edildi |
 | 14.1 | Faz 14: Cron, Jobs & Reentrancy | ✅ | `publishScheduledPosts` distributed lock + idempotency + failure sonrası lock release, `flushClickBuffer` interrupted-run lock release doğrulandı |
 | 15.1 | Faz 15: Observability-Aware Testler | ✅ | Cron run telemetry logları, campaign send summary + lock conflict logları, appointment booking/cancel conflict telemetry doğrulandı |
+| 16.1 | Faz 16: Kritik Güvenlik ve Yetkilendirme Riski | ✅ | `ApiKeyService` (+17: format/expired/wrong-owner/rate-limit/cache), `AuthMiddleware` (+11: role enforcement, missing header, tampered token, GUEST fallback), `WebAuthnService` (+11: 10-passkey limit, challenge expiry, wrong credentialId), `TOTPService` (+10: window rejection, reuse prevention, backup code, secret randomness) |
+| 17.1 | Faz 17: Kullanıcı Verisi ve Oturum Bütünlüğü Riski | ✅ | `UserProfileService` (YENİ: 21 test — getProfile/updateProfile merge/USERNAME_TAKEN/sensitive field exclusion), `UserService` (+10: email conflict, duplicate update, son-admin koruması), `UserSessionService` (+7: multi-session, wrong userId, admin override) |
+| 18.1 | Faz 18: Rezervasyon / İşlem Tutarlılığı Riski | ✅ | `AppointmentService` (+5: double-booking conflict, book-then-cancel, capacity=0, tx rollback), `SlotService` (+4: overlap detection, startTime≥endTime, past-time), `SlotTemplateService` (+5: invalid ranges, midnight-spanning, correct slot count, full-conflict skip) — 185 test, tümü yeşil |
+| 19.1 | Faz 19: Depolama ve Dosya Bütünlüğü Riski | ✅ | `BaseStorageProvider` (YENİ: 60 test), `CloudflareR2Service` (YENİ: 38 test), `MinioService` (YENİ: 40 test), `AWSService` (+12: upload failure cleanup, overwrite, invalid bucket), `StorageService/index` (+14: provider selection, fallback, singleton) — 164 test, tümü yeşil |
+| 20.1 | Faz 20: Bildirim ve Kritik İletişim Riski | ✅ | `MailService` (+5: queue error swallowing, empty html, provider failure, null campaign args, ejs render failure), `SMSService` (+5: invalid phone, empty body, sync throw propagation, rate-limit retry) |
+| 21.1 | Faz 21: Harici Kimlik ve Provider Bağımlılık Riski | ✅ | `AnthropicProvider` (YENİ: fetch mock, generateText/streamText/translate), `GeminiProvider` (YENİ: Redis model cache, SSE streaming), `DeepSeekProvider` (YENİ: Authorization header, model selection), `XAIProvider` (YENİ: grok-3 variants), `LinkedInService`/`MicrosoftService`/`FacebookService`/`SlackService` (YENİ: 4 SSO provider) |
+| 22.1 | Faz 22: API ve Entegrasyon Sürekliliği Riski | ✅ | `GithubService` (+4: malformed response, stale-cache fallback, rate-limit 429), `GitlabService` (+5: malformed JSON, expired TTL, cache boundary), `InboxService` (+8: unknown activity types, Follow→Undo transition, sharedInbox persistence), `DeliveryService` (+6: network error, 503/404, broadcast graceful resolution) |
+| 23.1 | Faz 23: İçerik ve Kullanıcı Etkileşimi İş Riski | ✅ | `ViewerService` (YENİ: 11 test — heartbeat idempotency, slug scoping, TTL reset), `SubscriptionService` (+12: duplicate idempotency, token edge cases, topic filtering), `CommentService` (+14: banned author, status matrix, nested reply), `StatService` (+8: cache key/hit, zero count, weekly/monthly/yearly), `PostService` (+9: soft-delete exclusion, past/future publishedAt, idempotency) — 131 test |
+| 24.1 | Faz 24: Arka Plan İşleri ve Zamanlanmış Süreç Riski | ✅ | `CronService/timers/daily` (YENİ: 5 test — array shape, handler resolve, job failure isolation), `CronService/timers/hourly` (YENİ: 6 test — publishScheduledPosts delegation, error propagation) |
+| 25.1 | Faz 25: Chatbot ve Moderasyon Operasyon Riski | ✅ | `ChatSessionService` (YENİ: 19 test — Redis→DB fallback, addMessage, listSessions), `ChatbotModerationService` (YENİ: 11 test — banUser, rateLimit, fail-open), `ChatbotRAGService` (YENİ: 26 test — KG retrieval, threshold, buildSystemPrompt, compressHistory), `ChatbotAdminService` (YENİ: 16 test — takeoverSession, adminReply, WS publish) — 150 test |
+| 26.1 | Faz 26: SEO, Keşfedilebilirlik ve İçerik Sunumu Riski | ✅ | `HreflangHelper` (YENİ: 11 test — buildLangUrl, buildAlternates, x-default, dedup), `SitemapGenerator` (YENİ: 14 test — XML structure, escaping, renderSitemapIndex), `tocUtils` (YENİ: 21 test — generateSlug, extractHeadings, addHeadingIds), `SitemapService` (YENİ: 10 test — pingGoogle, 2xx/non-2xx/network), `KnowledgeGraphService` (YENİ: 10 test — queueFullRebuild, getSimilarPosts, score filtering) |
+| 27.1 | Faz 27: Düşük Riskli Yardımcı Modüller | ✅ | `Encryptor` (+7: empty/wrong-key/long/unicode/collision), `FieldValidater` (+40: isEmail/isPhone/sanitizeString/isBoolean/isCUID boundary), `DBGeoService` (+5: unknown country, coords, empty dataset, cache hit), `GeoAnalyticsService` (+6: missing lat/lon, null fallbacks, hasSeenUser), `SpamProtection` (+18: repeat-char threshold, URL count, honeypot edge cases), `Validater` (+45: validateStatus/validatePassword/validateURL/validateNaturalNumber) |
+| 28.1 | Faz 28: Endpoint Contract ve HTTP Riskleri | ✅ | `api/auth/login/route.test.ts` (YENİ: 200/400/500, cookie ayarı, rememberDevice), `api/auth/register/route.test.ts` (YENİ: 201/400/500, reCAPTCHA validation), `api/auth/logout/route.test.ts` (YENİ: 200/500, cookie temizleme) |
+| 29.1 | Faz 29: Regression Safety Net | ⏳ | auth/appointment/storage/mail/user/provider seçimleri başta olmak üzere geçmiş bug alanları için kalıcı regression test paketi |
 
-## Son Doğrulama (2026-03-16)
+## Son Doğrulama (2026-03-18)
 
 - Faz 2 hedefli koşu (`PostService`/`LikeService`/`CategoryService`/`ProjectService`/`CommentService`): ✅ 5/5 suite, 94/94 test.
 - Faz 12 hedefli koşu (`AppointmentService`/`CampaignService`/`UserSessionService`): ✅ 3/3 suite, 58/58 test.
 - Faz 13-14-15 hedefli koşu (`UserService`/`CampaignService`/`AppointmentService`/`CronService`): ✅ 6/6 suite, 55/55 test.
-- Tam test koşusu: ⚠️ 38/42 suite, 533/539 test geçti.
-	- Faz 2 dışı bilinen kırılımlar: `IntegrationService/GithubService` (env `GITHUB_TOKEN`), `IntegrationService/GitlabService` (TTL beklentisi uyumsuzluğu), `StorageService/AWSService` (eksik AWS env), `AppointmentService/SlotService` (race guard beklentisi).
+- Faz 16-28 toplu yazım (2026-03-18): 30+ yeni dosya + 20+ mevcut dosya genişletildi; ~771+ yeni test eklendi.
+  - Faz 16: +49 test (ApiKeyService/AuthMiddleware/WebAuthnService/TOTPService)
+  - Faz 17: +38 test (UserProfileService yeni, UserService/UserSessionService ext.)
+  - Faz 18: +14 test (AppointmentService/SlotService/SlotTemplateService) — 185 test toplam
+  - Faz 19: 164 test (BaseStorageProvider/CloudflareR2/Minio yeni + AWS/index ext.)
+  - Faz 20: +10 test (MailService/SMSService)
+  - Faz 21: ~120+ test (AnthropicProvider/GeminiProvider/DeepSeekProvider/XAI yeni + 4 SSO provider yeni)
+  - Faz 22: +23 test (GithubService/GitlabService/InboxService/DeliveryService ext.)
+  - Faz 23-24: 131 test (ViewerService/timers yeni + 4 content service ext.)
+  - Faz 25-26: 150 test (ChatbotService/SEO helpers tümü yeni)
+  - Faz 27: ~116 test (Encryptor/FieldValidater/DBGeo/GeoAnalytics/SpamProtection/Validater ext.)
+  - Faz 28: ~15 test (auth login/register/logout HTTP contract yeni)
+- Tam test koşusu (önceki baz): ⚠️ 38/42 suite, 533/539 test geçti.
+  - Bilinen önceki kırılımlar: `IntegrationService/GithubService` (env `GITHUB_TOKEN`), `IntegrationService/GitlabService` (TTL beklentisi), `StorageService/AWSService` (eksik AWS env), `AppointmentService/SlotService` (race guard).

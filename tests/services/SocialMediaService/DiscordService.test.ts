@@ -20,10 +20,19 @@ describe('DiscordService', () => {
     })
 
     it('does not throw when axios.post fails (error caught internally)', async () => {
-      axiosMock.post.mockRejectedValueOnce(new Error('Discord unreachable'))
-      await expect(
-        DiscordService.sendWebhookMessage('Test message')
-      ).resolves.not.toThrow()
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+
+      try {
+        axiosMock.post.mockRejectedValueOnce(new Error('Discord unreachable'))
+
+        await expect(DiscordService.sendWebhookMessage('Test message')).resolves.not.toThrow()
+        expect(consoleErrorSpy).toHaveBeenCalledWith(
+          'Error sending Discord webhook:',
+          expect.any(Error)
+        )
+      } finally {
+        consoleErrorSpy.mockRestore()
+      }
     })
   })
 })

@@ -440,3 +440,171 @@ describe('PostService', () => {
     })
   })
 })
+
+// ── Phase 23 additions ────────────────────────────────────────────────────────
+
+describe('PostService – soft-deleted post is excluded from public queries', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('getAllPosts with no status filter excludes soft-deleted posts (deletedAt: null constraint)', async () => {
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+
+    await PostService.getAllPosts({ page: 0, pageSize: 10 })
+
+    const call = prismaMock.post.findMany.mock.calls[0][0]
+    // Public mode must filter out soft-deleted posts
+    expect(call.where.deletedAt).toEqual({ equals: null })
+  })
+
+  it('getPostById returns null for a soft-deleted post (prisma returns no match)', async () => {
+    // Simulate prisma returning null because the soft-deleted post was not found
+    // (actual filtering is at DB level via WHERE deletedAt IS NULL in prod;
+    //  here we confirm the service correctly propagates null)
+    prismaMock.post.findUnique.mockResolvedValueOnce(null)
+
+    const result = await PostService.getPostById('deleted-post-id')
+    expect(result).toBeNull()
+  })
+})
+
+describe('PostService – publish idempotency', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('updatePost with status=PUBLISHED on an already-published post succeeds without error', async () => {
+    prismaMock.post.findUnique.mockResolvedValueOnce({
+      postId: 'post-1',
+      authorId: 'owner-1',
+      deletedAt: null,
+    })
+    prismaMock.post.update.mockResolvedValueOnce({ ...mockPost, status: 'PUBLISHED' })
+    redisMock.del.mockResolvedValue(1)
+
+    await expect(
+      PostService.updatePost({
+        ...mockPost,
+        status: 'PUBLISHED',
+      } as any)
+    ).resolves.not.toThrow()
+
+    expect(prismaMock.post.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { postId: 'post-1' },
+        data: expect.objectContaining({ status: 'PUBLISHED' }),
+      })
+    )
+  })
+})
+
+describe('PostService – scheduled post with past publishedAt', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('sets status=PUBLISHED when publishedAt is in the past', async () => {
+    prismaMock.post.findFirst.mockResolvedValueOnce(null)
+    prismaMock.post.create.mockResolvedValueOnce({ ...mockPost, status: 'PUBLISHED' })
+    redisMock.del.mockResolvedValue(1)
+
+    const pastDate = new Date(Date.now() - 86_400_000).toISOString()
+    const data = {
+      title: 'Past Post',
+      content: 'x',
+      description: 'x',
+      slug: 'past-post',
+      keywords: ['k'],
+      authorId: 'a',
+      categoryId: 'c',
+      status: 'DRAFT',
+      publishedAt: pastDate,
+    } as any
+
+    await PostService.createPost(data)
+    // Service auto-sets status based on publishedAt comparison
+    expect(data.status).toBe('PUBLISHED')
+  })
+
+  it('sets status=SCHEDULED when publishedAt is in the future', async () => {
+    prismaMock.post.findFirst.mockResolvedValueOnce(null)
+    prismaMock.post.create.mockResolvedValueOnce({ ...mockPost, status: 'SCHEDULED' })
+    redisMock.del.mockResolvedValue(1)
+
+    const futureDate = new Date(Date.now() + 86_400_000).toISOString()
+    const data = {
+      title: 'Future Post 2',
+      content: 'x',
+      description: 'x',
+      slug: 'future-post-2',
+      keywords: ['k'],
+      authorId: 'a',
+      categoryId: 'c',
+      status: 'DRAFT',
+      publishedAt: futureDate,
+    } as any
+
+    await PostService.createPost(data)
+    expect(data.status).toBe('SCHEDULED')
+  })
+
+  it('leaves status unchanged when no publishedAt is provided', async () => {
+    prismaMock.post.findFirst.mockResolvedValueOnce(null)
+    prismaMock.post.create.mockResolvedValueOnce(mockPost)
+    redisMock.del.mockResolvedValue(1)
+
+    const data = {
+      title: 'No Date Post',
+      content: 'x',
+      description: 'x',
+      slug: 'no-date-post',
+      keywords: ['k'],
+      authorId: 'a',
+      categoryId: 'c',
+      status: 'DRAFT',
+    } as any
+
+    await PostService.createPost(data)
+    // No publishedAt — status should stay as set by caller
+    expect(data.status).toBe('DRAFT')
+  })
+})
+
+describe('PostService – updatePost on a soft-deleted post', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('throws when attempting to publish a soft-deleted post', async () => {
+    prismaMock.post.findUnique.mockResolvedValueOnce({
+      postId: 'post-1',
+      authorId: 'owner-1',
+      deletedAt: new Date('2025-01-01'),
+    })
+
+    await expect(
+      PostService.updatePost({
+        postId: 'post-1',
+        title: 'Updated',
+        content: 'x',
+        description: 'x',
+        slug: 'updated',
+        keywords: ['k'],
+        authorId: 'owner-1',
+        categoryId: 'c',
+        status: 'PUBLISHED',
+      } as any)
+    ).rejects.toThrow('Deleted post cannot be published.')
+  })
+
+  it('throws when post does not exist', async () => {
+    prismaMock.post.findUnique.mockResolvedValueOnce(null)
+
+    await expect(
+      PostService.updatePost({
+        postId: 'missing',
+        title: 'x',
+        content: 'x',
+        description: 'x',
+        slug: 'x',
+        keywords: ['k'],
+        authorId: 'a',
+        categoryId: 'c',
+        status: 'DRAFT',
+      } as any)
+    ).rejects.toThrow('Post not found.')
+  })
+})

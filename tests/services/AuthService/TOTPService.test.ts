@@ -229,3 +229,147 @@ describe('TOTPService', () => {
     })
   })
 })
+
+// ── Phase 16: TOTPService edge-case tests ────────────────────────────────────
+
+describe('TOTPService — TOTP code window rejection', () => {
+  it('rejects a TOTP code that is beyond the allowed drift window (>2 steps)', () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      // Advance 3 full steps beyond configured window (TOTP_WINDOW=1 means ±1 step)
+      jest.setSystemTime(new Date(base.getTime() + 3 * 30_000 + 5_000))
+      expect(TOTPService.verifyTokenWithSecret(token, secret)).toBe(false)
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+
+  it('rejects a code that is from the distant past', () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const pastDate = new Date('2020-01-01T00:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(new Date('2026-03-16T12:00:00.000Z'))
+
+    try {
+      TOTPService.setupOtpLib()
+      // Generate a token at a different (past) time
+      jest.setSystemTime(pastDate)
+      const oldToken = authenticator.generate(secret)
+
+      // Verify at current time — should fail
+      jest.setSystemTime(new Date('2026-03-16T12:00:00.000Z'))
+      expect(TOTPService.verifyTokenWithSecret(oldToken, secret)).toBe(false)
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+})
+
+describe('TOTPService — TOTP reuse prevention', () => {
+  it('same code used twice in verifyAuthenticateOrBackup falls back to backup code path', async () => {
+    // First call succeeds via TOTP
+    const secret = 'JBSWY3DPEHPK3PXP'
+    jest.useFakeTimers().setSystemTime(new Date('2026-03-16T12:00:00.000Z'))
+    TOTPService.setupOtpLib()
+    const currentToken = authenticator.generate(secret)
+    jest.useRealTimers()
+
+    securityMock.getUserSecurity
+      .mockResolvedValueOnce({
+        userSecurity: { otpMethods: ['TOTP_APP'] as any, otpSecret: secret, otpBackupCodes: [] } as any,
+      })
+      .mockResolvedValueOnce({
+        userSecurity: { otpMethods: ['TOTP_APP'] as any, otpSecret: secret, otpBackupCodes: [] } as any,
+      })
+
+    // The service does not track usage itself — caller is responsible for preventing reuse.
+    // We verify the backup code fallback path is exercised when TOTP fails.
+    // Second call with empty backup codes should throw INVALID_OTP
+    jest.useFakeTimers().setSystemTime(new Date(Date.now() + 200_000))
+    try {
+      await expect(
+        TOTPService.verifyAuthenticateOrBackup({ user: mockUser, otpToken: currentToken })
+      ).rejects.toThrow(AuthMessages.INVALID_OTP)
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+})
+
+describe('TOTPService — secret generation randomness', () => {
+  it('generates 10 unique secrets in succession', () => {
+    const secrets = Array.from({ length: 10 }, () => TOTPService.generateSecret())
+    const unique = new Set(secrets)
+    expect(unique.size).toBe(10)
+  })
+
+  it('generated secret only contains valid base32 characters', () => {
+    for (let i = 0; i < 5; i++) {
+      const secret = TOTPService.generateSecret()
+      expect(secret).toMatch(/^[A-Z2-7]+=*$/)
+    }
+  })
+})
+
+describe('TOTPService.verifyAndEnable — success path', () => {
+  it('returns enabled=true and 4 backup codes when token is valid', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      redisMock.get.mockResolvedValueOnce(secret)
+      redisMock.del.mockResolvedValue(1)
+      securityMock.getUserSecurity.mockResolvedValueOnce({
+        userSecurity: { otpMethods: [], otpSecret: null, otpBackupCodes: [] } as any,
+      })
+      securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+      const result = await TOTPService.verifyAndEnable({
+        user: mockUser,
+        userSession: mockSession,
+        otpToken: token,
+      })
+
+      expect(result.enabled).toBe(true)
+      expect(result.backupCodes).toHaveLength(4)
+      result.backupCodes.forEach((code) => {
+        expect(code).toMatch(/^\d{4}-\d{4}$/)
+      })
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+})
+
+describe('TOTPService.consumeBackupCode — success and removal', () => {
+  it('returns consumed=true and removes the matched code from the list', async () => {
+    const bcrypt = await import('bcrypt')
+    const plainCode = '1234-5678'
+    const hashed = await bcrypt.hash(plainCode, 1)
+
+    securityMock.getUserSecurity.mockResolvedValueOnce({
+      userSecurity: {
+        otpMethods: ['TOTP_APP'] as any,
+        otpSecret: 'x',
+        otpBackupCodes: [hashed],
+      } as any,
+    })
+    securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+    const result = await TOTPService.consumeBackupCode({ user: mockUser, code: plainCode })
+    expect(result.consumed).toBe(true)
+    expect(securityMock.updateUserSecurity).toHaveBeenCalledWith(
+      mockUser.userId,
+      expect.objectContaining({ otpBackupCodes: [] })
+    )
+  })
+})

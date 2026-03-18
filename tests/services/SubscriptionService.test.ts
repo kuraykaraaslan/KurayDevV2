@@ -155,3 +155,142 @@ describe('SubscriptionService', () => {
     })
   })
 })
+
+// ── Phase 23 additions ────────────────────────────────────────────────────────
+
+describe('SubscriptionService – duplicate subscription handling', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('does not create a new row when anonymous email is already active', async () => {
+    // Active subscription (no deletedAt) already exists
+    prismaMock.user.findUnique.mockResolvedValueOnce(null)
+    prismaMock.subscription.findFirst.mockResolvedValueOnce(mockSub) // active, deletedAt: null
+
+    const result = await SubscriptionService.createSubscription('anon@example.com')
+
+    expect(result.isRegisteredUser).toBe(false)
+    expect(prismaMock.subscription.create).not.toHaveBeenCalled()
+    expect(prismaMock.subscription.update).not.toHaveBeenCalled()
+  })
+
+  it('reactivates rather than creating a duplicate for a previously unsubscribed email', async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce(null)
+    prismaMock.subscription.findFirst.mockResolvedValueOnce({ ...mockSub, deletedAt: new Date() })
+    prismaMock.subscription.update.mockResolvedValueOnce({ ...mockSub, deletedAt: null })
+
+    const result = await SubscriptionService.createSubscription('anon@example.com')
+
+    expect(result.isRegisteredUser).toBe(false)
+    expect(prismaMock.subscription.update).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { deletedAt: null } })
+    )
+    expect(prismaMock.subscription.create).not.toHaveBeenCalled()
+  })
+
+  it('updates newsletter preference (not creates a row) for already-subscribed registered user', async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      userId: 'u-1',
+      userPreferences: { newsletter: true, newsletterTopics: { blogDigest: true } },
+    })
+    prismaMock.user.update.mockResolvedValueOnce({})
+
+    const result = await SubscriptionService.createSubscription('user@example.com')
+
+    expect(result.isRegisteredUser).toBe(true)
+    expect(prismaMock.subscription.create).not.toHaveBeenCalled()
+    // newsletter flag should remain true
+    expect(prismaMock.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          userPreferences: expect.objectContaining({ newsletter: true }),
+        }),
+      })
+    )
+  })
+})
+
+describe('SubscriptionService – getSubscriptionByToken edge cases', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('returns null when token does not match any subscription', async () => {
+    prismaMock.subscription.findFirst.mockResolvedValueOnce(null)
+
+    const result = await SubscriptionService.getSubscriptionByToken('nonexistent-token')
+    expect(result).toBeNull()
+  })
+
+  it('returns a soft-deleted subscription when token matches (service does not filter by deletedAt)', async () => {
+    const softDeleted = { ...mockSub, deletedAt: new Date() }
+    prismaMock.subscription.findFirst.mockResolvedValueOnce(softDeleted)
+
+    const result = await SubscriptionService.getSubscriptionByToken('token-abc')
+    // The method returns whatever prisma returns — callers must check deletedAt if needed
+    expect(result).not.toBeNull()
+    expect(result?.unsubscribeToken).toBe('token-abc')
+  })
+})
+
+describe('SubscriptionService – deleteSubscription idempotency', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('calling deleteSubscription on already-unsubscribed anonymous email returns null', async () => {
+    // Anonymous subscriber not found (already deleted or never existed)
+    prismaMock.user.findUnique.mockResolvedValueOnce(null)
+    prismaMock.subscription.findFirst.mockResolvedValueOnce(null)
+
+    const result = await SubscriptionService.deleteSubscription('gone@example.com')
+    expect(result).toBeNull()
+    expect(prismaMock.subscription.update).not.toHaveBeenCalled()
+  })
+
+  it('calling deleteSubscription twice for a registered user sets newsletter=false both times', async () => {
+    const userStub = { userId: 'u-2', userPreferences: { newsletter: false } }
+    prismaMock.user.findUnique
+      .mockResolvedValueOnce(userStub)
+      .mockResolvedValueOnce(userStub)
+    prismaMock.user.update.mockResolvedValue({})
+
+    await SubscriptionService.deleteSubscription('user@example.com')
+    await SubscriptionService.deleteSubscription('user@example.com')
+
+    expect(prismaMock.user.update).toHaveBeenCalledTimes(2)
+    expect(prismaMock.subscription.update).not.toHaveBeenCalled()
+  })
+})
+
+describe('SubscriptionService – getSubscribersByTopic', () => {
+  beforeEach(() => jest.clearAllMocks())
+
+  it('excludes registered users with newsletter=false', async () => {
+    prismaMock.user.findMany.mockResolvedValueOnce([
+      { email: 'opted-out@example.com', userPreferences: { newsletter: false } },
+      { email: 'active@example.com', userPreferences: { newsletter: true } },
+    ])
+    // getAllSubscriptions uses $transaction internally
+    prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+
+    const result = await SubscriptionService.getSubscribersByTopic('BLOG_DIGEST')
+    const emails = result.map((r) => r.email)
+
+    expect(emails).not.toContain('opted-out@example.com')
+    expect(emails).toContain('active@example.com')
+  })
+
+  it('excludes anonymous subscriber whose email matches a registered user', async () => {
+    // Registered user with the same email as an anonymous subscription
+    prismaMock.user.findMany.mockResolvedValueOnce([
+      { email: 'overlap@example.com', userPreferences: { newsletter: true } },
+    ])
+    prismaMock.$transaction.mockResolvedValueOnce([
+      [{ email: 'overlap@example.com', unsubscribeToken: 'tok-1', deletedAt: null }],
+      1,
+    ])
+
+    const result = await SubscriptionService.getSubscribersByTopic('BLOG_DIGEST')
+    // overlap should appear only once (as registered, not twice)
+    const matches = result.filter((r) => r.email === 'overlap@example.com')
+    expect(matches).toHaveLength(1)
+    // Registered user — no unsubscribeToken
+    expect(matches[0].unsubscribeToken).toBeNull()
+  })
+})
