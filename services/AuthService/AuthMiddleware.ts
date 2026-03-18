@@ -56,10 +56,9 @@ export default class AuthMiddleware {
         if (auth?.startsWith('Bearer kdev_')) return auth.slice(7)
         return undefined
       })()
-
       if (rawApiKey) {
         const user = await ApiKeyService.authenticateByApiKey(rawApiKey)
-
+        if (!user) throw new Error(AuthMessages.USER_NOT_AUTHENTICATED)
         const userRoleKeys = Object.keys(UserRole)
         const requiredUserRoleKeyIndex = userRoleKeys.indexOf(requiredUserRole)
         const userRoleKeyIndex = userRoleKeys.indexOf(user.userRole)
@@ -121,7 +120,8 @@ export default class AuthMiddleware {
       // Quota exceeded errors must surface as-is so the handler can return 429
       if (
         error?.message === AuthMessages.API_KEY_DAILY_LIMIT_EXCEEDED ||
-        error?.message === AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED
+        error?.message === AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED ||
+        error?.message === AuthMessages.USER_DOES_NOT_HAVE_REQUIRED_ROLE
       ) {
         throw error
       }

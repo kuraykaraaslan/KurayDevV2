@@ -1,4 +1,5 @@
 // ── Required env vars for AuthService/constants.ts module-level checks ──
+process.env.ENCRYPTION_SECRET_KEY = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
 process.env.ACCESS_TOKEN_SECRET = 'test-access-secret-that-is-long-enough-256bits'
 process.env.REFRESH_TOKEN_SECRET = 'test-refresh-secret-that-is-long-enough-256bits'
 process.env.NEXT_PUBLIC_APPLICATION_HOST = 'https://localhost'

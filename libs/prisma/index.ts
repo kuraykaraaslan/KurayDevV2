@@ -15,7 +15,7 @@ const prismaClientSingleton = () => {
     statement_timeout: 30000, // 30 second query timeout
   })
 
-  const adapter = new PrismaPg(pool)
+  const adapter = new PrismaPg(pool as any) // PrismaPg expects a pg.Pool, but types may be mismatched
   return new PrismaClient({ adapter })
 }
 

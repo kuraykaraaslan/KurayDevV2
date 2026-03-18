@@ -26,6 +26,6 @@ export default class Encryptor {
     const decipher = crypto.createDecipheriv(ALGORITHM, ENCRYPTION_KEY, iv)
     decipher.setAuthTag(tag)
 
-    return decipher.update(text.toString('utf8'), 'utf8', 'utf8') + decipher.final('utf8')
+    return decipher.update(text, undefined, 'utf8') + decipher.final('utf8')
   }
 }

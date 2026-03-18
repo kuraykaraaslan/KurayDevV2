@@ -36,7 +36,7 @@ export default class GeoAnalyticsService {
     await this.markUserSeen(fingerprint)
 
     const geo = await UserAgentService.getGeoLocationFromMaxMind(ip)
-    if (!geo.latitude || !geo.longitude) {
+    if (geo.latitude == null || geo.longitude == null) {
       return { ok: true, skipped: true }
     }
 
