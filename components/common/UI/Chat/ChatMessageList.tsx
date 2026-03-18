@@ -15,19 +15,19 @@ const defaultRoleConfig: Record<
   user: {
     label: 'User',
     icon: faUser,
-    bubbleClass: 'bg-primary text-primary-content rounded-br-md',
+    bubbleClass: 'bg-gradient-to-br from-primary/60 to-primary/80 text-primary-content rounded-br-md',
     align: 'justify-end',
   },
   assistant: {
     label: 'AI',
     icon: faRobot,
-    bubbleClass: 'bg-base-200 text-base-content rounded-bl-md',
+    bubbleClass: 'border border-base-content/20 rounded-bl-md',
     align: 'justify-start',
   },
   admin: {
     label: 'Admin',
     icon: faUserShield,
-    bubbleClass: 'bg-warning/20 text-warning-content border border-warning/30 rounded-bl-md',
+    bubbleClass: 'border border-warning/60 rounded-bl-md',
     align: 'justify-start',
   },
   system: {
@@ -104,7 +104,7 @@ const ChatMessageList = ({
           )
         }
 
-        const cfg = defaultRoleConfig[msg.role] ?? defaultRoleConfig.assistant
+        const cfg = defaultRoleConfig[msg.role.toLowerCase()] ?? defaultRoleConfig.assistant
 
         return (
           <div key={msg.id ?? idx} className={`flex ${cfg.align}`}>

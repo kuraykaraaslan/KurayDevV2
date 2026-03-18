@@ -1,5 +1,5 @@
 import { AIMmodelOption, serializeAIModel } from '@/types/features/AITypes'
-import { AIBaseProvider } from './AIBaseProvider'
+import { AIBaseProvider, ChatMsg } from './AIBaseProvider'
 
 const BASE_URL = 'https://api.anthropic.com/v1'
 const API_VERSION = '2023-06-01'
@@ -76,6 +76,63 @@ export class AnthropicProvider extends AIBaseProvider {
     if (!res.ok) {
       const err = await res.text()
       throw new Error(`[AnthropicProvider] streamText failed (${res.status}): ${err}`)
+    }
+
+    const reader = res.body?.getReader()
+    if (!reader) throw new Error('[AnthropicProvider] No readable stream')
+
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() ?? ''
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+        const raw = line.slice(6).trim()
+        if (raw === '[DONE]') return
+
+        try {
+          const parsed = JSON.parse(raw) as {
+            type?: string
+            delta?: { type?: string; text?: string }
+          }
+          if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+            yield parsed.delta.text
+          }
+        } catch { /* skip malformed JSON */ }
+      }
+    }
+  }
+
+  async *streamMessages(messages: ChatMsg[], model: string = 'claude-sonnet-4-6'): AsyncGenerator<string, void, unknown> {
+    const systemMsg = messages.find((m) => m.role === 'system')
+    const chatMsgs = messages.filter((m) => m.role !== 'system') as { role: 'user' | 'assistant'; content: string }[]
+
+    const res = await fetch(`${BASE_URL}/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey(),
+        'anthropic-version': API_VERSION,
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 4000,
+        ...(systemMsg ? { system: systemMsg.content } : {}),
+        messages: chatMsgs,
+        stream: true,
+      }),
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(`[AnthropicProvider] streamMessages failed (${res.status}): ${err}`)
     }
 
     const reader = res.body?.getReader()

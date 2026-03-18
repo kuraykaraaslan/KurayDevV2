@@ -111,9 +111,17 @@ export function HeadlessModal({
   // Portal root — client only
   useEffect(() => setMounted(true), [])
 
-  // Mount immediately on open; unmount deferred to onTransitionEnd
+  // Mount immediately on open; unmount deferred to onTransitionEnd.
+  // Fallback timeout ensures visible is cleared even if transitionend never fires
+  // (e.g. rapid open/close, prefers-reduced-motion, or interrupted animation).
   useEffect(() => {
-    if (open) setVisible(true)
+    if (open) {
+      setVisible(true)
+      return
+    }
+    // 300 ms > the 200 ms CSS transition — gives transitionend a chance to fire first.
+    const timer = setTimeout(() => setVisible(false), 300)
+    return () => clearTimeout(timer)
   }, [open])
 
   // Scroll lock covers the exit animation duration

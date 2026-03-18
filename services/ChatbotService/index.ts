@@ -92,7 +92,7 @@ export default class ChatbotService {
     provider: string | undefined,
     model: string | undefined,
     pageContext: string | undefined,
-  ): Promise<{ fullPrompt: string; ragContext: RAGContext[] }> {
+  ): Promise<{ promptMessages: { role: 'system' | 'user' | 'assistant'; content: string }[]; ragContext: RAGContext[] }> {
         const [ragContext, datasetContext, faqContext] = await Promise.all([
             ChatbotRAGService.retrieveContext(message),
             ChatbotRAGService.retrieveDatasetContext(message),
@@ -123,11 +123,7 @@ export default class ChatbotService {
             systemPrompt, previousMessages, message, activeSummary, pageContext
         )
 
-        const fullPrompt = promptMessages
-            .map((m) => `${m.role === 'system' ? '[System]' : m.role === 'user' ? '[User]' : '[Assistant]'}: ${m.content}`)
-            .join('\n\n')
-
-        return { fullPrompt, ragContext }
+        return { promptMessages, ragContext }
     }
 
   private static async _persistAiMessage(
@@ -209,7 +205,7 @@ export default class ChatbotService {
       return
     }
 
-    const { fullPrompt, ragContext } = await ChatbotService._buildRagPipeline(
+    const { promptMessages, ragContext } = await ChatbotService._buildRagPipeline(
       session.chatSessionId, message, provider, model, pageContext
     )
 
@@ -217,7 +213,7 @@ export default class ChatbotService {
     let fullReply = ''
 
     try {
-      for await (const chunk of aiProvider.streamText(fullPrompt, model)) {
+      for await (const chunk of aiProvider.streamMessages(promptMessages, model)) {
         fullReply += chunk
         yield `data: ${JSON.stringify({ type: 'chunk', content: chunk })}\n\n`
       }

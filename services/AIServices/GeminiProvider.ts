@@ -1,6 +1,6 @@
 import redisInstance from '@/libs/redis'
 import { AIMmodelOption, serializeAIModel } from '@/types/features/AITypes'
-import { AIBaseProvider } from './AIBaseProvider'
+import { AIBaseProvider, ChatMsg } from './AIBaseProvider'
 
 const MODELS_CACHE_KEY = 'ai:gemini:models'
 const MODELS_CACHE_TTL = 3600 // 1 hour
@@ -95,6 +95,60 @@ export class GeminiProvider extends AIBaseProvider {
     if (!res.ok) {
       const err = await res.text()
       throw new Error(`[GeminiProvider] streamText failed (${res.status}): ${err}`)
+    }
+
+    const reader = res.body?.getReader()
+    if (!reader) throw new Error('[GeminiProvider] No readable stream')
+
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() ?? ''
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+        const raw = line.slice(6).trim()
+        if (!raw) continue
+
+        try {
+          const parsed = JSON.parse(raw) as {
+            candidates?: { content?: { parts?: { text?: string }[] } }[]
+          }
+          const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text
+          if (text) yield text
+        } catch { /* skip malformed JSON */ }
+      }
+    }
+  }
+
+  async *streamMessages(messages: ChatMsg[], model: string = 'gemini-2.0-flash'): AsyncGenerator<string, void, unknown> {
+    const systemMsg = messages.find((m) => m.role === 'system')
+    const contents = messages
+      .filter((m) => m.role !== 'system')
+      .map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] }))
+
+    const res = await fetch(
+      `${BASE_URL}/models/${model}:streamGenerateContent?alt=sse&key=${apiKey()}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...(systemMsg ? { systemInstruction: { parts: [{ text: systemMsg.content }] } } : {}),
+          contents,
+          generationConfig: { maxOutputTokens: 4000 },
+        }),
+      }
+    )
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(`[GeminiProvider] streamMessages failed (${res.status}): ${err}`)
     }
 
     const reader = res.body?.getReader()

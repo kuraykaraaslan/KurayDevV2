@@ -2,7 +2,7 @@ import openai from '@/libs/openai'
 import redisInstance from '@/libs/redis'
 import { AIMmodelOption, serializeAIModel } from '@/types/features/AITypes'
 import { ImageGenerateParams } from 'openai/resources/images.mjs'
-import { AIBaseProvider } from './AIBaseProvider'
+import { AIBaseProvider, ChatMsg } from './AIBaseProvider'
 
 const MODELS_CACHE_KEY = 'ai:openai:models:v3'
 const MODELS_CACHE_TTL = 3600 // 1 hour
@@ -77,6 +77,20 @@ export class OpenAIProvider extends AIBaseProvider {
         { role: 'system', content: 'You are a Content Management System API.' },
         { role: 'user', content: prompt },
       ],
+      max_completion_tokens: 4000,
+      stream: true,
+    })
+
+    for await (const chunk of stream) {
+      const delta = chunk.choices?.[0]?.delta?.content
+      if (delta) yield delta
+    }
+  }
+
+  async *streamMessages(messages: ChatMsg[], model: string = 'gpt-4o'): AsyncGenerator<string, void, unknown> {
+    const stream = await openai.chat.completions.create({
+      model,
+      messages,
       max_completion_tokens: 4000,
       stream: true,
     })

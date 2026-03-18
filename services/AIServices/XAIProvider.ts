@@ -1,5 +1,5 @@
 import { AIMmodelOption, serializeAIModel } from '@/types/features/AITypes'
-import { AIBaseProvider } from './AIBaseProvider'
+import { AIBaseProvider, ChatMsg } from './AIBaseProvider'
 
 const BASE_URL = 'https://api.x.ai/v1'
 
@@ -76,6 +76,51 @@ export class XAIProvider extends AIBaseProvider {
     if (!res.ok) {
       const err = await res.text()
       throw new Error(`[XAIProvider] streamText failed (${res.status}): ${err}`)
+    }
+
+    const reader = res.body?.getReader()
+    if (!reader) throw new Error('[XAIProvider] No readable stream')
+
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() ?? ''
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+        const raw = line.slice(6).trim()
+        if (raw === '[DONE]') return
+
+        try {
+          const parsed = JSON.parse(raw) as {
+            choices?: { delta?: { content?: string } }[]
+          }
+          const delta = parsed.choices?.[0]?.delta?.content
+          if (delta) yield delta
+        } catch { /* skip malformed JSON */ }
+      }
+    }
+  }
+
+  async *streamMessages(messages: ChatMsg[], model: string = 'grok-3'): AsyncGenerator<string, void, unknown> {
+    const res = await fetch(`${BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey()}`,
+      },
+      body: JSON.stringify({ model, messages, max_tokens: 4000, stream: true }),
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(`[XAIProvider] streamMessages failed (${res.status}): ${err}`)
     }
 
     const reader = res.body?.getReader()

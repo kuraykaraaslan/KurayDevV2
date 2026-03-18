@@ -66,7 +66,14 @@ export function useChatbot() {
 
       case 'chunk':
         setIsTyping(null)
-        if (event.content && event.content !== ADMIN_TAKEOVER_SENTINEL) {
+        if (event.content === ADMIN_TAKEOVER_SENTINEL) {
+          // Session is taken over — remove the empty placeholder added by handleSend
+          setMessages((prev) => {
+            const last = prev[prev.length - 1]
+            if (last?.role === 'ASSISTANT' && last?.content === '') return prev.slice(0, -1)
+            return prev
+          })
+        } else if (event.content) {
           accumulatedRef.current += event.content as string
           const text = accumulatedRef.current
           setMessages((prev) => {
@@ -88,6 +95,23 @@ export function useChatbot() {
           setSources(event.sources as ChatSource[])
         }
         break
+
+      case 'new_message': {
+        const msg = event.message as ChatMessage | undefined
+        if (msg && msg.content !== ADMIN_TAKEOVER_SENTINEL) {
+          setMessages((prev) => {
+            // Don't duplicate: skip if same role+content already at end
+            const last = prev[prev.length - 1]
+            if (last?.role === msg.role && last?.content === msg.content) return prev
+            // If there's an empty ASSISTANT placeholder, replace it; otherwise append
+            if (msg.role === 'ASSISTANT' && last?.role === 'ASSISTANT' && last?.content === '') {
+              return [...prev.slice(0, -1), msg]
+            }
+            return [...prev, msg]
+          })
+        }
+        break
+      }
 
       case 'done':
         accumulatedRef.current = ''
@@ -130,6 +154,34 @@ export function useChatbot() {
     }
     doRestore()
   }, [browserIdReady, user, restore])
+
+  // ── Poll for new messages (catches admin replies) ─────────────────
+  const isStreamingRef = useRef(isStreaming)
+  useEffect(() => { isStreamingRef.current = isStreaming }, [isStreaming])
+
+  useEffect(() => {
+    if (!chatSessionId || !isOpen) return
+
+    const poll = async () => {
+      if (isStreamingRef.current) return
+      try {
+        const params = new URLSearchParams({ chatSessionId })
+        if (browserIdRef.current) params.set('browserId', browserIdRef.current)
+        const res = await fetch(`/api/chatbot?${params}`, { credentials: 'include' })
+        if (!res.ok) return
+        const data = await res.json() as { messages?: ChatMessage[]; session?: { status: string } }
+        if (!Array.isArray(data.messages) || data.messages.length === 0) return
+
+        const incoming = data.messages.filter((m) => m.content !== ADMIN_TAKEOVER_SENTINEL)
+        setMessages(incoming)
+
+        if (data.session?.status === 'CLOSED') setSessionClosed(true)
+      } catch { /* ignore */ }
+    }
+
+    const interval = setInterval(poll, 3000)
+    return () => clearInterval(interval)
+  }, [chatSessionId, isOpen])
 
   // ── Send message ─────────────────────────────────────────────────
   const handleSend = useCallback(() => {

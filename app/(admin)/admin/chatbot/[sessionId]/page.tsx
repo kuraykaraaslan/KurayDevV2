@@ -92,7 +92,7 @@ const ChatDetailPage = () => {
     if (!sessionId) return
     setActionLoading(true)
     try {
-      await axiosInstance.patch(`/api/chatbot/admin/${sessionId}`, { action })
+      await axiosInstance.patch(`/api/chatbot/admin/${sessionId}`, { action: action.toUpperCase() })
       if (action === 'ban') setUserBanned(true)
       if (action === 'unban') setUserBanned(false)
 
