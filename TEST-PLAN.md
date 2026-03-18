@@ -445,7 +445,7 @@ Her provider için ortak senaryolar:
 | `sendWebhook` → webhook URL yoksa → hata fırlatmaz | Sessiz başarısızlık |
 
 ### 5.6 `AIServices/index` (provider routing)
-**Dosya:** `tests/services/AIServices/index.test.ts`
+**Dosya:** `tests/services/AIServices/AIService.test.ts`
 
 | Test Senaryosu | Risk |
 |----------------|------|
@@ -497,14 +497,15 @@ Her provider için ortak senaryolar:
 | `send` → geçersiz endpoint → subscription silinir | — |
 
 ### 6.5 `ActivityPubService`
-**Dosya:** `tests/services/ActivityPubService/index.test.ts`
+**Dosya:** `tests/services/ActivityPubService/*.test.ts`
 
 | Test Senaryosu | Risk |
 |----------------|------|
-| `handleFollow` → remote actor fetch → DB'ye kaydedilir, Accept gönderilir | — |
-| `handleUndo` → follower silinir | — |
-| `broadcastToFollowers` → tüm followerlara deliver | — |
+| `DeliveryService` → followerlara delivery (success/fail/partial) | Fediverse sürekliliği |
+| `InboxService` → Follow/Undo gibi activity tipleri işlenir | — |
 | `HttpSignatureService` → imza üretimi ve doğrulaması | Fediverse güvenliği |
+| (Kalan düşük coverage) `ActorService` → remote actor fetch/normalize/persist | — |
+| (Kalan düşük coverage) `config.ts` ve `index.ts` → env guard + barrel export smoke | Konfig/boot |
 
 ### 6.6 `KnowledgeGraphService`
 **Dosya:** `tests/services/KnowledgeGraphService.test.ts`
@@ -531,14 +532,16 @@ Her provider için ortak senaryolar:
 | `flushBuffer` → DB'ye toplu yazar | — |
 
 ### 6.9 `ChatbotService`
-**Dosya:** `tests/services/ChatbotService/index.test.ts`
+**Dosya:** `tests/services/ChatbotService/*.test.ts`
 
 | Test Senaryosu | Risk |
 |----------------|------|
-| `processMessage` → AI provider çağrılır | — |
-| `processMessage` → rate limit aşılmışsa → hata | Maliyet |
+| `ChatSessionService` → session create/list/addMessage akışları | — |
+| `ChatbotRAGService` → KG retrieval + threshold/fallback | Yanlış cevap |
 | Moderasyon → zararlı içerik → reddedilir | Güvenlik |
-| Session yönetimi → yeni/devam eden session | — |
+| (Kalan düşük coverage) `BrowserSessionService` → browser session create/restore | — |
+| (Kalan düşük coverage) `ChatSessionDBService` → DB persistence fallback/rehydrate | Veri kaybı |
+| (Kalan düşük coverage) `handler.ts`/`index.ts` → request routing + no-throw guard | Operasyon |
 
 ### 6.10 `CronService/jobs`
 **Dosya:** `tests/services/CronService/jobs.test.ts`

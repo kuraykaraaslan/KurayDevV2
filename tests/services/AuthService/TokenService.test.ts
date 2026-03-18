@@ -212,6 +212,67 @@ describe('TokenService', () => {
     })
   })
 
+  // ── verifyAccessToken — fingerprint mismatch ─────────────────────────
+  describe('verifyAccessToken — additional branch coverage', () => {
+    it('throws INVALID_TOKEN when deviceFingerprint in token does not match provided fingerprint', async () => {
+      const token = TokenService.generateAccessToken(USER_ID, SESSION_ID, 'original-fp')
+      await expect(TokenService.verifyAccessToken(token, 'different-fp')).rejects.toThrow(
+        AuthMessages.INVALID_TOKEN
+      )
+    })
+
+    it('throws INVALID_TOKEN for a token with wrong audience even if secret is valid', async () => {
+      const wrongAudienceToken = jwt.sign(
+        { userId: USER_ID, userSessionId: SESSION_ID, deviceFingerprint: FINGERPRINT },
+        SECRET,
+        { issuer: DOMAIN, audience: 'mobile', expiresIn: '1h' }
+      )
+      await expect(TokenService.verifyAccessToken(wrongAudienceToken, FINGERPRINT)).rejects.toThrow(
+        AuthMessages.INVALID_TOKEN
+      )
+    })
+
+    it('throws INVALID_TOKEN for a token with wrong issuer even if secret is valid', async () => {
+      const wrongIssuerToken = jwt.sign(
+        { userId: USER_ID, userSessionId: SESSION_ID, deviceFingerprint: FINGERPRINT },
+        SECRET,
+        { issuer: 'evil.com', audience: 'web', expiresIn: '1h' }
+      )
+      await expect(TokenService.verifyAccessToken(wrongIssuerToken, FINGERPRINT)).rejects.toThrow(
+        AuthMessages.INVALID_TOKEN
+      )
+    })
+  })
+
+  // ── verifyRefreshToken — additional branch coverage ───────────────────
+  describe('verifyRefreshToken — additional branch coverage', () => {
+    it('throws INVALID_TOKEN for a token with wrong audience (secret valid, verification fails)', () => {
+      const wrongAudienceToken = jwt.sign(
+        { userId: USER_ID, userSessionId: SESSION_ID, deviceFingerprint: FINGERPRINT },
+        REFRESH_SECRET,
+        { issuer: DOMAIN, audience: 'mobile', expiresIn: '7d' }
+      )
+      expect(() => TokenService.verifyRefreshToken(wrongAudienceToken)).toThrow(
+        AuthMessages.INVALID_TOKEN
+      )
+    })
+
+    it('throws INVALID_TOKEN for a token with wrong issuer (secret valid, verification fails)', () => {
+      const wrongIssuerToken = jwt.sign(
+        { userId: USER_ID, userSessionId: SESSION_ID, deviceFingerprint: FINGERPRINT },
+        REFRESH_SECRET,
+        { issuer: 'evil.com', audience: 'web', expiresIn: '7d' }
+      )
+      expect(() => TokenService.verifyRefreshToken(wrongIssuerToken)).toThrow(
+        AuthMessages.INVALID_TOKEN
+      )
+    })
+
+    it('throws INVALID_TOKEN for a malformed token string', () => {
+      expect(() => TokenService.verifyRefreshToken('not.a.jwt')).toThrow(AuthMessages.INVALID_TOKEN)
+    })
+  })
+
   // ── hashToken ────────────────────────────────────────────────────────
   describe('hashToken', () => {
     it('returns a 64-character hex string (SHA-256)', () => {

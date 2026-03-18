@@ -76,6 +76,7 @@ describe('DeliveryService', () => {
 
 // ── Phase 22: DeliveryService ActivityPub extensions ─────────────────────
 
+
 describe('DeliveryService — Phase 22 ActivityPub extensions', () => {
   const originalFetch = global.fetch
 
@@ -123,6 +124,18 @@ describe('DeliveryService — Phase 22 ActivityPub extensions', () => {
       await expect(
         DeliveryService.deliverActivity({ type: 'Create' }, 'https://remote.example/inbox')
       ).rejects.toThrow('Delivery to https://remote.example/inbox failed: 404')
+    })
+
+    it('still throws with status when res.text() itself rejects (error body unreadable)', async () => {
+      ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+        status: 502,
+        text: jest.fn().mockRejectedValue(new Error('stream closed')),
+      })
+
+      await expect(
+        DeliveryService.deliverActivity({ type: 'Create' }, 'https://remote.example/inbox')
+      ).rejects.toThrow('Delivery to https://remote.example/inbox failed: 502')
     })
   })
 
@@ -184,6 +197,344 @@ describe('DeliveryService — Phase 22 ActivityPub extensions', () => {
       ).resolves.not.toThrow()
 
       expect(global.fetch).toHaveBeenCalledTimes(2)
+    })
+  })
+})
+
+// ── notifyFollowersOfPost / notifyFollowersOfPostUpdate / notifyFollowersOfPostDelete ──
+
+describe('DeliveryService — notify follower methods', () => {
+  const originalFetch = global.fetch
+
+  // Set a deterministic NEXT_PUBLIC_SITE_URL so URL assertions are stable.
+  beforeAll(() => {
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://example.com'
+  })
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      text: jest.fn().mockResolvedValue(''),
+    }) as any
+  })
+
+  afterAll(() => {
+    global.fetch = originalFetch
+    delete process.env.NEXT_PUBLIC_SITE_URL
+  })
+
+  // ── Fixtures ──────────────────────────────────────────────────────────────
+
+  const SAMPLE_POST = {
+    postId: 'post-001',
+    title: 'Hello World',
+    content: '<p>My first post</p>',
+    description: 'A brief intro',
+    slug: 'hello-world',
+    keywords: ['typescript', 'testing'],
+    publishedAt: new Date('2026-01-01T00:00:00.000Z'),
+    category: { slug: 'dev' },
+  }
+
+  // ── notifyFollowersOfPost ──────────────────────────────────────────────────
+
+  describe('notifyFollowersOfPost', () => {
+    it('does nothing when there are no accepted followers', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(0)
+
+      await DeliveryService.notifyFollowersOfPost(SAMPLE_POST)
+
+      expect(global.fetch).not.toHaveBeenCalled()
+      // findMany is called by broadcastToFollowers — it should never be reached.
+      expect(prismaMock.activityPubFollower.findMany).not.toHaveBeenCalled()
+    })
+
+    it('broadcasts a Create activity when followers exist', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(2)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+        { inbox: 'https://server-b/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPost(SAMPLE_POST)
+
+      expect(global.fetch).toHaveBeenCalledTimes(2)
+    })
+
+    it('sends a Create activity with type="Create" and embedded Article object', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPost(SAMPLE_POST)
+
+      const fetchCall = (global.fetch as jest.Mock).mock.calls[0]
+      const body = JSON.parse(fetchCall[1].body)
+
+      expect(body.type).toBe('Create')
+      expect(body.object.type).toBe('Article')
+      expect(body.object.name).toBe('Hello World')
+    })
+
+    it('uses the category slug in the post URL', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPost(SAMPLE_POST)
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.url).toContain('/en/blog/dev/hello-world')
+    })
+
+    it('falls back to "blog" category slug when category is null', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPost({ ...SAMPLE_POST, category: null })
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.url).toContain('/en/blog/blog/hello-world')
+    })
+
+    it('maps keywords to Hashtag tags in the article', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPost(SAMPLE_POST)
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      const tags: any[] = body.object.tag
+      expect(tags).toHaveLength(2)
+      expect(tags[0].type).toBe('Hashtag')
+      expect(tags[0].name).toBe('#typescript')
+      expect(tags[1].name).toBe('#testing')
+    })
+
+    it('falls back to current date when publishedAt is null', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      // Should not throw even without publishedAt.
+      await expect(
+        DeliveryService.notifyFollowersOfPost({ ...SAMPLE_POST, publishedAt: null })
+      ).resolves.not.toThrow()
+    })
+
+    it('uses description as summary when provided', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPost(SAMPLE_POST)
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.summary).toBe('A brief intro')
+    })
+
+    it('does not include summary field when description is null', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPost({ ...SAMPLE_POST, description: null })
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      // summary should be undefined when description is null.
+      expect(body.object.summary).toBeUndefined()
+    })
+  })
+
+  // ── notifyFollowersOfPostUpdate ────────────────────────────────────────────
+
+  describe('notifyFollowersOfPostUpdate', () => {
+    it('does nothing when there are no accepted followers', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(0)
+
+      await DeliveryService.notifyFollowersOfPostUpdate(SAMPLE_POST)
+
+      expect(global.fetch).not.toHaveBeenCalled()
+    })
+
+    it('broadcasts an Update activity when followers exist', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostUpdate(SAMPLE_POST)
+
+      expect(global.fetch).toHaveBeenCalledTimes(1)
+    })
+
+    it('sends an Update activity with type="Update" and embedded Article object', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostUpdate(SAMPLE_POST)
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.type).toBe('Update')
+      expect(body.object.type).toBe('Article')
+      expect(body.object.name).toBe('Hello World')
+    })
+
+    it('includes the correct post URL with category slug', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostUpdate(SAMPLE_POST)
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.url).toContain('/en/blog/dev/hello-world')
+    })
+
+    it('falls back to "blog" category slug when category is null', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostUpdate({ ...SAMPLE_POST, category: null })
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.url).toContain('/en/blog/blog/hello-world')
+    })
+
+    it('maps keywords to Hashtag tags in the article', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostUpdate(SAMPLE_POST)
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.tag).toHaveLength(2)
+      expect(body.object.tag[0].type).toBe('Hashtag')
+    })
+
+    it('falls back to current date when publishedAt is null', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await expect(
+        DeliveryService.notifyFollowersOfPostUpdate({ ...SAMPLE_POST, publishedAt: null })
+      ).resolves.not.toThrow()
+    })
+
+    it('id of the Update activity contains "#update-" to distinguish revisions', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostUpdate(SAMPLE_POST)
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.id).toContain('#update-')
+    })
+  })
+
+  // ── notifyFollowersOfPostDelete ────────────────────────────────────────────
+
+  describe('notifyFollowersOfPostDelete', () => {
+    it('does nothing when there are no accepted followers', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(0)
+
+      await DeliveryService.notifyFollowersOfPostDelete({ slug: 'hello-world', category: { slug: 'dev' } })
+
+      expect(global.fetch).not.toHaveBeenCalled()
+    })
+
+    it('broadcasts a Delete activity when followers exist', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostDelete({ slug: 'hello-world', category: { slug: 'dev' } })
+
+      expect(global.fetch).toHaveBeenCalledTimes(1)
+    })
+
+    it('sends a Delete activity with type="Delete" and a Tombstone object', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostDelete({ slug: 'hello-world', category: { slug: 'dev' } })
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.type).toBe('Delete')
+      expect(body.object.type).toBe('Tombstone')
+    })
+
+    it('tombstone id matches the post URL constructed from slug and category', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostDelete({ slug: 'hello-world', category: { slug: 'dev' } })
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.id).toContain('/en/blog/dev/hello-world')
+    })
+
+    it('falls back to "blog" category slug when category is null', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostDelete({ slug: 'hello-world', category: null })
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.object.id).toContain('/en/blog/blog/hello-world')
+    })
+
+    it('id of the Delete activity contains "#delete-" to distinguish it', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(1)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostDelete({ slug: 'hello-world', category: { slug: 'dev' } })
+
+      const body = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+      expect(body.id).toContain('#delete-')
+    })
+
+    it('fans out to multiple followers via broadcastToFollowers', async () => {
+      prismaMock.activityPubFollower.count.mockResolvedValueOnce(3)
+      prismaMock.activityPubFollower.findMany.mockResolvedValueOnce([
+        { inbox: 'https://server-a/inbox', sharedInbox: null },
+        { inbox: 'https://server-b/inbox', sharedInbox: null },
+        { inbox: 'https://server-c/inbox', sharedInbox: null },
+      ])
+
+      await DeliveryService.notifyFollowersOfPostDelete({ slug: 'hello-world', category: { slug: 'dev' } })
+
+      expect(global.fetch).toHaveBeenCalledTimes(3)
     })
   })
 })

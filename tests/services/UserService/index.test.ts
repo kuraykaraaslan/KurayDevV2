@@ -15,6 +15,7 @@ jest.mock('@/libs/prisma', () => ({
       delete: jest.fn(),
     },
     $transaction: jest.fn(),
+    $queryRaw: jest.fn(),
   },
 }))
 
@@ -324,5 +325,187 @@ describe('UserService.delete — last admin protection', () => {
     ;(prismaMock.user.count as jest.Mock).mockResolvedValue(1)
 
     await expect(UserService.delete('user-1')).rejects.toThrow(UserMessages.LAST_ADMIN_CANNOT_DELETE)
+  })
+})
+
+// ── Additional coverage: phone, userPreferences, userProfile, password, getByUsernameOrId ──
+
+describe('UserService.update — phone update', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('sets phone to null when empty string is provided', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock)
+      .mockResolvedValueOnce(mockDbUser) // getById for existing user
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue({ ...mockDbUser, phone: null })
+
+    const result = await UserService.update({ userId: 'user-1', data: { phone: '' } as any })
+
+    expect(prismaMock.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ phone: null }),
+      })
+    )
+    expect(result).not.toHaveProperty('password')
+  })
+
+  it('sets phone to the new value when a valid phone is provided', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock)
+      .mockResolvedValueOnce(mockDbUser) // existing user
+      .mockResolvedValueOnce(null)       // no conflict by phone
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue({ ...mockDbUser, phone: '+901234567890' })
+
+    const result = await UserService.update({ userId: 'user-1', data: { phone: '+901234567890' } as any })
+
+    expect(prismaMock.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ phone: '+901234567890' }),
+      })
+    )
+    expect(result).not.toHaveProperty('password')
+  })
+
+  it('throws PHONE_ALREADY_EXISTS when phone belongs to a different user', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock)
+      .mockResolvedValueOnce(mockDbUser)           // existing user lookup
+      .mockResolvedValueOnce({ userId: 'other-user' }) // phone conflict
+
+    await expect(
+      UserService.update({ userId: 'user-1', data: { phone: '+901111111111' } as any })
+    ).rejects.toThrow(UserMessages.PHONE_ALREADY_EXISTS)
+
+    expect(prismaMock.user.update).not.toHaveBeenCalled()
+  })
+
+  it('allows updating phone to a number already owned by the same user (no conflict)', async () => {
+    ;(prismaMock.user.findUnique as jest.Mock)
+      .mockResolvedValueOnce(mockDbUser)           // existing user
+      .mockResolvedValueOnce({ userId: 'user-1' }) // same user — no conflict
+
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue({ ...mockDbUser, phone: '+900000000' })
+
+    const result = await UserService.update({ userId: 'user-1', data: { phone: '+900000000' } as any })
+
+    expect(result).not.toHaveProperty('password')
+  })
+})
+
+describe('UserService.update — userPreferences', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('stores userPreferences when provided', async () => {
+    const prefs = { newsletter: true, theme: 'DARK' }
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(mockDbUser)
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue({ ...mockDbUser, userPreferences: prefs })
+
+    const result = await UserService.update({ userId: 'user-1', data: { userPreferences: prefs } as any })
+
+    expect(prismaMock.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ userPreferences: prefs }),
+      })
+    )
+    expect(result).not.toHaveProperty('password')
+  })
+})
+
+describe('UserService.update — userProfile', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('stores userProfile when provided', async () => {
+    const profile = { name: 'Ada', username: 'ada', bio: null, profilePicture: null }
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(mockDbUser)
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue({ ...mockDbUser, userProfile: profile })
+
+    const result = await UserService.update({ userId: 'user-1', data: { userProfile: profile } as any })
+
+    expect(prismaMock.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ userProfile: profile }),
+      })
+    )
+    expect(result).not.toHaveProperty('password')
+  })
+})
+
+describe('UserService.update — password update', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('hashes password and stores it when a valid password is provided', async () => {
+    ;(fieldValidaterMock.isPassword as jest.Mock).mockReturnValue(true)
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(mockDbUser)
+    ;(prismaMock.user.update as jest.Mock).mockResolvedValue(mockDbUser)
+
+    await UserService.update({ userId: 'user-1', data: { password: 'NewPassword123!' } as any })
+
+    const updateCall = (prismaMock.user.update as jest.Mock).mock.calls[0][0]
+    expect(updateCall.data.password).toBeDefined()
+    expect(updateCall.data.password).not.toBe('NewPassword123!')
+    expect(updateCall.data.password).toMatch(/^\$2[aby]\$/)
+  })
+
+  it('throws INVALID_PASSWORD_FORMAT when password fails validation', async () => {
+    ;(fieldValidaterMock.isPassword as jest.Mock).mockReturnValue(false)
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(mockDbUser)
+
+    await expect(
+      UserService.update({ userId: 'user-1', data: { password: 'weak' } as any })
+    ).rejects.toThrow(UserMessages.INVALID_PASSWORD_FORMAT)
+
+    expect(prismaMock.user.update).not.toHaveBeenCalled()
+  })
+
+  it('throws INVALID_PASSWORD_FORMAT when password is an empty string', async () => {
+    ;(fieldValidaterMock.isPassword as jest.Mock).mockReturnValue(false)
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(mockDbUser)
+
+    await expect(
+      UserService.update({ userId: 'user-1', data: { password: '' } as any })
+    ).rejects.toThrow(UserMessages.INVALID_PASSWORD_FORMAT)
+
+    expect(prismaMock.user.update).not.toHaveBeenCalled()
+  })
+})
+
+describe('UserService.getByUsernameOrId', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('resolves by username when userProfile username matches', async () => {
+    ;(prismaMock.$queryRaw as jest.Mock).mockResolvedValueOnce([{ userId: 'user-1' }])
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(mockDbUser)
+
+    const result = await UserService.getByUsernameOrId('ada')
+
+    expect(result).toHaveProperty('userId', 'user-1')
+    expect(result).not.toHaveProperty('password')
+  })
+
+  it('falls back to userId lookup when username query returns no rows', async () => {
+    ;(prismaMock.$queryRaw as jest.Mock).mockResolvedValueOnce([])
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(mockDbUser)
+
+    const result = await UserService.getByUsernameOrId('user-1')
+
+    expect(result).toHaveProperty('userId', 'user-1')
+    expect(result).not.toHaveProperty('password')
+  })
+
+  it('throws USER_NOT_FOUND when neither username nor userId resolves to a user', async () => {
+    ;(prismaMock.$queryRaw as jest.Mock).mockResolvedValueOnce([])
+    ;(prismaMock.user.findUnique as jest.Mock).mockResolvedValueOnce(null)
+
+    await expect(UserService.getByUsernameOrId('nonexistent')).rejects.toThrow(
+      UserMessages.USER_NOT_FOUND
+    )
+  })
+
+  it('throws USER_NOT_FOUND when username row resolves but subsequent findUnique returns null', async () => {
+    ;(prismaMock.$queryRaw as jest.Mock).mockResolvedValueOnce([{ userId: 'user-ghost' }])
+    ;(prismaMock.user.findUnique as jest.Mock)
+      .mockResolvedValueOnce(null) // username path: byUsername is null
+      .mockResolvedValueOnce(null) // fallback userId path: byId is null
+
+    await expect(UserService.getByUsernameOrId('ghost-username')).rejects.toThrow(
+      UserMessages.USER_NOT_FOUND
+    )
   })
 })

@@ -224,3 +224,178 @@ describe('ApiKeyService.authenticateByApiKey — Redis cache path', () => {
     expect(prismaMock.findUnique).not.toHaveBeenCalled()
   })
 })
+
+// ── Phase 18: ApiKeyService.create and list ──────────────────────────────────
+
+describe('ApiKeyService.create', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('creates an API key via prisma and returns the record + rawKey', async () => {
+    const fakeRecord = {
+      apiKeyId: 'new-key-id',
+      name: 'my-key',
+      prefix: 'kdev_abc123',
+      dailyLimit: 100,
+      monthlyLimit: 1000,
+      lastUsedAt: null,
+      expiresAt: null,
+      createdAt: new Date(),
+    }
+    prismaMock.create.mockResolvedValueOnce(fakeRecord)
+
+    const result = await ApiKeyService.create('user-1', 'my-key', undefined, 100, 1000)
+
+    expect(prismaMock.create).toHaveBeenCalledTimes(1)
+    expect(result).toHaveProperty('rawKey')
+    expect(result).toHaveProperty('apiKey')
+    expect(result.rawKey).toMatch(/^kdev_[a-f0-9]{32}$/)
+    expect(result.apiKey.apiKeyId).toBe('new-key-id')
+  })
+
+  it('stores the SHA-256 hash of the rawKey (not the rawKey itself)', async () => {
+    const fakeRecord = {
+      apiKeyId: 'key-hash-check',
+      name: 'hash-test',
+      prefix: 'kdev_aabbcc',
+      dailyLimit: null,
+      monthlyLimit: null,
+      lastUsedAt: null,
+      expiresAt: null,
+      createdAt: new Date(),
+    }
+    prismaMock.create.mockResolvedValueOnce(fakeRecord)
+
+    const result = await ApiKeyService.create('user-2', 'hash-test')
+
+    const createCall = prismaMock.create.mock.calls[0][0]
+    const storedHash = createCall.data.keyHash
+    // Verify what was stored is actually the hash of the rawKey
+    expect(storedHash).toBe(ApiKeyService.hashKey(result.rawKey))
+    // And that the rawKey itself was NOT stored
+    expect(storedHash).not.toBe(result.rawKey)
+  })
+
+  it('passes optional expiresAt, dailyLimit, monthlyLimit to prisma', async () => {
+    const expiresAt = new Date(Date.now() + 86_400_000)
+    const fakeRecord = {
+      apiKeyId: 'expiring-key',
+      name: 'expiring',
+      prefix: 'kdev_112233',
+      dailyLimit: 50,
+      monthlyLimit: 500,
+      lastUsedAt: null,
+      expiresAt,
+      createdAt: new Date(),
+    }
+    prismaMock.create.mockResolvedValueOnce(fakeRecord)
+
+    await ApiKeyService.create('user-3', 'expiring', expiresAt, 50, 500)
+
+    const createData = prismaMock.create.mock.calls[0][0].data
+    expect(createData.expiresAt).toBe(expiresAt)
+    expect(createData.dailyLimit).toBe(50)
+    expect(createData.monthlyLimit).toBe(500)
+  })
+})
+
+describe('ApiKeyService.list', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('returns all API keys for a given userId', async () => {
+    const fakeKeys = [
+      { apiKeyId: 'k1', name: 'key-one', prefix: 'kdev_aaa', dailyLimit: null, monthlyLimit: null, lastUsedAt: null, expiresAt: null, createdAt: new Date() },
+      { apiKeyId: 'k2', name: 'key-two', prefix: 'kdev_bbb', dailyLimit: 10, monthlyLimit: 100, lastUsedAt: null, expiresAt: null, createdAt: new Date() },
+    ]
+    prismaMock.findMany.mockResolvedValueOnce(fakeKeys)
+
+    const result = await ApiKeyService.list('user-1')
+
+    expect(prismaMock.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { userId: 'user-1' } })
+    )
+    expect(result).toHaveLength(2)
+    expect(result[0].apiKeyId).toBe('k1')
+    expect(result[1].apiKeyId).toBe('k2')
+  })
+
+  it('returns an empty array when the user has no keys', async () => {
+    prismaMock.findMany.mockResolvedValueOnce([])
+
+    const result = await ApiKeyService.list('user-no-keys')
+
+    expect(result).toEqual([])
+  })
+
+  it('orders keys by createdAt descending', async () => {
+    prismaMock.findMany.mockResolvedValueOnce([])
+
+    await ApiKeyService.list('user-1')
+
+    expect(prismaMock.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { createdAt: 'desc' } })
+    )
+  })
+})
+
+describe('ApiKeyService.checkAndIncrementUsage — notification on first breach', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('fires notifyAdminQuotaExceeded the first time daily limit is breached (rawDaily === limit + 1)', async () => {
+    // Mock MailService as unavailable so notification is a no-op
+    jest.mock('@/services/NotificationService/MailService', () => ({
+      __esModule: true,
+      default: { INFORM_MAIL: null, sendMail: jest.fn() },
+    }))
+
+    // rawDaily = dailyLimit + 1 triggers notification; rawMonthly is under limit
+    redisMock.incr.mockResolvedValueOnce(6).mockResolvedValueOnce(3)
+
+    // Should throw because daily exceeded (6 > 5)
+    await expect(
+      ApiKeyService.checkAndIncrementUsage('key-notify', 5, null, 'notify-key')
+    ).rejects.toThrow(AuthMessages.API_KEY_DAILY_LIMIT_EXCEEDED)
+  })
+
+  it('fires notifyAdminQuotaExceeded the first time monthly limit is breached (rawMonthly === limit + 1)', async () => {
+    jest.mock('@/services/NotificationService/MailService', () => ({
+      __esModule: true,
+      default: { INFORM_MAIL: null, sendMail: jest.fn() },
+    }))
+
+    // rawDaily is under daily limit (no daily limit), rawMonthly = monthlyLimit + 1
+    redisMock.incr.mockResolvedValueOnce(3).mockResolvedValueOnce(11)
+
+    await expect(
+      ApiKeyService.checkAndIncrementUsage('key-notify-monthly', null, 10, 'notify-monthly-key')
+    ).rejects.toThrow(AuthMessages.API_KEY_MONTHLY_LIMIT_EXCEEDED)
+  })
+
+  it('sets daily TTL when rawDaily === 1 (first increment of the day)', async () => {
+    redisMock.incr.mockResolvedValueOnce(1).mockResolvedValueOnce(5)
+    redisMock.expire.mockResolvedValue(1)
+
+    await ApiKeyService.checkAndIncrementUsage('key-first-day', null, null, 'first-day')
+
+    // expire should be called for daily key (rawDaily === 1)
+    expect(redisMock.expire).toHaveBeenCalledTimes(1)
+  })
+
+  it('sets monthly TTL when rawMonthly === 1 (first increment of the month)', async () => {
+    redisMock.incr.mockResolvedValueOnce(5).mockResolvedValueOnce(1)
+    redisMock.expire.mockResolvedValue(1)
+
+    await ApiKeyService.checkAndIncrementUsage('key-first-month', null, null, 'first-month')
+
+    // expire should be called for monthly key (rawMonthly === 1)
+    expect(redisMock.expire).toHaveBeenCalledTimes(1)
+  })
+
+  it('sets both TTLs when both daily and monthly are first increments', async () => {
+    redisMock.incr.mockResolvedValueOnce(1).mockResolvedValueOnce(1)
+    redisMock.expire.mockResolvedValue(1)
+
+    await ApiKeyService.checkAndIncrementUsage('key-both-first', null, null, 'both-first')
+
+    expect(redisMock.expire).toHaveBeenCalledTimes(2)
+  })
+})

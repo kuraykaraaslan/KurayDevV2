@@ -202,4 +202,127 @@ describe('AWSService', () => {
       ).toThrow('bucket, accessKeyId, secretAccessKey')
     })
   })
+
+  // ── static delegation methods ─────────────────────────────────────────
+  describe('AWSService static delegation methods', () => {
+    let mockSend: jest.Mock
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+      // Reset singleton so each test gets a fresh instance from env vars
+      ;(AWSService as any).instance = null
+      mockSend = jest.fn()
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      process.env.AWS_REGION = 'us-east-1'
+      process.env.AWS_ACCESS_KEY_ID = 'test-key'
+      process.env.AWS_SECRET_ACCESS_KEY = 'test-secret'
+      process.env.AWS_BUCKET_NAME = 'test-bucket'
+    })
+
+    it('AWSService.listFiles creates instance and returns file list', async () => {
+      mockSend.mockResolvedValue({ Contents: [] })
+
+      const result = await AWSService.listFiles()
+
+      expect(result).toEqual([])
+      expect(mockSend).toHaveBeenCalledTimes(1)
+    })
+
+    it('AWSService.listFiles returns sorted list when bucket has contents', async () => {
+      const older = new Date('2026-01-01T00:00:00Z')
+      const newer = new Date('2026-03-01T00:00:00Z')
+      mockSend.mockResolvedValue({
+        Contents: [
+          { Key: 'images/old.jpg', Size: 100, LastModified: older },
+          { Key: 'images/new.jpg', Size: 200, LastModified: newer },
+        ],
+      })
+
+      const result = await AWSService.listFiles()
+
+      expect(result).toHaveLength(2)
+      expect(result[0].key).toBe('images/new.jpg')
+    })
+
+    it('AWSService.deleteFile creates instance and returns true on success', async () => {
+      mockSend.mockResolvedValue({})
+
+      const result = await AWSService.deleteFile('images/test.jpg')
+
+      expect(result).toBe(true)
+      expect(mockSend).toHaveBeenCalledTimes(1)
+    })
+
+    it('AWSService.deleteFile propagates error on S3 failure', async () => {
+      mockSend.mockRejectedValue(new Error('Delete failed'))
+
+      await expect(AWSService.deleteFile('images/test.jpg')).rejects.toThrow('Delete failed')
+    })
+
+    it('AWSService.getFileMetadata returns null when file not found', async () => {
+      mockSend.mockRejectedValue(new Error('NotFound'))
+
+      const result = await AWSService.getFileMetadata('images/missing.jpg')
+
+      expect(result).toBeNull()
+    })
+
+    it('AWSService.getFileMetadata returns metadata when file exists', async () => {
+      const lastModified = new Date('2026-02-01T00:00:00Z')
+      mockSend.mockResolvedValue({
+        ContentLength: 2048,
+        ContentType: 'image/png',
+        LastModified: lastModified,
+      })
+
+      const result = await AWSService.getFileMetadata('images/photo.png')
+
+      expect(result).toEqual({ size: 2048, contentType: 'image/png', lastModified })
+    })
+
+    it('AWSService.uploadFile delegates to instance and returns a URL', async () => {
+      mockSend.mockResolvedValue({})
+
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+      const url = await AWSService.uploadFile(file, 'images')
+
+      expect(typeof url).toBe('string')
+      expect(url).toContain('test-bucket')
+      expect(url).toMatch(/^https:\/\/test-bucket\.s3\.amazonaws\.com\/images\//)
+    })
+
+    it('AWSService.uploadFile uses general folder as default', async () => {
+      mockSend.mockResolvedValue({})
+
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+      const url = await AWSService.uploadFile(file)
+
+      expect(url).toMatch(/^https:\/\/test-bucket\.s3\.amazonaws\.com\/general\//)
+    })
+
+    it('AWSService.uploadFromUrl delegates to instance', async () => {
+      const mockFetch = jest.fn().mockResolvedValue({
+        headers: { get: () => 'image/jpeg' },
+        arrayBuffer: async () => new ArrayBuffer(8),
+      })
+      global.fetch = mockFetch
+      mockSend.mockResolvedValue({})
+
+      const url = await AWSService.uploadFromUrl('https://example.com/photo.jpg', 'images')
+
+      expect(typeof url).toBe('string')
+      expect(url).toContain('test-bucket')
+    })
+
+    it('reuses the same instance on consecutive static calls', async () => {
+      mockSend.mockResolvedValue({ Contents: [] })
+
+      await AWSService.listFiles()
+      await AWSService.listFiles()
+
+      // S3Client constructor should only have been called once (singleton reuse)
+      expect(S3Client).toHaveBeenCalledTimes(1)
+    })
+  })
 })

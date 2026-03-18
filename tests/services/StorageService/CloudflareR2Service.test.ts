@@ -311,4 +311,127 @@ describe('CloudflareR2Service', () => {
       expect(typeof CloudflareR2Service.getFileMetadata).toBe('function')
     })
   })
+
+  // ── static delegation methods ─────────────────────────────────────────
+  describe('static delegation methods', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      // Reset singleton so each test bootstraps a fresh instance
+      ;(CloudflareR2Service as any).instance = null
+      mockSend = jest.fn()
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      process.env.R2_ACCOUNT_ID = 'test-account-id'
+      process.env.R2_ACCESS_KEY_ID = 'r2-access-key'
+      process.env.R2_SECRET_ACCESS_KEY = 'r2-secret-key'
+      process.env.R2_BUCKET_NAME = 'r2-test-bucket'
+      delete process.env.R2_PUBLIC_URL
+    })
+
+    it('CloudflareR2Service.listFiles creates instance and returns empty array', async () => {
+      mockSend.mockResolvedValue({ Contents: [] })
+
+      const result = await CloudflareR2Service.listFiles()
+
+      expect(result).toEqual([])
+      expect(mockSend).toHaveBeenCalledTimes(1)
+    })
+
+    it('CloudflareR2Service.listFiles returns sorted list when bucket has contents', async () => {
+      const older = new Date('2026-01-01T00:00:00Z')
+      const newer = new Date('2026-03-01T00:00:00Z')
+      mockSend.mockResolvedValue({
+        Contents: [
+          { Key: 'images/old.jpg', Size: 100, LastModified: older },
+          { Key: 'images/new.jpg', Size: 200, LastModified: newer },
+        ],
+      })
+
+      const result = await CloudflareR2Service.listFiles()
+
+      expect(result).toHaveLength(2)
+      expect(result[0].key).toBe('images/new.jpg')
+    })
+
+    it('CloudflareR2Service.deleteFile returns true on success', async () => {
+      mockSend.mockResolvedValue({})
+
+      const result = await CloudflareR2Service.deleteFile('images/test.jpg')
+
+      expect(result).toBe(true)
+    })
+
+    it('CloudflareR2Service.deleteFile propagates error on S3 failure', async () => {
+      mockSend.mockRejectedValue(new Error('R2 delete failed'))
+
+      await expect(CloudflareR2Service.deleteFile('images/test.jpg')).rejects.toThrow('R2 delete failed')
+    })
+
+    it('CloudflareR2Service.getFileMetadata returns null when file not found', async () => {
+      mockSend.mockRejectedValue(new Error('NotFound'))
+
+      const result = await CloudflareR2Service.getFileMetadata('images/missing.jpg')
+
+      expect(result).toBeNull()
+    })
+
+    it('CloudflareR2Service.getFileMetadata returns metadata when file exists', async () => {
+      const lastModified = new Date('2026-02-01T00:00:00Z')
+      mockSend.mockResolvedValue({
+        ContentLength: 4096,
+        ContentType: 'image/webp',
+        LastModified: lastModified,
+      })
+
+      const result = await CloudflareR2Service.getFileMetadata('images/photo.webp')
+
+      expect(result).toEqual({ size: 4096, contentType: 'image/webp', lastModified })
+    })
+
+    it('CloudflareR2Service.uploadFile delegates to instance and returns a URL', async () => {
+      process.env.R2_PUBLIC_URL = 'https://cdn.example.com'
+      mockSend.mockResolvedValue({})
+
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+      const url = await CloudflareR2Service.uploadFile(file, 'images')
+
+      expect(typeof url).toBe('string')
+      expect(url).toMatch(/^https:\/\/cdn\.example\.com\/images\//)
+    })
+
+    it('CloudflareR2Service.uploadFile uses general folder as default', async () => {
+      process.env.R2_PUBLIC_URL = 'https://cdn.example.com'
+      mockSend.mockResolvedValue({})
+
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+      const url = await CloudflareR2Service.uploadFile(file)
+
+      expect(url).toMatch(/^https:\/\/cdn\.example\.com\/general\//)
+    })
+
+    it('CloudflareR2Service.uploadFromUrl delegates to instance', async () => {
+      process.env.R2_PUBLIC_URL = 'https://cdn.example.com'
+      const mockFetch = jest.fn().mockResolvedValue({
+        headers: { get: () => 'image/jpeg' },
+        arrayBuffer: async () => new ArrayBuffer(8),
+      })
+      global.fetch = mockFetch
+      mockSend.mockResolvedValue({})
+
+      const url = await CloudflareR2Service.uploadFromUrl('https://example.com/photo.jpg', 'images')
+
+      expect(typeof url).toBe('string')
+      expect(url).toContain('cdn.example.com')
+    })
+
+    it('reuses the same singleton instance across consecutive static calls', async () => {
+      mockSend.mockResolvedValue({ Contents: [] })
+
+      await CloudflareR2Service.listFiles()
+      await CloudflareR2Service.listFiles()
+
+      // S3Client should only be constructed once
+      expect(S3Client).toHaveBeenCalledTimes(1)
+    })
+  })
 })

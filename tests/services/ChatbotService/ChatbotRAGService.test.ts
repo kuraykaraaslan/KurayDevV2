@@ -172,6 +172,37 @@ describe('ChatbotRAGService', () => {
 
       expect(result).toEqual([])
     })
+
+    it('skips a node and logs a warning when PostService.getAllPosts throws', async () => {
+      redisMock.get.mockResolvedValueOnce(JSON.stringify(KG_NODES))
+      embedMock.embed.mockResolvedValueOnce([QUERY_EMBEDDING])
+      // Both nodes score above threshold so the loop runs
+      cosineMock
+        .mockReturnValueOnce(0.85) // post-001 — above threshold
+        .mockReturnValueOnce(0.80) // post-002 — above threshold
+      // First call throws; second call returns no posts
+      postServiceMock.getAllPosts
+        .mockRejectedValueOnce(new Error('DB error'))
+        .mockResolvedValueOnce({ posts: [], total: 0 })
+
+      const result = await ChatbotRAGService.retrieveContext('typescript')
+
+      // The failing node is silently skipped; the other node returned no post either
+      expect(result).toEqual([])
+    })
+
+    it('skips a node when PostService.getAllPosts returns an empty posts array', async () => {
+      redisMock.get.mockResolvedValueOnce(JSON.stringify({
+        'post-001': KG_NODES['post-001'],
+      }))
+      embedMock.embed.mockResolvedValueOnce([QUERY_EMBEDDING])
+      cosineMock.mockReturnValueOnce(0.90) // above threshold
+      postServiceMock.getAllPosts.mockResolvedValueOnce({ posts: [], total: 0 })
+
+      const result = await ChatbotRAGService.retrieveContext('typescript')
+
+      expect(result).toEqual([])
+    })
   })
 
   // ── retrieveDatasetContext ─────────────────────────────────────────────────
@@ -264,6 +295,51 @@ describe('ChatbotRAGService', () => {
 
       expect(prompt).toContain('500 tokens')
     })
+
+    it('uses built-in hardcoded default prompt when systemPromptData has no intro or rules', async () => {
+      // Both settings return null so neither overrides the default
+      settingServiceMock.getSettingByKey.mockResolvedValue(null)
+
+      // The module-level systemPromptData is loaded via tryRequireJson; since the JSON
+      // file does not exist in the test environment the fallback is { intro: '', rules: [] }
+      // which triggers the else branch that produces the hardcoded assistant description.
+      const prompt = await ChatbotRAGService.buildSystemPrompt([])
+
+      expect(typeof prompt).toBe('string')
+      expect(prompt.length).toBeGreaterThan(0)
+    })
+
+    it('omits token instruction when CHATBOT_MAX_TOKENS is 0 or not set', async () => {
+      settingServiceMock.getSettingByKey
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce({ key: 'CHATBOT_MAX_TOKENS', value: '0' } as any)
+
+      const prompt = await ChatbotRAGService.buildSystemPrompt([])
+
+      expect(prompt).not.toContain('tokens')
+    })
+
+    it('returns prompt with context block containing article details', async () => {
+      settingServiceMock.getSettingByKey.mockResolvedValue(null)
+
+      const context = [
+        {
+          postId:       'post-002',
+          title:        'Node.js Performance',
+          slug:         'nodejs-performance',
+          categorySlug: 'backend',
+          score:        0.88,
+          snippet:      'Use clustering to leverage multiple CPU cores.',
+        },
+      ]
+
+      const prompt = await ChatbotRAGService.buildSystemPrompt(context)
+
+      expect(prompt).toContain('Node.js Performance')
+      expect(prompt).toContain('backend')
+      expect(prompt).toContain('Use clustering')
+      expect(prompt).toContain('Article 1')
+    })
   })
 
   // ── buildMessages ──────────────────────────────────────────────────────────
@@ -354,6 +430,67 @@ describe('ChatbotRAGService', () => {
       const result = await ChatbotRAGService.compressHistory('cs_test_001', generateSummary)
 
       expect(result).toBeUndefined()
+    })
+
+    it('returns undefined and does not throw when generateSummary rejects', async () => {
+      const manyMessages = Array.from({ length: 25 }, (_, i) => ({
+        id:        `msg-${i}`,
+        role:      (i % 2 === 0 ? 'USER' : 'ASSISTANT') as 'USER' | 'ASSISTANT',
+        content:   `Message ${i}`,
+        createdAt: '2026-03-18T10:00:00.000Z',
+      }))
+      sessionServiceMock.getMessages.mockResolvedValueOnce(manyMessages)
+
+      const generateSummary = jest.fn().mockRejectedValue(new Error('LLM unavailable'))
+
+      const result = await ChatbotRAGService.compressHistory('cs_test_001', generateSummary)
+
+      expect(result).toBeUndefined()
+    })
+
+    it('compresses history, updates session, and returns summary when successful', async () => {
+      const manyMessages = Array.from({ length: 25 }, (_, i) => ({
+        id:        `msg-${i}`,
+        role:      (i % 2 === 0 ? 'USER' : 'ASSISTANT') as 'USER' | 'ASSISTANT',
+        content:   `Message ${i}`,
+        createdAt: '2026-03-18T10:00:00.000Z',
+      }))
+      sessionServiceMock.getMessages.mockResolvedValueOnce(manyMessages)
+      sessionServiceMock.getSession.mockResolvedValueOnce({ ...BASE_SESSION })
+      sessionServiceMock.updateSession.mockResolvedValueOnce(undefined as any)
+      redisMock.del.mockResolvedValueOnce(1 as any)
+      redisMock.rpush.mockResolvedValue(1 as any)
+      redisMock.expire.mockResolvedValueOnce(1 as any)
+
+      const generateSummary = jest.fn().mockResolvedValue('Key topics: TypeScript and Node.js.')
+
+      const result = await ChatbotRAGService.compressHistory('cs_test_001', generateSummary)
+
+      expect(result).toBe('Key topics: TypeScript and Node.js.')
+      expect(sessionServiceMock.updateSession).toHaveBeenCalled()
+      expect(redisMock.del).toHaveBeenCalled()
+    })
+
+    it('still compresses and returns summary when session is not found', async () => {
+      const manyMessages = Array.from({ length: 25 }, (_, i) => ({
+        id:        `msg-${i}`,
+        role:      (i % 2 === 0 ? 'USER' : 'ASSISTANT') as 'USER' | 'ASSISTANT',
+        content:   `Message ${i}`,
+        createdAt: '2026-03-18T10:00:00.000Z',
+      }))
+      sessionServiceMock.getMessages.mockResolvedValueOnce(manyMessages)
+      // getSession returns null — the if (session) block is skipped
+      sessionServiceMock.getSession.mockResolvedValueOnce(null)
+      redisMock.del.mockResolvedValueOnce(1 as any)
+      redisMock.rpush.mockResolvedValue(1 as any)
+      redisMock.expire.mockResolvedValueOnce(1 as any)
+
+      const generateSummary = jest.fn().mockResolvedValue('Brief summary.')
+
+      const result = await ChatbotRAGService.compressHistory('cs_test_001', generateSummary)
+
+      expect(result).toBe('Brief summary.')
+      expect(sessionServiceMock.updateSession).not.toHaveBeenCalled()
     })
   })
 

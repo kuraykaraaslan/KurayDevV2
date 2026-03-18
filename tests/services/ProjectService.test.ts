@@ -202,3 +202,163 @@ describe('ProjectService.deleteProject', () => {
     )
   })
 })
+
+describe('ProjectService.updateProject – missing fields', () => {
+  it('throws when required fields are missing', async () => {
+    await expect(
+      ProjectService.updateProject({
+        projectId: 'proj-1',
+        title: '',
+        description: '',
+        slug: '',
+        image: '',
+        platforms: [],
+        technologies: [],
+        projectLinks: [],
+        status: 'PUBLISHED',
+      } as any),
+    ).rejects.toThrow('Missing required fields.')
+  })
+})
+
+describe('ProjectService.getAllProjects – sort key and filter branches', () => {
+  beforeEach(() => {
+    ;(prismaMock.$transaction as jest.Mock).mockResolvedValue([[], 0])
+  })
+
+  it('uses "title" sort key when explicitly provided', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, sortKey: 'title', sortDir: 'asc' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { title: 'asc' } }),
+    )
+  })
+
+  it('uses "slug" sort key when explicitly provided', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, sortKey: 'slug', sortDir: 'desc' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { slug: 'desc' } }),
+    )
+  })
+
+  it('uses "status" sort key when explicitly provided', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, sortKey: 'status', sortDir: 'asc' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { status: 'asc' } }),
+    )
+  })
+
+  it('falls back to "createdAt" for an unrecognised sort key', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, sortKey: 'unknown_key' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { createdAt: 'desc' } }),
+    )
+  })
+
+  it('sets status filter to PUBLISHED when onlyPublished is true', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, onlyPublished: true })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ status: 'PUBLISHED' }),
+      }),
+    )
+  })
+
+  it('sets status filter to undefined when onlyPublished is false', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, onlyPublished: false })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ status: undefined }),
+      }),
+    )
+  })
+
+  it('filters by projectId when provided', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, projectId: 'proj-1' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ projectId: 'proj-1' }),
+      }),
+    )
+  })
+
+  it('filters by projectSlug when provided', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, projectSlug: 'my-project' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ slug: 'my-project' }),
+      }),
+    )
+  })
+
+  it('includes content in select when projectSlug is provided', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10, projectSlug: 'my-project' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        select: expect.objectContaining({ content: true }),
+      }),
+    )
+  })
+
+  it('excludes content from select when neither projectSlug nor projectId is provided', async () => {
+    await ProjectService.getAllProjects({ page: 0, pageSize: 10 })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        select: expect.objectContaining({ content: false }),
+      }),
+    )
+  })
+})
+
+describe('ProjectService.generateSiteMap', () => {
+  it('returns sitemap entries for all non-deleted projects', async () => {
+    const updatedAt = new Date('2024-06-01')
+    ;(prismaMock.project.findMany as jest.Mock).mockResolvedValue([
+      { slug: 'project-a', updatedAt },
+      { slug: 'project-b', updatedAt: null },
+    ])
+
+    const sitemap = await ProjectService.generateSiteMap()
+
+    expect(sitemap).toHaveLength(2)
+    expect(sitemap[0].url).toBe('/project/project-a')
+    expect(sitemap[0].lastModified).toEqual(updatedAt)
+    expect(sitemap[1].url).toBe('/project/project-b')
+    // When updatedAt is null, falls back to new Date()
+    expect(sitemap[1].lastModified).toBeInstanceOf(Date)
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { deletedAt: null } }),
+    )
+  })
+
+  it('returns empty array when no projects exist', async () => {
+    ;(prismaMock.project.findMany as jest.Mock).mockResolvedValue([])
+    const sitemap = await ProjectService.generateSiteMap()
+    expect(sitemap).toEqual([])
+  })
+})
+
+describe('ProjectService.getAllProjectSlugs', () => {
+  it('returns title and slug pairs for published projects', async () => {
+    ;(prismaMock.project.findMany as jest.Mock).mockResolvedValue([
+      { title: 'My Project', slug: 'my-project' },
+      { title: 'Another Project', slug: 'another-project' },
+    ])
+
+    const result = await ProjectService.getAllProjectSlugs()
+
+    expect(result).toHaveLength(2)
+    expect(result[0]).toEqual({ title: 'My Project', slug: 'my-project' })
+    expect(prismaMock.project.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ status: 'PUBLISHED', deletedAt: null }),
+        select: { title: true, slug: true },
+      }),
+    )
+  })
+
+  it('returns empty array when no published projects exist', async () => {
+    ;(prismaMock.project.findMany as jest.Mock).mockResolvedValue([])
+    const result = await ProjectService.getAllProjectSlugs()
+    expect(result).toEqual([])
+  })
+})

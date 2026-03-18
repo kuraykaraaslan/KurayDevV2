@@ -180,6 +180,286 @@ describe('MailService', () => {
   })
 })
 
+// ── Additional email method coverage ─────────────────────────────────────
+
+describe('MailService — additional email methods', () => {
+  const mockUser = {
+    email: 'user@example.com',
+    userProfile: { name: 'Test User' },
+  } as any
+
+  beforeEach(() => jest.clearAllMocks())
+
+  describe('sendWelcomeEmail', () => {
+    it('calls sendMail with correct recipient', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendWelcomeEmail(mockUser)
+      expect(spy).toHaveBeenCalledWith('user@example.com', expect.any(String), expect.any(String))
+    })
+
+    it('renders welcome.ejs template', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      await MailService.sendWelcomeEmail(mockUser)
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('welcome.ejs'),
+        expect.objectContaining({ user: expect.objectContaining({ name: 'Test User' }) }),
+        expect.any(Object)
+      )
+    })
+
+    it('falls back to email when userProfile name is absent', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      await MailService.sendWelcomeEmail({ email: 'a@b.com' } as any)
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('welcome.ejs'),
+        expect.objectContaining({ user: { name: 'a@b.com' } }),
+        expect.any(Object)
+      )
+    })
+  })
+
+  describe('sendNewLoginEmail', () => {
+    it('calls sendMail with user email', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendNewLoginEmail(mockUser, undefined, { device: 'Chrome', ip: '1.2.3.4', city: 'NY', country: 'US' } as any)
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'New Login Detected', expect.any(String))
+    })
+
+    it('renders with Unknown device/ip when userAgent is absent', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      await MailService.sendNewLoginEmail(mockUser)
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('new_login.ejs'),
+        expect.objectContaining({ device: 'Unknown', ip: 'Unknown', location: 'Unknown' }),
+        expect.any(Object)
+      )
+    })
+  })
+
+  describe('sendPasswordResetSuccessEmail', () => {
+    it('calls sendMail with correct email', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendPasswordResetSuccessEmail('user@example.com', 'User')
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'Password Reset Successful', expect.any(String))
+    })
+
+    it('uses email as name when name is not provided', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      await MailService.sendPasswordResetSuccessEmail('user@example.com')
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('password_reset.ejs'),
+        expect.objectContaining({ user: { name: 'user@example.com' } }),
+        expect.any(Object)
+      )
+    })
+  })
+
+  describe('sendOTPEnabledEmail', () => {
+    it('calls sendMail with OTP enabled subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendOTPEnabledEmail('user@example.com', 'User')
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'OTP Enabled', expect.any(String))
+    })
+  })
+
+  describe('sendOTPDisabledEmail', () => {
+    it('calls sendMail with OTP disabled subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendOTPDisabledEmail('user@example.com', 'User')
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'OTP Disabled', expect.any(String))
+    })
+  })
+
+  describe('sendContactFormUserEmail', () => {
+    it('calls sendMail with user email and confirmation subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendContactFormUserEmail({ name: 'User', email: 'user@example.com' })
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'We Received Your Message', expect.any(String))
+    })
+  })
+
+  describe('sendEmailChangedEmail', () => {
+    it('calls sendMail with user email', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendEmailChangedEmail(mockUser)
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'Your Email Was Updated', expect.any(String))
+    })
+  })
+
+  describe('sendVerifyEmail', () => {
+    it('calls sendMail with verify subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendVerifyEmail(mockUser, 'verify-token-abc')
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'Verify Your Email', expect.any(String))
+    })
+
+    it('includes verifyToken in template data', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      await MailService.sendVerifyEmail(mockUser, 'verify-token-abc')
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('verify_email.ejs'),
+        expect.objectContaining({ verifyLink: expect.stringContaining('verify-token-abc') }),
+        expect.any(Object)
+      )
+    })
+  })
+
+  describe('sendPasswordChangedEmail', () => {
+    it('calls sendMail with password changed subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendPasswordChangedEmail(mockUser)
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'Your Password Was Changed', expect.any(String))
+    })
+  })
+
+  describe('sendNewDeviceAlertEmail', () => {
+    it('calls sendMail with new device subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendNewDeviceAlertEmail({
+        user: mockUser,
+        device: 'iPhone',
+        ip: '1.2.3.4',
+        location: 'NY, US',
+        loginTime: '2026-01-01 10:00',
+      })
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'New Device Login Detected', expect.any(String))
+    })
+
+    it('renders new_device_alert.ejs with device info', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      await MailService.sendNewDeviceAlertEmail({
+        user: mockUser,
+        device: 'iPhone',
+        ip: '1.2.3.4',
+        location: 'NY, US',
+        loginTime: '2026-01-01',
+      })
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('new_device_alert.ejs'),
+        expect.objectContaining({ device: 'iPhone', ip: '1.2.3.4' }),
+        expect.any(Object)
+      )
+    })
+  })
+
+  describe('sendSuspiciousActivityEmail', () => {
+    it('calls sendMail with suspicious activity subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendSuspiciousActivityEmail({
+        user: mockUser,
+        eventType: 'brute-force',
+        ip: '5.6.7.8',
+        location: 'Unknown',
+        attemptTime: '2026-01-01 12:00',
+      })
+      expect(spy).toHaveBeenCalledWith('user@example.com', 'Suspicious Activity Detected', expect.any(String))
+    })
+  })
+
+  describe('sendWeeklyDigestEmail', () => {
+    it('calls sendMail with the provided mail address', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendWeeklyDigestEmail('digest@example.com', [])
+      expect(spy).toHaveBeenCalledWith('digest@example.com', expect.stringContaining('Weekly Digest'), expect.any(String))
+    })
+  })
+
+  describe('sendWeeklyAdminAnalyticsEmail', () => {
+    it('does nothing when INFORM_MAIL is not set', async () => {
+      ;(MailService as any).INFORM_MAIL = undefined
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendWeeklyAdminAnalyticsEmail({} as any)
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('sends analytics email to INFORM_MAIL when configured', async () => {
+      ;(MailService as any).INFORM_MAIL = 'admin@example.com'
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      await MailService.sendWeeklyAdminAnalyticsEmail({ totalPosts: 5 } as any)
+      expect(spy).toHaveBeenCalledWith('admin@example.com', 'Weekly Analytics Summary', expect.any(String))
+      ;(MailService as any).INFORM_MAIL = undefined
+    })
+  })
+
+  describe('sendNewCommentNotification', () => {
+    it('calls sendMail with post title in subject', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const post = { title: 'My Post', id: '1' }
+      const comment = { body: 'Great!', id: '2' }
+      await MailService.sendNewCommentNotification(mockUser, post, comment)
+      expect(spy).toHaveBeenCalledWith(
+        'user@example.com',
+        expect.stringContaining('My Post'),
+        expect.any(String)
+      )
+    })
+  })
+
+  describe('sendAppointmentPendingEmail', () => {
+    it('calls sendMail with appointment email', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const appointment = {
+        email: 'client@example.com',
+        startTime: new Date('2026-01-15T10:00:00Z'),
+        endTime: new Date('2026-01-15T11:00:00Z'),
+      }
+      await MailService.sendAppointmentPendingEmail(appointment)
+      expect(spy).toHaveBeenCalledWith('client@example.com', expect.any(String), expect.any(String))
+    })
+
+    it('formats date and time from appointment times', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      const appointment = {
+        email: 'client@example.com',
+        startTime: new Date('2026-01-15T10:00:00Z'),
+        endTime: new Date('2026-01-15T11:00:00Z'),
+      }
+      await MailService.sendAppointmentPendingEmail(appointment)
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('appointment_pending.ejs'),
+        expect.objectContaining({ formattedDate: expect.any(String), formattedTime: expect.any(String) }),
+        expect.any(Object)
+      )
+    })
+  })
+
+  describe('sendAppointmentConfirmationEmail', () => {
+    it('calls sendMail with appointment email', async () => {
+      const spy = jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const appointment = {
+        email: 'client@example.com',
+        startTime: new Date('2026-01-15T10:00:00Z'),
+        endTime: new Date('2026-01-15T11:00:00Z'),
+      } as any
+      await MailService.sendAppointmentConfirmationEmail(appointment)
+      expect(spy).toHaveBeenCalledWith('client@example.com', 'Your Appointment is Confirmed', expect.any(String))
+    })
+
+    it('renders appointment_confirm.ejs with formatted time', async () => {
+      jest.spyOn(MailService, 'sendMail').mockResolvedValue()
+      const ejsMock = (ejs as jest.Mocked<typeof ejs>)
+      const appointment = {
+        email: 'client@example.com',
+        startTime: new Date('2026-01-15T10:00:00Z'),
+        endTime: new Date('2026-01-15T11:00:00Z'),
+      } as any
+      await MailService.sendAppointmentConfirmationEmail(appointment)
+      expect(ejsMock.renderFile).toHaveBeenCalledWith(
+        expect.stringContaining('appointment_confirm.ejs'),
+        expect.objectContaining({ formattedDate: expect.any(String) }),
+        expect.any(Object)
+      )
+    })
+  })
+})
+
 // ── Phase 20: Notification extensions ────────────────────────────────────
 
 describe('MailService — Phase 20 notification extensions', () => {

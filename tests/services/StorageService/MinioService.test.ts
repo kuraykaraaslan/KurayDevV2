@@ -396,4 +396,128 @@ describe('MinioService', () => {
       expect(typeof MinioService.getFileMetadata).toBe('function')
     })
   })
+
+  // ── static delegation methods ─────────────────────────────────────────
+  describe('static delegation methods', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      // Reset singleton so each test bootstraps a fresh instance
+      ;(MinioService as any).instance = null
+      mockSend = jest.fn()
+      ;(S3Client as jest.Mock).mockImplementation(() => ({ send: mockSend }))
+
+      process.env.MINIO_ENDPOINT = 'http://localhost:9000'
+      process.env.MINIO_ACCESS_KEY = 'minio-access-key'
+      process.env.MINIO_SECRET_KEY = 'minio-secret-key'
+      process.env.MINIO_BUCKET_NAME = 'minio-test-bucket'
+      process.env.MINIO_REGION = 'us-east-1'
+      delete process.env.MINIO_PUBLIC_URL
+    })
+
+    it('MinioService.listFiles creates instance and returns empty array', async () => {
+      mockSend.mockResolvedValue({ Contents: [] })
+
+      const result = await MinioService.listFiles()
+
+      expect(result).toEqual([])
+      expect(mockSend).toHaveBeenCalledTimes(1)
+    })
+
+    it('MinioService.listFiles returns sorted list when bucket has contents', async () => {
+      const older = new Date('2026-01-01T00:00:00Z')
+      const newer = new Date('2026-03-01T00:00:00Z')
+      mockSend.mockResolvedValue({
+        Contents: [
+          { Key: 'images/old.jpg', Size: 100, LastModified: older },
+          { Key: 'images/new.jpg', Size: 200, LastModified: newer },
+        ],
+      })
+
+      const result = await MinioService.listFiles()
+
+      expect(result).toHaveLength(2)
+      expect(result[0].key).toBe('images/new.jpg')
+    })
+
+    it('MinioService.deleteFile returns true on success', async () => {
+      mockSend.mockResolvedValue({})
+
+      const result = await MinioService.deleteFile('images/test.jpg')
+
+      expect(result).toBe(true)
+    })
+
+    it('MinioService.deleteFile propagates error on S3 failure', async () => {
+      mockSend.mockRejectedValue(new Error('MinIO delete error'))
+
+      await expect(MinioService.deleteFile('images/test.jpg')).rejects.toThrow('MinIO delete error')
+    })
+
+    it('MinioService.getFileMetadata returns null when file not found', async () => {
+      mockSend.mockRejectedValue(new Error('NoSuchKey'))
+
+      const result = await MinioService.getFileMetadata('images/missing.jpg')
+
+      expect(result).toBeNull()
+    })
+
+    it('MinioService.getFileMetadata returns metadata when file exists', async () => {
+      const lastModified = new Date('2026-02-01T00:00:00Z')
+      mockSend.mockResolvedValue({
+        ContentLength: 8192,
+        ContentType: 'video/mp4',
+        LastModified: lastModified,
+      })
+
+      const result = await MinioService.getFileMetadata('videos/clip.mp4')
+
+      expect(result).toEqual({ size: 8192, contentType: 'video/mp4', lastModified })
+    })
+
+    it('MinioService.uploadFile delegates to instance and returns a URL', async () => {
+      process.env.MINIO_PUBLIC_URL = 'https://cdn.example.com'
+      mockSend.mockResolvedValue({})
+
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+      const url = await MinioService.uploadFile(file, 'images')
+
+      expect(typeof url).toBe('string')
+      expect(url).toMatch(/^https:\/\/cdn\.example\.com\/images\//)
+    })
+
+    it('MinioService.uploadFile uses general folder as default', async () => {
+      process.env.MINIO_PUBLIC_URL = 'https://cdn.example.com'
+      mockSend.mockResolvedValue({})
+
+      const file = new File(['content'], 'photo.jpg', { type: 'image/jpeg' })
+      const url = await MinioService.uploadFile(file)
+
+      expect(url).toMatch(/^https:\/\/cdn\.example\.com\/general\//)
+    })
+
+    it('MinioService.uploadFromUrl delegates to instance', async () => {
+      process.env.MINIO_PUBLIC_URL = 'https://cdn.example.com'
+      const mockFetch = jest.fn().mockResolvedValue({
+        headers: { get: () => 'image/jpeg' },
+        arrayBuffer: async () => new ArrayBuffer(8),
+      })
+      global.fetch = mockFetch
+      mockSend.mockResolvedValue({})
+
+      const url = await MinioService.uploadFromUrl('https://example.com/photo.jpg', 'images')
+
+      expect(typeof url).toBe('string')
+      expect(url).toContain('cdn.example.com')
+    })
+
+    it('reuses the same singleton instance across consecutive static calls', async () => {
+      mockSend.mockResolvedValue({ Contents: [] })
+
+      await MinioService.listFiles()
+      await MinioService.listFiles()
+
+      // S3Client should only be constructed once (singleton reuse)
+      expect(S3Client).toHaveBeenCalledTimes(1)
+    })
+  })
 })

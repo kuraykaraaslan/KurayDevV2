@@ -396,3 +396,359 @@ describe('AppointmentService — Phase 18 consistency', () => {
     })
   })
 })
+
+// ── Additional coverage: createAppointment, getAppointmentById, range query, updateAppointment, getAllAppointments ──
+
+describe('AppointmentService — additional coverage', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+
+    prismaMock.$transaction.mockImplementation(async (arg: any) => {
+      if (typeof arg === 'function') {
+        return arg({
+          appointment: {
+            create: prismaMock.appointment.create,
+            update: prismaMock.appointment.update,
+          },
+        })
+      }
+      return Promise.all(arg)
+    })
+  })
+
+  // ── createAppointment ─────────────────────────────────────────────────
+  describe('createAppointment', () => {
+    it('throws when slot is not found', async () => {
+      slotServiceMock.getSlot.mockResolvedValueOnce(null)
+
+      await expect(
+        AppointmentService.createAppointment(makeAppointment())
+      ).rejects.toThrow('Slot not found')
+
+      expect(prismaMock.appointment.create).not.toHaveBeenCalled()
+    })
+
+    it('throws when slot has no available capacity', async () => {
+      slotServiceMock.getSlot.mockResolvedValueOnce(makeSlot(0))
+
+      await expect(
+        AppointmentService.createAppointment(makeAppointment())
+      ).rejects.toThrow('No available capacity for this slot')
+
+      expect(prismaMock.appointment.create).not.toHaveBeenCalled()
+    })
+
+    it('creates appointment and decrements slot capacity on success', async () => {
+      const appointment = makeAppointment()
+      const slot = makeSlot(2)
+      slotServiceMock.getSlot.mockResolvedValueOnce(slot)
+      prismaMock.appointment.create.mockResolvedValueOnce(appointment)
+      slotServiceMock.updateSlot.mockResolvedValueOnce({ ...slot, capacity: 1 })
+
+      const result = await AppointmentService.createAppointment(appointment)
+
+      expect(result.appointmentId).toBe('apt-1')
+      expect(slotServiceMock.updateSlot).toHaveBeenCalledWith(
+        expect.objectContaining({ capacity: 1 })
+      )
+    })
+  })
+
+  // ── getAppointmentById ────────────────────────────────────────────────
+  describe('getAppointmentById', () => {
+    it('returns appointment when found', async () => {
+      const appointment = makeAppointment()
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(appointment)
+
+      const result = await AppointmentService.getAppointmentById('apt-1')
+
+      expect(result).not.toBeNull()
+      expect(result?.appointmentId).toBe('apt-1')
+      expect(prismaMock.appointment.findUnique).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { appointmentId: 'apt-1' } })
+      )
+    })
+
+    it('returns null when appointment is not found', async () => {
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(null)
+
+      const result = await AppointmentService.getAppointmentById('nonexistent')
+
+      expect(result).toBeNull()
+    })
+  })
+
+  // ── getAppointmentsByDatetimeRange ────────────────────────────────────
+  describe('getAppointmentsByDatetimeRange', () => {
+    it('returns appointments within the given date range', async () => {
+      const start = new Date('2026-03-20T00:00:00Z')
+      const end = new Date('2026-03-20T23:59:59Z')
+      const appointments = [makeAppointment(), makeAppointment({ appointmentId: 'apt-2' })]
+      prismaMock.appointment.findMany.mockResolvedValueOnce(appointments)
+
+      const result = await AppointmentService.getAppointmentsByDatetimeRange(start, end)
+
+      expect(result).toHaveLength(2)
+      expect(prismaMock.appointment.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            startTime: { gte: start },
+            endTime: { lte: end },
+          }),
+          orderBy: { startTime: 'asc' },
+        })
+      )
+    })
+
+    it('returns empty array when no appointments exist in range', async () => {
+      prismaMock.appointment.findMany.mockResolvedValueOnce([])
+
+      const result = await AppointmentService.getAppointmentsByDatetimeRange(
+        new Date('2025-01-01T00:00:00Z'),
+        new Date('2025-01-01T23:59:59Z')
+      )
+
+      expect(result).toEqual([])
+    })
+  })
+
+  // ── updateAppointment ─────────────────────────────────────────────────
+  describe('updateAppointment', () => {
+    it('updates appointment when no time-sensitive fields are changed', async () => {
+      const existing = makeAppointment()
+      const updated = { ...existing, note: 'Updated note' }
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(existing)
+      prismaMock.appointment.update.mockResolvedValueOnce(updated)
+
+      const result = await AppointmentService.updateAppointment('apt-1', { note: 'Updated note' })
+
+      expect(result.note).toBe('Updated note')
+      expect(prismaMock.appointment.update).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { appointmentId: 'apt-1' } })
+      )
+    })
+
+    it('throws when startTime is changed to a different time', async () => {
+      const existing = makeAppointment()
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(existing)
+
+      await expect(
+        AppointmentService.updateAppointment('apt-1', {
+          startTime: new Date('2026-04-01T10:00:00Z'),
+        })
+      ).rejects.toThrow('Cannot change appointment time')
+
+      expect(prismaMock.appointment.update).not.toHaveBeenCalled()
+    })
+
+    it('throws when endTime is changed to a different time', async () => {
+      const existing = makeAppointment()
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(existing)
+
+      await expect(
+        AppointmentService.updateAppointment('apt-1', {
+          endTime: new Date('2026-04-01T11:00:00Z'),
+        })
+      ).rejects.toThrow('Cannot change appointment duration')
+
+      expect(prismaMock.appointment.update).not.toHaveBeenCalled()
+    })
+
+    it('allows update when startTime is the same value (no real change)', async () => {
+      const existing = makeAppointment()
+      const updated = { ...existing, name: 'New Name' }
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(existing)
+      prismaMock.appointment.update.mockResolvedValueOnce(updated)
+
+      const result = await AppointmentService.updateAppointment('apt-1', {
+        startTime: existing.startTime,
+        name: 'New Name',
+      })
+
+      expect(result.name).toBe('New Name')
+    })
+  })
+
+  // ── bookAppointment: slot not found path ──────────────────────────────
+  describe('bookAppointment — slot not found after status checks', () => {
+    it('throws Slot not found and releases lock when slot is missing', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      redisMock.del.mockResolvedValue(1)
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(
+        makeAppointment({ status: 'PENDING', startTime: new Date('2027-06-01T10:00:00Z') })
+      )
+      slotServiceMock.getSlot.mockResolvedValueOnce(null)
+
+      await expect(AppointmentService.bookAppointment('apt-1')).rejects.toThrow('Slot not found')
+
+      expect(redisMock.del).toHaveBeenCalled()
+      expect(prismaMock.appointment.update).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── cancelAppointment: lock not acquired ──────────────────────────────
+  describe('cancelAppointment — lock not acquired', () => {
+    it('throws Cancellation operation already in progress when lock is held', async () => {
+      redisMock.set.mockResolvedValueOnce(null)
+
+      await expect(AppointmentService.cancelAppointment('apt-1')).rejects.toThrow(
+        'Cancellation operation already in progress'
+      )
+
+      expect(prismaMock.appointment.findUnique).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── cancelAppointment: already cancelled ─────────────────────────────
+  describe('cancelAppointment — already cancelled', () => {
+    it('throws Already cancelled when appointment status is CANCELLED', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      redisMock.del.mockResolvedValue(1)
+      prismaMock.appointment.findUnique.mockResolvedValueOnce(
+        makeAppointment({ status: 'CANCELLED' })
+      )
+
+      await expect(AppointmentService.cancelAppointment('apt-1')).rejects.toThrow('Already cancelled')
+
+      expect(prismaMock.appointment.update).not.toHaveBeenCalled()
+    })
+  })
+
+  // ── getAllAppointments ────────────────────────────────────────────────
+  describe('getAllAppointments', () => {
+    it('returns appointments and total with default params', async () => {
+      const appointments = [makeAppointment()]
+      prismaMock.$transaction.mockResolvedValueOnce([appointments, 1])
+
+      const result = await AppointmentService.getAllAppointments({ page: 0, pageSize: 10 })
+
+      expect(result.appointments).toHaveLength(1)
+      expect(result.total).toBe(1)
+    })
+
+    it('filters by status when status is not ALL', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment({ status: 'BOOKED' })], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        status: 'BOOKED',
+      })
+
+      expect(result.appointments[0].status).toBe('BOOKED')
+    })
+
+    it('does not apply status filter when status is ALL', async () => {
+      const appointments = [makeAppointment({ status: 'PENDING' }), makeAppointment({ status: 'BOOKED', appointmentId: 'apt-2' })]
+      prismaMock.$transaction.mockResolvedValueOnce([appointments, 2])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        status: 'ALL',
+      })
+
+      expect(result.total).toBe(2)
+    })
+
+    it('applies search filter to name and email (OR condition)', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment()], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        search: 'ada',
+      })
+
+      expect(result.appointments).toHaveLength(1)
+    })
+
+    it('applies individual email filter when no search term is provided', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment()], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        email: 'owner@example.com',
+      })
+
+      expect(result.appointments[0].email).toBe('owner@example.com')
+    })
+
+    it('applies individual name filter when no search term is provided', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment()], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        name: 'Ada',
+      })
+
+      expect(result.appointments[0].name).toBe('Ada Lovelace')
+    })
+
+    it('filters by startDate and endDate', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment()], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        startDate: '2026-03-01',
+        endDate: '2026-03-31',
+      })
+
+      expect(result.total).toBe(1)
+    })
+
+    it('filters by appointmentId', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment()], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        appointmentId: 'apt-1',
+      })
+
+      expect(result.appointments[0].appointmentId).toBe('apt-1')
+    })
+
+    it('applies custom sortKey and sortDir asc', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment()], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        sortKey: 'name',
+        sortDir: 'asc',
+      })
+
+      expect(result.appointments).toHaveLength(1)
+    })
+
+    it('falls back to createdAt desc for invalid sortKey', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[makeAppointment()], 1])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        sortKey: 'invalid_key',
+        sortDir: 'desc',
+      })
+
+      expect(result.total).toBe(1)
+    })
+
+    it('returns empty list and zero total when no appointments match', async () => {
+      prismaMock.$transaction.mockResolvedValueOnce([[], 0])
+
+      const result = await AppointmentService.getAllAppointments({
+        page: 0,
+        pageSize: 10,
+        status: 'COMPLETED',
+      })
+
+      expect(result.appointments).toHaveLength(0)
+      expect(result.total).toBe(0)
+    })
+  })
+})

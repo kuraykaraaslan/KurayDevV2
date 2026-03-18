@@ -232,3 +232,140 @@ describe('CategoryService.deleteCategory', () => {
     )
   })
 })
+
+describe('CategoryService.getCategoryBySlug', () => {
+  it('returns null when no category matches the slug', async () => {
+    ;(prismaMock.category.findFirst as jest.Mock).mockResolvedValue(null)
+    const result = await CategoryService.getCategoryBySlug('nonexistent')
+    expect(result).toBeNull()
+  })
+
+  it('returns category when slug is found (default en lang)', async () => {
+    ;(prismaMock.category.findFirst as jest.Mock).mockResolvedValue(mockCategory)
+    const result = await CategoryService.getCategoryBySlug('tech')
+    expect(result).not.toBeNull()
+    expect(result!.title).toBe('Tech')
+  })
+
+  it('applies translation when matching lang exists', async () => {
+    const categoryWithTranslation = {
+      ...mockCategory,
+      translations: [
+        { id: 't1', categoryId: 'cat-1', lang: 'tr', title: 'Teknoloji', description: 'Teknoloji makaleleri', slug: 'teknoloji' },
+      ],
+    }
+    ;(prismaMock.category.findFirst as jest.Mock).mockResolvedValue(categoryWithTranslation)
+    const result = await CategoryService.getCategoryBySlug('tech', 'tr')
+    expect(result!.title).toBe('Teknoloji')
+  })
+
+  it('returns original when no translation exists for requested lang', async () => {
+    const categoryWithTranslation = {
+      ...mockCategory,
+      translations: [
+        { id: 't1', categoryId: 'cat-1', lang: 'de', title: 'Technologie', description: 'desc', slug: 'technologie' },
+      ],
+    }
+    ;(prismaMock.category.findFirst as jest.Mock).mockResolvedValue(categoryWithTranslation)
+    const result = await CategoryService.getCategoryBySlug('tech', 'tr')
+    // falls back to original because no 'tr' translation exists
+    expect(result!.title).toBe('Tech')
+  })
+})
+
+describe('CategoryService.deleteAllCategories', () => {
+  it('calls prisma.category.updateMany with deletedAt set', async () => {
+    ;(prismaMock.category.updateMany as jest.Mock).mockResolvedValue({ count: 5 })
+
+    await CategoryService.deleteAllCategories()
+
+    expect(prismaMock.category.updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ deletedAt: expect.any(Date) }),
+      }),
+    )
+  })
+
+  it('returns undefined on success', async () => {
+    ;(prismaMock.category.updateMany as jest.Mock).mockResolvedValue({ count: 0 })
+    const result = await CategoryService.deleteAllCategories()
+    expect(result).toBeUndefined()
+  })
+})
+
+describe('CategoryService.getAllCategorySlugs', () => {
+  it('returns array of slug and updatedAt pairs', async () => {
+    const mockSlugs = [
+      { slug: 'tech', updatedAt: new Date() },
+      { slug: 'science', updatedAt: null },
+    ]
+    ;(prismaMock.category.findMany as jest.Mock).mockResolvedValue(mockSlugs)
+
+    const result = await CategoryService.getAllCategorySlugs()
+
+    expect(result).toHaveLength(2)
+    expect(result[0].slug).toBe('tech')
+    expect(result[1].slug).toBe('science')
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { deletedAt: null },
+        select: { slug: true, updatedAt: true },
+      }),
+    )
+  })
+
+  it('returns empty array when no active categories exist', async () => {
+    ;(prismaMock.category.findMany as jest.Mock).mockResolvedValue([])
+    const result = await CategoryService.getAllCategorySlugs()
+    expect(result).toEqual([])
+  })
+})
+
+describe('CategoryService.getAllCategories – sort key resolution', () => {
+  beforeEach(() => {
+    ;(prismaMock.category.findMany as jest.Mock).mockResolvedValue([])
+    ;(prismaMock.category.count as jest.Mock).mockResolvedValue(0)
+  })
+
+  it('uses "title" sort key when explicitly provided', async () => {
+    await CategoryService.getAllCategories(0, 10, undefined, 'title', 'asc')
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { title: 'asc' } }),
+    )
+  })
+
+  it('uses "slug" sort key when explicitly provided', async () => {
+    await CategoryService.getAllCategories(0, 10, undefined, 'slug', 'desc')
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { slug: 'desc' } }),
+    )
+  })
+
+  it('uses "updatedAt" sort key when explicitly provided', async () => {
+    await CategoryService.getAllCategories(0, 10, undefined, 'updatedAt', 'asc')
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { updatedAt: 'asc' } }),
+    )
+  })
+
+  it('falls back to "createdAt" for an unrecognised sort key', async () => {
+    await CategoryService.getAllCategories(0, 10, undefined, 'nonexistent_key', 'asc')
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { createdAt: 'asc' } }),
+    )
+  })
+
+  it('falls back to "createdAt" when no sort key is provided', async () => {
+    await CategoryService.getAllCategories(0, 10)
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { createdAt: 'desc' } }),
+    )
+  })
+
+  it('defaults sort direction to "desc" for unrecognised sortDir value', async () => {
+    await CategoryService.getAllCategories(0, 10, undefined, 'title', 'desc')
+    expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ orderBy: { title: 'desc' } }),
+    )
+  })
+})

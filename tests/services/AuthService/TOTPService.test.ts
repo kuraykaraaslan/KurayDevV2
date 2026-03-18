@@ -373,3 +373,338 @@ describe('TOTPService.consumeBackupCode — success and removal', () => {
     )
   })
 })
+
+// ── verifyAuthenticate success path ──────────────────────────────────────────
+
+describe('TOTPService.verifyAuthenticate — success path', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('returns { verified: true } when token is valid against stored secret', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      securityMock.getUserSecurity.mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP'] as any,
+          otpSecret: secret,
+          otpBackupCodes: [],
+        } as any,
+      })
+
+      const result = await TOTPService.verifyAuthenticate({ user: mockUser, otpToken: token })
+
+      expect(result).toEqual({ verified: true })
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+
+  it('calls SecurityService.getUserSecurity with the user id', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      securityMock.getUserSecurity.mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP'] as any,
+          otpSecret: secret,
+          otpBackupCodes: [],
+        } as any,
+      })
+
+      await TOTPService.verifyAuthenticate({ user: mockUser, otpToken: token })
+
+      expect(securityMock.getUserSecurity).toHaveBeenCalledWith(mockUser.userId)
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+})
+
+// ── verifyAuthenticateOrBackup TOTP success ───────────────────────────────────
+
+describe('TOTPService.verifyAuthenticateOrBackup — TOTP success', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('returns { verified: true, method: "TOTP" } when TOTP token is valid', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      securityMock.getUserSecurity.mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP'] as any,
+          otpSecret: secret,
+          otpBackupCodes: [],
+        } as any,
+      })
+
+      const result = await TOTPService.verifyAuthenticateOrBackup({ user: mockUser, otpToken: token })
+
+      expect(result).toEqual({ verified: true, method: 'TOTP' })
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+
+  it('falls back to BACKUP_CODE method when TOTP fails but backup code matches', async () => {
+    const bcrypt = await import('bcrypt')
+    const plainCode = '9876-5432'
+    const hashed = await bcrypt.hash(plainCode, 1)
+
+    // First getUserSecurity call for verifyAuthenticate (TOTP path — no TOTP_APP method)
+    securityMock.getUserSecurity
+      .mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: [] as any,
+          otpSecret: null,
+          otpBackupCodes: [hashed],
+        } as any,
+      })
+      // Second call for consumeBackupCode
+      .mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP'] as any,
+          otpSecret: 'x',
+          otpBackupCodes: [hashed],
+        } as any,
+      })
+
+    securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+    const result = await TOTPService.verifyAuthenticateOrBackup({ user: mockUser, otpToken: plainCode })
+
+    expect(result).toEqual({ verified: true, method: 'BACKUP_CODE' })
+  })
+
+  it('throws INVALID_OTP when neither TOTP nor backup code matches', async () => {
+    securityMock.getUserSecurity
+      .mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: [] as any,
+          otpSecret: null,
+          otpBackupCodes: [],
+        } as any,
+      })
+      .mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP'] as any,
+          otpSecret: 'x',
+          otpBackupCodes: [],
+        } as any,
+      })
+
+    await expect(
+      TOTPService.verifyAuthenticateOrBackup({ user: mockUser, otpToken: '000000' })
+    ).rejects.toThrow(AuthMessages.INVALID_OTP)
+  })
+})
+
+// ── generateBackupCodes ───────────────────────────────────────────────────────
+
+describe('TOTPService.generateBackupCodes', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('throws INVALID_OTP_METHOD when TOTP is not enabled', async () => {
+    securityMock.getUserSecurity.mockResolvedValueOnce({
+      userSecurity: {
+        otpMethods: [] as any,
+        otpSecret: null,
+        otpBackupCodes: [],
+      } as any,
+    })
+
+    await expect(
+      TOTPService.generateBackupCodes({ user: mockUser })
+    ).rejects.toThrow(AuthMessages.INVALID_OTP_METHOD)
+  })
+
+  it('throws INVALID_OTP_METHOD when otpSecret is null even if TOTP_APP in methods', async () => {
+    securityMock.getUserSecurity.mockResolvedValueOnce({
+      userSecurity: {
+        otpMethods: ['TOTP_APP'] as any,
+        otpSecret: null,
+        otpBackupCodes: [],
+      } as any,
+    })
+
+    await expect(
+      TOTPService.generateBackupCodes({ user: mockUser })
+    ).rejects.toThrow(AuthMessages.INVALID_OTP_METHOD)
+  })
+
+  it('returns the default 4 codes in XXXX-XXXX format', async () => {
+    securityMock.getUserSecurity.mockResolvedValueOnce({
+      userSecurity: {
+        otpMethods: ['TOTP_APP'] as any,
+        otpSecret: 'JBSWY3DPEHPK3PXP',
+        otpBackupCodes: [],
+      } as any,
+    })
+    securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+    const result = await TOTPService.generateBackupCodes({ user: mockUser })
+
+    expect(result.codes).toHaveLength(4)
+    result.codes.forEach((code) => {
+      expect(code).toMatch(/^\d{4}-\d{4}$/)
+    })
+  })
+
+  it('returns "count" codes when a custom count is specified', async () => {
+    securityMock.getUserSecurity.mockResolvedValueOnce({
+      userSecurity: {
+        otpMethods: ['TOTP_APP'] as any,
+        otpSecret: 'JBSWY3DPEHPK3PXP',
+        otpBackupCodes: [],
+      } as any,
+    })
+    securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+    const result = await TOTPService.generateBackupCodes({ user: mockUser, count: 8 })
+
+    expect(result.codes).toHaveLength(8)
+  })
+
+  it('calls updateUserSecurity to persist hashed backup codes', async () => {
+    securityMock.getUserSecurity.mockResolvedValueOnce({
+      userSecurity: {
+        otpMethods: ['TOTP_APP'] as any,
+        otpSecret: 'JBSWY3DPEHPK3PXP',
+        otpBackupCodes: [],
+      } as any,
+    })
+    securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+    await TOTPService.generateBackupCodes({ user: mockUser })
+
+    expect(securityMock.updateUserSecurity).toHaveBeenCalledWith(
+      mockUser.userId,
+      expect.objectContaining({ otpBackupCodes: expect.any(Array) })
+    )
+  })
+
+  it('returns codes that are unique', async () => {
+    securityMock.getUserSecurity.mockResolvedValueOnce({
+      userSecurity: {
+        otpMethods: ['TOTP_APP'] as any,
+        otpSecret: 'JBSWY3DPEHPK3PXP',
+        otpBackupCodes: [],
+      } as any,
+    })
+    securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+    const result = await TOTPService.generateBackupCodes({ user: mockUser, count: 6 })
+    const unique = new Set(result.codes)
+
+    expect(unique.size).toBe(6)
+  })
+})
+
+// ── disable success path ──────────────────────────────────────────────────────
+
+describe('TOTPService.disable — success path', () => {
+  beforeEach(() => jest.resetAllMocks())
+
+  it('returns { disabled: true } when token is valid', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      securityMock.getUserSecurity.mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP'] as any,
+          otpSecret: secret,
+          otpBackupCodes: [],
+        } as any,
+      })
+      securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+      const result = await TOTPService.disable({ user: mockUser, otpToken: token })
+
+      expect(result).toEqual({ disabled: true })
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+
+  it('calls updateUserSecurity with empty otpSecret and empty backup codes', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      securityMock.getUserSecurity.mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP'] as any,
+          otpSecret: secret,
+          otpBackupCodes: ['hashed1'],
+        } as any,
+      })
+      securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+      await TOTPService.disable({ user: mockUser, otpToken: token })
+
+      expect(securityMock.updateUserSecurity).toHaveBeenCalledWith(
+        mockUser.userId,
+        expect.objectContaining({
+          otpSecret: null,
+          otpBackupCodes: [],
+        })
+      )
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+
+  it('removes TOTP_APP from otpMethods after disabling', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP'
+    const base = new Date('2026-03-16T12:00:00.000Z')
+    jest.useFakeTimers().setSystemTime(base)
+
+    try {
+      TOTPService.setupOtpLib()
+      const token = authenticator.generate(secret)
+
+      securityMock.getUserSecurity.mockResolvedValueOnce({
+        userSecurity: {
+          otpMethods: ['TOTP_APP', 'SMS'] as any,
+          otpSecret: secret,
+          otpBackupCodes: [],
+        } as any,
+      })
+      securityMock.updateUserSecurity.mockResolvedValueOnce(undefined)
+
+      await TOTPService.disable({ user: mockUser, otpToken: token })
+
+      expect(securityMock.updateUserSecurity).toHaveBeenCalledWith(
+        mockUser.userId,
+        expect.objectContaining({
+          otpMethods: expect.not.arrayContaining(['TOTP_APP']),
+        })
+      )
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+})

@@ -16,6 +16,13 @@
 | 1.10 | `tests/services/AuthService/SSOService/GoogleService.test.ts` | ✅ 8 test geçti |
 | 1.11 | `tests/services/AuthService/SSOService/GithubService.test.ts` | ✅ 8 test geçti |
 | 1.12 | `tests/services/AuthService/SSOService/index.test.ts` | ✅ 14 test geçti |
+| 1.13 | `tests/services/AuthService/index.test.ts` | ⏳ planlandı |
+| 1.14 | `tests/services/AuthService/SSOService/AppleService.test.ts` | ⏳ planlandı |
+| 1.15 | `tests/services/AuthService/SSOService/AutodeskService.test.ts` | ⏳ planlandı |
+| 1.16 | `tests/services/AuthService/SSOService/TiktokService.test.ts` | ⏳ planlandı |
+| 1.17 | `tests/services/AuthService/SSOService/TwitterService.test.ts` | ⏳ planlandı |
+| 1.18 | `tests/services/AuthService/SSOService/WeChatService.test.ts` | ⏳ planlandı |
+| 1.19 | `tests/services/UserProfileService/index.test.ts` | ⏳ planlandı |
 
 ## Faz 2 — Çekirdek İçerik Servisleri (P1)
 
@@ -29,6 +36,7 @@
 | 2.6 | `tests/services/UserService/index.test.ts` | ✅ 11 test geçti |
 | 2.7 | `tests/services/PostService/index.test.ts` | ✅ 28 test geçti |
 | 2.8 | `tests/services/TestimonialService.test.ts` | ✅ 14 test geçti |
+| 2.9 | `tests/services/PostService/LocalEmbedService.test.ts` | ⏳ planlandı |
 
 ## Faz 3 — Bildirim & Kampanya (P1)
 
@@ -65,6 +73,10 @@
 | 5.2 | `tests/services/IntegrationService/GithubService.test.ts` | ✅ 3 test geçti |
 | 5.3 | `tests/services/IntegrationService/GitlabService.test.ts` | ✅ 3 test geçti |
 | 5.4 | `tests/services/SocialMediaService/DiscordService.test.ts` | ✅ 2 test geçti |
+| 5.5 | `tests/services/AIServices/AIService.test.ts` | ✅ 8 test geçti |
+| 5.6 | `tests/services/AIServices/OpenAIProvider.test.ts` | ✅ 14 test geçti |
+| 5.7 | `tests/services/AIServices/AIBaseProvider.test.ts` | ✅ 1 test geçti |
+| 5.8 | `tests/services/OpenAIService.test.ts` | ✅ 1 test geçti |
 
 ## Faz 6 — Yardımcı Servisler (P3)
 
@@ -72,13 +84,22 @@
 |---|-------|-------|
 | 6.1 | `tests/services/UserAgentService.test.ts` | ✅ 25 test geçti |
 | 6.2 | `tests/services/SettingService.test.ts` | ✅ 8 test geçti |
+| 6.3 | `tests/services/InAppNotificationService.test.ts` | ⏳ planlandı |
+| 6.4 | `tests/services/PushNotificationService.test.ts` | ⏳ planlandı |
+| 6.5 | `tests/services/ActivityPubService/ActorService.test.ts` | ⏳ planlandı |
+| 6.6 | `tests/services/ActivityPubService/config.test.ts` | ⏳ planlandı |
+| 6.7 | `tests/services/ActivityPubService/index.test.ts` | ⏳ planlandı |
+| 6.8 | `tests/services/ChatbotService/BrowserSessionService.test.ts` | ⏳ planlandı |
+| 6.9 | `tests/services/ChatbotService/ChatSessionDBService.test.ts` | ⏳ planlandı |
+| 6.10 | `tests/services/ChatbotService/handler.test.ts` | ⏳ planlandı |
+| 6.11 | `tests/services/CronService/timers/weekly.test.ts` | ⏳ planlandı |
 
 ## Faz 7 — Helpers (P3)
 
 | # | Dosya | Durum |
 |---|-------|-------|
 | 7.1 | `tests/helpers/Cosine.test.ts` | ✅ 7 test geçti |
-| 7.2 | `tests/helpers/SpamProtection.test.ts` | ✅ 18 test geçti |
+| 7.2 | `tests/helpers/SpamProtection.test.ts` | ✅ 42 test geçti |
 | 7.3 | `tests/helpers/TimeHelper.test.ts` | ✅ 11 test geçti |
 
 ---
@@ -119,13 +140,13 @@
 | 18.1 | Faz 18: Rezervasyon / İşlem Tutarlılığı Riski | ✅ | `AppointmentService` (+5: double-booking conflict, book-then-cancel, capacity=0, tx rollback), `SlotService` (+4: overlap detection, startTime≥endTime, past-time), `SlotTemplateService` (+5: invalid ranges, midnight-spanning, correct slot count, full-conflict skip) — 185 test, tümü yeşil |
 | 19.1 | Faz 19: Depolama ve Dosya Bütünlüğü Riski | ✅ | `BaseStorageProvider` (YENİ: 60 test), `CloudflareR2Service` (YENİ: 38 test), `MinioService` (YENİ: 40 test), `AWSService` (+12: upload failure cleanup, overwrite, invalid bucket), `StorageService/index` (+14: provider selection, fallback, singleton) — 164 test, tümü yeşil |
 | 20.1 | Faz 20: Bildirim ve Kritik İletişim Riski | ✅ | `MailService` (+5: queue error swallowing, empty html, provider failure, null campaign args, ejs render failure), `SMSService` (+5: invalid phone, empty body, sync throw propagation, rate-limit retry) |
-| 21.1 | Faz 21: Harici Kimlik ve Provider Bağımlılık Riski | ✅ | `AnthropicProvider` (YENİ: fetch mock, generateText/streamText/translate), `GeminiProvider` (YENİ: Redis model cache, SSE streaming), `DeepSeekProvider` (YENİ: Authorization header, model selection), `XAIProvider` (YENİ: grok-3 variants), `LinkedInService`/`MicrosoftService`/`FacebookService`/`SlackService` (YENİ: 4 SSO provider) |
+| 21.1 | Faz 21: Harici Kimlik ve Provider Bağımlılık Riski | ✅ | `AnthropicProvider` (YENİ: fetch mock, generateText/streamText/translate), `GeminiProvider` (YENİ: Redis model cache, SSE streaming), `DeepSeekProvider` (YENİ: Authorization header, model selection), `XAIProvider` (YENİ: grok-3 variants), `OpenAIProvider` (YENİ: 14 test — getModels cache hit/miss, streamText, generateImage, translate parse), `AIBaseProvider` (YENİ: 1 test — default generateImage throw), `OpenAIService` (YENİ: 1 test — re-export contract), `LinkedInService`/`MicrosoftService`/`FacebookService`/`SlackService` (YENİ: 4 SSO provider) |
 | 22.1 | Faz 22: API ve Entegrasyon Sürekliliği Riski | ✅ | `GithubService` (+4: malformed response, stale-cache fallback, rate-limit 429), `GitlabService` (+5: malformed JSON, expired TTL, cache boundary), `InboxService` (+8: unknown activity types, Follow→Undo transition, sharedInbox persistence), `DeliveryService` (+6: network error, 503/404, broadcast graceful resolution) |
 | 23.1 | Faz 23: İçerik ve Kullanıcı Etkileşimi İş Riski | ✅ | `ViewerService` (YENİ: 11 test — heartbeat idempotency, slug scoping, TTL reset), `SubscriptionService` (+12: duplicate idempotency, token edge cases, topic filtering), `CommentService` (+14: banned author, status matrix, nested reply), `StatService` (+8: cache key/hit, zero count, weekly/monthly/yearly), `PostService` (+9: soft-delete exclusion, past/future publishedAt, idempotency) — 131 test |
 | 24.1 | Faz 24: Arka Plan İşleri ve Zamanlanmış Süreç Riski | ✅ | `CronService/timers/daily` (YENİ: 5 test — array shape, handler resolve, job failure isolation), `CronService/timers/hourly` (YENİ: 6 test — publishScheduledPosts delegation, error propagation) |
 | 25.1 | Faz 25: Chatbot ve Moderasyon Operasyon Riski | ✅ | `ChatSessionService` (YENİ: 19 test — Redis→DB fallback, addMessage, listSessions), `ChatbotModerationService` (YENİ: 11 test — banUser, rateLimit, fail-open), `ChatbotRAGService` (YENİ: 26 test — KG retrieval, threshold, buildSystemPrompt, compressHistory), `ChatbotAdminService` (YENİ: 16 test — takeoverSession, adminReply, WS publish) — 150 test |
-| 26.1 | Faz 26: SEO, Keşfedilebilirlik ve İçerik Sunumu Riski | ✅ | `HreflangHelper` (YENİ: 11 test — buildLangUrl, buildAlternates, x-default, dedup), `SitemapGenerator` (YENİ: 14 test — XML structure, escaping, renderSitemapIndex), `tocUtils` (YENİ: 21 test — generateSlug, extractHeadings, addHeadingIds), `SitemapService` (YENİ: 10 test — pingGoogle, 2xx/non-2xx/network), `KnowledgeGraphService` (YENİ: 10 test — queueFullRebuild, getSimilarPosts, score filtering) |
-| 27.1 | Faz 27: Düşük Riskli Yardımcı Modüller | ✅ | `Encryptor` (+7: empty/wrong-key/long/unicode/collision), `FieldValidater` (+40: isEmail/isPhone/sanitizeString/isBoolean/isCUID boundary), `DBGeoService` (+5: unknown country, coords, empty dataset, cache hit), `GeoAnalyticsService` (+6: missing lat/lon, null fallbacks, hasSeenUser), `SpamProtection` (+18: repeat-char threshold, URL count, honeypot edge cases), `Validater` (+45: validateStatus/validatePassword/validateURL/validateNaturalNumber) |
+| 26.1 | Faz 26: SEO, Keşfedilebilirlik ve İçerik Sunumu Riski | ✅ | `HreflangHelper` (YENİ: 11 test — buildLangUrl, buildAlternates, x-default, dedup), `SitemapGenerator` (YENİ: 14 test — XML structure, escaping, renderSitemapIndex), `tocUtils` (YENİ: 21 test — generateSlug, extractHeadings, addHeadingIds), `SitemapService` (YENİ: 10 test — pingGoogle, 2xx/non-2xx/network), `KnowledgeGraphService` (YENİ: 19 test — queue wiring, rebuild/update flows, early-return paths) |
+| 27.1 | Faz 27: Düşük Riskli Yardımcı Modüller | ✅ | `Encryptor` (+7: empty/wrong-key/long/unicode/collision), `FieldValidater` (+52: regex/comparePasswords/validateBody + isEmail/isPhone/sanitizeString/isBoolean/isCUID boundary), `DBGeoService` (+5: unknown country, coords, empty dataset, cache hit), `GeoAnalyticsService` (+6: missing lat/lon, null fallbacks, hasSeenUser), `SpamProtection` (+42: recaptcha guard/success-fail/throw + fingerprint + repeat-char threshold, URL count, honeypot edge cases), `Validater` (+45: validateStatus/validatePassword/validateURL/validateNaturalNumber) |
 | 28.1 | Faz 28: Endpoint Contract ve HTTP Riskleri | ✅ | `api/auth/login/route.test.ts` (YENİ: 200/400/500, cookie ayarı, rememberDevice), `api/auth/register/route.test.ts` (YENİ: 201/400/500, reCAPTCHA validation), `api/auth/logout/route.test.ts` (YENİ: 200/500, cookie temizleme) |
 | 29.1 | Faz 29: Regression Safety Net | ⏳ | auth/appointment/storage/mail/user/provider seçimleri başta olmak üzere geçmiş bug alanları için kalıcı regression test paketi |
 

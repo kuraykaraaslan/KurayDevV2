@@ -97,6 +97,45 @@ describe('UserAgentService', () => {
         UserAgentService.getGeoLocationFromMaxMind('1.2.3.4')
       ).rejects.toThrow('MaxMind credentials are missing')
     })
+
+    it('calls MaxMind API and caches result when credentials are present', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      redisMock.set.mockResolvedValue('OK')
+      process.env.MAXMIND_ACCOUNT_ID = 'acct-123'
+      process.env.MAXMIND_API_KEY = 'key-abc'
+      axiosMock.get.mockResolvedValueOnce({
+        data: {
+          city: { names: { en: 'London' } },
+          subdivisions: [{ names: { en: 'England' } }],
+          country: { names: { en: 'United Kingdom' }, iso_code: 'GB' },
+          location: { latitude: 51.5, longitude: -0.1 },
+        },
+      })
+
+      const result = await UserAgentService.getGeoLocationFromMaxMind('8.8.8.8')
+
+      expect(result.city).toBe('London')
+      expect(result.country).toBe('United Kingdom')
+      expect(result.countryCode).toBe('GB')
+      expect(result.latitude).toBe(51.5)
+      expect(redisMock.set).toHaveBeenCalledWith('geo:location:8.8.8.8', expect.any(String), 'EX', 86400)
+
+      delete process.env.MAXMIND_ACCOUNT_ID
+      delete process.env.MAXMIND_API_KEY
+    })
+
+    it('returns null fields when MaxMind API call fails', async () => {
+      redisMock.get.mockResolvedValueOnce(null)
+      process.env.MAXMIND_ACCOUNT_ID = 'acct-123'
+      process.env.MAXMIND_API_KEY = 'key-abc'
+      axiosMock.get.mockRejectedValueOnce(new Error('Network error'))
+
+      const result = await UserAgentService.getGeoLocationFromMaxMind('8.8.8.8')
+      expect(result).toEqual({ city: null, state: null, country: null })
+
+      delete process.env.MAXMIND_ACCOUNT_ID
+      delete process.env.MAXMIND_API_KEY
+    })
   })
 
   // ── getGeoLocation (with fallback) ────────────────────────────────────
@@ -112,6 +151,81 @@ describe('UserAgentService', () => {
 
       const result = await UserAgentService.getGeoLocation('5.5.5.5')
       expect(result.city).toBe('Ankara')
+    })
+
+    it('falls back to ip-api when MaxMind returns no country', async () => {
+      process.env.MAXMIND_ACCOUNT_ID = 'acct-123'
+      process.env.MAXMIND_API_KEY = 'key-abc'
+      // MaxMind cache miss, then ip-api cache miss
+      redisMock.get.mockResolvedValueOnce(null).mockResolvedValueOnce(null)
+      redisMock.set.mockResolvedValue('OK')
+      axiosMock.get
+        // MaxMind returns data but no country
+        .mockResolvedValueOnce({ data: { city: null, subdivisions: [], country: null, location: null } })
+        // ip-api returns full data
+        .mockResolvedValueOnce({
+          data: { status: 'success', city: 'Paris', country: 'France', countryCode: 'FR', regionName: 'Ile-de-France', lat: 48.8, lon: 2.3 },
+        })
+
+      const result = await UserAgentService.getGeoLocation('9.9.9.9')
+      expect(result.city).toBe('Paris')
+
+      delete process.env.MAXMIND_ACCOUNT_ID
+      delete process.env.MAXMIND_API_KEY
+    })
+  })
+
+  // ── parseRequest ──────────────────────────────────────────────────────
+  describe('parseRequest', () => {
+    it('extracts userAgent and IP from request headers', async () => {
+      const geoSpy = jest
+        .spyOn(UserAgentService, 'getGeoLocation')
+        .mockResolvedValue({ city: 'NYC', state: 'NY', country: 'USA', countryCode: 'US', latitude: 40.7, longitude: -74.0 })
+
+      const mockRequest = {
+        headers: {
+          get: (name: string) => {
+            const headers: Record<string, string> = {
+              'user-agent': 'Mozilla/5.0 Chrome/120',
+              'x-forwarded-for': '203.0.113.1, 10.0.0.1',
+            }
+            return headers[name] ?? null
+          },
+        },
+      } as any
+
+      const result = await UserAgentService.parseRequest(mockRequest)
+
+      expect(result.browser).toBe('Chrome')
+      expect(result.ip).toBe('203.0.113.1')
+      expect(result.city).toBe('NYC')
+
+      geoSpy.mockRestore()
+    })
+
+    it('uses x-real-ip when x-forwarded-for is absent', async () => {
+      const geoSpy = jest
+        .spyOn(UserAgentService, 'getGeoLocation')
+        .mockResolvedValue({ city: 'Berlin', state: null, country: 'Germany', countryCode: 'DE', latitude: 52.5, longitude: 13.4 })
+
+      const mockRequest = {
+        headers: {
+          get: (name: string) => {
+            const headers: Record<string, string> = {
+              'user-agent': 'Mozilla/5.0 Firefox/120',
+              'x-real-ip': '198.51.100.1',
+            }
+            return headers[name] ?? null
+          },
+        },
+      } as any
+
+      const result = await UserAgentService.parseRequest(mockRequest)
+
+      expect(result.browser).toBe('Firefox')
+      expect(result.ip).toBe('198.51.100.1')
+
+      geoSpy.mockRestore()
     })
   })
 
