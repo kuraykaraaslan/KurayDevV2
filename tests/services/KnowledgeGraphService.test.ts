@@ -2,11 +2,30 @@
 // so they must be mocked before any import of the service.
 
 jest.mock('bullmq', () => {
-  const add      = jest.fn().mockResolvedValue({ id: 'job-1' })
-  const on       = jest.fn()
-  const Queue    = jest.fn().mockImplementation(() => ({ add, on }))
-  const Worker   = jest.fn().mockImplementation(() => ({ on }))
-  return { Queue, Worker }
+  const add = jest.fn().mockResolvedValue({ id: 'job-1' })
+
+  const queueOn = jest.fn()
+  const workerOn = jest.fn()
+
+  let workerProcessor: any = null
+  const workerHandlers: Record<string, any> = {}
+
+  const Queue = jest.fn().mockImplementation(() => ({ add, on: queueOn }))
+  const Worker = jest.fn().mockImplementation((_name, processor) => {
+    workerProcessor = processor
+    return {
+      on: workerOn.mockImplementation((event: string, cb: any) => {
+        workerHandlers[event] = cb
+      }),
+    }
+  })
+
+  return {
+    Queue,
+    Worker,
+    __workerProcessor: () => workerProcessor,
+    __workerHandler: (event: string) => workerHandlers[event],
+  }
 })
 
 jest.mock('@/libs/redis', () => ({
@@ -46,11 +65,15 @@ jest.mock('@/libs/logger', () => ({
 import KnowledgeGraphService from '@/services/KnowledgeGraphService'
 import redis from '@/libs/redis'
 import PostService from '@/services/PostService'
+import LocalEmbedService from '@/services/PostService/LocalEmbedService'
+import Logger from '@/libs/logger'
 import { cosine } from '@/helpers/Cosine'
 
-const redisMock       = redis as jest.Mocked<typeof redis>
+const redisMock = redis as jest.Mocked<typeof redis>
 const postServiceMock = PostService as jest.Mocked<typeof PostService>
-const cosineMock      = cosine as jest.MockedFunction<typeof cosine>
+const embedMock = LocalEmbedService as any
+const loggerMock = Logger as any
+const cosineMock = cosine as jest.MockedFunction<typeof cosine>
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 
@@ -221,6 +244,135 @@ describe('KnowledgeGraphService', () => {
   describe('QUEUE_NAME', () => {
     it('has a defined queue name', () => {
       expect(KnowledgeGraphService.QUEUE_NAME).toBe('knowledgeGraphQueue')
+    })
+  })
+
+  // ── Internal logic (private) ─────────────────────────────────────────────
+  describe('internal rebuild/update', () => {
+    it('updatePostInternal returns early when post not found', async () => {
+      postServiceMock.getAllPosts.mockResolvedValueOnce({ posts: [], total: 0 } as any)
+
+      await (KnowledgeGraphService as any)._updatePostInternal('post-404')
+
+      expect(redisMock.get).not.toHaveBeenCalled()
+      expect(redisMock.set).not.toHaveBeenCalled()
+    })
+
+    it('updatePostInternal saves nodes and writes forward+reverse links', async () => {
+      postServiceMock.getAllPosts.mockResolvedValueOnce({ posts: [POST_A as any], total: 1 } as any)
+      ;(LocalEmbedService as any).embed.mockResolvedValueOnce([EMBEDDING_A])
+
+      // loadNodes
+      redisMock.get.mockResolvedValueOnce(JSON.stringify(KG_NODES) as any)
+      // reverse links for post-002
+      redisMock.get.mockResolvedValueOnce('[]' as any)
+
+      cosineMock.mockReturnValueOnce(0.85)
+
+      await (KnowledgeGraphService as any)._updatePostInternal('post-001')
+
+      expect(redisMock.set).toHaveBeenCalledWith('kg:nodes', expect.any(String))
+      expect(redisMock.set).toHaveBeenCalledWith('kg:links:post-001', expect.any(String))
+      expect(redisMock.set).toHaveBeenCalledWith(
+        'kg:links:post-002',
+        expect.stringContaining('post-001')
+      )
+    })
+
+    it('updatePostInternal updates existing reverse link entry when present', async () => {
+      postServiceMock.getAllPosts.mockResolvedValueOnce({ posts: [POST_A as any], total: 1 } as any)
+      ;(LocalEmbedService as any).embed.mockResolvedValueOnce([EMBEDDING_A])
+
+      redisMock.get.mockResolvedValueOnce(JSON.stringify(KG_NODES) as any)
+      redisMock.get.mockResolvedValueOnce(JSON.stringify([{ id: 'post-001', s: 0.1 }]) as any)
+
+      cosineMock.mockReturnValueOnce(0.9)
+
+      await (KnowledgeGraphService as any)._updatePostInternal('post-001')
+
+      expect(redisMock.set).toHaveBeenCalledWith(
+        'kg:links:post-002',
+        expect.stringContaining('"s":0.9')
+      )
+    })
+
+    it('fullRebuildInternal aborts cleanly when no posts exist', async () => {
+      postServiceMock.getAllPosts.mockResolvedValueOnce({ posts: [], total: 0 } as any)
+
+      await (KnowledgeGraphService as any)._fullRebuildInternal()
+
+      expect(loggerMock.warn).toHaveBeenCalled()
+      expect(redisMock.hset).toHaveBeenCalledWith(
+        'kg:meta',
+        expect.objectContaining({ status: 'running' })
+      )
+    })
+
+    it('fullRebuildInternal saves nodes and link sets, then marks completed', async () => {
+      postServiceMock.getAllPosts.mockResolvedValueOnce({
+        posts: [POST_A as any, POST_B as any],
+        total: 2,
+      } as any)
+      ;(LocalEmbedService as any).embed.mockResolvedValueOnce([EMBEDDING_A, EMBEDDING_B])
+      cosineMock.mockReturnValue(0.95)
+
+      await (KnowledgeGraphService as any)._fullRebuildInternal()
+
+      expect(redisMock.set).toHaveBeenCalledWith('kg:nodes', expect.any(String))
+      expect(redisMock.set).toHaveBeenCalledWith('kg:links:post-001', expect.any(String))
+      expect(redisMock.set).toHaveBeenCalledWith('kg:links:post-002', expect.any(String))
+      expect(redisMock.hset).toHaveBeenCalledWith(
+        'kg:meta',
+        expect.objectContaining({ status: 'completed', postCount: 2 })
+      )
+    })
+
+    it('fullRebuildInternal marks failed when an error occurs', async () => {
+      postServiceMock.getAllPosts.mockRejectedValueOnce(new Error('boom'))
+
+      await (KnowledgeGraphService as any)._fullRebuildInternal()
+
+      expect(loggerMock.error).toHaveBeenCalled()
+      expect(redisMock.hset).toHaveBeenCalledWith(
+        'kg:meta',
+        expect.objectContaining({ status: 'failed' })
+      )
+    })
+  })
+
+  // ── Worker processor and event handlers ───────────────────────────────────
+  describe('worker wiring', () => {
+    it('runs processor for fullRebuild and updatePost jobs', async () => {
+      const bullmq = require('bullmq')
+      const proc = bullmq.__workerProcessor()
+
+      const fullSpy = jest
+        .spyOn(KnowledgeGraphService as any, '_fullRebuildInternal')
+        .mockResolvedValueOnce(undefined)
+      const updSpy = jest
+        .spyOn(KnowledgeGraphService as any, '_updatePostInternal')
+        .mockResolvedValueOnce(undefined)
+
+      await proc({ id: 'job-1', data: { type: 'fullRebuild' } })
+      await proc({ id: 'job-2', data: { type: 'updatePost', postId: 'post-001' } })
+
+      expect(fullSpy).toHaveBeenCalled()
+      expect(updSpy).toHaveBeenCalledWith('post-001')
+
+      fullSpy.mockRestore()
+      updSpy.mockRestore()
+    })
+
+    it('invokes completed/failed handlers', () => {
+      const bullmq = require('bullmq')
+      const completed = bullmq.__workerHandler('completed')
+      const failed = bullmq.__workerHandler('failed')
+
+      completed({ id: 'job-1' })
+      failed({ id: 'job-2' }, new Error('nope'))
+
+      expect(loggerMock.info).toHaveBeenCalled()
+      expect(loggerMock.error).toHaveBeenCalled()
     })
   })
 

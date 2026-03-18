@@ -1,3 +1,10 @@
+jest.mock('bcrypt', () => ({
+  __esModule: true,
+  default: {
+    compare: jest.fn(),
+  },
+}))
+
 import FieldValidater from '@/utils/FieldValidater'
 
 describe('FieldValidater', () => {
@@ -218,5 +225,70 @@ describe('FieldValidater.isCUID', () => {
 
   it('returns false for null', () => {
     expect(FieldValidater.isCUID(null)).toBe(false)
+  })
+})
+
+describe('FieldValidater.validateWithRegex', () => {
+  it('returns false for null/undefined/empty values', () => {
+    expect(FieldValidater.validateWithRegex(null, /a/)).toBe(false)
+    expect(FieldValidater.validateWithRegex(undefined, /a/)).toBe(false)
+    expect(FieldValidater.validateWithRegex('', /a/)).toBe(false)
+  })
+
+  it('validates using the provided regex', () => {
+    expect(FieldValidater.validateWithRegex('abc', /^a/)).toBe(true)
+    expect(FieldValidater.validateWithRegex('xbc', /^a/)).toBe(false)
+  })
+})
+
+describe('FieldValidater.comparePasswords', () => {
+  const bcrypt = require('bcrypt').default
+
+  beforeEach(() => jest.clearAllMocks())
+
+  it('delegates to bcrypt.compare and returns its result', async () => {
+    bcrypt.compare.mockResolvedValueOnce(true)
+
+    const ok = await FieldValidater.comparePasswords('hashed', 'plain')
+    expect(ok).toBe(true)
+    expect(bcrypt.compare).toHaveBeenCalledWith('plain', 'hashed')
+  })
+})
+
+describe('FieldValidater.validateBody', () => {
+  class Model {
+    name: string = ''
+    age: string | undefined = undefined
+  }
+
+  it('returns false when required fields are missing', () => {
+    expect(FieldValidater.validateBody({ name: 'x' }, Model)).toBe(false)
+  })
+
+  it('returns false when body has extra fields', () => {
+    expect(FieldValidater.validateBody({ name: 'x', age: '1', extra: 'nope' }, Model)).toBe(false)
+  })
+
+  it('returns true when body matches model keys', () => {
+    expect(FieldValidater.validateBody({ name: 'x', age: '1' }, Model)).toBe(true)
+  })
+})
+
+describe('FieldValidater misc validators', () => {
+  it('validates tenant roles/status and name/number', () => {
+    expect(FieldValidater.isTenantUserRole('ADMIN')).toBe(true)
+    expect(FieldValidater.isTenantUserRole('OWNER')).toBe(false)
+
+    expect(FieldValidater.isTenantUserStatus('ACTIVE')).toBe(true)
+    expect(FieldValidater.isTenantUserStatus('DISABLED')).toBe(false)
+
+    expect(FieldValidater.isTenantStatus('INACTIVE')).toBe(true)
+    expect(FieldValidater.isTenantStatus('PENDING')).toBe(false)
+
+    expect(FieldValidater.isName('kuray')).toBe(false)
+    expect(FieldValidater.isName('kuray.dev')).toBe(true)
+
+    expect(FieldValidater.isNumber('123')).toBe(true)
+    expect(FieldValidater.isNumber('12a')).toBe(false)
   })
 })

@@ -3,6 +3,8 @@ import {
   isSubmittedTooQuickly,
   hasSpamPatterns,
   checkForSpam,
+  verifyRecaptcha,
+  getClientFingerprint,
   MIN_FORM_FILL_TIME_MS,
   HONEYPOT_FIELD_NAME,
 } from '@/helpers/SpamProtection'
@@ -215,5 +217,103 @@ describe('SpamProtection – Phase 27 edge cases', () => {
       })
       expect(result.isSpam).toBe(false)
     })
+  })
+})
+
+describe('SpamProtection.verifyRecaptcha', () => {
+  const OLD_ENV = process.env
+
+  beforeEach(() => {
+    jest.resetModules()
+    process.env = { ...OLD_ENV }
+    ;(globalThis as any).fetch = jest.fn()
+  })
+
+  afterEach(() => {
+    process.env = OLD_ENV
+    delete (globalThis as any).fetch
+  })
+
+  it('returns true when RECAPTCHA_SERVER_KEY is not configured', async () => {
+    delete process.env.RECAPTCHA_SERVER_KEY
+
+    const ok = await verifyRecaptcha('token')
+    expect(ok).toBe(true)
+    expect((globalThis as any).fetch).not.toHaveBeenCalled()
+  })
+
+  it('returns true when Google returns success=true', async () => {
+    process.env.RECAPTCHA_SERVER_KEY = 'secret'
+
+    ;(globalThis as any).fetch.mockResolvedValueOnce({
+      json: async () => ({ success: true }),
+    })
+
+    const ok = await verifyRecaptcha('token')
+    expect(ok).toBe(true)
+  })
+
+  it('returns false when Google returns success=false', async () => {
+    process.env.RECAPTCHA_SERVER_KEY = 'secret'
+
+    ;(globalThis as any).fetch.mockResolvedValueOnce({
+      json: async () => ({ success: false }),
+    })
+
+    const ok = await verifyRecaptcha('token')
+    expect(ok).toBe(false)
+  })
+
+  it('returns false when fetch throws', async () => {
+    process.env.RECAPTCHA_SERVER_KEY = 'secret'
+
+    ;(globalThis as any).fetch.mockRejectedValueOnce(new Error('network'))
+
+    const ok = await verifyRecaptcha('token')
+    expect(ok).toBe(false)
+  })
+})
+
+describe('SpamProtection.getClientFingerprint', () => {
+  it('uses x-forwarded-for first ip and trims it', () => {
+    const req = {
+      headers: {
+        get: (key: string) => {
+          if (key === 'x-forwarded-for') return '1.2.3.4, 9.9.9.9'
+          if (key === 'user-agent') return 'UA'
+          return null
+        },
+      },
+    } as any
+
+    expect(getClientFingerprint(req)).toBe('1.2.3.4:UA')
+  })
+
+  it('falls back to x-real-ip when x-forwarded-for missing', () => {
+    const req = {
+      headers: {
+        get: (key: string) => {
+          if (key === 'x-real-ip') return '5.6.7.8'
+          if (key === 'user-agent') return 'UA'
+          return null
+        },
+      },
+    } as any
+
+    expect(getClientFingerprint(req)).toBe('5.6.7.8:UA')
+  })
+
+  it('falls back to unknown values and slices user-agent to 50 chars', () => {
+    const longUA = 'x'.repeat(80)
+    const req = {
+      headers: {
+        get: (key: string) => {
+          if (key === 'user-agent') return longUA
+          return null
+        },
+      },
+    } as any
+
+    expect(getClientFingerprint(req)).toBe(`unknown:${longUA.slice(0, 50)}`)
   })
 })
