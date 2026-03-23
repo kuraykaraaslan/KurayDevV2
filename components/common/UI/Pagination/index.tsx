@@ -11,6 +11,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter, useSearchParams } from 'next/navigation'
 
+type PaginationSize = 'sm' | 'md' | 'lg'
+
 interface PaginationProps {
   totalPages: number
   currentPage?: number
@@ -22,38 +24,76 @@ interface PaginationProps {
   showFirstLast?: boolean
   showPrevNext?: boolean
   showJumpTo?: boolean
+  size?: PaginationSize
+  compact?: boolean
 }
 
-export default function Pagination({
+interface PaginationCoreProps {
+  totalPages: number
+  currentPage: number
+  onPageChange: (page: number) => void
+  delta: number
+  minWindow: number
+  showFirstLast: boolean
+  showPrevNext: boolean
+  showJumpTo: boolean
+  size: PaginationSize
+  compact: boolean
+}
+
+const sizeClass: Record<PaginationSize, string> = {
+  sm: 'btn-sm',
+  md: '',
+  lg: 'btn-lg',
+}
+
+function PaginationCore({
   totalPages,
-  currentPage: currentPageProp,
+  currentPage,
   onPageChange,
-  syncUrl = false,
-  urlParam = 'page',
-  delta = 1,
-  minWindow = 3,
-  showFirstLast = true,
-  showPrevNext = true,
-  showJumpTo = false,
-}: PaginationProps) {
+  delta,
+  minWindow,
+  showFirstLast,
+  showPrevNext,
+  showJumpTo,
+  size,
+  compact,
+}: PaginationCoreProps) {
   const { t } = useTranslation()
   const [jumpValue, setJumpValue] = useState('')
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  const currentPage = syncUrl
-    ? Math.max(1, parseInt(searchParams.get(urlParam) || '1', 10))
-    : (currentPageProp ?? 1)
 
   if (totalPages <= 1) return null
 
-  function handlePageChange(page: number) {
-    if (syncUrl) {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set(urlParam, String(page))
-      router.push(`?${params.toString()}`)
-    }
-    onPageChange?.(page)
+  const btnClass = `join-item btn ${sizeClass[size]}`
+
+  if (compact) {
+    return (
+      <div className="flex justify-center mb-6">
+        <div className="join">
+          <button
+            className={btnClass}
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+            aria-label={t('common.pagination.previous_page')}
+            title={t('common.pagination.previous_page')}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <button className={`${btnClass} pointer-events-none min-w-16 tabular-nums`}>
+            {currentPage} / {totalPages}
+          </button>
+          <button
+            className={btnClass}
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage >= totalPages}
+            aria-label={t('common.pagination.next_page')}
+            title={t('common.pagination.next_page')}
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
+        </div>
+      </div>
+    )
   }
 
   let rangeStart = Math.max(1, currentPage - delta)
@@ -75,7 +115,7 @@ export default function Pagination({
   function handleJump() {
     const page = parseInt(jumpValue)
     if (!isNaN(page) && page >= 1 && page <= totalPages) {
-      handlePageChange(page)
+      onPageChange(page)
       setJumpValue('')
     }
   }
@@ -85,8 +125,8 @@ export default function Pagination({
       <div className="join">
         {showFirstLast && (
           <button
-            className="join-item btn"
-            onClick={() => handlePageChange(1)}
+            className={btnClass}
+            onClick={() => onPageChange(1)}
             disabled={currentPage <= 1}
             aria-label={t('common.pagination.first_page')}
             title={t('common.pagination.first_page')}
@@ -96,8 +136,8 @@ export default function Pagination({
         )}
         {showPrevNext && (
           <button
-            className="join-item btn"
-            onClick={() => handlePageChange(currentPage - 1)}
+            className={btnClass}
+            onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage <= 1}
             aria-label={t('common.pagination.previous_page')}
             title={t('common.pagination.previous_page')}
@@ -107,12 +147,12 @@ export default function Pagination({
         )}
         {pages.map((p) =>
           p === 'ellipsis-start' || p === 'ellipsis-end' ? (
-            <button key={p} className="join-item btn btn-disabled" aria-hidden>…</button>
+            <button key={p} className={`${btnClass} btn-disabled hidden sm:flex`} aria-hidden>…</button>
           ) : (
             <button
               key={p}
-              className={`join-item btn ${p === currentPage ? 'btn-primary' : ''}`}
-              onClick={() => handlePageChange(p)}
+              className={`${btnClass} ${p === currentPage ? 'btn-primary' : ''}`}
+              onClick={() => onPageChange(p)}
               aria-label={
                 p === currentPage
                   ? t('common.pagination.current_page', { page: p })
@@ -126,8 +166,8 @@ export default function Pagination({
         )}
         {showPrevNext && (
           <button
-            className="join-item btn"
-            onClick={() => handlePageChange(currentPage + 1)}
+            className={btnClass}
+            onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage >= totalPages}
             aria-label={t('common.pagination.next_page')}
             title={t('common.pagination.next_page')}
@@ -137,8 +177,8 @@ export default function Pagination({
         )}
         {showFirstLast && (
           <button
-            className="join-item btn"
-            onClick={() => handlePageChange(totalPages)}
+            className={btnClass}
+            onClick={() => onPageChange(totalPages)}
             disabled={currentPage >= totalPages}
             aria-label={t('common.pagination.last_page')}
             title={t('common.pagination.last_page')}
@@ -158,13 +198,62 @@ export default function Pagination({
             onKeyDown={(e) => e.key === 'Enter' && handleJump()}
             placeholder={`1 – ${totalPages}`}
             aria-label={t('common.pagination.go_to_page')}
-            className="join-item input input-bordered w-24 text-center"
+            className={`join-item input input-bordered w-24 text-center ${size === 'sm' ? 'input-sm' : size === 'lg' ? 'input-lg' : ''}`}
           />
-          <button className="join-item btn" onClick={handleJump}>
+          <button className={btnClass} onClick={handleJump}>
             {t('common.pagination.go')}
           </button>
         </div>
       )}
     </div>
+  )
+}
+
+function PaginationWithUrl(props: Omit<PaginationCoreProps, 'currentPage' | 'onPageChange'> & {
+  onPageChange?: (page: number) => void
+  urlParam: string
+}) {
+  const { urlParam, onPageChange, ...rest } = props
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const currentPage = Math.max(1, parseInt(searchParams.get(urlParam) || '1', 10))
+
+  function handlePageChange(page: number) {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set(urlParam, String(page))
+    router.push(`?${params.toString()}`)
+    onPageChange?.(page)
+  }
+
+  return <PaginationCore {...rest} currentPage={currentPage} onPageChange={handlePageChange} />
+}
+
+export default function Pagination({
+  totalPages,
+  currentPage,
+  onPageChange,
+  syncUrl = false,
+  urlParam = 'page',
+  delta = 1,
+  minWindow = 3,
+  showFirstLast = true,
+  showPrevNext = true,
+  showJumpTo = false,
+  size = 'md',
+  compact = false,
+}: PaginationProps) {
+  const coreProps = { totalPages, delta, minWindow, showFirstLast, showPrevNext, showJumpTo, size, compact }
+
+  if (syncUrl) {
+    return <PaginationWithUrl {...coreProps} urlParam={urlParam} onPageChange={onPageChange} />
+  }
+
+  return (
+    <PaginationCore
+      {...coreProps}
+      currentPage={currentPage ?? 1}
+      onPageChange={onPageChange ?? (() => {})}
+    />
   )
 }

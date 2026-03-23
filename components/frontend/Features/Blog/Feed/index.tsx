@@ -84,7 +84,7 @@ export default function Feed(props: FeedProps) {
           </div>
         </div>
 
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={goToPage} />
+        <Pagination totalPages={totalPages} syncUrl size='md'/>
       </div>
     </section>
   )
