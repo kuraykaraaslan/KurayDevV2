@@ -739,6 +739,16 @@
       "title": "Сурет"
     },
     "loading": "Жүктелуде...",
+    "pagination": {
+      "first_page": "Бірінші бет",
+      "previous_page": "Алдыңғы бет",
+      "next_page": "Келесі бет",
+      "last_page": "Соңғы бет",
+      "page": "Бет {{page}}",
+      "current_page": "Бет {{page}}, ағымдағы бет",
+      "go_to_page": "Бетке өту",
+      "go": "Өту"
+    },
     "modal": {
       "close_dialog": "Диалогты жабу"
     },

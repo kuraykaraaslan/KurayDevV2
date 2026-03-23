@@ -132,6 +132,16 @@
       "title": "Immaġni"
     },
     "loading": "Qed jitgħabba...",
+    "pagination": {
+      "first_page": "L-ewwel paġna",
+      "previous_page": "Il-paġna ta' qabel",
+      "next_page": "Il-paġna li jmiss",
+      "last_page": "L-aħħar paġna",
+      "page": "Paġna {{page}}",
+      "current_page": "Paġna {{page}}, paġna attwali",
+      "go_to_page": "Mur għall-paġna",
+      "go": "Mur"
+    },
     "modal": {
       "close_dialog": "Agħlaq id-djalogu"
     },

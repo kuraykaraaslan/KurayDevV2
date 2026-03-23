@@ -123,6 +123,16 @@
     "refresh": "רענן",
     "table_view": "תצוגת טבלה",
     "grid_view": "תצוגת רשת",
+    "pagination": {
+      "first_page": "עמוד ראשון",
+      "previous_page": "עמוד קודם",
+      "next_page": "עמוד הבא",
+      "last_page": "עמוד אחרון",
+      "page": "עמוד {{page}}",
+      "current_page": "עמוד {{page}}, עמוד נוכחי",
+      "go_to_page": "עבור לעמוד",
+      "go": "עבור"
+    },
     "modal": {
       "close_dialog": "סגור דיאלוג"
     },

@@ -132,6 +132,16 @@
       "title": "Afbeelding"
     },
     "loading": "Laden...",
+    "pagination": {
+      "first_page": "Eerste pagina",
+      "previous_page": "Vorige pagina",
+      "next_page": "Volgende pagina",
+      "last_page": "Laatste pagina",
+      "page": "Pagina {{page}}",
+      "current_page": "Pagina {{page}}, huidige pagina",
+      "go_to_page": "Ga naar pagina",
+      "go": "Ga"
+    },
     "modal": {
       "close_dialog": "Dialoog sluiten"
     },

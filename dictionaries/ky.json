@@ -739,6 +739,16 @@
       "title": "Сүрөт"
     },
     "loading": "Жүктөлүүдө...",
+    "pagination": {
+      "first_page": "Биринчи барак",
+      "previous_page": "Мурунку барак",
+      "next_page": "Кийинки барак",
+      "last_page": "Акыркы барак",
+      "page": "Барак {{page}}",
+      "current_page": "Барак {{page}}, учурдагы барак",
+      "go_to_page": "Баракка өтүү",
+      "go": "Өтүү"
+    },
     "modal": {
       "close_dialog": "Диалогту жабуу"
     },

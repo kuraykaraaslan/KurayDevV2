@@ -739,6 +739,16 @@
       "title": "Image"
     },
     "loading": "Chargement...",
+    "pagination": {
+      "first_page": "Première page",
+      "previous_page": "Page précédente",
+      "next_page": "Page suivante",
+      "last_page": "Dernière page",
+      "page": "Page {{page}}",
+      "current_page": "Page {{page}}, page actuelle",
+      "go_to_page": "Aller à la page",
+      "go": "Aller"
+    },
     "modal": {
       "close_dialog": "Fermer la fenêtre"
     },

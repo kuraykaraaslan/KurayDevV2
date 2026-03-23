@@ -134,6 +134,16 @@
     "cancel": "Abbrechen",
     "grid_view": "Rasteransicht",
     "loading": "Laden...",
+    "pagination": {
+      "first_page": "Erste Seite",
+      "previous_page": "Vorherige Seite",
+      "next_page": "Nächste Seite",
+      "last_page": "Letzte Seite",
+      "page": "Seite {{page}}",
+      "current_page": "Seite {{page}}, aktuelle Seite",
+      "go_to_page": "Zur Seite gehen",
+      "go": "Gehe"
+    },
     "modal": {
       "close_dialog": "Dialog schließen"
     },

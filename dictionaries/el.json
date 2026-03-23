@@ -118,6 +118,16 @@
   },
   "common": {
     "loading": "Φόρτωση...",
+    "pagination": {
+      "first_page": "Πρώτη σελίδα",
+      "previous_page": "Προηγούμενη σελίδα",
+      "next_page": "Επόμενη σελίδα",
+      "last_page": "Τελευταία σελίδα",
+      "page": "Σελίδα {{page}}",
+      "current_page": "Σελίδα {{page}}, τρέχουσα σελίδα",
+      "go_to_page": "Μετάβαση στη σελίδα",
+      "go": "Πήγαινε"
+    },
     "modal": {
       "close_dialog": "Κλείσιμο διαλόγου"
     },

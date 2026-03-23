@@ -167,6 +167,16 @@
     "selected": "{{count}} محدد",
     "table_view": "عرض الجدول",
     "grid_view": "عرض الشبكة",
+    "pagination": {
+      "first_page": "الصفحة الأولى",
+      "previous_page": "الصفحة السابقة",
+      "next_page": "الصفحة التالية",
+      "last_page": "الصفحة الأخيرة",
+      "page": "الصفحة {{page}}",
+      "current_page": "الصفحة {{page}}، الصفحة الحالية",
+      "go_to_page": "الانتقال إلى الصفحة",
+      "go": "انتقل"
+    },
     "modal": {
       "close_dialog": "إغلاق النافذة"
     },

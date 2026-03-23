@@ -739,6 +739,16 @@
       "title": "Surat"
     },
     "loading": "Ýüklenýär...",
+    "pagination": {
+      "first_page": "Birinji sahypa",
+      "previous_page": "Öňki sahypa",
+      "next_page": "Indiki sahypa",
+      "last_page": "Soňky sahypa",
+      "page": "Sahypa {{page}}",
+      "current_page": "Sahypa {{page}}, häzirki sahypa",
+      "go_to_page": "Sahypa geç",
+      "go": "Geç"
+    },
     "modal": {
       "close_dialog": "Dialogy ýap"
     },

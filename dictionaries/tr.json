@@ -118,6 +118,16 @@
   },
   "common": {
     "loading": "Yükleniyor...",
+    "pagination": {
+      "first_page": "İlk sayfa",
+      "previous_page": "Önceki sayfa",
+      "next_page": "Sonraki sayfa",
+      "last_page": "Son sayfa",
+      "page": "Sayfa {{page}}",
+      "current_page": "Sayfa {{page}}, mevcut sayfa",
+      "go_to_page": "Sayfaya git",
+      "go": "Git"
+    },
     "modal": {
       "close_dialog": "Pencereyi kapat"
     },

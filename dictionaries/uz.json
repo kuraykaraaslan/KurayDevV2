@@ -739,6 +739,16 @@
       "title": "Rasm"
     },
     "loading": "Yuklanmoqda...",
+    "pagination": {
+      "first_page": "Birinchi sahifa",
+      "previous_page": "Oldingi sahifa",
+      "next_page": "Keyingi sahifa",
+      "last_page": "Oxirgi sahifa",
+      "page": "Sahifa {{page}}",
+      "current_page": "Sahifa {{page}}, joriy sahifa",
+      "go_to_page": "Sahifaga o'tish",
+      "go": "O'tish"
+    },
     "modal": {
       "close_dialog": "Dialogni yopish"
     },

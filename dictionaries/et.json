@@ -118,6 +118,16 @@
   },
   "common": {
     "loading": "Laadin...",
+    "pagination": {
+      "first_page": "Esimene leht",
+      "previous_page": "Eelmine leht",
+      "next_page": "Järgmine leht",
+      "last_page": "Viimane leht",
+      "page": "Leht {{page}}",
+      "current_page": "Leht {{page}}, praegune leht",
+      "go_to_page": "Mine lehele",
+      "go": "Mine"
+    },
     "modal": {
       "close_dialog": "Sulge dialoog"
     },

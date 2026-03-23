@@ -739,6 +739,16 @@
       "title": "Kuva"
     },
     "loading": "Ladataan...",
+    "pagination": {
+      "first_page": "Ensimmäinen sivu",
+      "previous_page": "Edellinen sivu",
+      "next_page": "Seuraava sivu",
+      "last_page": "Viimeinen sivu",
+      "page": "Sivu {{page}}",
+      "current_page": "Sivu {{page}}, nykyinen sivu",
+      "go_to_page": "Siirry sivulle",
+      "go": "Siirry"
+    },
     "modal": {
       "close_dialog": "Sulje ikkuna"
     },

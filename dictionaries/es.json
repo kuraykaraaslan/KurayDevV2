@@ -739,6 +739,16 @@
       "title": "Imagen"
     },
     "loading": "Cargando...",
+    "pagination": {
+      "first_page": "Primera página",
+      "previous_page": "Página anterior",
+      "next_page": "Página siguiente",
+      "last_page": "Última página",
+      "page": "Página {{page}}",
+      "current_page": "Página {{page}}, página actual",
+      "go_to_page": "Ir a la página",
+      "go": "Ir"
+    },
     "modal": {
       "close_dialog": "Cerrar diálogo"
     },

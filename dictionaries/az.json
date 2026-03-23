@@ -739,6 +739,16 @@
       "title": "Şəkil"
     },
     "loading": "Yüklənir...",
+    "pagination": {
+      "first_page": "İlk səhifə",
+      "previous_page": "Əvvəlki səhifə",
+      "next_page": "Növbəti səhifə",
+      "last_page": "Son səhifə",
+      "page": "Səhifə {{page}}",
+      "current_page": "Səhifə {{page}}, cari səhifə",
+      "go_to_page": "Səhifəyə keç",
+      "go": "Get"
+    },
     "modal": {
       "close_dialog": "Dialoqu bağla"
     },

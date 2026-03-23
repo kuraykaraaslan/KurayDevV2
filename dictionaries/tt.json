@@ -739,6 +739,16 @@
       "title": "Рәсем"
     },
     "loading": "Йөкләнә...",
+    "pagination": {
+      "first_page": "Беренче бит",
+      "previous_page": "Алдагы бит",
+      "next_page": "Киләсе бит",
+      "last_page": "Соңгы бит",
+      "page": "Бит {{page}}",
+      "current_page": "Бит {{page}}, хәзерге бит",
+      "go_to_page": "Биткә күчү",
+      "go": "Күчү"
+    },
     "modal": {
       "close_dialog": "Диалогны ябу"
     },

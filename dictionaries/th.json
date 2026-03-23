@@ -132,6 +132,16 @@
       "title": "รูปภาพ"
     },
     "loading": "กำลังโหลด...",
+    "pagination": {
+      "first_page": "หน้าแรก",
+      "previous_page": "หน้าก่อนหน้า",
+      "next_page": "หน้าถัดไป",
+      "last_page": "หน้าสุดท้าย",
+      "page": "หน้า {{page}}",
+      "current_page": "หน้า {{page}} หน้าปัจจุบัน",
+      "go_to_page": "ไปที่หน้า",
+      "go": "ไป"
+    },
     "modal": {
       "close_dialog": "ปิดหน้าต่าง"
     },
