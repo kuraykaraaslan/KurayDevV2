@@ -242,19 +242,14 @@ tests/         → Test coverage for services
 | Fediverse & UX Stabilization | v2.8 | ActivityPub federation, modal/UI refactor, common component migration, i18n lazy loading |
 | Test Coverage & Quality Gates | v2.8.x | 111 suites · 2,075 tests · 96.42% stmt · 97.32% line coverage; `npm test` as merge gate |
 
-### 🔜 Upcoming Phases
+### 🔒 Maintenance Mode
 
-| Phase | Target | Goals |
-|-------|--------|-------|
-| Performance | Q2 2026 | Sub-2s LCP, bundle optimization, RSC conversion |
-| Mobile & Push | Q3 2026 | Web Push notifications, offline support, React Native exploration |
-| Developer Showcase | Q3 2026 | GitHub widgets, tech-stack charts, case study pages |
-| AI Content | Q3 2026 | AI writing assistant, auto-tagging, personalized feed |
-| Personal Branding | Q4 2026 | Dynamic CV generator, certifications gallery, social cross-posting |
-| Freelancer Services | Q4 2026 | Service packages, lead capture, availability indicator |
-| Client Portal | Q1 2027 | Proposal builder, client onboarding, milestone tracking |
-| Billing & Retainers | Q1 2027 | Invoice generation, Stripe integration, capacity planning |
-| Reputation & Referrals | Q2 2027 | Case studies, testimonial collection, referral system |
+This project is **feature-complete** as of v2.8. No new features are planned.
+
+The repository will continue to receive:
+- Dependency updates and security patches
+- Bug fixes
+- Performance improvements
 
 ---
 
@@ -316,4 +311,4 @@ If you'd like help building a similar system or want to collaborate, feel free t
 
 ---
 
-*Last updated: 2026-03-18 · v2.8*
+*Last updated: 2026-03-23 · v2.8 · Maintenance mode*
