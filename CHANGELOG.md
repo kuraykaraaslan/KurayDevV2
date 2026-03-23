@@ -3,7 +3,9 @@
 All notable changes to **KurayDev Portfolio** are documented in this file.
 
 Versions are distributed chronologically across the full commit history.
-The project started as `v0.1` in October 2024 and is currently at `v2.7` (March 2026).
+The project started as `v0.1` in October 2024 and reached its final version `v2.8` in March 2026.
+
+> **This project is now in maintenance mode.** No new features will be added. The changelog will only record bug fixes, dependency updates, and security patches.
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
@@ -535,4 +537,4 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-*Generated on 2026-03-09 based on git history (460+ commits, Oct 2024 – Mar 2026).*
+*Last updated: 2026-03-23 · v2.8 · Maintenance mode — feature development complete.*

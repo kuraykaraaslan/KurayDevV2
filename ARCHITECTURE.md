@@ -805,4 +805,4 @@ openssl rsa -in private.pem -pubout -out public.pem
 # Copy PEM contents into .env.local, replacing literal newlines with \n
 ```
 
-*Last updated: March 2026*
+*Last updated: 2026-03-23 · v2.8 · Maintenance mode — no further architectural changes planned*

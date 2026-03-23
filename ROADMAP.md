@@ -1,15 +1,13 @@
 # KurayDevSite — Product Roadmap
 
-> This document reflects the full development plan for KurayDevSite.
-> The mission: build the most technically ambitious personal portfolio on the web —
-> a living, breathing developer brand combining a production-grade blog, AI assistant,
-> appointment platform, real-time analytics, public API, digital storefront, and an
-> immersive visual identity — all shipped with strict TypeScript, layered security,
-> and full i18n support across 26 languages.
+> This document reflects the completed development history of KurayDevSite.
+> The project is now feature-complete. No new phases are planned.
+> This repository is in **maintenance mode** — receiving only bug fixes, dependency updates, and security patches.
 
-**Project start:** October 2024  
-**Current version:** v2.8  
-**Status legend:** ✅ Completed · 🔄 In Progress · 📋 Planned
+**Project start:** October 2024
+**Final version:** v2.8 (March 2026)
+**Status:** 🔒 Maintenance mode — feature development complete
+**Status legend:** ✅ Completed
 
 ---
 
@@ -336,142 +334,7 @@
 
 - ✅ Bundle analysis pass (`ANALYZE=true npm run build`) on all major dependency additions
 - ✅ Convert remaining Client Components to Server Components where possible
-- 📋 Offload AI cover image generation and text generation to BullMQ workers
 - ✅ Audit and remove unused Tailwind classes (PurgeCSS pass)
-
----
-
-## Phase 17 — Mobile App & Push Notification Expansion 📋
-> *Target: Q3 2026*
-
-**Goal:** Extend reach beyond the web with deeper push integration and potential React Native app.
-
-- 📋 Web Push notification subscription management for authenticated users
-- 📋 Push campaigns: send targeted push notifications alongside email campaigns
-- 📋 Progressive enhancement: full offline support via service worker cache strategies
-- 📋 Explore React Native / Expo shell wrapping the existing API surface
-
----
-
-## Phase 18 — Developer Showcase & GitHub Integration `v3.0` 📋
-> *Target: Q3 2026*
-
-**Goal:** Make the portfolio prove technical depth at a glance — live GitHub activity, interactive skill graphs, and embeddable demos.
-
-- 📋 GitHub contribution heatmap widget (native API, no third-party embed)
-- 📋 Live repository stats: stars, forks, latest commit per pinned repo — updated via cron + Redis cache
-- 📋 Interactive tech-stack radial chart: years of experience, project count, proficiency level per technology
-- 📋 `TechBadge` component: animated skill tags with hover tooltip showing first/last used date and project count
-- 📋 Timeline of career milestones (education, jobs, open-source contributions) rendered as an interactive vertical scroll
-- 📋 Open-source contribution feed pulled from GitHub Events API
-- 📋 "Live coding stats" widget: WakaTime / Codetime integration showing weekly coding activity by language
-- 📋 Per-project case study pages: problem → solution → architecture diagram → live demo → code link
-- 📋 Embeddable project demo widget (`/widget/project/[slug]`) for third-party embedding via `<iframe>`
-- 📋 `/api/portfolio` public endpoint exposing skills, projects, and stats as structured JSON-LD
-
----
-
-## Phase 19 — AI Content Intelligence `v3.1` 📋
-> *Target: Q3 2026*
-
-**Goal:** Use AI to accelerate content creation, improve discoverability, and generate a personalised reading experience.
-
-- 📋 AI writing assistant in the post editor: outline generator, paragraph expander, and tone rewriter
-- 📋 Auto-generate post summary / TLDR block (displayed above the article fold)
-- 📋 Semantic auto-tagging: suggest categories and tags based on post content embeddings
-- 📋 AI alt-text generator for uploaded images (accessibility + SEO)
-- 📋 Post readability scorer: Flesch-Kincaid grade, sentence complexity warnings in `ContentScoreBar`
-- 📋 "Ask the author" mode in chatbot: retrieves context from the full post corpus, not just the current page
-- 📋 AI-generated social media snippet (Twitter/X thread, LinkedIn post, Reddit summary) from any blog post
-- 📋 Automatic internal linking suggestions: highlight orphan paragraphs that could link to existing posts
-- 📋 Personalised homepage feed: rank posts for logged-in users based on reading history and knowledge graph proximity
-- 📋 Reading time prediction refinement using per-user average reading speed data
-
----
-
-## Phase 20 — Personal Branding & Media Presence `v3.2 ` 📋
-> *Target: Q4 2026*
-
-**Goal:** Establish a cohesive, professional personal brand with tools that extend presence beyond the website.
-
-- 📋 Dynamic CV / Résumé generator: PDF export (Puppeteer headless) from the live portfolio data
-- 📋 Printable résumé page (`/resume`) with `@media print` styles, A4 layout, and QR code to the live site
-- 📋 Speaking engagements section: talks, slides (PDF / embed), event links, and description
-- 📋 Certifications gallery: badge images, issuer, expiry, verification URL
-- 📋 Press / media page: interviews, podcast appearances, article mentions — admin-managed
-- 📋 "Uses" page (`/uses`): curated hardware, software, and services list with affiliate links
-- 📋 Social graph meta tags optimised for all major platforms (LinkedIn, Twitter/X, WhatsApp, Telegram previews)
-- 📋 Structured data: `Person`, `ProfilePage`, `ItemList` JSON-LD on the homepage
-- 📋 Auto cross-post to LinkedIn and dev.to on post publish (via API integrations + BullMQ job)
-- 📋 Open Graph image templates per content type: blog post, project, talk, product — generated serverlessly with `@vercel/og`
-
----
-
-## Phase 21 — Freelancer Conversion & Service Packaging `v3.3` 📋
-> *Target: Q4 2026*
-
-**Goal:** Turn the portfolio into a high-conversion freelancer website that clearly sells services, filters leads, and drives qualified inquiries.
-
-- 📋 Dedicated services hub with clear offers: web development, AI integrations, performance audits, consulting, and retainers
-- 📋 Productised service packages with scope, deliverables, timeline, and “starting from” pricing blocks
-- 📋 Niche landing pages per service / industry with tailored messaging, proof points, and CTA flows
-- 📋 Multi-step project brief form with budget, deadline, industry, goals, and file attachment support
-- 📋 Live availability indicator integrated with the appointment system (“next available slot” / booking CTA)
-- 📋 Freelancer-focused homepage variants: stronger value proposition, trust badges, FAQ, and objection-handling sections
-- 📋 Lead source attribution via campaigns, short links, and analytics to measure which channels bring qualified clients
-- 📋 Admin inquiry pipeline: new lead → discovery call → proposal sent → won / lost
-- 📋 Downloadable capabilities deck / one-page service brochure generated from live portfolio data
-
----
-
-## Phase 22 — Client Onboarding & Proposal Workflow `v3.4` 📋
-> *Target: Q1 2027*
-
-**Goal:** Make the path from first contact to signed project smooth, fast, and professional.
-
-- 📋 Proposal builder with reusable blocks for scope, deliverables, milestones, timelines, and optional add-ons
-- 📋 Proposal export in branded PDF format with shareable client link and acceptance tracking
-- 📋 Discovery questionnaire flow that converts approved leads into structured project requirements
-- 📋 Invite-only client portal with project summary, timeline, meeting notes, and shared files
-- 📋 Contract / terms acceptance flow with audit trail and timestamped confirmation
-- 📋 Deposit request step after proposal approval to support a paid kickoff model
-- 📋 Revision request and approval checkpoints for each project milestone
-- 📋 Automated onboarding emails: kickoff checklist, next steps, required assets, and calendar links
-- 📋 Admin dashboard widgets for proposal conversion rate, average deal size, and time-to-close
-
----
-
-## Phase 23 — Freelance Operations, Billing & Retainers `v3.5` 📋
-> *Target: Q1 2027*
-
-**Goal:** Operationalise freelance work with reliable billing, recurring revenue, and client lifecycle management.
-
-- 📋 Invoice generation for deposits, milestone payments, final invoices, and recurring retainers
-- 📋 Stripe-powered payment links and payment-status tracking inside the admin/client portal
-- 📋 Retainer management: monthly hours, carry-over rules, usage summary, and renewal reminders
-- 📋 Revenue dashboard by service, client, and month with exportable finance reports
-- 📋 Overdue invoice reminders and follow-up automations via email
-- 📋 Capacity planning view: active projects, upcoming bookings, delivery risk, and workload balance
-- 📋 Profitability reporting by project using time estimate vs actual effort inputs
-- 📋 Post-project offboarding flow: final deliverables, handover checklist, and testimonial request
-- 📋 Tax-ready CSV / XLSX export for invoices, payments, and service breakdowns
-
----
-
-## Phase 24 — Reputation Flywheel & Referral Engine `v3.6` 📋
-> *Target: Q2 2027*
-
-**Goal:** Convert completed freelance work into repeat business, referrals, and stronger authority in the market.
-
-- 📋 Case-study publishing workflow that transforms finished projects into structured public success stories
-- 📋 Before / after metrics blocks for case studies: traffic, conversion, performance, automation, or revenue impact
-- 📋 Client testimonial collection flow with approval controls and placement suggestions across landing pages
-- 📋 Referral system with unique referral links, attribution, and reward / thank-you automation
-- 📋 “Book me for” pages for workshops, audits, mentoring, and fractional engineering engagements
-- 📋 Waitlist mode for high-demand periods with estimated response times and lead capture
-- 📋 Segmented newsletter tracks for prospects, active clients, and past clients with tailored campaigns
-- 📋 Public credibility pages for selected clients, partner logos, and verified outcomes
-- 📋 Repeat-business automations: 30 / 60 / 90-day follow-up campaigns after project completion
 
 ---
 
@@ -493,4 +356,4 @@ These constraints were established at project inception and apply to every phase
 
 ---
 
-*Last updated: 2026-03-18 · v2.8*
+*Last updated: 2026-03-23 · v2.8 · Feature development complete — maintenance mode*
