@@ -35,7 +35,7 @@ async function main() {
 
   // 5 test post oluştur
   const posts = [];
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 200; i++) {
     const slug = `test-post-${i}`;
     const post = await prisma.post.upsert({
       where: { slug },
