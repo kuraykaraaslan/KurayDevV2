@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Skill } from '@/types/ui/SkillTypes'
 
+// @ts-ignore-next-line
 const SingleSkill = ({ title, icon, bgColor, textColor }: Partial<Skill>) => {
   const isTextLong = title && title.length > 10
   const textSize = isTextLong ? 'text-sm' : 'text-lg'

@@ -103,6 +103,7 @@ const PostWithDataSchema = PostSchema.extend({
     title: true,
     slug: true,
     image: true,
+    description: true,
     keywords: true,
     createdAt: true,
     updatedAt: true,
@@ -179,12 +180,17 @@ export type KnowledgeGraphTooltipState = z.infer<typeof KnowledgeGraphTooltipSta
 export type PostStatus= z.infer<typeof PostStatusEnum>
 export type Comment = z.infer<typeof CommentSchema>
 export type Post = z.infer<typeof PostSchema>
+
+export type PostTranslation = z.infer<typeof PostTranslationSchema>
+export type PostWithTranslation = PostWithData & { translations?: PostTranslation[] }
+
+
 export type Category = z.infer<typeof CategorySchema>
 export type CategoryWithTranslations = Category & { translations?: CategoryTranslation[] }
+
 export type PostWithData = z.infer<typeof PostWithDataSchema>
 export type CommentWithData = z.infer<typeof CommentWithDataSchema>
 export type PostLike = z.infer<typeof PostLikeSchema>
-export type PostTranslation = z.infer<typeof PostTranslationSchema>
 export type CategoryTranslation = z.infer<typeof CategoryTranslationSchema>
 export {
   CommentSchema,

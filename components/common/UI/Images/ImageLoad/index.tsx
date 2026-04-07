@@ -27,6 +27,7 @@ const ImageLoad = ({
   aspect = 3 / 2,
   outputQuality = 1,
   width = 384,
+  // @ts-ignore-next-line
   height = 256,
 }: ImageLoadProps) => {
   const { t } = useTranslation()

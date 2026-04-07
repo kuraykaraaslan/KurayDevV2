@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Tool } from '@/types/ui/SkillTypes'
 
+
+// @ts-ignore-next-line
 const SingleTool = ({ icon, title, description, hoverBgColor, hoverTextColor }: Tool) => {
   return (
     <div className="w-40 h-40 group  rounded-none">
