@@ -1061,23 +1061,31 @@
       "description": "In engineeringenerden Programma üpjünçiliginiň Öndürijisine geçmegim öwrenmek, ösüş we özgerişlik ýoludyr. Ine, şu wagta çenli hünär ýolumyň gysgaça beýany.",
       "title": "Meniň Ýolum",
       "at": "ýerde",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Bina Maglumat Modellirleme (BIM) maslahat hyzmatlary.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• C#, PHP Rest API ulanyp, Autodesk API bilen programma üpjünçiligi ösüşi.",
-        "cadbim_period": "2020 Dek - 2021 Dek",
-        "cadbim_title": "BIM Hünärmeni",
-        "deu_company": "Dokuz Eylül Uniwersiteti",
-        "deu_period": "2015 Sen - 2021 Few",
-        "deu_title": "Gurluşyk Inženerligi",
-        "kuray_yapi_company": "Kuray Yapı Gurluşyk",
-        "kuray_yapi_desc": "• Açar tabşyryldy gurluşyk taslamalaryny ösdürmek.\n• Bina Maglumat Modellirleme (BIM) taslamalary.\n• Arhitektura, Struktura meýilnamalary we jikme-jiklikler.\n• Içerki arhitektura taslamalary we olary taslama ornaşdyrmak.\n• Taslamanyň gurluşyk dolandyryşy we meýilleşdirilmegi.",
-        "kuray_yapi_period": "2021 Dek - 2023 Sen",
-        "kuray_yapi_title": "Struktura Inženeri",
-        "roltek_company": "Roltek Tehnologiýa",
-        "roltek_desc": "• MQTT, Websocket, SNMP, we REST ulanyp, IoT Enjamlar bilen Serwerleriň arasyndaky aragatnaşyk.\n• Java Spring bilen serwer tarapy programmany ösdürmek, ýerleşdirmek we hyzmat etmek.\n• Typescript React bilen müşderi tarapy programmany ösdürmek, ýerleşdirmek we hyzmat etmek.\n• Tor dolandyryşy we gözegçilik.",
-        "roltek_period": "2024 Few - Häzirki",
-        "roltek_title": "Programma Öndüriji"
-      }
+      "items": [
+        {
+          "period": "2024 Few - Häzirki",
+          "title": "Programma Öndüriji",
+          "company": "Roltek Tehnologiýa",
+          "description": "• MQTT, Websocket, SNMP, we REST ulanyp, IoT Enjamlar bilen Serwerleriň arasyndaky aragatnaşyk.\n• Java Spring bilen serwer tarapy programmany ösdürmek, ýerleşdirmek we hyzmat etmek.\n• Typescript React bilen müşderi tarapy programmany ösdürmek, ýerleşdirmek we hyzmat etmek.\n• Tor dolandyryşy we gözegçilik."
+        },
+        {
+          "period": "2021 Dek - 2023 Sen",
+          "title": "Struktura Inženeri",
+          "company": "Kuray Yapı Gurluşyk",
+          "description": "• Açar tabşyryldy gurluşyk taslamalaryny ösdürmek.\n• Bina Maglumat Modellirleme (BIM) taslamalary.\n• Arhitektura, Struktura meýilnamalary we jikme-jiklikler.\n• Içerki arhitektura taslamalary we olary taslama ornaşdyrmak.\n• Taslamanyň gurluşyk dolandyryşy we meýilleşdirilmegi."
+        },
+        {
+          "period": "2020 Dek - 2021 Dek",
+          "title": "BIM Hünärmeni",
+          "company": "CADBIM",
+          "description": "• Bina Maglumat Modellirleme (BIM) maslahat hyzmatlary.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• C#, PHP Rest API ulanyp, Autodesk API bilen programma üpjünçiligi ösüşi."
+        },
+        {
+          "period": "2015 Sen - 2021 Few",
+          "title": "Gurluşyk Inženerligi",
+          "company": "Dokuz Eylül Uniwersiteti"
+        }
+      ]
     },
     "toolbox": {
       "backend": "Backend",

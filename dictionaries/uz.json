@@ -1061,23 +1061,31 @@
       "description": "Mening Strukturaviy Muhandislikdan Dasturiy Ta'minot Dasturchisiga o'tishim o'rganish, o'sish va o'zgarish yo'li bo'ldi. Mana, mening professional sayohatimning qisqacha ko'rinishi.",
       "title": "Mening Sayohatim",
       "at": "da",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Qurilish Axborot Modellash (BIM) bo'yicha maslahat xizmatlari.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Autodesk API bilan C#, PHP Rest API yordamida dasturiy ta'minot ishlab chiqish.",
-        "cadbim_period": "2020 Dek - 2021 Dek",
-        "cadbim_title": "BIM Mutaxassisi",
-        "deu_company": "Dokuz Eylül Universiteti",
-        "deu_period": "2015 Sen - 2021 Fev",
-        "deu_title": "Inshoot Muhandisligi",
-        "kuray_yapi_company": "Kuray Yapı Qurilish",
-        "kuray_yapi_desc": "• Tayyor qurilish loyihalarini ishlab chiqish.\n• Qurilish Axborot Modellash (BIM) loyihalari.\n• Arxitektura, Tuzilma qavat rejalari va tafsilotlari.\n• Ichki arxitektura loyihalari va ularni loyihaga qo'llash.\n• Loyihaning qurilish boshqaruvi va rejalashtirish.",
-        "kuray_yapi_period": "2021 Dek - 2023 Sen",
-        "kuray_yapi_title": "Tuzilma Muhandisi",
-        "roltek_company": "Roltek Texnologiya",
-        "roltek_desc": "• MQTT, Websocket, SNMP va REST yordamida IoT qurilmalari va serverlar o'rtasida aloqa.\n• Java Spring bilan server tomon dastur ishlab chiqish, joylashtirish va texnik xizmat ko'rsatish.\n• Typescript React bilan mijoz tomon dastur ishlab chiqish, joylashtirish va texnik xizmat ko'rsatish.\n• Tarmoq boshqaruvi va monitoring.",
-        "roltek_period": "2024 Fev - Hozirgi",
-        "roltek_title": "Dasturiy Ta'minot Ishlab Chiquvchisi"
-      }
+      "items": [
+        {
+          "period": "2024 Fev - Hozirgi",
+          "title": "Dasturiy Ta'minot Ishlab Chiquvchisi",
+          "company": "Roltek Texnologiya",
+          "description": "• MQTT, Websocket, SNMP va REST yordamida IoT qurilmalari va serverlar o'rtasida aloqa.\n• Java Spring bilan server tomon dastur ishlab chiqish, joylashtirish va texnik xizmat ko'rsatish.\n• Typescript React bilan mijoz tomon dastur ishlab chiqish, joylashtirish va texnik xizmat ko'rsatish.\n• Tarmoq boshqaruvi va monitoring."
+        },
+        {
+          "period": "2021 Dek - 2023 Sen",
+          "title": "Tuzilma Muhandisi",
+          "company": "Kuray Yapı Qurilish",
+          "description": "• Tayyor qurilish loyihalarini ishlab chiqish.\n• Qurilish Axborot Modellash (BIM) loyihalari.\n• Arxitektura, Tuzilma qavat rejalari va tafsilotlari.\n• Ichki arxitektura loyihalari va ularni loyihaga qo'llash.\n• Loyihaning qurilish boshqaruvi va rejalashtirish."
+        },
+        {
+          "period": "2020 Dek - 2021 Dek",
+          "title": "BIM Mutaxassisi",
+          "company": "CADBIM",
+          "description": "• Qurilish Axborot Modellash (BIM) bo'yicha maslahat xizmatlari.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Autodesk API bilan C#, PHP Rest API yordamida dasturiy ta'minot ishlab chiqish."
+        },
+        {
+          "period": "2015 Sen - 2021 Fev",
+          "title": "Inshoot Muhandisligi",
+          "company": "Dokuz Eylül Universiteti"
+        }
+      ]
     },
     "toolbox": {
       "backend": "Backend",

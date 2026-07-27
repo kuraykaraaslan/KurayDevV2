@@ -83,7 +83,7 @@ const Menu = ({
 
         return (
           <li
-            key={item.id}
+            key={item.name}
             style={{
               display: item.onlyAdmin && !isAdmin ? 'none' : 'block',
               marginLeft: '1px',

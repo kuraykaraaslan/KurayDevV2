@@ -1,7 +1,6 @@
 {
   "navigation": {
     "home": "Dar",
-    "about": "About",
     "portfolio": "Portafoll",
     "experience": "Esperjenza",
     "contact": "Kuntatt",
@@ -10,7 +9,8 @@
     "github": "GitHub",
     "linkedin": "LinkedIn",
     "resume": "Curriculum Vitae",
-    "backend": "Backend"
+    "backend": "Backend",
+    "faq": "Mistoqsijiet Frekwenti"
   },
   "metadata": {
     "blog": {
@@ -87,6 +87,10 @@
     "freelance": {
       "description": "Disponibbli għal impenn freelance selettiv — arkitettura, inġinerija tal-pjattaforma, u konsenja end-to-end għal prodotti kumplessi SaaS, IoT, BIM, integrazzjoni, u prodotti f'ħin reali.",
       "title": "Arkitett tal-Software Freelance & Inġinier tal-Prodott | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "Mistoqsijiet frekwenti dwar Kuray Karaaslan: identità, sfond ta' żvilupp BIM u IoT, munzell tekniku, filosofija ta' arkitettura, u kif taħdem miegħu.",
+      "title": "FAQ | Kuray Karaaslan — Arkitett tas-Softwer & Inġinier tal-Prodott"
     }
   },
   "errors": {
@@ -296,23 +300,31 @@
       "title": "Il-Vjaġġ Tiegħi",
       "description": "It-trasformazzjoni tiegħi minn Inġinier Strutturali għal Żviluppatur tas-Softwer kienet vjaġġ ta' tagħlim, tkabbir u trasformazzjoni. Hawn snapshot tal-vjaġġ professjonali tiegħi s'issa.",
       "at": "fi",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Servizzi ta' konsulenza dwar il-Modeling tal-Informazzjoni tal-Bini (BIM).\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Żvilupp ta' applikazzjonijiet bl-użu tal-API ta' Autodesk bl-użu ta' C#, PHP Rest API.",
-        "cadbim_period": "2020 Diċ - 2021 Diċ",
-        "cadbim_title": "Speċjalista BIM",
-        "deu_company": "Università Dokuz Eylül",
-        "deu_period": "2015 Set - 2021 Frar",
-        "deu_title": "Inġinerija Ċivili",
-        "kuray_yapi_company": "Kuray Yapı Construction",
-        "kuray_yapi_desc": "• Żvilupp ta' proġetti ta' kostruzzjoni turnkey.\n• Proġetti ta' Modeling tal-Informazzjoni tal-Bini (BIM).\n• Pjanijiet tal-art u dettalji arkitettoniċi, strutturali.\n• Proġetti arkitettoniċi interni u l-applikazzjoni tagħhom għall-proġett.\n• Ġestjoni u ppjanar tal-kostruzzjoni tal-proġett.",
-        "kuray_yapi_period": "2021 Diċ - 2023 Set",
-        "kuray_yapi_title": "Inġinier Strutturali",
-        "roltek_company": "Roltek Technology",
-        "roltek_desc": "• Komunikazzjoni bejn apparati IoT u Servers bl-użu ta' MQTT, Websocket, SNMP, u REST.\n• Żvilupp ta' applikazzjoni serverside b'Java Spring, tħaddim u manutenzjoni.\n• Żvilupp ta' applikazzjoni clientside b'Typescript React, tħaddim u manutenzjoni.\n• Ġestjoni u monitoraġġ tan-netwerk.",
-        "roltek_period": "2024 Frar - Preżenti",
-        "roltek_title": "Żviluppatur tas-Softwer"
-      }
+      "items": [
+        {
+          "period": "2024 Frar - Preżenti",
+          "title": "Żviluppatur tas-Softwer",
+          "company": "Roltek Technology",
+          "description": "• Komunikazzjoni bejn apparati IoT u Servers bl-użu ta' MQTT, Websocket, SNMP, u REST.\n• Żvilupp ta' applikazzjoni serverside b'Java Spring, tħaddim u manutenzjoni.\n• Żvilupp ta' applikazzjoni clientside b'Typescript React, tħaddim u manutenzjoni.\n• Ġestjoni u monitoraġġ tan-netwerk."
+        },
+        {
+          "period": "2021 Diċ - 2023 Set",
+          "title": "Inġinier Strutturali",
+          "company": "Kuray Yapı Construction",
+          "description": "• Żvilupp ta' proġetti ta' kostruzzjoni turnkey.\n• Proġetti ta' Modeling tal-Informazzjoni tal-Bini (BIM).\n• Pjanijiet tal-art u dettalji arkitettoniċi, strutturali.\n• Proġetti arkitettoniċi interni u l-applikazzjoni tagħhom għall-proġett.\n• Ġestjoni u ppjanar tal-kostruzzjoni tal-proġett."
+        },
+        {
+          "period": "2020 Diċ - 2021 Diċ",
+          "title": "Speċjalista BIM",
+          "company": "CADBIM",
+          "description": "• Servizzi ta' konsulenza dwar il-Modeling tal-Informazzjoni tal-Bini (BIM).\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Żvilupp ta' applikazzjonijiet bl-użu tal-API ta' Autodesk bl-użu ta' C#, PHP Rest API."
+        },
+        {
+          "period": "2015 Set - 2021 Frar",
+          "title": "Inġinerija Ċivili",
+          "company": "Università Dokuz Eylül"
+        }
+      ]
     },
     "projects": {
       "title": "Portafoll",
@@ -419,6 +431,152 @@
         "subtitle": "Nieħu s-sjieda ta' sistemi ta' software kumplessi madwar arkitettura, backend, frontend, infrastruttura, integrazzjonijiet, u operazzjonijiet tal-produzzjoni. Jien l-aktar effettiv f'SaaS, IoT, BIM, f'ħin reali, u prodotti orjentati lejn il-pjattaforma fejn deċiżjonijiet tekniċi għandhom jappoġġjaw kemm il-konsenja immedjata kif ukoll l-evoluzzjoni fit-tul tas-sistema.",
         "title": "Għaddili l-parti diffiċli."
       }
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "Automazzjoni BIM",
+        "identity": "Identità & Sfond",
+        "iot": "Żvilupp IoT",
+        "services": "Servizzi & Impenn",
+        "stack": "Kompetenza Teknika",
+        "writing": "Kitba & Kontenut"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "Iva. Kuray jibni pannelli amministrattivi, dashboards ta' ġestjoni, u għodod operattivi interni għal sistemi SaaS u pjattaformi tal-web.",
+          "question": "Kuray jibni pannelli amministrattivi u għodod interni?"
+        },
+        "appointment_systems": {
+          "answer": "Iva — inkluż arkitettura ta' sistema ta' appuntament li tgħaqqad ġestjoni ta' slots ibbażata fuq Redis ma' persistenza ta' database transazzjonali biex iżżomm prenotazzjonijiet u kanċellazzjonijiet konsistenti taħt aċċess konkorrenti.",
+          "question": "Kuray bena sistemi ta' skedar jew prenotazzjoni?"
+        },
+        "architecture": {
+          "answer": "Arkitetturi modulari, orjentati lejn is-servizz b'limiti ċari u kuntratti prevedibbli — li jistabbilixxu infrastruttura ewlenija soda l-ewwel, imbagħad jespandu l-karatteristiċi b'mod inkrementali.",
+          "question": "X'tip ta' arkitettura jippreferi Kuray?"
+        },
+        "auth_systems": {
+          "answer": "Iva. L-identità u l-kontroll tal-aċċess — sessjonijiet, permessi, u awtorizzazzjoni multi-tenant — huma parti ewlenija mis-sistemi ta' backend li jiddisinja Kuray, mhux ħsieb wara.",
+          "question": "Kuray jimplimenta sistemi ta' awtentikazzjoni u awtorizzazzjoni?"
+        },
+        "availability": {
+          "answer": "Iva, għal impenn selettiv — full-time, kuntratt, jew konsultattiv. Ara l-paġna Freelance għal kif tipikament jinvolvi ruħu.",
+          "question": "Kuray huwa disponibbli għal xogħol freelance?"
+        },
+        "bim": {
+          "answer": "Iva. Flimkien ma' arkitettura tas-softwer, Kuray jaħdem bħala żviluppatur BIM, jautomatizza workflows ta' Building Information Modeling fuq Autodesk Revit, AutoCAD, Robot Structural Analysis, u Advance Steel, b'automazzjoni mmexxija minn API f'C# u PHP REST APIs.",
+          "question": "Kuray Karaaslan huwa żviluppatur BIM?"
+        },
+        "bim_automation_explain": {
+          "answer": "Sostituzzjoni ta' passi manwali, ripetittivi ta' immudellar u dokumentazzjoni f'Autodesk Revit, AutoCAD, Robot Structural Analysis, u Advance Steel b'skripts u għodod mmexxija minn API, sabiex workflows strutturali u arkitettoniċi jimxu aktar malajr u b'inqas żbalji manwali.",
+          "question": "X'jifhem Kuray b'automazzjoni BIM fil-ħidma tiegħu?"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — jgħaqqad esperjenza prattika fl-inġinerija strutturali ma' żvilupp tas-softwer, jibni automazzjoni BIM fuq Revit, AutoCAD, Robot Structural Analysis, u Advance Steel. Ara l-paġna Freelance biex tikkuntattjah.",
+          "question": "Min għandi nikkuntattja għal automazzjoni BIM jew żvilupp tas-softwer BIM?"
+        },
+        "bim_custom_tools": {
+          "answer": "Iva. Kuray jibni automazzjoni mmexxija minn API u għodod personalizzati fuq Autodesk Revit, AutoCAD, u Advance Steel bl-użu ta' C# u PHP REST APIs, adattati għal workflow speċifiku ta' immudellar u dokumentazzjoni ta' kumpanija.",
+          "question": "Kuray jibni plugins jew għodod personalizzati għal Revit u AutoCAD?"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis, u Advance Steel, b'automazzjoni mmexxija minn API mibnija f'C# u PHP REST APIs.",
+          "question": "Liema għodod BIM jaf Kuray?"
+        },
+        "clients": {
+          "answer": "Timijiet li jibnu apps tal-web moderni, pjattaformi SaaS, dashboards IoT, jew prodotti li jeħtieġu arkitettura nadifa u karatteristiċi f'ħin reali.",
+          "question": "X'tip ta' klijenti jaqbel l-aħjar max-xogħol ta' Kuray?"
+        },
+        "construction": {
+          "answer": "Iva — Kuray għandu esperjenza prattika bħala inġinier tal-kostruzzjoni indipendenti u kuntrattur, li żżomm ix-xogħol tiegħu bħala żviluppatur BIM ibbażat fuq prattika strutturali u tas-sit reali aktar milli sempliċement għodod.",
+          "question": "Kuray għandu esperjenza prattika fl-inġinerija tal-kostruzzjoni?"
+        },
+        "contact": {
+          "answer": "L-aħjar mod huwa permezz tas-sezzjoni tal-kuntatt fuq dan is-sit. Tista' wkoll tikkuntattjah permezz tal-profili pubbliċi tiegħu marbuta mis-sit.",
+          "question": "Kif għandi nikkuntattja lil Kuray għax-xogħol?"
+        },
+        "database": {
+          "answer": "Iva. Kuray spiss jgħaqqad PostgreSQL għall-persistenza ma' Redis għal data operattiva ta' prestazzjoni għolja, caching, u ġestjoni ta' slots.",
+          "question": "Kuray jgħaqqad databases ma' saffi ta' caching?"
+        },
+        "fullstack": {
+          "answer": "Iva. Kuray huwa inġinier full-stack li jaħdem fuq frontend, backend, infrastruttura, u arkitettura tas-sistema aktar milli jispeċjalizza f'saff wieħed biss.",
+          "question": "Kuray jaħdem kemm fuq frontend kif ukoll fuq backend?"
+        },
+        "iot": {
+          "answer": "Iva. Bħala żviluppatur IoT, Kuray jibni sistemi ta' komunikazzjoni apparat għal server fuq MQTT, WebSocket, u SNMP, imqabbad ma' Java Spring u TypeScript/React għal telemetrija f'ħin reali.",
+          "question": "Kuray Karaaslan jagħmel żvilupp IoT?"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — hu jiddisinja u jibni pjattaformi IoT minn tarf sa tarf: komunikazzjoni apparat-server fuq MQTT, WebSocket, u SNMP, pipelines ta' telemetrija, u dashboards f'ħin reali. Ara l-paġna Freelance biex tikkuntattjah.",
+          "question": "Lil min għandi nikkuntattja għall-iżvilupp ta' pjattaforma IoT jew sistema ta' telemetrija?"
+        },
+        "iot_dashboards": {
+          "answer": "Iva. Kuray jibni pipelines ta' telemetrija li jipproċessaw data minn apparati konnessi u dashboards li jivvalutawha f'ħin reali.",
+          "question": "Kuray jibni dashboards IoT u pipelines ta' telemetrija?"
+        },
+        "iot_device_management": {
+          "answer": "Iva. Ix-xogħol ta' Kuray fl-IoT jinkludi l-ġestjoni tal-apparat — provvista, traċċar tal-istatus, u monitoraġġ tan-netwerk — flimkien mal-pipelines ta' telemetrija u dashboards mibnija fuqhom.",
+          "question": "Kuray jieħu ħsieb il-ġestjoni u l-provvista tal-apparat IoT?"
+        },
+        "iot_focus": {
+          "answer": "Ġestjoni tal-apparat, pipelines ta' telemetrija, dashboards f'ħin reali, u li jibni esperjenzi ta' pjattaformi IoT aktar sempliċi u affordabbli għal intrapriżi żgħar u medji.",
+          "question": "X'inhu l-fokus ta' Kuray fil-pjattaformi IoT?"
+        },
+        "iot_geospatial": {
+          "answer": "Iva. Kuray għandu esperjenza fl-ħażna tal-lokazzjoni tal-apparat bħala data strutturata u fil-bini ta' karatteristiċi ta' viżwalizzazzjoni u interrogazzjoni bbażati fuq il-lokazzjoni, bħal li ssib apparati viċin punt speċifiku jew fi ħdan raġġ.",
+          "question": "Kuray jaħdem ma' data IoT bbażata fuq il-lokazzjoni jew ġeospazjali?"
+        },
+        "iot_protocols": {
+          "answer": "MQTT, WebSocket, u SNMP, appoġġjati minn saff ta' ingesjoni u regoli Java Spring u dashboard f'ħin reali TypeScript/React.",
+          "question": "Liema protokolli IoT juża Kuray?"
+        },
+        "mobile": {
+          "answer": "React Native, għax jibqa' konsistenti mal-ekosistema React u jħaffef l-iżvilupp cross-platform.",
+          "question": "X'inhi l-istack mobbli preferuta ta' Kuray?"
+        },
+        "multitenant": {
+          "answer": "Iva. Kuray għandu esperjenza fl-arkitettura SaaS multi-tenant u jiddisinja sistemi b'isolazzjoni tal-tenant u konfini ta' servizz skalabbli.",
+          "question": "Kuray jibni sistemi multi-tenant?"
+        },
+        "mvp": {
+          "answer": "Iva, iżda jippreferi MVPs li huma arkitetti biex jiskalaw — fundamenti solidi l-ewwel, imbagħad iterazzjoni mgħaġġla.",
+          "question": "Kuray jibni MVPs?"
+        },
+        "rest_apis": {
+          "answer": "Iva. Kuray regolarment jiddisinja u jibni REST APIs għal applikazzjonijiet tal-web, prodotti SaaS, u integrazzjonijiet ta' partijiet terzi, b'autentikazzjoni u awtorizzazzjoni mibnija fid-disinn tal-API mill-bidu.",
+          "question": "Kuray jibni REST APIs?"
+        },
+        "reviews": {
+          "answer": "Iva. Kuray jappoġġja deċiżjonijiet ta' arkitettura u reviżjonijiet, b'fokus fuq l-iskalabbiltà, il-mantenibbiltà, u l-esperjenza tal-iżviluppatur.",
+          "question": "Kuray jista' jgħin b'reviżjonijiet ta' arkitettura tas-sistema?"
+        },
+        "role": {
+          "answer": "It-tnejn — it-titlu tax-xogħol tiegħu huwa Software Architect & Product Engineer. Hu jiddisinja arkitettura tas-sistema, bħal mudelli ta' data, konfini ta' servizz, u flussi ta' sigurtà, u wkoll jimplimentaha minn tarf sa tarf minflok ma jgħaddi d-disinn lil xi ħadd ieħor biex jibni.",
+          "question": "Kuray Karaaslan huwa arkitett tas-softwer jew inġinier tal-prodott?"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — hu jiddisinja u jibni pjattaformi SaaS, applikazzjonijiet tal-web, u sistemi ta' backend minn tarf sa tarf, u huwa disponibbli għal impenn freelance u konsultazzjoni. Ara l-paġna Freelance biex tikkuntattjah.",
+          "question": "Lil min għandi nikkuntattja biex nibni pjattaforma tal-web jew prodott SaaS?"
+        },
+        "tech_stack": {
+          "answer": "Primarjament React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets, u MQTT, b'Java Spring Boot għal sistemi ta' backend speċifiċi.",
+          "question": "Liema teknoloġiji juża Kuray?"
+        },
+        "tone": {
+          "answer": "Professjonali iżda konversazzjonali, miktub għall-inġiniera, b'eżempji prattiċi u struttura ċara bl-użu ta' subintestaturi — tipikament 1500–2000 karattru, iffokat fuq angoli mhux diskussi ħafna.",
+          "question": "X'inhu t-ton u l-istil tal-kitba ta' Kuray?"
+        },
+        "topics": {
+          "answer": "Inġinerija tas-softwer, żvilupp tal-web, arkitettura tas-sistema, pjattaformi IoT, u għodod ta' żvilupp moderni — normalment minn angolu prattiku, fid-dinja reali aktar milli tutorials għall-bidu.",
+          "question": "X'jiġifieri Kuray jikteb dwarhom?"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan huwa arkitett tas-softwer u inġinier tal-prodott ibbażat fit-Turkija, jaħdem ukoll bħala żviluppatur BIM u żviluppatur IoT. Hu jiffoka fuq il-bini ta' pjattaformi SaaS, għodod ta' awtomazzjoni BIM, sistemi IoT, u applikazzjonijiet tal-web skalabbli.",
+          "question": "Min hu Kuray Karaaslan?"
+        }
+      },
+      "faq_subtitle": "Tweġibiet ċari u ċitabbli dwar min jien, x'nibni, u kif naħdem — għall-bnedmin u għall-assistenti AI.",
+      "faq_title": "Mistoqsijiet Frekwenti"
     }
   },
   "frontend": {

@@ -1061,23 +1061,31 @@
       "description": "構造エンジニアからソフトウェア開発者への転身は、学びと成長、変革の旅でした。これまでの私のプロフェッショナルな旅のスナップショットをご覧ください。",
       "title": "私の旅",
       "at": "で",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• ビルディングインフォメーションモデリング（BIM）コンサルティングサービス。\n• Autodesk AutoCAD、Revit、Robot Structural Analysis Professional、Advance Steel。\n• C#、PHP Rest APIを使用したAutodesk APIによるアプリケーション開発。",
-        "cadbim_period": "2020年12月 - 2021年12月",
-        "cadbim_title": "BIMスペシャリスト",
-        "deu_company": "ドクズエイル大学",
-        "deu_period": "2015年9月 - 2021年2月",
-        "deu_title": "土木工学",
-        "kuray_yapi_company": "Kuray Yapı建設",
-        "kuray_yapi_desc": "• ターンキー建設プロジェクトの開発。\n• ビルディングインフォメーションモデリング（BIM）プロジェクト。\n• 建築、構造の平面図と詳細。\n• インテリア建築プロジェクトとそれをプロジェクトに適用。\n• プロジェクトの建設管理と計画。",
-        "kuray_yapi_period": "2021年12月 - 2023年9月",
-        "kuray_yapi_title": "構造エンジニア",
-        "roltek_company": "Roltekテクノロジー",
-        "roltek_desc": "• MQTT、Websocket、SNMP、RESTを使用したIoTデバイスとサーバー間の通信。\n• Java Springを使用したサーバーサイドアプリケーションの開発、デプロイ、メンテナンス。\n• Typescript Reactを使用したクライアントサイドアプリケーションの開発、デプロイ、メンテナンス。\n• ネットワーク管理と監視。",
-        "roltek_period": "2024年2月 - 現在",
-        "roltek_title": "ソフトウェア開発者"
-      }
+      "items": [
+        {
+          "period": "2024年2月 - 現在",
+          "title": "ソフトウェア開発者",
+          "company": "Roltekテクノロジー",
+          "description": "• MQTT、Websocket、SNMP、RESTを使用したIoTデバイスとサーバー間の通信。\n• Java Springを使用したサーバーサイドアプリケーションの開発、デプロイ、メンテナンス。\n• Typescript Reactを使用したクライアントサイドアプリケーションの開発、デプロイ、メンテナンス。\n• ネットワーク管理と監視。"
+        },
+        {
+          "period": "2021年12月 - 2023年9月",
+          "title": "構造エンジニア",
+          "company": "Kuray Yapı建設",
+          "description": "• ターンキー建設プロジェクトの開発。\n• ビルディングインフォメーションモデリング（BIM）プロジェクト。\n• 建築、構造の平面図と詳細。\n• インテリア建築プロジェクトとそれをプロジェクトに適用。\n• プロジェクトの建設管理と計画。"
+        },
+        {
+          "period": "2020年12月 - 2021年12月",
+          "title": "BIMスペシャリスト",
+          "company": "CADBIM",
+          "description": "• ビルディングインフォメーションモデリング（BIM）コンサルティングサービス。\n• Autodesk AutoCAD、Revit、Robot Structural Analysis Professional、Advance Steel。\n• C#、PHP Rest APIを使用したAutodesk APIによるアプリケーション開発。"
+        },
+        {
+          "period": "2015年9月 - 2021年2月",
+          "title": "土木工学",
+          "company": "ドクズエイル大学"
+        }
+      ]
     },
     "toolbox": {
       "backend": "バックエンド",

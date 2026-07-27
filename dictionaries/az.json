@@ -1061,23 +1061,31 @@
       "description": "Struktur mühəndisindən proqram təminatı inkişaf etdiricisinə keçidim öyrənmə, inkişaf və transformasiya ilə dolu bir səyahət oldu. Budur, indiyə qədərki peşəkar səyahətimdən bir görüntü.",
       "title": "Mənim Səyahətim",
       "at": "də",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Tikinti Məlumat Modelləşdirilməsi (BIM) məsləhət xidmətləri.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• C#, PHP Rest API istifadə edərək Autodesk API ilə tətbiq inkişafı.",
-        "cadbim_period": "2020 Dek - 2021 Dek",
-        "cadbim_title": "BIM Mütəxəssisi",
-        "deu_company": "Dokuz Eylül Universiteti",
-        "deu_period": "2015 Sen - 2021 Fev",
-        "deu_title": "Mülki Mühəndislik",
-        "kuray_yapi_company": "Kuray Yapı İnşaat",
-        "kuray_yapi_desc": "• Açar təslim tikinti layihələrinin inkişafı.\n• Tikinti Məlumat Modelləşdirilməsi (BIM) layihələri.\n• Memarlıq, Struktur planlar və detallar.\n• Daxili memarlıq layihələri və onların layihəyə tətbiqi.\n• Layihənin tikinti idarəçiliyi və planlaşdırılması.",
-        "kuray_yapi_period": "2021 Dek - 2023 Sen",
-        "kuray_yapi_title": "Struktur Mühəndis",
-        "roltek_company": "Roltek Texnologiya",
-        "roltek_desc": "• MQTT, Websocket, SNMP və REST istifadə edərək IoT cihazları və serverlər arasında əlaqə.\n• Java Spring ilə server tərəfi tətbiq inkişafı, yerləşdirmə və texniki xidmət.\n• Typescript React ilə müştəri tərəfi tətbiq inkişafı, yerləşdirmə və texniki xidmət.\n• Şəbəkə idarəçiliyi və monitorinq.",
-        "roltek_period": "2024 Fev - Hazırda",
-        "roltek_title": "Proqram Təminatı İnkişafçısı"
-      }
+      "items": [
+        {
+          "period": "2024 Fev - Hazırda",
+          "title": "Proqram Təminatı İnkişafçısı",
+          "company": "Roltek Texnologiya",
+          "description": "• MQTT, Websocket, SNMP və REST istifadə edərək IoT cihazları və serverlər arasında əlaqə.\n• Java Spring ilə server tərəfi tətbiq inkişafı, yerləşdirmə və texniki xidmət.\n• Typescript React ilə müştəri tərəfi tətbiq inkişafı, yerləşdirmə və texniki xidmət.\n• Şəbəkə idarəçiliyi və monitorinq."
+        },
+        {
+          "period": "2021 Dek - 2023 Sen",
+          "title": "Struktur Mühəndis",
+          "company": "Kuray Yapı İnşaat",
+          "description": "• Açar təslim tikinti layihələrinin inkişafı.\n• Tikinti Məlumat Modelləşdirilməsi (BIM) layihələri.\n• Memarlıq, Struktur planlar və detallar.\n• Daxili memarlıq layihələri və onların layihəyə tətbiqi.\n• Layihənin tikinti idarəçiliyi və planlaşdırılması."
+        },
+        {
+          "period": "2020 Dek - 2021 Dek",
+          "title": "BIM Mütəxəssisi",
+          "company": "CADBIM",
+          "description": "• Tikinti Məlumat Modelləşdirilməsi (BIM) məsləhət xidmətləri.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• C#, PHP Rest API istifadə edərək Autodesk API ilə tətbiq inkişafı."
+        },
+        {
+          "period": "2015 Sen - 2021 Fev",
+          "title": "Mülki Mühəndislik",
+          "company": "Dokuz Eylül Universiteti"
+        }
+      ]
     },
     "toolbox": {
       "backend": "Arxa tərəf",

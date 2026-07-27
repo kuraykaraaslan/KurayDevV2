@@ -1,7 +1,6 @@
 {
   "navigation": {
     "home": "Avaleht",
-    "about": "About",
     "portfolio": "Portfell",
     "experience": "Kogemus",
     "contact": "Kontakt",
@@ -10,7 +9,8 @@
     "github": "GitHub",
     "linkedin": "LinkedIn",
     "resume": "CV",
-    "backend": "Taustaprogramm"
+    "backend": "Taustaprogramm",
+    "faq": "KKK"
   },
   "metadata": {
     "blog": {
@@ -87,6 +87,10 @@
     "freelance": {
       "description": "Saadaval valikuliseks vabakutseliseks tööks — arhitektuur, platvormi inseneeria ja terviklik kohaletoimetamine keerukate SaaS-, IoT-, BIM-, integreerimis- ja reaalajas toodete jaoks.",
       "title": "Vabakutseline Tarkvara Arhitekt & Tooteinsener | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "Korduma kippuvad küsimused Kuray Karaaslan kohta: identiteet, BIM ja IoT arenduse taust, tehniline virn, arhitektuuri filosoofia ja kuidas temaga koostööd teha.",
+      "title": "KKK | Kuray Karaaslan — Tarkvara Arhitekt & Tooteinsener"
     }
   },
   "errors": {
@@ -296,23 +300,31 @@
       "title": "Minu teekond",
       "description": "Minu üleminek ehitusinsenerist tarkvaraarendajaks on olnud õppimise, kasvu ja muutuste teekond. Siin on hetkepilt minu senisest professionaalsest teekonnast.",
       "at": "kell",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Ehitusteabe modelleerimise (BIM) konsultatsiooniteenused.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Rakenduste arendamine Autodesk API-ga, kasutades C#, PHP Rest API.",
-        "cadbim_period": "2020 dets - 2021 dets",
-        "cadbim_title": "BIM spetsialist",
-        "deu_company": "Dokuz Eylül Ülikool",
-        "deu_period": "2015 sept - 2021 veebr",
-        "deu_title": "Tsiviilehitus",
-        "kuray_yapi_company": "Kuray Yapı Ehitus",
-        "kuray_yapi_desc": "• Võtmed kätte ehitusprojektide arendamine.\n• Ehitusteabe modelleerimise (BIM) projektid.\n• Arhitektuursed, konstruktiivsed põhiplaanid ja detailid.\n• Sisearhitektuursed projektid ja nende rakendamine projekti.\n• Projekti ehituse juhtimine ja planeerimine.",
-        "kuray_yapi_period": "2021 dets - 2023 sept",
-        "kuray_yapi_title": "Konstruktsioonide insener",
-        "roltek_company": "Roltek Tehnoloogia",
-        "roltek_desc": "• IoT seadmete ja serverite vaheline suhtlus, kasutades MQTT, Websocket, SNMP ja REST.\n• Serveripoolse rakenduse arendamine Java Springiga, juurutamine ja hooldus.\n• Kliendipoolse rakenduse arendamine Typescript Reactiga, juurutamine ja hooldus.\n• Võrgu haldamine ja jälgimine.",
-        "roltek_period": "2024 veebr - Praegu",
-        "roltek_title": "Tarkvaraarendaja"
-      }
+      "items": [
+        {
+          "period": "2024 veebr - Praegu",
+          "title": "Tarkvaraarendaja",
+          "company": "Roltek Tehnoloogia",
+          "description": "• IoT seadmete ja serverite vaheline suhtlus, kasutades MQTT, Websocket, SNMP ja REST.\n• Serveripoolse rakenduse arendamine Java Springiga, juurutamine ja hooldus.\n• Kliendipoolse rakenduse arendamine Typescript Reactiga, juurutamine ja hooldus.\n• Võrgu haldamine ja jälgimine."
+        },
+        {
+          "period": "2021 dets - 2023 sept",
+          "title": "Konstruktsioonide insener",
+          "company": "Kuray Yapı Ehitus",
+          "description": "• Võtmed kätte ehitusprojektide arendamine.\n• Ehitusteabe modelleerimise (BIM) projektid.\n• Arhitektuursed, konstruktiivsed põhiplaanid ja detailid.\n• Sisearhitektuursed projektid ja nende rakendamine projekti.\n• Projekti ehituse juhtimine ja planeerimine."
+        },
+        {
+          "period": "2020 dets - 2021 dets",
+          "title": "BIM spetsialist",
+          "company": "CADBIM",
+          "description": "• Ehitusteabe modelleerimise (BIM) konsultatsiooniteenused.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Rakenduste arendamine Autodesk API-ga, kasutades C#, PHP Rest API."
+        },
+        {
+          "period": "2015 sept - 2021 veebr",
+          "title": "Tsiviilehitus",
+          "company": "Dokuz Eylül Ülikool"
+        }
+      ]
     },
     "projects": {
       "title": "Portfell",
@@ -419,6 +431,152 @@
         "subtitle": "Võtan vastutuse keerukate tarkvarasüsteemide eest üle arhitektuuri, tagaplaani, esiplaani, infrastruktuuri, integreerimiste ja tootmisoperatsioonide. Olen kõige tõhusam SaaS-, IoT-, BIM-, reaalajas ja platvormile orienteeritud toodetes, kus tehnilised otsused peavad toetama nii kohest kohaletoimetamist kui ka pikaajalist süsteemi arengut.",
         "title": "Tooge mulle keeruline osa."
       }
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIM Automatiseerimine",
+        "identity": "Identiteet & Taust",
+        "iot": "IoT Arendus",
+        "services": "Teenused & Koostöö",
+        "stack": "Tehniline Ekspertiis",
+        "writing": "Kirjutamine & Sisu"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "Jah. Kuray loob halduspaneele, juhtimisdashborde ja sisemisi operatiivtööriistu SaaS-süsteemidele ja veebiplatvormidele.",
+          "question": "Kas Kuray loob halduspaneele ja sisemisi tööriistu?"
+        },
+        "appointment_systems": {
+          "answer": "Jah — sealhulgas kohtumiste süsteemi arhitektuur, mis ühendab Redis-põhise ajahaldamise transaktsioonilise andmebaasi püsivusega, et hoida broneeringud ja tühistamised järjepidevad samaaegse juurdepääsu korral.",
+          "question": "Kas Kuray on loonud ajastamis- või broneerimissüsteeme?"
+        },
+        "architecture": {
+          "answer": "Modulaarsed, teenusepõhised arhitektuurid selgete piiride ja prognoositavate lepingutega — esmalt luuakse tugev põhitaristu, seejärel laiendatakse funktsioone järk-järgult.",
+          "question": "Millist arhitektuuri eelistab Kuray?"
+        },
+        "auth_systems": {
+          "answer": "Jah. Identiteedi ja juurdepääsu kontroll — sessioonid, õigused ja mitme rentniku autoriseerimine — on Kuray kujundatud taustsüsteemide põhiosa, mitte järelmõte.",
+          "question": "Kas Kuray rakendab autentimis- ja autoriseerimissüsteeme?"
+        },
+        "availability": {
+          "answer": "Jah, valikulisteks koostöödeks — täiskohaga, lepinguline või nõustav. Vaata vabakutselise lehte, et näha, kuidas ta tavaliselt koostööd teeb.",
+          "question": "Kas Kuray on saadaval vabakutseliseks tööks?"
+        },
+        "bim": {
+          "answer": "Jah. Lisaks tarkvara arhitektuurile töötab Kuray BIM arendajana, automatiseerides hoonete infomudelite töövooge Autodesk Reviti, AutoCADi, Robot Structural Analysis ja Advance Steeliga, kasutades API-põhist automatiseerimist C# ja PHP REST API-dega.",
+          "question": "Kas Kuray Karaaslan on BIM arendaja?"
+        },
+        "bim_automation_explain": {
+          "answer": "Käsitsi, korduvate modelleerimis- ja dokumenteerimisetappide asendamine Autodesk Revitis, AutoCADis, Robot Structural Analysis ja Advance Steelis API-põhiste skriptide ja tööriistadega, et struktuursed ja arhitektuursed töövood toimiksid kiiremini ja vähemate käsitsi tehtud vigadega.",
+          "question": "Mida tähendab 'BIM automatiseerimine' Kuray töö puhul?"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — ta ühendab praktilise struktuuritehnika kogemuse tarkvaraarendusega, luues BIM automatiseerimist Reviti, AutoCADi, Robot Structural Analysis ja Advance Steeliga. Võta ühendust vabakutselise lehe kaudu.",
+          "question": "Kellega peaksin ühendust võtma BIM automatiseerimise või BIM tarkvaraarenduse jaoks?"
+        },
+        "bim_custom_tools": {
+          "answer": "Jah. Kuray loob API-põhist automatiseerimist ja kohandatud tööriistu Autodesk Reviti, AutoCADi ja Advance Steeli jaoks, kasutades C# ja PHP REST API-sid, mis on kohandatud konkreetse ettevõtte modelleerimis- ja dokumenteerimistöövoogudele.",
+          "question": "Kas Kuray loob kohandatud pistikprogramme või tööriistu Reviti ja AutoCADi jaoks?"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis ja Advance Steel, koos API-põhise automatiseerimisega, mis on loodud C# ja PHP REST API-dega.",
+          "question": "Milliseid BIM tööriistu Kuray tunneb?"
+        },
+        "clients": {
+          "answer": "Meeskonnad, kes loovad kaasaegseid veebirakendusi, SaaS platvorme, IoT dashborde või tooteid, mis vajavad puhast arhitektuuri ja reaalajas funktsioone.",
+          "question": "Millistele klientidele sobib Kuray töö kõige paremini?"
+        },
+        "construction": {
+          "answer": "Jah — Kurayl on praktiline kogemus iseseisva ehitusinseneri ja töövõtjana, mis hoiab tema BIM arendaja töö reaalses struktuurses ja kohapealses praktikas, mitte ainult tööriistades.",
+          "question": "Kas Kurayl on praktiline kogemus ehitustehnika valdkonnas?"
+        },
+        "contact": {
+          "answer": "Parim viis on selle saidi kontaktsektsiooni kaudu. Võid ka ühendust võtta tema avalike profiilide kaudu, mis on lingitud saidilt.",
+          "question": "Kuidas peaksin Kurayga töö jaoks ühendust võtma?"
+        },
+        "database": {
+          "answer": "Jah. Kuray kombineerib sageli PostgreSQL-i püsivuseks Redisiga, et saavutada suure jõudlusega operatiivandmed, vahemällu salvestamine ja ajahaldus.",
+          "question": "Kas Kuray kombineerib andmebaase vahemälu kihtidega?"
+        },
+        "fullstack": {
+          "answer": "Jah. Kuray on täisvirna insener, kes töötab üle esiotsa, tagaplaani, infrastruktuuri ja süsteemi arhitektuuri, mitte ei spetsialiseeru ainult ühele kihile.",
+          "question": "Kas Kuray töötab nii esiotsa kui ka tagaplaani kallal?"
+        },
+        "iot": {
+          "answer": "Jah. IoT arendajana loob Kuray seadme-serveri suhtlussüsteeme MQTT, WebSocketi ja SNMP kaudu, koos Java Springi ja TypeScript/Reactiga reaalajas telemeetria jaoks.",
+          "question": "Kas Kuray Karaaslan tegeleb IoT arendusega?"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — ta disainib ja ehitab IoT platvorme otsast lõpuni: seadme ja serveri vaheline suhtlus MQTT, WebSocketi ja SNMP kaudu, telemeetriatorud ja reaalajas juhtpaneelid. Võtke ühendust lehelt Freelance.",
+          "question": "Kellega peaksin ühendust võtma IoT platvormi või telemeetrisüsteemi arendamiseks?"
+        },
+        "iot_dashboards": {
+          "answer": "Jah. Kuray ehitab telemeetriatorusid, mis töötlevad andmeid ühendatud seadmetest, ja juhtpaneele, mis visualiseerivad neid reaalajas.",
+          "question": "Kas Kuray ehitab IoT juhtpaneele ja telemeetriatorusid?"
+        },
+        "iot_device_management": {
+          "answer": "Jah. Kuray IoT töö hõlmab seadmete haldust — seadistamist, oleku jälgimist ja võrgu monitoorimist — koos telemeetriatorude ja juhtpaneelidega, mis sellele rajatud.",
+          "question": "Kas Kuray tegeleb IoT seadmete halduse ja seadistamisega?"
+        },
+        "iot_focus": {
+          "answer": "Seadmete haldus, telemeetriatorud, reaalajas juhtpaneelid ja lihtsamate, taskukohasemate IoT platvormide kogemuste loomine väikestele ja keskmise suurusega ettevõtetele.",
+          "question": "Mis on Kuray fookus IoT platvormides?"
+        },
+        "iot_geospatial": {
+          "answer": "Jah. Kuray on kogenud seadmete asukoha salvestamisel struktureeritud andmetena ning asukohapõhiste visualiseerimis- ja päringufunktsioonide loomisel, nagu seadmete leidmine kindla punkti lähedal või raadiuses.",
+          "question": "Kas Kuray töötab asukohapõhiste või georuumiliste IoT andmetega?"
+        },
+        "iot_protocols": {
+          "answer": "MQTT, WebSocket ja SNMP, mida toetab Java Springi andmete vastuvõtu ja reeglite kiht ning TypeScript/React reaalajas juhtpaneel.",
+          "question": "Milliseid IoT protokolle Kuray kasutab?"
+        },
+        "mobile": {
+          "answer": "React Native, kuna see on kooskõlas Reacti ökosüsteemiga ja kiirendab platvormidevahelist arendust.",
+          "question": "Mis on Kuray eelistatud mobiilne stack?"
+        },
+        "multitenant": {
+          "answer": "Jah. Kuray on kogenud mitme rentnikuga SaaS arhitektuuris ja disainib süsteeme rentnike eraldatuse ja skaleeritavate teenusepiiridega.",
+          "question": "Kas Kuray ehitab mitme rentnikuga süsteeme?"
+        },
+        "mvp": {
+          "answer": "Jah, kuid ta eelistab MVP-sid, mis on arhitektuuriliselt skaleeritavad — esmalt tugevad alused, seejärel kiire iteratsioon.",
+          "question": "Kas Kuray ehitab MVP-sid?"
+        },
+        "rest_apis": {
+          "answer": "Jah. Kuray disainib ja ehitab regulaarselt REST API-sid veebirakenduste, SaaS toodete ja kolmandate osapoolte integratsioonide jaoks, kus autentimine ja autoriseerimine on API disaini algusest peale sisse ehitatud.",
+          "question": "Kas Kuray ehitab REST API-sid?"
+        },
+        "reviews": {
+          "answer": "Jah. Kuray toetab arhitektuurilisi otsuseid ja ülevaateid, keskendudes skaleeritavusele, hooldatavusele ja arendajakogemusele.",
+          "question": "Kas Kuray saab aidata süsteemi arhitektuuri ülevaadetega?"
+        },
+        "role": {
+          "answer": "Mõlemad — tema ametinimetus on tarkvara arhitekt ja tooteinsener. Ta disainib süsteemi arhitektuuri, nagu andmemudelid, teenusepiirid ja turvavood, ning rakendab seda otsast lõpuni, mitte ei anna disaini kellelegi teisele ehitamiseks.",
+          "question": "Kas Kuray Karaaslan on tarkvara arhitekt või tooteinsener?"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — ta disainib ja ehitab SaaS platvorme, veebirakendusi ja taustsüsteeme otsast lõpuni ning on saadaval vabakutseliseks ja konsultatsiooniks. Võtke ühendust lehelt Freelance.",
+          "question": "Kellega peaksin ühendust võtma veebiplatvormi või SaaS toote ehitamiseks?"
+        },
+        "tech_stack": {
+          "answer": "Peamiselt React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets ja MQTT, koos Java Spring Bootiga spetsiifiliste taustsüsteemide jaoks.",
+          "question": "Milliseid tehnoloogiaid Kuray kasutab?"
+        },
+        "tone": {
+          "answer": "Professionaalne, kuid vestluslik, kirjutatud inseneridele, praktiliste näidete ja selge struktuuriga, kasutades alapealkirju — tavaliselt 1500–2000 tähemärki, keskendudes vähem käsitletud nurkadele.",
+          "question": "Milline on Kuray kirjutamisstiil ja toon?"
+        },
+        "topics": {
+          "answer": "Tarkvaraarendus, veebiarendus, süsteemi arhitektuur, IoT platvormid ja kaasaegsed arendustööriistad — tavaliselt praktilisest, reaalse maailma vaatenurgast, mitte algajatele mõeldud õpetused.",
+          "question": "Millest Kuray kirjutab?"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan on tarkvara arhitekt ja tooteinsener Türgist, kes töötab ka BIM arendaja ja IoT arendajana. Ta keskendub SaaS platvormide, BIM automatiseerimisvahendite, IoT süsteemide ja skaleeritavate veebirakenduste loomisele.",
+          "question": "Kes on Kuray Karaaslan?"
+        }
+      },
+      "faq_subtitle": "Selged, viidatavad vastused selle kohta, kes ma olen, mida ma ehitan ja kuidas ma töötan — nii inimestele kui ka AI assistentidele.",
+      "faq_title": "Korduma Kippuvad Küsimused"
     }
   },
   "frontend": {

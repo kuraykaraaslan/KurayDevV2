@@ -1,70 +1,44 @@
 import { useTranslation } from 'react-i18next'
-import { faBriefcase, faUniversity } from '@fortawesome/free-solid-svg-icons'
+import { faBriefcase, faUniversity, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+type TimelineEntry = {
+  period: string
+  title: string
+  company: string
+  description?: string
+}
+
+const ICONS: IconDefinition[] = [faBriefcase, faBriefcase, faBriefcase, faUniversity]
 
 const TimelineItems = () => {
   const { t } = useTranslation()
+  const items = t('pages.timeline.items', { returnObjects: true }) as TimelineEntry[]
+
   return (
     <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical pt-2">
-      <li>
-        <div className="timeline-middle bg-base-300 p-2 rounded-full">
-          <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
-        </div>
-        <div className="timeline-start mb-10 md:text-end me-3 ps-3">
-          <time className="font-mono italic">{t('pages.timeline.items.roltek_period')}</time>
-          <div className="text-lg font-black">
-            {t('pages.timeline.items.roltek_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.roltek_company')}
-          </div>
-          <span className="text-sm max-w-2xl whitespace-pre-line">
-            {t('pages.timeline.items.roltek_desc')}
-          </span>
-        </div>
-        <hr />
-      </li>
-      <li>
-        <hr />
-        <div className="timeline-middle bg-base-300 p-2 rounded-full">
-          <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
-        </div>
-        <div className="timeline-end mb-10 ml-3">
-          <time className="font-mono italic">{t('pages.timeline.items.kuray_yapi_period')}</time>
-          <div className="text-lg font-black">
-            {t('pages.timeline.items.kuray_yapi_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.kuray_yapi_company')}
-          </div>
-          <span className="text-sm whitespace-pre-line">
-            {t('pages.timeline.items.kuray_yapi_desc')}
-          </span>
-        </div>
-        <hr />
-      </li>
-      <li>
-        <hr />
-        <div className="timeline-middle bg-base-300 p-2 rounded-full">
-          <FontAwesomeIcon icon={faBriefcase} className="h-5 w-5" />
-        </div>
-        <div className="timeline-start mb-10 md:text-end pl-3">
-          <time className="font-mono italic">{t('pages.timeline.items.cadbim_period')}</time>
-          <div className="text-lg font-black">
-            {t('pages.timeline.items.cadbim_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.cadbim_company')}
-          </div>
-          <span className="text-sm whitespace-pre-line">
-            {t('pages.timeline.items.cadbim_desc')}
-          </span>
-        </div>
-        <hr />
-      </li>
-      <li>
-        <hr />
-        <div className="timeline-middle bg-base-300 p-2 rounded-full">
-          <FontAwesomeIcon icon={faUniversity} className="h-5 w-5" />
-        </div>
-        <div className="timeline-end mb-10 ml-3">
-          <time className="font-mono italic">{t('pages.timeline.items.deu_period')}</time>
-          <div className="text-lg font-black">
-            {t('pages.timeline.items.deu_title')} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {t('pages.timeline.items.deu_company')}
-          </div>
-        </div>
-      </li>
+      {items.map((item, index) => {
+        const isStart = index % 2 === 0
+        const isLast = index === items.length - 1
+        return (
+          <li key={index}>
+            {index > 0 && <hr />}
+            <div className="timeline-middle bg-base-300 p-2 rounded-full">
+              <FontAwesomeIcon icon={ICONS[index] ?? faBriefcase} className="h-5 w-5" />
+            </div>
+            <div className={isStart ? 'timeline-start mb-10 md:text-end me-3 ps-3' : 'timeline-end mb-10 ms-3'}>
+              <time className="font-mono italic">{item.period}</time>
+              <div className="text-lg font-black">
+                {item.title} <span className="text-sm italic font-normal">{t('pages.timeline.at')}</span> {item.company}
+              </div>
+              {item.description && (
+                <span className="text-sm whitespace-pre-line">{item.description}</span>
+              )}
+            </div>
+            {!isLast && <hr />}
+          </li>
+        )
+      })}
     </ul>
   )
 }

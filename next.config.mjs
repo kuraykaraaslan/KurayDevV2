@@ -52,6 +52,13 @@ const nextConfig = {
 
   trailingSlash: false,
 
+  async redirects() {
+    return [
+      { source: '/about', destination: '/faq', permanent: true },
+      { source: '/:lang/about', destination: '/:lang/faq', permanent: true },
+    ]
+  },
+
   async headers() {
     return [
       {

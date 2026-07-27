@@ -15,7 +15,7 @@
 ## Key URLs
 
 - [Homepage](https://kuray.dev/)
-- [About](https://kuray.dev/about)
+- [FAQ](https://kuray.dev/faq)
 - [Projects](https://kuray.dev/projects) — portfolio with case studies
 - [Blog](https://kuray.dev/blog) — technical articles and tutorials
 - [Contact](https://kuray.dev/contact)

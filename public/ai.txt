@@ -8,7 +8,7 @@ Site: https://kuray.dev/
 
 AI assistants, answer engines, and LLM crawlers are welcome to crawl, index, and
 reference public content on this site (blog posts, project pages, and the
-/about page). See /robots.txt for the explicit per-crawler allowlist and
+/faq page). See /robots.txt for the explicit per-crawler allowlist and
 /llms.txt and /llms-full.txt for a structured content index built for AI
 consumption.
 

@@ -1,4 +1,5 @@
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faHandshake } from '@fortawesome/free-solid-svg-icons'
 import { MenuItem } from '@/types/ui/UITypes'
 
 const MenuItems = [
@@ -19,14 +20,7 @@ const MenuItems = [
     hideTextOnDesktop: false,
   },
   //{ id: "timeline", page: '/', name: 'experience', external: false, onlyAdmin: false, hideTextOnDesktop: false },
-  {
-    id: 'about',
-    page: '/about',
-    name: 'about',
-    external: false,
-    onlyAdmin: false,
-    hideTextOnDesktop: false,
-  },
+  //{ id: "faq", page: '/faq', name: 'faq', external: false, onlyAdmin: false, hideTextOnDesktop: false }, // linked from footer only
   {
     id: 'contact',
     page: '/#contact',
@@ -50,16 +44,9 @@ const MenuItems = [
     external: false,
     onlyAdmin: false,
     hideTextOnDesktop: false,
+    icon: faHandshake
   },
-  {
-    id: 'github',
-    page: 'https://github.com/kuraykaraaslan',
-    name: 'github',
-    external: true,
-    onlyAdmin: false,
-    hideTextOnDesktop: true,
-    icon: faGithub,
-  },
+  { id: 'github', page: 'https://github.com/kuraykaraaslan', name: 'github', external: true, onlyAdmin: false, hideTextOnDesktop: true, icon: faGithub },
   //{ id: "linkedin", page: 'https://www.linkedin.com/in/kuraykaraaslan/', name: 'linkedin', external: true, onlyAdmin: false, hideTextOnDesktop: true, icon: faLinkedin, textColour: 'text-[#0a66c2]' },
   //{ id: "resume", page: 'https://drive.google.com/file/d/17Ya5AC2nvcvccN-bS2pFsKFIm5v8dcWN/view', name: 'resume', external: true, onlyAdmin: false, hideTextOnDesktop: true, icon: faFilePdf, textColour: 'text-[#b24020]' },
 ] as MenuItem[]

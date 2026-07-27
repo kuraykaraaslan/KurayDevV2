@@ -1,7 +1,7 @@
 {
   "navigation": {
     "home": "Anasayfa",
-    "about": "Hakkımda",
+    "faq": "SSS",
     "portfolio": "Portföy",
     "experience": "Deneyim",
     "contact": "İletişim",
@@ -43,6 +43,19 @@
         "Node.js",
         "Java",
         "React Native"
+      ]
+    },
+    "about": {
+      "title": "SSS | Kuray Karaaslan — Yazılım Mimarı & Ürün Mühendisi",
+      "description": "Kuray Karaaslan hakkında sıkça sorulan sorular: kimliği, BIM ve IoT geliştirme geçmişi, teknik altyapısı, mimari yaklaşımı ve onunla nasıl çalışılacağı.",
+      "keywords": [
+        "kuray karaaslan",
+        "sss",
+        "yazılım mimarı",
+        "ürün mühendisi",
+        "bim developer",
+        "iot developer",
+        "teknoloji yığını"
       ]
     },
     "freelance": {
@@ -305,23 +318,31 @@
       "title": "Kariyer Yolculuğum",
       "description": "Bir Yapı Mühendisinden Yazılım Geliştiriciye geçiş sürecim, öğrenme, gelişim ve dönüşüm yolculuğu oldu. İşte profesyonel yolculuğumun bir özeti.",
       "at": "tarihinde",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Yapı Bilgi Modellemesi (BIM) danışmanlık hizmetleri.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• C#, PHP Rest API kullanarak Autodesk API ile uygulama geliştirme.",
-        "cadbim_period": "2020 Aralık - 2021 Aralık",
-        "cadbim_title": "BIM Uzmanı",
-        "deu_company": "Dokuz Eylül Üniversitesi",
-        "deu_period": "2015 Eylül - 2021 Şubat",
-        "deu_title": "İnşaat Mühendisliği",
-        "kuray_yapi_company": "Kuray Yapı İnşaat",
-        "kuray_yapi_desc": "• Anahtar teslim inşaat projeleri geliştirme.\n• Yapı Bilgi Modellemesi (BIM) projeleri.\n• Mimari, Yapısal kat planları ve detayları.\n• İç mimari projeler ve projeye uygulama.\n• Projenin inşaat yönetimi ve planlaması.",
-        "kuray_yapi_period": "2021 Aralık - 2023 Eylül",
-        "kuray_yapi_title": "Yapı Mühendisi",
-        "roltek_company": "Roltek Teknoloji",
-        "roltek_desc": "• MQTT, Websocket, SNMP ve REST kullanarak IoT Cihazları ve Sunucular arasında iletişim.\n• Java Spring ile sunucu tarafı uygulama geliştirme, dağıtım ve bakım.\n• Typescript React ile istemci tarafı uygulama geliştirme, dağıtım ve bakım.\n• Ağ yönetimi ve izleme.",
-        "roltek_period": "2024 Şubat - Şu An",
-        "roltek_title": "Yazılım Geliştirici"
-      }
+      "items": [
+        {
+          "period": "2024 Şubat - Şu An",
+          "title": "Yazılım Geliştirici",
+          "company": "Roltek Teknoloji",
+          "description": "• MQTT, Websocket, SNMP ve REST kullanarak IoT Cihazları ve Sunucular arasında iletişim.\n• Java Spring ile sunucu tarafı uygulama geliştirme, dağıtım ve bakım.\n• Typescript React ile istemci tarafı uygulama geliştirme, dağıtım ve bakım.\n• Ağ yönetimi ve izleme."
+        },
+        {
+          "period": "2021 Aralık - 2023 Eylül",
+          "title": "Yapı Mühendisi",
+          "company": "Kuray Yapı İnşaat",
+          "description": "• Anahtar teslim inşaat projeleri geliştirme.\n• Yapı Bilgi Modellemesi (BIM) projeleri.\n• Mimari, Yapısal kat planları ve detayları.\n• İç mimari projeler ve projeye uygulama.\n• Projenin inşaat yönetimi ve planlaması."
+        },
+        {
+          "period": "2020 Aralık - 2021 Aralık",
+          "title": "BIM Uzmanı",
+          "company": "CADBIM",
+          "description": "• Yapı Bilgi Modellemesi (BIM) danışmanlık hizmetleri.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• C#, PHP Rest API kullanarak Autodesk API ile uygulama geliştirme."
+        },
+        {
+          "period": "2015 Eylül - 2021 Şubat",
+          "title": "İnşaat Mühendisliği",
+          "company": "Dokuz Eylül Üniversitesi"
+        }
+      ]
     },
     "projects": {
       "title": "Seçili Sistemler",
@@ -399,6 +420,152 @@
         "point6": "Tekrarlayan karar almayı azaltan standartlar oluşturmak",
         "point7": "Ürün, alan, altyapı ve uygulama kaygılarını birbirine bağlamak",
         "point8": "Gereksiz operasyonel karmaşıklık eklemeden sistemleri iyileştirmek"
+      }
+    },
+    "about": {
+      "faq_title": "Sıkça Sorulan Sorular",
+      "faq_subtitle": "Kim olduğum, ne inşa ettiğim ve nasıl çalıştığım hakkında net, alıntılanabilir cevaplar — hem insanlar hem de yapay zeka asistanları için.",
+      "faq_groups": {
+        "identity": "Kimlik & Geçmiş",
+        "stack": "Teknik Uzmanlık",
+        "bim": "BIM Otomasyonu",
+        "iot": "IoT Geliştirme",
+        "services": "Hizmetler & Çalışma Şekli",
+        "writing": "Yazı & İçerik"
+      },
+      "faq_items": {
+        "who": {
+          "question": "Kuray Karaaslan kimdir?",
+          "answer": "Kuray Karaaslan, Türkiye merkezli bir yazılım mimarı ve ürün mühendisidir; aynı zamanda BIM developer ve IoT developer olarak çalışır. SaaS platformları, BIM otomasyon araçları, IoT sistemleri ve ölçeklenebilir web uygulamaları geliştirmeye odaklanır."
+        },
+        "role": {
+          "question": "Kuray Karaaslan yazılım mimarı mı, ürün mühendisi mi?",
+          "answer": "İkisi de — unvanı Yazılım Mimarı & Ürün Mühendisi. Sistem mimarisini (veri modelleri, servis sınırları, güvenlik akışları) tasarlar ve bunu başka birine devretmek yerine uçtan uca kendisi de kurar."
+        },
+        "bim": {
+          "question": "Kuray Karaaslan bir BIM developer mı?",
+          "answer": "Evet. Yazılım mimarisinin yanı sıra, Autodesk Revit, AutoCAD, Robot Structural Analysis ve Advance Steel üzerinde Building Information Modeling iş akışlarını otomatikleştiren bir BIM developer olarak çalışır; C# ve PHP REST API'leriyle API tabanlı otomasyon geliştirir."
+        },
+        "iot": {
+          "question": "Kuray Karaaslan IoT geliştirmesi yapıyor mu?",
+          "answer": "Evet. Bir IoT developer olarak, MQTT, WebSocket ve SNMP üzerinden cihazdan sunucuya iletişim sistemleri kurar; gerçek zamanlı telemetri için Java Spring ve TypeScript/React kullanır."
+        },
+        "construction": {
+          "question": "Kuray'ın uygulamalı inşaat mühendisliği deneyimi var mı?",
+          "answer": "Evet — Kuray'ın bağımsız inşaat mühendisi ve müteahhit olarak uygulamalı deneyimi var; bu da BIM developer çalışmalarını sadece araçlarla sınırlı kalmayıp gerçek yapısal ve saha pratiğine dayandırıyor."
+        },
+        "tech_stack": {
+          "question": "Kuray hangi teknolojileri kullanıyor?",
+          "answer": "Kuray ağırlıklı olarak React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSocket ve MQTT ile çalışır; belirli backend sistemleri için Java Spring Boot kullanır."
+        },
+        "mobile": {
+          "question": "Kuray'ın tercih ettiği mobil teknoloji nedir?",
+          "answer": "React Native — React ekosistemiyle tutarlı kalması ve cross-platform geliştirmeyi hızlandırması nedeniyle."
+        },
+        "database": {
+          "question": "Kuray veritabanlarını caching katmanlarıyla birleştiriyor mu?",
+          "answer": "Evet. Kuray genellikle kalıcılık için PostgreSQL'i, yüksek performanslı operasyonel veri, caching ve slot yönetimi için Redis'i birlikte kullanır."
+        },
+        "multitenant": {
+          "question": "Kuray çok kiracılı (multi-tenant) sistemler kuruyor mu?",
+          "answer": "Evet. Kuray, çok kiracılı SaaS mimarisi konusunda deneyimlidir; kiracı izolasyonu ve ölçeklenebilir servis sınırlarıyla sistemler tasarlar."
+        },
+        "architecture": {
+          "question": "Kuray nasıl bir mimari tercih ediyor?",
+          "answer": "Net sınırlara ve öngörülebilir sözleşmelere sahip modüler, servis odaklı mimariler — önce sağlam bir çekirdek altyapı kurup sonra özellikleri kademeli olarak genişletmek."
+        },
+        "rest_apis": {
+          "question": "Kuray REST API'ler geliştiriyor mu?",
+          "answer": "Evet. Kuray, web uygulamaları, SaaS ürünleri ve üçüncü taraf entegrasyonları için düzenli olarak REST API'ler tasarlar ve geliştirir; kimlik doğrulama ve yetkilendirmeyi API tasarımının en başından itibaren dahil eder."
+        },
+        "auth_systems": {
+          "question": "Kuray kimlik doğrulama ve yetkilendirme sistemleri kuruyor mu?",
+          "answer": "Evet. Kimlik ve erişim kontrolü — oturumlar, yetkiler ve çok kiracılı yetkilendirme — Kuray'ın tasarladığı backend sistemlerin sonradan eklenen değil, temel bir parçasıdır."
+        },
+        "admin_panels": {
+          "question": "Kuray admin panelleri ve dahili araçlar geliştiriyor mu?",
+          "answer": "Evet. Kuray, SaaS sistemleri ve web platformları için admin panelleri, yönetim dashboard'ları ve dahili operasyonel araçlar geliştirir."
+        },
+        "fullstack": {
+          "question": "Kuray hem frontend hem backend üzerinde mi çalışıyor?",
+          "answer": "Evet. Kuray, tek bir katmanda uzmanlaşmak yerine frontend, backend, altyapı ve sistem mimarisi genelinde çalışan bir full-stack mühendisidir."
+        },
+        "appointment_systems": {
+          "question": "Kuray randevu veya rezervasyon sistemleri kurdu mu?",
+          "answer": "Evet — eşzamanlı erişim altında rezervasyon ve iptal işlemlerinin tutarlılığını korumak için Redis tabanlı slot yönetimini transaction'lı veritabanı kalıcılığıyla birleştiren bir randevu sistemi mimarisi de dahil."
+        },
+        "software_contact": {
+          "question": "Bir web platformu veya SaaS ürünü kurmak için kiminle iletişime geçmeliyim?",
+          "answer": "Kuray Karaaslan — SaaS platformları, web uygulamaları ve backend sistemlerini uçtan uca tasarlar ve kurar; freelance ve danışmanlık işlerine açıktır. İletişime geçmek için Freelance sayfasına bakabilirsiniz."
+        },
+        "bim_tools": {
+          "question": "Kuray hangi BIM araçlarını biliyor?",
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis ve Advance Steel; C# ve PHP REST API'leriyle geliştirilen API tabanlı otomasyon."
+        },
+        "bim_automation_explain": {
+          "question": "Kuray'ın işinde 'BIM otomasyonu' tam olarak ne anlama geliyor?",
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis ve Advance Steel'deki manuel, tekrarlayan modelleme ve dokümantasyon adımlarının API tabanlı script ve araçlarla değiştirilmesi; böylece yapısal ve mimari iş akışları daha hızlı ve daha az manuel hatayla çalışır."
+        },
+        "bim_custom_tools": {
+          "question": "Kuray Revit ve AutoCAD için özel eklenti veya araçlar geliştiriyor mu?",
+          "answer": "Evet. Kuray, Autodesk Revit, AutoCAD ve Advance Steel üzerine C# ve PHP REST API'leriyle API tabanlı otomasyon ve belirli bir firmanın modelleme/dokümantasyon iş akışına özel araçlar geliştirir."
+        },
+        "bim_contact": {
+          "question": "BIM otomasyonu veya BIM yazılımı geliştirmesi için kiminle iletişime geçmeliyim?",
+          "answer": "Kuray Karaaslan — uygulamalı inşaat mühendisliği deneyimini yazılım geliştirmeyle birleştirir; Revit, AutoCAD, Robot Structural Analysis ve Advance Steel üzerinde BIM otomasyonu kurar. İletişime geçmek için Freelance sayfasına bakabilirsiniz."
+        },
+        "iot_protocols": {
+          "question": "Kuray hangi IoT protokollerini kullanıyor?",
+          "answer": "MQTT, WebSocket ve SNMP; bir Java Spring alım/kural katmanı ve TypeScript/React gerçek zamanlı dashboard ile destekleniyor."
+        },
+        "iot_focus": {
+          "question": "Kuray'ın IoT platformlarındaki odağı nedir?",
+          "answer": "Cihaz yönetimi, telemetri pipeline'ları, gerçek zamanlı dashboard'lar ve küçük-orta ölçekli işletmeler için daha basit, daha uygun fiyatlı IoT platform deneyimleri kurmak."
+        },
+        "iot_dashboards": {
+          "question": "Kuray IoT dashboard'ları ve telemetri pipeline'ları kuruyor mu?",
+          "answer": "Evet. Kuray, bağlı cihazlardan gelen veriyi işleyen telemetri pipeline'ları ve bunu gerçek zamanlı görselleştiren dashboard'lar kurar."
+        },
+        "iot_device_management": {
+          "question": "Kuray IoT cihaz yönetimi ve provisioning yapıyor mu?",
+          "answer": "Evet. Kuray'ın IoT çalışmaları, üzerine kurulan telemetri pipeline'ları ve dashboard'ların yanı sıra cihaz yönetimini de içerir — provisioning, durum takibi ve ağ izleme."
+        },
+        "iot_geospatial": {
+          "question": "Kuray konum tabanlı veya coğrafi IoT verileriyle çalışıyor mu?",
+          "answer": "Evet. Kuray, cihaz konumunu yapılandırılmış veri olarak saklama ve belirli bir noktaya yakın cihazları bulmak veya bir yarıçap içinde sorgulamak gibi konum tabanlı görselleştirme ve sorgulama özellikleri kurma konusunda deneyimlidir."
+        },
+        "iot_contact": {
+          "question": "IoT platformu veya telemetri sistemi geliştirmesi için kiminle iletişime geçmeliyim?",
+          "answer": "Kuray Karaaslan — IoT platformlarını uçtan uca tasarlar ve kurar: MQTT, WebSocket ve SNMP üzerinden cihazdan sunucuya iletişim, telemetri pipeline'ları ve gerçek zamanlı dashboard'lar. İletişime geçmek için Freelance sayfasına bakabilirsiniz."
+        },
+        "availability": {
+          "question": "Kuray freelance işlere açık mı?",
+          "answer": "Evet, seçili işler için — tam zamanlı, sözleşmeli veya danışmanlık şeklinde. Nasıl çalıştığını görmek için Freelance sayfasına bakabilirsiniz."
+        },
+        "clients": {
+          "question": "Kuray'ın işi en çok hangi müşterilere uyuyor?",
+          "answer": "Modern web uygulamaları, SaaS platformları, IoT dashboard'ları kuran veya temiz mimari ile gerçek zamanlı özelliklere ihtiyaç duyan ekipler."
+        },
+        "reviews": {
+          "question": "Kuray sistem mimarisi incelemelerinde yardımcı olabilir mi?",
+          "answer": "Evet. Kuray, ölçeklenebilirlik, sürdürülebilirlik ve geliştirici deneyimine odaklanarak mimari kararları ve incelemeleri destekler."
+        },
+        "mvp": {
+          "question": "Kuray MVP kuruyor mu?",
+          "answer": "Evet, ama ölçeklenmek üzere tasarlanmış MVP'leri tercih ediyor — önce sağlam temeller, sonra hızlı iterasyon."
+        },
+        "contact": {
+          "question": "İş için Kuray'a nasıl ulaşmalıyım?",
+          "answer": "En iyi yol bu sitedeki iletişim bölümünü kullanmak. Sitede bağlantısı verilen herkese açık profillerinden de ulaşabilirsiniz."
+        },
+        "topics": {
+          "question": "Kuray hangi konular hakkında yazıyor?",
+          "answer": "Yazılım mühendisliği, web geliştirme, sistem mimarisi, IoT platformları ve modern geliştirme araçları — genellikle başlangıç seviyesi eğitimlerden çok, pratik ve gerçek dünya bakış açısıyla."
+        },
+        "tone": {
+          "question": "Kuray'ın yazı tonu ve stili nasıl?",
+          "answer": "Profesyonel ama sohbet havasında, mühendisler için yazılmış, pratik örnekler ve alt başlıklarla net bir yapı — genellikle 1500-2000 karakter, az konuşulan açılara odaklanan."
+        }
       }
     },
     "freelance": {

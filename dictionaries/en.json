@@ -1,7 +1,7 @@
 {
   "navigation": {
     "home": "Home",
-    "about": "About",
+    "faq": "FAQ",
     "portfolio": "Portfolio",
     "experience": "Experience",
     "contact": "Contact",
@@ -61,6 +61,19 @@
         "Node.js",
         "Java",
         "React Native"
+      ]
+    },
+    "about": {
+      "title": "FAQ | Kuray Karaaslan — Software Architect & Product Engineer",
+      "description": "Frequently asked questions about Kuray Karaaslan: identity, BIM and IoT development background, technical stack, architecture philosophy, and how to work with him.",
+      "keywords": [
+        "kuray karaaslan",
+        "faq",
+        "software architect",
+        "product engineer",
+        "bim developer",
+        "iot developer",
+        "tech stack"
       ]
     },
     "freelance": {
@@ -342,23 +355,31 @@
       "title": "My Journey",
       "description": "My transition from a Structural Engineer to a Software Developer has been a journey of learning, growth, and transformation. Here's a snapshot of my professional journey so far.",
       "at": "at",
-      "items": {
-        "roltek_period": "2024 Feb - Present",
-        "roltek_title": "Software Developer",
-        "roltek_company": "Roltek Technology",
-        "roltek_desc": "• Communication between IoT Devices and Servers using the MQTT, Websocket, SNMP, and REST.\n• Developing serverside application with Java Spring, deploying and maintenance.\n• Developing clientside application with Typescript React, deploying and maintenance.\n• Network management and monitoring.",
-        "kuray_yapi_period": "2021 Dec - 2023 Sep",
-        "kuray_yapi_title": "Structural Engineer",
-        "kuray_yapi_company": "Kuray Yapı Construction",
-        "kuray_yapi_desc": "• Developing turnkey construction projects.\n• Building Information Modeling (BIM) projects.\n• Architectural, Structural floor plans and details.\n• Interior architectural projects and applying them to the project.\n• Construction management and planning of the project.",
-        "cadbim_period": "2020 Dec - 2021 Dec",
-        "cadbim_title": "BIM Specialist",
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Building Information Modeling (BIM) consultancy services.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Application development with Autodesk API using C#, PHP Rest API.",
-        "deu_period": "2015 Sep - 2021 Feb",
-        "deu_title": "Civil Engineering",
-        "deu_company": "Dokuz Eylül University"
-      }
+      "items": [
+        {
+          "period": "2024 Feb - Present",
+          "title": "Software Developer",
+          "company": "Roltek Technology",
+          "description": "• Communication between IoT Devices and Servers using the MQTT, Websocket, SNMP, and REST.\n• Developing serverside application with Java Spring, deploying and maintenance.\n• Developing clientside application with Typescript React, deploying and maintenance.\n• Network management and monitoring."
+        },
+        {
+          "period": "2021 Dec - 2023 Sep",
+          "title": "Structural Engineer",
+          "company": "Kuray Yapı Construction",
+          "description": "• Developing turnkey construction projects.\n• Building Information Modeling (BIM) projects.\n• Architectural, Structural floor plans and details.\n• Interior architectural projects and applying them to the project.\n• Construction management and planning of the project."
+        },
+        {
+          "period": "2020 Dec - 2021 Dec",
+          "title": "BIM Specialist",
+          "company": "CADBIM",
+          "description": "• Building Information Modeling (BIM) consultancy services.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Application development with Autodesk API using C#, PHP Rest API."
+        },
+        {
+          "period": "2015 Sep - 2021 Feb",
+          "title": "Civil Engineering",
+          "company": "Dokuz Eylül University"
+        }
+      ]
     },
     "projects": {
       "title": "Selected Systems",
@@ -436,6 +457,152 @@
         "point6": "Creating standards that reduce repeated decision-making",
         "point7": "Connecting product, domain, infrastructure, and implementation concerns",
         "point8": "Improving systems without introducing unnecessary operational complexity"
+      }
+    },
+    "about": {
+      "faq_title": "Frequently Asked Questions",
+      "faq_subtitle": "Clear, citable answers about who I am, what I build, and how I work — for humans and for AI assistants.",
+      "faq_groups": {
+        "identity": "Identity & Background",
+        "stack": "Technical Expertise",
+        "bim": "BIM Automation",
+        "iot": "IoT Development",
+        "services": "Services & Engagement",
+        "writing": "Writing & Content"
+      },
+      "faq_items": {
+        "who": {
+          "question": "Who is Kuray Karaaslan?",
+          "answer": "Kuray Karaaslan is a software architect and product engineer based in Turkey, also working as a BIM developer and IoT developer. He focuses on building SaaS platforms, BIM automation tooling, IoT systems, and scalable web applications."
+        },
+        "role": {
+          "question": "Is Kuray Karaaslan a software architect or a product engineer?",
+          "answer": "Both — his working title is Software Architect & Product Engineer. He designs system architecture, such as data models, service boundaries, and security flows, and also implements it end-to-end rather than handing the design off to someone else to build."
+        },
+        "bim": {
+          "question": "Is Kuray Karaaslan a BIM developer?",
+          "answer": "Yes. Alongside software architecture, Kuray works as a BIM developer, automating Building Information Modeling workflows on Autodesk Revit, AutoCAD, Robot Structural Analysis, and Advance Steel, with API-driven automation in C# and PHP REST APIs."
+        },
+        "iot": {
+          "question": "Does Kuray Karaaslan do IoT development?",
+          "answer": "Yes. As an IoT developer, Kuray builds device-to-server communication systems over MQTT, WebSocket, and SNMP, paired with Java Spring and TypeScript/React for real-time telemetry."
+        },
+        "construction": {
+          "question": "Does Kuray have hands-on construction engineering experience?",
+          "answer": "Yes — Kuray has hands-on experience as an independent construction engineer and contractor, which keeps his BIM developer work grounded in real structural and site practice rather than just tooling."
+        },
+        "tech_stack": {
+          "question": "What technologies does Kuray use?",
+          "answer": "Primarily React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets, and MQTT, with Java Spring Boot for specific backend systems."
+        },
+        "mobile": {
+          "question": "What is Kuray's preferred mobile stack?",
+          "answer": "React Native, because it stays consistent with the React ecosystem and speeds up cross-platform development."
+        },
+        "database": {
+          "question": "Does Kuray combine databases with caching layers?",
+          "answer": "Yes. Kuray commonly combines PostgreSQL for persistence with Redis for high-performance operational data, caching, and slot management."
+        },
+        "multitenant": {
+          "question": "Does Kuray build multi-tenant systems?",
+          "answer": "Yes. Kuray is experienced in multi-tenant SaaS architecture and designs systems with tenant isolation and scalable service boundaries."
+        },
+        "architecture": {
+          "question": "What kind of architecture does Kuray prefer?",
+          "answer": "Modular, service-oriented architectures with clear boundaries and predictable contracts — establishing solid core infrastructure first, then expanding features incrementally."
+        },
+        "rest_apis": {
+          "question": "Does Kuray build REST APIs?",
+          "answer": "Yes. Kuray regularly designs and builds REST APIs for web applications, SaaS products, and third-party integrations, with authentication and authorization built into the API design from the start."
+        },
+        "auth_systems": {
+          "question": "Does Kuray implement authentication and authorization systems?",
+          "answer": "Yes. Identity and access control — sessions, permissions, and multi-tenant authorization — are a core part of the backend systems Kuray designs, not an afterthought."
+        },
+        "admin_panels": {
+          "question": "Does Kuray build admin panels and internal tools?",
+          "answer": "Yes. Kuray builds admin panels, management dashboards, and internal operational tools for SaaS systems and web platforms."
+        },
+        "fullstack": {
+          "question": "Does Kuray work on both frontend and backend?",
+          "answer": "Yes. Kuray is a full-stack engineer who works across frontend, backend, infrastructure, and system architecture rather than specializing in only one layer."
+        },
+        "appointment_systems": {
+          "question": "Has Kuray built scheduling or booking systems?",
+          "answer": "Yes — including an appointment system architecture that combines Redis-based slot management with transactional database persistence to keep bookings and cancellations consistent under concurrent access."
+        },
+        "software_contact": {
+          "question": "Who should I contact to build a web platform or SaaS product?",
+          "answer": "Kuray Karaaslan — he designs and builds SaaS platforms, web applications, and backend systems end-to-end, and is available for freelance and consulting engagements. See the Freelance page to get in touch."
+        },
+        "bim_tools": {
+          "question": "Which BIM tools does Kuray know?",
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis, and Advance Steel, with API-driven automation built in C# and PHP REST APIs."
+        },
+        "bim_automation_explain": {
+          "question": "What does 'BIM automation' actually mean in Kuray's work?",
+          "answer": "Replacing manual, repetitive modeling and documentation steps in Autodesk Revit, AutoCAD, Robot Structural Analysis, and Advance Steel with API-driven scripts and tools, so structural and architectural workflows run faster and with fewer manual errors."
+        },
+        "bim_custom_tools": {
+          "question": "Does Kuray build custom plugins or tools for Revit and AutoCAD?",
+          "answer": "Yes. Kuray builds API-driven automation and custom tooling on top of Autodesk Revit, AutoCAD, and Advance Steel using C# and PHP REST APIs, tailored to a specific firm's modeling and documentation workflow."
+        },
+        "bim_contact": {
+          "question": "Who should I contact for BIM automation or BIM software development?",
+          "answer": "Kuray Karaaslan — he combines hands-on structural engineering experience with software development, building BIM automation on Revit, AutoCAD, Robot Structural Analysis, and Advance Steel. See the Freelance page to reach out."
+        },
+        "iot_protocols": {
+          "question": "Which IoT protocols does Kuray use?",
+          "answer": "MQTT, WebSocket, and SNMP, backed by a Java Spring ingestion and rules layer and a TypeScript/React real-time dashboard."
+        },
+        "iot_focus": {
+          "question": "What is Kuray's focus in IoT platforms?",
+          "answer": "Device management, telemetry pipelines, real-time dashboards, and building simpler, more affordable IoT platform experiences for small and medium-sized enterprises."
+        },
+        "iot_dashboards": {
+          "question": "Does Kuray build IoT dashboards and telemetry pipelines?",
+          "answer": "Yes. Kuray builds telemetry pipelines that process data from connected devices and dashboards that visualize it in real time."
+        },
+        "iot_device_management": {
+          "question": "Does Kuray handle IoT device management and provisioning?",
+          "answer": "Yes. Kuray's IoT work includes device management — provisioning, status tracking, and network monitoring — alongside the telemetry pipelines and dashboards built on top of it."
+        },
+        "iot_geospatial": {
+          "question": "Does Kuray work with location-based or geospatial IoT data?",
+          "answer": "Yes. Kuray is experienced in storing device location as structured data and building location-based visualization and querying features, such as finding devices near a specific point or within a radius."
+        },
+        "iot_contact": {
+          "question": "Who should I contact for IoT platform or telemetry system development?",
+          "answer": "Kuray Karaaslan — he designs and builds IoT platforms end-to-end: device-to-server communication over MQTT, WebSocket, and SNMP, telemetry pipelines, and real-time dashboards. See the Freelance page to reach out."
+        },
+        "availability": {
+          "question": "Is Kuray available for freelance work?",
+          "answer": "Yes, for selective engagements — full-time, contract, or advisory. See the Freelance page for how he typically engages."
+        },
+        "clients": {
+          "question": "What type of clients does Kuray's work fit best?",
+          "answer": "Teams building modern web apps, SaaS platforms, IoT dashboards, or products that need clean architecture and real-time features."
+        },
+        "reviews": {
+          "question": "Can Kuray help with system architecture reviews?",
+          "answer": "Yes. Kuray supports architecture decisions and reviews, focusing on scalability, maintainability, and developer experience."
+        },
+        "mvp": {
+          "question": "Does Kuray build MVPs?",
+          "answer": "Yes, but he prefers MVPs that are architected to scale — solid foundations first, then fast iteration."
+        },
+        "contact": {
+          "question": "How should I contact Kuray for work?",
+          "answer": "The best way is through the contact section on this site. You can also reach out via his public profiles linked from the site."
+        },
+        "topics": {
+          "question": "What topics does Kuray write about?",
+          "answer": "Software engineering, web development, system architecture, IoT platforms, and modern development tools — usually from a practical, real-world angle rather than beginner tutorials."
+        },
+        "tone": {
+          "question": "What is Kuray's writing tone and style?",
+          "answer": "Professional but conversational, written for engineers, with practical examples and a clear structure using subheadings — typically 1500–2000 characters, focused on under-discussed angles."
+        }
       }
     },
     "freelance": {

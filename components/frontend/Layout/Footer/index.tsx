@@ -18,6 +18,7 @@ const NAV_LINKS = [
   { href: '/blog', labelKey: 'navigation.blog' },
   { href: '/#portfolio', labelKey: 'navigation.portfolio' },
   { href: '/#contact', labelKey: 'navigation.contact' },
+  { href: '/faq', labelKey: 'navigation.faq' },
 ] as const
 
 const Footer = () => {

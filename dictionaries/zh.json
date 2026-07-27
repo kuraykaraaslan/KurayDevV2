@@ -1061,23 +1061,31 @@
       "description": "从结构工程师到软件开发人员的转变是一个学习、成长和转型的旅程。这是我职业旅程的一个缩影。",
       "title": "我的旅程",
       "at": "在",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• 建筑信息建模（BIM）咨询服务。\n• Autodesk AutoCAD、Revit、Robot Structural Analysis Professional、Advance Steel。\n• 使用C#、PHP Rest API进行Autodesk API应用开发。",
-        "cadbim_period": "2020年12月 - 2021年12月",
-        "cadbim_title": "BIM专家",
-        "deu_company": "九月九大学",
-        "deu_period": "2015年9月 - 2021年2月",
-        "deu_title": "土木工程",
-        "kuray_yapi_company": "Kuray Yapı建筑",
-        "kuray_yapi_desc": "• 开发交钥匙建筑项目。\n• 建筑信息建模（BIM）项目。\n• 建筑、结构平面图和细节。\n• 室内建筑项目并将其应用于项目。\n• 项目施工管理和规划。",
-        "kuray_yapi_period": "2021年12月 - 2023年9月",
-        "kuray_yapi_title": "结构工程师",
-        "roltek_company": "Roltek科技",
-        "roltek_desc": "• 使用MQTT、Websocket、SNMP和REST进行IoT设备与服务器之间的通信。\n• 使用Java Spring开发服务器端应用，部署和维护。\n• 使用Typescript React开发客户端应用，部署和维护。\n• 网络管理和监控。",
-        "roltek_period": "2024年2月 - 现在",
-        "roltek_title": "软件开发人员"
-      }
+      "items": [
+        {
+          "period": "2024年2月 - 现在",
+          "title": "软件开发人员",
+          "company": "Roltek科技",
+          "description": "• 使用MQTT、Websocket、SNMP和REST进行IoT设备与服务器之间的通信。\n• 使用Java Spring开发服务器端应用，部署和维护。\n• 使用Typescript React开发客户端应用，部署和维护。\n• 网络管理和监控。"
+        },
+        {
+          "period": "2021年12月 - 2023年9月",
+          "title": "结构工程师",
+          "company": "Kuray Yapı建筑",
+          "description": "• 开发交钥匙建筑项目。\n• 建筑信息建模（BIM）项目。\n• 建筑、结构平面图和细节。\n• 室内建筑项目并将其应用于项目。\n• 项目施工管理和规划。"
+        },
+        {
+          "period": "2020年12月 - 2021年12月",
+          "title": "BIM专家",
+          "company": "CADBIM",
+          "description": "• 建筑信息建模（BIM）咨询服务。\n• Autodesk AutoCAD、Revit、Robot Structural Analysis Professional、Advance Steel。\n• 使用C#、PHP Rest API进行Autodesk API应用开发。"
+        },
+        {
+          "period": "2015年9月 - 2021年2月",
+          "title": "土木工程",
+          "company": "九月九大学"
+        }
+      ]
     },
     "toolbox": {
       "backend": "后端",

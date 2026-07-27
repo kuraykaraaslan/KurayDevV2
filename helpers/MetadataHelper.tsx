@@ -335,6 +335,23 @@ export default class MetadataHelper {
     return { ...base, '@type': 'NewsArticle' }
   }
 
+  // Generate JSON-LD for FAQPage (enables FAQ rich results)
+  public static getFAQPageJsonLd(items: { question: string; answer: string }[]) {
+    if (!items?.length) return null
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: items.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    }
+  }
+
   // Generate JSON-LD for Breadcrumb
   public static getBreadcrumbJsonLd(items: { name: string; url: string }[]) {
     return {
@@ -561,6 +578,7 @@ export default class MetadataHelper {
         image?: string
       }
       portfolioItems?: { name: string; url: string; image?: string }[]
+      faqPage?: { question: string; answer: string }[]
       blogPosting?: {
         title: string
         description: string
@@ -592,6 +610,9 @@ export default class MetadataHelper {
       : null
     const breadcrumbJsonLd = options?.breadcrumbs
       ? MetadataHelper.getBreadcrumbJsonLd(options.breadcrumbs)
+      : null
+    const faqPageJsonLd = options?.faqPage
+      ? MetadataHelper.getFAQPageJsonLd(options.faqPage)
       : null
     const articleUrl = String(meta?.openGraph?.url || '')
     const commentsJsonLd = options?.comments
@@ -684,6 +705,12 @@ export default class MetadataHelper {
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+          />
+        )}
+        {faqPageJsonLd && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd) }}
           />
         )}
         {commentsJsonLd && (

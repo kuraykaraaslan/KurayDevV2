@@ -1061,23 +1061,31 @@
       "description": "從結構工程師轉型為軟體開發者，是一段學習、成長與轉變的旅程。這是我職業生涯的縮影。",
       "title": "我的旅程",
       "at": "於",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• 建築信息建模（BIM）諮詢服務。\n• Autodesk AutoCAD、Revit、Robot Structural Analysis Professional、Advance Steel。\n• 使用 C#、PHP Rest API 開發 Autodesk API 應用程式。",
-        "cadbim_period": "2020年12月 - 2021年12月",
-        "cadbim_title": "BIM 專家",
-        "deu_company": "九月九大學",
-        "deu_period": "2015年9月 - 2021年2月",
-        "deu_title": "土木工程",
-        "kuray_yapi_company": "Kuray Yapı 建築",
-        "kuray_yapi_desc": "• 開發交鑰匙建築專案。\n• 建築信息建模（BIM）專案。\n• 建築、結構平面圖和細節。\n• 室內建築專案及其應用。\n• 專案的施工管理和規劃。",
-        "kuray_yapi_period": "2021年12月 - 2023年9月",
-        "kuray_yapi_title": "結構工程師",
-        "roltek_company": "Roltek 科技",
-        "roltek_desc": "• 使用 MQTT、Websocket、SNMP 和 REST 進行 IoT 設備與伺服器之間的通信。\n• 使用 Java Spring 開發伺服器端應用程式，部署和維護。\n• 使用 Typescript React 開發客戶端應用程式，部署和維護。\n• 網絡管理和監控。",
-        "roltek_period": "2024年2月 - 現在",
-        "roltek_title": "軟體開發人員"
-      }
+      "items": [
+        {
+          "period": "2024年2月 - 現在",
+          "title": "軟體開發人員",
+          "company": "Roltek 科技",
+          "description": "• 使用 MQTT、Websocket、SNMP 和 REST 進行 IoT 設備與伺服器之間的通信。\n• 使用 Java Spring 開發伺服器端應用程式，部署和維護。\n• 使用 Typescript React 開發客戶端應用程式，部署和維護。\n• 網絡管理和監控。"
+        },
+        {
+          "period": "2021年12月 - 2023年9月",
+          "title": "結構工程師",
+          "company": "Kuray Yapı 建築",
+          "description": "• 開發交鑰匙建築專案。\n• 建築信息建模（BIM）專案。\n• 建築、結構平面圖和細節。\n• 室內建築專案及其應用。\n• 專案的施工管理和規劃。"
+        },
+        {
+          "period": "2020年12月 - 2021年12月",
+          "title": "BIM 專家",
+          "company": "CADBIM",
+          "description": "• 建築信息建模（BIM）諮詢服務。\n• Autodesk AutoCAD、Revit、Robot Structural Analysis Professional、Advance Steel。\n• 使用 C#、PHP Rest API 開發 Autodesk API 應用程式。"
+        },
+        {
+          "period": "2015年9月 - 2021年2月",
+          "title": "土木工程",
+          "company": "九月九大學"
+        }
+      ]
     },
     "toolbox": {
       "backend": "後端",

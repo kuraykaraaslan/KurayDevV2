@@ -26,7 +26,7 @@ type CapabilityGroup = {
 const groups: CapabilityGroup[] = [
   {
     key: 'foundations',
-    accent: 'cyan-700',
+    accent: 'primary',
     skills: [
       { key: 'clean_code', icon: faCode },
       { key: 'authentication_security', icon: faKey },
@@ -34,7 +34,7 @@ const groups: CapabilityGroup[] = [
   },
   {
     key: 'backend',
-    accent: 'violet-700',
+    accent: 'primary',
     skills: [
       { key: 'rest_api_design', icon: faCogs },
       { key: 'sql_data_modeling', icon: faDatabase },
@@ -45,7 +45,7 @@ const groups: CapabilityGroup[] = [
   },
   {
     key: 'delivery',
-    accent: 'emerald-700',
+    accent: 'primary',
     skills: [
       { key: 'testing_cicd', icon: faVial },
       { key: 'performance_optimization', icon: faRocket },
@@ -57,9 +57,11 @@ const groups: CapabilityGroup[] = [
 ]
 
 const accentClasses: Record<string, { border: string; badgeBg: string; badgeText: string }> = {
-  'cyan-700': { border: 'border-t-cyan-700', badgeBg: 'bg-cyan-700/10', badgeText: 'text-cyan-700' },
-  'violet-700': { border: 'border-t-violet-700', badgeBg: 'bg-violet-700/10', badgeText: 'text-violet-700' },
-  'emerald-700': { border: 'border-t-emerald-700', badgeBg: 'bg-emerald-700/10', badgeText: 'text-emerald-700' },
+  'primary': {
+    border: 'border-t-primary',
+    badgeBg: 'bg-primary/10',
+    badgeText: 'text-primary',
+  },
 }
 
 const Capabilities = () => {

@@ -1,7 +1,6 @@
 {
   "navigation": {
     "home": "Home",
-    "about": "About",
     "portfolio": "Portfolio",
     "experience": "Ervaring",
     "contact": "Contact",
@@ -10,7 +9,8 @@
     "github": "GitHub",
     "linkedin": "LinkedIn",
     "resume": "CV",
-    "backend": "Backend"
+    "backend": "Backend",
+    "faq": "Veelgestelde vragen"
   },
   "metadata": {
     "blog": {
@@ -87,6 +87,10 @@
     "freelance": {
       "description": "Beschikbaar voor selectieve freelance opdrachten — architectuur, platform engineering en end-to-end levering voor complexe SaaS-, IoT-, BIM-, integratie- en realtime producten.",
       "title": "Freelance Software Architect & Product Engineer | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "Veelgestelde vragen over Kuray Karaaslan: identiteit, BIM- en IoT-ontwikkelingsachtergrond, technische stack, architectuurfilosofie en hoe met hem samen te werken.",
+      "title": "FAQ | Kuray Karaaslan — Software Architect & Product Engineer"
     }
   },
   "errors": {
@@ -296,23 +300,31 @@
       "title": "Mijn Reis",
       "description": "Mijn overgang van bouwkundig ingenieur naar softwareontwikkelaar is een reis geweest van leren, groeien en transformeren. Hier is een momentopname van mijn professionele pad tot nu toe.",
       "at": "bij",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• Building Information Modeling (BIM) adviesdiensten.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Applicatieontwikkeling met Autodesk API met behulp van C#, PHP Rest API.",
-        "cadbim_period": "2020 dec - 2021 dec",
-        "cadbim_title": "BIM Specialist",
-        "deu_company": "Dokuz Eylül Universiteit",
-        "deu_period": "2015 sep - 2021 feb",
-        "deu_title": "Civiele Techniek",
-        "kuray_yapi_company": "Kuray Yapı Constructie",
-        "kuray_yapi_desc": "• Ontwikkelen van turnkey bouwprojecten.\n• Building Information Modeling (BIM) projecten.\n• Architecturale, structurele plattegronden en details.\n• Interieurarchitectuurprojecten en deze toepassen op het project.\n• Bouwmanagement en planning van het project.",
-        "kuray_yapi_period": "2021 dec - 2023 sep",
-        "kuray_yapi_title": "Structureel Ingenieur",
-        "roltek_company": "Roltek Technologie",
-        "roltek_desc": "• Communicatie tussen IoT-apparaten en servers met behulp van MQTT, Websocket, SNMP en REST.\n• Ontwikkelen van server-side applicaties met Java Spring, implementatie en onderhoud.\n• Ontwikkelen van client-side applicaties met Typescript React, implementatie en onderhoud.\n• Netwerkbeheer en monitoring.",
-        "roltek_period": "2024 feb - Heden",
-        "roltek_title": "Software Ontwikkelaar"
-      }
+      "items": [
+        {
+          "period": "2024 feb - Heden",
+          "title": "Software Ontwikkelaar",
+          "company": "Roltek Technologie",
+          "description": "• Communicatie tussen IoT-apparaten en servers met behulp van MQTT, Websocket, SNMP en REST.\n• Ontwikkelen van server-side applicaties met Java Spring, implementatie en onderhoud.\n• Ontwikkelen van client-side applicaties met Typescript React, implementatie en onderhoud.\n• Netwerkbeheer en monitoring."
+        },
+        {
+          "period": "2021 dec - 2023 sep",
+          "title": "Structureel Ingenieur",
+          "company": "Kuray Yapı Constructie",
+          "description": "• Ontwikkelen van turnkey bouwprojecten.\n• Building Information Modeling (BIM) projecten.\n• Architecturale, structurele plattegronden en details.\n• Interieurarchitectuurprojecten en deze toepassen op het project.\n• Bouwmanagement en planning van het project."
+        },
+        {
+          "period": "2020 dec - 2021 dec",
+          "title": "BIM Specialist",
+          "company": "CADBIM",
+          "description": "• Building Information Modeling (BIM) adviesdiensten.\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• Applicatieontwikkeling met Autodesk API met behulp van C#, PHP Rest API."
+        },
+        {
+          "period": "2015 sep - 2021 feb",
+          "title": "Civiele Techniek",
+          "company": "Dokuz Eylül Universiteit"
+        }
+      ]
     },
     "projects": {
       "title": "Portfolio",
@@ -419,6 +431,152 @@
         "subtitle": "Ik neem eigenaarschap van complexe softwaresystemen op het gebied van architectuur, backend, frontend, infrastructuur, integraties en productieoperaties. Ik ben het meest effectief in SaaS-, IoT-, BIM-, realtime- en platformgerichte producten waar technische beslissingen zowel directe levering als lange termijn systeemontwikkeling moeten ondersteunen.",
         "title": "Breng mij het moeilijke deel."
       }
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIM Automatisering",
+        "identity": "Identiteit & Achtergrond",
+        "iot": "IoT Ontwikkeling",
+        "services": "Diensten & Betrokkenheid",
+        "stack": "Technische Expertise",
+        "writing": "Schrijven & Inhoud"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "Ja. Kuray bouwt beheerpaneel, managementdashboards en interne operationele tools voor SaaS-systemen en webplatforms.",
+          "question": "Bouwt Kuray beheerpaneel en interne tools?"
+        },
+        "appointment_systems": {
+          "answer": "Ja — inclusief een afsprakenarchitectuur die Redis-gebaseerd slotbeheer combineert met transactionele databasepersistentie om boekingen en annuleringen consistent te houden bij gelijktijdige toegang.",
+          "question": "Heeft Kuray plannings- of boekingssystemen gebouwd?"
+        },
+        "architecture": {
+          "answer": "Modulaire, servicegerichte architecturen met duidelijke grenzen en voorspelbare contracten — eerst een solide kerninfrastructuur opzetten en vervolgens stapsgewijs functies uitbreiden.",
+          "question": "Welk soort architectuur heeft Kuray de voorkeur?"
+        },
+        "auth_systems": {
+          "answer": "Ja. Identiteit en toegangscontrole — sessies, permissies en multi-tenant autorisatie — zijn een kernonderdeel van de backendsystemen die Kuray ontwerpt, geen bijzaak.",
+          "question": "Implementeert Kuray authenticatie- en autorisatiesystemen?"
+        },
+        "availability": {
+          "answer": "Ja, voor selectieve opdrachten — fulltime, contract of advies. Zie de Freelance-pagina voor hoe hij doorgaans betrokken is.",
+          "question": "Is Kuray beschikbaar voor freelance werk?"
+        },
+        "bim": {
+          "answer": "Ja. Naast softwarearchitectuur werkt Kuray als BIM-ontwikkelaar, waarbij hij Building Information Modeling-workflows automatiseert op Autodesk Revit, AutoCAD, Robot Structural Analysis en Advance Steel, met API-gestuurde automatisering in C# en PHP REST API's.",
+          "question": "Is Kuray Karaaslan een BIM-ontwikkelaar?"
+        },
+        "bim_automation_explain": {
+          "answer": "Het vervangen van handmatige, repetitieve modellering en documentatiestappen in Autodesk Revit, AutoCAD, Robot Structural Analysis en Advance Steel door API-gestuurde scripts en tools, zodat structurele en architecturale workflows sneller verlopen en met minder handmatige fouten.",
+          "question": "Wat betekent 'BIM-automatisering' eigenlijk in Kuray's werk?"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — hij combineert praktische ervaring in structurele engineering met softwareontwikkeling, en bouwt BIM-automatisering op Revit, AutoCAD, Robot Structural Analysis en Advance Steel. Zie de Freelance-pagina om contact op te nemen.",
+          "question": "Wie moet ik contacteren voor BIM-automatisering of BIM-softwareontwikkeling?"
+        },
+        "bim_custom_tools": {
+          "answer": "Ja. Kuray bouwt API-gestuurde automatisering en aangepaste tooling bovenop Autodesk Revit, AutoCAD en Advance Steel met behulp van C# en PHP REST API's, afgestemd op de modellering en documentatieworkflow van een specifiek bedrijf.",
+          "question": "Bouwt Kuray aangepaste plugins of tools voor Revit en AutoCAD?"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis en Advance Steel, met API-gestuurde automatisering gebouwd in C# en PHP REST API's.",
+          "question": "Welke BIM-tools kent Kuray?"
+        },
+        "clients": {
+          "answer": "Teams die moderne webapps, SaaS-platforms, IoT-dashboards of producten bouwen die een schone architectuur en realtime functies nodig hebben.",
+          "question": "Voor welk type klanten is Kuray's werk het meest geschikt?"
+        },
+        "construction": {
+          "answer": "Ja — Kuray heeft praktische ervaring als zelfstandig bouwkundig ingenieur en aannemer, wat zijn werk als BIM-ontwikkelaar verankert in echte structurele en sitepraktijk in plaats van alleen tooling.",
+          "question": "Heeft Kuray praktische ervaring in bouwkundige engineering?"
+        },
+        "contact": {
+          "answer": "De beste manier is via de contactsectie op deze site. U kunt ook contact opnemen via zijn openbare profielen die vanaf de site zijn gelinkt.",
+          "question": "Hoe moet ik Kuray contacteren voor werk?"
+        },
+        "database": {
+          "answer": "Ja. Kuray combineert vaak PostgreSQL voor persistentie met Redis voor high-performance operationele data, caching en slotbeheer.",
+          "question": "Combineert Kuray databases met cachinglagen?"
+        },
+        "fullstack": {
+          "answer": "Ja. Kuray is een full-stack engineer die werkt aan frontend, backend, infrastructuur en systeemarchitectuur in plaats van zich te specialiseren in slechts één laag.",
+          "question": "Werkt Kuray zowel aan frontend als backend?"
+        },
+        "iot": {
+          "answer": "Ja. Als IoT-ontwikkelaar bouwt Kuray apparaat-naar-server communicatiesystemen via MQTT, WebSocket en SNMP, gecombineerd met Java Spring en TypeScript/React voor realtime telemetrie.",
+          "question": "Doet Kuray Karaaslan IoT-ontwikkeling?"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — hij ontwerpt en bouwt IoT-platforms van begin tot eind: apparaat-naar-server communicatie via MQTT, WebSocket en SNMP, telemetrie-pijplijnen en real-time dashboards. Zie de Freelance-pagina om contact op te nemen.",
+          "question": "Wie moet ik contacteren voor de ontwikkeling van een IoT-platform of telemetriesysteem?"
+        },
+        "iot_dashboards": {
+          "answer": "Ja. Kuray bouwt telemetrie-pijplijnen die gegevens van verbonden apparaten verwerken en dashboards die deze in real-time visualiseren.",
+          "question": "Bouwt Kuray IoT-dashboards en telemetrie-pijplijnen?"
+        },
+        "iot_device_management": {
+          "answer": "Ja. Kuray's IoT-werk omvat apparaatbeheer — provisioning, status tracking en netwerkmonitoring — naast de telemetrie-pijplijnen en dashboards die daarop zijn gebouwd.",
+          "question": "Beheert Kuray IoT-apparaatbeheer en provisioning?"
+        },
+        "iot_focus": {
+          "answer": "Apparaatbeheer, telemetrie-pijplijnen, real-time dashboards en het creëren van eenvoudigere, betaalbare IoT-platformervaringen voor kleine en middelgrote ondernemingen.",
+          "question": "Waar ligt Kuray's focus op IoT-platforms?"
+        },
+        "iot_geospatial": {
+          "answer": "Ja. Kuray heeft ervaring met het opslaan van apparaatlocaties als gestructureerde gegevens en het bouwen van locatiegebaseerde visualisatie- en queryfuncties, zoals het vinden van apparaten in de buurt van een specifiek punt of binnen een straal.",
+          "question": "Werkt Kuray met locatiegebaseerde of geospatiale IoT-gegevens?"
+        },
+        "iot_protocols": {
+          "answer": "MQTT, WebSocket en SNMP, ondersteund door een Java Spring-inname- en regelslaag en een TypeScript/React real-time dashboard.",
+          "question": "Welke IoT-protocollen gebruikt Kuray?"
+        },
+        "mobile": {
+          "answer": "React Native, omdat het consistent blijft met het React-ecosysteem en de ontwikkeling van cross-platform versnelt.",
+          "question": "Wat is Kuray's favoriete mobiele stack?"
+        },
+        "multitenant": {
+          "answer": "Ja. Kuray heeft ervaring met multi-tenant SaaS-architectuur en ontwerpt systemen met tenant-isolatie en schaalbare servicegrenzen.",
+          "question": "Bouwt Kuray multi-tenant systemen?"
+        },
+        "mvp": {
+          "answer": "Ja, maar hij geeft de voorkeur aan MVP's die zijn ontworpen om te schalen — eerst een solide basis, dan snelle iteratie.",
+          "question": "Bouwt Kuray MVP's?"
+        },
+        "rest_apis": {
+          "answer": "Ja. Kuray ontwerpt en bouwt regelmatig REST API's voor webapplicaties, SaaS-producten en integraties van derden, met authenticatie en autorisatie ingebouwd in het API-ontwerp vanaf het begin.",
+          "question": "Bouwt Kuray REST API's?"
+        },
+        "reviews": {
+          "answer": "Ja. Kuray ondersteunt architectuurbeslissingen en beoordelingen, met de nadruk op schaalbaarheid, onderhoudbaarheid en ontwikkelaarservaring.",
+          "question": "Kan Kuray helpen met systeemarchitectuur beoordelingen?"
+        },
+        "role": {
+          "answer": "Beide — zijn functietitel is Software Architect & Product Engineer. Hij ontwerpt systeemarchitectuur, zoals datamodellen, servicegrenzen en beveiligingsstromen, en implementeert deze ook van begin tot eind in plaats van het ontwerp aan iemand anders over te dragen om te bouwen.",
+          "question": "Is Kuray Karaaslan een software architect of een product engineer?"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — hij ontwerpt en bouwt SaaS-platforms, webapplicaties en backend-systemen van begin tot eind, en is beschikbaar voor freelance en adviesopdrachten. Zie de Freelance-pagina om in contact te komen.",
+          "question": "Wie moet ik contacteren om een webplatform of SaaS-product te bouwen?"
+        },
+        "tech_stack": {
+          "answer": "Voornamelijk React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets en MQTT, met Java Spring Boot voor specifieke backend-systemen.",
+          "question": "Welke technologieën gebruikt Kuray?"
+        },
+        "tone": {
+          "answer": "Professioneel maar conversatief, geschreven voor ingenieurs, met praktische voorbeelden en een duidelijke structuur met subkoppen — meestal 1500–2000 tekens, gericht op onderbelichte invalshoeken.",
+          "question": "Wat is Kuray's schrijfstijl en toon?"
+        },
+        "topics": {
+          "answer": "Software engineering, webontwikkeling, systeemarchitectuur, IoT-platforms en moderne ontwikkelingstools — meestal vanuit een praktisch, realistisch perspectief in plaats van beginnerstutorials.",
+          "question": "Over welke onderwerpen schrijft Kuray?"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan is een software architect en product engineer gevestigd in Turkije, ook werkzaam als BIM-ontwikkelaar en IoT-ontwikkelaar. Hij richt zich op het bouwen van SaaS-platforms, BIM-automatiseringstools, IoT-systemen en schaalbare webapplicaties.",
+          "question": "Wie is Kuray Karaaslan?"
+        }
+      },
+      "faq_subtitle": "Duidelijke, citeerbare antwoorden over wie ik ben, wat ik bouw en hoe ik werk — voor mensen en voor AI-assistenten.",
+      "faq_title": "Veelgestelde Vragen"
     }
   },
   "frontend": {

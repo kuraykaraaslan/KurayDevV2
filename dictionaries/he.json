@@ -292,23 +292,31 @@
       "title": "המסע שלי",
       "description": "המעבר שלי ממהנדס קונסטרוקציה למפתח תוכנה היה מסע של למידה, צמיחה ושינוי. הנה תמונת מצב של המסע המקצועי שלי עד כה.",
       "at": "ב",
-      "items": {
-        "cadbim_company": "CADBIM",
-        "cadbim_desc": "• שירותי ייעוץ במידול מידע בניין (BIM).\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• פיתוח אפליקציות עם Autodesk API באמצעות C#, PHP Rest API.",
-        "cadbim_period": "2020 דצמבר - 2021 דצמבר",
-        "cadbim_title": "מומחה BIM",
-        "deu_company": "אוניברסיטת דוקוז איילול",
-        "deu_period": "2015 ספטמבר - 2021 פברואר",
-        "deu_title": "הנדסה אזרחית",
-        "kuray_yapi_company": "Kuray Yapı Construction",
-        "kuray_yapi_desc": "• פיתוח פרויקטי בנייה מפתח.\n• פרויקטי מידול מידע בניין (BIM).\n• תוכניות אדריכליות, מבניות ופרטי קומה.\n• פרויקטים אדריכליים פנימיים ויישומם בפרויקט.\n• ניהול ותכנון הבנייה של הפרויקט.",
-        "kuray_yapi_period": "2021 דצמבר - 2023 ספטמבר",
-        "kuray_yapi_title": "מהנדס מבנים",
-        "roltek_company": "Roltek Technology",
-        "roltek_desc": "• תקשורת בין מכשירי IoT ושרתים באמצעות MQTT, Websocket, SNMP ו-REST.\n• פיתוח אפליקציות צד שרת עם Java Spring, פריסה ותחזוקה.\n• פיתוח אפליקציות צד לקוח עם Typescript React, פריסה ותחזוקה.\n• ניהול וניטור רשת.",
-        "roltek_period": "2024 פברואר - נוכחי",
-        "roltek_title": "מפתח תוכנה"
-      }
+      "items": [
+        {
+          "period": "2024 פברואר - נוכחי",
+          "title": "מפתח תוכנה",
+          "company": "Roltek Technology",
+          "description": "• תקשורת בין מכשירי IoT ושרתים באמצעות MQTT, Websocket, SNMP ו-REST.\n• פיתוח אפליקציות צד שרת עם Java Spring, פריסה ותחזוקה.\n• פיתוח אפליקציות צד לקוח עם Typescript React, פריסה ותחזוקה.\n• ניהול וניטור רשת."
+        },
+        {
+          "period": "2021 דצמבר - 2023 ספטמבר",
+          "title": "מהנדס מבנים",
+          "company": "Kuray Yapı Construction",
+          "description": "• פיתוח פרויקטי בנייה מפתח.\n• פרויקטי מידול מידע בניין (BIM).\n• תוכניות אדריכליות, מבניות ופרטי קומה.\n• פרויקטים אדריכליים פנימיים ויישומם בפרויקט.\n• ניהול ותכנון הבנייה של הפרויקט."
+        },
+        {
+          "period": "2020 דצמבר - 2021 דצמבר",
+          "title": "מומחה BIM",
+          "company": "CADBIM",
+          "description": "• שירותי ייעוץ במידול מידע בניין (BIM).\n• Autodesk AutoCAD, Revit, Robot Structural Analysis Professional, Advance Steel.\n• פיתוח אפליקציות עם Autodesk API באמצעות C#, PHP Rest API."
+        },
+        {
+          "period": "2015 ספטמבר - 2021 פברואר",
+          "title": "הנדסה אזרחית",
+          "company": "אוניברסיטת דוקוז איילול"
+        }
+      ]
     },
     "projects": {
       "title": "תיק עבודות",
