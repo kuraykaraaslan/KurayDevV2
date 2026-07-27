@@ -15,44 +15,44 @@ Your output must match the existing design system EXACTLY — pixel-perfect cons
 DESIGN SYSTEM
 ═══════════════════════════════════════════
 
-COLOR TOKENS (use these exact hex values):
-  Background primary   : #282626
-  Background darker    : #1f1d1d
-  Card background      : #323030
-  Accent / Yellow      : #ffc418
-  Text primary         : #ffffff
-  Text secondary       : rgba(255,255,255,0.7)
-  Text muted           : rgba(255,255,255,0.5)
-  Border subtle        : rgba(255,255,255,0.08)
-  Border card top      : #ffc418  (border-t-2 on cards)
+COLOR TOKENS (use these daisyUI utility classes — they auto-adapt to light/dark theme, do NOT hardcode hex values for them):
+  Section background    : bg-base-100 / bg-base-200 / bg-base-300
+  Card background        : bg-base-200
+  Accent                 : bg-primary / text-primary / border-primary
+  Accent (on-accent text): text-primary-content (use when text sits on a bg-primary surface)
+  Text primary            : text-base-content
+  Text secondary          : text-base-content/70
+  Text muted               : text-base-content/50
+  Border subtle             : border-base-300 (or border-base-content/10)
+
+Only use an inline style="..." + a color-type field (bgColor / accentColor) when the user's prompt
+explicitly asks for a specific custom color. Otherwise prefer the classes above so the block matches
+the rest of the site and follows its light/dark theme automatically.
 
 SECTION LAYOUT (every section must follow this):
-  <section class="py-20 px-6 md:px-12 lg:px-20" style="background-color:{{bgColor}}">
+  <section class="py-20 px-6 md:px-12 lg:px-20 bg-base-100">
     <div class="max-w-7xl mx-auto">
       ...content...
     </div>
   </section>
 
 SECTION HEADING pattern:
-  <h2 class="text-4xl md:text-5xl text-white mb-4">{{heading}}</h2>
-  <p class="text-lg max-w-3xl mx-auto" style="color:rgba(255,255,255,0.7)">{{subtitle}}</p>
+  <h2 class="text-4xl md:text-5xl text-base-content mb-4">{{heading}}</h2>
+  <p class="text-lg max-w-3xl mx-auto text-base-content/70">{{subtitle}}</p>
 
 CARD pattern:
-  <div class="p-8 rounded-lg border-t-2 transition-all hover:-translate-y-1"
-       style="background-color:#323030; border-top-color:{{accentColor}}">
+  <div class="p-8 rounded-lg bg-base-200 border-t-2 border-primary transition-all hover:-translate-y-1">
     <div class="text-3xl mb-4">{{icon}}</div>
-    <h3 class="text-2xl text-white mb-3">{{cardTitle}}</h3>
-    <p style="color:rgba(255,255,255,0.7)">{{cardBody}}</p>
+    <h3 class="text-2xl text-base-content mb-3">{{cardTitle}}</h3>
+    <p class="text-base-content/70">{{cardBody}}</p>
   </div>
 
 BUTTON patterns:
-  Primary   : class="inline-block px-8 py-4 rounded-md text-lg font-medium hover:scale-105 transition-transform"
-              style="background-color:{{accentColor}};color:#282626"
-  Secondary : class="inline-block px-8 py-4 rounded-md text-lg font-medium border-2 text-white hover:border-white/60 transition-all"
-              style="border-color:rgba(255,255,255,0.3)"
+  Primary   : class="inline-block px-8 py-4 rounded-md text-lg font-medium bg-primary text-primary-content hover:scale-105 transition-transform"
+  Secondary : class="inline-block px-8 py-4 rounded-md text-lg font-medium border-2 border-base-content/30 text-base-content hover:border-base-content/60 transition-all"
 
-ACCENT TEXT (yellow highlight inside a heading):
-  <span style="color:{{accentColor}}">{{accentWord}}</span>
+ACCENT TEXT (highlighted word inside a heading):
+  <span class="text-primary">{{accentWord}}</span>
 
 GRID patterns:
   2-col : class="grid md:grid-cols-2 gap-8"
@@ -60,27 +60,26 @@ GRID patterns:
   4-col : class="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
 
 NUMBERED STEP circle:
-  <div class="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold mb-4"
-       style="background-color:{{accentColor}};color:#282626">{{stepNumber}}</div>
+  <div class="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold mb-4 bg-primary text-primary-content">{{stepNumber}}</div>
 
 STAT / METRIC block:
-  <div class="text-5xl font-bold mb-2" style="color:{{accentColor}}">{{statValue}}</div>
-  <p style="color:rgba(255,255,255,0.7)">{{statLabel}}</p>
+  <div class="text-5xl font-bold mb-2 text-primary">{{statValue}}</div>
+  <p class="text-base-content/70">{{statLabel}}</p>
 
 BADGE / TAG:
-  <span class="inline-block px-3 py-1 rounded-full text-sm font-medium"
-        style="background-color:rgba(255,196,24,0.15);color:#ffc418">{{badgeText}}</span>
+  <span class="inline-block px-3 py-1 rounded-full text-sm font-medium bg-primary/15 text-primary">{{badgeText}}</span>
 
 CONNECTING LINE between steps:
-  <div class="hidden md:block absolute top-12 left-0 right-0 h-0.5"
-       style="background-color:rgba(255,255,255,0.1)"></div>
+  <div class="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-base-content/10"></div>
 
 ═══════════════════════════════════════════
 FIELD SCHEMA RULES
 ═══════════════════════════════════════════
 
 Available field types: text, textarea, url, color, number, boolean
-- Use 3-7 fields. Always include bgColor (color, default #282626) and accentColor (color, default #ffc418).
+- Use 3-7 fields. Do NOT add bgColor/accentColor color fields by default — the daisyUI classes above
+  already theme the section correctly. Only add a color-type field if the user's prompt explicitly
+  asks for a specific/custom color.
 - Field keys: camelCase. Labels in the same language as the user prompt.
 - For repeating items (cards, steps, features): use a SINGLE textarea field that accepts a pipe-separated list.
   Example key "cards", label "Cards (pipe-separated: title|body|icon)".
@@ -100,9 +99,9 @@ Available field types: text, textarea, url, color, number, boolean
 TEMPLATE RULES
 ═══════════════════════════════════════════
 
-1. ALWAYS wrap in <section class="py-20 px-6 md:px-12 lg:px-20" style="background-color:{{bgColor}}">
+1. ALWAYS wrap in <section class="py-20 px-6 md:px-12 lg:px-20 bg-base-100">
 2. ALWAYS wrap content in <div class="max-w-7xl mx-auto">
-3. Use style="..." for ALL dynamic colors from color fields
+3. Use the daisyUI classes above for all colors; only use style="..." for a color field the user explicitly asked for
 4. No <script> tags, no external resources, no Next.js components
 5. Tailwind utility classes only — no custom CSS
 6. Escape double-quotes inside style attributes as \\" in JSON
@@ -116,11 +115,9 @@ Valid JSON only. No markdown fences. No explanation.
 
 {
   "schema": [
-    { "key": "bgColor",     "label": "Background Color", "type": "color" },
-    { "key": "accentColor", "label": "Accent Color",     "type": "color" },
-    { "key": "heading",     "label": "Heading",          "type": "text"  }
+    { "key": "heading", "label": "Heading", "type": "text" }
   ],
-  "template": "<section class=\\"py-20 px-6 md:px-12 lg:px-20\\" style=\\"background-color:{{bgColor}}\\">...</section>"
+  "template": "<section class=\\"py-20 px-6 md:px-12 lg:px-20 bg-base-100\\">...</section>"
 }`
 
 export async function POST(request: NextRequest) {

@@ -19,7 +19,8 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     description: "Write your own HTML template with custom fields",
     defaultProps: {
       "__schema": [],
-      "__template": ""
+      "__template": "",
+      "__script": ""
     },
     schema: {},
   },
@@ -1615,15 +1616,16 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     type: "CTABannerBlock",
     label: "CTA Banner",
     category: "CTA",
-    description: "Full-width call-to-action banner — yellow background by default",
+    description: "Full-width call-to-action banner — accent-colored background by default",
     defaultProps: {
-      "heading": "If you're leading complex AECO initiatives and need clarity, alignment, and execution — let's talk.",
-      "subtitle": "Let's build the digital infrastructure your projects deserve.",
-      "ctaLabel": "Talk to an Expert",
+      "heading": "Let's talk about what you're building.",
+      "subtitle": "I'm always open to interesting projects and conversations.",
+      "ctaLabel": "Get in Touch",
       "ctaHref": "/contact",
-      "textColor": "#282626",
-      "buttonBgColor": "#282626",
-      "buttonTextColor": "#ffffff",
+      "textColor": "var(--color-primary-content)",
+      "backgroundColor": "var(--color-primary)",
+      "buttonBgColor": "var(--color-neutral)",
+      "buttonTextColor": "var(--color-neutral-content)",
       "blockClass": "",
       "sectionId": "",
       "blockHeight": 0,
@@ -1652,6 +1654,10 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
       },
       "textColor": {
         "label": "Text Color",
+        "type": "color"
+      },
+      "backgroundColor": {
+        "label": "Banner Background",
         "type": "color"
       },
       "buttonBgColor": {
@@ -1719,9 +1725,9 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     description: "2-column icon card grid with section heading — icon (emoji), title, description per card",
     defaultProps: {
       "heading": "How We Work",
-      "cardBgColor": "#323030",
-      "iconBgColor": "#1f1d1d",
-      "accentColor": "#ffc418",
+      "cardBgColor": "var(--color-neutral)",
+      "iconBgColor": "var(--color-base-300)",
+      "accentColor": "var(--color-primary)",
       "items": [
         {
           "icon": "🩺",
@@ -2158,122 +2164,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     },
   },
   {
-    type: "AppDownloadBlock",
-    label: "App Download",
-    category: "CTA",
-    description: "App Store + Google Play download badges with heading and subtitle",
-    defaultProps: {
-      "heading": "Take It With You",
-      "headingAccent": "Anywhere.",
-      "subtitle": "Download the app and stay connected to your projects on the go.",
-      "appStoreUrl": "#",
-      "appStoreLabel": "Download on the",
-      "appStoreName": "App Store",
-      "googlePlayUrl": "#",
-      "googlePlayLabel": "Get it on",
-      "googlePlayName": "Google Play",
-      "badgeNote": "Free to download. Available on iOS 15+ and Android 10+.",
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "headingAccent": {
-        "label": "Heading Accent (colored)",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "textarea"
-      },
-      "appStoreUrl": {
-        "label": "App Store URL",
-        "type": "url"
-      },
-      "appStoreLabel": {
-        "label": "App Store — small text",
-        "type": "text"
-      },
-      "appStoreName": {
-        "label": "App Store — store name",
-        "type": "text"
-      },
-      "googlePlayUrl": {
-        "label": "Google Play URL",
-        "type": "url"
-      },
-      "googlePlayLabel": {
-        "label": "Google Play — small text",
-        "type": "text"
-      },
-      "googlePlayName": {
-        "label": "Google Play — store name",
-        "type": "text"
-      },
-      "badgeNote": {
-        "label": "Footer note (optional)",
-        "type": "text"
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
     type: "BenefitsGridBlock",
     label: "Benefits Grid",
     category: "Features",
@@ -2557,7 +2447,7 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
       "showCategory": true,
       "showViews": true,
       "showReadTime": true,
-      "createdAt": "2026-05-23T15:53:47.976Z",
+      "createdAt": "2026-07-27T07:28:06.799Z",
       "views": 0,
       "blockClass": "",
       "sectionId": "",
@@ -2612,6 +2502,191 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
       "views": {
         "label": "Views",
         "type": "number"
+      },
+      "blockClass": {
+        "label": "Section Classes (Tailwind)",
+        "type": "text",
+        "placeholder": "bg-base-100 pt-16"
+      },
+      "sectionId": {
+        "label": "Section ID (anchor)",
+        "type": "text",
+        "placeholder": "e.g. contact"
+      },
+      "blockHeight": {
+        "label": "Min Height (px)",
+        "type": "number",
+        "value": 0
+      },
+      "bgType": {
+        "label": "Background Type",
+        "type": "select",
+        "options": [
+          "none",
+          "svg",
+          "image",
+          "video",
+          "color"
+        ],
+        "value": "none"
+      },
+      "bgImage": {
+        "label": "Background Image",
+        "type": "img",
+        "uploadFolder": "backgrounds",
+        "value": ""
+      },
+      "bgVideo": {
+        "label": "Background Video (.mp4 URL)",
+        "type": "url",
+        "value": ""
+      },
+      "bgColor": {
+        "label": "Background Color",
+        "type": "color",
+        "value": ""
+      },
+      "bgOpacity": {
+        "label": "Background Opacity (0–100)",
+        "type": "number",
+        "value": 20
+      }
+    },
+  },
+  {
+    type: "BookshelfBlock",
+    label: "Bookshelf",
+    category: "Content",
+    description: "Evdeki kitapları kapak, yazar, puan ve okuma durumuyla listeleyen kitaplık ızgarası.",
+    defaultProps: {
+      "heading": "Kitaplığım",
+      "headingAccent": "",
+      "subtitle": "Evimde okuduğum, okuduğum ve okumak istediğim kitaplar.",
+      "columns": "4",
+      "books": [
+        {
+          "title": "Suç ve Ceza",
+          "author": "Fyodor Dostoyevski",
+          "cover": "",
+          "status": "read",
+          "rating": 5,
+          "category": "Roman",
+          "year": "1866"
+        },
+        {
+          "title": "Sapiens",
+          "author": "Yuval Noah Harari",
+          "cover": "",
+          "status": "read",
+          "rating": 4,
+          "category": "Tarih",
+          "year": "2011"
+        },
+        {
+          "title": "Dune",
+          "author": "Frank Herbert",
+          "cover": "",
+          "status": "reading",
+          "rating": 5,
+          "category": "Bilim Kurgu",
+          "year": "1965"
+        },
+        {
+          "title": "Atomik Alışkanlıklar",
+          "author": "James Clear",
+          "cover": "",
+          "status": "wishlist",
+          "rating": 0,
+          "category": "Kişisel Gelişim",
+          "year": "2018"
+        }
+      ],
+      "blockClass": "",
+      "sectionId": "",
+      "blockHeight": 0,
+      "bgType": "none",
+      "bgImage": "",
+      "bgVideo": "",
+      "bgColor": "",
+      "bgOpacity": 20
+    },
+    schema: {
+      "heading": {
+        "label": "Heading (main part)",
+        "type": "text"
+      },
+      "headingAccent": {
+        "label": "Heading Accent (primary-colored part)",
+        "type": "text"
+      },
+      "subtitle": {
+        "label": "Subtitle",
+        "type": "textarea"
+      },
+      "columns": {
+        "label": "Columns",
+        "type": "select",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      "books": {
+        "label": "Books",
+        "type": "repeater",
+        "fields": {
+          "title": {
+            "label": "Title",
+            "type": "text",
+            "value": ""
+          },
+          "author": {
+            "label": "Author",
+            "type": "text",
+            "value": ""
+          },
+          "cover": {
+            "label": "Cover",
+            "type": "img",
+            "uploadFolder": "content",
+            "value": ""
+          },
+          "status": {
+            "label": "Status",
+            "type": "select",
+            "options": [
+              "read",
+              "reading",
+              "wishlist"
+            ],
+            "value": "read"
+          },
+          "rating": {
+            "label": "Rating (0–5)",
+            "type": "number",
+            "min": 0,
+            "max": 5,
+            "step": 1,
+            "value": 0
+          },
+          "category": {
+            "label": "Category/Genre",
+            "type": "text",
+            "value": ""
+          },
+          "year": {
+            "label": "Year",
+            "type": "text",
+            "value": ""
+          },
+          "href": {
+            "label": "Link URL",
+            "type": "url",
+            "value": ""
+          }
+        }
       },
       "blockClass": {
         "label": "Section Classes (Tailwind)",
@@ -2942,126 +3017,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     },
   },
   {
-    type: "ChallengeGridBlock",
-    label: "Challenge Grid",
-    category: "Content",
-    description: "Two-column grid of problem/challenge cards with dot bullet — used in \"The Real Challenge\"",
-    defaultProps: {
-      "heading": "The",
-      "headingAccent": "Real Challenge",
-      "subtitle1": "Isn't Technology — It's Complexity",
-      "subtitle2": "Most AECO organizations don't fail because of a lack of tools. They fail because systems don't talk, teams don't align, and decisions are made with incomplete or unreliable data.",
-      "challenges": [
-        {
-          "title": "Disconnected Workflows",
-          "description": "Systems that don't communicate create silos and delays. Teams work in isolation without a shared source of truth."
-        },
-        {
-          "title": "Overloaded Teams",
-          "description": "Too many tools, not enough clarity or coordination. Professionals spend more time managing tools than delivering results."
-        },
-        {
-          "title": "AI Without Clear Ownership",
-          "description": "AI initiatives without clear ownership or outcomes. Technology deployed without strategy or accountability."
-        },
-        {
-          "title": "Technology Without Strategy",
-          "description": "Technology deployed without strategy or accountability leads to wasted investment and frustrated teams."
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading (plain part)",
-        "type": "text"
-      },
-      "headingAccent": {
-        "label": "Heading Accent (primary color part)",
-        "type": "text"
-      },
-      "subtitle1": {
-        "label": "Subtitle Line 1",
-        "type": "text"
-      },
-      "subtitle2": {
-        "label": "Subtitle Line 2 (smaller)",
-        "type": "textarea"
-      },
-      "challenges": {
-        "label": "Challenges",
-        "type": "repeater",
-        "fields": {
-          "title": {
-            "label": "Title",
-            "type": "text",
-            "value": ""
-          },
-          "description": {
-            "label": "Description",
-            "type": "textarea",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
     type: "ChecklistBlock",
     label: "Checklist",
     category: "Content",
@@ -3118,237 +3073,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
             "label": "Done?",
             "type": "boolean",
             "value": true
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "ClientLogosGridBlock",
-    label: "Client Logos Grid",
-    category: "Social Proof",
-    description: "Display client and partner logos in a responsive grid.",
-    defaultProps: {
-      "heading": "Trusted By",
-      "subtitle": "Teams and enterprises that rely on us",
-      "clients": [
-        {
-          "name": "Acme Corp"
-        },
-        {
-          "name": "Nimbus"
-        },
-        {
-          "name": "Northstar"
-        },
-        {
-          "name": "Vertex"
-        },
-        {
-          "name": "Orion"
-        },
-        {
-          "name": "Helix"
-        },
-        {
-          "name": "Atlas"
-        },
-        {
-          "name": "Quantum"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "clients": {
-        "label": "Clients",
-        "type": "repeater",
-        "fields": {
-          "name": {
-            "label": "Name",
-            "type": "text",
-            "value": ""
-          },
-          "logo": {
-            "label": "Logo URL",
-            "type": "img",
-            "value": ""
-          },
-          "href": {
-            "label": "Link URL",
-            "type": "url",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "ComparisonBlock",
-    label: "Comparison Table",
-    category: "Content",
-    description: "Compare features side-by-side with a competitor column.",
-    defaultProps: {
-      "heading": "How We Compare",
-      "subtitle": "See why we are the best choice",
-      "ourName": "Us",
-      "competitorName": "Others",
-      "blockClass": "",
-      "sectionId": "",
-      "comparisons": "[{\"feature\":\"Feature 1\",\"us\":\"✓\",\"competitor\":\"✗\"},{\"feature\":\"Feature 2\",\"us\":\"✓\",\"competitor\":\"✓\"},{\"feature\":\"Feature 3\",\"us\":\"✓\",\"competitor\":\"✗\"},{\"feature\":\"Support\",\"us\":\"24/7\",\"competitor\":\"9-5\"}]",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "ourName": {
-        "label": "Our Name",
-        "type": "text"
-      },
-      "competitorName": {
-        "label": "Competitor Name",
-        "type": "text"
-      },
-      "comparisons": {
-        "label": "Comparisons",
-        "type": "repeater",
-        "fields": {
-          "feature": {
-            "label": "Feature",
-            "type": "text",
-            "value": ""
-          },
-          "us": {
-            "label": "Our Value",
-            "type": "text",
-            "value": "✓"
-          },
-          "competitor": {
-            "label": "Competitor Value",
-            "type": "text",
-            "value": "✗"
           }
         }
       },
@@ -3541,87 +3265,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
             "value": ""
           }
         }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "DemoRequestBlock",
-    label: "Demo Request",
-    category: "Forms",
-    description: "Lead capture form for demo requests.",
-    defaultProps: {
-      "heading": "Book a Demo",
-      "subtitle": "See how the platform fits your team",
-      "buttonLabel": "Request Demo",
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "buttonLabel": {
-        "label": "Button Label",
-        "type": "text"
       },
       "blockClass": {
         "label": "Section Classes (Tailwind)",
@@ -4819,249 +4462,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     },
   },
   {
-    type: "IndustryUseCasesBlock",
-    label: "Industry Use Cases",
-    category: "Content",
-    description: "Show use cases by industry in accent-bordered cards.",
-    defaultProps: {
-      "heading": "Industry Solutions",
-      "subtitle": "Tailored for your business",
-      "industries": [
-        {
-          "industry": "Healthcare",
-          "icon": "🏥",
-          "useCases": "Patient record management\nAppointment scheduling\nTelemedicine integration"
-        },
-        {
-          "industry": "Finance",
-          "icon": "💰",
-          "useCases": "Risk analysis\nPortfolio management\nCompliance reporting"
-        },
-        {
-          "industry": "Retail",
-          "icon": "🛍️",
-          "useCases": "Inventory tracking\nPOS systems\nCustomer analytics"
-        },
-        {
-          "industry": "Technology",
-          "icon": "💻",
-          "useCases": "DevOps automation\nCode deployment\nPerformance monitoring"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "industries": {
-        "label": "Industries",
-        "type": "repeater",
-        "fields": {
-          "industry": {
-            "label": "Industry Name",
-            "type": "text",
-            "value": ""
-          },
-          "icon": {
-            "label": "Icon (emoji)",
-            "type": "text",
-            "value": ""
-          },
-          "useCases": {
-            "label": "Use Cases (one per line)",
-            "type": "textarea",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "IntegrationsBlock",
-    label: "Integrations",
-    category: "Features",
-    description: "Showcase available integrations as a grid of icon cards.",
-    defaultProps: {
-      "heading": "Integrations",
-      "subtitle": "Works seamlessly with your favorite tools",
-      "integrations": [
-        {
-          "name": "Slack",
-          "icon": "💬",
-          "description": "Real-time notifications"
-        },
-        {
-          "name": "Zapier",
-          "icon": "⚡",
-          "description": "Automation workflows"
-        },
-        {
-          "name": "Stripe",
-          "icon": "💳",
-          "description": "Payment processing"
-        },
-        {
-          "name": "GitHub",
-          "icon": "🐙",
-          "description": "Code management"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "integrations": {
-        "label": "Integrations",
-        "type": "repeater",
-        "fields": {
-          "name": {
-            "label": "Name",
-            "type": "text",
-            "value": ""
-          },
-          "icon": {
-            "label": "Icon (emoji)",
-            "type": "text",
-            "value": ""
-          },
-          "description": {
-            "label": "Description",
-            "type": "text",
-            "value": ""
-          },
-          "href": {
-            "label": "Link URL",
-            "type": "url",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
     type: "LinkedCardsGridBlock",
     label: "Linked Cards Grid",
     category: "Features & Services",
@@ -5666,550 +5066,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     },
   },
   {
-    type: "OfficesGridBlock",
-    label: "Global Offices",
-    category: "Company",
-    description: "Editable list of global office cards — region, city, address, phone",
-    defaultProps: {
-      "heading": "Global Offices",
-      "offices": [
-        {
-          "region": "USA",
-          "city": "Irvine",
-          "address": "300 Spectrum Center Drive, Suite 400, Irvine, CA 92618",
-          "phone": "(800) 376-8551"
-        },
-        {
-          "region": "UAE",
-          "city": "Dubai",
-          "address": "2020, A5 building, Dubai Digital Park, Dubai Silicon Oasis",
-          "phone": "+971 4-264-5799"
-        },
-        {
-          "region": "Qatar",
-          "city": "Doha",
-          "address": "Commercial Bank Plaza Tower, Floor 14, Doha Corniche",
-          "phone": "+974-50-511055"
-        },
-        {
-          "region": "KSA",
-          "city": "Riyadh",
-          "address": "AI Zein Tower, Office 26. 5th Floor, Salahuddin Ayoubi Street",
-          "phone": "+966-57-682-2981"
-        },
-        {
-          "region": "Caribbean",
-          "city": "Santo Domingo",
-          "address": "Edificio Plaza Long Beach, Suite 4, Puerto Plata, Dominican Republic",
-          "phone": "(829) 860-8272"
-        },
-        {
-          "region": "Europe",
-          "city": "Belgium",
-          "address": "Rue Guillemins 139, 4000 Liège",
-          "phone": "+32 497 34 34 34"
-        },
-        {
-          "region": "Turkey",
-          "city": "Ankara",
-          "address": "Üniversiteler Mah, Galyum Blok 27/108 ODTÜ Teknokent/Ankara",
-          "phone": "+90 538 447 20 48"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Section Heading",
-        "type": "text"
-      },
-      "offices": {
-        "label": "Offices",
-        "type": "repeater",
-        "fields": {
-          "region": {
-            "label": "Region",
-            "type": "text",
-            "value": ""
-          },
-          "city": {
-            "label": "City",
-            "type": "text",
-            "value": ""
-          },
-          "address": {
-            "label": "Address",
-            "type": "text",
-            "value": ""
-          },
-          "phone": {
-            "label": "Phone",
-            "type": "text",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "PartnerGridBlock",
-    label: "Partner Grid",
-    category: "Social Proof",
-    description: "Display strategic partners or channel partners.",
-    defaultProps: {
-      "heading": "Partner Ecosystem",
-      "subtitle": "Trusted collaborators and integrations",
-      "partners": [
-        {
-          "name": "Cloud Partners",
-          "icon": "☁️",
-          "description": "Infrastructure and hosting partners"
-        },
-        {
-          "name": "System Integrators",
-          "icon": "🔧",
-          "description": "Implementation and services partners"
-        },
-        {
-          "name": "Technology Alliances",
-          "icon": "🤝",
-          "description": "Platform and product partnerships"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "partners": {
-        "label": "Partners",
-        "type": "repeater",
-        "fields": {
-          "icon": {
-            "label": "Icon (emoji)",
-            "type": "text",
-            "value": "🤝"
-          },
-          "name": {
-            "label": "Name",
-            "type": "text",
-            "value": ""
-          },
-          "description": {
-            "label": "Description",
-            "type": "textarea",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "PricingComparisonBlock",
-    label: "Pricing Comparison",
-    category: "Pricing",
-    description: "Compare pricing tiers in a table.",
-    defaultProps: {
-      "heading": "Plan Comparison",
-      "subtitle": "See what each plan includes",
-      "rows": [
-        {
-          "label": "Users",
-          "starter": "5",
-          "pro": "25",
-          "enterprise": "Unlimited"
-        },
-        {
-          "label": "Support",
-          "starter": "Email",
-          "pro": "Priority",
-          "enterprise": "Dedicated CSM"
-        },
-        {
-          "label": "SSO",
-          "starter": "No",
-          "pro": "Yes",
-          "enterprise": "Yes"
-        },
-        {
-          "label": "Custom Integrations",
-          "starter": "No",
-          "pro": "Limited",
-          "enterprise": "Yes"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "rows": {
-        "label": "Rows",
-        "type": "repeater",
-        "fields": {
-          "label": {
-            "label": "Feature Label",
-            "type": "text",
-            "value": ""
-          },
-          "starter": {
-            "label": "Starter",
-            "type": "text",
-            "value": ""
-          },
-          "pro": {
-            "label": "Pro",
-            "type": "text",
-            "value": ""
-          },
-          "enterprise": {
-            "label": "Enterprise",
-            "type": "text",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "PricingTableBlock",
-    label: "Pricing Table",
-    category: "Pricing",
-    description: "Display pricing plans in a comparison table.",
-    defaultProps: {
-      "heading": "Simple, Transparent Pricing",
-      "subtitle": "Choose the plan that works for you",
-      "plans": [
-        {
-          "name": "Starter",
-          "price": "29",
-          "period": "month",
-          "features": [
-            "Feature 1",
-            "Feature 2",
-            "Feature 3"
-          ],
-          "cta": "Get Started",
-          "ctaHref": "/signup"
-        },
-        {
-          "name": "Pro",
-          "price": "79",
-          "period": "month",
-          "features": [
-            "Feature 1",
-            "Feature 2",
-            "Feature 3",
-            "Feature 4"
-          ],
-          "cta": "Get Started",
-          "ctaHref": "/signup",
-          "highlighted": true
-        },
-        {
-          "name": "Enterprise",
-          "price": "Custom",
-          "features": [
-            "All Pro features",
-            "Dedicated support",
-            "Custom integrations"
-          ],
-          "cta": "Contact Sales",
-          "ctaHref": "/contact"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "textarea"
-      },
-      "plans": {
-        "label": "Plans",
-        "type": "repeater",
-        "fields": {
-          "name": {
-            "label": "Plan Name",
-            "type": "text",
-            "value": ""
-          },
-          "price": {
-            "label": "Price",
-            "type": "text",
-            "value": ""
-          },
-          "period": {
-            "label": "Period",
-            "type": "text",
-            "value": "month"
-          },
-          "description": {
-            "label": "Description",
-            "type": "textarea",
-            "value": ""
-          },
-          "features": {
-            "label": "Features (one per line)",
-            "type": "textarea",
-            "value": ""
-          },
-          "cta": {
-            "label": "Button Label",
-            "type": "text",
-            "value": ""
-          },
-          "ctaHref": {
-            "label": "Button URL",
-            "type": "url",
-            "value": ""
-          },
-          "highlighted": {
-            "label": "Highlighted",
-            "type": "text",
-            "value": "false"
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
     type: "QuoteBlock",
     label: "Quote",
     category: "Content",
@@ -6374,112 +5230,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
           "href": {
             "label": "Link URL",
             "type": "url",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "SecurityBadgesBlock",
-    label: "Security Badges",
-    category: "Trust",
-    description: "Display certifications, compliance, and security assurances.",
-    defaultProps: {
-      "heading": "Security & Compliance",
-      "subtitle": "Enterprise-grade safeguards you can trust",
-      "badges": [
-        {
-          "label": "SOC 2 Ready",
-          "description": "Processes designed with auditability in mind"
-        },
-        {
-          "label": "SSO / SAML",
-          "description": "Single sign-on support for identity teams"
-        },
-        {
-          "label": "Role-Based Access",
-          "description": "Fine-grained permissions and controls"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "badges": {
-        "label": "Badges",
-        "type": "repeater",
-        "fields": {
-          "label": {
-            "label": "Label",
-            "type": "text",
-            "value": ""
-          },
-          "description": {
-            "label": "Description",
-            "type": "textarea",
             "value": ""
           }
         }
@@ -6771,285 +5521,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     },
   },
   {
-    type: "SupportContactBlock",
-    label: "Support Contact",
-    category: "Support",
-    description: "Prominent support contact and help center CTA.",
-    defaultProps: {
-      "heading": "Need Help?",
-      "subtitle": "Our support team is available to assist you.",
-      "supportEmail": "support@company.com",
-      "supportHref": "mailto:support@company.com",
-      "helpHref": "/help",
-      "helpLabel": "Help Center",
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "supportEmail": {
-        "label": "Support Email Display Text",
-        "type": "text"
-      },
-      "supportHref": {
-        "label": "Support Link (href)",
-        "type": "url"
-      },
-      "helpLabel": {
-        "label": "Help Button Label",
-        "type": "text"
-      },
-      "helpHref": {
-        "label": "Help Button Link (href)",
-        "type": "url"
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "TeamGroupBlock",
-    label: "Team Group",
-    category: "People",
-    description: "A labelled section of team member cards — initial avatar, name, role. Stack multiple blocks for Leadership / Directors / Managers etc.",
-    defaultProps: {
-      "heading": "Leadership",
-      "members": [
-        {
-          "name": "Leo Salce",
-          "role": "Founder & CEO"
-        },
-        {
-          "name": "Armin Emami",
-          "role": "Founder & COO"
-        },
-        {
-          "name": "Hamidreza Rezazadeh",
-          "role": "Director of Middle East"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Group Heading",
-        "type": "text",
-        "placeholder": "Leadership"
-      },
-      "members": {
-        "label": "Members",
-        "type": "repeater",
-        "fields": {
-          "name": {
-            "label": "Name",
-            "type": "text",
-            "value": ""
-          },
-          "role": {
-            "label": "Role",
-            "type": "text",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "TeamIntroBlock",
-    label: "Team Intro",
-    category: "People",
-    description: "Introductory copy block for the team or leadership section.",
-    defaultProps: {
-      "heading": "Leadership Team",
-      "subtitle": "Experienced operators building enterprise-grade products",
-      "body": "We combine product thinking, engineering rigor, and enterprise delivery experience to help customers ship reliably at scale.",
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "body": {
-        "label": "Body",
-        "type": "textarea"
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
     type: "TechStackBlock",
     label: "Tech Stack",
     category: "Features",
@@ -7214,110 +5685,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
       "ctaHref": {
         "label": "CTA Button URL",
         "type": "url"
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "TrustBarBlock",
-    label: "Trust Bar",
-    category: "Trust & Social Proof",
-    description: "Horizontal pipe-separated list of audience types or trust signals",
-    defaultProps: {
-      "label": "Built for Complex AECO Environments",
-      "items": [
-        {
-          "text": "Large A&E Firms"
-        },
-        {
-          "text": "Asset Owners"
-        },
-        {
-          "text": "Infrastructure Projects"
-        },
-        {
-          "text": "Global Mega-Projects"
-        },
-        {
-          "text": "Developers"
-        },
-        {
-          "text": "Government Entities"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "label": {
-        "label": "Label above items",
-        "type": "text",
-        "value": "Built for Complex AECO Environments",
-        "placeholder": "Built for..."
-      },
-      "items": {
-        "label": "Items",
-        "type": "repeater",
-        "fields": {
-          "text": {
-            "label": "Item",
-            "type": "text",
-            "value": ""
-          }
-        }
       },
       "blockClass": {
         "label": "Section Classes (Tailwind)",
@@ -7614,376 +5981,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
     },
   },
   {
-    type: "ProcessFlowBlock",
-    label: "Process Flow",
-    category: "Content",
-    description: "Display process steps with flow arrows.",
-    defaultProps: {
-      "heading": "How It Works",
-      "subtitle": "Our simple 4-step process",
-      "layout": "horizontal",
-      "steps": [
-        {
-          "number": "1",
-          "title": "Sign Up",
-          "description": "Create your account in seconds"
-        },
-        {
-          "number": "2",
-          "title": "Configure",
-          "description": "Set up your preferences"
-        },
-        {
-          "number": "3",
-          "title": "Deploy",
-          "description": "Launch your solution"
-        },
-        {
-          "number": "4",
-          "title": "Succeed",
-          "description": "Achieve your goals"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "layout": {
-        "label": "Layout",
-        "type": "select",
-        "options": [
-          "horizontal",
-          "vertical"
-        ],
-        "value": "horizontal"
-      },
-      "steps": {
-        "label": "Steps",
-        "type": "repeater",
-        "fields": {
-          "number": {
-            "label": "Step Number",
-            "type": "text",
-            "value": ""
-          },
-          "title": {
-            "label": "Title",
-            "type": "text",
-            "value": ""
-          },
-          "description": {
-            "label": "Description",
-            "type": "textarea",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "RoadmapBlock",
-    label: "Roadmap",
-    category: "Content",
-    description: "Show planned milestones and product roadmap items.",
-    defaultProps: {
-      "heading": "Product Roadmap",
-      "subtitle": "What we are building next",
-      "milestones": [
-        {
-          "quarter": "Q2 2026",
-          "title": "Workflow Automation",
-          "description": "Release advanced automation and orchestration tools.",
-          "status": "In Progress"
-        },
-        {
-          "quarter": "Q3 2026",
-          "title": "Enterprise Analytics",
-          "description": "Ship dashboards, forecasting, and reporting upgrades.",
-          "status": "Planned"
-        },
-        {
-          "quarter": "Q4 2026",
-          "title": "Partner Integrations",
-          "description": "Expand integrations with key enterprise systems.",
-          "status": "Planned"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "milestones": {
-        "label": "Milestones",
-        "type": "repeater",
-        "fields": {
-          "quarter": {
-            "label": "Quarter/Date",
-            "type": "text",
-            "value": ""
-          },
-          "title": {
-            "label": "Title",
-            "type": "text",
-            "value": ""
-          },
-          "description": {
-            "label": "Description",
-            "type": "textarea",
-            "value": ""
-          },
-          "status": {
-            "label": "Status",
-            "type": "text",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "StatsDashboardBlock",
-    label: "Stats Dashboard",
-    category: "Social Proof",
-    description: "Show metrics and KPIs in dashboard cards.",
-    defaultProps: {
-      "heading": "Operational Metrics",
-      "subtitle": "Key numbers your leadership team cares about",
-      "stats": [
-        {
-          "label": "Uptime",
-          "value": "99.99%",
-          "note": "Last 12 months"
-        },
-        {
-          "label": "Response Time",
-          "value": "<200ms",
-          "note": "Global average"
-        },
-        {
-          "label": "Automation Rate",
-          "value": "78%",
-          "note": "Processes automated"
-        },
-        {
-          "label": "CSAT",
-          "value": "4.9/5",
-          "note": "Customer satisfaction"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "stats": {
-        "label": "Stats",
-        "type": "repeater",
-        "fields": {
-          "value": {
-            "label": "Value",
-            "type": "text",
-            "value": ""
-          },
-          "label": {
-            "label": "Label",
-            "type": "text",
-            "value": ""
-          },
-          "note": {
-            "label": "Note",
-            "type": "text",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
     type: "TagCloudBlock",
     label: "Tag Cloud / Capabilities",
     category: "Content",
@@ -8045,140 +6042,6 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
         "fields": {
           "text": {
             "label": "Item",
-            "type": "text",
-            "value": ""
-          }
-        }
-      },
-      "blockClass": {
-        "label": "Section Classes (Tailwind)",
-        "type": "text",
-        "placeholder": "bg-base-100 pt-16"
-      },
-      "sectionId": {
-        "label": "Section ID (anchor)",
-        "type": "text",
-        "placeholder": "e.g. contact"
-      },
-      "blockHeight": {
-        "label": "Min Height (px)",
-        "type": "number",
-        "value": 0
-      },
-      "bgType": {
-        "label": "Background Type",
-        "type": "select",
-        "options": [
-          "none",
-          "svg",
-          "image",
-          "video",
-          "color"
-        ],
-        "value": "none"
-      },
-      "bgImage": {
-        "label": "Background Image",
-        "type": "img",
-        "uploadFolder": "backgrounds",
-        "value": ""
-      },
-      "bgVideo": {
-        "label": "Background Video (.mp4 URL)",
-        "type": "url",
-        "value": ""
-      },
-      "bgColor": {
-        "label": "Background Color",
-        "type": "color",
-        "value": ""
-      },
-      "bgOpacity": {
-        "label": "Background Opacity (0–100)",
-        "type": "number",
-        "value": 20
-      }
-    },
-  },
-  {
-    type: "TeamMembersBlock",
-    label: "Team Members",
-    category: "People",
-    description: "Showcase team members with profiles.",
-    defaultProps: {
-      "heading": "Meet the Team",
-      "subtitle": "Great people building great products",
-      "members": [
-        {
-          "name": "John Doe",
-          "title": "CEO & Founder",
-          "bio": "Visionary leader with 15+ years in tech",
-          "image": "",
-          "linkedin": "https://linkedin.com"
-        },
-        {
-          "name": "Jane Smith",
-          "title": "CTO",
-          "bio": "Tech innovator and architecture expert",
-          "image": "",
-          "linkedin": "https://linkedin.com"
-        }
-      ],
-      "blockClass": "",
-      "sectionId": "",
-      "blockHeight": 0,
-      "bgType": "none",
-      "bgImage": "",
-      "bgVideo": "",
-      "bgColor": "",
-      "bgOpacity": 20
-    },
-    schema: {
-      "heading": {
-        "label": "Heading",
-        "type": "text"
-      },
-      "subtitle": {
-        "label": "Subtitle",
-        "type": "text"
-      },
-      "members": {
-        "label": "Members",
-        "type": "repeater",
-        "fields": {
-          "name": {
-            "label": "Name",
-            "type": "text",
-            "value": ""
-          },
-          "title": {
-            "label": "Title",
-            "type": "text",
-            "value": ""
-          },
-          "bio": {
-            "label": "Bio",
-            "type": "textarea",
-            "value": ""
-          },
-          "image": {
-            "label": "Photo",
-            "type": "img",
-            "uploadFolder": "content",
-            "value": ""
-          },
-          "twitter": {
-            "label": "Twitter URL",
-            "type": "url",
-            "value": ""
-          },
-          "linkedin": {
-            "label": "LinkedIn URL",
-            "type": "url",
-            "value": ""
-          },
-          "email": {
-            "label": "Email",
             "type": "text",
             "value": ""
           }
@@ -8425,6 +6288,1361 @@ export const CODE_BLOCK_META: CodeBlockMeta[] = [
           },
           "videoUrl": {
             "label": "YouTube URL",
+            "type": "url",
+            "value": ""
+          }
+        }
+      },
+      "blockClass": {
+        "label": "Section Classes (Tailwind)",
+        "type": "text",
+        "placeholder": "bg-base-100 pt-16"
+      },
+      "sectionId": {
+        "label": "Section ID (anchor)",
+        "type": "text",
+        "placeholder": "e.g. contact"
+      },
+      "blockHeight": {
+        "label": "Min Height (px)",
+        "type": "number",
+        "value": 0
+      },
+      "bgType": {
+        "label": "Background Type",
+        "type": "select",
+        "options": [
+          "none",
+          "svg",
+          "image",
+          "video",
+          "color"
+        ],
+        "value": "none"
+      },
+      "bgImage": {
+        "label": "Background Image",
+        "type": "img",
+        "uploadFolder": "backgrounds",
+        "value": ""
+      },
+      "bgVideo": {
+        "label": "Background Video (.mp4 URL)",
+        "type": "url",
+        "value": ""
+      },
+      "bgColor": {
+        "label": "Background Color",
+        "type": "color",
+        "value": ""
+      },
+      "bgOpacity": {
+        "label": "Background Opacity (0–100)",
+        "type": "number",
+        "value": 20
+      }
+    },
+  },
+  {
+    type: "popup-modal",
+    label: "Popup Modal",
+    category: "System",
+    description: "Site-wide popup overlay. Add to any published page — renders as a fixed overlay on the frontend.",
+    defaultProps: {
+      "title": "",
+      "description": "",
+      "image": "",
+      "imageAction": "",
+      "imageActionUrl": "",
+      "imageActionOpenNewTab": false,
+      "buttons": [
+        {
+          "text": "Learn more",
+          "link": "/",
+          "variant": "filled",
+          "bgColor": "var(--color-primary)",
+          "textColor": "var(--color-primary-content)",
+          "openNewTab": false
+        }
+      ],
+      "size": "md",
+      "position": "center",
+      "backgroundColor": "var(--color-neutral)",
+      "overlayOpacity": 65,
+      "borderRadius": "lg",
+      "entryAnimation": "zoom",
+      "entryDuration": 0.35,
+      "exitAnimation": "fade",
+      "exitDuration": 0.22,
+      "visibleOn": "all",
+      "closeButtonPosition": "top-right",
+      "closeButtonStyle": "circle",
+      "closeButtonSize": "md",
+      "closeButtonColor": "#ffffff",
+      "closeButtonBg": "#00000066",
+      "startDate": "",
+      "endDate": "",
+      "frequency": "EVERY_TIME",
+      "showDelay": 0,
+      "isActive": true
+    },
+    schema: {
+      "title": {
+        "label": "Title",
+        "type": "text",
+        "group": "Content"
+      },
+      "description": {
+        "label": "Description",
+        "type": "textarea",
+        "group": "Content"
+      },
+      "image": {
+        "label": "Image",
+        "type": "img",
+        "uploadFolder": "modals",
+        "group": "Content"
+      },
+      "imageAction": {
+        "label": "Image Action",
+        "type": "select",
+        "group": "Content",
+        "options": [
+          {
+            "label": "None",
+            "value": ""
+          },
+          {
+            "label": "Link",
+            "value": "link"
+          }
+        ]
+      },
+      "imageActionOpenNewTab": {
+        "label": "Image Action Open New Tab",
+        "type": "boolean",
+        "group": "Content",
+        "value": false
+      },
+      "imageActionUrl": {
+        "label": "Image Action URL",
+        "type": "url",
+        "group": "Content"
+      },
+      "buttons": {
+        "label": "Buttons",
+        "type": "repeater",
+        "description": "Zero buttons = only the close icon is shown (if enabled).",
+        "group": "Buttons",
+        "fields": {
+          "text": {
+            "label": "Label",
+            "type": "text",
+            "value": "Learn more"
+          },
+          "link": {
+            "label": "URL",
+            "type": "url",
+            "value": "/"
+          },
+          "openNewTab": {
+            "label": "New tab",
+            "type": "boolean",
+            "value": false
+          },
+          "variant": {
+            "label": "Style",
+            "type": "select",
+            "value": "filled",
+            "options": [
+              {
+                "label": "Filled",
+                "value": "filled"
+              },
+              {
+                "label": "Outlined",
+                "value": "outlined"
+              },
+              {
+                "label": "Ghost",
+                "value": "ghost"
+              }
+            ]
+          },
+          "bgColor": {
+            "label": "Color",
+            "type": "color",
+            "value": "var(--color-primary)"
+          },
+          "textColor": {
+            "label": "Text color",
+            "type": "color",
+            "value": "var(--color-primary-content)"
+          }
+        }
+      },
+      "size": {
+        "label": "Size",
+        "type": "select",
+        "group": "Appearance",
+        "options": [
+          {
+            "label": "Small  (400px)",
+            "value": "sm"
+          },
+          {
+            "label": "Medium (600px)",
+            "value": "md"
+          },
+          {
+            "label": "Large  (800px)",
+            "value": "lg"
+          },
+          {
+            "label": "Fullscreen",
+            "value": "fullscreen"
+          }
+        ]
+      },
+      "position": {
+        "label": "Position",
+        "type": "select",
+        "group": "Appearance",
+        "options": [
+          {
+            "label": "Center",
+            "value": "center"
+          },
+          {
+            "label": "Bottom center",
+            "value": "bottom-center"
+          },
+          {
+            "label": "Bottom right",
+            "value": "bottom-right"
+          },
+          {
+            "label": "Top center",
+            "value": "top-center"
+          }
+        ]
+      },
+      "visibleOn": {
+        "label": "Visible on",
+        "type": "select",
+        "group": "Appearance",
+        "options": [
+          {
+            "label": "All devices",
+            "value": "all"
+          },
+          {
+            "label": "Mobile only",
+            "value": "mobile"
+          },
+          {
+            "label": "Tablet only",
+            "value": "tablet"
+          },
+          {
+            "label": "Desktop only",
+            "value": "desktop"
+          },
+          {
+            "label": "Mobile & Tablet",
+            "value": "mobile-tablet"
+          },
+          {
+            "label": "Tablet & Desktop",
+            "value": "tablet-desktop"
+          }
+        ]
+      },
+      "backgroundColor": {
+        "label": "Background color",
+        "type": "color",
+        "group": "Appearance"
+      },
+      "overlayOpacity": {
+        "label": "Overlay opacity (0–100)",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "group": "Appearance"
+      },
+      "borderRadius": {
+        "label": "Border radius",
+        "type": "select",
+        "group": "Appearance",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Small",
+            "value": "sm"
+          },
+          {
+            "label": "Medium",
+            "value": "md"
+          },
+          {
+            "label": "Large",
+            "value": "lg"
+          },
+          {
+            "label": "XL",
+            "value": "xl"
+          }
+        ]
+      },
+      "entryAnimation": {
+        "label": "Entry animation",
+        "type": "select",
+        "group": "Animation",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Fade",
+            "value": "fade"
+          },
+          {
+            "label": "Zoom",
+            "value": "zoom"
+          },
+          {
+            "label": "Slide up",
+            "value": "slide-up"
+          },
+          {
+            "label": "Slide down",
+            "value": "slide-down"
+          },
+          {
+            "label": "Slide left",
+            "value": "slide-left"
+          },
+          {
+            "label": "Slide right",
+            "value": "slide-right"
+          },
+          {
+            "label": "Flip",
+            "value": "flip"
+          }
+        ]
+      },
+      "entryDuration": {
+        "label": "Entry duration (s)",
+        "type": "number",
+        "min": 0.1,
+        "max": 5,
+        "step": 0.05,
+        "group": "Animation"
+      },
+      "exitAnimation": {
+        "label": "Exit animation",
+        "type": "select",
+        "group": "Animation",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Fade",
+            "value": "fade"
+          },
+          {
+            "label": "Zoom",
+            "value": "zoom"
+          },
+          {
+            "label": "Slide up",
+            "value": "slide-up"
+          },
+          {
+            "label": "Slide down",
+            "value": "slide-down"
+          },
+          {
+            "label": "Slide left",
+            "value": "slide-left"
+          },
+          {
+            "label": "Slide right",
+            "value": "slide-right"
+          },
+          {
+            "label": "Flip",
+            "value": "flip"
+          }
+        ]
+      },
+      "exitDuration": {
+        "label": "Exit duration (s)",
+        "type": "number",
+        "min": 0.1,
+        "max": 5,
+        "step": 0.05,
+        "group": "Animation"
+      },
+      "closeButtonPosition": {
+        "label": "Position",
+        "type": "select",
+        "group": "Close button",
+        "options": [
+          {
+            "label": "Top right",
+            "value": "top-right"
+          },
+          {
+            "label": "Top left",
+            "value": "top-left"
+          },
+          {
+            "label": "Bottom right",
+            "value": "bottom-right"
+          },
+          {
+            "label": "Bottom left",
+            "value": "bottom-left"
+          },
+          {
+            "label": "Hidden",
+            "value": "hidden"
+          }
+        ]
+      },
+      "closeButtonStyle": {
+        "label": "Style",
+        "type": "select",
+        "group": "Close button",
+        "options": [
+          {
+            "label": "Circle",
+            "value": "circle"
+          },
+          {
+            "label": "Square",
+            "value": "square"
+          },
+          {
+            "label": "Minimal",
+            "value": "minimal"
+          }
+        ]
+      },
+      "closeButtonSize": {
+        "label": "Size",
+        "type": "select",
+        "group": "Close button",
+        "options": [
+          {
+            "label": "Small",
+            "value": "sm"
+          },
+          {
+            "label": "Medium",
+            "value": "md"
+          },
+          {
+            "label": "Large",
+            "value": "lg"
+          }
+        ]
+      },
+      "closeButtonColor": {
+        "label": "Icon color",
+        "type": "color",
+        "group": "Close button"
+      },
+      "closeButtonBg": {
+        "label": "Background color",
+        "type": "color",
+        "group": "Close button",
+        "description": "Used for Circle and Square styles."
+      },
+      "isActive": {
+        "label": "Active",
+        "type": "boolean",
+        "group": "Scheduling"
+      },
+      "startDate": {
+        "label": "Start date",
+        "type": "datetime",
+        "group": "Scheduling",
+        "description": "Leave empty to show from now."
+      },
+      "endDate": {
+        "label": "End date",
+        "type": "datetime",
+        "group": "Scheduling",
+        "description": "Leave empty to show indefinitely."
+      },
+      "frequency": {
+        "label": "Display frequency",
+        "type": "select",
+        "group": "Scheduling",
+        "options": [
+          {
+            "label": "Always",
+            "value": "EVERY_TIME"
+          },
+          {
+            "label": "Once (permanent)",
+            "value": "ONCE"
+          },
+          {
+            "label": "Once per session",
+            "value": "SESSION"
+          }
+        ]
+      },
+      "showDelay": {
+        "label": "Show delay (seconds)",
+        "type": "number",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "group": "Scheduling"
+      }
+    },
+  },
+  {
+    type: "PresentationViewerBlock",
+    label: "Presentation Viewer",
+    category: "Media",
+    description: "Embed a PDF or PowerPoint (PPTX) file in an iframe.",
+    defaultProps: {
+      "heading": "",
+      "subtitle": "",
+      "fileUrl": "",
+      "fileType": "auto",
+      "viewer": "office365",
+      "viewerHeight": 600,
+      "blockClass": "",
+      "sectionId": "",
+      "blockHeight": 0,
+      "bgType": "none",
+      "bgImage": "",
+      "bgVideo": "",
+      "bgColor": "",
+      "bgOpacity": 20
+    },
+    schema: {
+      "heading": {
+        "label": "Heading",
+        "type": "text",
+        "placeholder": "Q4 Investor Deck"
+      },
+      "subtitle": {
+        "label": "Subtitle",
+        "type": "text"
+      },
+      "fileUrl": {
+        "label": "File (PDF / PPTX)",
+        "type": "file",
+        "uploadFolder": "files",
+        "accept": ".pdf,.pptx,.ppt,.pps,.ppsx",
+        "placeholder": "https://…/presentation.pdf",
+        "description": "Upload a PDF or PPTX, or paste a public URL."
+      },
+      "fileType": {
+        "label": "File Type",
+        "type": "select",
+        "options": [
+          {
+            "label": "Auto-detect",
+            "value": "auto"
+          },
+          {
+            "label": "PDF",
+            "value": "pdf"
+          },
+          {
+            "label": "PowerPoint (PPTX)",
+            "value": "pptx"
+          }
+        ],
+        "description": "Used to pick the right viewer. \"Auto\" reads the file extension."
+      },
+      "viewer": {
+        "label": "Viewer",
+        "type": "select",
+        "options": [
+          {
+            "label": "Office 365 Online (PPTX / PDF)",
+            "value": "office365"
+          },
+          {
+            "label": "Native browser (PDF only)",
+            "value": "native"
+          },
+          {
+            "label": "Google Docs Viewer",
+            "value": "google"
+          }
+        ],
+        "description": "Office 365 and Google viewers require the file to be publicly accessible."
+      },
+      "viewerHeight": {
+        "label": "Viewer Height (px)",
+        "type": "number",
+        "min": 200,
+        "max": 1200,
+        "step": 50
+      },
+      "blockClass": {
+        "label": "Section Classes (Tailwind)",
+        "type": "text",
+        "placeholder": "bg-base-100 pt-16"
+      },
+      "sectionId": {
+        "label": "Section ID (anchor)",
+        "type": "text",
+        "placeholder": "e.g. contact"
+      },
+      "blockHeight": {
+        "label": "Min Height (px)",
+        "type": "number",
+        "value": 0
+      },
+      "bgType": {
+        "label": "Background Type",
+        "type": "select",
+        "options": [
+          "none",
+          "svg",
+          "image",
+          "video",
+          "color"
+        ],
+        "value": "none"
+      },
+      "bgImage": {
+        "label": "Background Image",
+        "type": "img",
+        "uploadFolder": "backgrounds",
+        "value": ""
+      },
+      "bgVideo": {
+        "label": "Background Video (.mp4 URL)",
+        "type": "url",
+        "value": ""
+      },
+      "bgColor": {
+        "label": "Background Color",
+        "type": "color",
+        "value": ""
+      },
+      "bgOpacity": {
+        "label": "Background Opacity (0–100)",
+        "type": "number",
+        "value": 20
+      }
+    },
+  },
+  {
+    type: "ImageSliderBlock",
+    label: "Image Slider",
+    category: "Media",
+    description: "A responsive image carousel with optional autoplay, arrows, and dots.",
+    defaultProps: {
+      "slides": [
+        {
+          "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&h=600&fit=crop",
+          "alt": "Office",
+          "caption": "Our workspace"
+        },
+        {
+          "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&h=600&fit=crop",
+          "alt": "Team",
+          "caption": "Great team"
+        },
+        {
+          "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop",
+          "alt": "Workshop",
+          "caption": "In action"
+        }
+      ],
+      "slideHeight": 500,
+      "autoPlay": false,
+      "interval": 4000,
+      "showArrows": true,
+      "showDots": true,
+      "blockClass": "",
+      "sectionId": "",
+      "blockHeight": 0,
+      "bgType": "none",
+      "bgImage": "",
+      "bgVideo": "",
+      "bgColor": "",
+      "bgOpacity": 20
+    },
+    schema: {
+      "slides": {
+        "label": "Slides",
+        "type": "repeater",
+        "fields": {
+          "image": {
+            "label": "Image",
+            "type": "img",
+            "uploadFolder": "images",
+            "value": ""
+          },
+          "alt": {
+            "label": "Alt Text",
+            "type": "text",
+            "value": ""
+          },
+          "caption": {
+            "label": "Caption",
+            "type": "text",
+            "value": ""
+          },
+          "link": {
+            "label": "Link URL",
+            "type": "url",
+            "value": "",
+            "placeholder": "https://…"
+          }
+        }
+      },
+      "slideHeight": {
+        "label": "Slide Height (px)",
+        "type": "number",
+        "min": 200,
+        "max": 1200,
+        "step": 50
+      },
+      "autoPlay": {
+        "label": "Auto-play",
+        "type": "boolean",
+        "placeholder": "Automatically advance slides"
+      },
+      "interval": {
+        "label": "Interval (ms)",
+        "type": "number",
+        "min": 1000,
+        "max": 10000,
+        "step": 500,
+        "showIf": {
+          "autoPlay": [
+            true
+          ]
+        },
+        "description": "Time between slides in milliseconds."
+      },
+      "showArrows": {
+        "label": "Show Arrows",
+        "type": "boolean",
+        "placeholder": "Show prev / next buttons"
+      },
+      "showDots": {
+        "label": "Show Dots",
+        "type": "boolean",
+        "placeholder": "Show dot indicators"
+      },
+      "blockClass": {
+        "label": "Section Classes (Tailwind)",
+        "type": "text",
+        "placeholder": "bg-base-100 pt-16"
+      },
+      "sectionId": {
+        "label": "Section ID (anchor)",
+        "type": "text",
+        "placeholder": "e.g. contact"
+      },
+      "blockHeight": {
+        "label": "Min Height (px)",
+        "type": "number",
+        "value": 0
+      },
+      "bgType": {
+        "label": "Background Type",
+        "type": "select",
+        "options": [
+          "none",
+          "svg",
+          "image",
+          "video",
+          "color"
+        ],
+        "value": "none"
+      },
+      "bgImage": {
+        "label": "Background Image",
+        "type": "img",
+        "uploadFolder": "backgrounds",
+        "value": ""
+      },
+      "bgVideo": {
+        "label": "Background Video (.mp4 URL)",
+        "type": "url",
+        "value": ""
+      },
+      "bgColor": {
+        "label": "Background Color",
+        "type": "color",
+        "value": ""
+      },
+      "bgOpacity": {
+        "label": "Background Opacity (0–100)",
+        "type": "number",
+        "value": 20
+      }
+    },
+  },
+  {
+    type: "ContentSliderBlock",
+    label: "Content Slider",
+    category: "Media",
+    description: "Full-width hero slider — each slide has a background image, title, subtitle, description, and CTA button.",
+    defaultProps: {
+      "slides": [
+        {
+          "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1400&h=600&fit=crop",
+          "title": "Build Something Great",
+          "subtitle": "Your journey starts here",
+          "description": "We help you turn ideas into reality with the right tools and the right team.",
+          "ctaLabel": "Get Started",
+          "ctaHref": "#"
+        },
+        {
+          "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&h=600&fit=crop",
+          "title": "Work with the Best",
+          "subtitle": "A team you can trust",
+          "description": "Our experts bring years of experience across design, engineering, and strategy.",
+          "ctaLabel": "Meet the Team",
+          "ctaHref": "#"
+        },
+        {
+          "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&h=600&fit=crop",
+          "title": "Scale Without Limits",
+          "subtitle": "Built for growth",
+          "description": "From MVP to millions of users, our platform grows with you every step of the way.",
+          "ctaLabel": "Learn More",
+          "ctaHref": "#"
+        }
+      ],
+      "autoPlay": false,
+      "interval": 5000,
+      "showArrows": true,
+      "showDots": true,
+      "blockClass": "",
+      "sectionId": "",
+      "blockHeight": 0,
+      "bgType": "none",
+      "bgImage": "",
+      "bgVideo": "",
+      "bgColor": "",
+      "bgOpacity": 20
+    },
+    schema: {
+      "slides": {
+        "label": "Slides",
+        "type": "repeater",
+        "fields": {
+          "image": {
+            "label": "Background Image",
+            "type": "img",
+            "uploadFolder": "images",
+            "value": ""
+          },
+          "title": {
+            "label": "Title",
+            "type": "text",
+            "value": ""
+          },
+          "subtitle": {
+            "label": "Subtitle / Tagline",
+            "type": "text",
+            "value": ""
+          },
+          "description": {
+            "label": "Description",
+            "type": "textarea",
+            "value": ""
+          },
+          "ctaLabel": {
+            "label": "Button Label",
+            "type": "text",
+            "value": ""
+          },
+          "ctaHref": {
+            "label": "Button Link",
+            "type": "url",
+            "value": ""
+          }
+        }
+      },
+      "showArrows": {
+        "label": "Show Arrows",
+        "type": "boolean",
+        "placeholder": "Show prev / next buttons"
+      },
+      "showDots": {
+        "label": "Show Dots",
+        "type": "boolean",
+        "placeholder": "Show dot indicators"
+      },
+      "autoPlay": {
+        "label": "Auto-play",
+        "type": "boolean",
+        "placeholder": "Automatically advance slides"
+      },
+      "interval": {
+        "label": "Interval (ms)",
+        "type": "number",
+        "min": 1000,
+        "max": 15000,
+        "step": 500,
+        "showIf": {
+          "autoPlay": [
+            true
+          ]
+        },
+        "description": "Time between slides in milliseconds."
+      },
+      "blockClass": {
+        "label": "Section Classes (Tailwind)",
+        "type": "text",
+        "placeholder": "bg-base-100 pt-16"
+      },
+      "sectionId": {
+        "label": "Section ID (anchor)",
+        "type": "text",
+        "placeholder": "e.g. contact"
+      },
+      "blockHeight": {
+        "label": "Min Height (px)",
+        "type": "number",
+        "value": 0
+      },
+      "bgType": {
+        "label": "Background Type",
+        "type": "select",
+        "options": [
+          "none",
+          "svg",
+          "image",
+          "video",
+          "color"
+        ],
+        "value": "none"
+      },
+      "bgImage": {
+        "label": "Background Image",
+        "type": "img",
+        "uploadFolder": "backgrounds",
+        "value": ""
+      },
+      "bgVideo": {
+        "label": "Background Video (.mp4 URL)",
+        "type": "url",
+        "value": ""
+      },
+      "bgColor": {
+        "label": "Background Color",
+        "type": "color",
+        "value": ""
+      },
+      "bgOpacity": {
+        "label": "Background Opacity (0–100)",
+        "type": "number",
+        "value": 20
+      }
+    },
+  },
+  {
+    type: "cookie-consent",
+    label: "Cookie Consent",
+    category: "System",
+    description: "Site-wide cookie consent banner. Add to any published page — renders as a fixed bar at the top or bottom of the viewport.",
+    defaultProps: {
+      "message": "We use cookies to improve your experience and analyze site usage. By continuing, you agree to our",
+      "privacyPolicyText": "Privacy Policy",
+      "privacyPolicyUrl": "/privacy-policy",
+      "acceptLabel": "Accept",
+      "declineLabel": "Decline",
+      "showDecline": true,
+      "position": "bottom",
+      "backgroundColor": "#1a1818",
+      "textColor": "rgba(255,255,255,0.6)",
+      "borderColor": "rgba(255,255,255,0.1)",
+      "acceptBgColor": "rgba(255,255,255,0.1)",
+      "acceptTextColor": "#ffffff",
+      "declineTextColor": "rgba(255,255,255,0.5)",
+      "isActive": true,
+      "showDelay": 0
+    },
+    schema: {
+      "message": {
+        "label": "Message",
+        "type": "textarea",
+        "group": "Content",
+        "description": "Text shown before the privacy policy link."
+      },
+      "privacyPolicyText": {
+        "label": "Privacy Policy link text",
+        "type": "text",
+        "group": "Content"
+      },
+      "privacyPolicyUrl": {
+        "label": "Privacy Policy URL",
+        "type": "url",
+        "group": "Content"
+      },
+      "acceptLabel": {
+        "label": "Accept button label",
+        "type": "text",
+        "group": "Buttons"
+      },
+      "declineLabel": {
+        "label": "Decline button label",
+        "type": "text",
+        "group": "Buttons"
+      },
+      "showDecline": {
+        "label": "Show decline button",
+        "type": "boolean",
+        "group": "Buttons"
+      },
+      "acceptBgColor": {
+        "label": "Accept background color",
+        "type": "color",
+        "group": "Buttons"
+      },
+      "acceptTextColor": {
+        "label": "Accept text color",
+        "type": "color",
+        "group": "Buttons"
+      },
+      "declineTextColor": {
+        "label": "Decline text color",
+        "type": "color",
+        "group": "Buttons"
+      },
+      "position": {
+        "label": "Position",
+        "type": "select",
+        "group": "Appearance",
+        "options": [
+          {
+            "label": "Bottom",
+            "value": "bottom"
+          },
+          {
+            "label": "Top",
+            "value": "top"
+          }
+        ]
+      },
+      "backgroundColor": {
+        "label": "Background color",
+        "type": "color",
+        "group": "Appearance"
+      },
+      "textColor": {
+        "label": "Text color",
+        "type": "color",
+        "group": "Appearance"
+      },
+      "borderColor": {
+        "label": "Border color",
+        "type": "color",
+        "group": "Appearance"
+      },
+      "isActive": {
+        "label": "Active",
+        "type": "boolean",
+        "group": "Scheduling"
+      },
+      "showDelay": {
+        "label": "Show delay (seconds)",
+        "type": "number",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "group": "Scheduling"
+      }
+    },
+  },
+  {
+    type: "WorldMapBlock",
+    label: "World Map",
+    category: "Media",
+    description: "Gidilen yerleri dünya haritasında ülke bazında renklendiren interaktif harita.",
+    defaultProps: {
+      "heading": "Gittiğim",
+      "headingAccent": "Yerler",
+      "subtitle": "Dünya üzerinde adımımın değdiği ülkeler.",
+      "color": "#422ad5",
+      "showLegend": true,
+      "places": [
+        {
+          "country": "tr",
+          "label": "İstanbul",
+          "year": "2023"
+        },
+        {
+          "country": "de",
+          "label": "Berlin",
+          "year": "2022"
+        },
+        {
+          "country": "nl",
+          "label": "Amsterdam",
+          "year": "2022"
+        },
+        {
+          "country": "it",
+          "label": "Roma",
+          "year": "2021"
+        },
+        {
+          "country": "gb",
+          "label": "Londra",
+          "year": "2019"
+        },
+        {
+          "country": "us",
+          "label": "New York",
+          "year": "2018"
+        }
+      ],
+      "blockClass": "",
+      "sectionId": "",
+      "blockHeight": 0,
+      "bgType": "none",
+      "bgImage": "",
+      "bgVideo": "",
+      "bgColor": "",
+      "bgOpacity": 20
+    },
+    schema: {
+      "heading": {
+        "label": "Heading (main part)",
+        "type": "text"
+      },
+      "headingAccent": {
+        "label": "Heading Accent (primary-colored part)",
+        "type": "text"
+      },
+      "subtitle": {
+        "label": "Subtitle",
+        "type": "textarea"
+      },
+      "color": {
+        "label": "Highlight Color",
+        "type": "color"
+      },
+      "showLegend": {
+        "label": "Show Place Legend",
+        "type": "boolean"
+      },
+      "places": {
+        "label": "Places",
+        "type": "repeater",
+        "fields": {
+          "country": {
+            "label": "Country Code (ISO2, e.g. tr)",
+            "type": "text",
+            "value": ""
+          },
+          "label": {
+            "label": "City / Note",
+            "type": "text",
+            "value": ""
+          },
+          "year": {
+            "label": "Year",
+            "type": "text",
+            "value": ""
+          }
+        }
+      },
+      "blockClass": {
+        "label": "Section Classes (Tailwind)",
+        "type": "text",
+        "placeholder": "bg-base-100 pt-16"
+      },
+      "sectionId": {
+        "label": "Section ID (anchor)",
+        "type": "text",
+        "placeholder": "e.g. contact"
+      },
+      "blockHeight": {
+        "label": "Min Height (px)",
+        "type": "number",
+        "value": 0
+      },
+      "bgType": {
+        "label": "Background Type",
+        "type": "select",
+        "options": [
+          "none",
+          "svg",
+          "image",
+          "video",
+          "color"
+        ],
+        "value": "none"
+      },
+      "bgImage": {
+        "label": "Background Image",
+        "type": "img",
+        "uploadFolder": "backgrounds",
+        "value": ""
+      },
+      "bgVideo": {
+        "label": "Background Video (.mp4 URL)",
+        "type": "url",
+        "value": ""
+      },
+      "bgColor": {
+        "label": "Background Color",
+        "type": "color",
+        "value": ""
+      },
+      "bgOpacity": {
+        "label": "Background Opacity (0–100)",
+        "type": "number",
+        "value": 20
+      }
+    },
+  },
+  {
+    type: "UsesBlock",
+    label: "Uses / Gear",
+    category: "Content",
+    description: "Kullandığın donanım, yazılım ve ekipmanı kategoriye göre listeleyen \"Uses\" bölümü.",
+    defaultProps: {
+      "heading": "Kullandığım",
+      "headingAccent": "Şeyler",
+      "subtitle": "Her gün üzerinde çalıştığım donanım, yazılım ve ekipman.",
+      "columns": "2",
+      "items": [
+        {
+          "category": "Editör & Yazılım",
+          "icon": "🧑‍💻",
+          "name": "VS Code",
+          "description": "Günlük kod editörüm — Vim eklentisiyle.",
+          "badge": "daily",
+          "href": "https://code.visualstudio.com"
+        },
+        {
+          "category": "Editör & Yazılım",
+          "icon": "🤖",
+          "name": "Claude Code",
+          "description": "Terminalde AI eşli programlama."
+        },
+        {
+          "category": "Editör & Yazılım",
+          "icon": "🐱",
+          "name": "iTerm2 + zsh",
+          "description": "Terminal kurulumum."
+        },
+        {
+          "category": "Donanım",
+          "icon": "💻",
+          "name": "MacBook Pro 14\"",
+          "description": "M-serisi, 32GB RAM — ana makinem.",
+          "badge": "daily"
+        },
+        {
+          "category": "Donanım",
+          "icon": "⌨️",
+          "name": "Keychron K2",
+          "description": "Mekanik klavye, kahverengi switch."
+        },
+        {
+          "category": "Donanım",
+          "icon": "🖥️",
+          "name": "Dell 27\" 4K",
+          "description": "Harici monitör."
+        },
+        {
+          "category": "Masa",
+          "icon": "🎧",
+          "name": "Sony WH-1000XM4",
+          "description": "Gürültü engelleyici kulaklık."
+        },
+        {
+          "category": "Masa",
+          "icon": "☕",
+          "name": "Çok fazla kahve",
+          "description": "Yakıt."
+        }
+      ],
+      "blockClass": "",
+      "sectionId": "",
+      "blockHeight": 0,
+      "bgType": "none",
+      "bgImage": "",
+      "bgVideo": "",
+      "bgColor": "",
+      "bgOpacity": 20
+    },
+    schema: {
+      "heading": {
+        "label": "Heading (main part)",
+        "type": "text"
+      },
+      "headingAccent": {
+        "label": "Heading Accent (primary-colored part)",
+        "type": "text"
+      },
+      "subtitle": {
+        "label": "Subtitle",
+        "type": "textarea"
+      },
+      "columns": {
+        "label": "Columns per group",
+        "type": "select",
+        "options": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "items": {
+        "label": "Items",
+        "type": "repeater",
+        "fields": {
+          "category": {
+            "label": "Category (groups items)",
+            "type": "text",
+            "value": ""
+          },
+          "icon": {
+            "label": "Icon (emoji)",
+            "type": "text",
+            "value": "⭐"
+          },
+          "name": {
+            "label": "Name",
+            "type": "text",
+            "value": ""
+          },
+          "description": {
+            "label": "Description",
+            "type": "textarea",
+            "value": ""
+          },
+          "badge": {
+            "label": "Badge (optional)",
+            "type": "text",
+            "value": ""
+          },
+          "href": {
+            "label": "Link URL",
             "type": "url",
             "value": ""
           }

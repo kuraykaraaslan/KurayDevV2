@@ -14,12 +14,12 @@ function CTABannerBlock(rawProps: Record<string, unknown>) {
   const subtitle = rawProps.subtitle as string | undefined
   const ctaLabel = rawProps.ctaLabel as string | undefined
   const ctaHref = (rawProps.ctaHref as string) || '/contact'
-  const textColor = (rawProps.textColor as string) || '#282626'
-  const btnBg = (rawProps.buttonBgColor as string) || '#282626'
-  const btnText = (rawProps.buttonTextColor as string) || '#ffffff'
-  // Banner needs its own (light) background or the dark default text is invisible
+  const textColor = (rawProps.textColor as string) || 'var(--color-primary-content)'
+  const btnBg = (rawProps.buttonBgColor as string) || 'var(--color-neutral)'
+  const btnText = (rawProps.buttonTextColor as string) || 'var(--color-neutral-content)'
+  // Banner needs its own (accent) background or the on-accent text is invisible
   // on the page's base background — see the color-contrast a11y audit.
-  const backgroundColor = (rawProps.backgroundColor as string) || '#FFC107'
+  const backgroundColor = (rawProps.backgroundColor as string) || 'var(--color-primary)'
 
   return (
     <BaseBlock {...baseProps}>
@@ -57,16 +57,16 @@ export const CTABannerBlockDefinition: BlockDefinition = {
   type: 'CTABannerBlock',
   label: 'CTA Banner',
   category: 'CTA',
-  description: 'Full-width call-to-action banner — yellow background by default',
+  description: 'Full-width call-to-action banner — accent-colored background by default',
   defaultProps: {
-    heading: "If you're leading complex AECO initiatives and need clarity, alignment, and execution — let's talk.",
-    subtitle: "Let's build the digital infrastructure your projects deserve.",
-    ctaLabel: 'Talk to an Expert',
+    heading: "Let's talk about what you're building.",
+    subtitle: "I'm always open to interesting projects and conversations.",
+    ctaLabel: 'Get in Touch',
     ctaHref: '/contact',
-    textColor: '#282626',
-    backgroundColor: '#FFC107',
-    buttonBgColor: '#282626',
-    buttonTextColor: '#ffffff',
+    textColor: 'var(--color-primary-content)',
+    backgroundColor: 'var(--color-primary)',
+    buttonBgColor: 'var(--color-neutral)',
+    buttonTextColor: 'var(--color-neutral-content)',
     blockClass: 'py-20 px-6 md:px-12 lg:px-20',
     sectionId: 'cta',
     ...BASE_BLOCK_DEFAULT_PROPS,

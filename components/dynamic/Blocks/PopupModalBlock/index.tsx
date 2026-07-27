@@ -26,11 +26,11 @@ export const PopupModalBlockDefinition: BlockDefinition = {
     imageActionUrl: '',
     imageActionOpenNewTab: false,
     buttons: [
-      { text: 'Learn more', link: '/', variant: 'filled', bgColor: '#ffc418', textColor: '#1e1c1c', openNewTab: false },
+      { text: 'Learn more', link: '/', variant: 'filled', bgColor: 'var(--color-primary)', textColor: 'var(--color-primary-content)', openNewTab: false },
     ],
     size: 'md',
     position: 'center',
-    backgroundColor: '#282626',
+    backgroundColor: 'var(--color-neutral)',
     overlayOpacity: 65,
     borderRadius: 'lg',
     entryAnimation: 'zoom',
@@ -78,8 +78,8 @@ export const PopupModalBlockDefinition: BlockDefinition = {
             { label: 'Ghost', value: 'ghost' },
           ]
         },
-        bgColor: { label: 'Color', type: 'color', value: '#ffc418' },
-        textColor: { label: 'Text color', type: 'color', value: '#1e1c1c' },
+        bgColor: { label: 'Color', type: 'color', value: 'var(--color-primary)' },
+        textColor: { label: 'Text color', type: 'color', value: 'var(--color-primary-content)' },
       },
     },
 

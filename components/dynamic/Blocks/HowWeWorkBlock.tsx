@@ -49,16 +49,16 @@ function HowWeWorkBlock(rawProps: Record<string, unknown>) {
   const baseProps = parseBaseBlockProps(rawProps)
   const previewMode = usePreviewMode()
   const heading = rawProps.heading as string | undefined
-  const cardBg = (rawProps.cardBgColor as string) || '#323030'
-  const iconBg = (rawProps.iconBgColor as string) || '#1f1d1d'
-  const accent = (rawProps.accentColor as string) || '#ffc418'
+  const cardBg = (rawProps.cardBgColor as string) || 'var(--color-neutral)'
+  const iconBg = (rawProps.iconBgColor as string) || 'var(--color-base-300)'
+  const accent = (rawProps.accentColor as string) || 'var(--color-primary)'
   const items = parseItems(rawProps.items)
 
   return (
     <BaseBlock {...baseProps}>
       <div className="relative z-10 max-w-7xl mx-auto">
         {heading && (
-          <h2 className="text-4xl md:text-5xl text-white text-center mb-16">{heading}</h2>
+          <h2 className="text-4xl md:text-5xl text-neutral-content text-center mb-16">{heading}</h2>
         )}
         <div className={`grid gap-8 grid-cols-1 ${previewMode !== 'mobile' ? 'md:grid-cols-2' : ''}`}>
           {items.map((item, i) => (
@@ -70,8 +70,8 @@ function HowWeWorkBlock(rawProps: Record<string, unknown>) {
                 {item.icon}
               </div>
               <div>
-                <h3 className="text-xl text-white mb-2">{item.title}</h3>
-                <p className="leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                <h3 className="text-xl text-neutral-content mb-2">{item.title}</h3>
+                <p className="leading-relaxed text-neutral-content/70">
                   {item.description}
                 </p>
               </div>
@@ -90,9 +90,9 @@ export const HowWeWorkBlockDefinition: BlockDefinition = {
   description: '2-column icon card grid with section heading — icon (emoji), title, description per card',
   defaultProps: {
     heading: 'How We Work',
-    cardBgColor: '#323030',
-    iconBgColor: '#1f1d1d',
-    accentColor: '#ffc418',
+    cardBgColor: 'var(--color-neutral)',
+    iconBgColor: 'var(--color-base-300)',
+    accentColor: 'var(--color-primary)',
     items: DEFAULT_ITEMS,
     blockClass: 'px-6 md:px-12 lg:px-20 py-20',
     sectionId: 'how-we-work',

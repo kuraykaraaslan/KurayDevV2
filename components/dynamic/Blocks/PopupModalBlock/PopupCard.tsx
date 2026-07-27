@@ -15,7 +15,7 @@ export function PopupCard({ p, isEditor, onClose, animStyle, onAnimEnd }: CardPr
   const imageActionUrl = (p.imageActionUrl as string) || ''
   const imageActionOpenNewTab = (p.imageActionOpenNewTab as boolean) || false
   const buttons = parseButtons(p.buttons)
-  const bgColor = (p.backgroundColor as string) || '#282626'
+  const bgColor = (p.backgroundColor as string) || 'var(--color-neutral)'
   const radius = (p.borderRadius as string) || 'lg'
   const closePos = (p.closeButtonPosition as string) || 'top-right'
   const clStyle = (p.closeButtonStyle as string) || 'circle'
@@ -53,8 +53,8 @@ export function PopupCard({ p, isEditor, onClose, animStyle, onAnimEnd }: CardPr
         <div className="p-5" style={{ backgroundColor: bgColor }}>
           {(title || desc) && (
             <div className={closePos.startsWith('top') && closePos !== 'hidden' ? 'pr-10' : ''}>
-              {title && <p className="font-semibold text-white text-lg">{title}</p>}
-              {desc && <p className="text-white/70 text-sm mt-1">{desc}</p>}
+              {title && <p className="font-semibold text-neutral-content text-lg">{title}</p>}
+              {desc && <p className="text-neutral-content/70 text-sm mt-1">{desc}</p>}
             </div>
           )}
           {buttons.length > 0 && (

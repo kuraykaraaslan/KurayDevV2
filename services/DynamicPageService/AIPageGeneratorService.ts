@@ -169,7 +169,7 @@ OUTPUT: Valid JSON only, no markdown fences. Schema:
 
 RULES:
 1. First block MUST be a Hero variant: HeroLandingBlock, HeroSplitBlock, or HeroMinimalBlock
-2. Last block should be a CTA: CTABannerBlock, FooterCtaBlock, or DemoRequestBlock
+2. Last block should be a CTA: CTABannerBlock or FooterCtaBlock
 3. Pick 3-7 blocks — blockType MUST match exactly one of the available types above
 4. purpose describes WHAT content goes in this block, specific to the topic
 5. Write title, description, purpose in the same language as the user prompt

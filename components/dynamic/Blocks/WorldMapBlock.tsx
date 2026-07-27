@@ -48,7 +48,7 @@ function WorldMapBlock(rawProps: Record<string, unknown>) {
   const heading = rawProps.heading as string | undefined
   const headingAccent = rawProps.headingAccent as string | undefined
   const subtitle = rawProps.subtitle as string | undefined
-  const color = (rawProps.color as string) || '#2563eb'
+  const color = (rawProps.color as string) || '#422ad5'
   const showLegend = rawProps.showLegend !== false
 
   // Visitors can collapse the place pins on the page.
@@ -169,7 +169,7 @@ export const WorldMapBlockDefinition: BlockDefinition = {
     heading: 'Gittiğim',
     headingAccent: 'Yerler',
     subtitle: 'Dünya üzerinde adımımın değdiği ülkeler.',
-    color: '#2563eb',
+    color: '#422ad5',
     showLegend: true,
     places: DEFAULT_PLACES,
     blockClass: 'bg-base-100',

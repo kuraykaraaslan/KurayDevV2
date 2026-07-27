@@ -19,14 +19,14 @@ const svgPattern = encodeURIComponent(`
   <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'>
     <defs>
       <pattern id='g' x='0' y='0' width='60' height='60' patternUnits='userSpaceOnUse'>
-        <path d='M 60 0 L 0 0 0 60' fill='none' stroke='rgba(255,196,24,0.06)' stroke-width='1'/>
+        <path d='M 60 0 L 0 0 0 60' fill='none' stroke='rgba(96,93,255,0.06)' stroke-width='1'/>
       </pattern>
     </defs>
-    <rect width='1200' height='630' fill='%23282626'/>
+    <rect width='1200' height='630' fill='%231d232a'/>
     <rect width='1200' height='630' fill='url(%23g)'/>
-    <rect x='0' y='0' width='6' height='630' fill='%23ffc418'/>
-    <circle cx='1100' cy='80' r='200' fill='rgba(255,196,24,0.04)'/>
-    <circle cx='1050' cy='550' r='120' fill='rgba(255,196,24,0.03)'/>
+    <rect x='0' y='0' width='6' height='630' fill='%23605dff'/>
+    <circle cx='1100' cy='80' r='200' fill='rgba(96,93,255,0.04)'/>
+    <circle cx='1050' cy='550' r='120' fill='rgba(96,93,255,0.03)'/>
   </svg>
 `)
 
@@ -60,7 +60,7 @@ function renderJSX({ title, description, coverImage, badge }: OGImageOptions) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: '#282626',
+        backgroundColor: '#1d232a',
         backgroundImage: `url("data:image/svg+xml,${svgPattern}")`,
         backgroundSize: 'cover',
         padding: '80px 100px 80px 120px',
@@ -71,13 +71,13 @@ function renderJSX({ title, description, coverImage, badge }: OGImageOptions) {
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 32 }}>
           <div
             style={{
-              backgroundColor: 'rgba(255,196,24,0.15)',
-              border: '1px solid rgba(255,196,24,0.3)',
+              backgroundColor: 'rgba(96,93,255,0.15)',
+              border: '1px solid rgba(96,93,255,0.3)',
               borderRadius: 6,
               padding: '6px 16px',
               fontSize: 14,
               fontWeight: 600,
-              color: '#ffc418',
+              color: '#939fff',
               letterSpacing: 2,
               textTransform: 'uppercase',
             }}
@@ -120,7 +120,7 @@ function renderJSX({ title, description, coverImage, badge }: OGImageOptions) {
           left: 0,
           right: 0,
           height: 4,
-          backgroundColor: '#ffc418',
+          backgroundColor: '#605dff',
         }}
       />
     </div>
