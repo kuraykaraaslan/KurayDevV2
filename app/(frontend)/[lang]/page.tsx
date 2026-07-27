@@ -13,6 +13,7 @@ import { INDEXABLE_LANGUAGES } from '@/types/common/I18nTypes'
 import { buildAlternates, buildLangUrl, getOgLocale, robotsFor } from '@/helpers/HreflangHelper'
 import { getPageMetadata } from '@/libs/localize/getDictionary'
 import { SITE_URL } from '@/libs/seo/siteUrl'
+import { SITE_SAME_AS } from '@/helpers/MetadataHelper'
 
 const NEXT_PUBLIC_APPLICATION_HOST = SITE_URL
 
@@ -22,16 +23,21 @@ type Props = {
 
 const DEFAULT_HOME_TITLE = 'Kuray Karaaslan | Software Architect & Product Engineer'
 const DEFAULT_HOME_DESCRIPTION =
-  'Software architect and product engineer with hands-on experience as a BIM developer and IoT developer, designing production-grade SaaS, integration, and real-time platforms across architecture, backend, frontend, and infrastructure.'
+  'Software architect and product engineer with hands-on BIM and IoT experience, designing production-grade SaaS, Autodesk Revit automation, MQTT telemetry, and real-time platforms across architecture, backend, frontend, and infrastructure.'
 const DEFAULT_HOME_KEYWORDS = [
   'software architect',
   'product engineer',
   'platform engineer',
   'bim developer',
   'iot developer',
+  'autodesk revit',
+  'bim automation',
+  'mqtt',
+  'websocket',
+  'snmp',
   'saas architecture',
   'iot platform',
-  'bim automation',
+  'iot telemetry',
   'real-time systems',
   'systems builder',
   'next.js',
@@ -120,6 +126,7 @@ const HomePage = async ({ params }: Props) => {
     <>
       {MetadataHelper.generateJsonLdScripts(jsonLdMeta, {
         includeProfilePage: true,
+        profilePage: { sameAs: SITE_SAME_AS },
         breadcrumbs,
         portfolioItems,
       })}

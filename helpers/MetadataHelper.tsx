@@ -2,6 +2,16 @@ import { Metadata } from 'next'
 import { SITE_URL } from '@/libs/seo/siteUrl'
 
 const NEXT_PUBLIC_APPLICATION_HOST = SITE_URL
+export const SITE_SAME_AS = [
+  'https://github.com/kuraykaraaslan',
+  'https://twitter.com/kuraykaraaslan',
+  'https://www.linkedin.com/in/kuraykaraaslan/',
+  'https://www.instagram.com/kuraykaraaslan/',
+  'https://www.facebook.com/kuraykaraaslan',
+  'https://wa.me/905459223554',
+  'https://t.me/kuraykaraaslan',
+  'https://www.youtube.com/@kuraykaraaslan',
+]
 
 export default class MetadataHelper {
   // Generate JSON-LD for WebSite with SearchAction (enables sitelinks search box in Google)
@@ -39,16 +49,12 @@ export default class MetadataHelper {
       name: 'Kuray Karaaslan',
       url: NEXT_PUBLIC_APPLICATION_HOST,
       logo: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
-      sameAs: [
-        'https://github.com/kuraykaraaslan',
-        'https://twitter.com/kuraykaraaslan',
-        'https://www.linkedin.com/in/kuraykaraaslan/',
-      ],
+      sameAs: SITE_SAME_AS,
     }
   }
 
   // Generate JSON-LD for ProfilePage (personal brand schema for homepage)
-  public static getProfilePageJsonLd() {
+  public static getProfilePageJsonLd(options?: { sameAs?: string[] }) {
     return {
       '@context': 'https://schema.org',
       '@type': 'ProfilePage',
@@ -104,16 +110,7 @@ export default class MetadataHelper {
           'Spring Boot',
           'Next.js',
         ],
-        sameAs: [
-          'https://github.com/kuraykaraaslan',
-          'https://twitter.com/kuraykaraaslan',
-          'https://www.linkedin.com/in/kuraykaraaslan/',
-          'https://www.instagram.com/kuraykaraaslan/',
-          'https://www.facebook.com/kuraykaraaslan',
-          'https://wa.me/905459223554',
-          'https://t.me/kuraykaraaslan',
-          'https://www.youtube.com/@kuraykaraaslan',
-        ],
+        sameAs: options?.sameAs?.length ? options.sameAs : SITE_SAME_AS,
       },
     }
   }
@@ -543,6 +540,9 @@ export default class MetadataHelper {
       }
       includeWebSite?: boolean
       includeProfilePage?: boolean
+      profilePage?: {
+        sameAs?: string[]
+      }
       personProfile?: {
         name: string
         url: string
@@ -596,7 +596,7 @@ export default class MetadataHelper {
     const webSiteJsonLd = MetadataHelper.getWebSiteJsonLd()
     const orgJsonLd = MetadataHelper.getOrganizationJsonLd()
     const profilePageJsonLd = options?.includeProfilePage
-      ? MetadataHelper.getProfilePageJsonLd()
+      ? MetadataHelper.getProfilePageJsonLd(options?.profilePage)
       : null
     const personProfileJsonLd = options?.personProfile
       ? MetadataHelper.getPersonProfilePageJsonLd(options.personProfile)

@@ -65,7 +65,7 @@
     },
     "about": {
       "title": "FAQ | Kuray Karaaslan — Software Architect & Product Engineer",
-      "description": "Frequently asked questions about Kuray Karaaslan: identity, BIM and IoT development background, technical stack, architecture philosophy, and how to work with him.",
+      "description": "Frequently asked questions about Kuray Karaaslan: BIM automation, IoT systems, software architecture, technical stack, and how to work with him.",
       "keywords": [
         "kuray karaaslan",
         "faq",
@@ -461,7 +461,7 @@
     },
     "about": {
       "faq_title": "Frequently Asked Questions",
-      "faq_subtitle": "Clear, citable answers about who I am, what I build, and how I work — for humans and for AI assistants.",
+      "faq_subtitle": "Clear, citable answers about BIM automation, IoT systems, architecture, and how I work — for humans and for AI assistants.",
       "faq_groups": {
         "identity": "Identity & Background",
         "stack": "Technical Expertise",

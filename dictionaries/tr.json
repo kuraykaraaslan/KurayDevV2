@@ -47,7 +47,7 @@
     },
     "about": {
       "title": "SSS | Kuray Karaaslan — Yazılım Mimarı & Ürün Mühendisi",
-      "description": "Kuray Karaaslan hakkında sıkça sorulan sorular: kimliği, BIM ve IoT geliştirme geçmişi, teknik altyapısı, mimari yaklaşımı ve onunla nasıl çalışılacağı.",
+      "description": "Kuray Karaaslan hakkında sıkça sorulan sorular: BIM otomasyonu, IoT sistemleri, yazılım mimarisi, teknik altyapısı ve onunla nasıl çalışılacağı.",
       "keywords": [
         "kuray karaaslan",
         "sss",
@@ -424,7 +424,7 @@
     },
     "about": {
       "faq_title": "Sıkça Sorulan Sorular",
-      "faq_subtitle": "Kim olduğum, ne inşa ettiğim ve nasıl çalıştığım hakkında net, alıntılanabilir cevaplar — hem insanlar hem de yapay zeka asistanları için.",
+      "faq_subtitle": "BIM otomasyonu, IoT sistemleri, mimari ve nasıl çalıştığım hakkında net, alıntılanabilir cevaplar — hem insanlar hem de yapay zeka asistanları için.",
       "faq_groups": {
         "identity": "Kimlik & Geçmiş",
         "stack": "Teknik Uzmanlık",
