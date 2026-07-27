@@ -1,10 +1,16 @@
 import redis from '@/libs/redis'
 import LocalEmbedService from './PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
+import { stripHtml } from '@/helpers/stripHtml'
 import PostService from '@/services/PostService'
 import { KnowledgeGraphNode } from '@/types/content/BlogTypes'
 import Logger from '@/libs/logger'
 import { Queue, Worker } from 'bullmq'
+
+/** First ~800 chars of plain-text content, cached on the node for RAG retrieval. */
+function buildSnippet(content: unknown): string {
+  return stripHtml(String(content || '')).slice(0, 800)
+}
 
 const KEY_NODES = 'kg:nodes'
 const LINKS = (id: string) => `kg:links:${id}`
@@ -85,6 +91,7 @@ export default class KnowledgeGraphService {
       categorySlug: post.category?.slug || 'general',
       views: post.views || 0,
       embedding,
+      snippet: buildSnippet(post.content),
     }
 
     await saveNodes(nodes)
@@ -137,8 +144,8 @@ export default class KnowledgeGraphService {
 
     if (!ids.length) return []
 
-    // Fetch all posts in one call
-    const { posts } = await PostService.getAllPosts({ postId: ids.join(','), page: 0, pageSize: limit })
+    // Fetch all posts in one batched query (postId accepts an array → WHERE postId IN (...))
+    const { posts } = await PostService.getAllPosts({ postId: ids, page: 0, pageSize: limit })
     // Return posts in the same order as ids
     return ids.map((id) => posts.find((p) => p.postId === id)).filter(Boolean) as import('@/types/content/BlogTypes').PostWithData[]
   }
@@ -177,6 +184,7 @@ export default class KnowledgeGraphService {
           group: p.category?.slug || 'general',
           views: p.views || 0,
           embedding: embeddings[i],
+          snippet: buildSnippet(p.content),
         }
       })
       await saveNodes(nodes)

@@ -13,7 +13,7 @@ export default class MetadataHelper {
       alternateName: ['Kuray Dev', 'kuray.dev'],
       url: NEXT_PUBLIC_APPLICATION_HOST,
       description:
-        'Software architect and product engineer building production-grade SaaS, IoT, BIM, and real-time platforms — with engineering notes on architecture and systems.',
+        'Software architect and product engineer — also a BIM developer and IoT developer — building production-grade SaaS, integration, and real-time platforms, with engineering notes on architecture and systems.',
       inLanguage: 'en',
       publisher: {
         '@type': 'Person',
@@ -60,10 +60,15 @@ export default class MetadataHelper {
         name: 'Kuray Karaaslan',
         alternateName: 'kuraykaraaslan',
         description:
-          'Software architect and product engineer designing production-grade SaaS, IoT, BIM, integration, and real-time platforms across architecture, backend, frontend, and infrastructure.',
+          'Software architect and product engineer — also working as a BIM developer (Building Information Modeling automation) and IoT developer (real-time telemetry systems) — designing production-grade SaaS, integration, and real-time platforms across architecture, backend, frontend, and infrastructure.',
         url: NEXT_PUBLIC_APPLICATION_HOST,
         image: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
         jobTitle: 'Software Architect & Product Engineer',
+        hasOccupation: [
+          { '@type': 'Occupation', name: 'Software Architect' },
+          { '@type': 'Occupation', name: 'BIM Developer' },
+          { '@type': 'Occupation', name: 'IoT Developer' },
+        ],
         email: 'mailto:kuraykaraaslan@gmail.com',
         address: {
           '@type': 'PostalAddress',

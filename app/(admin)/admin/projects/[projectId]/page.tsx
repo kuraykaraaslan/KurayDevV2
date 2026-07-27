@@ -39,8 +39,8 @@ const PROJECT_TRANSLATION_FIELDS: TranslationFieldDef[] = [
   { key: 'content', label: 'Content', isRichText: true },
 ]
 
-const ALLOWED_PLATFORMS = ['ui/ux', 'web', 'mobile', 'desktop', 'embedded', 'other', 'iot', 'gaming', 'machine learning']
-const ALLOWED_TECHNOLOGIES = ['react', 'react native', 'express', 'next', 'java', 'python', 'c', 'c++', 'c#', 'aws', 'azure', 'gcp', 'chrome extension', 'other']
+const ALLOWED_PLATFORMS = ['ui/ux', 'web', 'mobile', 'desktop', 'embedded', 'other', 'iot', 'bim', 'gaming', 'machine learning']
+const ALLOWED_TECHNOLOGIES = ['react', 'react native', 'express', 'next', 'java', 'python', 'c', 'c++', 'c#', 'aws', 'azure', 'gcp', 'chrome extension', 'revit api', 'other']
 
 const SingleProject = () => {
   const params = useParams()

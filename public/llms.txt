@@ -1,11 +1,13 @@
 # Kuray Karaaslan — kuray.dev
 
-> Personal portfolio and engineering blog by Kuray Karaaslan, a Full-Stack Developer (React, Next.js, Node.js, Java Spring Boot) based in Turkey. Focus areas: multi-tenant SaaS, IoT platforms, BIM tooling, and developer experience.
+> Personal portfolio and engineering blog by Kuray Karaaslan, a Software Architect & Product Engineer based in Turkey, also working as a BIM developer and IoT developer (React, Next.js, Node.js, Java Spring Boot). Focus areas: multi-tenant SaaS architecture, BIM automation (Autodesk Revit/AutoCAD/Advance Steel), IoT telemetry systems (MQTT, SNMP, WebSocket), and developer experience.
 
 ## About
 
-- Role: Full-Stack Developer
+- Role: Software Architect & Product Engineer — also a BIM developer and IoT developer
 - Stack: React, Next.js, React Native, Node.js, TypeScript, Java Spring Boot, PostgreSQL, Redis
+- BIM: Autodesk Revit, AutoCAD, Robot Structural Analysis, Advance Steel; API automation with C# and PHP REST APIs
+- IoT: device-to-server communication over MQTT, WebSocket, and SNMP
 - Location: Turkey (remote-friendly)
 - Languages: English, Turkish
 - Available for freelance and consulting work

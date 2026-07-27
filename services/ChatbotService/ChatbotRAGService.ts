@@ -1,6 +1,7 @@
 import redis from '@/libs/redis'
 import LocalEmbedService from '@/services/PostService/LocalEmbedService'
 import { cosine } from '@/helpers/Cosine'
+import { stripHtml } from '@/helpers/stripHtml'
 import PostService from '@/services/PostService'
 import Logger from '@/libs/logger'
 import SettingService from '@/services/SettingService'
@@ -23,10 +24,22 @@ export function tryRequireJson<T>(path: string, fallback: T): T {
 }
 
 
-const RAG_DATASET_KEY = 'rag:dataset'
-const FAQ_DATASET_KEY = 'faq:dataset'
+export const RAG_DATASET_KEY = 'rag:dataset'
+export const FAQ_DATASET_KEY = 'faq:dataset'
 const POLICY_DATASET_KEY = 'policy:dataset'
 const SYSTEM_PROMPT_KEY = 'system:prompt'
+
+/**
+ * Canonical text used to embed a dataset doc / FAQ item. The SAME builder must be
+ * used at load time (pre-compute) and query time so the stored embedding is
+ * comparable to freshly computed ones. Do not inline these strings elsewhere.
+ */
+export function datasetDocText(d: { title: string; text: string }): string {
+    return `${d.title} ${d.text}`
+}
+export function faqItemText(f: { question: string; answer: string }): string {
+    return `${f.question} ${f.answer}`
+}
 
 async function getRagDataset(): Promise<DatasetDocument[]> {
     const raw = await redis.get(RAG_DATASET_KEY)
@@ -89,35 +102,55 @@ export default class ChatbotRAGService {
             if (similarities.length === 0) return [];
 
             const contextResults: RAGContext[] = [];
+            // Nodes carry a pre-computed snippet (built with the KG) → zero DB access on
+            // the hot path. Only nodes built before the snippet field existed fall back to
+            // a single batched DB fetch below.
+            const missing: typeof similarities = [];
 
             for (const sim of similarities) {
+                if (typeof sim.node.snippet === 'string' && sim.node.snippet.length > 0) {
+                    contextResults.push({
+                        postId: sim.node.id,
+                        title: sim.node.title,
+                        slug: sim.node.slug,
+                        categorySlug: sim.node.categorySlug ?? 'general',
+                        score: sim.score,
+                        snippet: sim.node.snippet,
+                    });
+                } else {
+                    missing.push(sim);
+                }
+            }
+
+            // Fallback: one batched query (WHERE postId IN (...)) for pre-snippet nodes.
+            if (missing.length > 0) {
                 try {
                     const { posts } = await PostService.getAllPosts({
                         page: 0,
-                        pageSize: 1,
-                        postId: sim.id,
+                        pageSize: missing.length,
+                        postId: missing.map((s) => s.id),
                         status: 'PUBLISHED',
                     });
-
-                    if (posts[0]) {
-                        const post = posts[0];
-                        const plainContent = ChatbotRAGService.stripHtml(post.content || '');
-                        const snippet = plainContent.slice(0, 800);
-
+                    const byId = new Map(posts.map((p) => [p.postId, p]));
+                    for (const sim of missing) {
+                        const post = byId.get(sim.id);
+                        if (!post) continue;
                         contextResults.push({
                             postId: post.postId,
                             title: post.title,
                             slug: post.slug,
                             categorySlug: post.category?.slug ?? 'general',
                             score: sim.score,
-                            snippet,
+                            snippet: stripHtml(post.content || '').slice(0, 800),
                         });
                     }
                 } catch (err) {
-                    Logger.warn(`[ChatbotRAGService] Failed to fetch post ${sim.id}: ${err}`);
+                    Logger.warn(`[ChatbotRAGService] Fallback post fetch failed: ${err}`);
                 }
             }
 
+            // Preserve similarity ordering after the mixed node/DB assembly.
+            contextResults.sort((a, b) => b.score - a.score);
             return contextResults;
         } catch (err) {
             Logger.error(`[ChatbotRAGService] RAG retrieval failed: ${err}`);
@@ -132,13 +165,21 @@ export default class ChatbotRAGService {
             const documents = await getRagDataset();
             if (!documents || documents.length === 0) return [];
 
-            const texts = documents.map((d) => `${d.title} ${d.text}`);
-            const [queryEmbedding, ...docEmbeddings] = await LocalEmbedService.embed([query, ...texts]);
+            const [queryEmbedding] = await LocalEmbedService.embed([query]);
 
-            return docEmbeddings
-                .map((emb, i) => ({
-                    ...documents[i],
-                    score: cosine(queryEmbedding, emb),
+            // Lazy backfill: compute & persist embeddings for any doc missing one
+            // (e.g. datasets loaded before pre-compute existed). Subsequent calls are O(1).
+            const missing = documents.filter((d) => !Array.isArray(d.embedding) || d.embedding.length === 0);
+            if (missing.length > 0) {
+                const embeddings = await LocalEmbedService.embed(missing.map(datasetDocText));
+                missing.forEach((d, i) => { d.embedding = embeddings[i]; });
+                await redis.set(RAG_DATASET_KEY, JSON.stringify(documents));
+            }
+
+            return documents
+                .map((d) => ({
+                    ...d,
+                    score: cosine(queryEmbedding, d.embedding as number[]),
                 }))
                 .filter((item) => item.score >= DATASET_THRESHOLD)
                 .sort((a, b) => b.score - a.score)
@@ -156,13 +197,20 @@ export default class ChatbotRAGService {
             const items = await getFaqDataset();
             if (!items || items.length === 0) return [];
 
-            const texts = items.map((f) => `${f.question} ${f.answer}`);
-            const [queryEmbedding, ...faqEmbeddings] = await LocalEmbedService.embed([query, ...texts]);
+            const [queryEmbedding] = await LocalEmbedService.embed([query]);
 
-            return faqEmbeddings
-                .map((emb, i) => ({
-                    ...items[i],
-                    score: cosine(queryEmbedding, emb),
+            // Lazy backfill for any FAQ item missing an embedding; then O(1) per request.
+            const missing = items.filter((f) => !Array.isArray(f.embedding) || f.embedding.length === 0);
+            if (missing.length > 0) {
+                const embeddings = await LocalEmbedService.embed(missing.map(faqItemText));
+                missing.forEach((f, i) => { f.embedding = embeddings[i]; });
+                await redis.set(FAQ_DATASET_KEY, JSON.stringify(items));
+            }
+
+            return items
+                .map((f) => ({
+                    ...f,
+                    score: cosine(queryEmbedding, f.embedding as number[]),
                 }))
                 .filter((item) => item.score >= FAQ_THRESHOLD)
                 .sort((a, b) => b.score - a.score)
@@ -306,14 +354,6 @@ export default class ChatbotRAGService {
     }
 
     static stripHtml(html: string): string {
-        return html
-            .replace(/<[^>]*>/g, ' ')
-            .replace(/&nbsp;/g, ' ')
-            .replace(/&amp;/g, '&')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&quot;/g, '"')
-            .replace(/\s+/g, ' ')
-            .trim()
+        return stripHtml(html)
     }
 }

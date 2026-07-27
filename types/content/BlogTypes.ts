@@ -148,6 +148,10 @@ export const KnowledgeGraphNodeSchema = z.object({
   views: z.number(),
   embedding: z.array(z.number()),
   size: z.number().nullable().optional(),
+  // Pre-computed plain-text snippet (first ~800 chars) used by the chatbot RAG
+  // retrieval to avoid a per-request DB fetch. Optional for backward compat with
+  // graphs built before this field existed.
+  snippet: z.string().optional(),
 })
 
 export const KnowledgeGraphLinkSchema = z.object({

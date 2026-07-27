@@ -24,11 +24,13 @@ export const metadata: Metadata = {
     template: '%s | Kuray Karaaslan',
   },
   description:
-    'Software architect and product engineer designing production-grade SaaS, IoT, BIM, integration, and real-time platforms across architecture, backend, frontend, and infrastructure.',
+    'Software architect and product engineer with hands-on experience as a BIM developer and IoT developer, designing production-grade SaaS, integration, and real-time platforms across architecture, backend, frontend, and infrastructure.',
   keywords: [
     'software architect',
     'product engineer',
     'platform engineer',
+    'bim developer',
+    'iot developer',
     'saas architecture',
     'iot platform',
     'bim automation',
@@ -49,7 +51,7 @@ export const metadata: Metadata = {
     siteName: 'Kuray Karaaslan',
     title: 'Kuray Karaaslan — Software Architect & Product Engineer',
     description:
-      'Architecture and end-to-end engineering for complex SaaS, IoT, BIM, integration, and real-time software platforms.',
+      'Software architect, BIM developer, and IoT developer — architecture and end-to-end engineering for complex SaaS, integration, and real-time software platforms.',
     images: [
       {
         url: '/assets/img/og.png',
@@ -66,7 +68,7 @@ export const metadata: Metadata = {
     creator: '@kuraykaraaslan',
     title: 'Kuray Karaaslan — Software Architect & Product Engineer',
     description:
-      'Architecture and end-to-end engineering for complex SaaS, IoT, BIM, and real-time platforms.',
+      'Software architect, BIM developer, and IoT developer — engineering complex SaaS and real-time platforms.',
     images: [
       { url: '/assets/img/og.png', alt: 'Kuray Karaaslan - Software Architect & Product Engineer' },
     ],

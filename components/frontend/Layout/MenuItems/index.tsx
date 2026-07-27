@@ -20,6 +20,14 @@ const MenuItems = [
   },
   //{ id: "timeline", page: '/', name: 'experience', external: false, onlyAdmin: false, hideTextOnDesktop: false },
   {
+    id: 'about',
+    page: '/about',
+    name: 'about',
+    external: false,
+    onlyAdmin: false,
+    hideTextOnDesktop: false,
+  },
+  {
     id: 'contact',
     page: '/#contact',
     name: 'contact',

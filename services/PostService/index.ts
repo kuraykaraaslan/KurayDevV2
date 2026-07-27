@@ -200,7 +200,7 @@ export default class PostService {
     projectId?: string
     authorId?: string
     status?: string //ALL, PUBLISHED, DRAFT
-    postId?: string
+    postId?: string | string[]
     slug?: string
     createdAfter?: Date
     lang?: string
@@ -247,7 +247,7 @@ export default class PostService {
           },
         ],
         authorId: authorId ? authorId : undefined,
-        postId: postId ? postId : undefined,
+        postId: Array.isArray(postId) ? { in: postId } : (postId ? postId : undefined),
         categoryId: categoryId ? categoryId : undefined,
         projectId: projectId ? projectId : undefined,
         status: status ? (status === 'ALL' ? undefined : status) : 'PUBLISHED',

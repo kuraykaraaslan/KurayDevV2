@@ -8,7 +8,7 @@ import { RAGContext } from '@/types/features/ChatbotTypes'
 import ChatSessionService from './ChatSessionService'
 import ChatbotRAGService from './ChatbotRAGService'
 import ChatbotModerationService from './ChatbotModerationService'
-import { ACTIVE_SESSIONS, BROWSER_SESSION, SESSION_TTL_SECONDS, ADMIN_TAKEOVER_SENTINEL } from './constants'
+import { ACTIVE_SESSIONS, BROWSER_SESSION, SESSION_TTL_SECONDS, ADMIN_TAKEOVER_SENTINEL, CHATBOT_DEFAULT_MODEL, CHATBOT_SUMMARY_MODEL } from './constants'
 import { generateMessageId } from './utils'
 
 export default class ChatbotService {
@@ -89,8 +89,6 @@ export default class ChatbotService {
   private static async _buildRagPipeline(
     chatSessionId: string,
     message: string,
-    provider: string | undefined,
-    model: string | undefined,
     pageContext: string | undefined,
   ): Promise<{ promptMessages: { role: 'system' | 'user' | 'assistant'; content: string }[]; ragContext: RAGContext[] }> {
         const [ragContext, datasetContext, faqContext] = await Promise.all([
@@ -99,15 +97,14 @@ export default class ChatbotService {
             ChatbotRAGService.retrieveFaqContext(message),
         ])
 
-        const aiProviderForCompression = AIService.getProvider(provider)
-        const sessionSummary = await ChatbotRAGService.compressHistory(
-            chatSessionId,
-            (prompt, model) => aiProviderForCompression.generateText(prompt, model).then((r) => r ?? ''),
-            model,
-        )
-        const latestSession = await ChatSessionService.getSession(chatSessionId)
+        // History compression is deferred to after the stream completes (see chatStream),
+        // so it never sits on the time-to-first-token critical path. The current turn is
+        // grounded by the summary produced on the previous turn.
+        const [latestSession, history] = await Promise.all([
+            ChatSessionService.getSession(chatSessionId),
+            ChatSessionService.getMessages(chatSessionId),
+        ])
 
-        const history = await ChatSessionService.getMessages(chatSessionId)
         const mergedContext = [...ragContext]
         for (const doc of datasetContext) {
             mergedContext.push({ postId: doc.id, title: doc.title, slug: '', categorySlug: doc.type, score: doc.score, snippet: doc.text })
@@ -118,12 +115,29 @@ export default class ChatbotService {
 
         const previousMessages = history.slice(0, -1)
         const systemPrompt = await ChatbotRAGService.buildSystemPrompt(mergedContext)
-        const activeSummary = sessionSummary ?? latestSession?.summary
+        const activeSummary = latestSession?.summary
         const promptMessages = ChatbotRAGService.buildMessages(
             systemPrompt, previousMessages, message, activeSummary, pageContext
         )
 
         return { promptMessages, ragContext }
+    }
+
+  /**
+   * Fire-and-forget: summarise & truncate long histories AFTER the reply streamed,
+   * so the summary work is off the token critical path. Applies to the next turn.
+   */
+  private static _compressHistoryInBackground(
+    chatSessionId: string,
+    provider: string | undefined,
+    model: string | undefined,
+  ): void {
+        const aiProvider = AIService.getProvider(provider)
+        void ChatbotRAGService.compressHistory(
+            chatSessionId,
+            (prompt, m) => aiProvider.generateText(prompt, m).then((r) => r ?? ''),
+            model,
+        ).catch((err) => Logger.warn(`[ChatbotService] Background history compression failed: ${err}`))
     }
 
   private static async _persistAiMessage(
@@ -206,14 +220,21 @@ export default class ChatbotService {
     }
 
     const { promptMessages, ragContext } = await ChatbotService._buildRagPipeline(
-      session.chatSessionId, message, provider, model, pageContext
+      session.chatSessionId, message, pageContext
     )
+
+    // Resolve default models. OpenAI (the default provider) favours a fast model for
+    // the reply; the summary always uses the cheap model. For explicit non-OpenAI
+    // providers the client's model (if any) is passed through unchanged.
+    const isOpenAIProvider = !provider || provider.toUpperCase() === 'OPENAI'
+    const streamModel = model || (isOpenAIProvider ? CHATBOT_DEFAULT_MODEL : undefined)
+    const summaryModel = isOpenAIProvider ? CHATBOT_SUMMARY_MODEL : model
 
     const aiProvider = AIService.getProvider(provider)
     let fullReply = ''
 
     try {
-      for await (const chunk of aiProvider.streamMessages(promptMessages, model)) {
+      for await (const chunk of aiProvider.streamMessages(promptMessages, streamModel)) {
         fullReply += chunk
         yield `data: ${JSON.stringify({ type: 'chunk', content: chunk })}\n\n`
       }
@@ -231,6 +252,9 @@ export default class ChatbotService {
     const { aiMsg, sources } = await ChatbotService._persistAiMessage(
       session.chatSessionId, fullReply, ragContext
     )
+
+    // Off the critical path: compress history now that the assistant reply is stored.
+    ChatbotService._compressHistoryInBackground(session.chatSessionId, provider, summaryModel)
 
     wsManager.publish('chatbot', session.chatSessionId, {
       ns: 'chatbot',

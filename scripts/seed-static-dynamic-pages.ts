@@ -27,11 +27,13 @@ const PAGES: PageSeed[] = [
     slug: 'about',
     title: 'About',
     description:
-      'Kuray Karaaslan — Full-Stack Developer specialized in React, Next.js, Node.js, and Java Spring Boot. Background, experience, and tech stack.',
+      'Kuray Karaaslan — Software Architect & Product Engineer, also working as a BIM developer and IoT developer. Background, experience, and tech stack.',
     keywords: [
       'kuray karaaslan',
       'about',
-      'full-stack developer',
+      'software architect',
+      'bim developer',
+      'iot developer',
       'biography',
       'experience',
       'react developer',
@@ -44,16 +46,25 @@ const PAGES: PageSeed[] = [
         order: 0,
         props: {
           headlineLines: [
-            { text: 'Product-Focused.' },
-            { text: 'Full-Stack.' },
+            { text: 'Software Architect.' },
+            { text: 'BIM & IoT Developer.' },
             { text: 'Available for Freelance.' },
           ],
           paragraphs: [
             {
-              text: "I'm Kuray Karaaslan — a Full-Stack Developer with 3+ years of experience shipping production software in SaaS, IoT, and BIM domains.",
+              text: "I'm Kuray Karaaslan, a software architect and product engineer designing production-grade SaaS, integration, and real-time platforms — from architecture and backend through frontend and infrastructure.",
             },
             {
-              text: 'My stack spans React, Next.js, React Native, Node.js, and Java Spring Boot. I focus on multi-tenant architectures, clean code, and pragmatic delivery.',
+              text: 'I also work as a BIM developer, automating Building Information Modeling workflows on Autodesk Revit, AutoCAD, Robot Structural Analysis, and Advance Steel, and building API-driven automation tools in C# and PHP REST APIs.',
+            },
+            {
+              text: 'As an IoT developer, I build device-to-server communication systems over MQTT, WebSocket, and SNMP, paired with Java Spring and TypeScript/React for real-time telemetry and control.',
+            },
+            {
+              text: 'Alongside software, I have hands-on experience as an independent construction engineer and contractor, which keeps my BIM work grounded in real structural and site practice rather than just tooling.',
+            },
+            {
+              text: 'My stack spans React, Next.js, React Native, Node.js, Java Spring Boot, PostgreSQL, and Redis. I focus on multi-tenant architectures, clean code, and pragmatic delivery.',
             },
             {
               text: "I'm based in Turkey and work remotely with teams worldwide.",
@@ -76,6 +87,43 @@ const PAGES: PageSeed[] = [
         type: 'GitContributionsBlock',
         order: 2,
         props: {},
+      },
+      {
+        id: 'about-faq',
+        type: 'FAQBlock',
+        order: 3,
+        props: {
+          heading: 'Frequently Asked Questions',
+          subtitle: 'Common questions about my background and work',
+          faqs: [
+            {
+              question: 'Is Kuray Karaaslan a BIM developer?',
+              answer:
+                'Yes. Alongside software architecture, I work as a BIM developer, automating Building Information Modeling workflows on Autodesk Revit, AutoCAD, Robot Structural Analysis, and Advance Steel.',
+            },
+            {
+              question: 'Does Kuray Karaaslan do IoT development?',
+              answer:
+                'Yes. As an IoT developer, I build device-to-server communication systems over MQTT, WebSocket, and SNMP, paired with Java Spring and TypeScript/React for real-time telemetry.',
+            },
+            {
+              question: 'Which BIM tools does he know?',
+              answer:
+                'Autodesk Revit, AutoCAD, Robot Structural Analysis, and Advance Steel, with API-driven automation built in C# and PHP REST APIs.',
+            },
+            {
+              question: 'Which IoT protocols does he use?',
+              answer: 'MQTT, WebSocket, and SNMP, backed by a Java Spring ingestion/rules layer and a TypeScript/React real-time dashboard.',
+            },
+            {
+              question: 'Does he have hands-on construction engineering experience?',
+              answer:
+                'Yes — independent construction engineer and contractor experience, which keeps his BIM work grounded in real structural and site practice rather than just tooling.',
+            },
+          ],
+          blockClass: 'bg-base-100 py-20 px-6 md:px-12 lg:px-20',
+          sectionId: 'faq',
+        },
       },
     ],
   },

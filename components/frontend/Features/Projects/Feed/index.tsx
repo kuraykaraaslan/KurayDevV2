@@ -16,6 +16,7 @@ const PLATFORM_FILTERS = [
   'embedded',
   'other',
   'iot',
+  'bim',
   'gaming',
   'machine learning',
 ]

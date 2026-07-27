@@ -22,11 +22,13 @@ type Props = {
 
 const DEFAULT_HOME_TITLE = 'Kuray Karaaslan | Software Architect & Product Engineer'
 const DEFAULT_HOME_DESCRIPTION =
-  'Software architect and product engineer designing production-grade SaaS, IoT, BIM, integration, and real-time platforms across architecture, backend, frontend, and infrastructure.'
+  'Software architect and product engineer with hands-on experience as a BIM developer and IoT developer, designing production-grade SaaS, integration, and real-time platforms across architecture, backend, frontend, and infrastructure.'
 const DEFAULT_HOME_KEYWORDS = [
   'software architect',
   'product engineer',
   'platform engineer',
+  'bim developer',
+  'iot developer',
   'saas architecture',
   'iot platform',
   'bim automation',
@@ -63,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: `${NEXT_PUBLIC_APPLICATION_HOST}/assets/img/og.png`,
           width: 1200,
           height: 630,
-          alt: 'Kuray Karaaslan - Full-Stack Developer',
+          alt: 'Kuray Karaaslan - Software Architect & Product Engineer',
           type: 'image/png',
         },
       ],

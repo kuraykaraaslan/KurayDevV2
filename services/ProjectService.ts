@@ -4,6 +4,8 @@ import { Project, ProjectWithTranslations } from '@/types/content/ProjectTypes'
 import { PostWithData } from '@/types/content/BlogTypes'
 import { MetadataRoute } from 'next'
 import PostService from '@/services/PostService'
+import IndexNowService from '@/services/IndexNowService'
+import { SITE_URL } from '@/libs/seo/siteUrl'
 
 export default class ProjectService {
   private static CACHE_KEY = 'sitemap:project'
@@ -139,9 +141,15 @@ export default class ProjectService {
 
     await redisInstance.del(this.CACHE_KEY)
 
-    return prisma.project.create({
+    const createdProject = await prisma.project.create({
       data,
     })
+
+    if ((createdProject as any).status === 'PUBLISHED') {
+      void IndexNowService.ping(`${SITE_URL}/projects/${createdProject.slug}`)
+    }
+
+    return createdProject
   }
 
   static async updateProject(
@@ -172,12 +180,18 @@ export default class ProjectService {
 
     await redisInstance.del(this.CACHE_KEY)
 
-    return prisma.project.update({
+    const updatedProject = await prisma.project.update({
       where: {
         projectId: data.projectId,
       },
       data: updateData,
     })
+
+    if ((updatedProject as any).status === 'PUBLISHED') {
+      void IndexNowService.ping(`${SITE_URL}/projects/${updatedProject.slug}`)
+    }
+
+    return updatedProject
   }
 
   static async deleteProject(

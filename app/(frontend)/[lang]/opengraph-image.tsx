@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Kuray Karaaslan — Full-Stack Developer'
+export const alt = 'Kuray Karaaslan — Software Architect & Product Engineer'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -8,8 +8,8 @@ export default async function OGImage({ params }: { params: Promise<{ lang: stri
   const { lang } = await params
   const subtitle =
     lang === 'tr'
-      ? 'Full-Stack Geliştirici · React, Next.js, Java'
-      : 'Full-Stack Developer · React, Next.js, Java'
+      ? 'Software Architect & Product Engineer · BIM & IoT Developer'
+      : 'Software Architect & Product Engineer · BIM & IoT Developer'
 
   return new ImageResponse(
     (
@@ -74,9 +74,9 @@ export default async function OGImage({ params }: { params: Promise<{ lang: stri
           <span>·</span>
           <span>Next.js</span>
           <span>·</span>
-          <span>Node.js</span>
+          <span>IoT</span>
           <span>·</span>
-          <span>Java</span>
+          <span>BIM</span>
         </div>
       </div>
     ),

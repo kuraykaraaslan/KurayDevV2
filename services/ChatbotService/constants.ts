@@ -33,4 +33,9 @@ export const FAQ_THRESHOLD = parseFloat(process.env.CHATBOT_FAQ_THRESHOLD || '0.
 export const HISTORY_COMPRESS_THRESHOLD = parseInt(process.env.CHATBOT_HISTORY_COMPRESS_THRESHOLD || '20')
 export const HISTORY_KEEP_LAST = parseInt(process.env.CHATBOT_HISTORY_KEEP_LAST || '10')
 
+// Default OpenAI models. The streamed reply favours a fast model to cut time-to-first-token;
+// the internal history summary never needs a strong model. Both are env-overridable.
+export const CHATBOT_DEFAULT_MODEL = process.env.CHATBOT_DEFAULT_MODEL || 'gpt-4o-mini'
+export const CHATBOT_SUMMARY_MODEL = process.env.CHATBOT_SUMMARY_MODEL || 'gpt-4o-mini'
+
 export const ADMIN_TAKEOVER_SENTINEL = '__ADMIN_TAKEOVER__'

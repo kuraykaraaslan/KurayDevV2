@@ -57,6 +57,9 @@ export const DatasetDocumentSchema = z.object({
   text:  z.string(),
   tags:  z.array(z.string()),
   type:  z.string(),
+  // Pre-computed embedding, populated at dataset load time so per-request retrieval
+  // only embeds the query. Optional: missing embeddings are lazily computed & cached.
+  embedding: z.array(z.number()).optional(),
 })
 export type DatasetDocument = z.infer<typeof DatasetDocumentSchema>
 
@@ -65,6 +68,7 @@ export const FaqItemSchema = z.object({
   question: z.string(),
   answer:   z.string(),
   tags:     z.array(z.string()),
+  embedding: z.array(z.number()).optional(),
 })
 export type FaqItem = z.infer<typeof FaqItemSchema>
 
