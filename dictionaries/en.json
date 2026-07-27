@@ -1269,9 +1269,7 @@
       "item_users": "Users",
       "group_system": "System",
       "item_settings": "Settings",
-      "item_short_links": "Short Links",
-      "item_pages": "Pages",
-      "item_blocks": "Blocks"
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "title": "Notifications",

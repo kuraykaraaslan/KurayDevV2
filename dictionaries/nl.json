@@ -1259,7 +1259,6 @@
       "item_projects": "Projects",
       "item_categories": "Categories",
       "item_posts": "Posts",
-      "item_blocks": "Blocks",
       "item_comments": "Comments",
       "item_testimonials": "Testimonials",
       "item_media": "Media",
@@ -1275,8 +1274,7 @@
       "item_users": "Users",
       "group_system": "System",
       "item_settings": "Settings",
-      "item_short_links": "Short Links",
-      "item_pages": "Pagina's"
+      "item_short_links": "Short Links"
     },
     "notifications": {
       "all_caught_up": "Alles bijgewerkt!",

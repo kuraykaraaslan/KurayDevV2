@@ -174,8 +174,6 @@ const Navbar = () => {
         { name: t('admin.navbar.item_projects'), href: '/admin/projects' },
         { name: t('admin.navbar.item_categories'), href: '/admin/categories' },
         { name: t('admin.navbar.item_posts'), href: '/admin/posts' },
-        { name: t('admin.navbar.item_pages'), href: '/admin/pages' },
-        { name: t('admin.navbar.item_blocks'), href: '/admin/blocks' },
         { name: t('admin.navbar.item_comments'), href: '/admin/comments' },
         { name: t('admin.navbar.item_testimonials'), href: '/admin/testimonials' },
         { name: t('admin.navbar.item_media'), href: '/admin/media' },

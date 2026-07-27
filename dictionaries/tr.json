@@ -1391,7 +1391,6 @@
       "item_projects": "Projeler",
       "item_categories": "Kategoriler",
       "item_posts": "Gönderiler",
-      "item_blocks": "Blocks",
       "item_comments": "Yorumlar",
       "item_testimonials": "Referanslar",
       "item_media": "Medya",
@@ -1407,8 +1406,7 @@
       "item_users": "Kullanıcılar",
       "group_system": "Sistem",
       "item_settings": "Ayarlar",
-      "item_short_links": "Kısa Bağlantılar",
-      "item_pages": "Sayfalar"
+      "item_short_links": "Kısa Bağlantılar"
     },
     "notifications": {
       "all_caught_up": "Hepsi tamamlandı!",

@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next'
 import PostService from '@/services/PostService'
 import ProjectService from '@/services/ProjectService'
-import DynamicPageService from '@/services/DynamicPageService'
 import redisInstance from '@/libs/redis'
 import { SITE_URL } from '@/libs/seo/siteUrl'
 import { buildAlternates } from '@/helpers/HreflangHelper'
@@ -97,28 +96,8 @@ export async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     postEntries = []
   }
 
-  let dynamicPageEntries: MetadataRoute.Sitemap = []
-  try {
-    const pages = await DynamicPageService.getSitemapSlugs()
-    dynamicPageEntries = pages
-      // guard against empty / malformed slugs that produced junk URLs like
-      // `${SITE_URL}/` or `${SITE_URL}/&` in Search Console
-      .filter((p) => p.slug && /^[a-z0-9][a-z0-9/_-]*$/i.test(p.slug))
-      .map((p) => ({
-        url: `${SITE_URL}/${p.slug}`,
-        lastModified: p.updatedAt ? new Date(p.updatedAt) : now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-        alternates: altLanguages(`/${p.slug}`, ['en', ...p.langs]),
-      }))
-  } catch {
-    dynamicPageEntries = []
-  }
-
-  // Dedupe by URL, keeping the first occurrence. Static entries win over dynamic
-  // pages, so a slug like `about` (hardcoded above AND seeded as a DynamicPage)
-  // is emitted once instead of producing a duplicate <loc> in the sitemap.
-  const all = [...staticEntries, ...projectEntries, ...postEntries, ...dynamicPageEntries]
+  // Dedupe by URL, keeping the first occurrence.
+  const all = [...staticEntries, ...projectEntries, ...postEntries]
   const seen = new Set<string>()
   return all.filter((entry) => {
     if (seen.has(entry.url)) return false

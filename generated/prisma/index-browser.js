@@ -459,46 +459,6 @@ exports.Prisma.ChatMessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.DynamicPageBlockScalarFieldEnum = {
-  blockId: 'blockId',
-  type: 'type',
-  label: 'label',
-  category: 'category',
-  description: 'description',
-  schema: 'schema',
-  defaultProps: 'defaultProps',
-  template: 'template',
-  script: 'script',
-  isSystem: 'isSystem',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.DynamicPageScalarFieldEnum = {
-  dynamicPageId: 'dynamicPageId',
-  slug: 'slug',
-  title: 'title',
-  description: 'description',
-  keywords: 'keywords',
-  sections: 'sections',
-  metadata: 'metadata',
-  status: 'status',
-  schemaVersion: 'schemaVersion',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.DynamicPageTranslationScalarFieldEnum = {
-  id: 'id',
-  dynamicPageId: 'dynamicPageId',
-  lang: 'lang',
-  title: 'title',
-  description: 'description',
-  sections: 'sections',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -506,10 +466,6 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
-};
-
-exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -571,12 +527,6 @@ exports.ChatSessionStatus = exports.$Enums.ChatSessionStatus = {
   TAKEN_OVER: 'TAKEN_OVER'
 };
 
-exports.DynamicPageStatus = exports.$Enums.DynamicPageStatus = {
-  DRAFT: 'DRAFT',
-  PUBLISHED: 'PUBLISHED',
-  ARCHIVED: 'ARCHIVED'
-};
-
 exports.Prisma.ModelName = {
   User: 'User',
   UserSession: 'UserSession',
@@ -606,10 +556,7 @@ exports.Prisma.ModelName = {
   ApiKey: 'ApiKey',
   ActivityPubFollower: 'ActivityPubFollower',
   ChatSession: 'ChatSession',
-  ChatMessage: 'ChatMessage',
-  DynamicPageBlock: 'DynamicPageBlock',
-  DynamicPage: 'DynamicPage',
-  DynamicPageTranslation: 'DynamicPageTranslation'
+  ChatMessage: 'ChatMessage'
 };
 
 /**

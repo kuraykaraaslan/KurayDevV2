@@ -1,11 +1,9 @@
 jest.mock('@/services/PostService', () => ({ __esModule: true, default: { getAllPostSlugs: jest.fn() } }))
 jest.mock('@/services/ProjectService', () => ({ __esModule: true, default: { getAllProjectSlugs: jest.fn() } }))
-jest.mock('@/services/DynamicPageService', () => ({ __esModule: true, default: { getSitemapSlugs: jest.fn() } }))
 
 import { getSitemapEntries as sitemap } from '@/helpers/SitemapData'
 import PostService from '@/services/PostService'
 import ProjectService from '@/services/ProjectService'
-import DynamicPageService from '@/services/DynamicPageService'
 import { SITE_URL } from '@/libs/seo/siteUrl'
 
 describe('app/sitemap', () => {
@@ -16,9 +14,6 @@ describe('app/sitemap', () => {
     ])
     ;(PostService.getAllPostSlugs as jest.Mock).mockResolvedValue([
       { slug: 'post', categorySlug: 'cat', langs: ['tr'], createdAt: new Date('2024-01-01'), updatedAt: null },
-    ])
-    ;(DynamicPageService.getSitemapSlugs as jest.Mock).mockResolvedValue([
-      { slug: 'about-us', langs: [], updatedAt: null },
     ])
   })
 
@@ -40,19 +35,10 @@ describe('app/sitemap', () => {
     expect(post!.alternates?.languages?.['tr']).toContain('/tr/blog/cat/post')
   })
 
-  it('filters malformed dynamic-page slugs (no junk URLs in Search Console)', async () => {
-    ;(DynamicPageService.getSitemapSlugs as jest.Mock).mockResolvedValue([
-      { slug: '&', langs: [] },
-      { slug: '', langs: [] },
-    ])
-    const entries = await sitemap()
-    expect(entries.some((e) => e.url.endsWith('/&') || e.url === `${SITE_URL}/&`)).toBe(false)
-  })
-
   it('degrades gracefully when a data source throws', async () => {
     ;(PostService.getAllPostSlugs as jest.Mock).mockRejectedValue(new Error('db down'))
     const entries = await sitemap()
-    // Still returns the static + project + dynamic-page entries. The homepage
+    // Still returns the static + project entries. The homepage
     // <loc> is SITE_URL with no trailing slash so it matches the page canonical.
     expect(entries.length).toBeGreaterThan(0)
     expect(entries.some((e) => e.url === SITE_URL)).toBe(true)
