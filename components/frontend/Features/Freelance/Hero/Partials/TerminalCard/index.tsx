@@ -17,7 +17,7 @@ const TerminalCard = () => {
   )
 
   return (
-    <div className="hidden lg:block w-full max-w-md rounded-none border border-base-300 bg-base-300 shadow-2xl overflow-hidden font-mono text-sm">
+    <div className="hidden lg:block w-full max-w-md shrink-0 rounded-none border border-base-300 bg-base-300 shadow-2xl overflow-hidden font-mono text-sm">
       <div className="flex items-center gap-2 border-b border-base-content/10 bg-base-100 px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-red-500" aria-hidden="true" />
         <span className="h-3 w-3 rounded-full bg-yellow-500" aria-hidden="true" />
