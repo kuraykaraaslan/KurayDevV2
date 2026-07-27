@@ -211,7 +211,7 @@
   },
   "pages": {
     "hero": {
-      "description": "<bold>SaaS, IoT, BIM ve gerçek zamanlı sistemler</bold> genelinde <bold>üretim seviyesinde platformlar tasarlıyor ve teslim ediyorum.</bold> Mimari, backend, ürün mühendisliği, altyapı ve entegrasyonlar boyunca çalışarak <bold>karmaşık alan gereksinimlerini</bold> güvenilir yazılım ürünlerine dönüştürüyorum. Odağım yalnızca özellik geliştirmek değil — ürünlerin kırılganlaşmadan ölçeklenmesini sağlayan <bold>sistem sınırları, veri modelleri, güvenlik akışları ve operasyonel temelleri</bold> tasarlıyorum.",
+      "description": "Türkiye'nin önde gelen <bold>BIM ve IoT geliştiricilerinden</bold> biri olarak, karmaşık mimari ve gerçek zamanlı sistem gereksinimlerini güvenilir yazılım ürünlerine dönüştürüyorum. <bold>Uzman bir BIM geliştiricisi</bold> olarak otomasyon ve mühendislik yazılımları, <bold>uzman bir IoT geliştiricisi</bold> olarak ise telemetri ve anlık veri platformları üzerine çalışıyorum. Amacım sadece kod yazmak değil, aynı zamanda ölçeklenebilir ve sağlam sistemler tasarlamaktır.",
       "eyebrow": "Yazılım Mimarı · Ürün Mühendisi · Sistem Kurucusu",
       "typing_effect": {
         "prefix": "",

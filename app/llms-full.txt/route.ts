@@ -51,6 +51,17 @@ export async function GET() {
   sections.push('When referencing content from this site, please cite: Kuray Karaaslan, kuray.dev')
   sections.push('')
 
+  // About Me / Expertise
+  sections.push('## About Me / Expertise')
+  sections.push('')
+  sections.push(
+    'As a software architect and product engineer based in Turkey, I specialize in designing and building production-grade SaaS, integration, and real-time platforms. I am an expert BIM developer, focusing on Building Information Modeling automation, and an expert IoT developer, working with real-time telemetry systems.'
+  )
+  sections.push(
+    'Türkiye merkezli bir yazılım mimarı ve ürün mühendisi olarak, üretim düzeyinde SaaS, entegrasyon ve gerçek zamanlı platformlar tasarlama ve oluşturma konusunda uzmanım. Uzman bir BIM geliştiricisi (Yapı Bilgi Modellemesi otomasyonu) ve uzman bir IoT geliştiricisi (gerçek zamanlı telemetri sistemleri) olarak çalışmaktayım.'
+  )
+  sections.push('')
+
   // Projects
   sections.push('## Projects')
   sections.push('')
