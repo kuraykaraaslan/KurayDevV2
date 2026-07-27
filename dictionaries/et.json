@@ -83,6 +83,10 @@
         "Tingimused ja nõuded",
         "Juhised"
       ]
+    },
+    "freelance": {
+      "description": "Saadaval valikuliseks vabakutseliseks tööks — arhitektuur, platvormi inseneeria ja terviklik kohaletoimetamine keerukate SaaS-, IoT-, BIM-, integreerimis- ja reaalajas toodete jaoks.",
+      "title": "Vabakutseline Tarkvara Arhitekt & Tooteinsener | Kuray Karaaslan"
     }
   },
   "errors": {
@@ -387,6 +391,34 @@
         "point8": "Süsteemide täiustamine ilma tarbetu operatiivse keerukuse lisamiseta"
       },
       "title": "Tehniline juhtimine"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Tagaplaan & Platvorm",
+        "delivery": "Kohaletoimetamine & Skaalautuvus",
+        "foundations": "Alused & Arhitektuur"
+      },
+      "capabilities_subtitle": "Võimekused, mis on kujundatud süsteemi tulemuste ümber — mitte isoleeritud tehnoloogiad.",
+      "capabilities_title": "Inseneri Võimekused",
+      "engagement": {
+        "advisory_description": "Arhitektuuri ülevaated, süsteemi disain, tehnoloogia ja migratsioonistrateegia ning tehniliste otsuste riskide maandamine enne, kui need muutuvad tootmisvõlaks.",
+        "advisory_title": "Arhitektuur & Nõustamine",
+        "build_description": "Platvormide ja teenuste terviklik kohaletoimetamine — alates andmemudelitest ja tagaplaanisüsteemidest kuni toote liideste, integreerimiste ja tootmiskeskkonna infrastruktuurini.",
+        "build_title": "Ehitus & Kohaletoimetamine",
+        "cta": "Alusta Tehnilist Vestlust",
+        "description": "Töötan kõige paremini toodetega, mis vajavad selget arhitektuuri, tugevat tehnilist omanikutunnet ja võimet ühendada tooteotsused rakendamise reaalsusega.",
+        "platform_description": "Taaskasutatavad alused: mitme rentnikuga SaaS, autentimine ja õigused, teenusepakkujast sõltumatu arveldamine ja operatiivtööriistad, mis aja jooksul kogunevad.",
+        "platform_title": "Platvormi Alused",
+        "title": "Kuidas Saame Koostööd Teha"
+      },
+      "hero": {
+        "availability": "Avatud valikulistele töödele — täiskohaga, lepinguline või nõustamine.",
+        "cta_primary": "Arutle Keerulise Projekti Üle",
+        "cta_secondary": "Vaata Valitud Süsteeme",
+        "eyebrow": "Vabakutseline · Tarkvara Arhitektuur & Tooteinseneeria",
+        "subtitle": "Võtan vastutuse keerukate tarkvarasüsteemide eest üle arhitektuuri, tagaplaani, esiplaani, infrastruktuuri, integreerimiste ja tootmisoperatsioonide. Olen kõige tõhusam SaaS-, IoT-, BIM-, reaalajas ja platvormile orienteeritud toodetes, kus tehnilised otsused peavad toetama nii kohest kohaletoimetamist kui ka pikaajalist süsteemi arengut.",
+        "title": "Tooge mulle keeruline osa."
+      }
     }
   },
   "frontend": {

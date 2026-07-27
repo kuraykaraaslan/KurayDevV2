@@ -43,7 +43,14 @@ const MenuItems = [
     onlyAdmin: false,
     hideTextOnDesktop: false,
   },
-  //{ id: "freelance", page: '/freelance', name: 'freelance', external: false, onlyAdmin: false, hideTextOnDesktop: false },
+  {
+    id: null,
+    page: '/freelance',
+    name: 'freelance',
+    external: false,
+    onlyAdmin: false,
+    hideTextOnDesktop: false,
+  },
   {
     id: 'github',
     page: 'https://github.com/kuraykaraaslan',

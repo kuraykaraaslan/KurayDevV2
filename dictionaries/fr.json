@@ -938,6 +938,10 @@
     "terms_of_use": {
       "description": "Conditions d'utilisation pour kuray.dev — Règles et directives pour utiliser ce site web et ses services.",
       "title": "Conditions d'utilisation | Kuray Karaaslan"
+    },
+    "freelance": {
+      "description": "Disponible pour des engagements freelance sélectifs — architecture, ingénierie de plateforme, et livraison de bout en bout pour des produits SaaS, IoT, BIM, intégration et temps réel complexes.",
+      "title": "Architecte Logiciel Freelance & Ingénieur Produit | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -1175,6 +1179,34 @@
         "point8": "Améliorer les systèmes sans introduire de complexité opérationnelle inutile"
       },
       "title": "Leadership technique"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend & Plateforme",
+        "delivery": "Livraison & Échelle",
+        "foundations": "Fondations & Architecture"
+      },
+      "capabilities_subtitle": "Capacités façonnées autour des résultats système — pas des technologies isolées.",
+      "capabilities_title": "Capacités d'Ingénierie",
+      "engagement": {
+        "advisory_description": "Revues d'architecture, conception de système, stratégie technologique et de migration, et réduction des risques des décisions techniques avant qu'elles ne deviennent une dette de production.",
+        "advisory_title": "Architecture & Conseil",
+        "build_description": "Livraison de bout en bout de plateformes et services — des modèles de données et systèmes backend aux interfaces produit, intégrations, et infrastructures de production.",
+        "build_title": "Construction & Livraison",
+        "cta": "Commencer une Conversation Technique",
+        "description": "Je travaille mieux sur des produits qui nécessitent une architecture claire, une forte responsabilité technique, et la capacité de connecter les décisions produit avec la réalité de l'implémentation.",
+        "platform_description": "Fondations réutilisables : SaaS multi-locataires, authentification et permissions, facturation indépendante des fournisseurs, et outils opérationnels qui s'accumulent avec le temps.",
+        "platform_title": "Fondations de Plateforme",
+        "title": "Comment Nous Pouvons Travailler Ensemble"
+      },
+      "hero": {
+        "availability": "Ouvert à des engagements sélectifs — temps plein, contrat, ou conseil.",
+        "cta_primary": "Discuter d'un Projet Complexe",
+        "cta_secondary": "Voir les Systèmes Sélectionnés",
+        "eyebrow": "Freelance · Architecture Logicielle & Ingénierie Produit",
+        "subtitle": "Je prends en charge des systèmes logiciels complexes à travers l'architecture, le backend, le frontend, l'infrastructure, les intégrations, et les opérations de production. Je suis le plus efficace dans les produits SaaS, IoT, BIM, en temps réel, et orientés plateforme où les décisions techniques doivent soutenir à la fois la livraison immédiate et l'évolution à long terme du système.",
+        "title": "Apportez-moi la partie difficile."
+      }
     }
   },
   "settings": {

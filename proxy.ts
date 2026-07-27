@@ -10,6 +10,7 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANG_EXCLUSIVE, type AppLanguage
 const STATIC_EXTENSIONS = new Set([
   '.ico', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg',
   '.woff', '.woff2', '.ttf', '.otf', '.webmanifest',
+  '.mp4', '.webm',
 ])
 
 const STATIC_FILES = new Set([

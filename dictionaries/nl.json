@@ -83,6 +83,10 @@
         "Algemene Voorwaarden",
         "Richtlijnen"
       ]
+    },
+    "freelance": {
+      "description": "Beschikbaar voor selectieve freelance opdrachten — architectuur, platform engineering en end-to-end levering voor complexe SaaS-, IoT-, BIM-, integratie- en realtime producten.",
+      "title": "Freelance Software Architect & Product Engineer | Kuray Karaaslan"
     }
   },
   "errors": {
@@ -387,6 +391,34 @@
         "point8": "Verbeteren van systemen zonder onnodige operationele complexiteit toe te voegen"
       },
       "title": "Technisch Leiderschap"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend & Platform",
+        "delivery": "Levering & Schaal",
+        "foundations": "Fundamenten & Architectuur"
+      },
+      "capabilities_subtitle": "Mogelijkheden gevormd rond systeemresultaten—niet geïsoleerde technologieën.",
+      "capabilities_title": "Engineering Capaciteiten",
+      "engagement": {
+        "advisory_description": "Architectuurbeoordelingen, systeemontwerp, technologie- en migratiestrategie, en het verminderen van risico's bij technische beslissingen voordat ze productieschuld worden.",
+        "advisory_title": "Architectuur & Advies",
+        "build_description": "End-to-end levering van platforms en diensten—van datamodellen en backendsystemen tot productinterfaces, integraties en productie-infrastructuur.",
+        "build_title": "Bouwen & Levering",
+        "cta": "Begin een Technisch Gesprek",
+        "description": "Ik werk het beste aan producten die duidelijke architectuur, sterk technisch eigenaarschap en de mogelijkheid vereisen om productbeslissingen te verbinden met de implementatierealiteit.",
+        "platform_description": "Herbruikbare fundamenten: multi-tenant SaaS, authenticatie en permissies, provider-onafhankelijke facturering en operationele tooling die in de loop van de tijd toeneemt.",
+        "platform_title": "Platform Fundamenten",
+        "title": "Hoe We Samen Kunnen Werken"
+      },
+      "hero": {
+        "availability": "Open voor selectieve opdrachten — fulltime, contract of advies.",
+        "cta_primary": "Bespreek een Complex Project",
+        "cta_secondary": "Bekijk Geselecteerde Systemen",
+        "eyebrow": "Freelance · Software Architectuur & Product Engineering",
+        "subtitle": "Ik neem eigenaarschap van complexe softwaresystemen op het gebied van architectuur, backend, frontend, infrastructuur, integraties en productieoperaties. Ik ben het meest effectief in SaaS-, IoT-, BIM-, realtime- en platformgerichte producten waar technische beslissingen zowel directe levering als lange termijn systeemontwikkeling moeten ondersteunen.",
+        "title": "Breng mij het moeilijke deel."
+      }
     }
   },
   "frontend": {

@@ -937,6 +937,10 @@
     "terms_of_use": {
       "description": "Términos de Uso para kuray.dev — Reglas y pautas para usar este sitio web y sus servicios.",
       "title": "Términos de Uso | Kuray Karaaslan"
+    },
+    "freelance": {
+      "description": "Disponible para compromisos freelance selectivos: arquitectura, ingeniería de plataformas y entrega de extremo a extremo para productos complejos de SaaS, IoT, BIM, integración y en tiempo real.",
+      "title": "Arquitecto de Software Freelance e Ingeniero de Producto | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -1174,6 +1178,34 @@
         "point8": "Mejorar sistemas sin introducir complejidad operativa innecesaria"
       },
       "title": "Liderazgo Técnico"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend y Plataforma",
+        "delivery": "Entrega y Escalabilidad",
+        "foundations": "Fundamentos y Arquitectura"
+      },
+      "capabilities_subtitle": "Capacidades moldeadas en torno a resultados del sistema, no tecnologías aisladas.",
+      "capabilities_title": "Capacidades de Ingeniería",
+      "engagement": {
+        "advisory_description": "Revisiones de arquitectura, diseño de sistemas, estrategia tecnológica y de migración, y mitigación de riesgos en decisiones técnicas antes de que se conviertan en deuda de producción.",
+        "advisory_title": "Arquitectura y Asesoría",
+        "build_description": "Entrega de extremo a extremo de plataformas y servicios: desde modelos de datos y sistemas backend hasta interfaces de producto, integraciones e infraestructura de producción.",
+        "build_title": "Construcción y Entrega",
+        "cta": "Iniciar una Conversación Técnica",
+        "description": "Trabajo mejor en productos que requieren una arquitectura clara, una fuerte propiedad técnica y la capacidad de conectar decisiones de producto con la realidad de la implementación.",
+        "platform_description": "Fundamentos reutilizables: SaaS multiinquilino, autenticación y permisos, facturación independiente del proveedor y herramientas operativas que se acumulan con el tiempo.",
+        "platform_title": "Fundamentos de Plataforma",
+        "title": "Cómo Podemos Trabajar Juntos"
+      },
+      "hero": {
+        "availability": "Abierto a compromisos selectivos: tiempo completo, contrato o asesoría.",
+        "cta_primary": "Discutir un Proyecto Complejo",
+        "cta_secondary": "Ver Sistemas Seleccionados",
+        "eyebrow": "Freelance · Arquitectura de Software e Ingeniería de Producto",
+        "subtitle": "Asumo la responsabilidad de sistemas de software complejos en arquitectura, backend, frontend, infraestructura, integraciones y operaciones de producción. Soy más efectivo en productos orientados a SaaS, IoT, BIM, en tiempo real y de plataforma donde las decisiones técnicas deben apoyar tanto la entrega inmediata como la evolución a largo plazo del sistema.",
+        "title": "Tráeme la parte difícil."
+      }
     }
   },
   "settings": {

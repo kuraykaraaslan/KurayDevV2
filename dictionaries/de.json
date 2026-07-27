@@ -83,6 +83,10 @@
         "Allgemeine Geschäftsbedingungen",
         "Richtlinien"
       ]
+    },
+    "freelance": {
+      "description": "Verfügbar für ausgewählte freiberufliche Engagements — Architektur, Plattform-Engineering und End-to-End-Lieferung für komplexe SaaS-, IoT-, BIM-, Integrations- und Echtzeitprodukte.",
+      "title": "Freiberuflicher Softwarearchitekt & Produktingenieur | Kuray Karaaslan"
     }
   },
   "errors": {
@@ -387,6 +391,34 @@
         "point8": "Systeme verbessern, ohne unnötige betriebliche Komplexität einzuführen"
       },
       "title": "Technische Führung"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend & Plattform",
+        "delivery": "Lieferung & Skalierung",
+        "foundations": "Grundlagen & Architektur"
+      },
+      "capabilities_subtitle": "Fähigkeiten, die auf Systemergebnisse ausgerichtet sind — nicht auf isolierte Technologien.",
+      "capabilities_title": "Engineering-Fähigkeiten",
+      "engagement": {
+        "advisory_description": "Architekturüberprüfungen, Systemdesign, Technologie- und Migrationsstrategie sowie Risikominderung technischer Entscheidungen, bevor sie zu Produktionsschulden werden.",
+        "advisory_title": "Architektur & Beratung",
+        "build_description": "End-to-End-Lieferung von Plattformen und Diensten — von Datenmodellen und Backendsystemen bis hin zu Produktoberflächen, Integrationen und Produktionsinfrastruktur.",
+        "build_title": "Bauen & Liefern",
+        "cta": "Beginnen Sie ein technisches Gespräch",
+        "description": "Ich arbeite am besten an Produkten, die klare Architektur, starke technische Verantwortung und die Fähigkeit erfordern, Produktentscheidungen mit der Implementierungsrealität zu verbinden.",
+        "platform_description": "Wiederverwendbare Grundlagen: Multi-Tenant-SaaS, Authentifizierung und Berechtigungen, anbieterunabhängige Abrechnung und betriebliche Werkzeuge, die sich im Laufe der Zeit summieren.",
+        "platform_title": "Plattform-Grundlagen",
+        "title": "Wie wir zusammenarbeiten können"
+      },
+      "hero": {
+        "availability": "Offen für ausgewählte Engagements — Vollzeit, Vertrag oder Beratung.",
+        "cta_primary": "Diskutieren Sie ein komplexes Projekt",
+        "cta_secondary": "Ausgewählte Systeme anzeigen",
+        "eyebrow": "Freiberuflich · Softwarearchitektur & Produktengineering",
+        "subtitle": "Ich übernehme die Verantwortung für komplexe Softwaresysteme in den Bereichen Architektur, Backend, Frontend, Infrastruktur, Integrationen und Produktionsbetrieb. Ich bin am effektivsten bei SaaS-, IoT-, BIM-, Echtzeit- und plattformorientierten Produkten, bei denen technische Entscheidungen sowohl die sofortige Lieferung als auch die langfristige Systementwicklung unterstützen müssen.",
+        "title": "Bringen Sie mir den schwierigen Teil."
+      }
     }
   },
   "shared": {

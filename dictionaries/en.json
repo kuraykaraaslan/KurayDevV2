@@ -449,6 +449,11 @@
       },
       "capabilities_title": "Engineering Capabilities",
       "capabilities_subtitle": "Capabilities shaped around system outcomes—not isolated technologies.",
+      "capabilities_groups": {
+        "foundations": "Foundations & Architecture",
+        "backend": "Backend & Platform",
+        "delivery": "Delivery & Scale"
+      },
       "engagement": {
         "title": "How We Can Work Together",
         "description": "I work best on products that require clear architecture, strong technical ownership, and the ability to connect product decisions with implementation reality.",

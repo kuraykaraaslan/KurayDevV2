@@ -83,6 +83,10 @@
         "Termini u Kundizzjonijiet",
         "Linji Gwida"
       ]
+    },
+    "freelance": {
+      "description": "Disponibbli għal impenn freelance selettiv — arkitettura, inġinerija tal-pjattaforma, u konsenja end-to-end għal prodotti kumplessi SaaS, IoT, BIM, integrazzjoni, u prodotti f'ħin reali.",
+      "title": "Arkitett tal-Software Freelance & Inġinier tal-Prodott | Kuray Karaaslan"
     }
   },
   "errors": {
@@ -387,6 +391,34 @@
         "point8": "Titjib tas-sistemi mingħajr ma tintroduċi kumplessità operattiva mhux meħtieġa"
       },
       "title": "Tmexxija Teknika"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend & Pjattaforma",
+        "delivery": "Konsenja & Skala",
+        "foundations": "Fondazzjonijiet & Arkitettura"
+      },
+      "capabilities_subtitle": "Kapaċitajiet iffurmati madwar riżultati tas-sistema—mhux teknoloġiji iżolati.",
+      "capabilities_title": "Kapaċitajiet ta' Inġinerija",
+      "engagement": {
+        "advisory_description": "Reviżjonijiet tal-arkitettura, disinn tas-sistema, strateġija tat-teknoloġija u migrazzjoni, u tnaqqis tar-riskju ta' deċiżjonijiet tekniċi qabel ma jsiru dejn tal-produzzjoni.",
+        "advisory_title": "Arkitettura & Konsulenza",
+        "build_description": "Konsenja end-to-end ta' pjattaformi u servizzi—mill-mudelli tad-data u sistemi backend għal interfaces tal-prodott, integrazzjonijiet, u infrastruttura tal-produzzjoni.",
+        "build_title": "Bini & Konsenja",
+        "cta": "Ibda Konversazzjoni Teknika",
+        "description": "Naħdem l-aħjar fuq prodotti li jeħtieġu arkitettura ċara, sjieda teknika qawwija, u l-abbiltà li jgħaqqdu deċiżjonijiet tal-prodott mar-realtà tal-implimentazzjoni.",
+        "platform_description": "Fondazzjonijiet riutilizzabbli: SaaS multi-tenant, awtentikazzjoni u permessi, fatturazzjoni indipendenti mill-fornitur, u għodod operattivi li jikkumpunaw maż-żmien.",
+        "platform_title": "Fondazzjonijiet tal-Pjattaforma",
+        "title": "Kif Nistgħu Naħdmu Flimkien"
+      },
+      "hero": {
+        "availability": "Miftuħ għal impenn selettiv — full-time, kuntratt, jew konsulenza.",
+        "cta_primary": "Iddiskuti Proġett Kumpless",
+        "cta_secondary": "Ara Sistemi Magħżula",
+        "eyebrow": "Freelance · Arkitettura tas-Software & Inġinerija tal-Prodott",
+        "subtitle": "Nieħu s-sjieda ta' sistemi ta' software kumplessi madwar arkitettura, backend, frontend, infrastruttura, integrazzjonijiet, u operazzjonijiet tal-produzzjoni. Jien l-aktar effettiv f'SaaS, IoT, BIM, f'ħin reali, u prodotti orjentati lejn il-pjattaforma fejn deċiżjonijiet tekniċi għandhom jappoġġjaw kemm il-konsenja immedjata kif ukoll l-evoluzzjoni fit-tul tas-sistema.",
+        "title": "Għaddili l-parti diffiċli."
+      }
     }
   },
   "frontend": {

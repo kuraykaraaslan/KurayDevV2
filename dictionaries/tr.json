@@ -412,6 +412,11 @@
       },
       "capabilities_title": "Mühendislik Yetkinlikleri",
       "capabilities_subtitle": "İzole teknolojiler değil, sistem sonuçları etrafında şekillenen yetkinlikler.",
+      "capabilities_groups": {
+        "foundations": "Temeller & Mimari",
+        "backend": "Backend & Platform",
+        "delivery": "Teslim & Ölçekleme"
+      },
       "engagement": {
         "title": "Birlikte Nasıl Çalışabiliriz",
         "description": "En iyi; net mimari, güçlü teknik sahiplik ve ürün kararlarını uygulama gerçekliğiyle bağlama gerektiren ürünlerde çalışırım.",

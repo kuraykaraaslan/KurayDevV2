@@ -118,7 +118,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="/#contact"
+                href="/freelance"
                 className="inline-flex items-center gap-2 py-2 text-sm font-semibold text-base-content hover:underline transition-colors"
               >
                 <FontAwesomeIcon icon={faBriefcase} className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" />

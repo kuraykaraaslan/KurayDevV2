@@ -938,6 +938,10 @@
     "terms_of_use": {
       "description": "Käyttöehdot kuray.dev-sivustolle — Säännöt ja ohjeet tämän verkkosivuston ja sen palveluiden käyttöön.",
       "title": "Käyttöehdot | Kuray Karaaslan"
+    },
+    "freelance": {
+      "description": "Saatavilla valikoituihin freelance-projekteihin — arkkitehtuuri, alustan suunnittelu ja kokonaisvaltainen toimitus monimutkaisille SaaS-, IoT-, BIM-, integraatio- ja reaaliaikatuotteille.",
+      "title": "Freelance-ohjelmistoarkkitehti & tuoteinsinööri | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -1175,6 +1179,34 @@
         "point8": "Parantaa järjestelmiä ilman tarpeetonta operatiivista monimutkaisuutta"
       },
       "title": "Tekninen Johtajuus"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Taustajärjestelmä & Alusta",
+        "delivery": "Toimitus & Skaalaus",
+        "foundations": "Perustukset & Arkkitehtuuri"
+      },
+      "capabilities_subtitle": "Kyvykkyydet, jotka keskittyvät järjestelmän lopputuloksiin — eivät erillisiin teknologioihin.",
+      "capabilities_title": "Tekninen Osaaminen",
+      "engagement": {
+        "advisory_description": "Arkkitehtuurin tarkastelut, järjestelmän suunnittelu, teknologia- ja migraatiostrategia sekä teknisten päätösten riskien vähentäminen ennen kuin niistä tulee tuotantovelkaa.",
+        "advisory_title": "Arkkitehtuuri & Neuvonta",
+        "build_description": "Alustojen ja palveluiden kokonaisvaltainen toimitus — tietomalleista ja taustajärjestelmistä tuoterajapintoihin, integraatioihin ja tuotantoinfrastruktuuriin.",
+        "build_title": "Rakentaminen & Toimitus",
+        "cta": "Aloita Tekninen Keskustelu",
+        "description": "Toimin parhaiten tuotteissa, jotka vaativat selkeää arkkitehtuuria, vahvaa teknistä omistajuutta ja kykyä yhdistää tuotevalinnat toteutuksen todellisuuteen.",
+        "platform_description": "Uudelleenkäytettävät perustukset: monivuokralainen SaaS, autentikointi ja käyttöoikeudet, palveluntarjoajasta riippumaton laskutus ja operatiiviset työkalut, jotka kasvavat ajan myötä.",
+        "platform_title": "Alustan Perustukset",
+        "title": "Kuinka Voimme Tehdä Yhteistyötä"
+      },
+      "hero": {
+        "availability": "Avoin valikoiduille projekteille — kokopäiväisesti, sopimuksella tai neuvontana.",
+        "cta_primary": "Keskustele Monimutkaisesta Projektista",
+        "cta_secondary": "Katso Valitut Järjestelmät",
+        "eyebrow": "Freelance · Ohjelmistoarkkitehtuuri & Tuoteinsinöörityö",
+        "subtitle": "Otan vastuun monimutkaisista ohjelmistojärjestelmistä arkkitehtuurin, taustajärjestelmän, käyttöliittymän, infrastruktuurin, integraatioiden ja tuotanto-operaatioiden osalta. Olen tehokkaimmillani SaaS-, IoT-, BIM-, reaaliaika- ja alustaorientoituneissa tuotteissa, joissa teknisten päätösten on tuettava sekä välitöntä toimitusta että pitkän aikavälin järjestelmän kehitystä.",
+        "title": "Anna minulle se vaikea osa."
+      }
     }
   },
   "settings": {
