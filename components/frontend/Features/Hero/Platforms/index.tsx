@@ -6,28 +6,21 @@ const Platforms = () => {
   const { t } = useTranslation()
   const platforms = [
     {
-      name: 'Fiveer',
-      icon: '/assets/svg/fiverr.svg',
-      url: 'https://www.fiverr.com/kuraykaraaslan',
-      bgColor: 'bg-white',
-    },
-    {
       name: 'Upwork',
       icon: '/assets/svg/upwork.svg',
       url: 'https://www.upwork.com/freelancers/~01694c65c4ad50b809',
       bgColor: 'bg-white',
     },
     {
-      name: 'bionluk',
-      icon: '/assets/svg/bionluk.svg',
-      url: 'https://bionluk.com/uye/kuraykaraaslan',
+      name: 'Freelancer',
+      icon: '/assets/svg/freelancer.svg',
+      url: 'https://www.freelancer.com',
       bgColor: 'bg-white',
-      zoom: 2,
     },
     {
-      name: 'armut',
-      icon: '/assets/img/armut.png',
-      url: 'https://armut.com',
+      name: 'Fiverr',
+      icon: '/assets/svg/fiverr.svg',
+      url: 'https://www.fiverr.com/kuraykaraaslan',
       bgColor: 'bg-white',
     },
   ]
@@ -41,7 +34,7 @@ const Platforms = () => {
             {t('pages.hero.platforms.title')}
           </h2>
         </div>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 mx-auto max-w-3xl">
           {platforms.map((platform) => (
             <SinglePlatform key={platform.name} {...platform} />
           ))}

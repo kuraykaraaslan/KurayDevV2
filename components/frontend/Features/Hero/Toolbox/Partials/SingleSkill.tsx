@@ -17,7 +17,8 @@ const SingleSkill = ({ title, icon, bgColor, textColor }: Partial<Skill>) => {
           </figure>
           <div
             className={
-              'flex flex-col items-center justify-center hidden group-hover:flex rotate-y-180 group-hover:rotate-y-0 w-28 h-24 top-0 left-0 absolute rounded-none group-hover:bg-primary group-hover:text-primary-content '
+              'flex flex-col items-center justify-center hidden group-hover:flex rotate-y-180 group-hover:rotate-y-0 w-28 h-24 top-0 left-0 absolute rounded-none ' +
+              (bgColor || 'bg-primary') + ' ' + (textColor || 'text-primary-content')
             }
           >
             <div

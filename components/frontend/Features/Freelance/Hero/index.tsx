@@ -3,11 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faCircleNodes } from '@fortawesome/free-solid-svg-icons'
 import Link from '@/libs/i18n/Link'
-import dynamic from 'next/dynamic'
-
-// react-svg-worldmap emits tiny floating-point differences between server and
-// client renders of its path data, which breaks hydration — render client-only.
-const WorldMapDecoration = dynamic(() => import('./Partials/WorldMapDecoration'), { ssr: false })
+import TerminalCard from './Partials/TerminalCard'
 
 const Hero = () => {
   const { t } = useTranslation()
@@ -65,9 +61,7 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="hidden lg:block max-w-md rounded-none bg-primary p-10">
-            <WorldMapDecoration />
-          </div>
+          <TerminalCard />
         </div>
       </div>
     </div>

@@ -7,20 +7,38 @@ import Link from '@/libs/i18n/Link'
 type EngagementMode = {
   key: 'advisory' | 'build' | 'platform'
   icon: IconDefinition
-  accent: string
+  border: string
+  badgeBg: string
+  badgeText: string
+  backBg: string
 }
 
 const modes: EngagementMode[] = [
-  { key: 'advisory', icon: faCompass, accent: 'cyan-700' },
-  { key: 'build', icon: faHammer, accent: 'violet-700' },
-  { key: 'platform', icon: faLayerGroup, accent: 'emerald-700' },
+  {
+    key: 'advisory',
+    icon: faCompass,
+    border: 'border-t-cyan-700',
+    badgeBg: 'bg-cyan-700/10',
+    badgeText: 'text-cyan-700',
+    backBg: 'bg-cyan-700',
+  },
+  {
+    key: 'build',
+    icon: faHammer,
+    border: 'border-t-violet-700',
+    badgeBg: 'bg-violet-700/10',
+    badgeText: 'text-violet-700',
+    backBg: 'bg-violet-700',
+  },
+  {
+    key: 'platform',
+    icon: faLayerGroup,
+    border: 'border-t-emerald-700',
+    badgeBg: 'bg-emerald-700/10',
+    badgeText: 'text-emerald-700',
+    backBg: 'bg-emerald-700',
+  },
 ]
-
-const accentClasses: Record<string, { border: string; badgeBg: string; badgeText: string }> = {
-  'cyan-700': { border: 'border-t-cyan-700', badgeBg: 'bg-cyan-700/10', badgeText: 'text-cyan-700' },
-  'violet-700': { border: 'border-t-violet-700', badgeBg: 'bg-violet-700/10', badgeText: 'text-violet-700' },
-  'emerald-700': { border: 'border-t-emerald-700', badgeBg: 'bg-emerald-700/10', badgeText: 'text-emerald-700' },
-}
 
 const Engagement = () => {
   const { t } = useTranslation()
@@ -39,23 +57,31 @@ const Engagement = () => {
 
         <div className="grid gap-8 md:grid-cols-3">
           {modes.map((mode) => {
-            const accent = accentClasses[mode.accent]
+            const title = t(`pages.freelance.engagement.${mode.key}_title`)
+            const description = t(`pages.freelance.engagement.${mode.key}_description`)
             return (
-              <div
-                key={mode.key}
-                className={`rounded-none border border-base-300 bg-base-100 shadow-lg border-t-4 ${accent.border} p-8`}
-              >
-                <span
-                  className={`flex h-14 w-14 items-center justify-center rounded-full ${accent.badgeBg} ${accent.badgeText}`}
+              <div key={mode.key} className="group h-64 [perspective:1000px]">
+                <div
+                  className={`relative h-full w-full rounded-none border border-base-300 shadow-lg transition duration-500 transform group-hover:rotate-y-180 border-t-4 ${mode.border}`}
                 >
-                  <FontAwesomeIcon icon={mode.icon} className="text-xl" aria-hidden="true" />
-                </span>
-                <h3 className="mt-4 text-xl font-bold">
-                  {t(`pages.freelance.engagement.${mode.key}_title`)}
-                </h3>
-                <p className="mt-2 text-sm opacity-80">
-                  {t(`pages.freelance.engagement.${mode.key}_description`)}
-                </p>
+                  {/* front */}
+                  <div className="flex h-full flex-col items-center justify-center gap-4 bg-base-100 p-8 text-center group-hover:hidden">
+                    <span
+                      className={`flex h-14 w-14 items-center justify-center rounded-full ${mode.badgeBg} ${mode.badgeText}`}
+                    >
+                      <FontAwesomeIcon icon={mode.icon} className="text-xl" aria-hidden="true" />
+                    </span>
+                    <h3 className="text-xl font-bold">{title}</h3>
+                  </div>
+
+                  {/* back */}
+                  <div
+                    className={`absolute inset-0 hidden rotate-y-180 flex-col items-center justify-center gap-3 p-8 text-center text-white group-hover:flex ${mode.backBg}`}
+                  >
+                    <h3 className="text-lg font-bold">{title}</h3>
+                    <p className="text-sm">{description}</p>
+                  </div>
+                </div>
               </div>
             )
           })}
