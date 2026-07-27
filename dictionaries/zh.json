@@ -35,7 +35,6 @@
     "categories": {
       "action": "操作",
       "confirm_delete": "您确定要删除此类别吗？",
-      "create_category": "创建类别",
       "delete": "删除",
       "edit": "编辑",
       "image": "图片",
@@ -90,12 +89,10 @@
       "all_folders": "所有文件夹",
       "alt_text": "替代文本",
       "alt_text_placeholder": "为无障碍描述图像",
-      "confirm_bulk_delete": "您确定要删除 {{count}} 个文件吗？",
       "confirm_delete": "您确定要删除此文件吗？",
       "copy_url": "复制 URL",
       "date": "日期",
       "delete": "删除",
-      "delete_selected": "删除所选",
       "description": "管理您上传的文件和图片",
       "edit": "编辑",
       "filename": "文件名",
@@ -105,7 +102,6 @@
       "next": "下一页",
       "no_files": "未找到文件",
       "page": "页面",
-      "page_size": "页面大小",
       "preview": "预览",
       "previous": "上一页",
       "search_placeholder": "搜索文件...",
@@ -114,24 +110,16 @@
       "size": "大小",
       "sync": "从 S3 同步",
       "title": "媒体库",
-      "total_files": "文件总数",
-      "total_size": "总大小",
       "upload": "上传"
     },
     "posts": {
       "action": "操作",
       "category": "分类",
       "confirm_delete": "您确定要删除此文章吗？",
-      "create_post": "创建文章",
       "delete": "删除",
       "edit": "编辑",
       "next": "下一页",
       "previous": "上一页",
-      "rebuild_failed": "触发知识图重建失败。",
-      "rebuild_success": "知识图重建已触发。",
-      "rebuild_triggered": "重建已触发",
-      "rebuild_triggered_message": "知识图重建已触发。您需要刷新页面以再次触发。",
-      "reset_knowledge_graph": "重置知识图",
       "search_placeholder": "搜索",
       "showing": "显示 {{count}} 个，共 {{total}} 个帖子",
       "status": "状态",
@@ -147,7 +135,6 @@
     "projects": {
       "action": "操作",
       "confirm_delete": "您确定要删除此项目吗？",
-      "create_project": "创建项目",
       "delete": "删除",
       "edit": "编辑",
       "next": "下一页",
@@ -159,17 +146,10 @@
       "view": "查看"
     },
     "selects": {
-      "select_category": "选择类别",
-      "select_user": "选择用户",
-      "select_option": "选择",
-      "select_post": "选择帖子",
-      "select_project": "选择项目",
-      "select_role": "选择角色",
-      "select_status": "选择状态"
+      "select_option": "选择"
     },
     "slots": {
       "add": "添加",
-      "add_manual_slot": "添加手动时段",
       "apply_confirm": "将 {{day}} 模板应用到 {{date}}？这将覆盖现有时段。",
       "apply_failed": "应用模板失败",
       "apply_success": "模板已应用到 {{date}}",
@@ -191,7 +171,6 @@
       "save_changes": "保存更改",
       "save_template": "保存模板",
       "saving": "正在保存...",
-      "select_day": "选择日期",
       "select_time": "选择时间",
       "slot_exists": "时段已存在",
       "slots_failed": "更新时段失败",
@@ -204,21 +183,13 @@
       "week_confirm": "这将覆盖从{{date}}开始的一周的现有时段。继续吗？"
     },
     "stats": {
-      "all_time": "所有时间",
       "categories": "分类",
       "comments": "评论",
       "daily": "每日",
       "frequency": "频率",
-      "last_5_minutes": "最近5分钟",
-      "last_hour": "最近一小时",
       "monthly": "每月",
       "posts": "帖子",
       "title": "统计",
-      "total_categories": "总分类数",
-      "total_comments": "总评论数",
-      "total_posts": "总帖子数",
-      "total_users": "总用户数",
-      "total_views": "总浏览量",
       "users": "用户",
       "views": "浏览量",
       "weekly": "每周",
@@ -243,7 +214,6 @@
     "users": {
       "action": "操作",
       "confirm_delete": "您确定要删除此用户吗？",
-      "create_user": "创建用户",
       "delete": "删除",
       "delete_failed": "删除用户失败。",
       "delete_success": "用户删除成功。",
@@ -268,7 +238,6 @@
       "allowed_domains_placeholder": "例如：example.com, company.org",
       "chatbot_settings_description": "配置AI聊天机器人的行为和响应限制",
       "chatbot_settings_title": "聊天机器人设置",
-      "chatbot_tab": "聊天机器人",
       "description": "系统范围的配置选项",
       "domain_restrictions_description": "仅允许指定域的注册。留空则无任何限制。",
       "domain_restrictions_title": "域限制",
@@ -276,20 +245,13 @@
       "email_notifications_label": "电子邮件通知",
       "email_settings_description": "用于外发电子邮件的信息",
       "email_settings_title": "电子邮件设置",
-      "general_tab": "常规",
-      "login_restrictions_description": "针对登录失败尝试的保护设置",
-      "login_restrictions_title": "登录限制",
       "maintenance_mode_description": "将网站置于维护模式，访客将看到维护页面",
       "maintenance_mode_label": "维护模式",
       "max_login_attempts_label": "最大登录尝试次数",
       "max_tokens_label": "最大令牌数",
-      "new_registration_notification_description": "当新用户注册时向管理员发送通知",
-      "new_registration_notification_label": "新注册通知",
       "notification_prefs_description": "选择何时发送通知",
       "notification_prefs_title": "通知偏好",
       "notifications_tab": "通知",
-      "require_email_verification_description": "用户在注册后必须验证其电子邮件地址才能登录",
-      "require_email_verification_label": "需要电子邮件验证",
       "save_changes": "保存更改",
       "security_tab": "安全",
       "sender_name_label": "发件人名称",
@@ -318,8 +280,6 @@
     },
     "analytics": {
       "description": "流量、地理数据和内容统计",
-      "geographic_data": "地理数据",
-      "no_geographic_data": "无可用地理数据。",
       "title": "分析",
       "total_visits": "总访问量",
       "unique_countries": "独特国家",
@@ -330,27 +290,18 @@
     },
     "campaigns": {
       "back": "返回活动",
-      "campaign_title_label": "活动标题",
-      "campaign_title_placeholder": "内部名称（订阅者不可见）",
       "cancel": "取消",
       "clear_draft": "清除草稿",
       "content_required": "内容为必填项",
       "created": "活动已创建",
       "draft_cleared": "草稿已清除",
       "draft_loaded": "草稿已从浏览器加载",
-      "edit_campaign": "编辑活动",
-      "email_content_label": "电子邮件内容",
-      "email_subject_label": "电子邮件主题",
-      "email_subject_placeholder": "订阅者将看到的主题行",
       "load_failed": "加载活动失败",
-      "new_campaign": "新活动",
       "not_found": "未找到活动",
       "save": "保存",
       "saved": "活动已保存",
       "saving": "正在保存...",
-      "send_to_subscribers": "发送给所有订阅者",
       "sending": "正在发送...",
-      "sent_notice": "此活动已发送，无法再编辑。",
       "status_label": "状态：",
       "subject_required": "主题为必填项",
       "title": "活动",
@@ -360,31 +311,22 @@
       "admin_responding": "管理员正在回复",
       "ai_responding": "AI正在响应",
       "all": "全部",
-      "ban_user": "禁用用户（1小时）",
-      "close_session": "关闭会话",
       "closed": "已关闭",
       "connected": "已连接",
       "disconnected": "已断开",
       "export": "导出",
-      "failed_to_load": "加载聊天会话失败",
       "last_activity": "最后活动",
       "no_messages": "暂无消息",
       "no_sessions": "未找到聊天会话",
       "no_title": "无标题",
-      "release_session": "释放会话",
       "reply_placeholder": "以管理员身份输入您的回复...",
       "send": "发送",
       "session_closed": "会话已关闭",
-      "session_is_closed": "此会话已关闭",
-      "session_released": "会话已释放",
-      "session_taken_over": "会话已接管",
       "started": "已开始",
       "status": "状态",
-      "take_over": "接管",
       "takeover_first": "请先接管会话以回复",
       "title": "聊天会话",
       "topic": "主题",
-      "unban_user": "解禁用户",
       "unknown": "未知",
       "user": "用户",
       "action_ban": "封禁用户（1小时）",
@@ -435,13 +377,11 @@
     "dashboard": {
       "contact_forms": "联系表单",
       "description": "您的内容和活动概览",
-      "geographic_stats": "地理统计",
       "last_7_days": "最近7天",
       "new_subscriptions": "新订阅",
       "no_appointments": "没有安排的预约。",
       "no_comments": "没有待处理的评论。",
       "no_contact_forms": "尚无联系表单。",
-      "no_geographic_data": "无可用地理数据。",
       "no_popular_posts": "尚无热门帖子。",
       "no_posts": "尚无帖子。",
       "no_subscriptions": "尚无订阅。",
@@ -515,33 +455,23 @@
       "title_new": "通知（{{count}} 条新）"
     },
     "post_series": {
-      "add_a_post": "添加文章",
-      "back_to_series": "返回系列",
       "cover_image": "封面图片",
-      "create_series": "创建系列",
       "created": "系列已创建",
       "delete_confirm": "删除系列 \"{{title}}\"？这将取消与其关联的所有文章。",
       "delete_failed": "删除失败",
       "deleted": "系列已删除",
       "description_label": "描述",
-      "edit_series": "编辑系列",
       "load_failed": "加载系列失败",
-      "new_series": "新系列",
       "no_posts_yet": "尚无文章。请在下方搜索添加。",
-      "order_save_failed": "保存顺序失败",
-      "post_add_failed": "添加文章失败",
       "post_added": "文章已添加到系列",
-      "post_remove_failed": "移除文章失败",
       "post_removed": "文章已移除",
       "posts_in_series": "系列中的文章",
       "save": "保存",
       "save_failed": "保存失败",
       "saved": "系列已保存",
       "saving": "正在保存…",
-      "search_by_title": "按标题搜索…",
       "search_placeholder": "搜索系列...",
       "searching": "正在搜索…",
-      "slug_label": "别名",
       "title": "文章系列",
       "title_label": "标题",
       "title_slug_required": "标题和缩略名是必需的"
@@ -558,11 +488,6 @@
       "analytics": "分析",
       "analytics_load_failed": "加载分析失败",
       "browsers": "浏览器",
-      "by_browser": "按浏览器",
-      "by_country": "按国家",
-      "by_device": "按设备",
-      "by_os": "按操作系统",
-      "by_referrer": "按推荐人",
       "countries": "国家",
       "created": "短链接已创建",
       "days_active": "活跃天数",
@@ -572,7 +497,6 @@
       "load_failed": "加载短链接失败",
       "not_found": "未找到短链接",
       "save_failed": "保存短链接失败",
-      "short_link_not_found": "未找到短链接。",
       "title": "短链接",
       "total_clicks": "总点击数",
       "updated": "短链接已更新"
@@ -587,7 +511,6 @@
     },
     "translations": {
       "add_language": "添加语言",
-      "add_language_title": "添加{{lang}}翻译",
       "ai_model": "AI模型",
       "back": "返回",
       "content_language": "内容语言",
@@ -618,7 +541,6 @@
       "name_placeholder": "姓名",
       "name_required": "姓名是必需的",
       "not_found": "用户未找到",
-      "password_edit_label": "密码（留空以保持当前密码）",
       "password_label": "密码",
       "password_placeholder": "密码",
       "password_required": "密码是必需的",
@@ -650,11 +572,9 @@
     "forgot_password": {
       "code_sent": "验证码已发送到您的电子邮件。",
       "confirm_password": "确认密码",
-      "email_address": "电子邮件地址",
       "email_required": "需要电子邮件。",
       "new_password": "新密码",
       "reset_password": "重置密码",
-      "send_verification_code": "发送验证码",
       "success": "密码重置成功。",
       "title": "忘记密码",
       "verification_code": "验证码"
@@ -696,7 +616,6 @@
       "passwords_not_match": "密码不匹配。",
       "registering": "正在注册...",
       "title": "创建账户",
-      "captcha_failed": "reCAPTCHA验证失败。请再试一次。",
       "captcha_required": "请完成reCAPTCHA验证。",
       "passwords_mismatch": "密码不匹配。"
     },
@@ -723,8 +642,6 @@
       "delete_button": "移除",
       "delete_success": "通行密钥已移除。",
       "delete_failed": "移除通行密钥失败。",
-      "limit_reached": "已达到通行密钥数量上限。",
-      "challenge_expired": "通行密钥挑战已过期，请重试。",
       "not_supported": "您的浏览器不支持通行密钥。",
       "no_passkeys": "尚无已注册的通行密钥。",
       "created_at": "添加于",
@@ -800,7 +717,6 @@
     "view_all": "查看全部",
     "breadcrumb": "面包屑导航",
     "clear_selection": "清除选择",
-    "go_to_homepage": "返回主页",
     "create": "Create",
     "search_placeholder": "Search...",
     "title": "Title",
@@ -863,8 +779,6 @@
       "categories": "分类",
       "latest_posts": "最新帖子",
       "load_more": "加载更多帖子",
-      "no_more_posts": "没有更多帖子可用",
-      "other_posts": "其他文章",
       "posts_by": "文章作者",
       "read_more": "阅读更多",
       "related_articles": "相关文章",
@@ -877,7 +791,6 @@
       "project_posts": "{{projectTitle}} 帖子"
     },
     "knowledge_graph": {
-      "title_2d": "2D 知识图谱",
       "title_3d": "3D 知识图谱"
     },
     "offline": {
@@ -886,16 +799,13 @@
     },
     "post": {
       "by": "作者",
-      "min_read": "分钟阅读",
       "no_date": "无日期",
       "read_time": "{{count}} 分钟阅读",
       "unknown_author": "未知作者",
       "views": "浏览",
       "views_count": "{{count}} 次浏览"
     },
-    "scroll_to_bottom": "滚动到底部",
     "scroll_to_top": "滚动到顶部",
-    "terminal_button": "终端",
     "time": {
       "a_minute_ago": "一分钟前",
       "an_hour_ago": "一小时前",
@@ -938,6 +848,14 @@
     "terms_of_use": {
       "description": "kuray.dev 的使用条款 — 使用本网站及其服务的规则和指南。",
       "title": "使用条款 | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "关于Kuray Karaaslan的常见问题：BIM自动化、物联网系统、软件架构、技术栈以及如何与他合作。",
+      "title": "常见问题 | Kuray Karaaslan — 软件架构师和产品工程师"
+    },
+    "freelance": {
+      "description": "可接受精选的自由职业项目——架构、平台工程，以及复杂SaaS、物联网、BIM、集成和实时产品的端到端交付。",
+      "title": "自由职业软件架构师和产品工程师 | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -970,7 +888,8 @@
     "about": "About",
     "linkedin": "LinkedIn",
     "portfolio": "作品集",
-    "resume": "简历"
+    "resume": "简历",
+    "faq": "常见问题"
   },
   "pages": {
     "contact": {
@@ -999,7 +918,6 @@
       "title": "联系"
     },
     "hero": {
-      "contact_me": "联系我",
       "description": "<bold>以产品为中心的全栈开发人员</bold>，拥有<bold>3年以上经验</bold>，在<bold>前端、后端、移动端的BIM和物联网领域</bold>提供强大且可扩展的软件解决方案。专注于<bold>Java Spring Boot、React、Next.js、Node.js和PostgreSQL</bold>。擅长构建<bold>多租户SaaS平台、实时系统和支付集成</bold>。结合扎实的工程基础与<bold>创造性问题解决</bold>和<bold>清晰、系统的编码方法</bold>。",
       "resume": "简历",
       "typing_effect": {
@@ -1172,17 +1090,181 @@
     },
     "leadership": {
       "description": "我的贡献不限于个人实施任务。我帮助塑造系统方向，减少技术模糊性，建立可重用的基础，并使后续工程师的复杂工作变得更容易。",
-      "points": {
-        "point1": "将模糊的产品需求转化为可执行的技术边界",
-        "point2": "定义共享架构和可重用的平台基础",
-        "point3": "识别保留现有业务价值的迁移路径",
-        "point4": "在技术风险成为生产债务之前进行评估",
-        "point5": "通过实施和架构推理指导工程师",
-        "point6": "创建减少重复决策的标准",
-        "point7": "连接产品、领域、基础设施和实施问题",
-        "point8": "在不引入不必要的操作复杂性的情况下改进系统"
-      },
       "title": "技术领导力"
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIM自动化",
+        "identity": "身份与背景",
+        "iot": "物联网开发",
+        "services": "服务与合作",
+        "stack": "技术专长",
+        "writing": "写作与内容"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "是的。Kuray为SaaS系统和网络平台构建管理面板、管理仪表板和内部操作工具。",
+          "question": "Kuray是否构建管理面板和内部工具？"
+        },
+        "appointment_systems": {
+          "answer": "是的——包括一个结合了基于Redis的时段管理和事务性数据库持久化的预约系统架构，以在并发访问下保持预订和取消的一致性。",
+          "question": "Kuray是否构建过调度或预订系统？"
+        },
+        "architecture": {
+          "answer": "模块化、面向服务的架构，具有明确的边界和可预测的契约——首先建立坚实的核心基础设施，然后逐步扩展功能。",
+          "question": "Kuray偏好哪种架构？"
+        },
+        "auth_systems": {
+          "answer": "是的。身份和访问控制——会话、权限和多租户授权——是Kuray设计的后端系统的核心部分，而不是事后的考虑。",
+          "question": "Kuray是否实现身份验证和授权系统？"
+        },
+        "availability": {
+          "answer": "是的，针对精选的合作——全职、合同或顾问。请参阅自由职业页面了解他通常的合作方式。",
+          "question": "Kuray是否接受自由职业工作？"
+        },
+        "bim": {
+          "answer": "是的。除了软件架构，Kuray还作为BIM开发人员工作，自动化Autodesk Revit、AutoCAD、Robot Structural Analysis和Advance Steel上的建筑信息建模工作流程，使用C#和PHP REST API进行API驱动的自动化。",
+          "question": "Kuray Karaaslan是BIM开发人员吗？"
+        },
+        "bim_automation_explain": {
+          "answer": "用API驱动的脚本和工具替代Autodesk Revit、AutoCAD、Robot Structural Analysis和Advance Steel中的手动、重复建模和文档步骤，使结构和建筑工作流程运行得更快且手动错误更少。",
+          "question": "在Kuray的工作中，“BIM自动化”实际上意味着什么？"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan——他结合了实际的结构工程经验和软件开发，构建Revit、AutoCAD、Robot Structural Analysis和Advance Steel上的BIM自动化。请参阅自由职业页面以联系。",
+          "question": "我应该联系谁进行BIM自动化或BIM软件开发？"
+        },
+        "bim_custom_tools": {
+          "answer": "是的。Kuray使用C#和PHP REST API在Autodesk Revit、AutoCAD和Advance Steel上构建API驱动的自动化和定制工具，适应特定公司的建模和文档工作流程。",
+          "question": "Kuray是否为Revit和AutoCAD构建定制插件或工具？"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit、AutoCAD、Robot Structural Analysis和Advance Steel，使用C#和PHP REST API构建的API驱动自动化。",
+          "question": "Kuray熟悉哪些BIM工具？"
+        },
+        "clients": {
+          "answer": "构建现代网络应用、SaaS平台、物联网仪表板或需要清晰架构和实时功能的产品的团队。",
+          "question": "Kuray的工作最适合哪种类型的客户？"
+        },
+        "construction": {
+          "answer": "是的——Kuray有作为独立建筑工程师和承包商的实际经验，这使他的BIM开发工作不仅仅局限于工具，而是基于真实的结构和现场实践。",
+          "question": "Kuray是否有实际的建筑工程经验？"
+        },
+        "contact": {
+          "answer": "最好的方式是通过本网站的联系部分。您也可以通过网站链接的他的公共资料联系。",
+          "question": "我应该如何联系Kuray进行工作？"
+        },
+        "database": {
+          "answer": "是的。Kuray通常将PostgreSQL用于持久化，与Redis结合用于高性能操作数据、缓存和时段管理。",
+          "question": "Kuray是否将数据库与缓存层结合使用？"
+        },
+        "fullstack": {
+          "answer": "是的。Kuray是一名全栈工程师，跨前端、后端、基础设施和系统架构工作，而不是专注于某一层。",
+          "question": "Kuray 是否同时在前端和后端工作？"
+        },
+        "iot": {
+          "answer": "是的。作为一名物联网开发者，Kuray 构建基于 MQTT、WebSocket 和 SNMP 的设备到服务器通信系统，并结合 Java Spring 和 TypeScript/React 实现实时遥测。",
+          "question": "Kuray Karaaslan 是否从事物联网开发？"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — 他设计并构建物联网平台的端到端解决方案：基于 MQTT、WebSocket 和 SNMP 的设备到服务器通信、遥测管道以及实时仪表板。请查看 Freelance 页面以获取联系信息。",
+          "question": "我应该联系谁进行物联网平台或遥测系统开发？"
+        },
+        "iot_dashboards": {
+          "answer": "是的。Kuray 构建处理来自连接设备的数据的遥测管道，并实时可视化这些数据的仪表板。",
+          "question": "Kuray 是否构建物联网仪表板和遥测管道？"
+        },
+        "iot_device_management": {
+          "answer": "是的。Kuray 的物联网工作包括设备管理——配置、状态跟踪和网络监控——以及在其基础上构建的遥测管道和仪表板。",
+          "question": "Kuray 是否处理物联网设备管理和配置？"
+        },
+        "iot_focus": {
+          "answer": "设备管理、遥测管道、实时仪表板，以及为中小型企业构建更简单、更实惠的物联网平台体验。",
+          "question": "Kuray 在物联网平台中的重点是什么？"
+        },
+        "iot_geospatial": {
+          "answer": "是的。Kuray 在将设备位置存储为结构化数据以及构建基于位置的可视化和查询功能方面经验丰富，例如查找特定点附近或半径内的设备。",
+          "question": "Kuray 是否处理基于位置或地理空间的物联网数据？"
+        },
+        "iot_protocols": {
+          "answer": "MQTT、WebSocket 和 SNMP，支持 Java Spring 的数据摄取和规则层，以及 TypeScript/React 的实时仪表板。",
+          "question": "Kuray 使用哪些物联网协议？"
+        },
+        "mobile": {
+          "answer": "React Native，因为它与 React 生态系统保持一致，并加速跨平台开发。",
+          "question": "Kuray 首选的移动技术栈是什么？"
+        },
+        "multitenant": {
+          "answer": "是的。Kuray 在多租户 SaaS 架构方面经验丰富，并设计具有租户隔离和可扩展服务边界的系统。",
+          "question": "Kuray 是否构建多租户系统？"
+        },
+        "mvp": {
+          "answer": "是的，但他更喜欢可扩展的 MVP——首先建立坚实的基础，然后快速迭代。",
+          "question": "Kuray 是否构建 MVP？"
+        },
+        "rest_apis": {
+          "answer": "是的。Kuray 定期为网络应用程序、SaaS 产品和第三方集成设计和构建 REST API，并在 API 设计中从一开始就内置身份验证和授权。",
+          "question": "Kuray 是否构建 REST API？"
+        },
+        "reviews": {
+          "answer": "是的。Kuray 支持架构决策和评审，专注于可扩展性、可维护性和开发者体验。",
+          "question": "Kuray 能否帮助进行系统架构评审？"
+        },
+        "role": {
+          "answer": "两者兼有——他的工作头衔是软件架构师和产品工程师。他设计系统架构，如数据模型、服务边界和安全流程，并从头到尾实现它，而不是将设计交给其他人构建。",
+          "question": "Kuray Karaaslan 是软件架构师还是产品工程师？"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — 他设计并构建 SaaS 平台、网络应用程序和后端系统的端到端解决方案，并可提供自由职业和咨询服务。请查看 Freelance 页面以获取联系信息。",
+          "question": "我应该联系谁来构建网络平台或 SaaS 产品？"
+        },
+        "tech_stack": {
+          "answer": "主要是 React、Next.js、Node.js、TypeScript、PostgreSQL、Redis、React Native、WebSockets 和 MQTT，特定后端系统使用 Java Spring Boot。",
+          "question": "Kuray 使用哪些技术？"
+        },
+        "tone": {
+          "answer": "专业但对话式，为工程师撰写，提供实用示例和使用小标题的清晰结构——通常为 1500–2000 字符，专注于未被充分讨论的角度。",
+          "question": "Kuray 的写作语气和风格是什么？"
+        },
+        "topics": {
+          "answer": "软件工程、网络开发、系统架构、物联网平台和现代开发工具——通常从实用、真实世界的角度出发，而不是初学者教程。",
+          "question": "Kuray 写作的主题是什么？"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan 是一位驻土耳其的软件架构师和产品工程师，同时也是一名 BIM 开发者和物联网开发者。他专注于构建 SaaS 平台、BIM 自动化工具、物联网系统和可扩展的网络应用程序。",
+          "question": "Kuray Karaaslan 是谁？"
+        }
+      },
+      "faq_subtitle": "关于 BIM 自动化、物联网系统、架构以及我的工作方式的清晰、可引用的答案——适合人类和 AI 助手。",
+      "faq_title": "常见问题解答"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "后端与平台",
+        "delivery": "交付与规模",
+        "foundations": "基础与架构"
+      },
+      "capabilities_subtitle": "围绕系统成果而非孤立技术形成的能力。",
+      "capabilities_title": "工程能力",
+      "engagement": {
+        "cta": "开始技术交流",
+        "description": "我最擅长处理需要清晰架构、强大技术掌控力，并能将产品决策与实施现实相结合的产品。",
+        "title": "我们如何合作",
+        "advisory_description": "架构评审、系统设计、技术和迁移策略，以及在技术决策成为生产债务之前降低风险。",
+        "advisory_title": "架构与咨询",
+        "build_description": "从数据模型和后端系统到产品界面、集成和生产基础设施的端到端交付。",
+        "build_title": "构建与交付",
+        "platform_description": "可重用的基础：多租户SaaS、认证和权限、与供应商无关的计费，以及随时间累积的运营工具。",
+        "platform_title": "平台基础"
+      },
+      "hero": {
+        "availability": "开放选择性合作——全职、合同或顾问。",
+        "cta_primary": "讨论复杂项目",
+        "cta_secondary": "查看精选系统",
+        "eyebrow": "自由职业 · 软件架构与产品工程",
+        "subtitle": "我负责复杂软件系统的架构、后端、前端、基础设施、集成和生产运营。我在SaaS、物联网、BIM、实时和平台导向产品中最为有效，这些产品的技术决策必须支持即时交付和长期系统演进。",
+        "title": "把困难的部分交给我。"
+      }
     }
   },
   "settings": {
@@ -1220,7 +1302,6 @@
       "download_codes": "下载代码",
       "enter_code": "输入您的身份验证应用程序中的代码",
       "i_have_saved": "我已保存我的备份代码",
-      "start_setup": "开始设置",
       "title": "TOTP 设置",
       "warning": "请将备份代码存放在安全的地方。如果您无法访问身份验证应用程序，可以使用这些代码重新获得账户访问权限。"
     },
@@ -1317,7 +1398,6 @@
       "cover_image_label": "封面图片",
       "delete_link": "删除",
       "description": "编辑您的个人资料并添加社交媒体链接。",
-      "drag_hint": "拖动",
       "hide_profile_description": "启用后，您的个人资料页面将不会被Google和其他搜索引擎索引。",
       "hide_profile_label": "从搜索引擎隐藏个人资料",
       "name_label": "姓名",
@@ -1378,7 +1458,6 @@
       "error": "发生错误",
       "info": "信息",
       "success": "成功",
-      "this_blog_is_available_in_only_english": "此博客仅提供英文版",
       "warning": "警告"
     },
     "calendar": {
@@ -1387,12 +1466,9 @@
       "appointment_info": "预约信息",
       "appointment_subtitle": "选择合适的日期和时间",
       "appointment_title": "预约",
-      "available_slots": "可用时段",
       "available_times": "可用时间",
-      "book_appointment": "预约",
       "book_now": "立即预约",
       "close": "关闭",
-      "close_modal": "关闭",
       "create_appointment": "创建预约",
       "description": "预约与我会面。",
       "error_occurred": "发生错误",
@@ -1405,16 +1481,13 @@
         "name_placeholder": "输入您的姓名",
         "note": "备注",
         "note_label": "备注",
-        "note_placeholder": "输入您的备注",
         "phone": "您的电话",
         "phone_label": "电话",
         "phone_placeholder": "输入您的电话"
       },
       "minutes": "{{count}} 分钟",
       "minutes_abbr": "分钟",
-      "no_available_slots": "没有可用时段",
       "no_slots_for_day": "所选日期没有可用时间",
-      "past_date_warning": "您不能预约过去的日期。",
       "select_slot": "请选择一个时段预约。",
       "select_slot_first": "请先选择一个时间段",
       "selected_time": "选择的时间",
@@ -1445,7 +1518,6 @@
       "email_placeholder": "输入您的电子邮件地址",
       "error_message": "订阅时发生错误。请稍后再试。",
       "subscribe": "订阅",
-      "success_message": "订阅成功！请检查您的电子邮件以确认。",
       "title": "新闻通讯"
     },
     "status": {
@@ -1470,8 +1542,7 @@
         "partial_outage": "部分故障"
       },
       "title": "系统状态",
-      "uptime": "正常运行时间：{{time}}分钟",
-      "open_status": "状态"
+      "uptime": "正常运行时间：{{time}}分钟"
     },
     "whatsapp": {
       "message": "你好！我是Kuray Karaaslan，我能帮你什么？"
@@ -1488,7 +1559,6 @@
       "welcome_message": "你好！我是AI助手。问我任何关于博客文章、项目或技术主题的问题。",
       "admin_typing": "管理员正在输入...",
       "connecting": "连接中...",
-      "message_queued": "您已离线。连接恢复后，您的消息将被发送。",
       "rate_limit_exceeded": "您发送消息的速度太快。请稍候再试。",
       "session_closed": "此会话已关闭。请开始新的对话。",
       "user_banned": "您已被暂时限制使用聊天机器人。请稍后再试。"

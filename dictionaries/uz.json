@@ -35,7 +35,6 @@
     "categories": {
       "action": "Harakat",
       "confirm_delete": "Ushbu kategoriyani o'chirishni xohlaysizmi?",
-      "create_category": "Kategoriya yaratish",
       "delete": "O'chirish",
       "edit": "Tahrirlash",
       "image": "Rasm",
@@ -90,12 +89,10 @@
       "all_folders": "Barcha Papkalar",
       "alt_text": "Muqobil Matn",
       "alt_text_placeholder": "Rasmni kirish imkoniyati uchun tasvirlang",
-      "confirm_bulk_delete": "Siz {{count}} ta faylni o'chirmoqchimisiz?",
       "confirm_delete": "Bu faylni o'chirishni xohlaysizmi?",
       "copy_url": "URL ni nusxalash",
       "date": "Sana",
       "delete": "O'chirish",
-      "delete_selected": "Tanlanganlarni o'chirish",
       "description": "Yuklangan fayllaringiz va rasmlaringizni boshqaring",
       "edit": "Tahrirlash",
       "filename": "Fayl nomi",
@@ -105,7 +102,6 @@
       "next": "Keyingi",
       "no_files": "Fayllar topilmadi",
       "page": "Sahifa",
-      "page_size": "Sahifa hajmi",
       "preview": "Oldindan ko'rish",
       "previous": "Oldingi",
       "search_placeholder": "Fayllarni qidirish...",
@@ -114,24 +110,16 @@
       "size": "Hajmi",
       "sync": "S3 dan sinxronlash",
       "title": "Media kutubxonasi",
-      "total_files": "Jami fayllar",
-      "total_size": "Umumiy hajm",
       "upload": "Yuklash"
     },
     "posts": {
       "action": "Harakat",
       "category": "Kategoriya",
       "confirm_delete": "Bu postni o'chirishni xohlaysizmi?",
-      "create_post": "Post yaratish",
       "delete": "O'chirish",
       "edit": "Tahrirlash",
       "next": "Keyingi",
       "previous": "Oldingi",
-      "rebuild_failed": "Bilim grafigini qayta qurish muvaffaqiyatsiz tugadi.",
-      "rebuild_success": "Bilim grafigini qayta qurish muvaffaqiyatli boshlandi.",
-      "rebuild_triggered": "Qayta qurish boshlandi",
-      "rebuild_triggered_message": "Bilim grafigini qayta qurish allaqachon boshlandi. Qayta boshlash uchun sahifani yangilashingiz kerak.",
-      "reset_knowledge_graph": "Bilim grafigini qayta tiklash",
       "search_placeholder": "Qidirish",
       "showing": "{{count}} ta postdan {{total}} tasi ko'rsatilmoqda",
       "status": "Holat",
@@ -147,7 +135,6 @@
     "projects": {
       "action": "Harakat",
       "confirm_delete": "Ushbu loyihani o'chirishga ishonchingiz komilmi?",
-      "create_project": "Loyiha yaratish",
       "delete": "O'chirish",
       "edit": "Tahrirlash",
       "next": "Keyingi",
@@ -159,17 +146,10 @@
       "view": "Ko'rish"
     },
     "selects": {
-      "select_category": "Kategoriyani tanlang",
-      "select_user": "Foydalanuvchini tanlang",
-      "select_option": "Tanlang",
-      "select_post": "Postni tanlang",
-      "select_project": "Loyihani tanlang",
-      "select_role": "Rolni tanlang",
-      "select_status": "Holatni tanlang"
+      "select_option": "Tanlang"
     },
     "slots": {
       "add": "Qo'shish",
-      "add_manual_slot": "Qo'lda vaqt qo'shish",
       "apply_confirm": "{{day}} shablonini {{date}} ga qo'llashni xohlaysizmi? Bu mavjud vaqtlarni o'chirib tashlaydi.",
       "apply_failed": "Shablonni qo'llashda xatolik",
       "apply_success": "Shablon {{date}} ga qo'llandi",
@@ -191,7 +171,6 @@
       "save_changes": "O'zgarishlarni saqlash",
       "save_template": "Shablonni saqlash",
       "saving": "Saqlanmoqda...",
-      "select_day": "Kun tanlash",
       "select_time": "Vaqt tanlash",
       "slot_exists": "Slot allaqachon mavjud",
       "slots_failed": "Slotlarni yangilashda xatolik",
@@ -204,21 +183,13 @@
       "week_confirm": "Bu {{date}} dan boshlanadigan hafta uchun mavjud slotlarni o'chirib tashlaydi. Davom etasizmi?"
     },
     "stats": {
-      "all_time": "Barcha vaqt",
       "categories": "Kategoriyalar",
       "comments": "Izohlar",
       "daily": "Kunlik",
       "frequency": "Tezlik",
-      "last_5_minutes": "Oxirgi 5 daqiqa",
-      "last_hour": "Oxirgi soat",
       "monthly": "Oylik",
       "posts": "Postlar",
       "title": "Statistika",
-      "total_categories": "Jami kategoriyalar",
-      "total_comments": "Jami izohlar",
-      "total_posts": "Jami postlar",
-      "total_users": "Jami foydalanuvchilar",
-      "total_views": "Jami ko'rishlar",
       "users": "Foydalanuvchilar",
       "views": "Ko'rishlar",
       "weekly": "Haftalik",
@@ -243,7 +214,6 @@
     "users": {
       "action": "Harakat",
       "confirm_delete": "Ushbu foydalanuvchini o'chirishni xohlaysizmi?",
-      "create_user": "Foydalanuvchi yaratish",
       "delete": "O'chirish",
       "delete_failed": "Foydalanuvchini o'chirish muvaffaqiyatsiz tugadi.",
       "delete_success": "Foydalanuvchi muvaffaqiyatli o'chirildi.",
@@ -268,7 +238,6 @@
       "allowed_domains_placeholder": "masalan: example.com, company.org",
       "chatbot_settings_description": "AI chatbot xatti-harakati va javob cheklovlarini sozlash",
       "chatbot_settings_title": "Chatbot Sozlamalari",
-      "chatbot_tab": "Chatbot",
       "description": "Tizim bo'ylab konfiguratsiya variantlari",
       "domain_restrictions_description": "Faqat ko'rsatilgan domenlardan ro'yxatdan o'tishga ruxsat berish. Cheklov yo'q bo'lsa, bo'sh qoldiring.",
       "domain_restrictions_title": "Domen Cheklovlari",
@@ -276,20 +245,13 @@
       "email_notifications_label": "Email Xabarnomalari",
       "email_settings_description": "Chiqayotgan email xabarlarda foydalaniladigan ma'lumotlar",
       "email_settings_title": "Email Sozlamalari",
-      "general_tab": "Umumiy",
-      "login_restrictions_description": "Noto'g'ri kirish urinishlariga qarshi himoya sozlamalari",
-      "login_restrictions_title": "Kirish Cheklovlari",
       "maintenance_mode_description": "Saytni texnik xizmat ko'rsatish rejimiga o'tkazing, tashrif buyuruvchilar texnik xizmat sahifasini ko'radi",
       "maintenance_mode_label": "Texnik Xizmat Rejimi",
       "max_login_attempts_label": "Maksimal Kirish Urinishlari",
       "max_tokens_label": "Maksimal Tokenlar",
-      "new_registration_notification_description": "Yangi foydalanuvchi ro'yxatdan o'tganda adminni xabardor qilish",
-      "new_registration_notification_label": "Yangi Ro'yxatdan O'tish Xabarnomasi",
       "notification_prefs_description": "Xabarnomalar qachon yuborilishi kerakligini tanlang",
       "notification_prefs_title": "Xabarnoma Afzalliklari",
       "notifications_tab": "Xabarnomalar",
-      "require_email_verification_description": "Foydalanuvchilar ro'yxatdan o'tgandan so'ng kirishdan oldin email manzilini tasdiqlashi kerak",
-      "require_email_verification_label": "Email Tasdiqlashni Talab Qilish",
       "save_changes": "O'zgarishlarni Saqlash",
       "security_tab": "Xavfsizlik",
       "sender_name_label": "Yuboruvchi Nomi",
@@ -318,8 +280,6 @@
     },
     "analytics": {
       "description": "Trafik, geografik ma'lumotlar va kontent statistikasi",
-      "geographic_data": "Geografik ma'lumotlar",
-      "no_geographic_data": "Geografik ma'lumotlar mavjud emas.",
       "title": "Analitika",
       "total_visits": "Jami tashriflar",
       "unique_countries": "Noyob mamlakatlar",
@@ -330,27 +290,18 @@
     },
     "campaigns": {
       "back": "Kampaniyalarga qaytish",
-      "campaign_title_label": "Kampaniya nomi",
-      "campaign_title_placeholder": "Ichki nom (obunachilarga ko'rinmaydi)",
       "cancel": "Bekor qilish",
       "clear_draft": "Qoralamani tozalash",
       "content_required": "Kontent talab qilinadi",
       "created": "Kampaniya yaratildi",
       "draft_cleared": "Qoralama tozalandi",
       "draft_loaded": "Qoralama brauzerdan yuklandi",
-      "edit_campaign": "Kampaniyani tahrirlash",
-      "email_content_label": "Email kontenti",
-      "email_subject_label": "Email mavzusi",
-      "email_subject_placeholder": "Obunachilar ko'radigan mavzu qatori",
       "load_failed": "Kampaniyani yuklashda xatolik",
-      "new_campaign": "Yangi kampaniya",
       "not_found": "Kampaniya topilmadi",
       "save": "Saqlash",
       "saved": "Kampaniya saqlandi",
       "saving": "Saqlanmoqda...",
-      "send_to_subscribers": "Barcha obunachilarga yuborish",
       "sending": "Yuborilmoqda...",
-      "sent_notice": "Ushbu kampaniya yuborilgan va endi tahrirlanmaydi.",
       "status_label": "Holat:",
       "subject_required": "Mavzu talab qilinadi",
       "title": "Kampaniyalar",
@@ -360,31 +311,22 @@
       "admin_responding": "Admin javob bermoqda",
       "ai_responding": "AI javob bermoqda",
       "all": "Barchasi",
-      "ban_user": "Foydalanuvchini bloklash (1 soat)",
-      "close_session": "Sessiyani yopish",
       "closed": "Yopilgan",
       "connected": "Ulangan",
       "disconnected": "Ulanmagan",
       "export": "Eksport qilish",
-      "failed_to_load": "Chat sessiyasini yuklab bo'lmadi",
       "last_activity": "Oxirgi faoliyat",
       "no_messages": "Hozircha xabarlar yo'q",
       "no_sessions": "Chat sessiyalari topilmadi",
       "no_title": "Sarlavha yo'q",
-      "release_session": "Sessiyani bo'shatish",
       "reply_placeholder": "Admin sifatida javob yozing...",
       "send": "Yuborish",
       "session_closed": "Sessiya yopildi",
-      "session_is_closed": "Bu sessiya yopilgan",
-      "session_released": "Sessiya bo'shatildi",
-      "session_taken_over": "Sessiya egallandi",
       "started": "Boshlangan",
       "status": "Holat",
-      "take_over": "Egallash",
       "takeover_first": "Javob berish uchun avval sessiyani egallang",
       "title": "Chat sessiyalari",
       "topic": "Mavzu",
-      "unban_user": "Foydalanuvchini blokdan chiqarish",
       "unknown": "Noma'lum",
       "user": "Foydalanuvchi",
       "action_ban": "Foydalanuvchini bloklash (1 soat)",
@@ -435,13 +377,11 @@
     "dashboard": {
       "contact_forms": "Aloqa shakllari",
       "description": "Kontentingiz va faoliyatingizning umumiy ko'rinishi",
-      "geographic_stats": "Geografik statistika",
       "last_7_days": "So'nggi 7 kun",
       "new_subscriptions": "Yangi obunalar",
       "no_appointments": "Hech qanday uchrashuv rejalashtirilmagan.",
       "no_comments": "Kutilayotgan izohlar yo'q.",
       "no_contact_forms": "Hozircha aloqa shakllari yo'q.",
-      "no_geographic_data": "Geografik ma'lumotlar mavjud emas.",
       "no_popular_posts": "Hozircha mashhur postlar yo'q.",
       "no_posts": "Hozircha postlar yo'q.",
       "no_subscriptions": "Hozircha obunalar yo'q.",
@@ -515,33 +455,23 @@
       "title_new": "Xabarnomalar ({{count}} yangi)"
     },
     "post_series": {
-      "add_a_post": "Post qo‘shish",
-      "back_to_series": "Seriyalarga qaytish",
       "cover_image": "Muqova rasmi",
-      "create_series": "Seriya yaratish",
       "created": "Seriya yaratildi",
       "delete_confirm": "\"{{title}}\" seriyasini o‘chirishni tasdiqlaysizmi? Bu barcha postlarni undan ajratib qo‘yadi.",
       "delete_failed": "O‘chirish muvaffaqiyatsiz",
       "deleted": "Seriya o‘chirildi",
       "description_label": "Tavsif",
-      "edit_series": "Seriyani tahrirlash",
       "load_failed": "Seriyani yuklash muvaffaqiyatsiz",
-      "new_series": "Yangi seriya",
       "no_posts_yet": "Hozircha postlar yo‘q. Qo‘shish uchun quyida qidiring.",
-      "order_save_failed": "Tartibni saqlash muvaffaqiyatsiz",
-      "post_add_failed": "Post qo‘shish muvaffaqiyatsiz",
       "post_added": "Post seriyaga qo‘shildi",
-      "post_remove_failed": "Postni olib tashlash muvaffaqiyatsiz",
       "post_removed": "Post olib tashlandi",
       "posts_in_series": "Ushbu seriyadagi postlar",
       "save": "Saqlash",
       "save_failed": "Saqlash muvaffaqiyatsiz",
       "saved": "Seriya saqlandi",
       "saving": "Saqlanmoqda…",
-      "search_by_title": "Sarlavha bo‘yicha qidirish…",
       "search_placeholder": "Seriyalarni qidirish...",
       "searching": "Qidirilmoqda…",
-      "slug_label": "Slug",
       "title": "Post seriyalari",
       "title_label": "Sarlavha",
       "title_slug_required": "Sarlavha va slug talab qilinadi"
@@ -558,11 +488,6 @@
       "analytics": "Analitika",
       "analytics_load_failed": "Analitikani yuklashda xatolik",
       "browsers": "Brauzerlar",
-      "by_browser": "Brauzer bo'yicha",
-      "by_country": "Mamlakat bo'yicha",
-      "by_device": "Qurilma bo'yicha",
-      "by_os": "OS bo'yicha",
-      "by_referrer": "Yo'naltiruvchi bo'yicha",
       "countries": "Mamlakatlar",
       "created": "Qisqa havola yaratildi",
       "days_active": "Faol kunlar",
@@ -572,7 +497,6 @@
       "load_failed": "Qisqa havolani yuklashda xatolik",
       "not_found": "Qisqa havola topilmadi",
       "save_failed": "Qisqa havolani saqlashda xatolik",
-      "short_link_not_found": "Qisqa havola topilmadi.",
       "title": "Qisqa Havolalar",
       "total_clicks": "Jami bosishlar",
       "updated": "Qisqa havola yangilandi"
@@ -587,7 +511,6 @@
     },
     "translations": {
       "add_language": "Til qo'shish",
-      "add_language_title": "{{lang}} tarjimasini qo'shish",
       "ai_model": "AI Modeli",
       "back": "Orqaga",
       "content_language": "Kontent tili",
@@ -618,7 +541,6 @@
       "name_placeholder": "Ism",
       "name_required": "Ism kiritilishi shart",
       "not_found": "Foydalanuvchi topilmadi",
-      "password_edit_label": "Parol (joriy parolni saqlash uchun bo'sh qoldiring)",
       "password_label": "Parol",
       "password_placeholder": "Parol",
       "password_required": "Parol kiritilishi shart",
@@ -650,11 +572,9 @@
     "forgot_password": {
       "code_sent": "Tasdiqlash kodi emailingizga yuborildi.",
       "confirm_password": "Parolni tasdiqlang",
-      "email_address": "Email manzili",
       "email_required": "Email kiritilishi shart.",
       "new_password": "Yangi parol",
       "reset_password": "Parolni tiklash",
-      "send_verification_code": "Tasdiqlash kodini yuborish",
       "success": "Parol muvaffaqiyatli tiklandi.",
       "title": "Parolni unutdingizmi",
       "verification_code": "Tasdiqlash kodi"
@@ -696,7 +616,6 @@
       "passwords_not_match": "Parollar mos kelmaydi.",
       "registering": "Ro‘yxatdan o‘tilmoqda...",
       "title": "Hisob yaratish",
-      "captcha_failed": "reCAPTCHA tasdiqlash muvaffaqiyatsiz tugadi. Iltimos, qayta urinib ko'ring.",
       "captcha_required": "Iltimos, reCAPTCHA tasdiqlashni yakunlang.",
       "passwords_mismatch": "Parollar mos kelmaydi."
     },
@@ -723,8 +642,6 @@
       "delete_button": "O'chirish",
       "delete_success": "Passkey o'chirildi.",
       "delete_failed": "Passkey o'chirib bo'lmadi.",
-      "limit_reached": "Maksimal passkey soniga yetildi.",
-      "challenge_expired": "Passkey muddati tugadi. Qayta urinib ko'ring.",
       "not_supported": "Brauzeringiz passkey-ni qo'llab-quvvatlamaydi.",
       "no_passkeys": "Hali passkey ro'yxatdan o'tkazilmagan.",
       "created_at": "Qo'shildi",
@@ -800,7 +717,6 @@
     "view_all": "Hammasini ko'rish",
     "breadcrumb": "Navigatsiya izi",
     "clear_selection": "Tanlovni tozalash",
-    "go_to_homepage": "Bosh sahifaga o'tish",
     "create": "Create",
     "search_placeholder": "Search...",
     "title": "Title",
@@ -863,8 +779,6 @@
       "categories": "Kategoriyalar",
       "latest_posts": "So‘nggi postlar",
       "load_more": "Ko‘proq postlarni yuklash",
-      "no_more_posts": "Boshqa postlar mavjud emas",
-      "other_posts": "Boshqa postlar",
       "posts_by": "Muallif postlari",
       "read_more": "Batafsil o‘qish",
       "related_articles": "Tegishli maqolalar",
@@ -877,7 +791,6 @@
       "project_posts": "{{projectTitle}} Postlar"
     },
     "knowledge_graph": {
-      "title_2d": "2D Bilimlar grafigi",
       "title_3d": "3D Bilimlar grafigi"
     },
     "offline": {
@@ -886,16 +799,13 @@
     },
     "post": {
       "by": "muallif",
-      "min_read": "daqiqalik o‘qish",
       "no_date": "Sana yo‘q",
       "read_time": "{{count}} daqiqalik o‘qish",
       "unknown_author": "Muallif noma'lum",
       "views": "ko‘rishlar",
       "views_count": "{{count}} ko‘rishlar"
     },
-    "scroll_to_bottom": "Pastga siljiting",
     "scroll_to_top": "Tepaga siljiting",
-    "terminal_button": "Terminal",
     "time": {
       "a_minute_ago": "Bir daqiqa oldin",
       "an_hour_ago": "Bir soat oldin",
@@ -938,6 +848,14 @@
     "terms_of_use": {
       "description": "kuray.dev uchun Foydalanish shartlari — Ushbu veb-sayt va uning xizmatlaridan foydalanish qoidalari va ko‘rsatmalari.",
       "title": "Foydalanish shartlari | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "Kuray Karaaslan haqida tez-tez so'raladigan savollar: BIM avtomatlashtirish, IoT tizimlari, dasturiy ta'minot arxitekturasi, texnik stack va u bilan qanday ishlash kerak.",
+      "title": "FAQ | Kuray Karaaslan — Dasturiy Ta'minot Arxitektori va Mahsulot Muhandisi"
+    },
+    "freelance": {
+      "description": "Tanlangan freelance loyihalar uchun mavjud — arxitektura, platforma muhandisligi va murakkab SaaS, IoT, BIM, integratsiya va real-vaqt mahsulotlari uchun oxirigacha yetkazib berish.",
+      "title": "Freelance Dasturiy Ta'minot Arxitektori va Mahsulot Muhandisi | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -970,7 +888,8 @@
     "about": "About",
     "linkedin": "LinkedIn",
     "portfolio": "Portfolio",
-    "resume": "Rezyume"
+    "resume": "Rezyume",
+    "faq": "FAQ"
   },
   "pages": {
     "contact": {
@@ -999,7 +918,6 @@
       "title": "Aloqa"
     },
     "hero": {
-      "contact_me": "Menga murojaat qiling",
       "description": "<bold>Mahsulotga yo'naltirilgan Full-Stack Dasturchi</bold>, <bold>3+ yillik tajriba</bold> bilan <bold>frontend, backend, mobil BIM va IoT sohalarida</bold> mustahkam, kengaytiriladigan dasturiy yechimlarni yetkazib beradi. <bold>Java Spring Boot, React, Next.js, Node.js va PostgreSQL</bold> bo'yicha ixtisoslashgan. <bold>Ko'p foydalanuvchili SaaS platformalari, real-vaqt tizimlari va to'lov integratsiyalari</bold>ni arxitektura qilishda mohir. Kuchli muhandislik asoslarini <bold>ijodiy muammolarni hal qilish</bold> va <bold>toza, tizimli kodlash yondashuvi</bold> bilan birlashtiradi.",
       "resume": "Rezyume",
       "typing_effect": {
@@ -1172,17 +1090,181 @@
     },
     "leadership": {
       "description": "Mening hissam individual amalga oshirish vazifalari bilan cheklanmaydi. Men tizim yo'nalishini shakllantirishga yordam beraman, texnik noaniqlikni kamaytiraman, qayta ishlatiladigan asoslarni o'rnataman va mendan keyin davom etadigan muhandislar uchun murakkab ishni osonlashtiraman.",
-      "points": {
-        "point1": "Noaniq mahsulot talablarini bajariladigan texnik chegaralarga tarjima qilish",
-        "point2": "Umumiy arxitektura va qayta ishlatiladigan platforma asoslarini aniqlash",
-        "point3": "Mavjud biznes qiymatini saqlab qoladigan migratsiya yo'llarini aniqlash",
-        "point4": "Texnik xavfni ishlab chiqarish qarziga aylanishidan oldin ko'rib chiqish",
-        "point5": "Muhandislarni amalga oshirish va arxitektura mantiqi orqali o'qitish",
-        "point6": "Takroriy qaror qabul qilishni kamaytiradigan standartlarni yaratish",
-        "point7": "Mahsulot, domen, infratuzilma va amalga oshirish masalalarini bog'lash",
-        "point8": "Keraksiz operatsion murakkablikni kiritmasdan tizimlarni yaxshilash"
-      },
       "title": "Texnik yetakchilik"
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIM Avtomatlashtirish",
+        "identity": "Shaxs va Tarix",
+        "iot": "IoT Rivojlantirish",
+        "services": "Xizmatlar va Hamkorlik",
+        "stack": "Texnik Tajriba",
+        "writing": "Yozuv va Kontent"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "Ha. Kuray SaaS tizimlari va veb platformalar uchun admin panellar, boshqaruv panellari va ichki operatsion vositalarni yaratadi.",
+          "question": "Kuray admin panellar va ichki vositalarni yaratadimi?"
+        },
+        "appointment_systems": {
+          "answer": "Ha — Redis asosidagi slot boshqaruvi bilan tranzaksion ma'lumotlar bazasi doimiyligini birlashtirgan uchrashuv tizimi arxitekturasini o'z ichiga oladi, bu esa bir vaqtda kirish holatida bron qilish va bekor qilishni izchil saqlaydi.",
+          "question": "Kuray jadval yoki bron tizimlarini yaratganmi?"
+        },
+        "architecture": {
+          "answer": "Modulli, xizmatga yo'naltirilgan arxitekturalar aniq chegaralar va bashorat qilinadigan shartnomalar bilan — avval mustahkam asosiy infratuzilmani yaratish, keyin esa xususiyatlarni bosqichma-bosqich kengaytirish.",
+          "question": "Kuray qanday arxitekturani afzal ko'radi?"
+        },
+        "auth_systems": {
+          "answer": "Ha. Shaxsni aniqlash va kirishni boshqarish — sessiyalar, ruxsatlar va ko'p foydalanuvchili avtorizatsiya — Kuray tomonidan ishlab chiqilgan backend tizimlarining asosiy qismi, keyin qo'shiladigan emas.",
+          "question": "Kuray autentifikatsiya va avtorizatsiya tizimlarini amalga oshiradimi?"
+        },
+        "availability": {
+          "answer": "Ha, tanlangan loyihalar uchun — to'liq vaqtli, shartnoma asosida yoki maslahat beruvchi sifatida. U odatda qanday ishlashini bilish uchun Freelance sahifasini ko'ring.",
+          "question": "Kuray freelance ishlar uchun mavjudmi?"
+        },
+        "bim": {
+          "answer": "Ha. Dasturiy ta'minot arxitekturasi bilan bir qatorda, Kuray BIM dasturchisi sifatida Autodesk Revit, AutoCAD, Robot Structural Analysis va Advance Steel-da Building Information Modeling ish jarayonlarini avtomatlashtiradi, C# va PHP REST API-larida API orqali avtomatlashtirish bilan.",
+          "question": "Kuray Karaaslan BIM dasturchisi ekanmi?"
+        },
+        "bim_automation_explain": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis va Advance Steel-da qo'lda bajariladigan, takrorlanuvchi modellashtirish va hujjatlashtirish bosqichlarini API orqali boshqariladigan skriptlar va vositalar bilan almashtirish, shuning uchun struktura va arxitektura ish jarayonlari tezroq va kamroq qo'lda xatolar bilan amalga oshiriladi.",
+          "question": "Kurayning ishida 'BIM avtomatlashtirish' aslida nimani anglatadi?"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — u qo'lda struktura muhandisligi tajribasini dasturiy ta'minot ishlab chiqish bilan birlashtirib, Revit, AutoCAD, Robot Structural Analysis va Advance Steel-da BIM avtomatlashtirishni yaratadi. Aloqa uchun Freelance sahifasini ko'ring.",
+          "question": "BIM avtomatlashtirish yoki BIM dasturiy ta'minot ishlab chiqish uchun kimga murojaat qilishim kerak?"
+        },
+        "bim_custom_tools": {
+          "answer": "Ha. Kuray Autodesk Revit, AutoCAD va Advance Steel ustida C# va PHP REST API-laridan foydalangan holda API orqali avtomatlashtirish va maxsus vositalarni yaratadi, bu esa ma'lum bir firmaga moslashtirilgan modellashtirish va hujjatlashtirish ish jarayoniga mos keladi.",
+          "question": "Kuray Revit va AutoCAD uchun maxsus plaginlar yoki vositalarni yaratadimi?"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis va Advance Steel, C# va PHP REST API-larida API orqali avtomatlashtirish bilan.",
+          "question": "Kuray qaysi BIM vositalarini biladi?"
+        },
+        "clients": {
+          "answer": "Zamonaviy veb ilovalar, SaaS platformalari, IoT panellari yoki toza arxitektura va real-vaqt xususiyatlariga muhtoj mahsulotlarni yaratadigan jamoalar.",
+          "question": "Kurayning ishi qaysi turdagi mijozlarga mos keladi?"
+        },
+        "construction": {
+          "answer": "Ha — Kuray mustaqil qurilish muhandisi va pudratchi sifatida amaliy tajribaga ega, bu esa uning BIM dasturchisi sifatidagi ishini faqat vositalar emas, balki haqiqiy struktura va joy amaliyotiga asoslangan qiladi.",
+          "question": "Kurayda amaliy qurilish muhandisligi tajribasi bormi?"
+        },
+        "contact": {
+          "answer": "Eng yaxshi yo'l bu saytning aloqa bo'limi orqali. Shuningdek, saytdan bog'langan uning jamoat profillari orqali ham murojaat qilishingiz mumkin.",
+          "question": "Kuray bilan ish uchun qanday bog'lanishim kerak?"
+        },
+        "database": {
+          "answer": "Ha. Kuray odatda PostgreSQL-ni doimiylik uchun Redis bilan yuqori samarali operatsion ma'lumotlar, keshlash va slot boshqaruvi uchun birlashtiradi.",
+          "question": "Kuray ma'lumotlar bazalarini keshlash qatlamlari bilan birlashtiradimi?"
+        },
+        "fullstack": {
+          "answer": "Ha. Kuray full-stack muhandis bo'lib, faqat bitta qatlamga ixtisoslashmasdan, frontend, backend, infratuzilma va tizim arxitekturasi bo'ylab ishlaydi.",
+          "question": "Kuray frontend va backendda ishlaydimi?"
+        },
+        "iot": {
+          "answer": "Ha. IoT dasturchisi sifatida, Kuray MQTT, WebSocket va SNMP orqali qurilmadan serverga aloqa tizimlarini yaratadi, Java Spring va TypeScript/React bilan birgalikda real vaqt telemetriyasi uchun.",
+          "question": "Kuray Karaaslan IoT dasturlash bilan shug'ullanadimi?"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — u IoT platformalarini boshidan oxirigacha loyihalashtiradi va quradi: MQTT, WebSocket va SNMP orqali qurilmadan serverga aloqa, telemetriya quvurlari va real vaqtli boshqaruv panellari. Aloqa uchun Freelance sahifasini ko'ring.",
+          "question": "IoT platformasi yoki telemetriya tizimini ishlab chiqish uchun kim bilan bog'lanishim kerak?"
+        },
+        "iot_dashboards": {
+          "answer": "Ha. Kuray ulanish qurilmalaridan ma'lumotlarni qayta ishlaydigan telemetriya quvurlarini va uni real vaqt rejimida vizualizatsiya qiladigan boshqaruv panellarini yaratadi.",
+          "question": "Kuray IoT boshqaruv panellari va telemetriya quvurlarini quradimi?"
+        },
+        "iot_device_management": {
+          "answer": "Ha. Kurayning IoT ishlari qurilmani boshqarishni o'z ichiga oladi — ta'minlash, holatni kuzatish va tarmoq monitoringi — telemetriya quvurlari va uning ustiga qurilgan boshqaruv panellari bilan birgalikda.",
+          "question": "Kuray IoT qurilmasini boshqarish va ta'minlash bilan shug'ullanadimi?"
+        },
+        "iot_focus": {
+          "answer": "Qurilmani boshqarish, telemetriya quvurlari, real vaqtli boshqaruv panellari va kichik va o'rta korxonalar uchun oddiyroq, arzonroq IoT platforma tajribalarini yaratish.",
+          "question": "Kurayning IoT platformalaridagi e'tibori nimada?"
+        },
+        "iot_geospatial": {
+          "answer": "Ha. Kuray qurilma joylashuvini tuzilgan ma'lumot sifatida saqlash va joylashuvga asoslangan vizualizatsiya va so'rov funksiyalarini yaratishda tajribaga ega, masalan, ma'lum bir nuqta yaqinidagi yoki radius ichidagi qurilmalarni topish.",
+          "question": "Kuray joylashuvga asoslangan yoki geospace IoT ma'lumotlari bilan ishlaydimi?"
+        },
+        "iot_protocols": {
+          "answer": "MQTT, WebSocket va SNMP, Java Spring qabul qilish va qoidalar qatlami va TypeScript/React real vaqt boshqaruv paneli bilan qo'llab-quvvatlanadi.",
+          "question": "Kuray qaysi IoT protokollaridan foydalanadi?"
+        },
+        "mobile": {
+          "answer": "React Native, chunki u React ekotizimi bilan mos keladi va platformalararo rivojlanishni tezlashtiradi.",
+          "question": "Kurayning mobil stacki qaysi?"
+        },
+        "multitenant": {
+          "answer": "Ha. Kuray ko'p foydalanuvchili SaaS arxitekturasi bo'yicha tajribaga ega va tenant izolyatsiyasi va kengaytiriladigan xizmat chegaralari bilan tizimlarni loyihalashtiradi.",
+          "question": "Kuray ko'p foydalanuvchili tizimlarni quradimi?"
+        },
+        "mvp": {
+          "answer": "Ha, lekin u kengaytirishga mo'ljallangan MVPlarni afzal ko'radi — avval mustahkam poydevor, keyin tez iteratsiya.",
+          "question": "Kuray MVPlarni quradimi?"
+        },
+        "rest_apis": {
+          "answer": "Ha. Kuray muntazam ravishda veb-ilovalar, SaaS mahsulotlari va uchinchi tomon integratsiyalari uchun REST APIlarni loyihalashtiradi va quradi, autentifikatsiya va avtorizatsiya API dizayniga boshidan kiritilgan.",
+          "question": "Kuray REST APIlarni quradimi?"
+        },
+        "reviews": {
+          "answer": "Ha. Kuray arxitektura qarorlarini qo'llab-quvvatlaydi va ko'rib chiqadi, kengaytirilish, texnik xizmat ko'rsatish va dasturchi tajribasiga e'tibor qaratadi.",
+          "question": "Kuray tizim arxitekturasini ko'rib chiqishda yordam bera oladimi?"
+        },
+        "role": {
+          "answer": "Ikkalasi ham — uning ish unvoni Dastur Arxitektori va Mahsulot Muhandisi. U tizim arxitekturasini loyihalashtiradi, masalan, ma'lumotlar modellari, xizmat chegaralari va xavfsizlik oqimlari, va uni oxirigacha amalga oshiradi, dizaynni boshqa birovga topshirish o'rniga.",
+          "question": "Kuray Karaaslan dastur arxitektori yoki mahsulot muhandisimi?"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — u SaaS platformalari, veb-ilovalar va backend tizimlarini boshidan oxirigacha loyihalashtiradi va quradi, va freelance va maslahat xizmatlari uchun mavjud. Aloqa uchun Freelance sahifasini ko'ring.",
+          "question": "Veb platforma yoki SaaS mahsulotini qurish uchun kim bilan bog'lanishim kerak?"
+        },
+        "tech_stack": {
+          "answer": "Asosan React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets va MQTT, maxsus backend tizimlari uchun Java Spring Boot bilan.",
+          "question": "Kuray qaysi texnologiyalardan foydalanadi?"
+        },
+        "tone": {
+          "answer": "Professional, lekin suhbatdosh, muhandislar uchun yozilgan, amaliy misollar va kichik sarlavhalar bilan aniq tuzilma — odatda 1500–2000 belgilar, kam muhokama qilingan burchaklarga e'tibor qaratilgan.",
+          "question": "Kurayning yozish uslubi va ohangi qanday?"
+        },
+        "topics": {
+          "answer": "Dasturiy ta'minot muhandisligi, veb-rivojlanish, tizim arxitekturasi, IoT platformalari va zamonaviy rivojlanish vositalari — odatda amaliy, real dunyo nuqtai nazaridan, boshlang'ich qo'llanmalar o'rniga.",
+          "question": "Kuray qaysi mavzularda yozadi?"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan Turkiyada joylashgan dastur arxitektori va mahsulot muhandisi, shuningdek, BIM dasturchisi va IoT dasturchisi sifatida ishlaydi. U SaaS platformalarini, BIM avtomatlashtirish vositalarini, IoT tizimlarini va kengaytiriladigan veb-ilovalarni yaratishga e'tibor qaratadi.",
+          "question": "Kuray Karaaslan kim?"
+        }
+      },
+      "faq_subtitle": "BIM avtomatlashtirish, IoT tizimlari, arxitektura va qanday ishlashim haqida aniq, iqtibos keltiriladigan javoblar — insonlar va AI yordamchilari uchun.",
+      "faq_title": "Tez-tez so'raladigan savollar"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend va Platforma",
+        "delivery": "Yetkazib berish va Masshtablash",
+        "foundations": "Asoslar va Arxitektura"
+      },
+      "capabilities_subtitle": "Imkoniyatlar tizim natijalari atrofida shakllangan — alohida texnologiyalar emas.",
+      "capabilities_title": "Muhandislik Imkoniyatlari",
+      "engagement": {
+        "cta": "Texnik Suhbatni Boshlash",
+        "description": "Men aniq arxitektura, kuchli texnik egalik va mahsulot qarorlarini amalga oshirish haqiqatiga ulash qobiliyatini talab qiladigan mahsulotlarda eng yaxshi ishlayman.",
+        "title": "Qanday Hamkorlik Qilishimiz Mumkin",
+        "advisory_description": "Arxitektura tahlillari, tizim dizayni, texnologiya va migratsiya strategiyasi, va texnik qarorlarni ishlab chiqarish qarziga aylanmasdan oldin xavfsizlantirish.",
+        "advisory_title": "Arxitektura va Maslahat",
+        "build_description": "Platformalar va xizmatlarni boshidan oxirigacha yetkazib berish — ma'lumotlar modellari va backend tizimlardan mahsulot interfeyslari, integratsiyalar va ishlab chiqarish infratuzilmasigacha.",
+        "build_title": "Qurish va Yetkazib Berish",
+        "platform_description": "Qayta foydalaniladigan asoslar: ko'p foydalanuvchili SaaS, autentifikatsiya va ruxsatlar, provayderdan mustaqil hisob-kitoblar va vaqt o'tishi bilan ko'payadigan operatsion vositalar.",
+        "platform_title": "Platforma Asoslari"
+      },
+      "hero": {
+        "availability": "Tanlangan loyihalarga ochiq — to'liq vaqtli, shartnoma asosida yoki maslahat beruvchi.",
+        "cta_primary": "Murakkab Loyihani Muhokama Qilish",
+        "cta_secondary": "Tanlangan Tizimlarni Ko'rish",
+        "eyebrow": "Freelance · Dasturiy Ta'minot Arxitekturasi va Mahsulot Muhandisligi",
+        "subtitle": "Men arxitektura, backend, frontend, infratuzilma, integratsiyalar va ishlab chiqarish operatsiyalari bo'yicha murakkab dasturiy tizimlarni boshqaraman. Men SaaS, IoT, BIM, real-vaqt va platformaga yo'naltirilgan mahsulotlarda eng samarali ishlayman, bu yerda texnik qarorlar ham tezkor yetkazib berish, ham uzoq muddatli tizim rivojlanishini qo'llab-quvvatlashi kerak.",
+        "title": "Menga qiyin qismini olib keling."
+      }
     }
   },
   "settings": {
@@ -1220,7 +1302,6 @@
       "download_codes": "Kodlarni yuklab olish",
       "enter_code": "Autentifikator ilovangizdan kodni kiriting",
       "i_have_saved": "Men zaxira kodlarimni saqladim",
-      "start_setup": "Sozlashni boshlash",
       "title": "TOTP sozlash",
       "warning": "Zaxira kodlaringizni xavfsiz joyda saqlang. Agar autentifikator ilovangizga kirish imkoniyatini yo'qotsangiz, ulardan hisobingizga kirishni tiklash uchun foydalanishingiz mumkin."
     },
@@ -1317,7 +1398,6 @@
       "cover_image_label": "Muqova Rasmi",
       "delete_link": "O'chirish",
       "description": "Profilingizni tahrirlang va ijtimoiy media havolalarini qo'shing.",
-      "drag_hint": "Sudrab olib boring",
       "hide_profile_description": "Faollashtirilganda, profilingiz sahifasi Google va boshqa qidiruv tizimlari tomonidan indekslanmaydi.",
       "hide_profile_label": "Profilni qidiruv tizimlaridan yashirish",
       "name_label": "Ism",
@@ -1378,7 +1458,6 @@
       "error": "Xato yuz berdi",
       "info": "Ma'lumot",
       "success": "Muvaffaqiyat",
-      "this_blog_is_available_in_only_english": "Bu blog faqat ingliz tilida mavjud",
       "warning": "Ogohlantirish"
     },
     "calendar": {
@@ -1387,12 +1466,9 @@
       "appointment_info": "Uchrashuv haqida ma'lumot",
       "appointment_subtitle": "Mos kun va vaqtni tanlang",
       "appointment_title": "Uchrashuv",
-      "available_slots": "Mavjud vaqtlar",
       "available_times": "Mavjud vaqtlar",
-      "book_appointment": "Uchrashuvni bron qilish",
       "book_now": "Uchrashuvni bron qilish",
       "close": "Yopish",
-      "close_modal": "Yopish",
       "create_appointment": "Uchrashuv yaratish",
       "description": "Mening bilan uchrashuvni bron qiling.",
       "error_occurred": "Xato yuz berdi",
@@ -1405,16 +1481,13 @@
         "name_placeholder": "Ismingizni kiriting",
         "note": "Eslatma",
         "note_label": "Eslatma",
-        "note_placeholder": "Eslatmani kiriting",
         "phone": "Telefoningiz",
         "phone_label": "Telefon",
         "phone_placeholder": "Telefon raqamingizni kiriting"
       },
       "minutes": "{{count}} daqiqa",
       "minutes_abbr": "daq",
-      "no_available_slots": "Bo'sh joylar yo'q",
       "no_slots_for_day": "Tanlangan kun uchun bo'sh vaqtlar yo'q",
-      "past_date_warning": "O'tgan sana uchun uchrashuvni belgilay olmaysiz.",
       "select_slot": "Iltimos, uchrashuvni belgilash uchun vaqtni tanlang.",
       "select_slot_first": "Avval vaqtni tanlang",
       "selected_time": "Tanlangan vaqt",
@@ -1445,7 +1518,6 @@
       "email_placeholder": "Elektron pochta manzilingizni kiriting",
       "error_message": "Obuna bo'lishda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.",
       "subscribe": "Obuna bo'lish",
-      "success_message": "Muvaffaqiyatli obuna bo'ldingiz! Tasdiqlash uchun elektron pochtangizni tekshiring.",
       "title": "Yangiliklar"
     },
     "status": {
@@ -1470,8 +1542,7 @@
         "partial_outage": "Qisman uzilish"
       },
       "title": "Tizim holati",
-      "uptime": "Ish vaqti: {{time}}m",
-      "open_status": "Holat"
+      "uptime": "Ish vaqti: {{time}}m"
     },
     "whatsapp": {
       "message": "Salom! Men Kuray Karaaslanman, sizga qanday yordam bera olaman?"
@@ -1488,7 +1559,6 @@
       "welcome_message": "Salom! Men AI yordamchisiman. Bu yerda yoritilgan blog postlari, loyihalar yoki texnologiya mavzulari haqida menga savol bering.",
       "admin_typing": "Admin yozmoqda...",
       "connecting": "Ulanmoqda...",
-      "message_queued": "Siz oflaysiz. Xabaringiz ulanish tiklanganda yuboriladi.",
       "rate_limit_exceeded": "Siz xabarlarni juda tez yuboryapsiz. Iltimos, qayta urinib ko'rishdan oldin biroz kuting.",
       "session_closed": "Ushbu sessiya yopildi. Iltimos, yangi suhbatni boshlang.",
       "user_banned": "Siz vaqtincha chatbotdan foydalanishdan cheklangansiz. Iltimos, keyinroq qayta urinib ko'ring."

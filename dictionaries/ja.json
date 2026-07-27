@@ -35,7 +35,6 @@
     "categories": {
       "action": "アクション",
       "confirm_delete": "このカテゴリを削除してもよろしいですか？",
-      "create_category": "カテゴリを作成",
       "delete": "削除",
       "edit": "編集",
       "image": "画像",
@@ -90,12 +89,10 @@
       "all_folders": "すべてのフォルダ",
       "alt_text": "代替テキスト",
       "alt_text_placeholder": "アクセシビリティのために画像を説明",
-      "confirm_bulk_delete": "{{count}}個のファイルを削除してもよろしいですか？",
       "confirm_delete": "このファイルを削除してもよろしいですか？",
       "copy_url": "URLをコピー",
       "date": "日付",
       "delete": "削除",
-      "delete_selected": "選択したものを削除",
       "description": "アップロードしたファイルと画像を管理",
       "edit": "編集",
       "filename": "ファイル名",
@@ -105,7 +102,6 @@
       "next": "次へ",
       "no_files": "ファイルが見つかりません",
       "page": "ページ",
-      "page_size": "ページサイズ",
       "preview": "プレビュー",
       "previous": "前へ",
       "search_placeholder": "ファイルを検索...",
@@ -114,24 +110,16 @@
       "size": "サイズ",
       "sync": "S3から同期",
       "title": "メディアライブラリ",
-      "total_files": "ファイル総数",
-      "total_size": "総サイズ",
       "upload": "アップロード"
     },
     "posts": {
       "action": "アクション",
       "category": "カテゴリー",
       "confirm_delete": "この投稿を削除してもよろしいですか？",
-      "create_post": "投稿を作成",
       "delete": "削除",
       "edit": "編集",
       "next": "次へ",
       "previous": "前へ",
-      "rebuild_failed": "ナレッジグラフの再構築のトリガーに失敗しました。",
-      "rebuild_success": "ナレッジグラフの再構築がトリガーされました。",
-      "rebuild_triggered": "再構築がトリガーされました",
-      "rebuild_triggered_message": "ナレッジグラフの再構築はすでにトリガーされています。再度トリガーするにはページを更新する必要があります。",
-      "reset_knowledge_graph": "ナレッジグラフをリセット",
       "search_placeholder": "検索",
       "showing": "{{total}} 件中 {{count}} 件を表示中",
       "status": "ステータス",
@@ -147,7 +135,6 @@
     "projects": {
       "action": "アクション",
       "confirm_delete": "このプロジェクトを削除してもよろしいですか？",
-      "create_project": "プロジェクトを作成",
       "delete": "削除",
       "edit": "編集",
       "next": "次へ",
@@ -159,17 +146,10 @@
       "view": "表示"
     },
     "selects": {
-      "select_category": "カテゴリーを選択",
-      "select_user": "ユーザーを選択",
-      "select_option": "選択",
-      "select_post": "投稿を選択",
-      "select_project": "プロジェクトを選択",
-      "select_role": "役割を選択",
-      "select_status": "ステータスを選択"
+      "select_option": "選択"
     },
     "slots": {
       "add": "追加",
-      "add_manual_slot": "手動スロットを追加",
       "apply_confirm": "{{day}} テンプレートを {{date}} に適用しますか？既存のスロットが上書きされます。",
       "apply_failed": "テンプレートの適用に失敗しました",
       "apply_success": "{{date}} にテンプレートを適用しました",
@@ -191,7 +171,6 @@
       "save_changes": "変更を保存",
       "save_template": "テンプレートを保存",
       "saving": "保存中...",
-      "select_day": "日を選択",
       "select_time": "時間を選択",
       "slot_exists": "スロットは既に存在します",
       "slots_failed": "スロットの更新に失敗しました",
@@ -204,21 +183,13 @@
       "week_confirm": "これは{{date}}から始まる週の既存のスロットを上書きします。続行しますか？"
     },
     "stats": {
-      "all_time": "全期間",
       "categories": "カテゴリー",
       "comments": "コメント",
       "daily": "日次",
       "frequency": "頻度",
-      "last_5_minutes": "直近5分",
-      "last_hour": "直近1時間",
       "monthly": "月次",
       "posts": "投稿",
       "title": "統計",
-      "total_categories": "総カテゴリー数",
-      "total_comments": "総コメント数",
-      "total_posts": "総投稿数",
-      "total_users": "総ユーザー数",
-      "total_views": "総閲覧数",
       "users": "ユーザー",
       "views": "閲覧数",
       "weekly": "週次",
@@ -243,7 +214,6 @@
     "users": {
       "action": "アクション",
       "confirm_delete": "このユーザーを削除してもよろしいですか？",
-      "create_user": "ユーザーを作成",
       "delete": "削除",
       "delete_failed": "ユーザーの削除に失敗しました。",
       "delete_success": "ユーザーを削除しました。",
@@ -268,7 +238,6 @@
       "allowed_domains_placeholder": "例: example.com, company.org",
       "chatbot_settings_description": "AIチャットボットの動作と応答制限を設定",
       "chatbot_settings_title": "チャットボット設定",
-      "chatbot_tab": "チャットボット",
       "description": "システム全体の設定オプション",
       "domain_restrictions_description": "指定されたドメインからのみ登録を許可します。制限しない場合は空白のままにします。",
       "domain_restrictions_title": "ドメイン制限",
@@ -276,20 +245,13 @@
       "email_notifications_label": "メール通知",
       "email_settings_description": "送信メールで使用される情報",
       "email_settings_title": "メール設定",
-      "general_tab": "一般",
-      "login_restrictions_description": "ログイン失敗に対する保護設定",
-      "login_restrictions_title": "ログイン制限",
       "maintenance_mode_description": "サイトをメンテナンスモードにし、訪問者にはメンテナンスページが表示されます",
       "maintenance_mode_label": "メンテナンスモード",
       "max_login_attempts_label": "最大ログイン試行回数",
       "max_tokens_label": "最大トークン数",
-      "new_registration_notification_description": "新しいユーザーが登録した際に管理者に通知を送信",
-      "new_registration_notification_label": "新規登録通知",
       "notification_prefs_description": "通知を送信するタイミングを選択",
       "notification_prefs_title": "通知設定",
       "notifications_tab": "通知",
-      "require_email_verification_description": "登録後、ログインする前にユーザーはメールアドレスを確認する必要があります",
-      "require_email_verification_label": "メール確認を要求",
       "save_changes": "変更を保存",
       "security_tab": "セキュリティ",
       "sender_name_label": "送信者名",
@@ -318,8 +280,6 @@
     },
     "analytics": {
       "description": "トラフィック、地理データ、コンテンツ統計",
-      "geographic_data": "地理データ",
-      "no_geographic_data": "利用可能な地理データがありません。",
       "title": "アナリティクス",
       "total_visits": "総訪問数",
       "unique_countries": "ユニークな国",
@@ -330,27 +290,18 @@
     },
     "campaigns": {
       "back": "キャンペーンに戻る",
-      "campaign_title_label": "キャンペーンタイトル",
-      "campaign_title_placeholder": "内部名（購読者には表示されません）",
       "cancel": "キャンセル",
       "clear_draft": "下書きをクリア",
       "content_required": "コンテンツが必要です",
       "created": "キャンペーンが作成されました",
       "draft_cleared": "下書きがクリアされました",
       "draft_loaded": "ブラウザから下書きを読み込みました",
-      "edit_campaign": "キャンペーンを編集",
-      "email_content_label": "メールコンテンツ",
-      "email_subject_label": "メール件名",
-      "email_subject_placeholder": "購読者が見る件名",
       "load_failed": "キャンペーンの読み込みに失敗しました",
-      "new_campaign": "新しいキャンペーン",
       "not_found": "キャンペーンが見つかりません",
       "save": "保存",
       "saved": "キャンペーンが保存されました",
       "saving": "保存中...",
-      "send_to_subscribers": "すべての購読者に送信",
       "sending": "送信中...",
-      "sent_notice": "このキャンペーンは送信済みで、編集できません。",
       "status_label": "ステータス：",
       "subject_required": "件名が必要です",
       "title": "キャンペーン",
@@ -360,31 +311,22 @@
       "admin_responding": "管理者が応答中",
       "ai_responding": "AI応答中",
       "all": "すべて",
-      "ban_user": "ユーザーを禁止 (1時間)",
-      "close_session": "セッションを閉じる",
       "closed": "閉じた",
       "connected": "接続済み",
       "disconnected": "切断済み",
       "export": "エクスポート",
-      "failed_to_load": "チャットセッションの読み込みに失敗しました",
       "last_activity": "最終活動",
       "no_messages": "まだメッセージがありません",
       "no_sessions": "チャットセッションが見つかりません",
       "no_title": "タイトルなし",
-      "release_session": "セッションを解放",
       "reply_placeholder": "管理者として返信を入力...",
       "send": "送信",
       "session_closed": "セッションが閉じられました",
-      "session_is_closed": "このセッションは閉じられています",
-      "session_released": "セッションが解放されました",
-      "session_taken_over": "セッションが引き継がれました",
       "started": "開始済み",
       "status": "ステータス",
-      "take_over": "引き継ぐ",
       "takeover_first": "返信するにはまずセッションを引き継いでください",
       "title": "チャットセッション",
       "topic": "トピック",
-      "unban_user": "ユーザーの禁止を解除",
       "unknown": "不明",
       "user": "ユーザー",
       "action_ban": "ユーザーを禁止 (1時間)",
@@ -435,13 +377,11 @@
     "dashboard": {
       "contact_forms": "お問い合わせフォーム",
       "description": "コンテンツとアクティビティの概要",
-      "geographic_stats": "地理統計",
       "last_7_days": "過去7日間",
       "new_subscriptions": "新規購読",
       "no_appointments": "予定された予約はありません。",
       "no_comments": "保留中のコメントはありません。",
       "no_contact_forms": "お問い合わせフォームはまだありません。",
-      "no_geographic_data": "利用可能な地理データはありません。",
       "no_popular_posts": "人気の投稿はまだありません。",
       "no_posts": "投稿はまだありません。",
       "no_subscriptions": "購読はまだありません。",
@@ -515,33 +455,23 @@
       "title_new": "通知（{{count}}件の新着）"
     },
     "post_series": {
-      "add_a_post": "投稿を追加",
-      "back_to_series": "シリーズに戻る",
       "cover_image": "カバー画像",
-      "create_series": "シリーズを作成",
       "created": "シリーズが作成されました",
       "delete_confirm": "シリーズ「{{title}}」を削除しますか？これにより、すべての投稿のリンクが解除されます。",
       "delete_failed": "削除に失敗しました",
       "deleted": "シリーズが削除されました",
       "description_label": "説明",
-      "edit_series": "シリーズを編集",
       "load_failed": "シリーズの読み込みに失敗しました",
-      "new_series": "新しいシリーズ",
       "no_posts_yet": "まだ投稿がありません。下から追加してください。",
-      "order_save_failed": "順序の保存に失敗しました",
-      "post_add_failed": "投稿の追加に失敗しました",
       "post_added": "投稿がシリーズに追加されました",
-      "post_remove_failed": "投稿の削除に失敗しました",
       "post_removed": "投稿が削除されました",
       "posts_in_series": "このシリーズの投稿",
       "save": "保存",
       "save_failed": "保存に失敗しました",
       "saved": "シリーズが保存されました",
       "saving": "保存中…",
-      "search_by_title": "タイトルで検索…",
       "search_placeholder": "シリーズを検索...",
       "searching": "検索中…",
-      "slug_label": "スラッグ",
       "title": "投稿シリーズ",
       "title_label": "タイトル",
       "title_slug_required": "タイトルとスラッグは必須です"
@@ -558,11 +488,6 @@
       "analytics": "分析",
       "analytics_load_failed": "分析の読み込みに失敗しました",
       "browsers": "ブラウザ",
-      "by_browser": "ブラウザ別",
-      "by_country": "国別",
-      "by_device": "デバイス別",
-      "by_os": "OS別",
-      "by_referrer": "リファラー別",
       "countries": "国",
       "created": "短縮リンクが作成されました",
       "days_active": "アクティブ日数",
@@ -572,7 +497,6 @@
       "load_failed": "短縮リンクの読み込みに失敗しました",
       "not_found": "短縮リンクが見つかりません",
       "save_failed": "短縮リンクの保存に失敗しました",
-      "short_link_not_found": "短縮リンクが見つかりません。",
       "title": "短縮リンク",
       "total_clicks": "総クリック数",
       "updated": "短縮リンクが更新されました"
@@ -587,7 +511,6 @@
     },
     "translations": {
       "add_language": "言語を追加",
-      "add_language_title": "{{lang}} 翻訳を追加",
       "ai_model": "AIモデル",
       "back": "戻る",
       "content_language": "コンテンツ言語",
@@ -618,7 +541,6 @@
       "name_placeholder": "名前",
       "name_required": "名前は必須です",
       "not_found": "ユーザーが見つかりません",
-      "password_edit_label": "パスワード（現在のものを保持するには空のままに）",
       "password_label": "パスワード",
       "password_placeholder": "パスワード",
       "password_required": "パスワードは必須です",
@@ -650,11 +572,9 @@
     "forgot_password": {
       "code_sent": "確認コードがメールに送信されました。",
       "confirm_password": "パスワードを確認",
-      "email_address": "メールアドレス",
       "email_required": "メールアドレスは必須です。",
       "new_password": "新しいパスワード",
       "reset_password": "パスワードをリセット",
-      "send_verification_code": "認証コードを送信",
       "success": "パスワードが正常にリセットされました。",
       "title": "パスワードを忘れた",
       "verification_code": "認証コード"
@@ -696,7 +616,6 @@
       "passwords_not_match": "パスワードが一致しません。",
       "registering": "登録中...",
       "title": "アカウントを作成",
-      "captcha_failed": "reCAPTCHAの確認に失敗しました。もう一度お試しください。",
       "captcha_required": "reCAPTCHAの確認を完了してください。",
       "passwords_mismatch": "パスワードが一致しません。"
     },
@@ -723,8 +642,6 @@
       "delete_button": "削除",
       "delete_success": "パスキーを削除しました。",
       "delete_failed": "パスキーの削除に失敗しました。",
-      "limit_reached": "登録できるパスキーの上限に達しました。",
-      "challenge_expired": "パスキーのチャレンジが期限切れです。もう一度お試しください。",
       "not_supported": "お使いのブラウザはパスキーに対応していません。",
       "no_passkeys": "まだパスキーが登録されていません。",
       "created_at": "追加日",
@@ -800,7 +717,6 @@
     "view_all": "すべて表示",
     "breadcrumb": "パンくずリスト",
     "clear_selection": "選択をクリア",
-    "go_to_homepage": "ホームページへ移動",
     "create": "Create",
     "search_placeholder": "Search...",
     "title": "Title",
@@ -863,8 +779,6 @@
       "categories": "カテゴリー",
       "latest_posts": "最新の投稿",
       "load_more": "さらに投稿を読み込む",
-      "no_more_posts": "これ以上の投稿はありません",
-      "other_posts": "他の投稿",
       "posts_by": "投稿者",
       "read_more": "もっと読む",
       "related_articles": "関連記事",
@@ -877,7 +791,6 @@
       "project_posts": "{{projectTitle}}の投稿"
     },
     "knowledge_graph": {
-      "title_2d": "2Dナレッジグラフ",
       "title_3d": "3Dナレッジグラフ"
     },
     "offline": {
@@ -886,16 +799,13 @@
     },
     "post": {
       "by": "著者",
-      "min_read": "分で読む",
       "no_date": "日付なし",
       "read_time": "{{count}} 分で読む",
       "unknown_author": "不明な著者",
       "views": "ビュー",
       "views_count": "{{count}} ビュー"
     },
-    "scroll_to_bottom": "下までスクロール",
     "scroll_to_top": "上までスクロール",
-    "terminal_button": "ターミナル",
     "time": {
       "a_minute_ago": "1分前",
       "an_hour_ago": "1時間前",
@@ -938,6 +848,14 @@
     "terms_of_use": {
       "description": "kuray.devの利用規約 — このウェブサイトとそのサービスの利用に関するルールとガイドライン。",
       "title": "利用規約 | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "Kuray Karaaslanに関するよくある質問: BIMオートメーション、IoTシステム、ソフトウェアアーキテクチャ、技術スタック、彼との仕事の進め方。",
+      "title": "FAQ | Kuray Karaaslan — ソフトウェアアーキテクト & プロダクトエンジニア"
+    },
+    "freelance": {
+      "description": "選択的なフリーランス契約に対応可能 — アーキテクチャ、プラットフォームエンジニアリング、複雑なSaaS、IoT、BIM、統合、リアルタイム製品のエンドツーエンドの提供。",
+      "title": "フリーランスソフトウェアアーキテクト & プロダクトエンジニア | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -970,7 +888,8 @@
     "about": "About",
     "linkedin": "LinkedIn",
     "portfolio": "ポートフォリオ",
-    "resume": "履歴書"
+    "resume": "履歴書",
+    "faq": "FAQ"
   },
   "pages": {
     "contact": {
@@ -999,7 +918,6 @@
       "title": "お問い合わせ"
     },
     "hero": {
-      "contact_me": "お問い合わせ",
       "description": "<bold>製品志向のフルスタック開発者</bold>で、<bold>3年以上の経験</bold>を持ち、<bold>フロントエンド、バックエンド、モバイルのBIMおよびIoT分野</bold>で堅牢でスケーラブルなソフトウェアソリューションを提供。<bold>Java Spring Boot、React、Next.js、Node.js、PostgreSQL</bold>を専門とし、<bold>マルチテナントSaaSプラットフォーム、リアルタイムシステム、決済統合</bold>の設計に精通。<bold>創造的な問題解決</bold>と<bold>クリーンで体系的なコーディングアプローチ</bold>を組み合わせた強力なエンジニアリング基礎を持つ。",
       "resume": "履歴書",
       "typing_effect": {
@@ -1172,17 +1090,181 @@
     },
     "leadership": {
       "description": "私の貢献は個々の実装タスクに限定されません。システムの方向性を形作り、技術的な曖昧さを減らし、再利用可能な基盤を確立し、私の後に続くエンジニアのために複雑な作業を容易にします。",
-      "points": {
-        "point1": "曖昧な製品要件を実行可能な技術的境界に変換する",
-        "point2": "共有アーキテクチャと再利用可能なプラットフォーム基盤を定義する",
-        "point3": "既存のビジネス価値を維持する移行パスを特定する",
-        "point4": "技術的リスクを生産上の負債になる前にレビューする",
-        "point5": "実装とアーキテクチャの推論を通じてエンジニアを指導する",
-        "point6": "繰り返しの意思決定を減らす基準を作成する",
-        "point7": "製品、ドメイン、インフラ、実装の懸念をつなぐ",
-        "point8": "不必要な運用の複雑さを導入せずにシステムを改善する"
-      },
       "title": "技術的リーダーシップ"
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIMオートメーション",
+        "identity": "アイデンティティ & 背景",
+        "iot": "IoT開発",
+        "services": "サービス & 契約",
+        "stack": "技術的専門知識",
+        "writing": "執筆 & コンテンツ"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "はい。KurayはSaaSシステムやウェブプラットフォームのための管理パネル、管理ダッシュボード、内部運用ツールを構築します。",
+          "question": "Kurayは管理パネルや内部ツールを構築しますか？"
+        },
+        "appointment_systems": {
+          "answer": "はい — Redisベースのスロット管理とトランザクションデータベースの永続性を組み合わせた予約システムアーキテクチャを含み、同時アクセス下でも予約とキャンセルを一貫して管理します。",
+          "question": "Kurayはスケジューリングや予約システムを構築したことがありますか？"
+        },
+        "architecture": {
+          "answer": "モジュラーでサービス指向のアーキテクチャ、明確な境界と予測可能な契約を持ち、まず堅固なコアインフラを確立し、その後機能を段階的に拡張します。",
+          "question": "Kurayはどのようなアーキテクチャを好みますか？"
+        },
+        "auth_systems": {
+          "answer": "はい。アイデンティティとアクセス制御 — セッション、権限、マルチテナント認証 — はKurayが設計するバックエンドシステムのコア部分であり、後付けではありません。",
+          "question": "Kurayは認証と認可システムを実装しますか？"
+        },
+        "availability": {
+          "answer": "はい、選択的な契約に応じて — フルタイム、契約、またはアドバイザリー。彼が通常どのように契約するかはフリーランスページをご覧ください。",
+          "question": "Kurayはフリーランスの仕事に対応していますか？"
+        },
+        "bim": {
+          "answer": "はい。ソフトウェアアーキテクチャに加えて、KurayはBIM開発者としても活動し、Autodesk Revit、AutoCAD、Robot Structural Analysis、Advance SteelでのビルディングインフォメーションモデリングワークフローをC#とPHP REST APIによるAPI駆動の自動化で効率化します。",
+          "question": "Kuray KaraaslanはBIM開発者ですか？"
+        },
+        "bim_automation_explain": {
+          "answer": "Autodesk Revit、AutoCAD、Robot Structural Analysis、Advance Steelでの手動で繰り返されるモデリングとドキュメント作成のステップをAPI駆動のスクリプトとツールで置き換え、構造と建築のワークフローをより速く、手動エラーを減らして実行します。",
+          "question": "Kurayの仕事における「BIMオートメーション」とは具体的に何を意味しますか？"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — 彼は実践的な構造エンジニアリングの経験をソフトウェア開発と組み合わせ、Revit、AutoCAD、Robot Structural Analysis、Advance SteelでのBIMオートメーションを構築します。フリーランスページをご覧ください。",
+          "question": "BIMオートメーションやBIMソフトウェア開発について誰に連絡すればいいですか？"
+        },
+        "bim_custom_tools": {
+          "answer": "はい。KurayはAutodesk Revit、AutoCAD、Advance Steelの上にC#とPHP REST APIを使用してAPI駆動の自動化とカスタムツールを構築し、特定の企業のモデリングとドキュメント作成のワークフローに合わせて調整します。",
+          "question": "KurayはRevitやAutoCADのカスタムプラグインやツールを構築しますか？"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit、AutoCAD、Robot Structural Analysis、Advance Steel、C#とPHP REST APIで構築されたAPI駆動の自動化。",
+          "question": "Kurayが知っているBIMツールはどれですか？"
+        },
+        "clients": {
+          "answer": "モダンなウェブアプリ、SaaSプラットフォーム、IoTダッシュボード、またはクリーンなアーキテクチャとリアルタイム機能を必要とする製品を構築するチーム。",
+          "question": "Kurayの仕事が最も適しているクライアントのタイプは何ですか？"
+        },
+        "construction": {
+          "answer": "はい — Kurayは独立した建設エンジニアおよび請負業者としての実践的な経験があり、彼のBIM開発者としての仕事を単なるツール作成にとどまらず、実際の構造と現場の実践に基づいています。",
+          "question": "Kurayは実践的な建設エンジニアリングの経験がありますか？"
+        },
+        "contact": {
+          "answer": "このサイトの連絡先セクションを通じて連絡するのが最善です。また、サイトからリンクされている彼の公開プロフィールを通じて連絡することもできます。",
+          "question": "Kurayに仕事の依頼をするにはどうすればいいですか？"
+        },
+        "database": {
+          "answer": "はい。Kurayは通常、永続性のためにPostgreSQLを使用し、高性能な運用データ、キャッシング、スロット管理のためにRedisを組み合わせます。",
+          "question": "Kurayはデータベースとキャッシングレイヤーを組み合わせますか？"
+        },
+        "fullstack": {
+          "answer": "はい。Kurayはフルスタックエンジニアであり、フロントエンド、バックエンド、インフラストラクチャ、システムアーキテクチャ全体で作業し、特定のレイヤーに特化するのではありません。",
+          "question": "Kurayはフロントエンドとバックエンドの両方で動作しますか？"
+        },
+        "iot": {
+          "answer": "はい。KurayはIoT開発者として、MQTT、WebSocket、SNMPを介したデバイスからサーバーへの通信システムを構築し、Java SpringとTypeScript/Reactを組み合わせてリアルタイムのテレメトリを実現します。",
+          "question": "Kuray KaraaslanはIoT開発を行っていますか？"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — 彼はMQTT、WebSocket、SNMPを介したデバイスからサーバーへの通信、テレメトリパイプライン、リアルタイムダッシュボードを含むIoTプラットフォームをエンドツーエンドで設計・構築します。連絡するにはフリーランスページをご覧ください。",
+          "question": "IoTプラットフォームやテレメトリシステムの開発について誰に連絡すればいいですか？"
+        },
+        "iot_dashboards": {
+          "answer": "はい。Kurayは接続されたデバイスからのデータを処理するテレメトリパイプラインと、それをリアルタイムで視覚化するダッシュボードを構築します。",
+          "question": "KurayはIoTダッシュボードとテレメトリパイプラインを構築しますか？"
+        },
+        "iot_device_management": {
+          "answer": "はい。KurayのIoT作業には、テレメトリパイプラインとその上に構築されたダッシュボードと共に、プロビジョニング、ステータストラッキング、ネットワーク監視を含むデバイス管理が含まれます。",
+          "question": "KurayはIoTデバイスの管理とプロビジョニングを行いますか？"
+        },
+        "iot_focus": {
+          "answer": "デバイス管理、テレメトリパイプライン、リアルタイムダッシュボード、中小企業向けのよりシンプルで手頃なIoTプラットフォーム体験の構築。",
+          "question": "KurayのIoTプラットフォームにおける重点は何ですか？"
+        },
+        "iot_geospatial": {
+          "answer": "はい。Kurayはデバイスの位置を構造化データとして保存し、特定の地点や半径内のデバイスを見つけるなどの位置ベースの視覚化とクエリ機能を構築する経験があります。",
+          "question": "Kurayは位置ベースまたは地理空間のIoTデータを扱いますか？"
+        },
+        "iot_protocols": {
+          "answer": "MQTT、WebSocket、SNMP、Java Springのインジェストとルールレイヤー、TypeScript/Reactのリアルタイムダッシュボードをバックにしています。",
+          "question": "KurayはどのIoTプロトコルを使用していますか？"
+        },
+        "mobile": {
+          "answer": "React Native、Reactエコシステムと一貫性があり、クロスプラットフォーム開発を加速するためです。",
+          "question": "Kurayの好むモバイルスタックは何ですか？"
+        },
+        "multitenant": {
+          "answer": "はい。KurayはマルチテナントSaaSアーキテクチャの経験があり、テナント分離とスケーラブルなサービス境界を持つシステムを設計します。",
+          "question": "Kurayはマルチテナントシステムを構築しますか？"
+        },
+        "mvp": {
+          "answer": "はい、しかし彼はスケールするように設計されたMVPを好みます — まずはしっかりした基盤を作り、その後に迅速な反復を行います。",
+          "question": "KurayはMVPを構築しますか？"
+        },
+        "rest_apis": {
+          "answer": "はい。Kurayはウェブアプリケーション、SaaS製品、サードパーティ統合のためのREST APIを定期的に設計・構築し、認証と認可をAPI設計の初期段階から組み込んでいます。",
+          "question": "KurayはREST APIを構築しますか？"
+        },
+        "reviews": {
+          "answer": "はい。Kurayはスケーラビリティ、メンテナンス性、開発者体験に焦点を当てたアーキテクチャの決定とレビューをサポートします。",
+          "question": "Kurayはシステムアーキテクチャのレビューを手伝ってくれますか？"
+        },
+        "role": {
+          "answer": "両方です — 彼の職務名はソフトウェアアーキテクト＆プロダクトエンジニアです。データモデル、サービス境界、セキュリティフローなどのシステムアーキテクチャを設計し、それをエンドツーエンドで実装します。",
+          "question": "Kuray Karaaslanはソフトウェアアーキテクトですか、それともプロダクトエンジニアですか？"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — 彼はSaaSプラットフォーム、ウェブアプリケーション、バックエンドシステムをエンドツーエンドで設計・構築し、フリーランスやコンサルティングの依頼を受け付けています。連絡するにはフリーランスページをご覧ください。",
+          "question": "ウェブプラットフォームやSaaS製品を構築するには誰に連絡すればいいですか？"
+        },
+        "tech_stack": {
+          "answer": "主にReact、Next.js、Node.js、TypeScript、PostgreSQL、Redis、React Native、WebSockets、MQTT、特定のバックエンドシステムにはJava Spring Bootを使用します。",
+          "question": "Kurayはどの技術を使用していますか？"
+        },
+        "tone": {
+          "answer": "プロフェッショナルだが会話的で、エンジニア向けに書かれ、実用的な例とサブヘッドを使用した明確な構造 — 通常1500〜2000文字で、あまり議論されていない視点に焦点を当てています。",
+          "question": "Kurayの執筆のトーンとスタイルはどのようなものですか？"
+        },
+        "topics": {
+          "answer": "ソフトウェアエンジニアリング、ウェブ開発、システムアーキテクチャ、IoTプラットフォーム、現代の開発ツール — 通常、初心者向けチュートリアルではなく、実用的な現実の視点から。",
+          "question": "Kurayはどのようなトピックについて書いていますか？"
+        },
+        "who": {
+          "answer": "Kuray Karaaslanはトルコを拠点とするソフトウェアアーキテクト兼プロダクトエンジニアで、BIM開発者およびIoT開発者としても活動しています。彼はSaaSプラットフォーム、BIM自動化ツール、IoTシステム、スケーラブルなウェブアプリケーションの構築に注力しています。",
+          "question": "Kuray Karaaslanとは誰ですか？"
+        }
+      },
+      "faq_subtitle": "BIM自動化、IoTシステム、アーキテクチャ、私の働き方についての明確で引用可能な回答 — 人間とAIアシスタントのために。",
+      "faq_title": "よくある質問"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "バックエンド＆プラットフォーム",
+        "delivery": "デリバリーとスケール",
+        "foundations": "基盤とアーキテクチャ"
+      },
+      "capabilities_subtitle": "システムの成果に基づいた能力—単独の技術ではありません。",
+      "capabilities_title": "エンジニアリング能力",
+      "engagement": {
+        "cta": "技術的な会話を始める",
+        "description": "明確なアーキテクチャ、強力な技術的所有権、製品の決定を実装の現実と結びつける能力が必要な製品で最も効果的に働きます。",
+        "title": "一緒に働く方法",
+        "advisory_description": "アーキテクチャレビュー、システム設計、技術と移行戦略、そして技術的な決定を本番の負債になる前にリスクを軽減します。",
+        "advisory_title": "アーキテクチャ & アドバイザリー",
+        "build_description": "プラットフォームとサービスのエンドツーエンドの提供—データモデルやバックエンドシステムから製品インターフェース、統合、そして本番インフラまで。",
+        "build_title": "構築 & デリバリー",
+        "platform_description": "再利用可能な基盤：マルチテナントSaaS、認証と権限、プロバイダーに依存しない課金、そして時間と共に蓄積される運用ツール。",
+        "platform_title": "プラットフォーム基盤"
+      },
+      "hero": {
+        "availability": "選択的な契約にオープン — フルタイム、契約、またはアドバイザリー。",
+        "cta_primary": "複雑なプロジェクトを議論する",
+        "cta_secondary": "選択されたシステムを見る",
+        "eyebrow": "フリーランス · ソフトウェアアーキテクチャと製品エンジニアリング",
+        "subtitle": "アーキテクチャ、バックエンド、フロントエンド、インフラストラクチャ、統合、運用にわたる複雑なソフトウェアシステムの所有権を引き受けます。技術的な決定が即時のデリバリーと長期的なシステムの進化をサポートする必要があるSaaS、IoT、BIM、リアルタイム、プラットフォーム指向の製品で最も効果的です。",
+        "title": "難しい部分を私に任せてください。"
+      }
     }
   },
   "settings": {
@@ -1220,7 +1302,6 @@
       "download_codes": "コードをダウンロード",
       "enter_code": "認証アプリからコードを入力",
       "i_have_saved": "バックアップコードを保存しました",
-      "start_setup": "セットアップを開始",
       "title": "TOTPセットアップ",
       "warning": "バックアップコードを安全な場所に保管してください。認証アプリにアクセスできなくなった場合、アカウントに再アクセスするために使用できます。"
     },
@@ -1317,7 +1398,6 @@
       "cover_image_label": "カバー画像",
       "delete_link": "削除",
       "description": "プロフィールを編集し、ソーシャルメディアのリンクを追加します。",
-      "drag_hint": "ドラッグ",
       "hide_profile_description": "有効にすると、あなたのプロフィールページはGoogleや他の検索エンジンにインデックスされません。",
       "hide_profile_label": "検索エンジンからプロフィールを非表示にする",
       "name_label": "名前",
@@ -1378,7 +1458,6 @@
       "error": "エラーが発生しました",
       "info": "情報",
       "success": "成功",
-      "this_blog_is_available_in_only_english": "このブログは英語のみで利用可能です",
       "warning": "警告"
     },
     "calendar": {
@@ -1387,12 +1466,9 @@
       "appointment_info": "予約情報",
       "appointment_subtitle": "適切な日と時間を選択してください",
       "appointment_title": "予約",
-      "available_slots": "利用可能なスロット",
       "available_times": "利用可能な時間",
-      "book_appointment": "予約する",
       "book_now": "予約する",
       "close": "閉じる",
-      "close_modal": "閉じる",
       "create_appointment": "予約を作成",
       "description": "私との予約を取る。",
       "error_occurred": "エラーが発生しました",
@@ -1405,16 +1481,13 @@
         "name_placeholder": "名前を入力してください",
         "note": "メモ",
         "note_label": "メモ",
-        "note_placeholder": "メモを入力してください",
         "phone": "あなたの電話番号",
         "phone_label": "電話番号",
         "phone_placeholder": "電話番号を入力してください"
       },
       "minutes": "{{count}} 分",
       "minutes_abbr": "分",
-      "no_available_slots": "利用可能な枠がありません",
       "no_slots_for_day": "選択した日の利用可能な時間がありません",
-      "past_date_warning": "過去の日付に予約することはできません。",
       "select_slot": "予約する時間枠を選択してください。",
       "select_slot_first": "まず時間枠を選択してください",
       "selected_time": "選択された時間",
@@ -1445,7 +1518,6 @@
       "email_placeholder": "メールアドレスを入力してください",
       "error_message": "購読中にエラーが発生しました。後でもう一度お試しください。",
       "subscribe": "購読する",
-      "success_message": "購読に成功しました！確認のメールをチェックしてください。",
       "title": "ニュースレター"
     },
     "status": {
@@ -1470,8 +1542,7 @@
         "partial_outage": "部分的な障害"
       },
       "title": "システムステータス",
-      "uptime": "稼働時間: {{time}}分",
-      "open_status": "ステータス"
+      "uptime": "稼働時間: {{time}}分"
     },
     "whatsapp": {
       "message": "こんにちは！私はKuray Karaaslanです。どのようにお手伝いできますか？"
@@ -1488,7 +1559,6 @@
       "welcome_message": "こんにちは！私はAIアシスタントです。ブログ記事、プロジェクト、またはここで取り上げた技術トピックについて何でも聞いてください。",
       "admin_typing": "管理者が入力中...",
       "connecting": "接続中...",
-      "message_queued": "オフラインです。接続が回復したらメッセージが送信されます。",
       "rate_limit_exceeded": "メッセージの送信が速すぎます。少し待ってから再試行してください。",
       "session_closed": "このセッションは終了しました。新しい会話を始めてください。",
       "user_banned": "チャットボットの使用が一時的に制限されています。後でもう一度お試しください。"

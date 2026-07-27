@@ -35,7 +35,6 @@
     "categories": {
       "action": "Hereket",
       "confirm_delete": "Bu kategoriýany pozmak isleýändigiňize ynanýarsyňyzmy?",
-      "create_category": "Kategoriýa Döret",
       "delete": "Poz",
       "edit": "Üýtget",
       "image": "Surat",
@@ -90,12 +89,10 @@
       "all_folders": "Ähli Bukjalar",
       "alt_text": "Alternatiw Tekst",
       "alt_text_placeholder": "Elýeterlilik üçin suraty beýan ediň",
-      "confirm_bulk_delete": "{{count}} faýly pozmak isleýärsiňizmi?",
       "confirm_delete": "Bu faýly hakykatdanam pozmak isleýärsiňizmi?",
       "copy_url": "URL-ny göçür",
       "date": "Sene",
       "delete": "Poz",
-      "delete_selected": "Saýlananlary poz",
       "description": "Ýüklenen faýllaryňyzy we suratlaryňyzy dolandyryň",
       "edit": "Üýtget",
       "filename": "Faýl ady",
@@ -105,7 +102,6 @@
       "next": "Indiki",
       "no_files": "Faýl tapylmady",
       "page": "Sahypa",
-      "page_size": "Sahypa ululygy",
       "preview": "Öňünden görmek",
       "previous": "Öňki",
       "search_placeholder": "Faýllary gözle...",
@@ -114,24 +110,16 @@
       "size": "Ululyk",
       "sync": "S3-den sinhronizirle",
       "title": "Media Kitaphana",
-      "total_files": "Jemi faýllar",
-      "total_size": "Jemi ululyk",
       "upload": "Ýükle"
     },
     "posts": {
       "action": "Hereket",
       "category": "Kategoriýa",
       "confirm_delete": "Bu ýazgyny hakykatdanam pozmak isleýärsiňizmi?",
-      "create_post": "Ýazgy döret",
       "delete": "Poz",
       "edit": "Üýtget",
       "next": "Indiki",
       "previous": "Öňki",
-      "rebuild_failed": "Bilim grafigini täzeden gurmak başartmady.",
-      "rebuild_success": "Bilim grafigini täzeden gurmak başlandy.",
-      "rebuild_triggered": "Täzeden gurmak başlandy",
-      "rebuild_triggered_message": "Bilim grafigini täzeden gurmak eýýäm başlandy. Täzeden başlatmak üçin sahypany täzeläň.",
-      "reset_knowledge_graph": "Bilim grafigini täzeden düz",
       "search_placeholder": "Gözleg",
       "showing": "{{count}} sanynyň {{total}} sanysy görkezilýär",
       "status": "Status",
@@ -147,7 +135,6 @@
     "projects": {
       "action": "Hereket",
       "confirm_delete": "Bu taslamany hakykatdanam öçürmek isleýärsiňizmi?",
-      "create_project": "Taslama Döretmek",
       "delete": "Öçürmek",
       "edit": "Üýtgetmek",
       "next": "Indiki",
@@ -159,17 +146,10 @@
       "view": "Görmek"
     },
     "selects": {
-      "select_category": "Kategoriýa Saýlaň",
-      "select_user": "Ulanyjy Saýlaň",
-      "select_option": "Saýlaň",
-      "select_post": "Posty Saýlaň",
-      "select_project": "Taslamany Saýlaň",
-      "select_role": "Roly Saýlaň",
-      "select_status": "Statusy Saýlaň"
+      "select_option": "Saýlaň"
     },
     "slots": {
       "add": "Goşmak",
-      "add_manual_slot": "El bilen Slot Goşmak",
       "apply_confirm": "{{day}} şablonyny {{date}} senesine ulanmaly? Bu bar bolan slotlary çalyşar.",
       "apply_failed": "Şablony ulanmak başa barmady",
       "apply_success": "Şablon {{date}} senesine ulanyldy",
@@ -191,7 +171,6 @@
       "save_changes": "Üýtgeşmeleri ýatda sakla",
       "save_template": "Şablony ýatda sakla",
       "saving": "Ýatda saklanýar...",
-      "select_day": "Güni saýla",
       "select_time": "Wagty saýla",
       "slot_exists": "Wagt aralygy eýýäm bar",
       "slots_failed": "Wagt aralyklaryny täzeläp bolmady",
@@ -204,21 +183,13 @@
       "week_confirm": "Bu {{date}}-den başlaýan hepde üçin bar bolan wagt aralyklaryny üýtgeder. Dowam edilsinmi?"
     },
     "stats": {
-      "all_time": "Hemişelik",
       "categories": "Kategoriýalar",
       "comments": "Teswirler",
       "daily": "Günlük",
       "frequency": "Tez-tezlik",
-      "last_5_minutes": "Soňky 5 minut",
-      "last_hour": "Soňky sagat",
       "monthly": "Aýlyk",
       "posts": "Postlar",
       "title": "Statistika",
-      "total_categories": "Jemi kategoriýalar",
-      "total_comments": "Jemi teswirler",
-      "total_posts": "Jemi postlar",
-      "total_users": "Jemi ulanyjylar",
-      "total_views": "Jemi garaýyşlar",
       "users": "Ulanyjylar",
       "views": "Garaýyşlar",
       "weekly": "Hepdelik",
@@ -243,7 +214,6 @@
     "users": {
       "action": "Hereket",
       "confirm_delete": "Bu ulanyjyny hakykatdanam pozmak isleýärsiňizmi?",
-      "create_user": "Ulanyjy döret",
       "delete": "Poz",
       "delete_failed": "Ulanyjyny pozmak başa barmady.",
       "delete_success": "Ulanyjy üstünlikli pozuldy.",
@@ -268,7 +238,6 @@
       "allowed_domains_placeholder": "meselem: mysal.com, kompaniýa.org",
       "chatbot_settings_description": "AI chatbot hereketini we jogap çäklendirmelerini sazlaň",
       "chatbot_settings_title": "Chatbot Sazlamalary",
-      "chatbot_tab": "Chatbot",
       "description": "Ulgam boýunça konfigurasiýa opsiýalary",
       "domain_restrictions_description": "Diňe görkezilen domenlerden hasaba almagy rugsat beriň. Çäklendirmezlik üçin boş goýuň.",
       "domain_restrictions_title": "Domen Çäklendirmeleri",
@@ -276,20 +245,13 @@
       "email_notifications_label": "E-poçta Habarnamalary",
       "email_settings_description": "Çykýan e-poçtalarda ulanylýan maglumatlar",
       "email_settings_title": "E-poçta Sazlamalary",
-      "general_tab": "Umumy",
-      "login_restrictions_description": "Şowsuz giriş synanyşyklaryna garşy gorag sazlamalary",
-      "login_restrictions_title": "Giriş Çäklendirmeleri",
       "maintenance_mode_description": "Sahypany abatlaýyş tertibine geçiriň, myhmanlar abatlaýyş sahypasyny görerler",
       "maintenance_mode_label": "Abatlaýyş Tertibi",
       "max_login_attempts_label": "Maksimum Giriş Synanyşyklary",
       "max_tokens_label": "Maksimum Tokenler",
-      "new_registration_notification_description": "Täze ulanyjy hasaba alnanda admine habarnama iberiň",
-      "new_registration_notification_label": "Täze Hasaba Alnanda Habarnama",
       "notification_prefs_description": "Habarnamalar haçan iberilmeli saýlaň",
       "notification_prefs_title": "Habarnama Saýlawlary",
       "notifications_tab": "Habarnamalar",
-      "require_email_verification_description": "Ulanyjylar hasaba alnandan soň girmezden ozal e-poçta salgysyny tassyklamaly",
-      "require_email_verification_label": "E-poçta Tassyklamasy Talap Edilýär",
       "save_changes": "Üýtgeşmeleri Sakla",
       "security_tab": "Howpsuzlyk",
       "sender_name_label": "Iberiji Ady",
@@ -318,8 +280,6 @@
     },
     "analytics": {
       "description": "Trafik, geografiki maglumatlar we mazmun statistikasy",
-      "geographic_data": "Geografiki Maglumatlar",
-      "no_geographic_data": "Geografiki maglumat ýok.",
       "title": "Analitika",
       "total_visits": "Jemi Saparlar",
       "unique_countries": "Ýeke-täk Ýurtlar",
@@ -330,27 +290,18 @@
     },
     "campaigns": {
       "back": "Kampaniýalara Yza",
-      "campaign_title_label": "Kampaniýanyň Ady",
-      "campaign_title_placeholder": "Içerki at (abunaçylara görünmez)",
       "cancel": "Ýatyr",
       "clear_draft": "Taslamany Arassala",
       "content_required": "Mazmun zerur",
       "created": "Kampaniýa döredildi",
       "draft_cleared": "Taslama arassalandy",
       "draft_loaded": "Taslama brauzerden ýüklendi",
-      "edit_campaign": "Kampaniýany Üýtget",
-      "email_content_label": "Email Mazmuny",
-      "email_subject_label": "Email Temasy",
-      "email_subject_placeholder": "Abunaçylaryň görjek tema setiri",
       "load_failed": "Kampaniýa ýüklenmedi",
-      "new_campaign": "Täze Kampaniýa",
       "not_found": "Kampaniýa tapylmady",
       "save": "Sakla",
       "saved": "Kampaniýa saklandy",
       "saving": "Saklanýar...",
-      "send_to_subscribers": "Ähli Abunaçylara Ugrat",
       "sending": "Ugradylýar...",
-      "sent_notice": "Bu kampaniýa ugradyldy we indi üýtgedilip bilinmez.",
       "status_label": "Statusy:",
       "subject_required": "Tema zerur",
       "title": "Kampaniýalar",
@@ -360,31 +311,22 @@
       "admin_responding": "Admin Jogap Berýär",
       "ai_responding": "AI Jogap berýär",
       "all": "Hemmesi",
-      "ban_user": "Ulanyjyny gadagan et (1s)",
-      "close_session": "Sessiyany ýap",
       "closed": "Ýapyk",
       "connected": "Baglanyşykda",
       "disconnected": "Baglanyşyk kesildi",
       "export": "Eksport",
-      "failed_to_load": "Söhbet sessiýasyny ýüklemek başartmady",
       "last_activity": "Soňky işjeňlik",
       "no_messages": "Entäk habar ýok",
       "no_sessions": "Söhbet sessiýasy tapylmady",
       "no_title": "Ady ýok",
-      "release_session": "Sessiyany boşat",
       "reply_placeholder": "Jogabyňyzy admin hökmünde ýazyň...",
       "send": "Ugrat",
       "session_closed": "Sessiya ýapyldy",
-      "session_is_closed": "Bu sessiya ýapyk",
-      "session_released": "Sessiya boşadyldy",
-      "session_taken_over": "Sessiya ele alyndy",
       "started": "Başlady",
       "status": "Status",
-      "take_over": "Ele al",
       "takeover_first": "Jogap bermek üçin ilki sessiýany ele alyň",
       "title": "Söhbet Sessiyalary",
       "topic": "Tema",
-      "unban_user": "Ulanyjyny gadaganlykdan aýyr",
       "unknown": "Näbelli",
       "user": "Ulanyjy",
       "action_ban": "Ulanyjyny gadagan et (1 sagat)",
@@ -435,13 +377,11 @@
     "dashboard": {
       "contact_forms": "Habarlaşmak Formalary",
       "description": "Mazmunyňyzyň we işjeňligiňiziň syny",
-      "geographic_stats": "Geografik Statistikalar",
       "last_7_days": "Soňky 7 gün",
       "new_subscriptions": "Täze Abunalyklar",
       "no_appointments": "Hiç hili duşuşyk meýilleşdirilmedik.",
       "no_comments": "Garaşylýan teswir ýok.",
       "no_contact_forms": "Häzirlikçe habarlaşmak formasy ýok.",
-      "no_geographic_data": "Geografik maglumat ýok.",
       "no_popular_posts": "Häzirlikçe meşhur ýazgy ýok.",
       "no_posts": "Häzirlikçe ýazgy ýok.",
       "no_subscriptions": "Häzirlikçe abuna ýok.",
@@ -515,33 +455,23 @@
       "title_new": "Habarnamalar ({{count}} täze)"
     },
     "post_series": {
-      "add_a_post": "Post goş",
-      "back_to_series": "Seriýa gaýdyp gel",
       "cover_image": "Örtük Suraty",
-      "create_series": "Seriýa döret",
       "created": "Seriýa döredildi",
       "delete_confirm": "Seriýany \"{{title}}\" pozmak isleýärsiňizmi? Bu ähli postlary ondan aýyrar.",
       "delete_failed": "Pozmak başa barmady",
       "deleted": "Seriýa pozuldy",
       "description_label": "Düşündiriş",
-      "edit_series": "Seriýany redaktirläň",
       "load_failed": "Seriýany ýüklemek başa barmady",
-      "new_series": "Täze Seriýa",
       "no_posts_yet": "Entäk post ýok. Goşmak üçin aşakda gözläň.",
-      "order_save_failed": "Sargyt saklamak başa barmady",
-      "post_add_failed": "Post goşmak başa barmady",
       "post_added": "Post seriýa goşuldy",
-      "post_remove_failed": "Posty aýyrmak başa barmady",
       "post_removed": "Post aýryldy",
       "posts_in_series": "Bu seriýadaky postlar",
       "save": "Sakla",
       "save_failed": "Saklamak başa barmady",
       "saved": "Seriýa saklandy",
       "saving": "Saklanýar…",
-      "search_by_title": "Ady boýunça gözläň…",
       "search_placeholder": "Seriýa gözläň...",
       "searching": "Gözlenýär…",
-      "slug_label": "Slug",
       "title": "Post Seriýasy",
       "title_label": "Ady",
       "title_slug_required": "Ady we slug hökman"
@@ -558,11 +488,6 @@
       "analytics": "Analitika",
       "analytics_load_failed": "Analitikany ýüklemek başa barmady",
       "browsers": "Brauzerler",
-      "by_browser": "Brauzer boýunça",
-      "by_country": "Ýurt boýunça",
-      "by_device": "Enjam boýunça",
-      "by_os": "OS boýunça",
-      "by_referrer": "Ugratma boýunça",
       "countries": "Ýurtlar",
       "created": "Gysga baglanyşyk döredildi",
       "days_active": "Işjeň günler",
@@ -572,7 +497,6 @@
       "load_failed": "Gysga baglanyşygy ýüklemek başa barmady",
       "not_found": "Gysga baglanyşyk tapylmady",
       "save_failed": "Gysga baglanyşygy saklamak başa barmady",
-      "short_link_not_found": "Gysga baglanyşyk tapylmady.",
       "title": "Gysga Baglanyşyklar",
       "total_clicks": "Jemi basmalar",
       "updated": "Gysga baglanyşyk täzelendi"
@@ -587,7 +511,6 @@
     },
     "translations": {
       "add_language": "Dil goş",
-      "add_language_title": "{{lang}} Terjime goş",
       "ai_model": "AI Modeli",
       "back": "Yza",
       "content_language": "Mazmunyň Dili",
@@ -618,7 +541,6 @@
       "name_placeholder": "At",
       "name_required": "At hökmany",
       "not_found": "Ulanyjy tapylmady",
-      "password_edit_label": "Parol (häzirki saklamak üçin boş goýuň)",
       "password_label": "Parol",
       "password_placeholder": "Parol",
       "password_required": "Parol hökmany",
@@ -650,11 +572,9 @@
     "forgot_password": {
       "code_sent": "Barlag kody emailiňize ugradyldy.",
       "confirm_password": "Paroly tassykla",
-      "email_address": "Email salgysy",
       "email_required": "Email zerur.",
       "new_password": "Täze Parol",
       "reset_password": "Paroly täzeden düzmek",
-      "send_verification_code": "Barlag Koduny Ugrat",
       "success": "Parol üstünlikli täzelendi.",
       "title": "Paroly Ýatdan Çykardyňyzmy",
       "verification_code": "Barlag Kody"
@@ -696,7 +616,6 @@
       "passwords_not_match": "Parollar gabat gelenok.",
       "registering": "Hasaba alynýar...",
       "title": "Hasap dörediň",
-      "captcha_failed": "reCAPTCHA barlagy şowsuz boldy. Täzeden synanyşyň.",
       "captcha_required": "reCAPTCHA barlagyny tamamlaň.",
       "passwords_mismatch": "Parollar gabat gelmeýär."
     },
@@ -723,8 +642,6 @@
       "delete_button": "Pozuň",
       "delete_success": "Passkey pozuldy.",
       "delete_failed": "Passkey pozulmady.",
-      "limit_reached": "Iň ýokary passkey sanyna ýetildi.",
-      "challenge_expired": "Passkey möhleti geçdi. Gaýtadan synanyşyň.",
       "not_supported": "Brauzeriňiz passkey gollamaýar.",
       "no_passkeys": "Passkey heniz hasaba alynmady.",
       "created_at": "Goşuldy",
@@ -800,7 +717,6 @@
     "view_all": "Hemmesini gör",
     "breadcrumb": "Ýol görkeziji",
     "clear_selection": "Saýlawy arassala",
-    "go_to_homepage": "Baş sahypa git",
     "create": "Create",
     "search_placeholder": "Search...",
     "title": "Title",
@@ -863,8 +779,6 @@
       "categories": "Kategoriýalar",
       "latest_posts": "Iň soňky ýazgylar",
       "load_more": "Has köp ýazgy ýükle",
-      "no_more_posts": "Başga ýazgy ýok",
-      "other_posts": "Başga Ýazgylar",
       "posts_by": "Ýazgylar",
       "read_more": "Has Köp Okamak",
       "related_articles": "Degişli Makalalar",
@@ -877,7 +791,6 @@
       "project_posts": "{{projectTitle}} Postlar"
     },
     "knowledge_graph": {
-      "title_2d": "2D Bilik Grafigi",
       "title_3d": "3D Bilik Grafigi"
     },
     "offline": {
@@ -886,16 +799,13 @@
     },
     "post": {
       "by": "tarapyndan",
-      "min_read": "minut oka",
       "no_date": "Sene ýok",
       "read_time": "{{count}} minut oka",
       "unknown_author": "Näbelli Awtor",
       "views": "görmeler",
       "views_count": "{{count}} görmeler"
     },
-    "scroll_to_bottom": "Aşak süýş",
     "scroll_to_top": "Ýokary süýş",
-    "terminal_button": "Terminal",
     "time": {
       "a_minute_ago": "Bir minut öň",
       "an_hour_ago": "Bir sagat öň",
@@ -938,6 +848,14 @@
     "terms_of_use": {
       "description": "kuray.dev üçin Ulanyş Şertleri — Bu web sahypasyny we hyzmatlaryny ulanmak üçin düzgünler we görkezmeler.",
       "title": "Ulanyş Şertleri | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "Kuray Karaaslan hakynda ýygy-ýygydan soralýan soraglar: BIM awtomatizasiýasy, IoT ulgamlary, programma üpjünçiliginiň arhitekturasy, tehniki stak we onuň bilen nähili işleşmeli.",
+      "title": "Sorag-jogap | Kuray Karaaslan — Programma Arhitektory & Önüm Inženeri"
+    },
+    "freelance": {
+      "description": "Saýlama erkin iş şertleri üçin elýeterli — arhitektura, platforma inženerligi we çylşyrymly SaaS, IoT, BIM, integrasiýa we real wagt önümleri üçin doly çözgütler.",
+      "title": "Erkin Programma Arhitektory & Önüm Inženeri | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -970,7 +888,8 @@
     "about": "About",
     "linkedin": "LinkedIn",
     "portfolio": "Portfel",
-    "resume": "Rezýume"
+    "resume": "Rezýume",
+    "faq": "Sorag-jogap"
   },
   "pages": {
     "contact": {
@@ -999,7 +918,6 @@
       "title": "Habarlaşmak"
     },
     "hero": {
-      "contact_me": "Meniň bilen habarlaş",
       "description": "<bold>Önüme gönükdirilen Full-Stack Öndüriji</bold>, <bold>3+ ýyl tejribe</bold> bilen <bold>frontend, backend, mobil BIM we IoT ugurlarynda</bold> güýçli, ulaldylyp bilinýän programma üpjünçiligini üpjün edýär. <bold>Java Spring Boot, React, Next.js, Node.js we PostgreSQL</bold> boýunça ýöriteleşen. <bold>Köp kärendeli SaaS platformalary, real wagt ulgamlary we töleg integrasiýalary</bold> bilen işlemekde ökde. Güýçli in engineeringenerçilik esaslaryny <bold> döredijilikli mesele çözmek</bold> we <bold> arassa, ulgamlaýyn kodlaşdyrma çemeleşmesi</bold> bilen birleşdirýär.",
       "resume": "Rezýume",
       "typing_effect": {
@@ -1172,17 +1090,181 @@
     },
     "leadership": {
       "description": "Goşandygym diňe bir şahsy ýerine ýetiriş wezipeleri bilen çäklenmeýär. Men ulgamyň ugruny kesgitlemäge, tehniki näbelliligi azaltmaga, gaýtadan ulanylýan esaslary döretmäge we mendan soň dowam edýän inženerler üçin çylşyrymly işleri ýeňilleşdirmäge kömek edýärin.",
-      "points": {
-        "point1": "Näbellilik bilen önüm talaplaryny ýerine ýetirip boljak tehniki çäkler bilen terjime etmek",
-        "point2": "Umumy arhitektura we gaýtadan ulanylýan platforma esaslaryny kesgitlemek",
-        "point3": "Bar bolan iş gymmatyny saklaýan migrasiýa ýollaryny kesgitlemek",
-        "point4": "Önümçilik bergisine öwrülmezden ozal tehniki töwekgelçiligi gözden geçirmek",
-        "point5": "Inženerlere ýerine ýetiriş we arhitektura pikirlenmesi boýunça maslahat bermek",
-        "point6": "Gaýtalanýan kararlary azaltmak üçin standartlar döretmek",
-        "point7": "Önüm, domen, infrastruktura we ýerine ýetiriliş meselelerini baglanyşdyrmak",
-        "point8": "Zerur bolmadyk iş çylşyrymlylygyny girizmezden ulgamlary gowulandyrmak"
-      },
       "title": "Tehniki Liderlik"
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIM Awtomatizasiýasy",
+        "identity": "Şahsyýet & Taryh",
+        "iot": "IoT Ösüşi",
+        "services": "Hyzmatlar & Gatnaşyk",
+        "stack": "Tehniki Ukyplar",
+        "writing": "Ýazgylar & Mazmun"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "Hawa. Kuray SaaS ulgamlary we web platformalary üçin admin panel, dolandyryş paneli we içerki operatiw gurallar döredýär.",
+          "question": "Kuray admin panelleri we içerki gurallar döredýärmi?"
+        },
+        "appointment_systems": {
+          "answer": "Hawa — Redis-e esaslanýan wagt dolandyryşy bilen tranzaksiýa maglumatlar bazasynyň dowamlylygyny birleşdirýän wagt bellemek ulgamy arhitekturasy bilen, köp sanly ulanyjy bir wagtda giren ýagdaýynda hem bron we ýatyrmalary yzygiderli saklaýar.",
+          "question": "Kuray meýilnama ýa-da bron ulgamlaryny döretdimi?"
+        },
+        "architecture": {
+          "answer": "Modul, hyzmat ugruna gönükdirilen arhitekturalar bilen aç-açan çäkler we çak edilip bilinýän şertnamalar — ilki bilen berk esasy infrastrukturany döretmek, soňra aýratynlyklary kem-kemden giňeltmek.",
+          "question": "Kuray haýsy görnüşdäki arhitekturany makul bilýär?"
+        },
+        "auth_systems": {
+          "answer": "Hawa. Şahsyýet we giriş gözegçiligi — sessiýalar, rugsatlar we köp ulanyjynyň ygtyýarlygy — Kuray tarapyndan dizaýn edilen backend ulgamlarynyň esasy bölegi bolup, soňky pikir däl.",
+          "question": "Kuray şahsyýet we ygtyýarlyk ulgamlaryny durmuşa geçirýärmi?"
+        },
+        "availability": {
+          "answer": "Hawa, saýlama şertler üçin — doly iş wagty, şertnama ýa-da maslahat beriş. Onuň nähili işleşýändigi barada Erkin iş sahypasyna serediň.",
+          "question": "Kuray erkin iş üçin elýeterlimi?"
+        },
+        "bim": {
+          "answer": "Hawa. Programma üpjünçiliginiň arhitekturasy bilen birlikde, Kuray BIM işläp düzüjisi bolup, Autodesk Revit, AutoCAD, Robot Structural Analysis we Advance Steel-de C# we PHP REST API-lary bilen API-e esaslanýan awtomatizasiýa bilen BIM iş akymlaryny awtomatlaşdyrýar.",
+          "question": "Kuray Karaaslan BIM işläp düzüjisi barmy?"
+        },
+        "bim_automation_explain": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis we Advance Steel-de el bilen ýerine ýetirilýän, gaýtalanýan modelleme we resminama ädimlerini API-e esaslanýan skriptler we gurallar bilen çalyşmak, şeýlelikde gurluşyk we arhitektura iş akymlarynyň has çalt we az ýalňyşlyk bilen işlemegini üpjün etmek.",
+          "question": "Kurayyň işinde 'BIM awtomatizasiýasy' näme diýmek?"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — ol gurluşyk inženerligi tejribesini programma üpjünçiliginiň ösüşi bilen birleşdirip, Revit, AutoCAD, Robot Structural Analysis we Advance Steel-de BIM awtomatizasiýasyny döredýär. Aragatnaşyk üçin Erkin iş sahypasyna serediň.",
+          "question": "BIM awtomatizasiýasy ýa-da BIM programma üpjünçiliginiň ösüşi üçin kim bilen habarlaşmaly?"
+        },
+        "bim_custom_tools": {
+          "answer": "Hawa. Kuray, C# we PHP REST API-lary ulanyp, Autodesk Revit, AutoCAD we Advance Steel üstünde API-e esaslanýan awtomatizasiýa we ýörite gurallary döredýär, belli bir firmanyň modelleme we resminama iş akymlaryna laýyklykda.",
+          "question": "Kuray Revit we AutoCAD üçin ýörite pluginler ýa-da gurallar döredýärmi?"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis we Advance Steel, C# we PHP REST API-lary bilen API-e esaslanýan awtomatizasiýa bilen.",
+          "question": "Kuray haýsy BIM gurallaryny bilýär?"
+        },
+        "clients": {
+          "answer": "Arassa arhitektura we real wagt aýratynlyklaryna mätäç häzirki zaman web programmalaryny, SaaS platformalaryny, IoT panelini ýa-da önümleri döredýän toparlar.",
+          "question": "Kurayyň işi haýsy görnüşdäki müşderilere has laýyk gelýär?"
+        },
+        "construction": {
+          "answer": "Hawa — Kuray garaşsyz gurluşyk inženeri we potratçy hökmünde tejribä eýe bolup, bu onuň BIM işläp düzüjisi işini diňe gurallar bilen däl-de, hakyky gurluşyk we sahna tejribesi bilen baglanyşdyrýar.",
+          "question": "Kuray gurluşyk inženerligi boýunça tejribesi barmy?"
+        },
+        "contact": {
+          "answer": "Iň gowy usul, bu sahypanyň aragatnaşyk bölümi arkaly. Şeýle hem, sahypadan baglanyşykly jemgyýetçilik profilleri arkaly habarlaşyp bilersiňiz.",
+          "question": "Kuray bilen iş üçin nähili habarlaşmaly?"
+        },
+        "database": {
+          "answer": "Hawa. Kuray, PostgreSQL-i dowamlylyk üçin Redis bilen ýokary öndürijilikli operatiw maglumatlar, keş we wagt dolandyryşy bilen birleşdirýär.",
+          "question": "Kuray maglumatlar bazalaryny keş gatlaklary bilen birleşdirýärmi?"
+        },
+        "fullstack": {
+          "answer": "Hawa. Kuray, diňe bir gatlakda ýöriteleşmän, frontend, backend, infrastruktur we ulgam arhitekturasy boýunça işleýän doly stak inženeri.",
+          "question": "Kuray frontend we backendde işleýärmi?"
+        },
+        "iot": {
+          "answer": "Hawa. IoT işläp düzüji hökmünde Kuray MQTT, WebSocket we SNMP arkaly enjamdan serwere aragatnaşyk ulgamlaryny gurýar, Java Spring we TypeScript/React bilen bilelikde hakyky wagt telemetriýasy üçin.",
+          "question": "Kuray Karaaslan IoT işläp düzýärmi?"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — ol IoT platformalaryny başdan-aýak dizaýn edýär we gurýar: MQTT, WebSocket we SNMP arkaly enjamdan serwere aragatnaşyk, telemetriýa turbalary we hakyky wagt panelleri. Habarlaşmak üçin Freelance sahypasyna serediň.",
+          "question": "IoT platformasy ýa-da telemetriýa ulgamy işläp düzmek üçin kim bilen habarlaşmaly?"
+        },
+        "iot_dashboards": {
+          "answer": "Hawa. Kuray, birikdirilen enjamlardan maglumatlary işläp çykarýan telemetriýa turbalaryny we olary hakyky wagtda görkezip bilýän panelleri gurýar.",
+          "question": "Kuray IoT panellerini we telemetriýa turbalaryny gurýarmy?"
+        },
+        "iot_device_management": {
+          "answer": "Hawa. Kurayyň IoT işi, telemetriýa turbalary we onuň üstünde gurlan paneller bilen bilelikde enjam dolandyryşyny — üpjünçilik, ýagdaýy yzarlamak we tor gözegçiligi — öz içine alýar.",
+          "question": "Kuray IoT enjam dolandyryşy we üpjünçiligi bilen meşgullanýarmy?"
+        },
+        "iot_focus": {
+          "answer": "Enjam dolandyryşy, telemetriýa turbalary, hakyky wagt panelleri we kiçi we orta kärhanalar üçin has ýönekeý, has elýeterli IoT platforma tejribelerini döretmek.",
+          "question": "Kurayyň IoT platformalaryndaky ünsi nämede?"
+        },
+        "iot_geospatial": {
+          "answer": "Hawa. Kuray, enjam ýerleşişini gurluşly maglumat hökmünde saklamakda we belli bir nokada ýa-da radiusa golaý enjamlary tapmak ýaly ýerleşişe esaslanýan wizualizasiýa we sorag aýratynlyklaryny gurmakda tejribeli.",
+          "question": "Kuray ýerleşişe esaslanýan ýa-da geospatial IoT maglumatlary bilen işleýärmi?"
+        },
+        "iot_protocols": {
+          "answer": "MQTT, WebSocket we SNMP, Java Spring ingestion we düzgünler gatlagy bilen goldanýar we TypeScript/React hakyky wagt paneli bilen.",
+          "question": "Kuray haýsy IoT protokollaryny ulanýar?"
+        },
+        "mobile": {
+          "answer": "React Native, sebäbi ol React ekosistemasy bilen yzygiderli bolup, platformalar arasyndaky ösüşi çaltlaşdyrýar.",
+          "question": "Kurayyň isleg bildirýän mobil stäki näme?"
+        },
+        "multitenant": {
+          "answer": "Hawa. Kuray köp-kirýentli SaaS arhitekturasynda tejribeli we kirýent izolýasiýasy we ulaldylyp bilinýän hyzmat araçäkleri bilen ulgamlary dizaýn edýär.",
+          "question": "Kuray köp-kirýentli ulgamlary gurýarmy?"
+        },
+        "mvp": {
+          "answer": "Hawa, ýöne ol ulalmak üçin arhitekturalan MVP-leri makul bilýär — ilki berk esaslar, soňra çalt iterasiýa.",
+          "question": "Kuray MVP-leri gurýarmy?"
+        },
+        "rest_apis": {
+          "answer": "Hawa. Kuray, web programmalary, SaaS önümleri we üçünji tarap integrasiýalary üçin REST API-lerini yzygiderli dizaýn edýär we gurýar, başdan API dizaýnyna autentifikasiýa we ygtyýarnama girizilýär.",
+          "question": "Kuray REST API-lerini gurýarmy?"
+        },
+        "reviews": {
+          "answer": "Hawa. Kuray, ulaldylyp bilinýänlik, saklanyp bilinýänlik we işläp düzüji tejribesine ünsi jemläp, arhitektura kararlaryny we gözden geçirişleri goldaýar.",
+          "question": "Kuray ulgam arhitekturasy gözden geçirişlerine kömek edip bilermi?"
+        },
+        "role": {
+          "answer": "Ikisi-de — onuň iş ady Programma Arhitektory we Önüm Inženeri. Ol maglumat modelleri, hyzmat araçäkleri we howpsuzlyk akymlary ýaly ulgam arhitekturasyny dizaýn edýär we ony başga birine gurmak üçin dizaýny tabşyrman, başdan-aýak durmuşa geçirýär.",
+          "question": "Kuray Karaaslan programma arhitektorymy ýa-da önüm inženerimi?"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — ol SaaS platformalaryny, web programmalaryny we backend ulgamlaryny başdan-aýak dizaýn edýär we gurýar, we erkin iş we maslahat beriş işleri üçin elýeterli. Habarlaşmak üçin Freelance sahypasyna serediň.",
+          "question": "Web platformasyny ýa-da SaaS önümüni gurmak üçin kim bilen habarlaşmaly?"
+        },
+        "tech_stack": {
+          "answer": "Esasan React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets we MQTT, belli bir backend ulgamlary üçin Java Spring Boot bilen.",
+          "question": "Kuray haýsy tehnologiýalary ulanýar?"
+        },
+        "tone": {
+          "answer": "Professional, ýöne gepleşik görnüşinde, inženerler üçin ýazylan, amaly mysallar we kiçi başlyklar bilen aýdyň gurluş — adatça 1500–2000 nyşan, az ara alnyp maslahatlaşylýan burçlara gönükdirilen.",
+          "question": "Kurayyň ýazuw üsluby we stili nähili?"
+        },
+        "topics": {
+          "answer": "Programma inženerçiligi, web ösüşi, ulgam arhitekturasy, IoT platformalary we häzirki zaman ösüş gurallary — adatça başlangyç sapaklardan däl-de, amaly, hakyky dünýä nukdaýnazaryndan.",
+          "question": "Kuray haýsy mowzuklar barada ýazýar?"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan, Türkiýede ýerleşýän programma arhitektory we önüm inženeri, BIM işläp düzüji we IoT işläp düzüji hökmünde hem işleýär. Ol SaaS platformalaryny, BIM awtomatizasiýa gurallaryny, IoT ulgamlaryny we ulaldylyp bilinýän web programmalaryny gurmaga ünsi jemleýär.",
+          "question": "Kuray Karaaslan kim?"
+        }
+      },
+      "faq_subtitle": "BIM awtomatizasiýasy, IoT ulgamlary, arhitektura we meniň nähili işleýändigim barada adamlar we AI kömekçileri üçin aýdyň, sitata getirip boljak jogaplar.",
+      "faq_title": "Köp Soralan Soraglar"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend we Platforma",
+        "delivery": "Eltip bermek we göwrüm",
+        "foundations": "Esaslar we Arhitektura"
+      },
+      "capabilities_subtitle": "Ukyplar ulgam netijelerine gönükdirilen — aýratyn tehnologiýalara däl.",
+      "capabilities_title": "Inženerçilik Ukyplary",
+      "engagement": {
+        "cta": "Tehniki Söhbetdeşligi Başlaň",
+        "description": "Men iň gowy işleýän önümlerim, arassa arhitektura, güýçli tehniki eýeçilik we önüm kararlaryny durmuşa geçirmek bilen baglanyşdyrmak ukyby talap edýän önümler bilen.",
+        "title": "Näme Üçin Bile Işläp Bilýäris",
+        "advisory_description": "Arhitektura gözden geçirişleri, ulgam dizaýny, tehnologiýa we göçme strategiýasy, önümçilik bergisine öwrülmezden ozal tehniki kararlary töwekgelçilikden halas etmek.",
+        "advisory_title": "Arhitektura we Maslahat",
+        "build_description": "Platformalaryň we hyzmatlaryň ahyryna çenli eltilmegi - maglumat modellerinden we arka ulgamlarndan başlap, önüm interfeýsleri, integrasiýalar we önümçilik infrastrukturasyna çenli.",
+        "build_title": "Gurluş we Eltiş",
+        "platform_description": "Gaýtadan ulanylýan esaslar: köp kärendeli SaaS, autentifikasiýa we rugsatlar, üpjün edijiden garaşsyz tölegler we wagtyň geçmegi bilen birleşýän operatiw gurallar.",
+        "platform_title": "Platforma Esaslary"
+      },
+      "hero": {
+        "availability": "Saýlama şertnamalar üçin açyk — doly iş günü, şertnama ýa-da maslahat beriji.",
+        "cta_primary": "Çylşyrymly Taslama Hakynda Gepleşmek",
+        "cta_secondary": "Saýlanan Ulgamlary Görkez",
+        "eyebrow": "Freelance · Programma Arhitekturasy we Önüm Inženerçiligi",
+        "subtitle": "Men arhitektura, backend, frontend, infrastruktura, integrasiýalar we önümçilik amallary boýunça çylşyrymly programma üpjünçilik ulgamlaryna eýeçilik edýärin. Men SaaS, IoT, BIM, real wagt we platforma gönükdirilen önümler bilen iň täsirli bolup bilýärin, tehniki kararlar hem derrew eltip bermek, hem-de uzak möhletleýin ulgam ösüşini goldamaly.",
+        "title": "Maňa kyn bölegini getiriň."
+      }
     }
   },
   "settings": {
@@ -1220,7 +1302,6 @@
       "download_codes": "Kodlary ýükläň",
       "enter_code": "Awtentifikator programmasyndan kody giriziň",
       "i_have_saved": "Ätiýaçlyk kodlarymy sakladym",
-      "start_setup": "Gurnamany Başla",
       "title": "TOTP Gurnama",
       "warning": "Ätiýaçlyk kodlaryňyzy howpsuz ýerde saklaň. Awtentifikator programmasyna girip bilmeýän bolsaňyz, hasabyňyza girmegi dikeltmek üçin olary ulanyp bilersiňiz."
     },
@@ -1317,7 +1398,6 @@
       "cover_image_label": "Örtük Suraty",
       "delete_link": "Öçür",
       "description": "Profilňizi redaktirläň we sosial media baglanyşyklaryny goşuň.",
-      "drag_hint": "Süýräň",
       "hide_profile_description": "Işjeňleşdirilende, profil sahypaňyz Google we beýleki gözleg motorlary tarapyndan indekslenmez.",
       "hide_profile_label": "Profili gözleg motorlaryndan gizle",
       "name_label": "At",
@@ -1378,7 +1458,6 @@
       "error": "Säwlik ýüze çykdy",
       "info": "Maglumat",
       "success": "Üstünlik",
-      "this_blog_is_available_in_only_english": "Bu blog diňe Iňlis dilinde elýeterli",
       "warning": "Duýduryş"
     },
     "calendar": {
@@ -1387,12 +1466,9 @@
       "appointment_info": "Duşuşyk Maglumaty",
       "appointment_subtitle": "Amatly gün we wagt saýlaň",
       "appointment_title": "Duşuşyk",
-      "available_slots": "Elýeterli Wagtylar",
       "available_times": "Elýeterli Wagtylar",
-      "book_appointment": "Duşuşyk Bellen",
       "book_now": "Duşuşyk Bellen",
       "close": "Ýap",
-      "close_modal": "Ýap",
       "create_appointment": "Duşuşyk Döret",
       "description": "Meniň bilen duşuşyk bellen.",
       "error_occurred": "Säwlik ýüze çykdy",
@@ -1405,16 +1481,13 @@
         "name_placeholder": "Adyňyzy giriziň",
         "note": "Bellik",
         "note_label": "Bellik",
-        "note_placeholder": "Belliňizi giriziň",
         "phone": "Telefon belgiňiz",
         "phone_label": "Telefon",
         "phone_placeholder": "Telefon belgiňizi giriziň"
       },
       "minutes": "{{count}} minut",
       "minutes_abbr": "min",
-      "no_available_slots": "Elýeterli wagt ýok",
       "no_slots_for_day": "Saýlanan gün üçin elýeterli wagt ýok",
-      "past_date_warning": "Geçen gün üçin duşuşyk belläp bilmersiňiz.",
       "select_slot": "Duşuşyk belläp almak üçin wagt saýlaň.",
       "select_slot_first": "Ilki bilen wagt saýlaň",
       "selected_time": "Saýlanan wagt",
@@ -1445,7 +1518,6 @@
       "email_placeholder": "E-poçta salgyňyzy giriziň",
       "error_message": "Abuna ýazylmakda säwlik ýüze çykdy. Soňrak täzeden synanyşyň.",
       "subscribe": "Abuna ýazyl",
-      "success_message": "Üstünlikli abuna boldyňyz! Tassyklama üçin e-poçtaňyzy barlaň.",
       "title": "Täzelikler"
     },
     "status": {
@@ -1470,8 +1542,7 @@
         "partial_outage": "Bölekleýin Näsazlyk"
       },
       "title": "Ulgamyň Statusy",
-      "uptime": "Iş wagty: {{time}}m",
-      "open_status": "Status"
+      "uptime": "Iş wagty: {{time}}m"
     },
     "whatsapp": {
       "message": "Salam! Men Kuray Karaaslan, size nähili kömek edip bilerin?"
@@ -1488,7 +1559,6 @@
       "welcome_message": "Salam! Men AI kömekçisi. Bu ýerde ýerleşdirilen blog ýazgylary, taslamalar ýa-da tehnologiýa mowzuklary barada maňa islendik sorag berip bilersiňiz.",
       "admin_typing": "Admin ýazýar...",
       "connecting": "Baglanyşylýar...",
-      "message_queued": "Siz oflaýn. Baglanyşyk dikeldilende habaryňyz iberiler.",
       "rate_limit_exceeded": "Siz habarlary gaty çalt iberýärsiňiz. Täzeden synanyşmazdan ozal biraz garaşyň.",
       "session_closed": "Bu sessiýa ýapyldy. Täze söhbetdeşlik başlaň.",
       "user_banned": "Siziň chatbot ulanmagyňyz wagtlaýynça çäklendirildi. Soňrak täzeden synanyşyň."

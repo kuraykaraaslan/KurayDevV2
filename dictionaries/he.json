@@ -10,7 +10,8 @@
     "github": "GitHub",
     "linkedin": "LinkedIn",
     "resume": "קורות חיים",
-    "backend": "Backend"
+    "backend": "Backend",
+    "faq": "שאלות נפוצות"
   },
   "metadata": {
     "blog": {
@@ -83,6 +84,14 @@
         "תנאים והגבלות",
         "הנחיות"
       ]
+    },
+    "about": {
+      "description": "שאלות נפוצות על קוראי קראסלן: אוטומציה של BIM, מערכות IoT, ארכיטקטורת תוכנה, מחסנית טכנית, וכיצד לעבוד איתו.",
+      "title": "שאלות נפוצות | קוראי קראסלן — ארכיטקט תוכנה ומהנדס מוצר"
+    },
+    "freelance": {
+      "description": "זמין לפרויקטים פרילנסרים נבחרים — ארכיטקטורה, הנדסת פלטפורמות, ומסירה מקצה לקצה עבור מוצרים מורכבים של SaaS, IoT, BIM, אינטגרציה ומוצרים בזמן אמת.",
+      "title": "ארכיטקט תוכנה ומהנדס מוצר פרילנסר | קוראי קראסלן"
     }
   },
   "errors": {
@@ -165,7 +174,6 @@
     "view_all": "צפה בהכל",
     "breadcrumb": "שביל פירורים",
     "clear_selection": "נקה בחירה",
-    "go_to_homepage": "עבור לדף הבית",
     "create": "Create",
     "search_placeholder": "Search...",
     "title": "Title",
@@ -196,7 +204,6 @@
         "text5": "קבלת אתגרים",
         "text6": "עבודה פרילנסר"
       },
-      "contact_me": "צור איתי קשר",
       "resume": "קורות חיים",
       "git_contributions": {
         "aria_label": "צפה בפרופיל ה-GitHub שלי (נפתח בכרטיסייה חדשה)",
@@ -384,17 +391,181 @@
     },
     "leadership": {
       "description": "התרומה שלי אינה מוגבלת למשימות יישום פרטניות. אני עוזר לעצב את כיוון המערכת, להפחית עמימות טכנית, להקים יסודות חוזרים, ולהקל על עבודה מורכבת עבור המהנדסים שממשיכים אחרי.",
-      "points": {
-        "point1": "תרגום דרישות מוצר עמומות לגבולות טכניים ניתנים לביצוע",
-        "point2": "הגדרת ארכיטקטורה משותפת ויסודות פלטפורמה חוזרים",
-        "point3": "זיהוי נתיבי מעבר ששומרים על ערך עסקי קיים",
-        "point4": "סקירת סיכון טכני לפני שהוא הופך לחוב ייצור",
-        "point5": "חניכת מהנדסים דרך יישום והנמקה ארכיטקטונית",
-        "point6": "יצירת סטנדרטים שמפחיתים קבלת החלטות חוזרת",
-        "point7": "חיבור בין מוצר, דומיין, תשתית ודאגות יישום",
-        "point8": "שיפור מערכות ללא הכנסת מורכבות תפעולית מיותרת"
-      },
       "title": "מנהיגות טכנית"
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "אוטומציה של BIM",
+        "identity": "זהות ורקע",
+        "iot": "פיתוח IoT",
+        "services": "שירותים והתקשרות",
+        "stack": "מומחיות טכנית",
+        "writing": "כתיבה ותוכן"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "כן. קוראי בונה פאנלים ניהוליים, לוחות מחוונים לניהול וכלים תפעוליים פנימיים עבור מערכות SaaS ופלטפורמות אינטרנט.",
+          "question": "האם קוראי בונה פאנלים ניהוליים וכלים פנימיים?"
+        },
+        "appointment_systems": {
+          "answer": "כן — כולל ארכיטקטורת מערכת תורים שמשלבת ניהול חריצים מבוסס Redis עם שמירת נתונים בבסיס נתונים טרנזקציוני כדי לשמור על עקביות הזמנות וביטולים תחת גישה מקבילה.",
+          "question": "האם קוראי בנה מערכות תזמון או הזמנות?"
+        },
+        "architecture": {
+          "answer": "ארכיטקטורות מודולריות, מבוססות שירותים עם גבולות ברורים וחוזים צפויים — הקמת תשתית ליבה מוצקה תחילה, ואז הרחבת תכונות בהדרגה.",
+          "question": "איזו סוג ארכיטקטורה קוראי מעדיף?"
+        },
+        "auth_systems": {
+          "answer": "כן. זהות ובקרת גישה — מושבים, הרשאות ואישור רב-דיירים — הם חלק מרכזי ממערכות הבקאנד שקוראי מעצב, ולא מחשבה מאוחרת.",
+          "question": "האם קוראי מיישם מערכות אימות והרשאה?"
+        },
+        "availability": {
+          "answer": "כן, לפרויקטים נבחרים — במשרה מלאה, חוזה או ייעוץ. ראו את דף הפרילנס כדי לראות כיצד הוא בדרך כלל מתקשר.",
+          "question": "האם קוראי זמין לעבודה כפרילנסר?"
+        },
+        "bim": {
+          "answer": "כן. לצד ארכיטקטורת תוכנה, קוראי עובד כמפתח BIM, מאוטומציה של תהליכי מודל מידע לבניין על Autodesk Revit, AutoCAD, Robot Structural Analysis ו-Advance Steel, עם אוטומציה מבוססת API ב-C# ו-PHP REST APIs.",
+          "question": "האם קוראי קראסלן הוא מפתח BIM?"
+        },
+        "bim_automation_explain": {
+          "answer": "החלפת שלבים ידניים וחוזרים של מודל ותיעוד ב-Autodesk Revit, AutoCAD, Robot Structural Analysis ו-Advance Steel עם סקריפטים וכלים מבוססי API, כך שתהליכי עבודה מבניים וארכיטקטוניים יתבצעו מהר יותר ועם פחות שגיאות ידניות.",
+          "question": "מה המשמעות של 'אוטומציה של BIM' בעבודתו של קוראי?"
+        },
+        "bim_contact": {
+          "answer": "קוראי קראסלן — הוא משלב ניסיון מעשי בהנדסת מבנים עם פיתוח תוכנה, בונה אוטומציה של BIM על Revit, AutoCAD, Robot Structural Analysis ו-Advance Steel. ראו את דף הפרילנס כדי ליצור קשר.",
+          "question": "למי עלי לפנות עבור אוטומציה של BIM או פיתוח תוכנה ל-BIM?"
+        },
+        "bim_custom_tools": {
+          "answer": "כן. קוראי בונה אוטומציה מבוססת API וכלים מותאמים אישית על גבי Autodesk Revit, AutoCAD ו-Advance Steel באמצעות C# ו-PHP REST APIs, מותאמים לתהליך המודל והתיעוד של חברה ספציפית.",
+          "question": "האם קוראי בונה תוספים או כלים מותאמים אישית ל-Revit ו-AutoCAD?"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis ו-Advance Steel, עם אוטומציה מבוססת API שנבנתה ב-C# ו-PHP REST APIs.",
+          "question": "אילו כלים של BIM קוראי מכיר?"
+        },
+        "clients": {
+          "answer": "צוותים שבונים אפליקציות אינטרנט מודרניות, פלטפורמות SaaS, לוחות מחוונים של IoT או מוצרים שזקוקים לארכיטקטורה נקייה ותכונות בזמן אמת.",
+          "question": "איזה סוג לקוחות מתאימים ביותר לעבודה של קוראי?"
+        },
+        "construction": {
+          "answer": "כן — לקוראי יש ניסיון מעשי כמהנדס בנייה עצמאי וקבלן, מה שמחזיק את עבודתו כמפתח BIM מבוססת על פרקטיקה מבנית ומעשית ולא רק על כלים.",
+          "question": "האם לקוראי יש ניסיון מעשי בהנדסת בנייה?"
+        },
+        "contact": {
+          "answer": "הדרך הטובה ביותר היא דרך מדור הקשר באתר זה. ניתן גם לפנות דרך הפרופילים הציבוריים שלו המקושרים מהאתר.",
+          "question": "כיצד עלי ליצור קשר עם קוראי לעבודה?"
+        },
+        "database": {
+          "answer": "כן. קוראי בדרך כלל משלב PostgreSQL לשמירה עם Redis לנתונים תפעוליים בעלי ביצועים גבוהים, מטמון וניהול חריצים.",
+          "question": "האם קוראי משלב בסיסי נתונים עם שכבות מטמון?"
+        },
+        "fullstack": {
+          "answer": "כן. קוראי הוא מהנדס פולסטאק שעובד על פני פרונטאנד, בקאנד, תשתית וארכיטקטורת מערכת ולא מתמחה רק בשכבה אחת.",
+          "question": "האם קוראי עובד גם בצד הלקוח וגם בצד השרת?"
+        },
+        "iot": {
+          "answer": "כן. כמפתח IoT, קוראי בונה מערכות תקשורת בין מכשירים לשרתים באמצעות MQTT, WebSocket ו-SNMP, יחד עם Java Spring ו-TypeScript/React לטלמטריה בזמן אמת.",
+          "question": "האם קוראי קראסלן עוסק בפיתוח IoT?"
+        },
+        "iot_contact": {
+          "answer": "קוראי קראסלן — הוא מעצב ובונה פלטפורמות IoT מקצה לקצה: תקשורת בין מכשירים לשרתים באמצעות MQTT, WebSocket ו-SNMP, צינורות טלמטריה ולוחות מחוונים בזמן אמת. ראו את עמוד הפרילנס ליצירת קשר.",
+          "question": "למי עלי לפנות לפיתוח פלטפורמת IoT או מערכת טלמטריה?"
+        },
+        "iot_dashboards": {
+          "answer": "כן. קוראי בונה צינורות טלמטריה שמעבדים נתונים ממכשירים מחוברים ולוחות מחוונים שמציגים אותם בזמן אמת.",
+          "question": "האם קוראי בונה לוחות מחוונים וצינורות טלמטריה ל-IoT?"
+        },
+        "iot_device_management": {
+          "answer": "כן. עבודת ה-IoT של קוראי כוללת ניהול מכשירים — הקצאה, מעקב מצב וניטור רשת — יחד עם צינורות הטלמטריה ולוחות המחוונים שנבנים על גביהם.",
+          "question": "האם קוראי מטפל בניהול והקצאת מכשירי IoT?"
+        },
+        "iot_focus": {
+          "answer": "ניהול מכשירים, צינורות טלמטריה, לוחות מחוונים בזמן אמת ובניית חוויות פלטפורמת IoT פשוטות וזולות יותר לעסקים קטנים ובינוניים.",
+          "question": "מהו המיקוד של קוראי בפלטפורמות IoT?"
+        },
+        "iot_geospatial": {
+          "answer": "כן. לקוראי יש ניסיון באחסון מיקום מכשירים כנתונים מובנים ובבניית תכונות ויזואליזציה ושאילתות מבוססות מיקום, כמו מציאת מכשירים בקרבת נקודה מסוימת או בתוך רדיוס.",
+          "question": "האם קוראי עובד עם נתוני IoT מבוססי מיקום או גיאו-מרחביים?"
+        },
+        "iot_protocols": {
+          "answer": "MQTT, WebSocket ו-SNMP, מגובים בשכבת קליטה וחוקים של Java Spring ולוח מחוונים בזמן אמת של TypeScript/React.",
+          "question": "אילו פרוטוקולי IoT קוראי משתמש?"
+        },
+        "mobile": {
+          "answer": "React Native, כי זה נשאר עקבי עם אקוסיסטם React ומאיץ את הפיתוח בין פלטפורמות.",
+          "question": "מהו הסטאק המועדף על קוראי למובייל?"
+        },
+        "multitenant": {
+          "answer": "כן. לקוראי יש ניסיון בארכיטקטורת SaaS מרובת דיירים והוא מעצב מערכות עם בידוד דיירים וגבולות שירות ניתנים להרחבה.",
+          "question": "האם קוראי בונה מערכות מרובות דיירים?"
+        },
+        "mvp": {
+          "answer": "כן, אבל הוא מעדיף MVPs שמתוכננים להתרחב — יסודות מוצקים קודם, ואז איטרציה מהירה.",
+          "question": "האם קוראי בונה MVPs?"
+        },
+        "rest_apis": {
+          "answer": "כן. קוראי מתכנן ובונה באופן קבוע REST APIs לאפליקציות ווב, מוצרי SaaS ואינטגרציות צד שלישי, עם אימות והרשאה מובנים בעיצוב ה-API מההתחלה.",
+          "question": "האם קוראי בונה REST APIs?"
+        },
+        "reviews": {
+          "answer": "כן. קוראי תומך בהחלטות ארכיטקטורה ובביקורות, תוך התמקדות בהרחבה, תחזוקה וחוויית מפתח.",
+          "question": "האם קוראי יכול לעזור בביקורות על ארכיטקטורת מערכת?"
+        },
+        "role": {
+          "answer": "שניהם — תואר העבודה שלו הוא ארכיטקט תוכנה ומהנדס מוצר. הוא מתכנן ארכיטקטורת מערכת, כמו מודלי נתונים, גבולות שירות וזרימות אבטחה, וגם מיישם אותה מקצה לקצה במקום להעביר את התכנון למישהו אחר לבנות.",
+          "question": "האם קוראי קראסלן הוא ארכיטקט תוכנה או מהנדס מוצר?"
+        },
+        "software_contact": {
+          "answer": "קוראי קראסלן — הוא מעצב ובונה פלטפורמות SaaS, אפליקציות ווב ומערכות צד שרת מקצה לקצה, וזמין לעבודה פרילנס וייעוץ. ראו את עמוד הפרילנס ליצירת קשר.",
+          "question": "למי עלי לפנות לבניית פלטפורמת ווב או מוצר SaaS?"
+        },
+        "tech_stack": {
+          "answer": "בעיקר React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets ו-MQTT, עם Java Spring Boot למערכות צד שרת ספציפיות.",
+          "question": "אילו טכנולוגיות קוראי משתמש?"
+        },
+        "tone": {
+          "answer": "מקצועי אך שיחתי, נכתב עבור מהנדסים, עם דוגמאות מעשיות ומבנה ברור באמצעות כותרות משנה — בדרך כלל 1500–2000 תווים, מתמקד בזוויות שלא נדונו מספיק.",
+          "question": "מהו הטון וסגנון הכתיבה של קוראי?"
+        },
+        "topics": {
+          "answer": "הנדסת תוכנה, פיתוח ווב, ארכיטקטורת מערכות, פלטפורמות IoT וכלי פיתוח מודרניים — בדרך כלל מזווית מעשית, מציאותית ולא מדריכי מתחילים.",
+          "question": "על אילו נושאים קוראי כותב?"
+        },
+        "who": {
+          "answer": "קוראי קראסלן הוא ארכיטקט תוכנה ומהנדס מוצר מטורקיה, שעובד גם כמפתח BIM ומפתח IoT. הוא מתמקד בבניית פלטפורמות SaaS, כלי אוטומציה BIM, מערכות IoT ואפליקציות ווב ניתנות להרחבה.",
+          "question": "מי הוא קוראי קראסלן?"
+        }
+      },
+      "faq_subtitle": "תשובות ברורות וניתנות לציטוט על אוטומציה BIM, מערכות IoT, ארכיטקטורה ואיך אני עובד — עבור בני אדם ועבור עוזרי AI.",
+      "faq_title": "שאלות נפוצות"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend & Platform",
+        "delivery": "אספקה והרחבה",
+        "foundations": "יסודות וארכיטקטורה"
+      },
+      "capabilities_subtitle": "יכולות מעוצבות סביב תוצאות מערכת — לא טכנולוגיות מבודדות.",
+      "capabilities_title": "יכולות הנדסה",
+      "engagement": {
+        "cta": "התחל שיחה טכנית",
+        "description": "אני עובד הכי טוב על מוצרים שדורשים ארכיטקטורה ברורה, בעלות טכנית חזקה, והיכולת לחבר בין החלטות מוצר למציאות היישום.",
+        "title": "איך נוכל לעבוד יחד",
+        "advisory_description": "סקירות ארכיטקטורה, תכנון מערכות, אסטרטגיית טכנולוגיה והגירה, והפחתת סיכונים בהחלטות טכניות לפני שהן הופכות לחוב ייצור.",
+        "advisory_title": "ארכיטקטורה וייעוץ",
+        "build_description": "אספקה מקצה לקצה של פלטפורמות ושירותים - ממודלי נתונים ומערכות אחוריות ועד לממשקי מוצרים, אינטגרציות ותשתיות ייצור.",
+        "build_title": "בנייה ואספקה",
+        "platform_description": "יסודות לשימוש חוזר: SaaS מרובה דיירים, אימות והרשאות, חיוב בלתי תלוי בספק, וכלי תפעול שמצטברים עם הזמן.",
+        "platform_title": "יסודות פלטפורמה"
+      },
+      "hero": {
+        "availability": "פתוח למעורבויות סלקטיביות — משרה מלאה, חוזה או ייעוץ.",
+        "cta_primary": "לדון בפרויקט מורכב",
+        "cta_secondary": "צפה במערכות נבחרות",
+        "eyebrow": "פרילנס · ארכיטקטורת תוכנה והנדסת מוצר",
+        "subtitle": "אני לוקח בעלות על מערכות תוכנה מורכבות בארכיטקטורה, צד שרת, צד לקוח, תשתיות, אינטגרציות ותפעול ייצור. אני הכי יעיל במוצרים מסוג SaaS, IoT, BIM, בזמן אמת ובמוצרים מוכווני פלטפורמה שבהם החלטות טכניות חייבות לתמוך גם באספקה מיידית וגם בהתפתחות מערכת ארוכת טווח.",
+        "title": "תביאו לי את החלק הקשה."
+      }
     }
   },
   "frontend": {
@@ -404,13 +575,11 @@
       "toggle": "החלף תוכן עניינים"
     },
     "feed": {
-      "other_posts": "פוסטים נוספים",
       "related_articles": "מאמרים קשורים",
       "categories": "קטגוריות",
       "latest_posts": "פוסטים אחרונים",
       "posts_by": "פוסטים מאת",
       "load_more": "טען פוסטים נוספים",
-      "no_more_posts": "אין עוד פוסטים זמינים",
       "read_more": "קרא עוד",
       "match": "התאמה",
       "same_category": "אותה קטגוריה",
@@ -422,7 +591,6 @@
     },
     "post": {
       "by": "מאת",
-      "min_read": "דקות קריאה",
       "views": "צפיות",
       "no_date": "אין תאריך",
       "unknown_author": "מחבר לא ידוע",
@@ -456,16 +624,13 @@
       "anonymous": "אנונימי"
     },
     "knowledge_graph": {
-      "title_2d": "גרף ידע 2D",
       "title_3d": "גרף ידע 3D"
     },
     "offline": {
       "online": "אתה חזרת לאינטרנט!",
       "offline": "אתה לא מחובר!"
     },
-    "terminal_button": "טרמינל",
     "scroll_to_top": "גלול למעלה",
-    "scroll_to_bottom": "גלול למטה",
     "chat_on_whatsapp": "שוחח ב-WhatsApp",
     "open_ai_assistant": "פתח עוזר AI",
     "user_profile": {
@@ -508,7 +673,6 @@
       "copy_codes": "העתק קודים",
       "download_codes": "הורד קודים",
       "i_have_saved": "שמרתי את קודי הגיבוי שלי",
-      "start_setup": "התחל הגדרה",
       "enter_code": "הכנס את הקוד מאפליקציית האימות שלך",
       "confirm_setup": "אשר הגדרה"
     },
@@ -605,7 +769,6 @@
       "cover_image_label": "תמונת כיסוי",
       "delete_link": "מחק",
       "description": "ערוך את הפרופיל שלך והוסף קישורים לרשתות חברתיות.",
-      "drag_hint": "גרור",
       "hide_profile_description": "כאשר מופעל, דף הפרופיל שלך לא יופיע בגוגל ומנועי חיפוש אחרים.",
       "hide_profile_label": "הסתר פרופיל ממנועי חיפוש",
       "name_label": "שם",
@@ -663,7 +826,6 @@
   },
   "shared": {
     "alert": {
-      "this_blog_is_available_in_only_english": "הבלוג זמין באנגלית בלבד",
       "error": "אירעה שגיאה",
       "success": "הצלחה",
       "warning": "אזהרה",
@@ -677,7 +839,6 @@
       "description": "הישאר מעודכן! קבל את כל הפוסטים החדשים ישירות לתיבת הדואר שלך",
       "email_placeholder": "הכנס את כתובת האימייל שלך",
       "subscribe": "הירשם",
-      "success_message": "נרשמת בהצלחה! בדוק את האימייל שלך לאישור.",
       "error_message": "אירעה שגיאה בהרשמה. אנא נסה שוב מאוחר יותר."
     },
     "whatsapp": {
@@ -688,16 +849,12 @@
       "description": "קבע פגישה איתי.",
       "appointment_title": "פגישה",
       "appointment_subtitle": "בחר יום ושעה מתאימים",
-      "available_slots": "חלונות זמינים",
       "available_times": "שעות פנויות",
       "selected_time": "שעה נבחרת",
-      "no_available_slots": "אין חלונות זמינים",
       "no_slots_for_day": "אין שעות פנויות ביום שנבחר",
-      "past_date_warning": "לא ניתן לקבוע פגישה לתאריך שעבר.",
       "select_slot": "אנא בחר חלון לקביעת פגישה.",
       "select_slot_first": "אנא בחר חלון זמן תחילה",
       "book_now": "קבע פגישה",
-      "book_appointment": "קביעת פגישה",
       "create_appointment": "צור פגישה",
       "appointment_created": "הפגישה שלך נוצרה",
       "appointment_error": "לא ניתן ליצור פגישה",
@@ -705,7 +862,6 @@
       "minutes": "{{count}} דקות",
       "minutes_abbr": "דק'",
       "close": "סגור",
-      "close_modal": "סגור",
       "error_occurred": "אירעה שגיאה",
       "fields": {
         "name": "שמך",
@@ -715,7 +871,6 @@
         "phone": "הטלפון שלך",
         "phone_placeholder": "הכנס את הטלפון שלך",
         "note": "הערה",
-        "note_placeholder": "הכנס הערה",
         "full_name": "שם מלא",
         "email_label": "אימייל",
         "phone_label": "טלפון",
@@ -761,8 +916,7 @@
         "degraded_performance": "ביצועים מופחתים",
         "partial_outage": "תקלה חלקית",
         "major_outage": "תקלה חמורה"
-      },
-      "open_status": "סטטוס"
+      }
     },
     "chatbot": {
       "clear": "נקה צ'אט",
@@ -776,7 +930,6 @@
       "welcome_message": "שלום! אני העוזר AI. שאל אותי כל דבר על פוסטים בבלוג, פרויקטים או נושאים טכנולוגיים שמכוסים כאן.",
       "admin_typing": "המנהל מקליד...",
       "connecting": "מתחבר...",
-      "message_queued": "אתה במצב לא מקוון. ההודעה שלך תישלח כאשר החיבור ישוחזר.",
       "rate_limit_exceeded": "אתה שולח הודעות מהר מדי. אנא המתן רגע לפני שתנסה שוב.",
       "session_closed": "הפגישה הזו נסגרה. אנא התחל שיחה חדשה.",
       "user_banned": "הגישה שלך לצ'אטבוט הוגבלה זמנית. אנא נסה שוב מאוחר יותר."
@@ -799,11 +952,9 @@
     "forgot_password": {
       "code_sent": "קוד האימות נשלח לאימייל שלך.",
       "confirm_password": "אשר סיסמה",
-      "email_address": "כתובת אימייל",
       "email_required": "נדרש אימייל.",
       "new_password": "סיסמה חדשה",
       "reset_password": "איפוס סיסמה",
-      "send_verification_code": "שלח קוד אימות",
       "success": "סיסמה אופסה בהצלחה.",
       "title": "שכחת סיסמה",
       "verification_code": "קוד אימות"
@@ -845,7 +996,6 @@
       "passwords_not_match": "הסיסמאות אינן תואמות.",
       "registering": "נרשם...",
       "title": "צור חשבון",
-      "captcha_failed": "אימות reCAPTCHA נכשל. אנא נסה שוב.",
       "captcha_required": "אנא השלם את אימות ה-reCAPTCHA.",
       "passwords_mismatch": "הסיסמאות אינן תואמות."
     },
@@ -872,8 +1022,6 @@
       "delete_button": "הסר",
       "delete_success": "מפתח המעבר הוסר.",
       "delete_failed": "הסרת מפתח המעבר נכשלה.",
-      "limit_reached": "הגעת למספר המקסימלי של מפתחות מעבר.",
-      "challenge_expired": "אתגר מפתח המעבר פג תוקף. נסה שוב.",
       "not_supported": "הדפדפן שלך אינו תומך במפתחות מעבר.",
       "no_passkeys": "לא נרשמו מפתחות מעבר.",
       "created_at": "נוסף ב",
@@ -889,24 +1037,15 @@
       "views": "צפיות",
       "categories": "קטגוריות",
       "comments": "תגובות",
-      "total_users": "סך משתמשים",
-      "total_posts": "סך פוסטים",
-      "total_views": "סך צפיות",
-      "total_categories": "סך קטגוריות",
-      "total_comments": "סך תגובות",
       "frequency": "תדירות",
-      "last_5_minutes": "5 דקות אחרונות",
-      "last_hour": "שעה אחרונה",
       "daily": "יומי",
       "weekly": "שבועי",
       "monthly": "חודשי",
-      "yearly": "שנתי",
-      "all_time": "כל הזמנים"
+      "yearly": "שנתי"
     },
     "categories": {
       "title": "קטגוריות",
       "search_placeholder": "חיפוש",
-      "create_category": "צור קטגוריה",
       "image": "תמונה",
       "slug": "Slug",
       "action": "פעולה",
@@ -922,12 +1061,6 @@
     "posts": {
       "title": "פוסטים",
       "search_placeholder": "חיפוש",
-      "create_post": "צור פוסט",
-      "reset_knowledge_graph": "אפס גרף ידע",
-      "rebuild_triggered": "בנייה מחדש הופעלה",
-      "rebuild_triggered_message": "בנייה מחדש של גרף הידע כבר הופעלה. עליך לרענן את הדף להפעלה מחדש.",
-      "rebuild_success": "בנייה מחדש של גרף הידע הופעלה.",
-      "rebuild_failed": "נכשל להפעיל בנייה מחדש של גרף הידע.",
       "category": "קטגוריה",
       "status": "סטטוס",
       "action": "פעולה",
@@ -943,7 +1076,6 @@
     "users": {
       "title": "משתמשים",
       "search_placeholder": "חיפוש",
-      "create_user": "צור משתמש",
       "name": "שם",
       "email": "אימייל",
       "role": "תפקיד",
@@ -978,7 +1110,6 @@
     "projects": {
       "title": "פרויקטים",
       "search_placeholder": "חיפוש",
-      "create_project": "צור פרויקט",
       "tech_stack": "סטק טכנולוגי",
       "action": "פעולה",
       "edit": "ערוך",
@@ -1036,8 +1167,6 @@
       "alt_text_placeholder": "תאר את התמונה לנגישות",
       "all_folders": "כל התיקיות",
       "search_placeholder": "חיפוש קבצים...",
-      "total_files": "סך קבצים",
-      "total_size": "גודל כולל",
       "folders": "תיקיות",
       "selected": "נבחר",
       "no_files": "לא נמצאו קבצים",
@@ -1049,11 +1178,8 @@
       "actions": "פעולות",
       "copy_url": "העתק כתובת URL",
       "delete": "מחק",
-      "delete_selected": "מחק נבחרים",
       "confirm_delete": "האם אתה בטוח שברצונך למחוק קובץ זה?",
-      "confirm_bulk_delete": "האם אתה בטוח שברצונך למחוק {{count}} קבצים?",
       "page": "דף",
-      "page_size": "גודל דף",
       "previous": "הקודם",
       "next": "הבא",
       "showing": "מציג {{count}} מתוך {{total}} קבצים"
@@ -1094,13 +1220,11 @@
     "slots": {
       "template_builder": "בונה תבניות",
       "create_and_manage": "צור ונהל תבניות חלונות לכל יום בשבוע.",
-      "select_day": "בחר יום",
       "interval": "מרווח (דקות)",
       "start_time": "שעת התחלה",
       "end_time": "שעת סיום",
       "generate": "צור",
       "generated_slots": "נוצרו {{count}} חלונות",
-      "add_manual_slot": "הוסף חלון ידני",
       "select_time": "בחר שעה",
       "add": "הוסף",
       "remove_all": "הסר הכל",
@@ -1132,13 +1256,7 @@
       "close": "סגור"
     },
     "selects": {
-      "select_user": "בחר משתמש",
-      "select_category": "בחר קטגוריה",
-      "select_option": "בחר",
-      "select_post": "בחר פוסט",
-      "select_project": "בחר פרויקט",
-      "select_role": "בחר תפקיד",
-      "select_status": "בחר סטטוס"
+      "select_option": "בחר"
     },
     "admin_settings": {
       "account_security_description": "כללי אבטחה לחשבונות משתמשים",
@@ -1150,7 +1268,6 @@
       "allowed_domains_placeholder": "לדוגמה: example.com, company.org",
       "chatbot_settings_description": "הגדרת התנהגות וצמצום תגובות של צ'אטבוט AI",
       "chatbot_settings_title": "הגדרות צ'אטבוט",
-      "chatbot_tab": "צ'אטבוט",
       "description": "אפשרויות תצורה כלליות למערכת",
       "domain_restrictions_description": "לאפשר הרשמה רק מדומיינים מסוימים. השאר ריק ללא הגבלה.",
       "domain_restrictions_title": "הגבלות דומיין",
@@ -1158,20 +1275,13 @@
       "email_notifications_label": "התראות אימייל",
       "email_settings_description": "מידע המשמש באימיילים יוצאים",
       "email_settings_title": "הגדרות אימייל",
-      "general_tab": "כללי",
-      "login_restrictions_description": "הגדרות הגנה נגד ניסיונות כניסה כושלים",
-      "login_restrictions_title": "הגבלות כניסה",
       "maintenance_mode_description": "הכנס את האתר למצב תחזוקה, מבקרים יראו דף תחזוקה",
       "maintenance_mode_label": "מצב תחזוקה",
       "max_login_attempts_label": "מספר מקסימלי של ניסיונות כניסה",
       "max_tokens_label": "מספר מקסימלי של אסימונים",
-      "new_registration_notification_description": "שלח התראה למנהל כאשר משתמש חדש נרשם",
-      "new_registration_notification_label": "התראה על הרשמה חדשה",
       "notification_prefs_description": "בחר מתי יש לשלוח התראות",
       "notification_prefs_title": "העדפות התראות",
       "notifications_tab": "התראות",
-      "require_email_verification_description": "משתמשים חייבים לאמת את כתובת האימייל שלהם לפני כניסה לאחר הרשמה",
-      "require_email_verification_label": "דרוש אימות אימייל",
       "save_changes": "שמור שינויים",
       "security_tab": "אבטחה",
       "sender_name_label": "שם השולח",
@@ -1200,8 +1310,6 @@
     },
     "analytics": {
       "description": "תנועה, נתונים גיאוגרפיים וסטטיסטיקות תוכן",
-      "geographic_data": "נתונים גיאוגרפיים",
-      "no_geographic_data": "אין נתונים גיאוגרפיים זמינים.",
       "title": "אנליטיקה",
       "total_visits": "סה\"כ ביקורים",
       "unique_countries": "מדינות ייחודיות",
@@ -1212,27 +1320,18 @@
     },
     "campaigns": {
       "back": "חזרה לקמפיינים",
-      "campaign_title_label": "כותרת הקמפיין",
-      "campaign_title_placeholder": "שם פנימי (לא נראה למנויים)",
       "cancel": "ביטול",
       "clear_draft": "נקה טיוטה",
       "content_required": "תוכן נדרש",
       "created": "הקמפיין נוצר",
       "draft_cleared": "הטיוטה נוקתה",
       "draft_loaded": "הטיוטה נטענה מהדפדפן",
-      "edit_campaign": "ערוך קמפיין",
-      "email_content_label": "תוכן האימייל",
-      "email_subject_label": "נושא האימייל",
-      "email_subject_placeholder": "שורת הנושא שהמנויים יראו",
       "load_failed": "טעינת הקמפיין נכשלה",
-      "new_campaign": "קמפיין חדש",
       "not_found": "הקמפיין לא נמצא",
       "save": "שמור",
       "saved": "הקמפיין נשמר",
       "saving": "שומר...",
-      "send_to_subscribers": "שלח לכל המנויים",
       "sending": "שולח...",
-      "sent_notice": "קמפיין זה נשלח ולא ניתן לערוך אותו יותר.",
       "status_label": "סטטוס:",
       "subject_required": "נושא נדרש",
       "title": "קמפיינים",
@@ -1242,31 +1341,22 @@
       "admin_responding": "מנהל מגיב",
       "ai_responding": "בינה מלאכותית מגיבה",
       "all": "הכל",
-      "ban_user": "חסום משתמש (1ש)",
-      "close_session": "סגור שיחה",
       "closed": "סגור",
       "connected": "מחובר",
       "disconnected": "מנותק",
       "export": "ייצוא",
-      "failed_to_load": "נכשל בטעינת השיחה",
       "last_activity": "פעילות אחרונה",
       "no_messages": "אין הודעות עדיין",
       "no_sessions": "לא נמצאו שיחות",
       "no_title": "ללא כותרת",
-      "release_session": "שחרר שיחה",
       "reply_placeholder": "הקלד את תגובתך כמנהל...",
       "send": "שלח",
       "session_closed": "השיחה נסגרה",
-      "session_is_closed": "השיחה הזו סגורה",
-      "session_released": "השיחה שוחררה",
-      "session_taken_over": "השיחה נלקחה",
       "started": "התחיל",
       "status": "סטטוס",
-      "take_over": "קח שליטה",
       "takeover_first": "קח שליטה על השיחה קודם כדי להגיב",
       "title": "שיחות צ'אט",
       "topic": "נושא",
-      "unban_user": "בטל חסימת משתמש",
       "unknown": "לא ידוע",
       "user": "משתמש",
       "action_ban": "חסום משתמש (1ש)",
@@ -1317,13 +1407,11 @@
     "dashboard": {
       "contact_forms": "טפסי יצירת קשר",
       "description": "סקירה כללית של התוכן והפעילות שלך",
-      "geographic_stats": "סטטיסטיקות גיאוגרפיות",
       "last_7_days": "7 הימים האחרונים",
       "new_subscriptions": "מנויים חדשים",
       "no_appointments": "אין פגישות מתוכננות.",
       "no_comments": "אין תגובות ממתינות.",
       "no_contact_forms": "אין עדיין טפסי יצירת קשר.",
-      "no_geographic_data": "אין נתונים גיאוגרפיים זמינים.",
       "no_popular_posts": "אין עדיין פוסטים פופולריים.",
       "no_posts": "אין עדיין פוסטים.",
       "no_subscriptions": "אין עדיין מנויים.",
@@ -1397,33 +1485,23 @@
       "title_new": "התראות ({{count}} חדשות)"
     },
     "post_series": {
-      "add_a_post": "הוסף פוסט",
-      "back_to_series": "חזרה לסדרה",
       "cover_image": "תמונת כיסוי",
-      "create_series": "צור סדרה",
       "created": "סדרה נוצרה",
       "delete_confirm": "למחוק את הסדרה \"{{title}}\"? פעולה זו תנתק את כל הפוסטים ממנה.",
       "delete_failed": "המחיקה נכשלה",
       "deleted": "סדרה נמחקה",
       "description_label": "תיאור",
-      "edit_series": "ערוך סדרה",
       "load_failed": "טעינת הסדרה נכשלה",
-      "new_series": "סדרה חדשה",
       "no_posts_yet": "אין פוסטים עדיין. חפש למטה להוספה.",
-      "order_save_failed": "שמירת הסדר נכשלה",
-      "post_add_failed": "הוספת הפוסט נכשלה",
       "post_added": "הפוסט נוסף לסדרה",
-      "post_remove_failed": "הסרת הפוסט נכשלה",
       "post_removed": "הפוסט הוסר",
       "posts_in_series": "פוסטים בסדרה זו",
       "save": "שמור",
       "save_failed": "השמירה נכשלה",
       "saved": "הסדרה נשמרה",
       "saving": "שומר…",
-      "search_by_title": "חפש לפי כותרת…",
       "search_placeholder": "חפש סדרה...",
       "searching": "מחפש…",
-      "slug_label": "סלאג",
       "title": "סדרת פוסטים",
       "title_label": "כותרת",
       "title_slug_required": "נדרשים כותרת ושבלול"
@@ -1440,11 +1518,6 @@
       "analytics": "אנליטיקה",
       "analytics_load_failed": "הטעינת האנליטיקה נכשלה",
       "browsers": "דפדפנים",
-      "by_browser": "לפי דפדפן",
-      "by_country": "לפי מדינה",
-      "by_device": "לפי מכשיר",
-      "by_os": "לפי מערכת הפעלה",
-      "by_referrer": "לפי מפנה",
       "countries": "מדינות",
       "created": "קישור קצר נוצר",
       "days_active": "ימים פעילים",
@@ -1454,7 +1527,6 @@
       "load_failed": "הטעינת הקישור הקצר נכשלה",
       "not_found": "קישור קצר לא נמצא",
       "save_failed": "שמירת הקישור הקצר נכשלה",
-      "short_link_not_found": "קישור קצר לא נמצא.",
       "title": "קישורים קצרים",
       "total_clicks": "סך כל הלחיצות",
       "updated": "קישור קצר עודכן"
@@ -1469,7 +1541,6 @@
     },
     "translations": {
       "add_language": "הוסף שפה",
-      "add_language_title": "הוסף תרגום ל{{lang}}",
       "ai_model": "מודל AI",
       "back": "חזור",
       "content_language": "שפת תוכן",
@@ -1500,7 +1571,6 @@
       "name_placeholder": "שם",
       "name_required": "שם נדרש",
       "not_found": "המשתמש לא נמצא",
-      "password_edit_label": "סיסמה (השאר ריק כדי לשמור על הנוכחית)",
       "password_label": "סיסמה",
       "password_placeholder": "סיסמה",
       "password_required": "סיסמה נדרשת",

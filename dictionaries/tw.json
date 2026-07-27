@@ -35,7 +35,6 @@
     "categories": {
       "action": "操作",
       "confirm_delete": "您確定要刪除此分類嗎？",
-      "create_category": "建立分類",
       "delete": "刪除",
       "edit": "編輯",
       "image": "圖片",
@@ -90,12 +89,10 @@
       "all_folders": "所有資料夾",
       "alt_text": "替代文字",
       "alt_text_placeholder": "描述圖片以提高可及性",
-      "confirm_bulk_delete": "您確定要刪除 {{count}} 個檔案嗎？",
       "confirm_delete": "您確定要刪除此檔案嗎？",
       "copy_url": "複製 URL",
       "date": "日期",
       "delete": "刪除",
-      "delete_selected": "刪除選擇項",
       "description": "管理您上傳的檔案和圖片",
       "edit": "編輯",
       "filename": "檔案名稱",
@@ -105,7 +102,6 @@
       "next": "下一頁",
       "no_files": "未找到檔案",
       "page": "頁面",
-      "page_size": "頁面大小",
       "preview": "預覽",
       "previous": "上一頁",
       "search_placeholder": "搜尋檔案...",
@@ -114,24 +110,16 @@
       "size": "大小",
       "sync": "從 S3 同步",
       "title": "媒體庫",
-      "total_files": "檔案總數",
-      "total_size": "總大小",
       "upload": "上傳"
     },
     "posts": {
       "action": "操作",
       "category": "分類",
       "confirm_delete": "您確定要刪除此文章嗎？",
-      "create_post": "建立文章",
       "delete": "刪除",
       "edit": "編輯",
       "next": "下一頁",
       "previous": "上一頁",
-      "rebuild_failed": "觸發知識圖譜重建失敗。",
-      "rebuild_success": "已觸發知識圖譜重建。",
-      "rebuild_triggered": "已觸發重建",
-      "rebuild_triggered_message": "知識圖譜重建已觸發。您需要刷新頁面以再次觸發。",
-      "reset_knowledge_graph": "重置知識圖譜",
       "search_placeholder": "搜尋",
       "showing": "顯示 {{count}} 筆，共 {{total}} 筆貼文",
       "status": "狀態",
@@ -147,7 +135,6 @@
     "projects": {
       "action": "操作",
       "confirm_delete": "您確定要刪除此專案嗎？",
-      "create_project": "建立專案",
       "delete": "刪除",
       "edit": "編輯",
       "next": "下一個",
@@ -159,17 +146,10 @@
       "view": "查看"
     },
     "selects": {
-      "select_category": "選擇類別",
-      "select_user": "選擇使用者",
-      "select_option": "選擇",
-      "select_post": "選擇文章",
-      "select_project": "選擇專案",
-      "select_role": "選擇角色",
-      "select_status": "選擇狀態"
+      "select_option": "選擇"
     },
     "slots": {
       "add": "新增",
-      "add_manual_slot": "新增手動時段",
       "apply_confirm": "將 {{day}} 模板套用到 {{date}}？這將覆蓋現有的時段。",
       "apply_failed": "套用模板失敗",
       "apply_success": "模板已套用到 {{date}}",
@@ -191,7 +171,6 @@
       "save_changes": "儲存變更",
       "save_template": "儲存範本",
       "saving": "儲存中...",
-      "select_day": "選擇日期",
       "select_time": "選擇時間",
       "slot_exists": "時段已存在",
       "slots_failed": "更新時段失敗",
@@ -204,21 +183,13 @@
       "week_confirm": "這將覆蓋從 {{date}} 開始的一週現有時段。繼續？"
     },
     "stats": {
-      "all_time": "所有時間",
       "categories": "分類",
       "comments": "評論",
       "daily": "每日",
       "frequency": "頻率",
-      "last_5_minutes": "最近 5 分鐘",
-      "last_hour": "最近 1 小時",
       "monthly": "每月",
       "posts": "文章",
       "title": "統計",
-      "total_categories": "總分類數",
-      "total_comments": "總評論數",
-      "total_posts": "總文章數",
-      "total_users": "總用戶數",
-      "total_views": "總瀏覽數",
       "users": "用戶",
       "views": "瀏覽",
       "weekly": "每週",
@@ -243,7 +214,6 @@
     "users": {
       "action": "操作",
       "confirm_delete": "確定要刪除此用戶嗎？",
-      "create_user": "建立用戶",
       "delete": "刪除",
       "delete_failed": "刪除用戶失敗。",
       "delete_success": "用戶刪除成功。",
@@ -268,7 +238,6 @@
       "allowed_domains_placeholder": "例如：example.com, company.org",
       "chatbot_settings_description": "配置AI聊天機器人的行為和回應限制",
       "chatbot_settings_title": "聊天機器人設定",
-      "chatbot_tab": "聊天機器人",
       "description": "系統範圍的配置選項",
       "domain_restrictions_description": "僅允許指定網域的註冊。留空表示無限制。",
       "domain_restrictions_title": "網域限制",
@@ -276,20 +245,13 @@
       "email_notifications_label": "電子郵件通知",
       "email_settings_description": "用於發送電子郵件的資訊",
       "email_settings_title": "電子郵件設定",
-      "general_tab": "一般",
-      "login_restrictions_description": "防止登入失敗的保護設定",
-      "login_restrictions_title": "登入限制",
       "maintenance_mode_description": "將網站設為維護模式，訪客將看到維護頁面",
       "maintenance_mode_label": "維護模式",
       "max_login_attempts_label": "最大登入嘗試次數",
       "max_tokens_label": "最大代幣數量",
-      "new_registration_notification_description": "當有新使用者註冊時發送通知給管理員",
-      "new_registration_notification_label": "新註冊通知",
       "notification_prefs_description": "選擇何時應發送通知",
       "notification_prefs_title": "通知偏好設定",
       "notifications_tab": "通知",
-      "require_email_verification_description": "使用者註冊後必須驗證電子郵件地址才能登入",
-      "require_email_verification_label": "需要電子郵件驗證",
       "save_changes": "儲存變更",
       "security_tab": "安全",
       "sender_name_label": "寄件者名稱",
@@ -318,8 +280,6 @@
     },
     "analytics": {
       "description": "流量、地理數據和內容統計",
-      "geographic_data": "地理數據",
-      "no_geographic_data": "無可用地理數據。",
       "title": "分析",
       "total_visits": "總訪問量",
       "unique_countries": "獨特國家",
@@ -330,27 +290,18 @@
     },
     "campaigns": {
       "back": "返回活動",
-      "campaign_title_label": "活動標題",
-      "campaign_title_placeholder": "內部名稱（不對訂閱者顯示）",
       "cancel": "取消",
       "clear_draft": "清除草稿",
       "content_required": "內容為必填項",
       "created": "活動已建立",
       "draft_cleared": "草稿已清除",
       "draft_loaded": "草稿已從瀏覽器加載",
-      "edit_campaign": "編輯活動",
-      "email_content_label": "電子郵件內容",
-      "email_subject_label": "電子郵件主題",
-      "email_subject_placeholder": "訂閱者將看到的主題行",
       "load_failed": "加載活動失敗",
-      "new_campaign": "新活動",
       "not_found": "找不到活動",
       "save": "儲存",
       "saved": "活動已儲存",
       "saving": "儲存中...",
-      "send_to_subscribers": "發送給所有訂閱者",
       "sending": "發送中...",
-      "sent_notice": "此活動已發送，無法再編輯。",
       "status_label": "狀態：",
       "subject_required": "主題為必填項",
       "title": "活動",
@@ -360,31 +311,22 @@
       "admin_responding": "管理員正在回應",
       "ai_responding": "AI 回應中",
       "all": "全部",
-      "ban_user": "封鎖用戶 (1小時)",
-      "close_session": "結束會話",
       "closed": "已結束",
       "connected": "已連接",
       "disconnected": "已斷開",
       "export": "匯出",
-      "failed_to_load": "載入聊天會話失敗",
       "last_activity": "最後活動",
       "no_messages": "尚無訊息",
       "no_sessions": "找不到聊天會話",
       "no_title": "無標題",
-      "release_session": "釋放會話",
       "reply_placeholder": "以管理員身份輸入回覆...",
       "send": "發送",
       "session_closed": "會話已結束",
-      "session_is_closed": "此會話已結束",
-      "session_released": "會話已釋放",
-      "session_taken_over": "會話已接管",
       "started": "已開始",
       "status": "狀態",
-      "take_over": "接管",
       "takeover_first": "先接管會話才能回覆",
       "title": "聊天會話",
       "topic": "主題",
-      "unban_user": "解除封鎖用戶",
       "unknown": "未知",
       "user": "用戶",
       "action_ban": "封鎖用戶（1小時）",
@@ -435,13 +377,11 @@
     "dashboard": {
       "contact_forms": "聯絡表單",
       "description": "內容和活動概覽",
-      "geographic_stats": "地理統計",
       "last_7_days": "最近 7 天",
       "new_subscriptions": "新訂閱",
       "no_appointments": "沒有安排的約會。",
       "no_comments": "沒有待處理的評論。",
       "no_contact_forms": "尚無聯絡表單。",
-      "no_geographic_data": "無地理數據可用。",
       "no_popular_posts": "尚無熱門文章。",
       "no_posts": "尚無文章。",
       "no_subscriptions": "尚無訂閱。",
@@ -515,33 +455,23 @@
       "title_new": "通知（{{count}} 則新）"
     },
     "post_series": {
-      "add_a_post": "新增文章",
-      "back_to_series": "返回系列",
       "cover_image": "封面圖片",
-      "create_series": "建立系列",
       "created": "系列已建立",
       "delete_confirm": "刪除系列「{{title}}」？這將取消所有文章的連結。",
       "delete_failed": "刪除失敗",
       "deleted": "系列已刪除",
       "description_label": "描述",
-      "edit_series": "編輯系列",
       "load_failed": "載入系列失敗",
-      "new_series": "新系列",
       "no_posts_yet": "尚無文章。請在下方搜尋以新增。",
-      "order_save_failed": "儲存順序失敗",
-      "post_add_failed": "新增文章失敗",
       "post_added": "文章已新增至系列",
-      "post_remove_failed": "移除文章失敗",
       "post_removed": "文章已移除",
       "posts_in_series": "此系列中的文章",
       "save": "儲存",
       "save_failed": "儲存失敗",
       "saved": "系列已儲存",
       "saving": "正在儲存…",
-      "search_by_title": "按標題搜尋…",
       "search_placeholder": "搜尋系列...",
       "searching": "搜尋中…",
-      "slug_label": "短網址",
       "title": "文章系列",
       "title_label": "標題",
       "title_slug_required": "標題和短網址是必填的"
@@ -558,11 +488,6 @@
       "analytics": "分析",
       "analytics_load_failed": "無法載入分析",
       "browsers": "瀏覽器",
-      "by_browser": "按瀏覽器",
-      "by_country": "按國家",
-      "by_device": "按設備",
-      "by_os": "按操作系統",
-      "by_referrer": "按來源",
       "countries": "國家",
       "created": "短連結已創建",
       "days_active": "活躍天數",
@@ -572,7 +497,6 @@
       "load_failed": "無法載入短連結",
       "not_found": "找不到短連結",
       "save_failed": "保存短連結失敗",
-      "short_link_not_found": "找不到短連結。",
       "title": "短連結",
       "total_clicks": "總點擊數",
       "updated": "短連結已更新"
@@ -587,7 +511,6 @@
     },
     "translations": {
       "add_language": "添加語言",
-      "add_language_title": "添加{{lang}}翻譯",
       "ai_model": "AI模型",
       "back": "返回",
       "content_language": "內容語言",
@@ -618,7 +541,6 @@
       "name_placeholder": "姓名",
       "name_required": "姓名為必填項",
       "not_found": "找不到用戶",
-      "password_edit_label": "密碼（保持不變請留空）",
       "password_label": "密碼",
       "password_placeholder": "密碼",
       "password_required": "密碼為必填項",
@@ -650,11 +572,9 @@
     "forgot_password": {
       "code_sent": "驗證碼已發送到您的電子郵件。",
       "confirm_password": "確認密碼",
-      "email_address": "電子郵件地址",
       "email_required": "需要電子郵件。",
       "new_password": "新密碼",
       "reset_password": "重設密碼",
-      "send_verification_code": "發送驗證碼",
       "success": "密碼重設成功。",
       "title": "忘記密碼",
       "verification_code": "驗證碼"
@@ -696,7 +616,6 @@
       "passwords_not_match": "密碼不匹配。",
       "registering": "正在註冊...",
       "title": "創建帳號",
-      "captcha_failed": "reCAPTCHA驗證失敗。請再試一次。",
       "captcha_required": "請完成reCAPTCHA驗證。",
       "passwords_mismatch": "密碼不匹配。"
     },
@@ -723,8 +642,6 @@
       "delete_button": "移除",
       "delete_success": "通行密鑰已移除。",
       "delete_failed": "移除通行密鑰失敗。",
-      "limit_reached": "已達到通行密鑰數量上限。",
-      "challenge_expired": "通行密鑰挑戰已過期，請重試。",
       "not_supported": "您的瀏覽器不支援通行密鑰。",
       "no_passkeys": "尚無已註冊的通行密鑰。",
       "created_at": "新增於",
@@ -800,7 +717,6 @@
     "view_all": "查看全部",
     "breadcrumb": "麵包屑",
     "clear_selection": "清除選擇",
-    "go_to_homepage": "前往首頁",
     "create": "Create",
     "search_placeholder": "Search...",
     "title": "Title",
@@ -863,8 +779,6 @@
       "categories": "分類",
       "latest_posts": "最新文章",
       "load_more": "載入更多文章",
-      "no_more_posts": "沒有更多文章",
-      "other_posts": "其他文章",
       "posts_by": "文章作者",
       "read_more": "閱讀更多",
       "related_articles": "相關文章",
@@ -877,7 +791,6 @@
       "project_posts": "{{projectTitle}} 文章"
     },
     "knowledge_graph": {
-      "title_2d": "2D 知識圖譜",
       "title_3d": "3D 知識圖譜"
     },
     "offline": {
@@ -886,16 +799,13 @@
     },
     "post": {
       "by": "作者",
-      "min_read": "分鐘閱讀",
       "no_date": "無日期",
       "read_time": "{{count}} 分鐘閱讀",
       "unknown_author": "未知作者",
       "views": "瀏覽次數",
       "views_count": "{{count}} 次瀏覽"
     },
-    "scroll_to_bottom": "滾動到底部",
     "scroll_to_top": "滾動到頂部",
-    "terminal_button": "終端機",
     "time": {
       "a_minute_ago": "一分鐘前",
       "an_hour_ago": "一小時前",
@@ -938,6 +848,14 @@
     "terms_of_use": {
       "description": "kuray.dev 的使用條款 — 使用本網站及其服務的規則和指南。",
       "title": "使用條款 | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "關於 Kuray Karaaslan 的常見問題：BIM 自動化、IoT 系統、軟體架構、技術堆疊，以及如何與他合作。",
+      "title": "常見問題 | Kuray Karaaslan — 軟體架構師與產品工程師"
+    },
+    "freelance": {
+      "description": "可選擇性地接受自由職業合作 — 架構設計、平台工程，以及複雜的 SaaS、IoT、BIM、整合和即時產品的端到端交付。",
+      "title": "自由職業軟體架構師與產品工程師 | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -970,7 +888,8 @@
     "about": "About",
     "linkedin": "LinkedIn",
     "portfolio": "作品集",
-    "resume": "履歷"
+    "resume": "履歷",
+    "faq": "常見問題"
   },
   "pages": {
     "contact": {
@@ -999,7 +918,6 @@
       "title": "聯絡"
     },
     "hero": {
-      "contact_me": "聯絡我",
       "description": "<bold>專注於產品的全端開發者</bold>，擁有<bold>3年以上經驗</bold>，在<bold>前端、後端、行動裝置的BIM和IoT領域</bold>提供穩健且可擴展的軟體解決方案。專精於<bold>Java Spring Boot、React、Next.js、Node.js和PostgreSQL</bold>。擅長設計<bold>多租戶SaaS平台、即時系統和支付整合</bold>。結合強大的工程基礎與<bold>創意解決問題</bold>及<bold>乾淨、系統化的編碼方式</bold>。",
       "resume": "履歷",
       "typing_effect": {
@@ -1172,17 +1090,181 @@
     },
     "leadership": {
       "description": "我的貢獻不限於個別的實施任務。我幫助塑造系統方向，減少技術模糊性，建立可重用的基礎，並使後續工程師的複雜工作變得更容易。",
-      "points": {
-        "point1": "將模糊的產品需求轉化為可執行的技術邊界",
-        "point2": "定義共享架構和可重用的平台基礎",
-        "point3": "識別保留現有業務價值的遷移路徑",
-        "point4": "在技術風險成為生產債務之前進行審查",
-        "point5": "通過實施和架構推理指導工程師",
-        "point6": "創建減少重複決策的標準",
-        "point7": "連接產品、領域、基礎設施和實施問題",
-        "point8": "在不引入不必要的運營複雜性的情況下改進系統"
-      },
       "title": "技術領導力"
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIM 自動化",
+        "identity": "身份與背景",
+        "iot": "IoT 開發",
+        "services": "服務與合作",
+        "stack": "技術專長",
+        "writing": "寫作與內容"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "是的。Kuray 為 SaaS 系統和網頁平台構建管理面板、管理儀表板和內部操作工具。",
+          "question": "Kuray 是否構建管理面板和內部工具？"
+        },
+        "appointment_systems": {
+          "answer": "是的 — 包括一個結合 Redis 基於槽位管理和事務性資料庫持久化的預約系統架構，以在並發訪問下保持預訂和取消的一致性。",
+          "question": "Kuray 是否構建過排程或預訂系統？"
+        },
+        "architecture": {
+          "answer": "模組化、服務導向的架構，具有明確的邊界和可預測的合約 — 先建立穩固的核心基礎設施，然後逐步擴展功能。",
+          "question": "Kuray 偏好哪種架構？"
+        },
+        "auth_systems": {
+          "answer": "是的。身份和訪問控制 — 會話、權限和多租戶授權 — 是 Kuray 設計的後端系統的核心部分，而不是事後考慮。",
+          "question": "Kuray 是否實現身份驗證和授權系統？"
+        },
+        "availability": {
+          "answer": "是的，針對選擇性的合作 — 全職、合約或顧問。請參閱自由職業頁面了解他通常的合作方式。",
+          "question": "Kuray 是否接受自由職業工作？"
+        },
+        "bim": {
+          "answer": "是的。除了軟體架構外，Kuray 還是一名 BIM 開發人員，使用 C# 和 PHP REST API 在 Autodesk Revit、AutoCAD、Robot Structural Analysis 和 Advance Steel 上自動化建築信息建模工作流程。",
+          "question": "Kuray Karaaslan 是 BIM 開發人員嗎？"
+        },
+        "bim_automation_explain": {
+          "answer": "用 API 驅動的腳本和工具替換 Autodesk Revit、AutoCAD、Robot Structural Analysis 和 Advance Steel 中手動、重複的建模和文檔步驟，使結構和建築工作流程運行得更快，手動錯誤更少。",
+          "question": "在 Kuray 的工作中，“BIM 自動化”實際上意味著什麼？"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — 他結合了實際的結構工程經驗與軟體開發，在 Revit、AutoCAD、Robot Structural Analysis 和 Advance Steel 上構建 BIM 自動化。請參閱自由職業頁面以聯繫。",
+          "question": "我應該聯繫誰以獲得 BIM 自動化或 BIM 軟體開發？"
+        },
+        "bim_custom_tools": {
+          "answer": "是的。Kuray 使用 C# 和 PHP REST API 在 Autodesk Revit、AutoCAD 和 Advance Steel 上構建 API 驅動的自動化和自定義工具，針對特定公司的建模和文檔工作流程進行定制。",
+          "question": "Kuray 是否為 Revit 和 AutoCAD 構建自定義插件或工具？"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit、AutoCAD、Robot Structural Analysis 和 Advance Steel，使用 C# 和 PHP REST API 構建的 API 驅動自動化。",
+          "question": "Kuray 熟悉哪些 BIM 工具？"
+        },
+        "clients": {
+          "answer": "構建現代網頁應用、SaaS 平台、IoT 儀表板或需要乾淨架構和即時功能的產品的團隊。",
+          "question": "Kuray 的工作最適合哪種類型的客戶？"
+        },
+        "construction": {
+          "answer": "是的 — Kuray 擁有作為獨立建築工程師和承包商的實際經驗，這使得他的 BIM 開發工作不僅僅是工具，而是基於真實的結構和現場實踐。",
+          "question": "Kuray 是否有實際的建築工程經驗？"
+        },
+        "contact": {
+          "answer": "最佳方式是通過本網站的聯繫部分。您也可以通過網站鏈接的公共資料與他聯繫。",
+          "question": "我應該如何聯繫 Kuray 以獲得工作？"
+        },
+        "database": {
+          "answer": "是的。Kuray 通常將 PostgreSQL 用於持久化，並將 Redis 用於高性能操作數據、緩存和槽位管理。",
+          "question": "Kuray 是否將資料庫與緩存層結合使用？"
+        },
+        "fullstack": {
+          "answer": "是的。Kuray 是一名全端工程師，跨前端、後端、基礎設施和系統架構工作，而不是僅專注於某一層。",
+          "question": "Kuray 是否同時在前端和後端工作？"
+        },
+        "iot": {
+          "answer": "是的。作為一名物聯網開發者，Kuray 構建基於 MQTT、WebSocket 和 SNMP 的設備到服務器通信系統，並搭配 Java Spring 和 TypeScript/React 用於實時遙測。",
+          "question": "Kuray Karaaslan 是否從事物聯網開發？"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — 他設計並構建端到端的物聯網平台：基於 MQTT、WebSocket 和 SNMP 的設備到服務器通信、遙測管道和實時儀表板。請參閱自由職業頁面以聯繫。",
+          "question": "我應該聯繫誰來開發物聯網平台或遙測系統？"
+        },
+        "iot_dashboards": {
+          "answer": "是的。Kuray 構建遙測管道以處理來自連接設備的數據，並構建實時可視化的儀表板。",
+          "question": "Kuray 是否構建物聯網儀表板和遙測管道？"
+        },
+        "iot_device_management": {
+          "answer": "是的。Kuray 的物聯網工作包括設備管理——配置、狀態跟踪和網絡監控——以及基於此的遙測管道和儀表板。",
+          "question": "Kuray 是否處理物聯網設備管理和配置？"
+        },
+        "iot_focus": {
+          "answer": "設備管理、遙測管道、實時儀表板，以及為中小型企業構建更簡單、更實惠的物聯網平台體驗。",
+          "question": "Kuray 在物聯網平台上的重點是什麼？"
+        },
+        "iot_geospatial": {
+          "answer": "是的。Kuray 在將設備位置存儲為結構化數據方面有經驗，並構建基於位置的可視化和查詢功能，例如查找特定點附近或半徑內的設備。",
+          "question": "Kuray 是否處理基於位置或地理空間的物聯網數據？"
+        },
+        "iot_protocols": {
+          "answer": "MQTT、WebSocket 和 SNMP，支持 Java Spring 的數據接收和規則層，以及 TypeScript/React 的實時儀表板。",
+          "question": "Kuray 使用哪些物聯網協議？"
+        },
+        "mobile": {
+          "answer": "React Native，因為它與 React 生態系統保持一致，並加速跨平台開發。",
+          "question": "Kuray 偏好的移動技術棧是什麼？"
+        },
+        "multitenant": {
+          "answer": "是的。Kuray 在多租戶 SaaS 架構方面有經驗，並設計具有租戶隔離和可擴展服務邊界的系統。",
+          "question": "Kuray 是否構建多租戶系統？"
+        },
+        "mvp": {
+          "answer": "是的，但他更喜歡可擴展的 MVP——先打好基礎，再快速迭代。",
+          "question": "Kuray 是否構建 MVP？"
+        },
+        "rest_apis": {
+          "answer": "是的。Kuray 經常為網絡應用程序、SaaS 產品和第三方集成設計和構建 REST API，並從一開始就在 API 設計中內置身份驗證和授權。",
+          "question": "Kuray 是否構建 REST API？"
+        },
+        "reviews": {
+          "answer": "是的。Kuray 支持架構決策和審查，重點關注可擴展性、可維護性和開發者體驗。",
+          "question": "Kuray 能否幫助進行系統架構審查？"
+        },
+        "role": {
+          "answer": "兩者皆是——他的工作職稱是軟件架構師和產品工程師。他設計系統架構，如數據模型、服務邊界和安全流程，並實現端到端，而不是將設計交給其他人構建。",
+          "question": "Kuray Karaaslan 是軟件架構師還是產品工程師？"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — 他設計並構建端到端的 SaaS 平台、網絡應用程序和後端系統，並可承接自由職業和諮詢工作。請參閱自由職業頁面以聯繫。",
+          "question": "我應該聯繫誰來構建網絡平台或 SaaS 產品？"
+        },
+        "tech_stack": {
+          "answer": "主要是 React、Next.js、Node.js、TypeScript、PostgreSQL、Redis、React Native、WebSockets 和 MQTT，特定後端系統使用 Java Spring Boot。",
+          "question": "Kuray 使用哪些技術？"
+        },
+        "tone": {
+          "answer": "專業但具對話性，為工程師撰寫，包含實用示例和使用小標題的清晰結構——通常 1500–2000 字符，專注於未被充分討論的角度。",
+          "question": "Kuray 的寫作語氣和風格是什麼？"
+        },
+        "topics": {
+          "answer": "軟件工程、網絡開發、系統架構、物聯網平台和現代開發工具——通常從實用、現實世界的角度出發，而非初學者教程。",
+          "question": "Kuray 寫作的主題是什麼？"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan 是一位軟件架構師和產品工程師，常駐土耳其，還擔任 BIM 開發者和物聯網開發者。他專注於構建 SaaS 平台、BIM 自動化工具、物聯網系統和可擴展的網絡應用程序。",
+          "question": "Kuray Karaaslan 是誰？"
+        }
+      },
+      "faq_subtitle": "關於 BIM 自動化、物聯網系統、架構以及我的工作方式的清晰、可引用的答案——適合人類和 AI 助手。",
+      "faq_title": "常見問題"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "後端與平台",
+        "delivery": "交付與規模",
+        "foundations": "基礎與架構"
+      },
+      "capabilities_subtitle": "能力圍繞系統成果而非孤立技術塑造。",
+      "capabilities_title": "工程能力",
+      "engagement": {
+        "cta": "開始技術對話",
+        "description": "我最擅長處理需要清晰架構、強大技術掌控力，並能將產品決策與實施現實相連的產品。",
+        "title": "我們如何合作",
+        "advisory_description": "架構審查、系統設計、技術和遷移策略，以及在技術決策成為生產債務之前降低風險。",
+        "advisory_title": "架構與諮詢",
+        "build_description": "從數據模型和後端系統到產品介面、整合和生產基礎設施的端到端交付。",
+        "build_title": "構建與交付",
+        "platform_description": "可重用的基礎：多租戶SaaS、身份驗證和權限、獨立於供應商的計費，以及隨時間增長的運營工具。",
+        "platform_title": "平台基礎"
+      },
+      "hero": {
+        "availability": "接受選擇性合作——全職、合約或顧問。",
+        "cta_primary": "討論複雜項目",
+        "cta_secondary": "查看選定系統",
+        "eyebrow": "自由職業 · 軟體架構與產品工程",
+        "subtitle": "我負責複雜軟體系統的架構、後端、前端、基礎設施、整合及生產運營。我在SaaS、IoT、BIM、即時和平台導向的產品中最具成效，這些產品的技術決策必須支持即時交付和長期系統演進。",
+        "title": "把困難的部分交給我。"
+      }
     }
   },
   "settings": {
@@ -1220,7 +1302,6 @@
       "download_codes": "下載代碼",
       "enter_code": "輸入您的驗證器應用程式中的代碼",
       "i_have_saved": "我已儲存我的備份代碼",
-      "start_setup": "開始設定",
       "title": "TOTP 設定",
       "warning": "請將您的備份代碼儲存在安全的地方。如果您失去驗證器應用程式的存取權，您可以使用它們重新取得帳戶存取權。"
     },
@@ -1317,7 +1398,6 @@
       "cover_image_label": "封面圖片",
       "delete_link": "刪除",
       "description": "編輯你的個人檔案並新增社交媒體連結。",
-      "drag_hint": "拖曳",
       "hide_profile_description": "啟用後，你的個人檔案頁面將不會被 Google 和其他搜尋引擎索引。",
       "hide_profile_label": "從搜尋引擎隱藏個人檔案",
       "name_label": "姓名",
@@ -1378,7 +1458,6 @@
       "error": "發生錯誤",
       "info": "資訊",
       "success": "成功",
-      "this_blog_is_available_in_only_english": "此部落格僅提供英文版本",
       "warning": "警告"
     },
     "calendar": {
@@ -1387,12 +1466,9 @@
       "appointment_info": "預約資訊",
       "appointment_subtitle": "選擇合適的日期和時間",
       "appointment_title": "預約",
-      "available_slots": "可用時段",
       "available_times": "可用時間",
-      "book_appointment": "預約",
       "book_now": "立即預約",
       "close": "關閉",
-      "close_modal": "關閉",
       "create_appointment": "建立預約",
       "description": "預約與我的會面。",
       "error_occurred": "發生錯誤",
@@ -1405,16 +1481,13 @@
         "name_placeholder": "輸入您的姓名",
         "note": "備註",
         "note_label": "備註",
-        "note_placeholder": "輸入您的備註",
         "phone": "您的電話",
         "phone_label": "電話",
         "phone_placeholder": "輸入您的電話"
       },
       "minutes": "{{count}} 分鐘",
       "minutes_abbr": "分鐘",
-      "no_available_slots": "沒有可用時段",
       "no_slots_for_day": "所選日期沒有可用時間",
-      "past_date_warning": "您不能預約過去的日期。",
       "select_slot": "請選擇一個時段來預約。",
       "select_slot_first": "請先選擇一個時間段",
       "selected_time": "選擇的時間",
@@ -1445,7 +1518,6 @@
       "email_placeholder": "輸入您的電子郵件地址",
       "error_message": "訂閱時發生錯誤。請稍後再試。",
       "subscribe": "訂閱",
-      "success_message": "訂閱成功！檢查您的電子郵件以確認。",
       "title": "電子報"
     },
     "status": {
@@ -1470,8 +1542,7 @@
         "partial_outage": "部分故障"
       },
       "title": "系統狀態",
-      "uptime": "運行時間：{{time}}分鐘",
-      "open_status": "狀態"
+      "uptime": "運行時間：{{time}}分鐘"
     },
     "whatsapp": {
       "message": "你好！我是 Kuray Karaaslan，我可以怎麼幫助你？"
@@ -1488,7 +1559,6 @@
       "welcome_message": "嗨！我是 AI 助手。問我任何關於這裡的博客文章、項目或技術主題的問題。",
       "admin_typing": "管理員正在輸入...",
       "connecting": "連線中...",
-      "message_queued": "您目前離線。您的訊息將在連線恢復後發送。",
       "rate_limit_exceeded": "您發送訊息的速度太快。請稍候再試。",
       "session_closed": "此對話已結束。請開始新的對話。",
       "user_banned": "您已被暫時限制使用聊天機器人。請稍後再試。"

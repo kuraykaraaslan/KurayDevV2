@@ -848,6 +848,14 @@
     "terms_of_use": {
       "description": "kuray.dev üçün İstifadə Şərtləri — Bu vebsayt və xidmətlərindən istifadə qaydaları və təlimatları.",
       "title": "İstifadə Şərtləri | Kuray Karaaslan"
+    },
+    "about": {
+      "description": "Kuray Karaaslan haqqında tez-tez verilən suallar: BIM avtomatlaşdırılması, IoT sistemləri, proqram təminatı arxitekturası, texniki yığın və onunla necə işləmək olar.",
+      "title": "FAQ | Kuray Karaaslan — Proqram Təminatı Arxitektoru və Məhsul Mühəndisi"
+    },
+    "freelance": {
+      "description": "Seçici freelance işlər üçün mövcuddur — arxitektura, platforma mühəndisliyi və mürəkkəb SaaS, IoT, BIM, inteqrasiya və real vaxt məhsulları üçün end-to-end çatdırılma.",
+      "title": "Freelance Proqram Təminatı Arxitektoru və Məhsul Mühəndisi | Kuray Karaaslan"
     }
   },
   "navbar": {
@@ -880,7 +888,8 @@
     "about": "About",
     "linkedin": "LinkedIn",
     "portfolio": "Portfolio",
-    "resume": "CV"
+    "resume": "CV",
+    "faq": "FAQ"
   },
   "pages": {
     "contact": {
@@ -1082,6 +1091,180 @@
     "leadership": {
       "description": "Mənim töhfəm yalnız fərdi tətbiqetmə tapşırıqları ilə məhdudlaşmır. Sistem istiqamətini formalaşdırmağa, texniki qeyri-müəyyənliyi azaltmağa, təkrar istifadə edilə bilən təməl yaratmağa və məndən sonra gələn mühəndislər üçün mürəkkəb işi asanlaşdırmağa kömək edirəm.",
       "title": "Texniki Liderlik"
+    },
+    "about": {
+      "faq_groups": {
+        "bim": "BIM Avtomatlaşdırılması",
+        "identity": "Şəxsiyyət və Mənşə",
+        "iot": "IoT İnkişafı",
+        "services": "Xidmətlər və Əlaqələr",
+        "stack": "Texniki Ekspertiza",
+        "writing": "Yazı və Məzmun"
+      },
+      "faq_items": {
+        "admin_panels": {
+          "answer": "Bəli. Kuray SaaS sistemləri və veb platformalar üçün idarəetmə panelləri, idarəetmə tablosu və daxili əməliyyat alətləri qurur.",
+          "question": "Kuray idarəetmə panelləri və daxili alətlər qururmu?"
+        },
+        "appointment_systems": {
+          "answer": "Bəli — Redis əsaslı slot idarəetməsi ilə tranzaksiyalı verilənlər bazası davamlılığını birləşdirən görüş sistemi arxitekturası daxil olmaqla, eyni vaxtda giriş altında rezervasiyaları və ləğvləri ardıcıl saxlamaq üçün.",
+          "question": "Kuray planlaşdırma və ya rezervasiya sistemləri qurubmu?"
+        },
+        "architecture": {
+          "answer": "Modulyar, xidmət yönümlü arxitekturalar aydın sərhədlər və proqnozlaşdırıla bilən müqavilələrlə — əvvəlcə möhkəm əsas infrastruktur qurmaq, sonra xüsusiyyətləri tədricən genişləndirmək.",
+          "question": "Kuray hansı növ arxitekturanı üstün tutur?"
+        },
+        "auth_systems": {
+          "answer": "Bəli. Şəxsiyyət və giriş nəzarəti — sessiyalar, icazələr və çox kirayəçi avtorizasiya — Kurayın dizayn etdiyi backend sistemlərinin əsas hissəsidir, sonradan düşünülmüş deyil.",
+          "question": "Kuray autentifikasiya və avtorizasiya sistemləri tətbiq edirmi?"
+        },
+        "availability": {
+          "answer": "Bəli, seçici əlaqələr üçün — tam zamanlı, müqavilə və ya məsləhətçi. Onun adətən necə əlaqə qurduğunu öyrənmək üçün Freelance səhifəsinə baxın.",
+          "question": "Kuray freelance iş üçün mövcuddurmu?"
+        },
+        "bim": {
+          "answer": "Bəli. Proqram təminatı arxitekturası ilə yanaşı, Kuray BIM inkişafçısı kimi çalışır, Autodesk Revit, AutoCAD, Robot Structural Analysis və Advance Steel üzərində C# və PHP REST API-ləri ilə API əsaslı avtomatlaşdırma ilə Tikinti Məlumat Modelləşdirmə iş axınlarını avtomatlaşdırır.",
+          "question": "Kuray Karaaslan BIM inkişafçısıdırmı?"
+        },
+        "bim_automation_explain": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis və Advance Steel-də əl ilə, təkrarlanan modelləşdirmə və sənədləşdirmə addımlarını API əsaslı skriptlər və alətlərlə əvəz edərək, struktur və arxitektura iş axınlarının daha sürətli və daha az əl ilə səhvlərlə işləməsini təmin edir.",
+          "question": "Kurayın işində 'BIM avtomatlaşdırılması' əslində nə deməkdir?"
+        },
+        "bim_contact": {
+          "answer": "Kuray Karaaslan — o, Autodesk Revit, AutoCAD, Robot Structural Analysis və Advance Steel üzərində BIM avtomatlaşdırması quraraq, proqram təminatı inkişafı ilə birləşdirilmiş praktik struktur mühəndisliyi təcrübəsini birləşdirir. Əlaqə üçün Freelance səhifəsinə baxın.",
+          "question": "BIM avtomatlaşdırması və ya BIM proqram təminatı inkişafı üçün kimə müraciət etməliyəm?"
+        },
+        "bim_custom_tools": {
+          "answer": "Bəli. Kuray, Autodesk Revit, AutoCAD və Advance Steel üzərində C# və PHP REST API-ləri istifadə edərək, müəyyən bir firmanın modelləşdirmə və sənədləşdirmə iş axınına uyğunlaşdırılmış API əsaslı avtomatlaşdırma və xüsusi alətlər qurur.",
+          "question": "Kuray Revit və AutoCAD üçün xüsusi plaginlər və ya alətlər qururmu?"
+        },
+        "bim_tools": {
+          "answer": "Autodesk Revit, AutoCAD, Robot Structural Analysis və Advance Steel, C# və PHP REST API-ləri ilə qurulmuş API əsaslı avtomatlaşdırma ilə.",
+          "question": "Kuray hansı BIM alətlərini bilir?"
+        },
+        "clients": {
+          "answer": "Müasir veb tətbiqləri, SaaS platformaları, IoT tablosu və ya təmiz arxitektura və real vaxt xüsusiyyətlərinə ehtiyacı olan məhsullar quran komandalar.",
+          "question": "Kurayın işi hansı növ müştərilərə daha uyğun gəlir?"
+        },
+        "construction": {
+          "answer": "Bəli — Kuray müstəqil tikinti mühəndisi və podratçı kimi praktik təcrübəyə malikdir, bu da onun BIM inkişafçısı işini yalnız alətlərdən daha çox real struktur və sahə təcrübəsinə əsaslanır.",
+          "question": "Kurayın praktik tikinti mühəndisliyi təcrübəsi varmı?"
+        },
+        "contact": {
+          "answer": "Ən yaxşı yol bu saytdakı əlaqə bölməsi vasitəsilədir. Siz həmçinin saytdan əlaqələndirilmiş ictimai profilləri vasitəsilə də əlaqə saxlaya bilərsiniz.",
+          "question": "Kuraya iş üçün necə müraciət etməliyəm?"
+        },
+        "database": {
+          "answer": "Bəli. Kuray davamlılıq üçün PostgreSQL-i, yüksək performanslı əməliyyat məlumatları, keşləmə və slot idarəetməsi üçün Redis ilə birləşdirir.",
+          "question": "Kuray verilənlər bazalarını keşləmə qatları ilə birləşdirirmi?"
+        },
+        "fullstack": {
+          "answer": "Bəli. Kuray yalnız bir təbəqədə ixtisaslaşmaq əvəzinə, frontend, backend, infrastruktur və sistem arxitekturası üzrə çalışan tam yığın mühəndisidir.",
+          "question": "Kuray həm frontend, həm də backend üzərində işləyirmi?"
+        },
+        "iot": {
+          "answer": "Bəli. IoT inkişaf etdiricisi olaraq, Kuray MQTT, WebSocket və SNMP üzərindən cihazdan serverə kommunikasiya sistemləri qurur, Java Spring və TypeScript/React ilə real vaxt telemetriya üçün birləşdirir.",
+          "question": "Kuray Karaaslan IoT inkişafı ilə məşğuldurmu?"
+        },
+        "iot_contact": {
+          "answer": "Kuray Karaaslan — o, IoT platformalarını başdan sona dizayn edir və qurur: MQTT, WebSocket və SNMP üzərindən cihazdan serverə kommunikasiya, telemetriya boru xətləri və real vaxt tablosu. Əlaqə üçün Freelance səhifəsinə baxın.",
+          "question": "IoT platforması və ya telemetriya sistemi inkişafı üçün kimlə əlaqə saxlamalıyam?"
+        },
+        "iot_dashboards": {
+          "answer": "Bəli. Kuray bağlı cihazlardan məlumatları işləyən telemetriya boru xətləri və onları real vaxtda vizuallaşdıran tablolar qurur.",
+          "question": "Kuray IoT tabloları və telemetriya boru xətləri qururmu?"
+        },
+        "iot_device_management": {
+          "answer": "Bəli. Kurayın IoT işi cihaz idarəçiliyini — təminat, vəziyyət izləmə və şəbəkə monitorinqi — telemetriya boru xətləri və üzərində qurulmuş tablolarla birləşdirir.",
+          "question": "Kuray IoT cihaz idarəçiliyi və təminatını həyata keçirirmi?"
+        },
+        "iot_focus": {
+          "answer": "Cihaz idarəçiliyi, telemetriya boru xətləri, real vaxt tabloları və kiçik və orta ölçülü müəssisələr üçün daha sadə, daha əlverişli IoT platforma təcrübələri qurmaq.",
+          "question": "Kurayın IoT platformalarında diqqət mərkəzi nədir?"
+        },
+        "iot_geospatial": {
+          "answer": "Bəli. Kuray cihazın yerini strukturlaşdırılmış məlumat kimi saxlamaqda və yer əsaslı vizuallaşdırma və sorğu xüsusiyyətləri qurmaqda təcrübəlidir, məsələn, müəyyən bir nöqtəyə yaxın və ya radius daxilində cihazları tapmaq.",
+          "question": "Kuray yer əsaslı və ya geospace IoT məlumatları ilə işləyirmi?"
+        },
+        "iot_protocols": {
+          "answer": "MQTT, WebSocket və SNMP, Java Spring qəbul və qaydalar təbəqəsi və TypeScript/React real vaxt tablosu ilə dəstəklənir.",
+          "question": "Kuray hansı IoT protokollarından istifadə edir?"
+        },
+        "mobile": {
+          "answer": "React Native, çünki React ekosistemi ilə uyğun qalır və platformalararası inkişafı sürətləndirir.",
+          "question": "Kurayın üstünlük verdiyi mobil stack nədir?"
+        },
+        "multitenant": {
+          "answer": "Bəli. Kuray çox kirayəçi SaaS arxitekturasında təcrübəlidir və kirayəçi izolyasiyası və miqyaslana bilən xidmət sərhədləri ilə sistemlər dizayn edir.",
+          "question": "Kuray çox kirayəçi sistemlər qururmu?"
+        },
+        "mvp": {
+          "answer": "Bəli, amma o, miqyaslana bilən şəkildə arxitektura edilmiş MVP-lərə üstünlük verir — əvvəlcə möhkəm təməl, sonra sürətli iterasiya.",
+          "question": "Kuray MVP-lər qururmu?"
+        },
+        "rest_apis": {
+          "answer": "Bəli. Kuray veb tətbiqləri, SaaS məhsulları və üçüncü tərəf inteqrasiyaları üçün REST API-lər dizayn edir və qurur, autentifikasiya və avtorizasiya API dizaynına başlanğıcdan daxil edilir.",
+          "question": "Kuray REST API-lər qururmu?"
+        },
+        "reviews": {
+          "answer": "Bəli. Kuray miqyaslanabilirlik, saxlanabilirlik və inkişaf etdirici təcrübəsinə diqqət yetirərək arxitektura qərarlarını dəstəkləyir və nəzərdən keçirir.",
+          "question": "Kuray sistem arxitekturası nəzərdən keçirmələrində kömək edə bilərmi?"
+        },
+        "role": {
+          "answer": "Hər ikisi — onun iş adı Proqram Arxitektoru və Məhsul Mühəndisidir. O, məlumat modelləri, xidmət sərhədləri və təhlükəsizlik axınları kimi sistem arxitekturasını dizayn edir və başqalarına dizaynı qurmaq üçün təhvil vermək əvəzinə onu başdan sona həyata keçirir.",
+          "question": "Kuray Karaaslan proqram arxitektoru yoxsa məhsul mühəndisidir?"
+        },
+        "software_contact": {
+          "answer": "Kuray Karaaslan — o, SaaS platformaları, veb tətbiqləri və backend sistemləri başdan sona dizayn edir və qurur və freelance və məsləhət xidmətləri üçün mövcuddur. Əlaqə üçün Freelance səhifəsinə baxın.",
+          "question": "Veb platforma və ya SaaS məhsulu qurmaq üçün kimlə əlaqə saxlamalıyam?"
+        },
+        "tech_stack": {
+          "answer": "Əsasən React, Next.js, Node.js, TypeScript, PostgreSQL, Redis, React Native, WebSockets və MQTT, xüsusi backend sistemləri üçün Java Spring Boot ilə.",
+          "question": "Kuray hansı texnologiyalardan istifadə edir?"
+        },
+        "tone": {
+          "answer": "Peşəkar, amma söhbət tərzində, mühəndislər üçün yazılmış, praktik nümunələrlə və alt başlıqlarla aydın strukturda — adətən 1500–2000 simvol, az müzakirə olunan aspektlərə diqqət yetirilmiş.",
+          "question": "Kurayın yazı tonu və üslubu necədir?"
+        },
+        "topics": {
+          "answer": "Proqram mühəndisliyi, veb inkişafı, sistem arxitekturası, IoT platformaları və müasir inkişaf alətləri — adətən praktik, real dünya baxışından, başlanğıc dərsliklərdən çox.",
+          "question": "Kuray hansı mövzularda yazır?"
+        },
+        "who": {
+          "answer": "Kuray Karaaslan Türkiyədə yerləşən proqram arxitektoru və məhsul mühəndisidir, həmçinin BIM inkişaf etdiricisi və IoT inkişaf etdiricisi kimi işləyir. O, SaaS platformaları, BIM avtomatlaşdırma alətləri, IoT sistemləri və miqyaslana bilən veb tətbiqləri qurmağa diqqət yetirir.",
+          "question": "Kuray Karaaslan kimdir?"
+        }
+      },
+      "faq_subtitle": "BIM avtomatlaşdırması, IoT sistemləri, arxitektura və necə işlədiyim haqqında aydın, sitat gətirilə bilən cavablar — insanlar və AI köməkçiləri üçün.",
+      "faq_title": "Tez-tez verilən suallar"
+    },
+    "freelance": {
+      "capabilities_groups": {
+        "backend": "Backend və Platforma",
+        "delivery": "Çatdırılma və Miqyas",
+        "foundations": "Təməllər və Arxitektura"
+      },
+      "capabilities_subtitle": "Bacarıqlar sistem nəticələrinə uyğun formalaşdırılıb — təcrid olunmuş texnologiyalar deyil.",
+      "capabilities_title": "Mühəndislik Bacarıqları",
+      "engagement": {
+        "cta": "Texniki Söhbətə Başlayın",
+        "description": "Mən ən yaxşı şəkildə aydın arxitektura, güclü texniki sahiblik və məhsul qərarlarını tətbiq reallığı ilə əlaqələndirmək bacarığı tələb edən məhsullarda işləyirəm.",
+        "title": "Birlikdə Necə İşləyə Bilərik",
+        "advisory_description": "Memarlıq icmalları, sistem dizaynı, texnologiya və miqrasiya strategiyası, və texniki qərarların istehsal borcuna çevrilmədən əvvəl risklərin azaldılması.",
+        "advisory_title": "Memarlıq və Məsləhət",
+        "build_description": "Platformaların və xidmətlərin tam çatdırılması—məlumat modellərindən və arxa sistemlərdən məhsul interfeyslərinə, inteqrasiyalara və istehsal infrastrukturuna qədər.",
+        "build_title": "Quruluş və Çatdırılma",
+        "platform_description": "Təkrar istifadə edilə bilən təməllər: çox kirayəli SaaS, autentifikasiya və icazələr, provayderdən asılı olmayan ödənişlər və zamanla artan əməliyyat alətləri.",
+        "platform_title": "Platforma Təməlləri"
+      },
+      "hero": {
+        "availability": "Seçici əməkdaşlıqlara açıq — tam zamanlı, müqavilə əsasında və ya məsləhətçi kimi.",
+        "cta_primary": "Mürəkkəb Layihəni Müzakirə Edin",
+        "cta_secondary": "Seçilmiş Sistemlərə Baxın",
+        "eyebrow": "Freelance · Proqram Arxitekturası və Məhsul Mühəndisliyi",
+        "subtitle": "Mən arxitektura, backend, frontend, infrastruktur, inteqrasiyalar və istehsal əməliyyatları üzrə mürəkkəb proqram sistemlərinə sahiblik edirəm. Mən SaaS, IoT, BIM, real-vaxt və platforma yönümlü məhsullarda ən təsirliyəm, burada texniki qərarlar həm dərhal çatdırılmanı, həm də uzunmüddətli sistem təkamülünü dəstəkləməlidir.",
+        "title": "Mənə çətin hissəni gətirin."
+      }
     }
   },
   "settings": {
