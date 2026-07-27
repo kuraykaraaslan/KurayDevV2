@@ -124,6 +124,10 @@ const ContactForm = (props: { className?: string; token: string }) => {
 
       setIsSending(false)
       alert(t('pages.contact.form.success'))
+
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead')
+      }
     } catch (error) {
       setIsSending(false)
       alert(t('pages.contact.form.error'))
