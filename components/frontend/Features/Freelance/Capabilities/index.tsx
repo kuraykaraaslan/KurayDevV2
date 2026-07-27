@@ -1,5 +1,6 @@
 'use client'
 import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faArchway,
   faCode,
@@ -15,20 +16,17 @@ import {
   faVial,
   type IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
-import SingleSkill from '@/components/frontend/Features/Hero/Toolbox/Partials/SingleSkill'
 
 type CapabilityGroup = {
   key: 'foundations' | 'backend' | 'delivery'
-  border: string
-  bgColor: string
+  accent: string
   skills: { key: string; icon: IconDefinition }[]
 }
 
 const groups: CapabilityGroup[] = [
   {
     key: 'foundations',
-    border: 'border-t-cyan-700',
-    bgColor: 'bg-cyan-700',
+    accent: 'cyan-700',
     skills: [
       { key: 'clean_code', icon: faCode },
       { key: 'authentication_security', icon: faKey },
@@ -36,8 +34,7 @@ const groups: CapabilityGroup[] = [
   },
   {
     key: 'backend',
-    border: 'border-t-violet-700',
-    bgColor: 'bg-violet-700',
+    accent: 'violet-700',
     skills: [
       { key: 'rest_api_design', icon: faCogs },
       { key: 'sql_data_modeling', icon: faDatabase },
@@ -48,8 +45,7 @@ const groups: CapabilityGroup[] = [
   },
   {
     key: 'delivery',
-    border: 'border-t-emerald-700',
-    bgColor: 'bg-emerald-700',
+    accent: 'emerald-700',
     skills: [
       { key: 'testing_cicd', icon: faVial },
       { key: 'performance_optimization', icon: faRocket },
@@ -59,6 +55,12 @@ const groups: CapabilityGroup[] = [
     ],
   },
 ]
+
+const accentClasses: Record<string, { border: string; badgeBg: string; badgeText: string }> = {
+  'cyan-700': { border: 'border-t-cyan-700', badgeBg: 'bg-cyan-700/10', badgeText: 'text-cyan-700' },
+  'violet-700': { border: 'border-t-violet-700', badgeBg: 'bg-violet-700/10', badgeText: 'text-violet-700' },
+  'emerald-700': { border: 'border-t-emerald-700', badgeBg: 'bg-emerald-700/10', badgeText: 'text-emerald-700' },
+}
 
 const Capabilities = () => {
   const { t } = useTranslation()
@@ -76,27 +78,38 @@ const Capabilities = () => {
         </div>
 
         <div className="grid gap-8 md:grid-cols-3">
-          {groups.map((group) => (
-            <div
-              key={group.key}
-              className={`rounded-none border border-base-300 bg-base-200/40 shadow-lg border-t-4 ${group.border} p-6`}
-            >
-              <h3 className="mb-5 text-sm font-bold uppercase tracking-wider">
-                {t(`pages.freelance.capabilities_groups.${group.key}`)}
-              </h3>
-              <div className="flex flex-wrap justify-center gap-3">
-                {group.skills.map((skill) => (
-                  <SingleSkill
-                    key={skill.key}
-                    icon={skill.icon}
-                    title={t(`pages.toolbox.skills.${skill.key}`)}
-                    bgColor={group.bgColor}
-                    textColor="text-white"
-                  />
-                ))}
+          {groups.map((group) => {
+            const accent = accentClasses[group.accent]
+            return (
+              <div
+                key={group.key}
+                className={`rounded-none border border-base-300 bg-base-100 shadow-lg border-t-4 ${accent.border}`}
+              >
+                <div className="p-6">
+                  <h3 className="mb-4 text-sm font-bold uppercase tracking-wider">
+                    {t(`pages.freelance.capabilities_groups.${group.key}`)}
+                  </h3>
+                  <ul>
+                    {group.skills.map((skill) => (
+                      <li
+                        key={skill.key}
+                        className="flex items-center gap-3 border-b border-base-300 py-3 last:border-none"
+                      >
+                        <span
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${accent.badgeBg} ${accent.badgeText}`}
+                        >
+                          <FontAwesomeIcon icon={skill.icon} className="text-sm" aria-hidden="true" />
+                        </span>
+                        <span className="text-sm font-medium">
+                          {t(`pages.toolbox.skills.${skill.key}`)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
