@@ -32,7 +32,7 @@ export const RATE_LIMIT_CONFIG: Record<string, RateLimitConfig> = {
   '/api/chatbot': { limit: 30 * DEV_MULTIPLIER, window: 60 },
 
   // Contact form - prevent spam
-  '/api/contact': { limit: 3 * DEV_MULTIPLIER, window: 60 },
+  '/api/contact': { limit: 10 * DEV_MULTIPLIER, window: 60 },
 
   // Comments - prevent spam
   '/api/comments': { limit: 10 * DEV_MULTIPLIER, window: 60 },

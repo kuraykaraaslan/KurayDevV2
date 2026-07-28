@@ -1,5 +1,6 @@
 import ContactFormService from '@/services/ContactFormService'
 import { prisma } from '@/libs/prisma'
+import redisInstance from '@/libs/redis'
 
 jest.mock('@/libs/prisma', () => ({
   prisma: {
@@ -27,6 +28,26 @@ const mockForm = {
 
 describe('ContactFormService', () => {
   beforeEach(() => jest.clearAllMocks())
+
+  // ── sanitizeText ───────────────────────────────────────────────────────
+  describe('sanitizeText', () => {
+    it('strips HTML tags', () => {
+      expect(ContactFormService.sanitizeText('<script>alert(1)</script>hi')).toBe('alert(1)hi')
+      expect(ContactFormService.sanitizeText('<b>bold</b> text')).toBe('bold text')
+    })
+
+    it('strips control characters but keeps normal punctuation', () => {
+      expect(ContactFormService.sanitizeText('hi\x00there\x1f!')).toBe('hithere!')
+    })
+
+    it('trims surrounding whitespace', () => {
+      expect(ContactFormService.sanitizeText('  hello world  ')).toBe('hello world')
+    })
+
+    it('leaves plain text untouched', () => {
+      expect(ContactFormService.sanitizeText('Merhaba, nasılsınız?')).toBe('Merhaba, nasılsınız?')
+    })
+  })
 
   // ── createContactForm ─────────────────────────────────────────────────
   describe('createContactForm', () => {
@@ -129,17 +150,47 @@ describe('ContactFormService', () => {
   // ── isRateLimited ─────────────────────────────────────────────────────
   describe('isRateLimited', () => {
     it('returns true when recent entries exceed threshold', async () => {
-      prismaMock.contactForm.findMany.mockResolvedValueOnce([mockForm, mockForm, mockForm])
+      prismaMock.contactForm.findMany.mockResolvedValueOnce(Array(5).fill(mockForm))
 
       const result = await ContactFormService.isRateLimited('+905551234567', 'john@example.com')
       expect(result).toBe(true)
     })
 
     it('returns false when recent entries are within threshold', async () => {
-      prismaMock.contactForm.findMany.mockResolvedValueOnce([mockForm, mockForm])
+      prismaMock.contactForm.findMany.mockResolvedValueOnce(Array(4).fill(mockForm))
 
       const result = await ContactFormService.isRateLimited('+905551234567', 'john@example.com')
       expect(result).toBe(false)
+    })
+  })
+
+  // ── isIPRateLimited ────────────────────────────────────────────────────
+  describe('isIPRateLimited', () => {
+    it('returns false for an unknown IP without touching redis', async () => {
+      const result = await ContactFormService.isIPRateLimited('unknown')
+      expect(result).toBe(false)
+      expect(redisInstance.incr).not.toHaveBeenCalled()
+    })
+
+    it('returns false when under the daily cap', async () => {
+      ;(redisInstance.incr as jest.Mock).mockResolvedValueOnce(3)
+
+      const result = await ContactFormService.isIPRateLimited('1.2.3.4', 5)
+      expect(result).toBe(false)
+    })
+
+    it('returns true once the daily cap is exceeded, regardless of email/phone used', async () => {
+      ;(redisInstance.incr as jest.Mock).mockResolvedValueOnce(6)
+
+      const result = await ContactFormService.isIPRateLimited('1.2.3.4', 5)
+      expect(result).toBe(true)
+    })
+
+    it('sets expiry only on the first hit for the window', async () => {
+      ;(redisInstance.incr as jest.Mock).mockResolvedValueOnce(1)
+
+      await ContactFormService.isIPRateLimited('1.2.3.4', 5, 86400)
+      expect(redisInstance.expire).toHaveBeenCalledWith('contact_form_ip:1.2.3.4', 86400)
     })
   })
 

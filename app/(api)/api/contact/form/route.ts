@@ -8,6 +8,7 @@ import AuthMiddleware from '@/services/AuthService/AuthMiddleware'
 import { ContactFormRequestSchema } from '@/dtos/AIAndServicesDTO'
 import ContactMessages from '@/messages/ContactMessages'
 import { checkForSpam, verifyRecaptcha } from '@/helpers/SpamProtection'
+import { getClientIP } from '@/middlewares/rateLimit'
 import Logger from '@/libs/logger'
 
 export async function GET(request: NextRequest) {
@@ -48,7 +49,12 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const { name, email, phone, message, website, _formLoadTime, recaptchaToken } = parsedData.data
+  let { name, email, phone, message, website, _formLoadTime, recaptchaToken } = parsedData.data
+
+  // Strip any HTML/script markup before this reaches storage, email templates, or Discord
+  name = ContactFormService.sanitizeText(name)
+  phone = ContactFormService.sanitizeText(phone)
+  message = ContactFormService.sanitizeText(message)
 
   // reCAPTCHA server-side verification
   const recaptchaValid = await verifyRecaptcha(recaptchaToken)
@@ -69,9 +75,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: ContactMessages.MESSAGE_SENT_SUCCESSFULLY })
   }
 
-  const isRateLimited = await ContactFormService.isRateLimited(phone, email)
+  const clientIP = getClientIP(request)
 
-  if (isRateLimited) {
+  const [isRateLimited, isIPRateLimited] = await Promise.all([
+    ContactFormService.isRateLimited(phone, email),
+    ContactFormService.isIPRateLimited(clientIP),
+  ])
+
+  if (isRateLimited || isIPRateLimited) {
     return NextResponse.json({ message: ContactMessages.TOO_MANY_REQUESTS }, { status: 429 })
   }
 

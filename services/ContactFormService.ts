@@ -1,9 +1,24 @@
 import { ContactForm } from '@/types/features/ContactTypes'
 import { prisma } from '@/libs/prisma'
+import redisInstance from '@/libs/redis'
 
 export default class ContactFormService {
   private static sqlInjectionRegex =
     /(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|(--)|(\b(AND|OR|NOT|IS|NULL|LIKE|IN|BETWEEN|EXISTS|CASE|WHEN|THEN|END|JOIN|INNER|LEFT|RIGHT|OUTER|FULL|HAVING|GROUP|BY|ORDER|ASC|DESC|LIMIT|OFFSET)\b)/i // SQL injection prevention
+
+  /**
+   * Strips HTML markup and control characters from free-text user input.
+   * Used on name/phone/message before they're persisted or forwarded to
+   * email/Discord. Regex-based rather than isomorphic-dompurify because
+   * the latter pulls in jsdom, which breaks under Jest's node test
+   * environment; this only needs to strip tags, not parse real markup.
+   */
+  static sanitizeText(value: string): string {
+    return value
+      .replace(/<[^>]*>/g, '')
+      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '')
+      .trim()
+  }
 
   /**
    * Creates a new contact form with regex validation.
@@ -22,6 +37,10 @@ export default class ContactFormService {
     if (!name || !email || !message) {
       throw new Error('All fields are required.')
     }
+
+    name = this.sanitizeText(name)
+    message = this.sanitizeText(message)
+    phone = this.sanitizeText(phone)
 
     // Create the contact form
     const contactForm = await prisma.contactForm.create({
@@ -108,9 +127,29 @@ export default class ContactFormService {
     return recentEntries
   }
 
-  static async isRateLimited(phone: string, email: string, maxEntries = 2): Promise<boolean> {
+  static async isRateLimited(phone: string, email: string, maxEntries = 4): Promise<boolean> {
     const recentEntries = await this.getRecentContactFormEntriesByPhoneOrEmail(phone, email)
     return recentEntries.length > maxEntries
+  }
+
+  /**
+   * Per-IP daily cap, independent of the submitted email/phone.
+   * isRateLimited() alone can be bypassed by submitting a different
+   * target email/phone on every request; this closes that gap.
+   */
+  static async isIPRateLimited(ip: string, maxEntries = 20, windowSeconds = 24 * 60 * 60): Promise<boolean> {
+    if (!ip || ip === 'unknown') {
+      return false
+    }
+
+    const key = `contact_form_ip:${ip}`
+    const count = await redisInstance.incr(key)
+
+    if (count === 1) {
+      await redisInstance.expire(key, windowSeconds)
+    }
+
+    return count > maxEntries
   }
 
   /**

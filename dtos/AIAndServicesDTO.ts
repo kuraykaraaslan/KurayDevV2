@@ -31,10 +31,14 @@ export const DallEResponseSchema = z.object({
 
 // Contact Form DTOs
 export const ContactFormRequestSchema = z.object({
-  name: z.string().min(1, ContactMessages.NAME_REQUIRED),
-  email: z.string().email(ContactMessages.INVALID_EMAIL),
-  phone: z.string().min(1, ContactMessages.PHONE_REQUIRED),
-  message: z.string().min(1, ContactMessages.MESSAGE_REQUIRED),
+  name: z.string().trim().min(1, ContactMessages.NAME_REQUIRED).max(200, ContactMessages.NAME_REQUIRED),
+  email: z.string().trim().toLowerCase().email(ContactMessages.INVALID_EMAIL).max(254, ContactMessages.INVALID_EMAIL),
+  phone: z.string().trim().min(1, ContactMessages.PHONE_REQUIRED).max(30, ContactMessages.INVALID_PHONE),
+  message: z
+    .string()
+    .trim()
+    .min(1, ContactMessages.MESSAGE_REQUIRED)
+    .max(5000, ContactMessages.MESSAGE_TOO_LONG),
   // Honeypot field - should be empty for real users
   website: z.string().optional(),
   // Form load timestamp for timing check
