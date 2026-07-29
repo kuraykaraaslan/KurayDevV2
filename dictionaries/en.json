@@ -247,7 +247,7 @@
   },
   "pages": {
     "hero": {
-      "description": "As one of the leading <bold>BIM and IoT developers in Turkey</bold>, I transform complex architectural and real-time system requirements into reliable software products. As an <bold>expert BIM developer</bold>, I work on automation and engineering software, and as an <bold>expert IoT developer</bold>, I focus on telemetry and real-time data platforms. My goal is not just to write code, but to design scalable and robust systems.",
+      "description": "<bold>I architect and deliver production-grade platforms</bold> across <bold>SaaS, IoT, BIM, and real-time systems.</bold> I work across architecture, backend, product engineering, infrastructure, and integrations to turn <bold>complex domain requirements</bold> into reliable software products. My focus is not limited to shipping features — I design <bold>system boundaries, data models, security flows, and operational foundations</bold> that let products scale without becoming fragile.",
       "eyebrow": "Software Architect · Product Engineer · Systems Builder",
       "typing_effect": {
         "prefix": "I architect",
