@@ -1,5 +1,6 @@
 import { prisma } from '@/libs/prisma'
 import bcrypt from 'bcrypt'
+import { randomInt } from 'crypto'
 
 // Other Services
 import UserService from '../UserService'
@@ -20,7 +21,8 @@ export default class AuthService {
    * @returns A random token 6 characters long with only numbers.
    */
   static generateToken(): string {
-    return Math.floor(100000 + Math.random() * 900000).toString()
+    // crypto.randomInt (not Math.random) — used for account-verification codes.
+    return randomInt(100000, 1000000).toString()
   }
 
   /**

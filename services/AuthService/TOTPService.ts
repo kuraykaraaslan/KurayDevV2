@@ -1,5 +1,6 @@
 import { authenticator } from 'otplib'
 import bcrypt from 'bcrypt'
+import { randomInt } from 'crypto'
 import redis from '@/libs/redis'
 import AuthMessages from '@/messages/AuthMessages'
 import SecurityService from './SecurityService'
@@ -17,6 +18,20 @@ import {
 } from './constants'
 
 export default class TOTPService {
+
+  /**
+   * Generates `count` 2FA backup codes in `NNNN-NNNN` form.
+   * Uses crypto.randomInt (not Math.random) — these codes bypass the
+   * authenticator entirely, so they must be unpredictable.
+   */
+  private static makeBackupCodes(count: number): string[] {
+    const codes: string[] = []
+    for (let i = 0; i < count; i++) {
+      const raw = randomInt(0, 100_000_000).toString().padStart(8, '0')
+      codes.push(`${raw.slice(0, 4)}-${raw.slice(4, 8)}`)
+    }
+    return codes
+  }
 
   static setupOtpLib() {
     authenticator.options = {
@@ -102,15 +117,7 @@ export default class TOTPService {
     const newMethods = Array.from(new Set([...(userSecurity.otpMethods || []), 'TOTP_APP']))
 
     // Generate backup codes
-    const codes: string[] = []
-    const charset = '0123456789'
-    const makeCode = () => {
-      let raw = ''
-      for (let i = 0; i < 8; i++) raw += charset[Math.floor(Math.random() * charset.length)]
-      return `${raw.slice(0, 4)}-${raw.slice(4, 8)}`
-    }
-
-    for (let i = 0; i < 4; i++) codes.push(makeCode())
+    const codes = TOTPService.makeBackupCodes(4)
     const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, BCRYPT_SALT_ROUNDS)))
 
     await SecurityService.updateUserSecurity(user.userId, {
@@ -188,16 +195,8 @@ export default class TOTPService {
       throw new Error(AuthMessages.INVALID_OTP_METHOD)
     }
 
-    const codes: string[] = []
-    const charset = '0123456789'
-    const makeCode = () => {
-      let raw = ''
-      for (let i = 0; i < 8; i++) raw += charset[Math.floor(Math.random() * charset.length)]
-      return `${raw.slice(0, 4)}-${raw.slice(4, 8)}`
-    }
-
-    for (let i = 0; i < count; i++) codes.push(makeCode())
-    const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, 10)))
+    const codes = TOTPService.makeBackupCodes(count)
+    const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, BCRYPT_SALT_ROUNDS)))
 
     await SecurityService.updateUserSecurity(user.userId, {
       otpBackupCodes: hashed as any,

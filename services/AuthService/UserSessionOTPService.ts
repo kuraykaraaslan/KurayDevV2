@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import { randomInt } from 'crypto'
 import redis from '@/libs/redis'
 import { OTPMethod } from '@/generated/prisma'
 import MailService from '../NotificationService/MailService'
@@ -24,9 +25,8 @@ export default class UserSessionOTPService {
   static generateToken(length = OTP_LENGTH): string {
     const min = Math.pow(10, length - 1)
     const max = Math.pow(10, length) - 1
-    return Math.floor(min + Math.random() * (max - min))
-      .toString()
-      .padStart(length, '0')
+    // crypto.randomInt (not Math.random) — this is a second-factor code.
+    return randomInt(min, max + 1).toString().padStart(length, '0')
   }
 
   static async hashToken(token: string): Promise<string> {

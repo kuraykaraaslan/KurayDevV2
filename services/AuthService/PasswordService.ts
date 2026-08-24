@@ -21,9 +21,10 @@ export default class PasswordService {
   static generateResetToken(length = RESET_TOKEN_LENGTH): string {
     const min = Math.pow(10, length - 1)
     const max = Math.pow(10, length) - 1
-    return Math.floor(min + Math.random() * (max - min))
-      .toString()
-      .padStart(length, '0')
+    // crypto.randomInt (not Math.random) — this token is the sole factor
+    // guarding a password reset, so it must not be predictable from other
+    // outputs of the same PRNG stream.
+    return crypto.randomInt(min, max + 1).toString().padStart(length, '0')
   }
 
   static async hashToken(token: string): Promise<string> {
