@@ -52,7 +52,7 @@ describe('DeliveryService', () => {
 
       expect(global.fetch).toHaveBeenCalledTimes(2)
 
-      const calledUrls = (global.fetch as jest.Mock).mock.calls.map((c) => c[0])
+      const calledUrls = (global.fetch as jest.Mock).mock.calls.map((c) => String(c[0]))
       expect(calledUrls).toEqual(
         expect.arrayContaining(['https://server-a/inbox/shared', 'https://server-b/inbox/carol'])
       )
@@ -152,8 +152,8 @@ describe('DeliveryService — Phase 22 ActivityPub extensions', () => {
       ).resolves.not.toThrow()
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://remote.example/inbox',
-        expect.objectContaining({ method: 'POST' })
+        new URL('https://remote.example/inbox'),
+        expect.objectContaining({ method: 'POST', redirect: 'manual' })
       )
     })
 

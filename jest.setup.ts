@@ -108,3 +108,12 @@ jest.mock('@/libs/logger', () => ({
     error: jest.fn(),
   },
 }))
+
+// The federation SSRF guard (services/ActivityPubService/safeFetch) resolves
+// every hostname before fetching it. Jest has no network, so resolve to a
+// public address by default; suites that exercise the guard itself override
+// this mock to return private/blocked addresses.
+jest.mock('node:dns/promises', () => ({
+  __esModule: true,
+  lookup: jest.fn(async () => [{ address: '93.184.216.34', family: 4 }]),
+}))

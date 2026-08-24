@@ -1,9 +1,13 @@
+import { lookup as dnsLookup } from 'node:dns/promises'
 import redis from '@/libs/redis'
 import ActivityPubMessages from '@/messages/ActivityPubMessages'
 
 describe('ActorService', () => {
   beforeEach(() => {
     jest.resetAllMocks()
+    // resetAllMocks() clears the dns mock installed in jest.setup.ts, which the
+    // federation SSRF guard depends on — re-establish it.
+    ;(dnsLookup as jest.Mock).mockResolvedValue([{ address: '93.184.216.34', family: 4 }])
     process.env.NEXT_PUBLIC_SITE_URL = 'https://kuray.dev'
     process.env.ACTIVITYPUB_PRIVATE_KEY = 'private-key'
     process.env.ACTIVITYPUB_PUBLIC_KEY = 'public-key-pem'
@@ -81,6 +85,9 @@ describe('ActorService', () => {
   })
 
   describe('fetchRemoteActor', () => {
+    const cacheKeyFor = (url: string) =>
+      `activitypub:actor:${require('node:crypto').createHash('sha256').update(url).digest('hex')}`
+
     const mockActor = {
       id: 'https://remote.social/users/alice',
       type: 'Person',
@@ -99,7 +106,7 @@ describe('ActorService', () => {
       const ActorService = (await import('@/services/ActivityPubService/ActorService')).default
       const result = await ActorService.fetchRemoteActor('https://remote.social/users/alice')
 
-      expect(mockRedis.get).toHaveBeenCalledWith('activitypub:actor:https://remote.social/users/alice')
+      expect(mockRedis.get).toHaveBeenCalledWith(cacheKeyFor('https://remote.social/users/alice'))
       expect(result).toEqual(mockActor)
     })
 
@@ -110,18 +117,24 @@ describe('ActorService', () => {
 
       global.fetch = jest.fn().mockResolvedValue({
         ok: true,
-        json: jest.fn().mockResolvedValue(mockActor),
+        status: 200,
+        headers: { get: jest.fn().mockReturnValue(null) },
+        body: null,
+        text: jest.fn().mockResolvedValue(JSON.stringify(mockActor)),
       } as any)
 
       const ActorService = (await import('@/services/ActivityPubService/ActorService')).default
       const result = await ActorService.fetchRemoteActor('https://remote.social/users/alice')
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://remote.social/users/alice',
-        expect.objectContaining({ headers: expect.objectContaining({ Accept: expect.stringContaining('application/activity+json') }) })
+        new URL('https://remote.social/users/alice'),
+        expect.objectContaining({
+          headers: expect.objectContaining({ Accept: expect.stringContaining('application/activity+json') }),
+          redirect: 'manual',
+        })
       )
       expect(mockRedis.setex).toHaveBeenCalledWith(
-        'activitypub:actor:https://remote.social/users/alice',
+        cacheKeyFor('https://remote.social/users/alice'),
         86400,
         JSON.stringify(mockActor)
       )
@@ -135,6 +148,9 @@ describe('ActorService', () => {
       global.fetch = jest.fn().mockResolvedValue({
         ok: false,
         status: 404,
+        headers: { get: jest.fn().mockReturnValue(null) },
+        body: null,
+        text: jest.fn().mockResolvedValue(''),
       } as any)
 
       const ActorService = (await import('@/services/ActivityPubService/ActorService')).default

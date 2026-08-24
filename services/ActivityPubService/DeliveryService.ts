@@ -3,14 +3,22 @@ import Logger from '@/libs/logger'
 import { AP_CONTEXT, AP_PUBLIC_AUDIENCE, APArticle, APCreateActivity, APUpdateActivity } from '@/types/common/ActivityPubTypes'
 import { getSiteUrl, getActorUrl, getFollowersUrl } from './config'
 import HttpSignatureService from './HttpSignatureService'
+import { safeFederationFetch } from './safeFetch'
 
 export default class DeliveryService {
-  /** Delivers a single ActivityPub activity to a remote inbox URL. */
+  /**
+   * Delivers a single ActivityPub activity to a remote inbox URL.
+   *
+   * `inboxUrl` originates from a remote actor document, which any Fediverse
+   * server can point wherever it likes, so delivery is SSRF-guarded too — a
+   * Follow from an actor advertising `inbox: http://127.0.0.1:6379/` would
+   * otherwise have us POST signed payloads at our own internal services.
+   */
   static async deliverActivity(activity: Record<string, unknown>, inboxUrl: string): Promise<void> {
     const body = JSON.stringify(activity)
     const signedHeaders = HttpSignatureService.buildSignedHeaders(inboxUrl, body)
 
-    const res = await fetch(inboxUrl, { method: 'POST', body, headers: signedHeaders })
+    const res = await safeFederationFetch(inboxUrl, { method: 'POST', body, headers: signedHeaders })
 
     if (!res.ok) {
       const text = await res.text().catch(() => '')

@@ -1,5 +1,7 @@
+import { createHash } from 'node:crypto'
 import redisInstance from '@/libs/redis'
 import ActivityPubMessages from '@/messages/ActivityPubMessages'
+import { safeFederationFetch, readCappedText } from './safeFetch'
 import { AP_CONTEXT, APActor } from '@/types/common/ActivityPubTypes'
 import {
   getSiteUrl,
@@ -46,23 +48,37 @@ export default class ActorService {
     }
   }
 
-  /** Fetches a remote ActivityPub actor by URL, with Redis caching. */
+  /**
+   * Fetches a remote ActivityPub actor by URL, with Redis caching.
+   *
+   * `actorUrl` is attacker-controlled (it arrives as the `keyId` of an
+   * incoming signature, or as the `actor` of an inbox activity), so the
+   * request goes through the SSRF-guarded fetch rather than bare fetch().
+   */
   static async fetchRemoteActor(actorUrl: string): Promise<APActor> {
-    const cacheKey = `activitypub:actor:${actorUrl}`
+    // The URL is hashed into the cache key so an attacker cannot grow Redis
+    // keys without bound by varying a very long URL.
+    const cacheKey = `activitypub:actor:${createHash('sha256').update(actorUrl).digest('hex')}`
 
     const cached = await redisInstance.get(cacheKey)
     if (cached) return JSON.parse(cached) as APActor
 
-    const res = await fetch(actorUrl, {
+    const res = await safeFederationFetch(actorUrl, {
       headers: { Accept: 'application/activity+json, application/ld+json' },
-      next: { revalidate: 0 },
     })
 
     if (!res.ok) {
       throw new Error(`${ActivityPubMessages.ACTOR_FETCH_FAILED}: ${res.status} ${actorUrl}`)
     }
 
-    const actor = (await res.json()) as APActor
+    const actor = JSON.parse(await readCappedText(res)) as APActor
+
+    // Only cache documents that actually look like an actor, so arbitrary
+    // public URLs cannot be used to fill the cache with junk.
+    if (!actor || typeof actor.id !== 'string' || typeof actor.inbox !== 'string') {
+      throw new Error(`${ActivityPubMessages.ACTOR_FETCH_FAILED}: malformed actor at ${actorUrl}`)
+    }
+
     await redisInstance.setex(cacheKey, ACTOR_CACHE_TTL, JSON.stringify(actor))
     return actor
   }
