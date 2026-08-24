@@ -31,14 +31,19 @@ export async function POST(request: NextRequest) {
     const headers: Record<string, string | string[] | undefined> = {}
     request.headers.forEach((value, key) => { headers[key] = value })
 
+    const actorId =
+      typeof parsed.data.actor === 'string' ? parsed.data.actor : parsed.data.actor.id
+
+    // rawBody (not a re-serialisation of the parsed object) is what the remote
+    // server digested, so it is what the Digest header must be checked against.
     const signatureValid = await ActivityPubService.verifyHttpSignature(
       request.method,
       url.pathname,
-      headers
+      headers,
+      { body: rawBody, actor: actorId }
     )
 
     if (!signatureValid) {
-      const actorId = typeof parsed.data.actor === 'string' ? parsed.data.actor : parsed.data.actor.id
       Logger.warn(`[ActivityPub] Inbox: signature verification failed for actor ${actorId} (${parsed.data.type})`)
       return NextResponse.json({ error: 'Signature verification failed' }, { status: 401 })
     }

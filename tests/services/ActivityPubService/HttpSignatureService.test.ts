@@ -17,14 +17,20 @@ describe('HttpSignatureService', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     jest.spyOn(ActorService, 'fetchRemoteActor').mockResolvedValue({
-      publicKey: { publicKeyPem },
+      id: actor,
+      publicKey: { owner: actor, publicKeyPem },
     } as any)
   })
+
+  const body = JSON.stringify({ type: 'Follow', actor: 'https://remote.example/users/alice' })
+  const actor = 'https://remote.example/users/alice'
+  const digestOf = (payload: string) =>
+    `SHA-256=${require('node:crypto').createHash('sha256').update(payload).digest('base64')}`
 
   const buildValidHeaders = (date: string = new Date().toUTCString()) => {
     const keyId = 'https://remote.example/users/alice#main-key'
     const host = 'localhost'
-    const digest = 'SHA-256=ZmFrZQ=='
+    const digest = digestOf(body)
     const signingString = [
       `(request-target): ${method.toLowerCase()} ${path}`,
       `host: ${host}`,
@@ -50,7 +56,7 @@ describe('HttpSignatureService', () => {
     const result = await HttpSignatureService.verifyHttpSignature(method, path, {
       host: 'localhost',
       date: new Date().toUTCString(),
-    })
+    }, { body, actor })
 
     expect(result).toBe(false)
   })
@@ -61,7 +67,7 @@ describe('HttpSignatureService', () => {
       host: 'localhost',
       date: new Date().toUTCString(),
       // digest intentionally missing
-    })
+    }, { body, actor })
 
     expect(result).toBe(false)
   })
@@ -71,7 +77,7 @@ describe('HttpSignatureService', () => {
     const oldDate = new Date(Date.now() - 1000 * 60 * 10).toUTCString()
     const headers = buildValidHeaders(oldDate)
 
-    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers)
+    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
     expect(result).toBe(false)
   })
 
@@ -79,8 +85,8 @@ describe('HttpSignatureService', () => {
     redisMock.set.mockResolvedValueOnce('OK').mockResolvedValueOnce(null)
     const headers = buildValidHeaders()
 
-    const first = await HttpSignatureService.verifyHttpSignature(method, path, headers)
-    const second = await HttpSignatureService.verifyHttpSignature(method, path, headers)
+    const first = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
+    const second = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
 
     expect(first).toBe(true)
     expect(second).toBe(false)
@@ -91,7 +97,7 @@ describe('HttpSignatureService', () => {
       signature: 'keyId="a",headers="date",signature="abc"',
       host: 'localhost',
       // no date header at all
-    })
+    }, { body, actor })
     expect(result).toBe(false)
   })
 
@@ -100,7 +106,7 @@ describe('HttpSignatureService', () => {
       signature: 'keyId="a",headers="date",signature="abc"',
       host: 'localhost',
       date: 'not-a-real-date',
-    })
+    }, { body, actor })
     expect(result).toBe(false)
   })
 
@@ -109,7 +115,7 @@ describe('HttpSignatureService', () => {
       signature: 'algorithm="rsa-sha256",headers="date",signature="abc"',
       host: 'localhost',
       date: new Date().toUTCString(),
-    })
+    }, { body, actor })
     expect(result).toBe(false)
   })
 
@@ -118,7 +124,7 @@ describe('HttpSignatureService', () => {
       signature: 'keyId="https://remote.example/users/alice#main-key",headers="date"',
       host: 'localhost',
       date: new Date().toUTCString(),
-    })
+    }, { body, actor })
     expect(result).toBe(false)
   })
 
@@ -127,18 +133,19 @@ describe('HttpSignatureService', () => {
     jest.spyOn(ActorService, 'fetchRemoteActor').mockRejectedValueOnce(new Error('network error'))
     const headers = buildValidHeaders()
 
-    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers)
+    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
     expect(result).toBe(false)
   })
 
   it('returns false when remote actor has no publicKey', async () => {
     redisMock.set.mockResolvedValueOnce('OK')
     jest.spyOn(ActorService, 'fetchRemoteActor').mockResolvedValueOnce({
-      publicKey: { publicKeyPem: '' },
+      id: actor,
+      publicKey: { owner: actor, publicKeyPem: '' },
     } as any)
     const headers = buildValidHeaders()
 
-    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers)
+    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
     expect(result).toBe(false)
   })
 
@@ -148,7 +155,7 @@ describe('HttpSignatureService', () => {
     // tamper with the signature bytes
     headers.signature = headers.signature.replace(/signature="[^"]*"/, 'signature="aW52YWxpZA=="')
 
-    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers)
+    const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
     expect(result).toBe(false)
   })
 
@@ -157,11 +164,11 @@ describe('HttpSignatureService', () => {
     const headers = buildValidHeaders()
 
     // First call: not a replay (key stored in fallback map)
-    const first = await HttpSignatureService.verifyHttpSignature(method, path, headers)
+    const first = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
     expect(first).toBe(true)
 
     // Second call with the same headers: replay detected via in-memory fallback
-    const second = await HttpSignatureService.verifyHttpSignature(method, path, headers)
+    const second = await HttpSignatureService.verifyHttpSignature(method, path, headers, { body, actor })
     expect(second).toBe(false)
   })
 
@@ -170,7 +177,7 @@ describe('HttpSignatureService', () => {
     const date = new Date().toUTCString()
     const keyId = 'https://remote.example/users/alice#main-key'
     const host = 'localhost'
-    const digest = 'SHA-256=ZmFrZQ=='
+    const digest = digestOf(body)
     const signingString = [
       `(request-target): ${method.toLowerCase()} ${path}`,
       `host: ${host}`,
@@ -188,9 +195,89 @@ describe('HttpSignatureService', () => {
       host: [host] as any,
       date: [date] as any,
       digest,
-    })
+    }, { body, actor })
 
     expect(result).toBe(true)
+  })
+
+  // ── Binding the signature to the body and to the claimed actor ────────────
+
+  describe('request binding', () => {
+    it('rejects a body that does not match the Digest header', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      const headers = buildValidHeaders()
+
+      // Signature and Digest are untouched; only the body differs — this is the
+      // replay-with-different-content case.
+      const tamperedBody = JSON.stringify({ type: 'Delete', actor })
+
+      const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, {
+        body: tamperedBody,
+        actor,
+      })
+      expect(result).toBe(false)
+    })
+
+    it('rejects an activity whose actor is not the owner of the signing key', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      const headers = buildValidHeaders()
+
+      // Attacker signs correctly with their own key but claims to be somebody
+      // else. Without the owner check this verified and the activity was acted on.
+      const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, {
+        body,
+        actor: 'https://victim.example/users/bob',
+      })
+      expect(result).toBe(false)
+    })
+
+    it('accepts a key whose id differs from the actor when publicKey.owner matches', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      jest.spyOn(ActorService, 'fetchRemoteActor').mockResolvedValueOnce({
+        id: 'https://remote.example/keys/alice',
+        publicKey: { owner: actor, publicKeyPem },
+      } as any)
+
+      const headers = buildValidHeaders()
+      const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, {
+        body,
+        actor,
+      })
+      expect(result).toBe(true)
+    })
+
+    it.each([
+      ['date host digest', '(request-target)'],
+      ['(request-target) date digest', 'host'],
+      ['(request-target) host digest', 'date'],
+      ['(request-target) host date', 'digest'],
+      ['date', 'everything but date'],
+    ])('rejects a signature covering only "%s" (omits %s)', async (headerList) => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      const headers = buildValidHeaders()
+      headers.signature = headers.signature.replace(
+        /headers="[^"]*"/,
+        `headers="${headerList}"`
+      )
+
+      const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, {
+        body,
+        actor,
+      })
+      expect(result).toBe(false)
+    })
+
+    it('rejects when the Digest header is absent entirely', async () => {
+      redisMock.set.mockResolvedValueOnce('OK')
+      const headers: Record<string, string> = { ...buildValidHeaders() }
+      delete headers.digest
+
+      const result = await HttpSignatureService.verifyHttpSignature(method, path, headers, {
+        body,
+        actor,
+      })
+      expect(result).toBe(false)
+    })
   })
 
   // ── buildSignedHeaders ────────────────────────────────────────────────────

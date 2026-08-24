@@ -1,4 +1,4 @@
-import { createHash, createSign, createVerify } from 'node:crypto'
+import { createHash, createSign, createVerify, timingSafeEqual } from 'node:crypto'
 import Logger from '@/libs/logger'
 import redisInstance from '@/libs/redis'
 import { getKeyId, getPrivateKey } from './config'
@@ -22,6 +22,14 @@ export default class HttpSignatureService {
     }
 
     return undefined
+  }
+
+  /** Length-safe constant-time string comparison. */
+  private static timingSafeEquals(a: string, b: string): boolean {
+    const bufA = Buffer.from(a)
+    const bufB = Buffer.from(b)
+    if (bufA.length !== bufB.length) return false
+    return timingSafeEqual(bufA, bufB)
   }
 
   private static async isReplay(replayKey: string): Promise<boolean> {
@@ -85,11 +93,17 @@ export default class HttpSignatureService {
   /**
    * Verifies an incoming HTTP Signature from a remote ActivityPub server.
    * Returns true if valid, false otherwise. Logs warnings but never throws.
+   *
+   * `body` and `actor` are required rather than optional: without them a valid
+   * signature proves only that *someone* with *some* key signed *something*.
+   * The body must be bound to the signature via Digest, and the key must be
+   * bound to the actor the activity claims to come from.
    */
   static async verifyHttpSignature(
     method: string,
     path: string,
-    headers: Record<string, string | string[] | undefined>
+    headers: Record<string, string | string[] | undefined>,
+    request: { body: string; actor: string }
   ): Promise<boolean> {
     const signatureHeader = this.getHeaderValue(headers, 'signature')
     if (!signatureHeader) {
@@ -109,6 +123,33 @@ export default class HttpSignatureService {
     const { keyId, headers: signedHeaders = 'date', signature } = parts
     if (!keyId || !signature) {
       Logger.warn('[ActivityPub] Signature header missing keyId or signature')
+      return false
+    }
+
+    // The signed-header list is chosen by the sender and defaults to `date`
+    // alone. A signature covering only the date says nothing about the method,
+    // the path or the body, so require the headers that bind them.
+    const coveredHeaders = new Set(
+      signedHeaders.split(' ').map((h) => h.trim().toLowerCase()).filter(Boolean)
+    )
+    for (const required of ['(request-target)', 'host', 'date', 'digest']) {
+      if (!coveredHeaders.has(required)) {
+        Logger.warn(`[ActivityPub] Signature does not cover required header: ${required}`)
+        return false
+      }
+    }
+
+    // Bind the signature to the body. Without this the signed headers can be
+    // lifted from one request and replayed with different content.
+    const digestHeader = this.getHeaderValue(headers, 'digest')
+    if (!digestHeader) {
+      Logger.warn('[ActivityPub] Missing Digest header')
+      return false
+    }
+
+    const expectedDigest = `SHA-256=${createHash('sha256').update(request.body).digest('base64')}`
+    if (!this.timingSafeEquals(digestHeader.trim(), expectedDigest)) {
+      Logger.warn('[ActivityPub] Digest header does not match request body')
       return false
     }
 
@@ -146,6 +187,19 @@ export default class HttpSignatureService {
       publicKeyPem = actor.publicKey?.publicKeyPem ?? ''
       if (!publicKeyPem) {
         Logger.warn(`[ActivityPub] Remote actor has no publicKey: ${keyId}`)
+        return false
+      }
+
+      // Bind the key to the actor the activity claims to come from. Anyone can
+      // generate a key pair and sign correctly; without this check they could
+      // sign as themselves while setting `actor` to somebody else's URL and we
+      // would act on it — deleting that actor's follower record, undoing their
+      // follow, and so on.
+      const keyOwner = actor.publicKey?.owner ?? actor.id
+      if (keyOwner !== request.actor && actor.id !== request.actor) {
+        Logger.warn(
+          `[ActivityPub] Signing key ${keyId} (owner ${keyOwner}) does not match activity actor ${request.actor}`
+        )
         return false
       }
     } catch (err) {
